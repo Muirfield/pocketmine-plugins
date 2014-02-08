@@ -52,15 +52,15 @@ apiversion=9,10,11
  **   Alias: `pop`  
  **   Teleports to the top location from the stack.
  ** - `/go move [player] > [world|player|chkpnt|marker]`  
- **   Alias: `push`  
+ **   Alias: `move`  
  **   **OP only command**  
  **   Teleport `[player]` to location.
  ** - `/go summon [player]`  
- **   Alias: `summon`
+ **   Alias: `summon`  
  **   **OP only command**  
  **   Teleports `[player]` to your location.  Original location is saved.
  ** - `/go dismiss [player]`  
- **   Alias: `dismiss`
+ **   Alias: `dismiss`  
  **   **OP only command**  
  **   Teleports `[player]` to the location of their first summoning.
  **
@@ -70,8 +70,12 @@ apiversion=9,10,11
  **
  ** # TODO
  **
- ** - Play test
- ** - Publish
+ ** - Implement
+ **   - checkpoint
+ **   - mark
+ **   - warp
+ **   - rm
+ **   - ls
  **
  ** # Known Issues
  **
@@ -153,7 +157,7 @@ class GotoPlugin implements Plugin{
     }
     if ($place == '') return NULL;
 
-    console("[DEBUG] Teleporting $player to $place ($bmdir)");
+    console("[DEBUG] Teleporting to $place ($bmdir)");
 
     if (($p = $this->api->player->get($place)) != false) {
       // Go to another player
@@ -191,7 +195,7 @@ class GotoPlugin implements Plugin{
   }
 
   public function move($player,$place,$bmdir) {
-    $place = cnvPos($place,$bmdir);
+    $place = $this->cnvPos($place,$bmdir);
     if (is_null($place)) return false;
 
     console("[DEBUG] TP $player ".$place->x.","
@@ -222,7 +226,7 @@ class GotoPlugin implements Plugin{
 
     if (count($params) < 1) return $this->usage($cmd);
     $subcmd = strtolower(array_shift($params));
-
+    console("[DEBUG] subcommand:$subcmd\n");
     switch ($subcmd) {
     case 'to':
       if (!$player) return "You can only use this command in-game";
