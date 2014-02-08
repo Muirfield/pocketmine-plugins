@@ -34,6 +34,8 @@ apiversion=9,10,11
  ** NetherPortal is a simple Teleport plugin used to create portals between
  ** worlds.
  **
+ ** The way it works
+ **
  ** # Changes
  **
  ** * 0.1 : Initial version
