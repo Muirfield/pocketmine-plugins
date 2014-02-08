@@ -12,6 +12,8 @@ apiversion=9,10,11
 /**
  ** # META_NAME
  **
+ ** * * *
+ **
  **     META_NAME META_VERSION
  **     Copyright (C) 2013 Alejandro Liu  
  **     All Rights Reserved.
@@ -31,8 +33,87 @@ apiversion=9,10,11
  **
  ** * * *
  **
- ** NetherPortal is a simple Teleport plugin used to create portals between
+ ** *NetherPortal* is a simple Teleport plugin used to create portals between
  ** worlds.
+ **
+ ** The way it works is that you create a teleport block and then stepping on
+ ** that block will teleport the player to the target world.
+ **
+ ** Special teleport blocks are by default of type *247* (*Nether Reactor
+ ** core*) but this can be changed in the configuration.  However it is
+ ** possible to create Portals anywhere.
+ **
+ ** Only players in "creative" mode or "op"'s can use these commands.
+ **
+ ** ## Creating portals
+ **
+ ** ### Method 1
+ **
+ ** Enter:
+ **
+ **     /netherportal new [x,y,z,world] > [target world]
+ **     /netherportal new [target world]
+ **
+ ** Alias: `/npnew`
+ **
+ ** This create a portal to `[target world]` at location `[x,y,z,world]`.
+ ** If the location is not specified, the portal will be created at the
+ ** location of the last placed teleport block.
+ **
+ ** ### Method 2
+ **
+ ** Enter:
+ **
+ **     /netherportal target [target world]
+ **
+ ** Alias: `/npto`
+ **
+ ** This defines the target world for the teleport.  Then place a teleport
+ ** block.  This will create a portal on the placed block to the target
+ ** world.
+ **
+ ** ### Method 3
+ **
+ ** Enter:
+ **
+ **     /netherportal set [target world]
+ **
+ ** Alias: `/npset`
+ **
+ ** This creates a portal to `[target world]` at the current player's
+ ** location.
+ **
+ ** ## Removing portals
+ **
+ ** Enter:
+ **
+ **     /netherportal delete [x,y,z,world]
+ **
+ ** Alias: `/nprm`
+ **
+ ** This deletes the portal specified by `[x,y,z,world]`.
+ **
+ ** ## Portal management
+ **
+ ** These commands are available to manage portals:
+ **
+ ** - `/netherportal ls`  
+ **   `/npls`  
+ **    This lists all the available portals.
+ ** - `/netherportal gc`  
+ **   `/npgc`  
+ **    Checks that all the maps specified in the portals are available
+ **    and deletes any portal that refer to missing levels.
+ **
+ ** ## Configuration
+ **
+ ** - ItemID : Defaults to `247` (*Nether Reactor Core*).  
+ **   This is the special teleport block.
+ **
+ ** # Background
+ **
+ ** The idea to use *Nether Reactor Core* came from the `NetherQuick`
+ ** plugin.
  **
  ** # Changes
  **
@@ -41,9 +122,12 @@ apiversion=9,10,11
  **
  ** # TODO
  **
+ ** - Play test
+ ** - Publish
+ **
  ** # Known Issues
  **
- ** - Garbage collector load maps to test if they are available.
+ ** - Needs more testing...
  **
  **/
 
@@ -84,7 +168,7 @@ class NetherPortal implements Plugin{
     $this->api->console->alias("npgc", "netherportal gc");
     $this->api->console->alias("npnew", "netherportal new");
     $this->api->console->alias("nprm", "netherportal delete");
-    $this->api->console->alias("npgo","netherportal set");
+    $this->api->console->alias("npset","netherportal set");
   }
   private function usage($cmd) {
     $output = '';
@@ -95,6 +179,7 @@ class NetherPortal implements Plugin{
     $output .= "/$cmd new [x,y,z,world] > world : create portal at location\n";
     $output .= "/$cmd new world : create portal at last block location\n";
     $output .= "/$cmd delete [x,y,z,world] : delete portal entry\n";
+    $output .= "/$cmd set [world] : create a portal to [world]\n";
     return $output;
   }
 
@@ -216,6 +301,7 @@ class NetherPortal implements Plugin{
   }
 
   public function gc_maps() {
+    $output = '';
     $v = array();
     foreach ($this->portals as $a => $b) {
       if (preg_match('/^(\d+),(\d+),(\d+),(.+)$/',$a,$mv)) {
@@ -235,12 +321,18 @@ class NetherPortal implements Plugin{
       }
     }
     if (count($v) > 0) {
+      $output .= "Deleting:\n";
       foreach ($v as $i) {
+	$output .= "$i\n";
 	unset($this->portals[$i]);
       }
       $this->config->set('portals',$this->portals);
       $this->config->save();
+      $output .= count($v)." portal(s) deleted\n";
+    } else {
+      $output .= 'OK';
     }
+    return $output;
   }
   public function brkblkH(&$data,$event) {
     $target = $data['target'];

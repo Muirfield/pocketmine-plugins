@@ -1,24 +1,16 @@
 #!/bin/sh
 main() {
-  if [ $# -eq 0 ] ; then
-    if [ -n "$DISPLAY" ] ; then
-      set - viewhtml
-    else
-      set - text
-    fi
-  fi
-
   mode="text"
   case "$1" in
-      -t)
+      -t|--text)
 	  mode="text"
 	  shift
 	  ;;
-      -h)
+      -h|--html)
 	  mode="html"
 	  shift;
 	  ;;
-      -b)
+      -b|--browser|--viewhtml)
 	  mode="viewhtml"
 	  shift
 	  ;;
@@ -158,7 +150,7 @@ gen_html() {
 	};
 	</script>
 	<body>
-	<h1>ASSIST</h1>
+	<h1>$meta_name</h1>
 	<div id="toc">
 	  <h3>Table of Contents</h3>
 	</div>
