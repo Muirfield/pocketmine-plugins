@@ -3,9 +3,9 @@
 __PocketMine Plugin__
 class=InfoEssentials
 apiversion=10,11
-version=Gamma 3.141592
+version=Gamma 3.1415926
 name=InfoEssentials
-author=PEMapModder
+author=PEMapModder - Hacked version by Alex
 */
 /*
 Gamma update summary:
@@ -18,6 +18,8 @@ Gamma update summary:
 3.1415.1	=> fixed crashing if PermissionPlus is installed
 3.14159		=> added /rmarmor
 3.141592	=> colourful update and op list
+
+4.0 => Hacked version
 */
 class InfoEssentials implements Plugin{
 	private $c,$s;
@@ -30,6 +32,7 @@ class InfoEssentials implements Plugin{
 		$b=ServerAPI::request()->api->ban;
 		$c=ServerAPI::request()->api->console;
 		$this->c=$c;
+
 		$c->register("getping","[IGN] get ping of a player",array($this,"getPing"));
 		$c->register("seearmor","[IGN] see if a player is sleeping",array($this,"seeArmor"));
 		$c->register("seegm","[IGN] see the gamemode of a player",array($this,"seeGm"));
@@ -40,12 +43,9 @@ class InfoEssentials implements Plugin{
 		$c->register("seeop","see op list",array($this,"seeOp"));
 		$this->s->addHandler("player.spawn",array($this,"entered"));
 		$path=$api->plugin->configPath($this)."settings.";
-		foreach($api->plugin->getList() as $plugin)
-			if($plugin["name"]=="PermissionPlus")$ppLoaded=true;
-		if(!isset($ppLoaded)){
-			if(file_exists($path."txt"))$path.="txt";
-			else $path.="yml";
-			$settings=new Config($path,CONFIG_YAML,array("non-op permissions"=>array(
+		if(file_exists($path."txt"))$path.="txt";
+		else $path.="yml";
+		$settings=new Config($path,CONFIG_YAML,array("non-op permissions"=>array(
 				"/getping"=>true,
 				"/seearmor"=>true,
 				"/seegm"=>true,
@@ -55,11 +55,10 @@ class InfoEssentials implements Plugin{
 				"/rmarmor"=>false,
 				"/seeop"=>true
 			)));
-			if(!($settings instanceof Config))return;
-			foreach($settings->get("non-op permissions") as $cmd=>$boolean){
+		if(!($settings instanceof Config))return;
+		foreach($settings->get("non-op permissions") as $cmd=>$boolean){
 				if($boolean)
 					$b->cmdWhitelist(substr($cmd,1));
-			}
 		}
 	}
 	public function pingWarn($c,$a,$p){
@@ -173,9 +172,9 @@ class InfoEssentials implements Plugin{
 		switch($str){
 			case "1":case "helm":case "helmet":
 				return 0;
-			case "2":case "tunic":case "chet":case "chetplate":case "cp":case "hirt":
+			case "2":case "tunic":case "chest":case "chestplate":case "cp":case "shirt":
 				return 1;
-			case "3":case "legging":case "pant":case "trouer":
+			case "3":case "legging":case "pant":case "trouser":
 				return 2;
 			case "4":case "boot":case "shoe":case "sneaker":
 				return 3;
@@ -202,4 +201,5 @@ class InfoEssentials implements Plugin{
 		console(FORMAT_RED."[ERROR] [InfoEss] InfoEssentials has an unexpected behaviour of itself. Please send this report to @PEMapModder on PocketMine Forums:\n".
 			date("d-n-y G:i:s")." $id is attempted to be evaluated for armor type. Data: ".((isset($p->entity) and ($p instanceof Player))?$p->getArmor(0)."\n".$p->getArmor(1)."\n".$p->getArmor(2)."\n".$p->getArmor(3):"Unknown"));
 	}
+
 }
