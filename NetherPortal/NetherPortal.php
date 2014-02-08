@@ -188,7 +188,7 @@ class NetherPortal implements Plugin{
     $player = $issuer instanceof Player;
     if ($player) {
       $isop = $this->api->ban->isOp($issuer->username);
-      $iscr = $issuer->getGamemode() == 1;
+      $iscr = $issuer->gamemode == CREATIVE;
     } else {
       $isop = false;
       $iscr = false;
