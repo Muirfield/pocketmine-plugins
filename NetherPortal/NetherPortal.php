@@ -43,8 +43,7 @@ apiversion=9,10,11
  **
  ** # Known Issues
  **
- ** * Garbage collector load maps to test if they are available.
- ** * 
+ ** - Garbage collector load maps to test if they are available.
  **
  **/
 
@@ -85,6 +84,7 @@ class NetherPortal implements Plugin{
     $this->api->console->alias("npgc", "netherportal gc");
     $this->api->console->alias("npnew", "netherportal new");
     $this->api->console->alias("nprm", "netherportal delete");
+    $this->api->console->alias("npgo","netherportal set");
   }
   private function usage($cmd) {
     $output = '';
@@ -119,6 +119,21 @@ class NetherPortal implements Plugin{
 	  $output .= "$a => $b\n";
 	}
 	break;
+      case 'set':
+	if (!$player) return "Can only use this command in-game\n";
+	$pname = $issuer->username;
+	$x = round($issuer->entity->x);
+	$y = round($issuer->entity->y)-1;
+	$z = round($issuer->entity->z);
+	$lv = $issuer->entity->level->getName();
+	$gwto = implode(' ',$params);
+	if ($gwto == '') return 'No destination specified';
+	if ($this->api->level->levelExists($gwto) === false) {
+	  return "$gwto does not exist";
+	}
+	$this->portal["$x,$y,$z,$lv"] = $gwto;
+	$this->api->chat->broadcast("Portal to $gwto created by $pname");
+	break;
       case 'target':
 	if (!$player) return "Can only use this command in-game\n";
 	$pname = $issuer->username;
@@ -133,7 +148,7 @@ class NetherPortal implements Plugin{
 	  $output .= "Target cleared\n";
 	  if (isset($this->targets[$pname])) unset($this->targets[$pname]);
 	} else {
-	  if ($this->api->level->loadLevel($map) === false) {
+	  if ($this->api->level->levelExists($map) === false) {
 	    $output .= "Target $map does not exist\n";
 	    if (isset($this->targets[$pname])) unset($this->targets[$pname]);
 	  } else {
@@ -166,12 +181,12 @@ class NetherPortal implements Plugin{
 	  if (!preg_match('/^(\d+),(\d+),(\d+),(.+)$/',$loc,$mv)) {
 	    return "$loc does not match x,y,z,world format\n";
 	  }
-	  if ($this->api->level->loadLevel($mv[4]) === false) {
+	  if ($this->api->level->levelExists($mv[4]) === false) {
 	    return "Unknown location $loc\n";
 	  }
 	  break;
 	}
-	if ($this->api->level->loadLevel($target) === false) {
+	if ($this->api->level->levelExists($target) === false) {
 	  return "Target map $target does not exist\n";
 	}
 	$this->portals[$loc] = $target;
@@ -204,12 +219,12 @@ class NetherPortal implements Plugin{
     $v = array();
     foreach ($this->portals as $a => $b) {
       if (preg_match('/^(\d+),(\d+),(\d+),(.+)$/',$a,$mv)) {
-	if ($this->api->level->loadLevel($mv[4]) === false) {
+	if ($this->api->level->levelExists($mv[4]) === false) {
 	  // Source map doesn't exist
 	  array_push($v,$a);
 	  continue;
 	}
-	if ($this->api->level->loadLevel($b) === false) {
+	if ($this->api->level->levelExists($b) === false) {
 	  // Target map doesn't exist
 	  array_push($v,$a);
 	  continue;
@@ -277,7 +292,7 @@ class NetherPortal implements Plugin{
 
       $player = $data->player;
       $target_map = $this->portals[$location];
-      if ($this->api->level->loadLevel($target_map) === false) {
+      if ($this->api->level->levelExists($target_map) === false) {
 	$player->sendChat("Nothing happens ($target_map not found!)");
       } else {
 	$player->sendChat("Portal activated...");
