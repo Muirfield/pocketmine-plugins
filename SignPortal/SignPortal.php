@@ -52,11 +52,11 @@ class SignPortal implements Plugin{
                                 $this->api->chat->sendTo(false, "[SignPortal] World $mapname not found!", $usrname);
                                 return false;
                             }
+			    $this->api->chat->broadcast("Portal to $mapname created by $usrname");
+
                             return true;
-		    } else {
-		      $this->api->chat->broadcast("Portal to $mapname created by $usrname");
 		    }
-                    
+		}
             break;
             case "player.block.touch":
                         $tile = $this->api->tile->get(new Position($data['target']->x, $data['target']->y, $data['target']->z, $data['target']->level));
