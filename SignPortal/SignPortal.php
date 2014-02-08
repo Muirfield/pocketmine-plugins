@@ -47,7 +47,7 @@ class SignPortal implements Plugin{
 
                     if ($data->data['Text1'] == "[WORLD]"){
                             $mapname = $data->data['Text2'];
-                            if ($this->api->level->loadLevel($mapname) === false) {
+                            if ($this->api->level->levelExists($mapname) === false) {
                                 $data->data['Text1'] = "[BROKEN]";
                                 $this->api->chat->sendTo(false, "[SignPortal] World $mapname not found!", $usrname);
                                 return false;
@@ -68,7 +68,7 @@ class SignPortal implements Plugin{
                                     case "place":
                                         if ($tile->data['Text1'] == "[WORLD]") {
                                             $mapname = $tile->data['Text2'];
-                                            if ($this->api->level->loadLevel($mapname) === false) {
+                                            if ($this->api->level->levelExists($mapname) === false) {
                                                 $data->sendChat("[SignPortal] World $mapname not found");
                                             }
                                             else {
