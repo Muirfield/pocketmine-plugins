@@ -162,6 +162,8 @@ class NetherPortal implements Plugin{
     $this->api->addHandler('player.block.place',array($this,"plcblkH"),15);
 
     $this->api->console->register("netherportal", "[subcmd] ...",array($this, "command"));
+    $this->api->ban->cmdWhitelist('netherportal');
+
     $this->api->console->alias("np", "netherportal");
     $this->api->console->alias("npls", "netherportal ls");
     $this->api->console->alias("npto", "netherportal target");
@@ -216,7 +218,9 @@ class NetherPortal implements Plugin{
 	if ($this->api->level->levelExists($gwto) === false) {
 	  return "$gwto does not exist";
 	}
-	$this->portal["$x,$y,$z,$lv"] = $gwto;
+	$this->portals["$x,$y,$z,$lv"] = $gwto;
+	$this->config->set('portals',$this->portals);
+	$this->config->save();
 	$this->api->chat->broadcast("Portal to $gwto created by $pname");
 	break;
       case 'target':
@@ -338,8 +342,7 @@ class NetherPortal implements Plugin{
     $target = $data['target'];
     $level = $data['player']->level;
     $loc = $target->x.",".$target->y.",".$target->z.",".$level->getName();
-    console("[DEBUG] LOCATION: $loc");
-    return true;
+
     if (isset($this->portals[$loc])) {
       unset($this->portals[$loc]);
       $this->config->set('portals',$this->portals);
@@ -379,8 +382,8 @@ class NetherPortal implements Plugin{
 
     $location =$x.','.$y.','.$z.','.$level;
     if (isset($this->portals[$location])) {
-      console("[DEBUG] LOCATION: $location - "
-	      .$data->x.",".$data->y.",".$data->z);
+      //console("[DEBUG] LOCATION: $location - "
+      //.$data->x.",".$data->y.",".$data->z);
 
       $player = $data->player;
       $target_map = $this->portals[$location];
