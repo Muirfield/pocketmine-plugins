@@ -81,7 +81,7 @@ class InfoEssentials implements Plugin{
 		}
 		else $p=ServerAPI::request()->api->player->get($a[0]);
 		if($p===false)return "Player not found";
-		return "{$p}'s ping: ".FORMAT_AQUA.$p->getLag().FORMAT_RESET." pakcet loss: {$p->getPacketLoss()} bandwidth: {$p->getBandwidth()}\n";
+		return "{$p}'s ping: ".FORMAT_AQUA.$p->getLag().FORMAT_RESET." packet loss: {$p->getPacketLoss()} bandwidth: {$p->getBandwidth()}\n";
 	}
 	public function seeArmor($c,$a,$p){
 		$this->c->run("pw");
