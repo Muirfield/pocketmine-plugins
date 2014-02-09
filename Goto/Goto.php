@@ -71,16 +71,15 @@ apiversion=9,10,11
  ** # TODO
  **
  ** - Implement
- **   - checkpoint
- **   - mark
- **   - warp
- **   - rm
- **   - ls
- ** - test summon & dismiss
+ **   - checkpoint, markers
+ **   - public, private markers
+ **   - list and remove markers
  **
  ** # Known Issues
  **
- ** - Needs more testing...
+ ** - Summoning and moving to players can cause the player to take damage
+ **   due to the way the client works.  i.e. player is in new location
+ **   by MCPE is still using the old map for a few seconds.
  **
  **/
 
@@ -146,8 +145,6 @@ class GotoPlugin implements Plugin{
 
   public function array2Pos($place) {
     if (!$this->api->level->levelExists($place['level'])) return NULL;
-    console("[DEBUG] Bookmark ".$place->x.","
-	    .$place->y.",".$place->z.",".$place->level);
     return new Position($place['x'],$place['y'],$place['z'],
 			$this->api->level->get($place['level']));
   }
