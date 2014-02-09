@@ -76,6 +76,7 @@ apiversion=9,10,11
  **   - warp
  **   - rm
  **   - ls
+ ** - test summon & dismiss
  **
  ** # Known Issues
  **
@@ -152,22 +153,22 @@ class GotoPlugin implements Plugin{
     if (is_array($place)) {
       // This is already in the right format...
       if (isset($place['x']) && isset($place['y']) && isset($place['z'])
-	  && isset($place['level'])) return array2Pos($place);
+	  && isset($place['level'])) return $this->array2Pos($place);
       $place = implode(' ',$place);
     }
     if ($place == '') return NULL;
 
-    console("[DEBUG] Teleporting to $place ($bmdir)");
+    //console("[DEBUG] Teleporting to $place ($bmdir)");
 
     if (($p = $this->api->player->get($place)) != false) {
       // Go to another player
-      console("[DEBUG] go to player $place");
+      //console("[DEBUG] go to player $place");
       return Position($p->entity->x,$p->entity->y,$p->entity->z,
 			      $p->entity->level);
     }
     if ($this->api->level->levelExists($place)) {
       // Go to another world
-      console("[DEBUG] go to world $place");
+      //console("[DEBUG] go to world $place");
       if ($this->api->level->loadLevel($place) === false) return NULL;
       return $this->api->level->get($place)->getSafeSpawn();
     }
@@ -191,15 +192,15 @@ class GotoPlugin implements Plugin{
       console("[DEBUG] Not found $place");
       return NULL;
     }
-    return array2Pos($place);
+    return $this->array2Pos($place);
   }
 
   public function move($player,$place,$bmdir) {
     $place = $this->cnvPos($place,$bmdir);
     if (is_null($place)) return false;
 
-    console("[DEBUG] TP $player ".$place->x.","
-	    .$place->y.",".$place->z.",".$place->level->getName());
+    //console("[DEBUG] TP $player ".$place->x.","
+    //.$place->y.",".$place->z.",".$place->level->getName());
 
     $p = $this->api->player->get($player);
     if (($p instanceof Player) && ($p->entity instanceof Entity)) {
@@ -209,24 +210,22 @@ class GotoPlugin implements Plugin{
   }
 
   public function command($cmd, $params, $issuer, $alias){
-    console("[DEBUG] command:$cmd\n");
     $output = '';
     $player = $issuer instanceof Player;
     if ($player) {
       $isop = $this->api->ban->isOp($issuer->username);
-      $iscr = $issuer->getGamemode() == 1;
+      $iscr = ($issuer->gamemode == CREATIVE);
     } else {
       $isop = false;
       $iscr = false;
     }
-    console("[DEBUG] player=$player iscr=$iscr isop=$isop");
     if ($player && !($iscr || $isop)) return "You cannot use this command";
 
     if ($cmd != 'go') return 'Unimplemented command';
 
     if (count($params) < 1) return $this->usage($cmd);
     $subcmd = strtolower(array_shift($params));
-    console("[DEBUG] subcommand:$subcmd\n");
+    //console("[DEBUG] subcommand:$subcmd\n");
     switch ($subcmd) {
     case 'to':
       if (!$player) return "You can only use this command in-game";
@@ -246,14 +245,15 @@ class GotoPlugin implements Plugin{
 	$output.="Failed to teleport";
       } else {
 	$output.="Teleported!";
-	array_push($this->stack[$myname],$this->getPos($myname));
+	array_push($this->stack[$myname],$pos);
       }
       break;
     case 'pop':
       if (!$player) return "You can only use this command in-game";
       $myname = $issuer->username;
-      if (isset($this->stack[$myname]) && count($this->stack[$myname] > 0)) {
+      if (isset($this->stack[$myname]) && count($this->stack[$myname]) > 0) {
 	$pos = array_pop($this->stack[$myname]);
+	//console("[DEBUG] POS = ".print_r($pos,true));
 	if ($this->move($myname,$pos,$myname) === false) {
 	  $output.="Failed to teleport";
 	} else {
@@ -273,7 +273,7 @@ class GotoPlugin implements Plugin{
       } else {
 	$myname = NULL;
       }
-      if ($this->move($victim,$target,$myname) == false) {
+      if ($this->move($victim,$target,$myname) === false) {
 	$output .= "Unable to teleport $victim.\n";
       } else {
 	$output .= "Teleported $victim to $target.\n";

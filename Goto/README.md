@@ -64,6 +64,7 @@ The only command is `/go` but it accepts the following sub-commands:
   - warp
   - rm
   - ls
+- test summon & dismiss
 
 # Known Issues
 
