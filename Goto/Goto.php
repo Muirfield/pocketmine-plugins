@@ -113,6 +113,8 @@ class GotoPlugin implements Plugin{
     $this->api->console->alias("summon", "go summon");
     $this->api->console->alias("dismiss", "go dismiss");
     $this->api->ban->cmdWhitelist('go');
+    $this->api->console->register('whereami',': show current location',array($this,'command'));
+    $this->api->ban->cmdWhitelist('whereami');
   }
   private function usage($cmd) {
     $output = '';
@@ -163,7 +165,7 @@ class GotoPlugin implements Plugin{
     if (($p = $this->api->player->get($place)) != false) {
       // Go to another player
       //console("[DEBUG] go to player $place");
-      return Position($p->entity->x,$p->entity->y,$p->entity->z,
+      return new Position($p->entity->x,$p->entity->y,$p->entity->z,
 			      $p->entity->level);
     }
     if ($this->api->level->levelExists($place)) {
@@ -221,6 +223,16 @@ class GotoPlugin implements Plugin{
     }
     if ($player && !($iscr || $isop)) return "You cannot use this command";
 
+    if ($cmd == "whereami") {
+      if (!$player) return "Please run this command in-game.\n";
+      $output .= $issuer->username . " is in ";
+      $output .= $issuer->entity->level->getName()." at ";
+      $output .= round($issuer->entity->x).","
+	.round($issuer->entity->y).","
+	.round($issuer->entity->z);
+      $output .= "\n";
+      return $output;
+    }
     if ($cmd != 'go') return 'Unimplemented command';
 
     if (count($params) < 1) return $this->usage($cmd);
@@ -283,7 +295,7 @@ class GotoPlugin implements Plugin{
       if (!$player) return "You can only use this command in-game";
       if (!$isop) return "You can not use this command";
       $myname = $issuer->username;
-      $victim = impode(' ',$params);
+      $victim = implode(' ',$params);
       $pos = $this->getPos($victim);
       if (is_null($pos)) return "Unable to summon $victim";
       if ($this->move($victim,$myname,NULL) === false) {
@@ -299,7 +311,7 @@ class GotoPlugin implements Plugin{
       if (!$player) return "You can only use this command in-game";
       if (!$isop) return "You can not use this command";
       $myname = $issuer->username;
-      $victim = impode(' ',$params);
+      $victim = implode(' ',$params);
       if (!isset($this->summon_marker[$victim])) {
 	return "Don't know where to dismiss $victim to";
       }
