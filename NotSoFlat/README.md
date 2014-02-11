@@ -2,7 +2,7 @@
 
 * * *
 
-    NotSoFlat 0.1
+    NotSoFlat 0.2
     Copyright (C) 2013 Alejandro Liu  
     All Rights Reserved.
 
@@ -57,16 +57,27 @@ In addition the following options are defined:
 # Changes
 
 * 0.1 : Initial release
+* 0.2 : Updates
+  - Updated API level
+  - Misc typos/bug-fixes
+  - Fixed tree generation
 
 # TODO
 
-- Add code to modify terrain based on biome settings.
-  biome determine dsq values and topsoil blocks.
-- Add topsoil by lattitude and height
+- Add code to modify topsoil according to height.
+  - In pickBlock if $y == $h then we call a special topsoil routine
+- Add snow depending on temperature/height
+  - Create a temperature map (using dsq). With seed corners at the north
+    colder than seed corners at the south
+  - In pickBlock if $y > $h && $y == $waterlevel && tempmap is cold we
+    place ice
+  - In pickBlock if $y == $h+1 and tempmap (+ height) is cold, we add
+    snow-cover block
 - redo decoration (based on biome?)
+- If not presets provided, we should pick one based on the seed.
 
 # Known Issues
 
-- `decorations.treecount` doesn't seem to work
+- terrain can be somewhat cracked
 
 

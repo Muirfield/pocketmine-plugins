@@ -3,10 +3,10 @@
 __PocketMine Plugin__
 name=NotSoFlat
 description=An Alternative World Generator
-version=0.1
+version=0.2
 author=Alex
 class=none
-apiversion=11
+apiversion=11,12
 */
 
 /**
@@ -69,17 +69,28 @@ apiversion=11
  ** # Changes
  **
  ** * 0.1 : Initial release
+ ** * 0.2 : Updates
+ **   - Updated API level
+ **   - Misc typos/bug-fixes
+ **   - Fixed tree generation
  **
  ** # TODO
  **
- ** - Add code to modify terrain based on biome settings.
- **   biome determine dsq values and topsoil blocks.
- ** - Add topsoil by lattitude and height
+ ** - Add code to modify topsoil according to height.
+ **   - In pickBlock if $y == $h then we call a special topsoil routine
+ ** - Add snow depending on temperature/height
+ **   - Create a temperature map (using dsq). With seed corners at the north
+ **     colder than seed corners at the south
+ **   - In pickBlock if $y > $h && $y == $waterlevel && tempmap is cold we
+ **     place ice
+ **   - In pickBlock if $y == $h+1 and tempmap (+ height) is cold, we add
+ **     snow-cover block
  ** - redo decoration (based on biome?)
+ ** - If not presets provided, we should pick one based on the seed.
  **
  ** # Known Issues
  **
- ** - `decorations.treecount` doesn't seem to work
+ ** - terrain can be somewhat cracked
  **
  **/
 
@@ -94,7 +105,7 @@ class NotSoFlat implements LevelGenerator{
   private $waterLevel;
   private $hmap;
 
-  const PRESETS = "2;7,59x1,3x3,2;1;spawn(radius=10 block=89),dsq(min=60 max=120 water=80 off=20),decoration(treecount=80 grasscount=45)";
+  const PRESETS = "2;7,59x1,3x3,2;1;spawn(radius=10 block=89),dsq(min=80 max=100 water=90 off=20),decoration(treecount=80 grasscount=45)";
   const DSQ_SIZE = 257; // 2^8+1
 
   public function __construct(array $options = array()) {
@@ -194,7 +205,11 @@ class NotSoFlat implements LevelGenerator{
 
   function DiamondSqr($seed,$sz,$h) {
     $dat = Array();
-    $dat[0][0] = $dat[0][$sz-1] = $dat[$sz-1][0] = $dat[$sz-1][$sz-1] = $seed;
+    if (is_array($seed)) {
+      list($dat[0][0],$dat[0][$sz-1],$dat[$sz-1][0],$dat[$sz-1][$sz-1]) = $seed;
+    } else {
+      $dat[0][0] = $dat[0][$sz-1] = $dat[$sz-1][0] = $dat[$sz-1][$sz-1] = $seed;
+    }
 
     for ($sideLen = $sz-1; $sideLen >= 2; $sideLen /= 2, $h /= 2.0) {
       $halfSide = $sideLen/2;
@@ -256,9 +271,9 @@ class NotSoFlat implements LevelGenerator{
     // Define some suitable defaults
     $min = isset($dsq["min"]) ? $dsq["min"] : 32;
     $max = isset($dsq["max"]) ? $dsq["max"] : 120;
-    if ($this->dsq["min"] > $dsq["max"])
-      list($this->dsq["min"],$this->dsq["max"]) =
-	array($this->dsq["max"],$this->dsq["min"]);
+    if ($min > $max) {
+      list($min,$max) = array($max,$min);
+    }
 
     $this->waterLevel = isset($dsq["water"])? $dsq["water"]:$min+($max-$min)/3;
     $off = floatval(isset($dsq["off"]) ? $dsq["off"] : 100);
@@ -286,6 +301,7 @@ class NotSoFlat implements LevelGenerator{
       }
     }
 
+    /*
     // DEBUGGING
     $sum = $count = 0;
     $fp = fopen("x.dat","w");
@@ -309,6 +325,7 @@ class NotSoFlat implements LevelGenerator{
     console("[DEBUG] maxh=$maxh minh=$minh");
     console("[DEBUG] floorLevel: ".$this->floorLevel);
     console("[DEBUG] waterLevel: ".$this->waterLevel);
+    */
   }
   public function pickBlock($x,$y,$z) {
     $h = $this->hmap[$x][$z];
@@ -351,6 +368,7 @@ class NotSoFlat implements LevelGenerator{
   }
 
   public function populateChunk($chunkX, $chunkZ){
+    //return;    //DEBUG
     foreach($this->populators as $populator){
       $this->random->setSeed((int) ($chunkX * 0xdead + $chunkZ * 0xbeef) ^ $this->level->getSeed());
       $populator->populate($this->level, $chunkX, $chunkZ, $this->random);
@@ -380,9 +398,11 @@ class NotSoFlat implements LevelGenerator{
       for($x = $start; $x <= $end; ++$x){
 	for($z = $start; $z <= $end; ++$z){
 	  if(floor(sqrt(pow($x - 128, 2) + pow($z - 128, 2))) <= $spawn[0]){
-	    $y = $floor;
-	    if (($this->level->level->getBlockID($x,$floor,$z)) === AIR) {
-	      $y = $this->hmap[$x][$z];
+	    $y = $this->hmap[$x][$z];
+	    if ($y < $this->waterLevel) {
+	      $y = $this->waterLevel;
+	    } else if ($y > $floor) {
+	      $y = $floor;
 	    }
 	    $this->level->setBlockRaw(new Vector3($x, $y, $z), $spawn[1], null);
 	  }
@@ -402,12 +422,11 @@ class NotSoFlat implements LevelGenerator{
       for($t = 0; $t < $treecount; ++$t){
 	$centerX = $this->random->nextRange(0, 255);
 	$centerZ = $this->random->nextRange(0, 255);
-	$centerY = $this->hmap[$centerX][$centerZ];
+	$centerY = $this->hmap[$centerX][$centerZ]+1;
 	// Don't grow things under water...
 	if ($centerY < $this->waterLevel) continue;
-	$down = $this->level->level->getBlockID($centerX,$centerY,$centerZ);
-
-	console("[DEBUG] $t:($centerX,$centerY,$centerZ) BLOCK: $down ".Block::$class[$down]);
+	$down = $this->level->level->getBlockID($centerX,$centerY-1,$centerZ);
+	//	console("[DEBUG] $t:($centerX,$centerY,$centerZ) BLOCK: $down ".Block::$class[$down]);
 
 	if($down === DIRT or $down === GRASS or $down === FARMLAND){
 	  TreeObject::growTree($this->level,
