@@ -61,6 +61,7 @@ In addition the following options are defined:
   - Updated API level
   - Misc typos/bug-fixes
   - Fixed tree generation
+  - tweaked defaults a bit
 
 # TODO
 
