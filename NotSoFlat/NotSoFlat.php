@@ -88,6 +88,7 @@ apiversion=11,12
  **     snow-cover block
  ** - redo decoration (based on biome?)
  ** - If not presets provided, we should pick one based on the seed.
+ ** - Add cactii (81)
  **
  ** # Known Issues
  **
@@ -106,7 +107,7 @@ class NotSoFlat implements LevelGenerator{
   private $waterLevel;
   private $hmap;
 
-  const PRESETS = "2;7,59x1,3x3,2;1;spawn(radius=10 block=89),dsq(min=50 max=100 water=60 off=100),decoration(treecount=80 grasscount=45)";
+  const PRESETS = "2;7,59x1,3x3,2;1;spawn(radius=10 block=89),dsq(min=50 max=85 water=65 off=100),decoration(treecount=80 grasscount=45)";
   const DSQ_SIZE = 257; // 2^8+1
 
   public function __construct(array $options = array()) {

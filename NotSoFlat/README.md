@@ -76,6 +76,7 @@ In addition the following options are defined:
     snow-cover block
 - redo decoration (based on biome?)
 - If not presets provided, we should pick one based on the seed.
+- Add cactii (81)
 
 # Known Issues
 
