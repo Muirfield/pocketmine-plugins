@@ -26,7 +26,12 @@ Superflat Generator, but mixes in the
 [Diamond-Square](http://en.wikipedia.org/wiki/Diamond-square_algorithm)
 algorithm to generate decent looking terrain.
 
-## Configuration
+# Usage
+
+Copy to your plugins directory to install.  Use `simpleworlds` to
+generate new worlds.
+
+# Configuration
 
 This is configured using the same _presets_ string as in `Superflat`
 block layer configuration.
@@ -42,7 +47,7 @@ It recognises the following options from superflat:
 
 In addition the following options are defined:
 
-### dsq
+## dsq
 
 - min : minimum height of terrain
 - max : maximum height of terrain
