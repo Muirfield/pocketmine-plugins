@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+script=$(cd $(dirname $0) && pwd)/$(basename $0)
+while [ -L $script ] ; do
+  lnk=$(readlink $script)
+  script=$(cd $(dirname $script) && cd $(dirname $lnk)&& pwd )/$(basename $lnk)
+done
+phpsrc=$script.php
+if [ ! -f $phpsrc ] ; then
+  echo "Unable to find PHP code"
+  exit 1
+fi
+exec php -n -d extension=posix.so "$phpsrc" "$@"
