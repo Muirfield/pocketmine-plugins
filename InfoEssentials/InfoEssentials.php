@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 class=InfoEssentials
-apiversion=10,11
+apiversion=10,11,12
 version=Gamma 3.1415926
 name=InfoEssentials
 author=PEMapModder - Hacked version by Alex
