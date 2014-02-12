@@ -6,7 +6,7 @@ description=Stand on Nether Reactor to teleport
 version=0.2
 author=Alex
 class=NetherPortal
-apiversion=9,10,11
+apiversion=9,10,11,12
 */
 
 /**
