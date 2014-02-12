@@ -6,7 +6,7 @@ description=Plugin for moving and teleporting
 version=0.1
 author=Alex
 class=GotoPlugin
-apiversion=9,10,11
+apiversion=9,10,11,12
 */
 
 /**
@@ -87,8 +87,8 @@ class GotoPlugin implements Plugin{
   private $api, $config, $server;
   private $stack;
   private $summon_marker;
-  private $bookmarks;
-  private $chkpnts;
+  //private $bookmarks;
+  //private $chkpnts;
 
   public function __construct(ServerAPI $api, $server = false){
     $this->api = $api;
@@ -98,12 +98,12 @@ class GotoPlugin implements Plugin{
   }
 
   public function init(){
-    $this->config = new Config($this->api->plugin->configPath($this).
-			       "config.yml", CONFIG_YAML,
-			       array(
-				     "bookmarks" => array(),
-				     ));
-    $this->bookmarks = $this->config->get('bookmarks');
+    //$this->config = new Config($this->api->plugin->configPath($this).
+    //			       "config.yml", CONFIG_YAML,
+    //			       array(
+    //				     "bookmarks" => array(),
+    //				     ));
+    //$this->bookmarks = $this->config->get('bookmarks');
     $this->api->console->register('go','[subcmd] ...',array($this,'command'));
     $this->api->console->alias("goto", "go to");
     $this->api->console->alias("push", "go push");
@@ -112,6 +112,7 @@ class GotoPlugin implements Plugin{
     $this->api->console->alias("summon", "go summon");
     $this->api->console->alias("dismiss", "go dismiss");
     $this->api->ban->cmdWhitelist('go');
+
     $this->api->console->register('whereami',': show current location',array($this,'command'));
     $this->api->ban->cmdWhitelist('whereami');
   }
@@ -172,26 +173,27 @@ class GotoPlugin implements Plugin{
       return $this->api->level->get($place)->getSafeSpawn();
     }
 
-    if (!is_null($bmdir)
-	&& isset($this->chkpnts[$bmdir])
-	&& isset($this->chkpnts[$bmdir][$place])) {
-      // Goto chkpnt
-      console("[DEBUG] go to chkpnt $place");
-      $place = $this->chkpnts[$bmdir][$place];
-    } else if (!is_null($bmdir)
-	&& isset($this->bookmarks[$bmdir])
-	&& isset($this->bookmarks[$bmdir][$place])) {
-      console("[DEBUG] go to bmark $place");
-      $place =  $this->bookmarks[$bmdir][$place];
-    } else if (isset($this->bookmarks[''])
-	&& isset($this->bookmarks[''][$place])) {
-      console("[DEBUG] go to warp $place");
-      $place = $this->bookmarks[''][$place];
-    } else {
-      console("[DEBUG] Not found $place");
-      return NULL;
-    }
-    return $this->array2Pos($place);
+    //if (!is_null($bmdir)
+    //	&& isset($this->chkpnts[$bmdir])
+    //	&& isset($this->chkpnts[$bmdir][$place])) {
+    //      // Goto chkpnt
+    //      console("[DEBUG] go to chkpnt $place");
+    //      $place = $this->chkpnts[$bmdir][$place];
+    //} else if (!is_null($bmdir)
+    //	&& isset($this->bookmarks[$bmdir])
+    //	&& isset($this->bookmarks[$bmdir][$place])) {
+    //  console("[DEBUG] go to bmark $place");
+    //  $place =  $this->bookmarks[$bmdir][$place];
+    //} else if (isset($this->bookmarks[''])
+    //	&& isset($this->bookmarks[''][$place])) {
+    //      console("[DEBUG] go to warp $place");
+    //      $place = $this->bookmarks[''][$place];
+    //} else {
+    //  console("[DEBUG] Not found $place");
+    //  return NULL;
+    //}
+    //return $this->array2Pos($place);
+    return NULL;
   }
 
   public function move($player,$place,$bmdir) {
