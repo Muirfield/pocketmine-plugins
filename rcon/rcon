@@ -1,10 +1,10 @@
 #!/bin/sh
 #
 script=$(cd $(dirname $0) && pwd)/$(basename $0)
-if [ -L $script ] ; then
+while [ -L $script ] ; do
   lnk=$(readlink $script)
   script=$(cd $(dirname $script) && cd $(dirname $lnk)&& pwd )/$(basename $lnk)
-fi
+done
 phpsrc=$script.php
 if [ ! -f $phpsrc ] ; then
   echo "Unable to find PHP code"
