@@ -1,6 +1,6 @@
 <?php
 /*
- * Basic hack to import MCPE maps into PMF
+ * Basic hack to generate terrain from the command line
  */
 
 /***REM_START***/
@@ -10,6 +10,8 @@ require_once(FILE_PATH."/src/functions.php");
 require_once(FILE_PATH."/src/dependencies.php");
 
 //////////////////////////////////////////////////////////////////////
+// Changes are "//-"
+
 class MyLevel extends Level{
 	public $entities, $tiles, $blockUpdates, $nextSave, $players = array(), $level;
 	private $time, $startCheck, $startTime, $server, $name, $usedChunks, $changedBlocks, $changedCount, $stopTime;
@@ -596,7 +598,7 @@ while (count($argv) > 1) {
 }
 
 if (count($argv) != 3) {
-  die("Usage:\n\t$cmd [-Ifile] seed generator world_name\n");
+  die("Usage:\n\t$cmd [-Ifile] [--preset=strint] seed generator world_name\n");
 }
 $seed = intval(array_shift($argv));
 list($generator,$world_name) = $argv;
