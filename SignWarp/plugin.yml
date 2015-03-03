@@ -1,0 +1,16 @@
+name: SignWarp
+api: [1.3.1] #Not compatible with previous versions due to usage of SignChangeEvent
+version: 1.0.0
+load: POSTWORLD
+main: alejandroliu\SignWarp\Main
+author: alejandroliu
+
+commands:
+  xyz:
+    description: Return x,y,z coordinates
+    usage: "/xyz"
+
+permissions:
+    signwarp.cmd.xyz:
+        default: true
+        description: "Shows current x,y,z coordinates"

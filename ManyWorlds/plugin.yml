@@ -1,0 +1,30 @@
+main: ManyWorlds\Main
+api: 1.9.0
+load: POSTWORLD
+
+name: ManyWorlds
+description: Manage Multiple Worlds
+version: 1.0.0
+author: alejandroliu
+
+commands:
+    mw:
+        description: Manage worlds
+        usage: "/mw <tp|create|load|ls> <world>"
+
+permissions:
+    mw.cmd.tp:
+        default: op
+        description: "Allows users to travel to other worlds"
+    mw.cmd.tp.others:
+        default: op
+        description: "Allows users to make others travel to other worlds"
+    mw.cmd.world.create:
+        default: op
+        description: "Allows users to create worlds"
+    mw.cmd.world.load:
+        default: op
+        description: "Allows users to load worlds"
+    mw.cmd.world.ls:
+        default: op
+        description: "Allows users to list worlds"
