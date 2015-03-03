@@ -146,6 +146,9 @@ while (count($argv)) {
     $passwd = array_shift($argv);
   } elseif (argchk($argv[0],"--passwd=",$passwd)) {
     array_shift($argv);
+  } elseif ($argv[0] == "-C") {
+    array_shift($argv);
+    read_properties(array_shift($argv),$server,$port,$passwd);
   } elseif ($argv[0] == "--") {
     array_shift($argv);
     break;
@@ -155,7 +158,7 @@ while (count($argv)) {
 }
 if (is_null($passwd)) die("No password specified\n");
 
-
+echo "Server=$server port=$port passwd=$passwd\n";
 $rcon = new rcon($server,$port);
 $rcon->auth($passwd);
 
