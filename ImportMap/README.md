@@ -50,6 +50,7 @@ Issues/Todo
 
 * Entities are unsupported
 * Tiles are not supported
+* Translations largely ignore block meta data
 * zip files
 * Anvil maps are silently truncated to be less than 128 blocks hi.
 
