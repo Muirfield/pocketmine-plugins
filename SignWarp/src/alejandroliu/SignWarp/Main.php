@@ -61,7 +61,7 @@ class Main extends PluginBase implements Listener {
 	      list($x,$y,$z) = $mv;
 	      $event->getPlayer()->sendMessage("[SignWarp] Warping to $x,$y,$z");
 	      $event->getPlayer()->teleport(new Vector3($x,$y,$z));
-	      Server::getInstance()->broadcastMessage($event->getPayer()->getName()." teleported to $x,$y,$z");
+	      Server::getInstance()->broadcastMessage($event->getPlayer()->getName()." teleported to $x,$y,$z");
 	    }else{
 	      $event->getPlayer()->sendMessage("[SignWarp] Invalid coordinates ".$sign[1]);
 	    }
