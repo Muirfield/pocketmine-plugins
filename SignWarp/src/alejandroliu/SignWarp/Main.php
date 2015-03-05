@@ -54,13 +54,14 @@ class Main extends PluginBase implements Listener {
 	  return;
 	}
 	$sign = $sign->getText();
-	if($sign[0]=='[WARP]'){
+	if($sign[0]=='[SWARP]'){
 	  if(empty($sign[1]) !== true){
 	    $mv = [];
 	    if ($this->check_coords($sign[1],$mv)) {
 	      list($x,$y,$z) = $mv;
 	      $event->getPlayer()->sendMessage("[SignWarp] Warping to $x,$y,$z");
 	      $event->getPlayer()->teleport(new Vector3($x,$y,$z));
+	      Server::getInstance()->broadcastMessage($event->getPayer()->getName()." teleported to $x,$y,$z");
 	    }else{
 	      $event->getPlayer()->sendMessage("[SignWarp] Invalid coordinates ".$sign[1]);
 	    }
@@ -78,7 +79,7 @@ class Main extends PluginBase implements Listener {
 	  return true;
 	}
 	$sign = $event->getLines();
-	if($sign[0]=='[WARP]'){
+	if($sign[0]=='[SWARP]'){
 	  //Server::getInstance()->broadcastMessage("lv2");
 	  if($event->getPlayer()->isOp()){
 	    //Server::getInstance()->broadcastMessage("lv3");
@@ -113,7 +114,7 @@ class Main extends PluginBase implements Listener {
 	if ($sender instanceof Player) {
 	  if ($sender->hasPermission("signwarp.cmd.xyz")) {
 	    $pos = $sender->getPosition();
-	    $sender->sendMessage("You are at ".$pos->getX().",".$pos->getY().",".$pos->getZ());
+	    $sender->sendMessage("You are at ".intval($pos->getX()).",".intval($pos->getY()).",".intval($pos->getZ()));
 	  } else {
 	    $sender->sendMessage("You do not have permission to do that.");
 	  }
