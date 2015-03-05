@@ -42,7 +42,7 @@ Git Recipes
     git merge --no-ff master
     # ... bump version number ...
     git commit -a -m"Bump version number"
-    git tag -aX.Y+1pre -m"New dev cycle"
+    git tag -a <plugin>-X.Y+1pre -m"New dev cycle"
     git push origin <plugin>-dev
     git push origin --tags
 
