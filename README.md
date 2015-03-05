@@ -49,6 +49,6 @@ Git Recipes
 ## Set-up
 
     git checkout -b <plugin>-dev master
-    git tag -a "X.Ypre" -m "Dev branch"
-    git push
+    git tag -a "<plugin>-X.Ypre" -m "Dev branch"
+    git push origin <plugin>-dev
     git push origin --tags
