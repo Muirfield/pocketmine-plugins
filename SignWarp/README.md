@@ -44,7 +44,7 @@ Copyright
 =========
 
     SignWarp
-    Copyright (C) 2013 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu  
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify
