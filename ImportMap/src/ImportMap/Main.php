@@ -240,16 +240,19 @@ class Main extends Plugin implements CommandExecutor {
     $c->sendMessage("Chunks:    $chunks");
     $c->sendMessage("Copied:    $copied");
     $c->sendMessage("Converted: $conv");
-    $c->sendMessage("STATS:");
-    $keys = array_keys($stats);
-    sort($keys,SORT_NUMERIC);
-    foreach ($keys as $bid) {
-      if (isset($this->xtab[$bid])) {
-	$c->sendMessage("$bid:\t".$stats[$bid]." (=> ".$this->xtab[$bid].")");
-      } else {
-	$c->sendMessage("$bid:\t".$stats[$bid]);
+    if (!$copied) {
+      $c->sendMessage("BLOCK STATS:");
+      $keys = array_keys($stats);
+      sort($keys,SORT_NUMERIC);
+      foreach ($keys as $bid) {
+	if (isset($this->xtab[$bid])) {
+	  $c->sendMessage("$bid:\t".$stats[$bid]." (=> ".$this->xtab[$bid].")");
+	} else {
+	  $c->sendMessage("$bid:\t".$stats[$bid]);
+	}
       }
     }
+    $c->sendMessage("-");
   }
 
   private function imCopyChunk(CommandSender $c,$srcchunk,$dstchunk,array &$stats) {
