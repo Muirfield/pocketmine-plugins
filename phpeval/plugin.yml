@@ -1,0 +1,18 @@
+main: phpeval\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: phpeval
+description: eval PHP expression
+version: 1.0.0
+author: aliuly
+
+commands:
+    php:
+        description: Evaluate PHP code
+        usage: "/php php-code"
+
+permissions:
+    phpeval.cmd.php:
+        default: op
+        description: "Allows users to execute arbitrary PHP code"
