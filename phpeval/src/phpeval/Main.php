@@ -17,7 +17,9 @@ class Main extends Plugin implements CommandExecutor {
 	return true;
       }
       // $sender->sendMessage("eval(".implode(' ',$args).")");
-      $ret = eval(implode(" ",$args).";");
+      $line = implode(" ",$args).";";
+      if (substr($line,0,1) == "=") $line = "return ".substr($line,1);
+      $ret = eval($line);
       $sender->sendMessage($ret);
       break;
     default:
