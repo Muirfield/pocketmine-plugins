@@ -15,7 +15,7 @@ use pocketmine\math\Vector3;
 
 class Main extends Plugin implements CommandExecutor {
   public function onLoad() {
-    $this->getLogger()->info("MultiWorld Loaded!");
+    $this->getLogger()->info("ManyWorlds Loaded!");
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
@@ -45,13 +45,30 @@ class Main extends Plugin implements CommandExecutor {
     }
     return false;
   }
+  private function mwAutoLoad(CommandSender $c,$level) {
+    if (!$this->getServer()->isLevelLoaded($level)) {
+      if(!$this->checkPermission($c, "mw.cmd.world.load")) {
+	$c->sendMessage("[MW] $level is not loaded.");
+	return false;
+      }
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$c->sendMessage("[MW] No level with the name $level exists!");
+	return false;
+      }
+      $c->sendMessage("[MW] Loading $level...");
+      $this->getServer()->loadLevel($level);
+    }
+    return true;
+  }
+
   private function mwTeleportCommand(CommandSender $sender,array $args) {
     if (!isset($args[1])) {
       $sender->sendMessage("[MW] must specify level");
       return true;
     }
+
     $level = $args[1];
-    $player = null;
+
     if (isset($args[2])) {
       // Teleport others
       $player = $this->getServer()->getPlayer($args[2]);
@@ -60,10 +77,10 @@ class Main extends Plugin implements CommandExecutor {
 	  if($player->getLevel() == $this->getServer()->getLevelByName($level)) {
 	    $sender->sendMessage("[MW] " . $player . " is already in " . $level . "!");
 	  } else {
-	    if($this->getServer()->isLevelLoaded($level)) {
+	    if ($this->mwAutoLoad($sender,$level)) {
 	      $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
 	      $world = $this->getServer()->getLevelByName($level);
-	      $player->teleport($world->getSpawnLocation());
+	      $player->teleport($world->getSafeSpawn());
 	      $sender->sendMessage("[MW] " . $player . " has been teleported to " . $level . "!");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport " . $player . " as\nlevel " . $level . " is not loaded!");
@@ -80,7 +97,7 @@ class Main extends Plugin implements CommandExecutor {
       if ($sender instanceof Player) {
 	if ($this->checkPermission($sender,"mw.cmd.tp")) {
 	  if(!($sender->getLevel() == $this->getServer()->getLevelByName($level))) {
-	    if($this->getServer()->isLevelLoaded($level)) {
+	    if($this->mwAutoLoad($sender,$level)) {
 	      $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
 	      $world = $this->getServer()->getLevelByName($level);
 	      $sender->teleport($world->getSpawnLocation());
@@ -131,25 +148,39 @@ class Main extends Plugin implements CommandExecutor {
       return true;
     }
     $level = $args[1];
-    if(!$this->checkPermission($sender, "mw.cmd.world.load")) {
-      return $this->permissionFail($sender);
+    if (!$this->mwAutoLoad($sender,$level)) {
+      $sender->sendMessage("[MW] Unable to load $level");
     }
-    if(!$this->getServer()->isLevelGenerated($level)) {
-      $sender->sendMessage("[MW] No level with the name " . $level . " exists!");
-      return true;
-    }
-    if($this->getServer()->isLevelLoaded($level)) {
-	$sender->sendMessage("[MW] Level " . $level . " is already loaded!");
-	return true;
-    }
-    $this->getServer()->loadLevel($level);
-    $sender->sendMessage("[MW] Level " . $level . " is being loaded\nin the background!");
     return true;
   }
   private function mwWorldListCommand(CommandSender $sender, array $args) {
     if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
       return $this->permissionFail($sender);
     }
+    if (isset($args[1])) {
+      $level = $args[1];
+      if (!$this->mwAutoLoad($sender,$level)) {
+	$sender->sendMessage("[MW] Unable to load $level");
+	return true;
+      }
+      $level = $this->getServer()->getLevelByName($level);
+      if (!$level) {
+	$sender->sendMessage("[MW] $level not loaded");
+	return true;
+      }
+      //==== provider
+      $provider = $level->getProvider();
+      $sender->sendMessage("Provider: ". get_class($provider));
+      $sender->sendMessage("Path: ".$provider->getPath());
+      $sender->sendMessage("Name: ".$provider->getName());
+      $sender->sendMessage("Seed: ".$provider->getSeed());
+      $sender->sendMessage("Generator: ".$provider->getGenerator());
+      $sender->sendMessage("Generator Options: ".print_r($provider->getGeneratorOptions(),true));;
+      $spawn = $provider->getSpawn();
+      $sender->sendMessage("Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ());
+      return true;
+    }
+
     $dir = $this->getServer()->getDataPath(). "worlds";
     if (!is_dir($dir)) {
       $sender->sendMessage("[MW] Missing path $dir");
@@ -163,8 +194,10 @@ class Main extends Plugin implements CommandExecutor {
 	$sender->sendMessage("- $file (loaded)");
 	continue;
       }
-      if (!is_file($dir.'/'.$file.'/level.dat')) continue;
-      $sender->sendMessage("- $file");
+      if ($this->getServer()->isLevelGenerated($file)) {
+	$sender->sendMessage("- $file");
+	continue;
+      }
     }
     closedir($dh);
     return true;
@@ -178,6 +211,6 @@ class Main extends Plugin implements CommandExecutor {
     return true;
   }
   public function onDisable() {
-    $this->getLogger()->info("MultiWorld Unloaded!");
+    $this->getLogger()->info("ManyWorlds Unloaded!");
   }
 }
