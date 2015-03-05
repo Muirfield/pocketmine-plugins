@@ -35,8 +35,8 @@ Git Recipes
     git merge --no-ff <plugin>-dev
     # ... Check version number ...
     # ... Test phar ...
-    git commit -a -m'preparing release X.Y'
-    git tag -a X.Yrel -m'Release X.Y'
+    git commit -a -m'preparing <plugin> release X.Y'
+    git tag -a <plugin>-X.Yrel -m'Release X.Y'
     git push
     git checkout <plugin>-dev
     git merge --no-ff master
