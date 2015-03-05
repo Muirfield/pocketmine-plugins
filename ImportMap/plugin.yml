@@ -1,0 +1,18 @@
+main: ImportMap\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: ImportMap
+description: Import Maps
+version: 1.0.0
+author: aliuly
+
+commands:
+    im:
+        description: Import Map
+        usage: "/im <path> <world>"
+
+permissions:
+    im.cmd.im:
+        default: op
+        description: "Allows users to import maps"
