@@ -240,7 +240,7 @@ class Main extends Plugin implements CommandExecutor {
     $c->sendMessage("Chunks:    $chunks");
     $c->sendMessage("Copied:    $copied");
     $c->sendMessage("Converted: $conv");
-    if (!$copied) {
+    if ($copied) {
       $c->sendMessage("BLOCK STATS:");
       $keys = array_keys($stats);
       sort($keys,SORT_NUMERIC);
