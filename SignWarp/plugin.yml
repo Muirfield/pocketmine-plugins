@@ -11,6 +11,12 @@ commands:
     usage: "/xyz"
 
 permissions:
+    signwarp.place.sign:
+	default: op
+	description: "Allow user to create warp"
+    signwarp.touch.sign:
+	default: true
+	description: "Allow user to use warp"
     signwarp.cmd.xyz:
-        default: true
-        description: "Shows current x,y,z coordinates"
+	default: true
+	description: "Shows current x,y,z coordinates"
