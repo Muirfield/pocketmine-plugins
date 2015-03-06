@@ -24,13 +24,13 @@ If the first character in the PHP code is a `=` then a `return`
 statement is inserted at the beginning of it.  This will return the
 results of whatever is being executed and it will shown on screen.
 
-### Tips
+### Available Variables
 
 * `$sender` is an available variable that is a `CommandSender` object.
   It can be used with: `$sender->sendMessage("Hello world)`.
-* `$this->getLogger()->info("msg")` can be used to show output on the
-  console.
-* `$this->getServer()` returns a pocketmine `Server` object.
+* `$server` instance of the server object.
+* `$logger` instance of the main logger object.
+
 
 ### Permission Nodes:
 

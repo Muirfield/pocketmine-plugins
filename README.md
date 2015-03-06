@@ -3,6 +3,12 @@ pocketmine-plugins
 
 Repository for my PocketMine plugins
 
+Ideas
+-----
+
+* Create a Generator based of flat that creates infinite maze
+
+
 Copyright
 =========
 
