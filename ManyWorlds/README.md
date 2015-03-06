@@ -45,6 +45,13 @@ FAQ
   Server->generateLevel method where specifying a `generator` is
   broken.
 
+Changes
+-------
+
+* 1.1.0 : 
+  * Broadcast teleports
+* 1.0.0 : Initial release
+
 Copyright
 =========
 
