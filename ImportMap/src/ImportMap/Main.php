@@ -107,7 +107,13 @@ class Main extends Plugin implements CommandExecutor {
 	return true;
       }
       if (isset($args[0]) && isset($args[1])) {
-	$this->imImport($sender,$args[0],$args[1]);
+	if ($args[0] == '-c') {
+	  array_shift($args);
+	  $level = array_shift($args);
+	  $this->imCheck($sender,$level,$args);
+	} else {
+	  $this->imImport($sender,$args[0],$args[1]);
+	}
       } else {
 	$sender->sendMessage("Usage: im <path> <world>");
       }
@@ -117,6 +123,86 @@ class Main extends Plugin implements CommandExecutor {
     }
     return true;
   }
+  public function imCheck(CommandSender $c,$impath,$opts) {
+    $impath = preg_replace('/\/*$/',"",$impath).'/';
+    if (!is_dir($impath)) {
+      $c->sendMessage("$impath not found");
+      return;
+    }
+    $srcprovider = LevelProviderManager::getProvider($impath);
+    if (!$srcprovider) {
+      $c->sendMessage("$impath: Format not recognized");
+      return;
+    }
+    $srclevel = new Level($this->getServer(),basename($impath),$impath,$srcprovider);
+    $srcprovider = $srclevel->getProvider();
+
+    $c->sendMessage("Checking $impath");
+    $c->sendMessage("Path:  ".$srcprovider->getPath());
+    $c->sendMessage("Name:  ".$srcprovider->getName());
+    $c->sendMessage("Seed:  ".$srcprovider->getSeed());
+    $sp=$srcprovider->getSpawn();
+    $c->sendMessage("Spawn: ".implode(',',[$sp->getX(),$sp->getY(),$sp->getZ()]));
+    $c->sendMessage("Generator: ".$srcprovider->getGenerator());
+    $preset = $srcprovider->getGeneratorOptions();
+    $preset = $preset["preset"];
+    $c->sendMessage("Generator Presets: ".$preset);
+    list($loader,$ext) = $this->imMapLoader($srcprovider);
+    $files = glob($srcprovider->getPath()."/region/r*.$ext");
+    $regions = [];
+    foreach ($files as $f) {
+      $pp = [];
+      if (preg_match('/r\.(-?\d+)\.(-?\d+)\.'.$ext.'$/',$f,$pp)) {
+	array_shift($pp);
+	$regions[$pp[0].",".$pp[1]] = $pp;
+      }
+    }
+    $c->sendMessage("Loader: $loader ($ext)");
+    $txt = "Regions:";
+    foreach ($regions as $r) {
+      $txt .= " ".$r[0].",".$r[1];
+    }
+    $c->sendMessage($txt);
+    $c->sendMessage("-");
+    foreach ($opts as $r) {
+      if (!isset($regions[$r])) continue;
+      list($rX,$rZ) = $regions[$r];
+      $this->imCheckRegion($c,$srcprovider,$loader,$rX,$rZ);
+    }
+  }
+  private function imCheckRegion(CommandSender $c,$srcprovider,$ld,$rX,$rZ) {
+    $c->sendMessage("Region: $rX,$rZ");
+    $srcregion = new $ld($srcprovider,$rX,$rZ);
+    $chunks=0;
+    $populated=0;
+    $generated=0;
+    $entities=0;
+    $tiles=0;
+
+    for ($oX = 0; $oX < 32; $oX++) {
+      $cX = $rX * 32 + $oX;
+      for ($oZ = 0; $oZ < 32 ; $oZ++) {
+	$cZ = $rZ * 32 + $oZ;
+	if ($srcregion->chunkExists($oX,$oZ)) {
+	  ++$chunks;
+	  $srcchunk = $srcregion->readChunk($oX,$oZ,false,true);
+	  if ($srcchunk->isPopulated()) ++$populated;
+	  if ($srcchunk->isGenerated()) ++$generated;
+	  if ($srcchunk->isPopulated()) $srcchunk->initChunk();
+
+	  $entities += count($srcchunk->getEntities());
+	  $tiles += count($srcchunk->getTiles());
+	}
+      }
+    }
+    $c->sendMessage(".    chunks: $chunks");
+    $c->sendMessage(".    populated: $populated");
+    $c->sendMessage(".    generated: $generated");
+    $c->sendMessage(".    entities: $entities");
+    $c->sendMessage(".    tiles: $tiles");
+    unset($srcregion);
+  }
+
   public function imImport(CommandSender $c,$impath,$world) {
     if ($this->getServer()->isLevelGenerated($world)) {
       $c->sendMessage("$world already exists");
