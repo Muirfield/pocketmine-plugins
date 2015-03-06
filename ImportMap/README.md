@@ -45,18 +45,32 @@ and
 [Minecraft PE data values](http://minecraft.gamepedia.com/Data_values_%28Pocket_Edition%29)
 for the values being used.
 
-Issues/Todo
-----------
+### Permission Nodes:
+
+* im.cmd.im - Allows users to import maps
+
+Issues
+------
 
 * Entities are unsupported
 * Tiles are not supported
 * Translations largely ignore block meta data
 * zip files
 * Anvil maps are silently truncated to be less than 128 blocks hi.
+* Performance is bad
 
-### Permission Nodes:
+Todo
+----
 
-* im.cmd.im - Allows users to import maps
+* Make it async
+* Check if we can improve performance by operating on byte ranges
+* Support for Entities
+* Support for tiles
+
+Changes
+-------
+
+* 1.0.0 : First release
 
 Copyright
 =========
