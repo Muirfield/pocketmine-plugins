@@ -70,6 +70,8 @@ Todo
 Changes
 -------
 
+* 1.1.0: 
+  * Tweaked translation table
 * 1.0.0 : First release
 
 Copyright
