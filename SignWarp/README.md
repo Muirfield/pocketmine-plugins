@@ -39,6 +39,8 @@ coordinates of the player.
 ### Permission Nodes:
 
 * signwarp.cmd.xyz - Allows the user to show current x,y,z coordinates
+* signwarp.place.sign - Allow user to create warp signs
+* signwarp.touch.sign - Allow user to use warp signs
 
 TODO
 ----
@@ -50,6 +52,9 @@ TODO
 Changes
 -------
 
+* 1.1.0 :
+  * Added support for multiple worlds
+  * Added permissions for teleporting
 * 1.0.0 : First release
 
 Copyright

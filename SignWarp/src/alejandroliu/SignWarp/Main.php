@@ -100,7 +100,7 @@ class Main extends PluginBase implements Listener {
     $event->getPlayer()->sendMessage("Teleporting...");
     $world = $this->getServer()->getLevelByName($level);
     $event->getPlayer()->teleport($world->getSafeSpawn($mv));
-    $this->getServer->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
+    $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
   }
 
   public function playerBlockTouch(PlayerInteractEvent $event){
@@ -110,9 +110,9 @@ class Main extends PluginBase implements Listener {
 	return;
       }
       $sign = $sign->getText();
-      if($sign[0]== self::SHORTWARP){
+      if($sign[0]== self::SHORT_WARP){
 	$this->shortWarp($event,$sign);
-      } elseif ($sign[0]== self::LONGWARP){
+      } elseif ($sign[0]== self::LONG_WARP){
 	$this->longWarp($event,$sign);
       }
     }
