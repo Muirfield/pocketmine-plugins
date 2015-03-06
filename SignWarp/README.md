@@ -40,6 +40,18 @@ coordinates of the player.
 
 * signwarp.cmd.xyz - Allows the user to show current x,y,z coordinates
 
+TODO
+----
+
+* Add support for MultipleWorlds:
+  * to spawn point
+  * to a specific x,y,z coordinate
+
+Changes
+-------
+
+* 1.0.0 : First release
+
 Copyright
 =========
 
