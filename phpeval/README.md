@@ -1,12 +1,23 @@
 phpeval
 ========
 
+* Summary: Call PHP from PocketMine
+* Dependency Plugins: n/a
+* PocketMine-MP version: 1.4 - API 1.10.0
+* OptionalPlugins: n/a
+* Categories: Developer Tools
+* Plugin Access: Commands
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/phpeval)
+
+Overview
+--------
+
 A very basic Plugin that lets you execute `PHP` code directly from
 _PocketMine-MP_.
 
 Basic Usage:
 
-    /php <php code>
+    /php php-statements
 
 Documentation
 -------------
@@ -24,21 +35,34 @@ If the first character in the PHP code is a `=` then a `return`
 statement is inserted at the beginning of it.  This will return the
 results of whatever is being executed and it will shown on screen.
 
+You can use the `;` (semi-colon) character to place multiple commands
+in a single line.
+
 ### Available Variables
 
-* `$sender` is an available variable that is a `CommandSender` object.
-  It can be used with: `$sender->sendMessage("Hello world)`.
+* `$sender` is an available variable that is a `CommandSender`
+  object.
 * `$server` instance of the server object.
 * `$logger` instance of the main logger object.
 
+## Usage Examples:
+
+* `/php $sender->sendMessage("Hello world)`.
+* `/php $server->reload()`
+* `/php $server->broadcastMessage("Test")`
+* `/php $logger->info("Send something")`
 
 ### Permission Nodes:
 
 * phpeval.cmd.php - Allows the user to execute arbitrary PHP code
 
 
+### Changes
+
+* 1.0.0: First release
+
 Copyright
-=========
+---------
 
     phpeval
     Copyright (C) 2015 Alejandro Liu  

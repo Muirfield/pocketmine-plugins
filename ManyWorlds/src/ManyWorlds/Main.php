@@ -101,6 +101,7 @@ class Main extends Plugin implements CommandExecutor {
 	      $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
 	      $world = $this->getServer()->getLevelByName($level);
 	      $sender->teleport($world->getSpawnLocation());
+	      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport you to " . $level . " as it\nis not loaded!");
 	    }
