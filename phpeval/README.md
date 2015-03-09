@@ -41,15 +41,16 @@ in a single line.
 ### Available Variables
 
 * `$sender` is an available variable that is a `CommandSender`
-  object.  
-  Usage Example: `$sender->sendMessage("Hello world)`.
-* `$server` instance of the server object.  
-  Usage Examples: 
-  * `$server->reload()`
-  * `$server->broadcastMessage("Test")`
-* `$logger` instance of the main logger object.  
-  Usage Example: `$logger->info("Send something")`
+  object.
+* `$server` instance of the server object.
+* `$logger` instance of the main logger object.
 
+## Usage Examples:
+
+* `/php $sender->sendMessage("Hello world)`.
+* `/php $server->reload()`
+* `/php $server->broadcastMessage("Test")`
+* `/php $logger->info("Send something")`
 
 ### Permission Nodes:
 
