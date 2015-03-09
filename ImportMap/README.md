@@ -25,7 +25,6 @@ This is a proof-of-concept plugin to import PC world maps into
 PocketMine-MP by converting blocks according to a
 configurable translation table.
 
-
 This plugin supports Minecraft PC edition maps in McRegion and Anvil
 formats.
 
@@ -75,7 +74,12 @@ for the values being used.
 * An import will block the server.  I tried converting this to an
   AsyncTask but that was not very succesful.  I got threading problems.
 
-### Changes
+### Todo
+
+* Make use of AsyncTask
+
+Changes
+------
 
 * 1.0.0 : First release
 
