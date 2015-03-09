@@ -74,19 +74,16 @@ coordinates of the player.
 * signwarp.place.sign - Allow user to create warp signs
 * signwarp.touch.sign - Allow user to use warp signs
 
-TODO
-----
+FAQ
+---
 
-* Add support for MultipleWorlds:
-  * to spawn point
-  * to a specific x,y,z coordinate
+* Q: How do I create additional worlds?
+* You can use a plugin like `ManyWorlds` or modify the `worlds` secion
+  in your `pocketmine.yml` file.
 
 Changes
 -------
 
-* 1.1.0 :
-  * Added support for multiple worlds
-  * Added permissions for teleporting
 * 1.0.0 : First release
 
 Copyright
