@@ -179,8 +179,6 @@ class Main extends Plugin implements CommandExecutor {
     $chunks=0;
     $populated=0;
     $generated=0;
-    $entities=0;
-    $tiles=0;
 
     for ($oX = 0; $oX < 32; $oX++) {
       $cX = $rX * 32 + $oX;
@@ -191,18 +189,12 @@ class Main extends Plugin implements CommandExecutor {
 	  $srcchunk = $srcregion->readChunk($oX,$oZ,false,true);
 	  if ($srcchunk->isPopulated()) ++$populated;
 	  if ($srcchunk->isGenerated()) ++$generated;
-	  if ($srcchunk->isPopulated()) $srcchunk->initChunk();
-
-	  $entities += count($srcchunk->getEntities());
-	  $tiles += count($srcchunk->getTiles());
 	}
       }
     }
     $c->sendMessage(".    chunks: $chunks");
     $c->sendMessage(".    populated: $populated");
     $c->sendMessage(".    generated: $generated");
-    $c->sendMessage(".    entities: $entities");
-    $c->sendMessage(".    tiles: $tiles");
     unset($srcregion);
   }
 
@@ -317,10 +309,6 @@ class Main extends Plugin implements CommandExecutor {
 	  if ($srcchunk->isPopulated() || $srcchunk->isGenerated()) {
 	    ++$copied;
 	    $dstchunk = $dstregion->readChunk($oX,$oZ,true,false);
-	    if ($srcchunk->isPopulated()) {
-	      $srcchunk->initChunk();
-	      $dstchunk->initChunk();
-	    }
 	    $conv += $this->imCopyChunk($c,$srcchunk,$dstchunk,$stats);
 	    $dstregion->writeChunk($dstchunk);
 	  }
