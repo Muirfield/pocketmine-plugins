@@ -3,7 +3,7 @@ api: [1.3.1] #Not compatible with previous versions due to usage of SignChangeEv
 version: 1.0.0
 load: POSTWORLD
 main: alejandroliu\SignWarp\Main
-author: alejandroliu
+author: aliuly
 
 commands:
   xyz:
@@ -11,6 +11,12 @@ commands:
     usage: "/xyz"
 
 permissions:
-    signwarp.cmd.xyz:
-        default: true
-        description: "Shows current x,y,z coordinates"
+  signwarp.place.sign:
+    default: op
+    description: "Allow user to create warp"
+  signwarp.touch.sign:
+    default: true
+    description: "Allow user to use warp"
+  signwarp.cmd.xyz:
+    default: true
+    description: "Shows current x,y,z coordinates"
