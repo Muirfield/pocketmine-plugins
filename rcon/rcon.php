@@ -125,7 +125,7 @@ function read_properties($f,&$s,&$pn,&$pw) {
 $cmd = array_shift($argv);
 
 $server = "127.0.0.1";
-$port = 27015;
+$port = 19132; // 27015;
 $passwd = NULL;
 
 read_properties("server.properties",$server,$port,$passwd);
