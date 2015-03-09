@@ -1,5 +1,6 @@
 <?php
 namespace ImportMap;
+
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
@@ -27,69 +28,71 @@ class Main extends Plugin implements CommandExecutor {
   }
   public function onEnable() {
     @mkdir($this->getDataFolder());
-    $btab = [ 25 => 0,	// Note block
-	      28 => 27,	// Detector Rail
+    $btab = [ 23 => 0,	// Dispenser
+	      25 => 0,	// Note block
+	      28 => 0,	// Detector Rail
 	      29 => 0,	// Sticky Piston
 	      33 => 0,	// Piston
 	      34 => 0,	// Piston Head
 	      36 => 0,	// Piston Extension
+	      55 => 0,  // Redstone wire
 	      69 => 0,	// Lever
-	      70 => 44,	// Stone Pressure Plate
-	      72 => 158,	// Wooden Pressure Plate
-	      75 => 50,	// Inactive redstone torch
-	      76 => 50,	// Active redstone torch
+	      70 => 0,	// Stone Pressure Plate
+	      72 => 0,	// Wooden Pressure Plate
+	      75 => 0,	// Inactive redstone torch
+	      76 => 0,	// Active redstone torch
 	      77 => 0,	// Stone Button
-	      84 => 5,	// Jukebox
-	      88 => 13,	// Soul Sand
-	      90 => 247,	// Nether Portal
-	      93 => 171,	// Unpowered repeater
-	      94 => 171,	// Powered repeater
-	      97 => 1,	// Monster Egg
-	      113 => 139,	// Nether Brick Fence
-	      115 => 31,	// Nether Wart
-	      116 => 58,	// Enchanting Table
-	      117 => 20,	// Brewing Stand
-	      118 => 61,	// Cauldron
-	      119 => 247,	// End Portal
-	      122 => 173,	// Dragon Egg
-	      123 => 246,	// Redstone Lamp
-	      124 => 89,	// Lit Redstone Lamp
-	      125 => 157,	// Double Wooden Slab
-	      126 => 158,	// Wooden Slab
-	      130 => 54,	// Ender Chest
+	      84 => 0,	// Jukebox
+	      88 => 0,	// Soul Sand
+	      90 => 0,	// Nether Portal
+	      93 => 0,	// Unpowered repeater
+	      94 => 0,	// Powered repeater
+	      97 => 0,	// Monster Egg
+	      113 => 0,	// Nether Brick Fence
+	      115 => 0,	// Nether Wart
+	      116 => 0,	// Enchanting Table
+	      117 => 0,	// Brewing Stand
+	      118 => 0,	// Cauldron
+	      119 => 0,	// End Portal
+	      122 => 0,	// Dragon Egg
+	      123 => 0,	// Redstone Lamp
+	      124 => 0,	// Lit Redstone Lamp
+	      125 => 0,	// Double Wooden Slab
+	      126 => 0,	// Wooden Slab
+	      130 => 0,	// Ender Chest
 	      131 => 0,	// Tripwire Hook
 	      132 => 0,	// Tripwire
 	      137 => 0,	// Command Block
-	      138 => 89,	// Beacon
-	      140 => 2,	// Flower Pot
+	      138 => 0,	// Beacon
+	      140 => 0,	// Flower Pot
 	      143 => 0,	// Wooden Button
-	      144 => 91, // Skull
-	      145 => 49,	// anvil
-	      146 => 54,	// Trapped chest
-	      147 => 171, // Light pressure plate
-	      148 => 171,	// Heavy preassure plate
+	      144 => 0, // Skull
+	      145 => 0,	// anvil
+	      146 => 0,	// Trapped chest
+	      147 => 0, // Light pressure plate
+	      148 => 0,	// Heavy preassure plate
 	      149 => 0,	// Unpowered comparator
 	      150 => 0,	// Powered comparator
 	      151 => 0,	// Daylight detector
-	      152 => 74,	// Redstone block
-	      153 => 155,	// Nether Quartz Ore
+	      152 => 0,	// Redstone block
+	      153 => 0,	// Nether Quartz Ore
 	      154 => 0,	// Hopper
-	      160 => 102,	// Stained Glass Pane
-	      161 => 18,	// Acacia/Dark Oak Leaves
-	      162 => 17,	// Acacia/Dark Oak wood
-	      165 => 243,	// Slime block
-	      166 => 7,	// Barrier
-	      167 => 96,	// Iron Trapdoor
-	      168 => 20,	// Prismarine
-	      169 => 89,	// Sea lantern
-	      175 => 38,	// Large Flowers
-	      176 => 63,	// Standing banner
-	      177 => 68,	// Wall banner
+	      160 => 0,	// Stained Glass Pane
+	      161 => 0,	// Acacia/Dark Oak Leaves
+	      162 => 0,	// Acacia/Dark Oak wood
+	      165 => 0,	// Slime block
+	      166 => 0,	// Barrier
+	      167 => 0,	// Iron Trapdoor
+	      168 => 0,	// Prismarine
+	      169 => 0,	// Sea lantern
+	      175 => 0,	// Large Flowers
+	      176 => 0,	// Standing banner
+	      177 => 0,	// Wall banner
 	      178 => 0,	// Inverted Light Sensor
-	      179 => 24,	// Red Sandstone
-	      180 => 128,	// Red Sandstone stairs
-	      181 => 24,	// Double Red Sanstone slab
-	      182 => 44,	// Red Sandstone slab
+	      179 => 0,	// Red Sandstone
+	      180 => 0,	// Red Sandstone stairs
+	      181 => 0,	// Double Red Sanstone slab
+	      182 => 0,	// Red Sandstone slab
 	      ];
     for ($x = 198;$x <= 242;$x++) $btab[$x] = 0;
     $this->xtab = (new Config($this->getDataFolder()."config.yml",Config::YAML,$btab))->getall();
@@ -107,7 +110,13 @@ class Main extends Plugin implements CommandExecutor {
 	return true;
       }
       if (isset($args[0]) && isset($args[1])) {
-	$this->imImport($sender,$args[0],$args[1]);
+	if ($args[0] == '-c') {
+	  array_shift($args);
+	  $level = array_shift($args);
+	  $this->imCheck($sender,$level,$args);
+	} else {
+	  $this->imImport($sender,$args[0],$args[1]);
+	}
       } else {
 	$sender->sendMessage("Usage: im <path> <world>");
       }
@@ -117,6 +126,86 @@ class Main extends Plugin implements CommandExecutor {
     }
     return true;
   }
+  public function imCheck(CommandSender $c,$impath,$opts) {
+    $impath = preg_replace('/\/*$/',"",$impath).'/';
+    if (!is_dir($impath)) {
+      $c->sendMessage("$impath not found");
+      return;
+    }
+    $srcprovider = LevelProviderManager::getProvider($impath);
+    if (!$srcprovider) {
+      $c->sendMessage("$impath: Format not recognized");
+      return;
+    }
+    $srclevel = new Level($this->getServer(),basename($impath),$impath,$srcprovider);
+    $srcprovider = $srclevel->getProvider();
+
+    $c->sendMessage("Checking $impath");
+    $c->sendMessage("Path:  ".$srcprovider->getPath());
+    $c->sendMessage("Name:  ".$srcprovider->getName());
+    $c->sendMessage("Seed:  ".$srcprovider->getSeed());
+    $sp=$srcprovider->getSpawn();
+    $c->sendMessage("Spawn: ".implode(',',[$sp->getX(),$sp->getY(),$sp->getZ()]));
+    $c->sendMessage("Generator: ".$srcprovider->getGenerator());
+    $preset = $srcprovider->getGeneratorOptions();
+    $preset = $preset["preset"];
+    $c->sendMessage("Generator Presets: ".$preset);
+    list($loader,$ext) = $this->imMapLoader($srcprovider);
+    $files = glob($srcprovider->getPath()."/region/r*.$ext");
+    $regions = [];
+    foreach ($files as $f) {
+      $pp = [];
+      if (preg_match('/r\.(-?\d+)\.(-?\d+)\.'.$ext.'$/',$f,$pp)) {
+	array_shift($pp);
+	$regions[$pp[0].",".$pp[1]] = $pp;
+      }
+    }
+    $c->sendMessage("Loader: $loader ($ext)");
+    $txt = "Regions:";
+    foreach ($regions as $r) {
+      $txt .= " ".$r[0].",".$r[1];
+    }
+    $c->sendMessage($txt);
+    $c->sendMessage("-");
+    foreach ($opts as $r) {
+      if (!isset($regions[$r])) continue;
+      list($rX,$rZ) = $regions[$r];
+      $this->imCheckRegion($c,$srcprovider,$loader,$rX,$rZ);
+    }
+  }
+  private function imCheckRegion(CommandSender $c,$srcprovider,$ld,$rX,$rZ) {
+    $c->sendMessage("Region: $rX,$rZ");
+    $srcregion = new $ld($srcprovider,$rX,$rZ);
+    $chunks=0;
+    $populated=0;
+    $generated=0;
+    $entities=0;
+    $tiles=0;
+
+    for ($oX = 0; $oX < 32; $oX++) {
+      $cX = $rX * 32 + $oX;
+      for ($oZ = 0; $oZ < 32 ; $oZ++) {
+	$cZ = $rZ * 32 + $oZ;
+	if ($srcregion->chunkExists($oX,$oZ)) {
+	  ++$chunks;
+	  $srcchunk = $srcregion->readChunk($oX,$oZ,false,true);
+	  if ($srcchunk->isPopulated()) ++$populated;
+	  if ($srcchunk->isGenerated()) ++$generated;
+	  if ($srcchunk->isPopulated()) $srcchunk->initChunk();
+
+	  $entities += count($srcchunk->getEntities());
+	  $tiles += count($srcchunk->getTiles());
+	}
+      }
+    }
+    $c->sendMessage(".    chunks: $chunks");
+    $c->sendMessage(".    populated: $populated");
+    $c->sendMessage(".    generated: $generated");
+    $c->sendMessage(".    entities: $entities");
+    $c->sendMessage(".    tiles: $tiles");
+    unset($srcregion);
+  }
+
   public function imImport(CommandSender $c,$impath,$world) {
     if ($this->getServer()->isLevelGenerated($world)) {
       $c->sendMessage("$world already exists");
@@ -228,6 +317,10 @@ class Main extends Plugin implements CommandExecutor {
 	  if ($srcchunk->isPopulated() || $srcchunk->isGenerated()) {
 	    ++$copied;
 	    $dstchunk = $dstregion->readChunk($oX,$oZ,true,false);
+	    if ($srcchunk->isPopulated()) {
+	      $srcchunk->initChunk();
+	      $dstchunk->initChunk();
+	    }
 	    $conv += $this->imCopyChunk($c,$srcchunk,$dstchunk,$stats);
 	    $dstregion->writeChunk($dstchunk);
 	  }
@@ -240,7 +333,7 @@ class Main extends Plugin implements CommandExecutor {
     $c->sendMessage("Chunks:    $chunks");
     $c->sendMessage("Copied:    $copied");
     $c->sendMessage("Converted: $conv");
-    if (!$copied) {
+    if ($copied) {
       $c->sendMessage("BLOCK STATS:");
       $keys = array_keys($stats);
       sort($keys,SORT_NUMERIC);

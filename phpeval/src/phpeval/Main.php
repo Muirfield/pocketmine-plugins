@@ -17,10 +17,12 @@ class Main extends Plugin implements CommandExecutor {
 	return true;
       }
       // $sender->sendMessage("eval(".implode(' ',$args).")");
+      $server = $this->getServer();
+      $logger = $this->getLogger();
       $line = implode(" ",$args).";";
       if (substr($line,0,1) == "=") $line = "return ".substr($line,1);
       $ret = eval($line);
-      $sender->sendMessage($ret);
+      if ($ret != "") $sender->sendMessage($ret);
       break;
     default:
       return false;
