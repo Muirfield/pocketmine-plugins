@@ -3,6 +3,12 @@ pocketmine-plugins
 
 Repository for my PocketMine plugins
 
+Ideas
+-----
+
+* Create a Generator based of flat that creates infinite maze
+
+
 Copyright
 =========
 
@@ -25,6 +31,11 @@ Copyright
 
 Git Recipes
 ===========
+
+## Keep Dev in sync with master
+
+    git checkout <plugin>-dev
+    git merge --no-ff master
 
 ## Release
 
