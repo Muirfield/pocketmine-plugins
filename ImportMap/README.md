@@ -1,11 +1,22 @@
 ImportMap
 ==========
 
+* Summary: Import PC worlds
+* Dependency Plugins: n/a
+* PocketMine-MP version: 1.4 - API 1.10.0
+* OptionalPlugins: ManyWorlds
+* Categories: World Editing and Management
+* Plugin Access: Commands, World Editing, Manages Worlds
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ImportMap)
+
+Overview
+--------
+
 A very naive Plugin to import PC worlds.
 
 Basic Usage:
 
-* /im <path-to-map> <level>
+* /im *path-to-map* *level*
 
 Documentation
 -------------
@@ -29,12 +40,11 @@ able to run multiple Pocketmine servers on the same computer.
 
 ### Command:
 
-`im <path-to-map> <level>`
+im *path-to-map* *level*
 
 * path-to-map : Is the file path towards the location of a map.  By
   default the path is based from the PocketMine directory.
 * level : This is the name that the world be given.
-
 
 ### Configuration
 
@@ -53,8 +63,8 @@ for the values being used.
 
 * im.cmd.im - Allows users to import maps
 
-Issues
-------
+### Issues
+
 
 * Entities (mobs) and Tiles (signs, chests, etc) are not supported.  
   I tried to implement it here, but this would require to actually
@@ -65,13 +75,12 @@ Issues
 * An import will block the server.  I tried converting this to an
   AsyncTask but that was not very succesful.  I got threading problems.
 
-Changes
--------
+### Changes
 
 * 1.0.0 : First release
 
 Copyright
-=========
+---------
 
     ImportMap
     Copyright (C) 2015 Alejandro Liu  
