@@ -32,6 +32,11 @@ Copyright
 Git Recipes
 ===========
 
+## Keep Dev in sync with master
+
+    git checkout <plugin>-dev
+    git merge --no-ff master
+
 ## Release
 
     git checkout <plugin>-dev
