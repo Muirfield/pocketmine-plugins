@@ -3,6 +3,12 @@ pocketmine-plugins
 
 Repository for my PocketMine plugins
 
+Ideas
+-----
+
+* Create a Generator based of flat that creates infinite maze
+
+
 Copyright
 =========
 
@@ -26,6 +32,11 @@ Copyright
 Git Recipes
 ===========
 
+## Keep Dev in sync with master
+
+    git checkout <plugin>-dev
+    git merge --no-ff master
+
 ## Release
 
     git checkout <plugin>-dev
@@ -42,13 +53,13 @@ Git Recipes
     git merge --no-ff master
     # ... bump version number ...
     git commit -a -m"Bump version number"
-    git tag -aX.Y+1pre -m"New dev cycle"
+    git tag -a <plugin>-X.Y+1pre -m"New dev cycle"
     git push origin <plugin>-dev
     git push origin --tags
 
 ## Set-up
 
     git checkout -b <plugin>-dev master
-    git tag -a "X.Ypre" -m "Dev branch"
-    git push
+    git tag -a "<plugin>-X.Ypre" -m "Dev branch"
+    git push origin <plugin>-dev
     git push origin --tags

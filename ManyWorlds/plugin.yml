@@ -1,11 +1,11 @@
 main: ManyWorlds\Main
-api: 1.9.0
+api: 1.10.0
 load: POSTWORLD
 
 name: ManyWorlds
 description: Manage Multiple Worlds
 version: 1.0.0
-author: alejandroliu
+author: aliuly
 
 commands:
     mw:
