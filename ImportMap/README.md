@@ -10,12 +10,16 @@ Basic Usage:
 Documentation
 -------------
 
-This plugin imports Minecraft PC edition maps in McRegion or Anvil
-formats.  In addition it will convert blocks according to a
+This is a proof-of-concept plugin to import PC world maps into
+PocketMine-MP by converting blocks according to a
 configurable translation table.
 
+
+This plugin supports Minecraft PC edition maps in McRegion and Anvil
+formats.
+
 The way a world is imported is not very optimized, and may take
-awhile.  Also, while the import is running, the server may be
+a while.  Also, while the import is running, the server may be
 unavailable.
 
 Use this plugin with a Pocketmine server that is not in use and after
@@ -45,18 +49,26 @@ and
 [Minecraft PE data values](http://minecraft.gamepedia.com/Data_values_%28Pocket_Edition%29)
 for the values being used.
 
-Issues/Todo
-----------
-
-* Entities are unsupported
-* Tiles are not supported
-* Translations largely ignore block meta data
-* zip files
-* Anvil maps are silently truncated to be less than 128 blocks hi.
-
 ### Permission Nodes:
 
 * im.cmd.im - Allows users to import maps
+
+Issues
+------
+
+* Entities (mobs) and Tiles (signs, chests, etc) are not supported.  
+  I tried to implement it here, but this would require to actually
+  instanciate these objects in-game, which eventually leads to
+  core-dumps.
+* Anvil maps are silently truncated to be less than 128 blocks high.  
+  The PocketMine-MP core API only support Y dimensions for 0 to 127.
+* An import will block the server.  I tried converting this to an
+  AsyncTask but that was not very succesful.  I got threading problems.
+
+Changes
+-------
+
+* 1.0.0 : First release
 
 Copyright
 =========
