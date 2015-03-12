@@ -12,7 +12,7 @@ ImportMap
 Overview
 --------
 
-A very naive Plugin to import PC worlds.
+A plugin to import PC worlds.
 
 Basic Usage:
 
@@ -21,16 +21,17 @@ Basic Usage:
 Documentation
 -------------
 
-This is a proof-of-concept plugin to import PC world maps into
-PocketMine-MP by converting blocks according to a
-configurable translation table.
+This plugin imports PC world maps into PocketMine-MP by converting
+blocks according to a configurable translation table.
 
 This plugin supports Minecraft PC edition maps in McRegion and Anvil
 formats.
 
 The way a world is imported is not very optimized, and may take
-a while.  Also, while the import is running, the server may be
-unavailable.
+a while.
+
+Because the import does not run as an AsyncTask, while the import is
+running, the server may be unavailable.
 
 Use this plugin with a Pocketmine server that is not in use and after
 the import is done, copy the resulting files to the actual gaming
@@ -39,8 +40,11 @@ able to run multiple Pocketmine servers on the same computer.
 
 ### Command:
 
-im *path-to-map* *level*
+im [-s|-a] *path-to-map* *level*
 
+* -s : Run synchronously (default)
+* -a : Run as an Async task.  Make sure that you have sufficient
+  async workers.
 * path-to-map : Is the file path towards the location of a map.  By
   default the path is based from the PocketMine directory.
 * level : This is the name that the world be given.
@@ -62,25 +66,18 @@ for the values being used.
 
 * im.cmd.im - Allows users to import maps
 
-### Issues
+### Plugin Issues
 
-
-* Entities (mobs) and Tiles (signs, chests, etc) are not supported.  
-  I tried to implement it here, but this would require to actually
-  instanciate these objects in-game, which eventually leads to
-  core-dumps.
-* Anvil maps are silently truncated to be less than 128 blocks high.  
-  The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* An import will block the server.  I tried converting this to an
-  AsyncTask but that was not very succesful.  I got threading problems.
-
-### Todo
-
-* Make use of AsyncTask
+* An import will block the server.  The Async version for some reason
+  does not work.  I can't see what the problem is as no error message
+  is reported.
 
 Changes
 ------
 
+* 2.0.0 :
+  * Changed to `pmimporter` codebase.
+  * Created an initial `AsyncTask` implementation.
 * 1.0.0 : First release
 
 Copyright
