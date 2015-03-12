@@ -62,7 +62,7 @@ abstract class Copier {
     }
   }
 
-  static public function copyRegion($region,&$srcfmt,&$dstfmt,$cb) {
+  static public function copyRegion($region,&$srcfmt,&$dstfmt,$cb=null) {
     list($rX,$rZ) = $region;
     if (is_callable($cb)) call_user_func($cb,"CopyRegionStart","$rX,$rZ");
 
