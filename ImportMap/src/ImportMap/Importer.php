@@ -35,7 +35,6 @@ class Importer extends AsyncTask {
     LevelFormatManager::addFormat(McRegion::class);
   }
   public function __construct($srcpath,$dstpath,$fmt) {
-    echo ("construct ".__LINE__."\n");
     $this->srcpath = $srcpath;
     $this->dstpath = $dstpath;
     $this->srcformat = LevelFormatManager::getFormat($srcpath);
