@@ -59,6 +59,8 @@ FAQ
 Changes
 -------
 
+* 1.0.1 :
+  * BugFix: given an invalid player name to teleport would crash server.
 * 1.0.0 : Initial release
 
 Copyright
