@@ -30,21 +30,14 @@ formats.
 The way a world is imported is not very optimized, and may take
 a while.
 
-Because the import does not run as an AsyncTask, while the import is
-running, the server may be unavailable.
-
-Use this plugin with a Pocketmine server that is not in use and after
-the import is done, copy the resulting files to the actual gaming
-Pocketmine server.  If you change the ports being used, you should be
-able to run multiple Pocketmine servers on the same computer.
-
 ### Command:
 
-im [-s|-a] *path-to-map* *level*
+im version
 
-* -s : Run synchronously (default)
-* -a : Run as an Async task.  Make sure that you have sufficient
-  async workers.
+Show the version of the `pmimporter` framework.
+
+im *path-to-map* *level*
+
 * path-to-map : Is the file path towards the location of a map.  By
   default the path is based from the PocketMine directory.
 * level : This is the name that the world be given.
@@ -52,9 +45,16 @@ im [-s|-a] *path-to-map* *level*
 ### Configuration
 
 You can configure the translation.  This plugin will create a
-`config.yml` in its data directory.  This file contains pairs:
+`rules.txt` in its data directory.  The format of `rules.txt`
+contains:
 
-    source-block-id: target-block-id
+* comments, start with `;` or `#`.
+* `BLOCKS` - indicates the start of a blocks translation rules section.
+* `source-block = target-block` is a translation rule.  Any block of
+  type `source-block` is converted to `target-block`.
+
+There is a default set of conversion rules, but you can tweak it by
+modifying `rules.txt`.
 
 Please refer to
 [Minecraft PC data values](http://minecraft.gamepedia.com/Data_values)
@@ -68,16 +68,14 @@ for the values being used.
 
 ### Plugin Issues
 
-* An import will block the server.  The Async version for some reason
-  does not work.  I can't see what the problem is as no error message
-  is reported.
+* Depending on the map size, conversions can take some time.
 
 Changes
 ------
 
 * 2.0.0 :
   * Changed to `pmimporter` codebase.
-  * Created an initial `AsyncTask` implementation.
+  * Converted to `AsyncTask` implementation.
 * 1.0.0 : First release
 
 Copyright
