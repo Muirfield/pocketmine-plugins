@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(realpath(__FILE__)).'/classlib/autoload.php');
+if (!defined('CLASSLIB_DIR'))
+  require_once(dirname(realpath(__FILE__)).'/../classlib/autoload.php');
 
 use pocketmine\nbt\NBT;
 

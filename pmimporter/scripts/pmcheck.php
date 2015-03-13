@@ -1,12 +1,12 @@
 <?php
-require_once(dirname(realpath(__FILE__)).'/classlib/autoload.php');
+if (!defined('CLASSLIB_DIR'))
+  require_once(dirname(realpath(__FILE__)).'/../classlib/autoload.php');
 
 use pmimporter\LevelFormatManager;
 use pmimporter\anvil\Anvil;
 use pmimporter\mcregion\McRegion;
 use pmimporter\Chunk;
 use pmimporter\Blocks;
-
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
@@ -20,13 +20,14 @@ if (!is_dir($wpath)) die("$wpath: not found\n");
 $provider = LevelFormatManager::getFormat($wpath);
 if (!$provider) die("$wpath: Format not recognized\n");
 
-$fmt = new $provider($wpath);
+$fmt = new $provider($wpath,true);
 echo "Path:      ".$fmt->getPath().NL;
 echo "Name:      ".$fmt->getName().NL;
 echo "Format:    ".$fmt::getFormatName().NL;
 echo "Seed:      ".$fmt->getSeed().NL;
 echo "Generator: ".$fmt->getGenerator().NL;
-echo "GenOpts:   ".$fmt->getGeneratorOptions()->preset.NL;
+$opts = $fmt->getGeneratorOptions();
+if (isset($opts["preset"])) echo "GenOpts:   ".$opts["preset"].NL;
 $spawn = $fmt->getSpawn();
 echo "Spawn:     ".implode(',',[$spawn->getX(),$spawn->getY(),$spawn->getZ()]).NL;
 
@@ -99,7 +100,10 @@ foreach ($argv as $ppx) {
       if ($region->chunkExists($oX,$oZ)) {
 	++$chunks;
 	$chunk = $region->readChunk($oX,$oZ);
-	if ($chunk) analyze_chunk($chunk,$stats);
+	if ($chunk)
+	  analyze_chunk($chunk,$stats);
+	else
+	  echo "Unable to read chunk: $oX,$oZ\n";
       }
     }
   } else {

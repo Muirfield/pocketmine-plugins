@@ -22,7 +22,11 @@ abstract class Blocks {
     if (count(self::$blockIds)) return; // Only read them once...
 
     // Read block definitions
-    $fp = fopen(dirname(realpath(__FILE__))."/blocks.txt","r");
+    if (defined('CLASSLIB_DIR')) {
+      $fp = fopen(CLASSLIB_DIR."pmimporter/blocks.txt","r");
+    } else {
+      $fp = fopen(dirname(realpath(__FILE__))."/blocks.txt","r");
+    }
     if ($fp) {
       while (($ln = fgets($fp)) !== false) {
 	if (preg_match('/^\s*[#;]/',$ln)) continue; // Skip comments

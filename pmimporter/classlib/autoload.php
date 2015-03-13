@@ -1,7 +1,11 @@
 <?php
-define('CLASSLIB_DIR',dirname(realpath(__FILE__)).'/');
-define('EXTERNAL_OVL',dirname(CLASSLIB_DIR).'/ovl/');
-define('EXTERNAL_PM',dirname(CLASSLIB_DIR).'/pocketmine/');
+if (!defined('CLASSLIB_DIR')) {
+  define('CLASSLIB_DIR',dirname(realpath(__FILE__)).'/');
+  define('EXTERNAL_OVL',dirname(CLASSLIB_DIR).'/ovl/');
+  define('EXTERNAL_PM',dirname(CLASSLIB_DIR).'/pocketmine/');
+  // Report all PHP errors
+  error_reporting(E_ALL);
+}
 
 function __autoload($classname) {
   //echo "autoload $classname\n";

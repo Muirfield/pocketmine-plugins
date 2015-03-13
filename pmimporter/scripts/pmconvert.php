@@ -1,10 +1,11 @@
 <?php
-require_once(dirname(realpath(__FILE__)).'/classlib/autoload.php');
+if (!defined('CLASSLIB_DIR'))
+  require_once(dirname(realpath(__FILE__)).'/../classlib/autoload.php');
+
 use pmimporter\LevelFormatManager;
 use pmimporter\anvil\Anvil;
 use pmimporter\mcregion\McRegion;
 use pmimporter\Copier;
-
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
@@ -59,15 +60,13 @@ $dstformat::generate($dstpath,basename($dstpath),
 		     $srcfmt->getGenerator(),
 		     $srcfmt->getGeneratorOptions());
 
-$dstfmt = new $dstformat($dstpath);
-
-
+$dstfmt = new $dstformat($dstpath,false);
 
 //////////////////////////////////////////////////////////////////////
 function pmconvert_status($state,$data) {
   switch ($state) {
   case "CopyRegionStart":
-    echo "  Reg: $data ";
+    echo "  Reg: $data\n";
     break;
   case "CopyChunk":
     echo ".";
