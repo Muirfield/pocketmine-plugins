@@ -10,12 +10,14 @@ use pocketmine\nbt\tag\Compound;
 abstract class BaseFormat implements LevelFormat {
   protected $path;
   protected $levelData;
+  protected $readOnly;
 
   /**
    * @param string $path
    */
-  public function __construct($path) {
-    if (!is_dir($path)) 
+  public function __construct($path,$ro=true) {
+    $this->readOnly = $ro;
+    if (!is_dir($path))
       throw new ImporterException("$path: path does not exist\n");
     $path = preg_replace('/\/*$/',"",$path).'/';
     $this->path = $path;

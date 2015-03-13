@@ -36,6 +36,6 @@ class Anvil extends McRegion {
   }
 
   public function getRegion($x,$z) {
-    return new RegionLoader($this,$x,$z);
+    return new RegionLoader($this,$x,$z,"mca",$this->readOnly);
   }
 }

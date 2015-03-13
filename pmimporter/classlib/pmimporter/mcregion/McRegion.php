@@ -74,6 +74,6 @@ class McRegion extends BaseFormat {
   }
 
   public function getRegion($x,$z) {
-    return new RegionLoader($this,$x,$z);
+    return new RegionLoader($this,$x,$z,"mcr",$this->readOnly);
   }
 }

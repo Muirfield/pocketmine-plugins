@@ -15,7 +15,7 @@ abstract class Copier {
       for ($z=0;$z < 16;$z++) {
 	for ($y=0;$y < 128;$y++) {
 	  list($id,$meta) = $src->getBlock($x,$y,$z);
-	  if ($id !== Blocks::xlateBlock($id)) ++$converted;
+	  // if ($id !== Blocks::xlateBlock($id)) ++$converted;
 	  $id = Blocks::xlateBlock($id);
 	  $dst->setBlock($x,$y,$z,$id,$meta);
 	  $dst->setBlockSkyLight($x,$y,$z,$src->getBlockSkyLight($x,$y,$z));
@@ -84,7 +84,6 @@ abstract class Copier {
 	}
       }
     }
-    $dstregion->doSlowCleanUp();
     $dstregion->close();
     $srcregion->close();
     if (is_callable($cb)) call_user_func($cb,"CopyRegionDone","$rX,$rZ");
