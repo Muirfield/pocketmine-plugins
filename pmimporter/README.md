@@ -15,6 +15,8 @@ unsupported blocks.
 * pmlevel - manipulate some level.dat settings
 * nbtdump - Dump the contents of NBT files
 * plugin - PocketMine plugin version
+* dumpchunk - Extract an specific chunk from a map so it can be
+  processed by nbtdump.
 
 Description
 -----------
@@ -69,6 +71,16 @@ The following attributes are supported:
 
 Dumps the contents of an `NBT` formatted file.
 
+	dumpchunk worldpath rX,rY:cX,cY
+
+Arguments are simmilar to `pmcheck`.
+
+* `worldpath` : Directory path to world to analyze.
+* `rX,rZ` : Region X,Z coordinates.
+* `:cX,cZ` : Specify individual chunks (in Chunk offsets, from 0 to
+  31) to dump.
+
+
 Installation
 ------------
 
@@ -80,10 +92,8 @@ Requirements:
 * This software has only been tested on Linux
 * PHP v5.6.0
 * PHP CLI API
-* PocketMine-MP v1.4 (API 1.11) source.
 
-Extract the sources to a directory.  Create a symlink called
-`pocketmine-src` to the `PocketMine-MP/src/pocketmine` directory.
+
 
 Configuration
 -------------
@@ -104,7 +114,8 @@ Issues and Bugs
 * TODO: Anvil output
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* Create a PocketMine-MP plugin
+* Entities are copied but they don't show up.
+* Tiles are copied but they don't show up.
 
 Changes
 ------
