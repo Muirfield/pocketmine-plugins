@@ -72,6 +72,10 @@ class Main extends Plugin implements CommandExecutor {
     if (isset($args[2])) {
       // Teleport others
       $player = $this->getServer()->getPlayer($args[2]);
+      if (!$player) {
+	$sender->sendMessage("[MW] Player ".$args[2]." can not be found");
+	return true;
+      }
       if($this->checkPermission($sender, "universe.cmd.tp.others")) {
 	if ($player->isOnline()) {
 	  if($player->getLevel() == $this->getServer()->getLevelByName($level)) {
