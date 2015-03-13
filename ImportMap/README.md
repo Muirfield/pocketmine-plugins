@@ -12,7 +12,7 @@ ImportMap
 Overview
 --------
 
-A very naive Plugin to import PC worlds.
+A plugin to import PC worlds.
 
 Basic Usage:
 
@@ -21,23 +21,20 @@ Basic Usage:
 Documentation
 -------------
 
-This is a proof-of-concept plugin to import PC world maps into
-PocketMine-MP by converting blocks according to a
-configurable translation table.
+This plugin imports PC world maps into PocketMine-MP by converting
+blocks according to a configurable translation table.
 
 This plugin supports Minecraft PC edition maps in McRegion and Anvil
 formats.
 
 The way a world is imported is not very optimized, and may take
-a while.  Also, while the import is running, the server may be
-unavailable.
-
-Use this plugin with a Pocketmine server that is not in use and after
-the import is done, copy the resulting files to the actual gaming
-Pocketmine server.  If you change the ports being used, you should be
-able to run multiple Pocketmine servers on the same computer.
+a while.
 
 ### Command:
+
+im version
+
+Show the version of the `pmimporter` framework.
 
 im *path-to-map* *level*
 
@@ -48,9 +45,16 @@ im *path-to-map* *level*
 ### Configuration
 
 You can configure the translation.  This plugin will create a
-`config.yml` in its data directory.  This file contains pairs:
+`rules.txt` in its data directory.  The format of `rules.txt`
+contains:
 
-    source-block-id: target-block-id
+* comments, start with `;` or `#`.
+* `BLOCKS` - indicates the start of a blocks translation rules section.
+* `source-block = target-block` is a translation rule.  Any block of
+  type `source-block` is converted to `target-block`.
+
+There is a default set of conversion rules, but you can tweak it by
+modifying `rules.txt`.
 
 Please refer to
 [Minecraft PC data values](http://minecraft.gamepedia.com/Data_values)
@@ -62,25 +66,16 @@ for the values being used.
 
 * im.cmd.im - Allows users to import maps
 
-### Issues
+### Plugin Issues
 
-
-* Entities (mobs) and Tiles (signs, chests, etc) are not supported.  
-  I tried to implement it here, but this would require to actually
-  instanciate these objects in-game, which eventually leads to
-  core-dumps.
-* Anvil maps are silently truncated to be less than 128 blocks high.  
-  The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* An import will block the server.  I tried converting this to an
-  AsyncTask but that was not very succesful.  I got threading problems.
-
-### Todo
-
-* Make use of AsyncTask
+* Depending on the map size, conversions can take some time.
 
 Changes
 ------
 
+* 2.0.0 :
+  * Changed to `pmimporter` codebase.
+  * Converted to `AsyncTask` implementation.
 * 1.0.0 : First release
 
 Copyright
