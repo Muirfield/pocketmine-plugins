@@ -113,6 +113,7 @@ using `rules`.
 References
 ----------
 
+* [Block defintions](https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/pmimporter/classlib/pmimporter/blocks.txt)
 * [Minecraft PC data values](http://minecraft.gamepedia.com/Data_values)
 * [Minecraft PE data values](http://minecraft.gamepedia.com/Data_values_%28Pocket_Edition%29)
 
