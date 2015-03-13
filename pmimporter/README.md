@@ -14,14 +14,13 @@ unsupported blocks.
 * pmcheck - read world maps and analyze the block, object composition
 * pmlevel - manipulate some level.dat settings
 * nbtdump - Dump the contents of NBT files
-* plugin - PocketMine plugin version
 * dumpchunk - Extract an specific chunk from a map so it can be
   processed by nbtdump.
 
 Description
 -----------
 
-A series of scripts used for importing Minecraft PC world maps in
+A collection of tools used for importing Minecraft PC world maps in
 Anvil and McRegion formats into PocketMine.  It does it by converting
 unsupported blocks and eliminating unsupported entities.  These
 unsupported features when used on a Minecraft PE client would cause
@@ -30,10 +29,11 @@ the game to crash.
 Command Usage
 -------------
 
-	pmconvert [-t count] [-f format] srcpath dstpath
+	pmconvert [-c rules.txt ] [-t count] [-f format] srcpath dstpath
 
 Converts maps.
 
+* `-c rules` : Specify a rules conversion file.
 * `-t count` : Specifies the number of threads to run.
 * `-f format` : Specifies the output format.  Defaults to `mcregion`.
 * `srcpath` : Directory path to the source world.
@@ -93,14 +93,22 @@ Requirements:
 * PHP v5.6.0
 * PHP CLI API
 
-
+Download the `pmimporter.phar` file, and run.
 
 Configuration
 -------------
 
-In the directory `classlib/pmimporter` there is a file called
-`blocks.txt`.  This file contains block definitions and default
-translations.
+You can configure the translation by providing a `rules` file and
+passing it to `pmcovert` with the `-c` option. The format of `rules.txt`
+is as follows:
+
+* comments, start with `;` or `#`.
+* `BLOCKS` - indicates the start of a blocks translation rules section.
+* `source-block = target-block` is a translation rule.  Any block of
+  type `source-block` is converted to `target-block`.
+
+There is a default set of conversion rules, but you can tweak it by
+using `rules`.
 
 References
 ----------
@@ -111,11 +119,10 @@ References
 Issues and Bugs
 ---------------
 
-* TODO: Anvil output
+* TODO: Anvil output.
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* Entities are copied but they don't show up.
-* Tiles are copied but they don't show up.
+
 
 Changes
 ------

@@ -158,11 +158,10 @@ abstract class RegionLoader {
     $this->locationTable[$index][0] = $this->lastSector;
     $this->locationTable[$index][1] = $sectors;
     $this->locationTable[$index][2] = time();
+    $this->lastSector += $sectors;
 
     fseek($this->filePointer, $this->locationTable[$index][0] << 12);
     fwrite($this->filePointer, str_pad(Binary::writeInt($length) . chr(self::COMPRESSION_ZLIB) . $data, $sectors << 12, "\x00", STR_PAD_RIGHT));
     // Don't update locationTable until the very end!
   }
 }
-
-

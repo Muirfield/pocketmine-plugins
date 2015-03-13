@@ -6,6 +6,7 @@ use pmimporter\LevelFormatManager;
 use pmimporter\anvil\Anvil;
 use pmimporter\mcregion\McRegion;
 use pmimporter\Copier;
+use pmimporter\Blocks;
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
@@ -19,6 +20,11 @@ while (count($argv)) {
     array_shift($argv);
     $dstformat = array_shift($argv);
     if (!isset($dstformat)) die("No format specified\n");
+  } elseif ($argv[0] == "-c") {
+    array_shift($argv);
+    $rules = array_shift($argv);
+    if (!isset($rules)) die("No rules file specified\n");
+    loadRules($rules);
   } elseif ($argv[0] == "-t") {
     array_shift($argv);
     $threads = array_shift($argv);
@@ -63,6 +69,46 @@ $dstformat::generate($dstpath,basename($dstpath),
 $dstfmt = new $dstformat($dstpath,false);
 
 //////////////////////////////////////////////////////////////////////
+function loadRules($file) {
+  $fp = fopen($file,"r");
+  if ($fp === false) die("$file: Unable to open file\n");
+  $state = 'blocks';
+  while (($ln = fgets($fp)) !== false) {
+    $ln = preg_replace('/^\s+/','',$ln);
+    $ln = preg_replace('/\s+$/','',$ln);
+    if ($ln == '') continue;
+    if (preg_match('/^[;#]/',$ln)) continue;
+    if (strtolower($ln) == 'blocks') {
+      $state = 'blocks';
+    } elseif (strtolower($ln) == 'tiles') {
+      die("Unsupported ruleset: tiles\n");
+    } elseif (strtolower($ln) == 'entities') {
+      die("Unsupported ruleset: entities\n");
+    } else {
+      if ($state == 'blocks') {
+	$pp = preg_split('/(\s|=)+/',$ln);
+	if (count($pp) == 1) {
+	  echo("Error parsing line: $ln[0]\n");
+	  continue;
+	} else {
+	  for ($i=0;$i<2;++$i) {
+	    if (is_numeric($pp[$i])) continue;
+	    $pp[$i] = Blocks::getBlockByName($pp[$i]);
+	    if ($pp[$i] === null) {
+	      echo("Unknown block type: $ln\n");
+	      continue;
+	    }
+	  }
+	  Blocks::addRule($pp[0],$pp[1]);
+	}
+      } else {
+	die("Invalid internal state: $state\n");
+      }
+    }
+  }
+  fclose($fp);
+}
+
 function pmconvert_status($state,$data) {
   switch ($state) {
   case "CopyRegionStart":

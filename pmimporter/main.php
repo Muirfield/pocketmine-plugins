@@ -8,5 +8,5 @@ require_once(CLASSLIB_DIR.'autoload.php');
 if (is_readable("phar://pmimporter.phar/scripts/$argv[0].php")) {
   require_once("phar://pmimporter.phar/scripts/$argv[0].php");
 } else {
-  die("Unknown sub-command $argv[0]\n");
+  die("Unknown sub-command $argv[0].  Use \"help\"\n");
 }

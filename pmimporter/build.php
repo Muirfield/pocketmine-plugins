@@ -2,6 +2,7 @@
 /*
  * Build script
  */
+error_reporting(E_ALL);
 
 $p = new Phar('pmimporter.phar',
 	      FilesystemIterator::CURRENT_AS_FILEINFO
@@ -28,7 +29,11 @@ foreach (glob('scripts/*.php') as $f) {
   $f = preg_replace('/\.php$/','',$f);
   $help .= "\t$f\n";
 }
+$help .= "\tversion\n";
+$help .= "\treadme\n";
 $p['scripts/help.php'] = $help;
+$p['scripts/version.php'] = file_get_contents('version.txt');
+$P['scripts/readme.php'] = file_get_contents('README.md');
 
 $dirs=['classlib','scripts'];
 while(count($dirs)) {
@@ -49,16 +54,8 @@ while(count($dirs)) {
   }
   closedir($dh);
 }
-
-
-//Adding files to the archive
-$p['text.txt'] = 'This is a text file';
-//Adding files to an archive using Phar::buildFromDirectory()
-//adds all of the PHP files in the stated directory to the Phar archive
-//$p->buildFromDirectory('classlib/', '$(.*)\.php$');
+$p->compressFiles(Phar::GZ);
 
 //Stop buffering write requests to the Phar archive, and save changes to disk
 $p->stopBuffering();
 //echo "my.phar archive has been saved";
-
-?>
