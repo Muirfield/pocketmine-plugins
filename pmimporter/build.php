@@ -32,7 +32,7 @@ foreach (glob('scripts/*.php') as $f) {
 $help .= "\tversion\n";
 $help .= "\treadme\n";
 $p['scripts/help.php'] = $help;
-$p['scripts/version.php'] = file_get_contents('version.txt');
+$p['scripts/version.php'] = "<?php echo PMIMPORTER_VERSION.NL;";
 $P['scripts/readme.php'] = file_get_contents('README.md');
 
 $dirs=['classlib','scripts'];

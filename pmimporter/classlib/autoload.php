@@ -34,7 +34,9 @@ define("ENDIANNESS", (pack("d", 1) === "\77\360\0\0\0\0\0\0" ? 0x00 : 0x01));
 define("INT32_MASK", is_int(0xffffffff) ? 0xffffffff : -1);
 
 define("NL","\n");
-define("PMIMPORTER_VERSION","1.0");
+
+define("PMIMPORTER_VERSION",preg_replace('/^\s+/','',preg_replace('/\s+$/','',file_get_contents(CLASSLIB_DIR.'version.txt')))
+);
 
 if(version_compare("5.6.0", PHP_VERSION) > 0)
   die("PHP Version >5.6.0 required - (".PHP_VERSION.")\n");
