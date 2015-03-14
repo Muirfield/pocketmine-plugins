@@ -39,10 +39,15 @@ Show the version of the `pmimporter` framework.
 im *path-to-map* *level*
 
 * path-to-map : Is the file path towards the location of a map.  By
-  default the path is based from the PocketMine directory.
+  default the path is based from the PocketMine directory.  You can
+  also use a absolute path name.
 * level : This is the name that the world be given.
 
 ### Configuration
+
+It is recommended that you increase the `async-workers` value to
+something other than `1`.  This setting is in `pocketmine.yml`, in hte
+`settings` section.
 
 You can configure the translation.  This plugin will create a
 `rules.txt` in its data directory.  The format of `rules.txt`
