@@ -5,7 +5,7 @@ ImportMap
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * OptionalPlugins: ManyWorlds
-* Categories: World Editing and Management
+* Categories: World Editing and Management, Admin Tools
 * Plugin Access: Commands, World Editing, Manages Worlds
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ImportMap)
 
@@ -55,6 +55,10 @@ contains:
 
 There is a default set of conversion rules, but you can tweak it by
 modifying `rules.txt`.
+
+Please look in
+[blocks.txt](https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/pmimporter/classlib/pmimporter/blocks.txt)
+for block definitions.
 
 Please refer to
 [Minecraft PC data values](http://minecraft.gamepedia.com/Data_values)
