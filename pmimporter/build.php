@@ -33,7 +33,7 @@ $help .= "\tversion\n";
 $help .= "\treadme\n";
 $p['scripts/help.php'] = $help;
 $p['scripts/version.php'] = "<?php echo PMIMPORTER_VERSION.NL;";
-$P['scripts/readme.php'] = file_get_contents('README.md');
+$p['scripts/readme.php'] = file_get_contents('README.md');
 
 $dirs=['classlib','scripts'];
 while(count($dirs)) {
