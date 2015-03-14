@@ -1,3 +1,10 @@
+;
+; Block definition table
+;
+; Ids used in Minecraft PE are > 0.
+; Ids not used by Minecraft PE (defined in PC edition) are < 0.
+;
+;Id	Name			Conversion
 0	Air
 1	Stone
 2	GrassBlock

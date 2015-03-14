@@ -56,6 +56,11 @@ FAQ
   where specifying a `generator` is called incorrectly.
 
 
+TODO
+----
+
+* When teleporting to a new world show a motd.txt in the directory.
+
 Changes
 -------
 
