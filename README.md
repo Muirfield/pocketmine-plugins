@@ -3,11 +3,18 @@ pocketmine-plugins
 
 Repository for my PocketMine plugins
 
-Ideas
------
+## Available Plugins
 
-* Create a Generator based of flat that creates infinite maze
+* NotSoFlat - *Outdated*!
+* ImportMap - Imports maps into PocketMine-MP.
+* ManyWorlds - a multiple world implementation.
+* phpeval - Execute PHP directly.
+* SignWarp - A sign based teleport facility.
 
+## Available Tools
+
+* rcon - An rcon client.
+* pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
 
 Copyright
 =========
@@ -63,3 +70,10 @@ Git Recipes
     git tag -a "<plugin>-X.Ypre" -m "Dev branch"
     git push origin <plugin>-dev
     git push origin --tags
+
+
+Ideas
+-----
+
+* Create a Generator based of flat that creates infinite maze
+* Port the Minetest Map Generator
