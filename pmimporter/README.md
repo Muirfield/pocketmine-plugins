@@ -110,6 +110,36 @@ is as follows:
 There is a default set of conversion rules, but you can tweak it by
 using `rules`.
 
+FAQ
+---
+
+* Q: Why tall builds seem to be chopped off at te top?
+* A: That is a limitation of Pocket Edition.  It only supports chunks
+  that are up to 128 blocks high, while the PC edition Anvil worlds
+  can support more.
+* Q: Why my Anvil format file is not recognized?
+* A: That happens with Anvil files that were converted from an
+  McRegion file.  These files contain both `.mcr` and .`mca` files.
+  These confuses the File format recognizer.  You need to delete the
+  `.mcr` files so the world is recognized as in Anvil format.
+* Q: Why I experience glitches when I enter a new world?
+* A: This is a Minecraft Pocket Edition limitation.  This is made
+  worse by spawning into a very large chunk (usually very detailed
+  builds). My recommendation is to change the spawn point to a very
+  flat (boring) area.  Sometimes exting and re-entering the game
+  helps.
+* Q: Why I get corrupted chunks after I modify some (very detailed) areas?
+* A: The current release of PocketMine-MP (1.4) has a bug where large
+  chunks get overlapped causing chunk corruption.
+* Q: Why I see some blocks that are not in the original map?
+* A: These have to do with how the translation happens.  There are
+  blocks that are not supported by Minecraft Pocket Edition.  These
+  need to be map to a block supported by MCPE.  You can tweak this by
+  modifying the conversion rules.
+* Q: Why do converted maps overload my server?
+* A: Detailed maps need to be uncompressed by the server.  These take
+  an additional load on the server.
+
 References
 ----------
 
