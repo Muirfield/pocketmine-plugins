@@ -5,11 +5,13 @@ if (!defined('CLASSLIB_DIR'))
 use pmimporter\LevelFormatManager;
 use pmimporter\anvil\Anvil;
 use pmimporter\mcregion\McRegion;
+use pmimporter\mcpe020\McPe020;
 use pmimporter\Copier;
 use pmimporter\Blocks;
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
+LevelFormatManager::addFormat(McPe020::class);
 
 define('CMD',array_shift($argv));
 $dstformat = "mcregion";

@@ -26,6 +26,9 @@ unsupported blocks and eliminating unsupported entities.  These
 unsupported features when used on a Minecraft PE client would cause
 the game to crash.
 
+As a bonus, it also supports importing maps from Minecraft Pocket Edition 0.8.1
+or earlier.
+
 Command Usage
 -------------
 
@@ -151,7 +154,6 @@ Issues and Bugs
 ---------------
 
 * TODO: Anvil output.
-* TODO: Input old MCPE pre-0.9 maps
 * TODO: Input old PM v1.3 maps
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
@@ -159,6 +161,9 @@ Issues and Bugs
 
 Changes
 ------
+
+* 1.1?:
+  * Added support for maps from Minecraft Pocket Edition 0.8.1 or earlier.
 
 * 1.0 : First release
 
