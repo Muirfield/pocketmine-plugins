@@ -5,11 +5,15 @@ if (!defined('CLASSLIB_DIR'))
 use pmimporter\LevelFormatManager;
 use pmimporter\anvil\Anvil;
 use pmimporter\mcregion\McRegion;
+use pmimporter\mcpe020\McPe020;
+use pmimporter\pm13\Pm13;
 use pmimporter\Chunk;
 use pmimporter\Blocks;
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
+LevelFormatManager::addFormat(McPe020::class);
+LevelFormatManager::addFormat(Pm13::class);
 
 define('CMD',array_shift($argv));
 $wpath=array_shift($argv);
@@ -50,8 +54,6 @@ function incr(&$stats,$attr) {
 function analyze_chunk(Chunk $chunk,&$stats) {
   if ($chunk->isPopulated()) incr($stats,"-populated");
   if ($chunk->isGenerated()) incr($stats,"-generated");
-
-  $signs = false;
 
   for ($x = 0;$x < 16;$x++) {
     for ($z=0;$z < 16;$z++) {
