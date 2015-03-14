@@ -10,7 +10,7 @@ abstract class RegionLoader {
   const COMPRESSION_GZIP = 1;
   const COMPRESSION_ZLIB = 2;
   const MAX_SECTOR_LENGTH = 256 << 12; //256 sectors, (1 MB)
-  public static $COMPRESSION_LEVEL = 7;
+  public static $COMPRESSION_LEVEL = 9;
 
   protected $x;
   protected $z;
