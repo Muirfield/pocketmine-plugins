@@ -151,6 +151,8 @@ Issues and Bugs
 ---------------
 
 * TODO: Anvil output.
+* TODO: Input old MCPE pre-0.9 maps
+* TODO: Input old PM v1.3 maps
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
 
