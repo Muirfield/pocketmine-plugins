@@ -75,3 +75,5 @@ Ideas
 
 * Create a Generator based of flat that creates infinite maze
 * Port the Minetest Map Generator
+* MW: Show motd.txt on teleport and also add a "readme" to show it.
+* MW: ls should split into pages.
