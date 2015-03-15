@@ -55,19 +55,17 @@ Git Recipes
     # ... Test phar ...
     git commit -a -m'preparing <plugin> release X.Y'
     git tag -a <plugin>-X.Yrel -m'Release X.Y'
+    git push origin --tags
     git push
     git checkout <plugin>-dev
     git merge --no-ff master
     # ... bump version number ...
     git commit -a -m"Bump version number"
-    git tag -a <plugin>-X.Y+1pre -m"New dev cycle"
-    git push origin <plugin>-dev
-    git push origin --tags
+    git push origin
 
 ## Set-up
 
     git checkout -b <plugin>-dev master
-    git tag -a "<plugin>-X.Ypre" -m "Dev branch"
     git push origin <plugin>-dev
     git push origin --tags
 

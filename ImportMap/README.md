@@ -30,6 +30,14 @@ formats.
 The way a world is imported is not very optimized, and may take
 a while.
 
+This Plugin calls
+[pmimporter](https://github.com/alejandroliu/pocketmine-plugins/tree/master/pmimporter)
+to do the heavy lifting.  Since this operation is not something you
+would do while playing Minecraft, I recommend using `pmimporter`
+directly from the command line instead.  Under Linux, `pmimporter` can
+use multiple threads which can speed-up things significantly.
+
+
 ### Command:
 
 im version
