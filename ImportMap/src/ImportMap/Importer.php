@@ -13,7 +13,7 @@ class Importer extends AsyncTask {
     $this->setResult("ABORTED!");
     $args = unserialize($this->args);
     $start = time();
-    $cmd = PHP_BINARY;
+    $cmd = escapeshellarg(PHP_BINARY);
     // Configure PHAR file
     $args[0] = $args[0].'pmimporter.phar';
     foreach ($args as $v) {
