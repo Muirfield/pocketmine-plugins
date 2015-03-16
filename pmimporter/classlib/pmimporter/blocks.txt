@@ -75,9 +75,9 @@
 67	CobblestoneStairs
 68	WallSign
 -69	Lever			0
--70	StonePressurePlate	1
+-70	StonePressurePlate	0
 71	IronDoor
--72	WoodenPressurePlate	5
+-72	WoodenPressurePlate	0
 73	RedstoneOre
 74	GlowingRedstoneOre
 -75	InactiveRedstoneTorch	50
@@ -136,7 +136,7 @@
 128	SandstoneStairs
 129	EmeraldOre
 -130	EnderChest		248
--131	TripwireHook		248
+-131	TripwireHook		0
 -132	Tripwire		0
 133	BlockofEmerald
 134	SpruceWoodStairs
