@@ -41,7 +41,7 @@ class Pm13 implements LevelFormat {
     return "flat";
   }
   public function getGeneratorOptions() {
-    return ["preset"=>""];
+    return ["preset"=>"2;7,55x1,9x3,2;1;"];
   }
 
   public static function getFormatName() { return "PMF_1.3"; }

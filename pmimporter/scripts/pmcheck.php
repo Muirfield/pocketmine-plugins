@@ -9,6 +9,9 @@ use pmimporter\mcpe020\McPe020;
 use pmimporter\pm13\Pm13;
 use pmimporter\Chunk;
 use pmimporter\Blocks;
+use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\Int;
+
 
 LevelFormatManager::addFormat(Anvil::class);
 LevelFormatManager::addFormat(McRegion::class);
@@ -61,15 +64,41 @@ function analyze_chunk(Chunk $chunk,&$stats) {
 	list($id,$meta) = $chunk->getBlock($x,$y,$z);
 	incr($stats,$id);
       }
+      $height = $chunk->getHeightMap($x,$z);
+      if (!isset($stats["Height:Max"])) {
+	$stats["Height:Max"] = $height;
+      } elseif ($height > $stats["Height:Max"]) {
+	$stats["Height:Max"] = $height;
+      }
+      if (!isset($stats["Height:Min"])) {
+	$stats["Height:Min"] = $height;
+      } elseif ($height < $stats["Height:Min"]) {
+	$stats["Height:Min"] = $height;
+      }
+      if (!isset($stats["Height:Sum"])) {
+	$stats["Height:Sum"] = $height;
+      } else {
+	$stats["Height:Sum"] += $height;
+      }
+      incr($stats,"Height:Count");
     }
   }
   foreach ($chunk->getEntities() as $entity) {
     if (!isset($entity->id)) continue;
     incr($stats,"ENTITY:".$entity->id->getValue());
+    //print_r($entity);
   }
   foreach ($chunk->getTileEntities() as $tile) {
     if (!isset($tile->id)) continue;
     incr($stats,"TILE:".$tile->id->getValue());
+    if (isset($tile->id)) {
+      echo $tile->id->getValue();
+      echo "..X-Offset: ".$tile->x->getValue()."\n";
+      echo "..Y-Offset: ".$tile->y->getValue()."\n";
+      $tile->y = new Int("y",55);
+      echo "..Y-Offset: ".$tile->y->getValue()."\n";
+      echo "..Z-Offset: ".$tile->z->getValue()."\n";
+    }
   }
 }
 
@@ -127,6 +156,11 @@ foreach ($argv as $ppx) {
   echo "\n";
   unset($region);
   echo "  Chunks:\t$chunks\n";
+  if (isset($stats["Height:Count"]) && isset($stats["Height:Sum"])) {
+    $stats["Height:Avg"] = $stats["Height:Sum"]/$stats["Height:Count"];
+    unset($stats["Height:Count"]);
+    unset($stats["Height:Sum"]);
+  }
   $sorted = array_keys($stats);
   natsort($sorted);
   foreach ($sorted as $k) {

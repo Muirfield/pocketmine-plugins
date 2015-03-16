@@ -39,6 +39,7 @@ Converts maps.
 * `-c rules` : Specify a rules conversion file.
 * `-t count` : Specifies the number of threads to run.
 * `-f format` : Specifies the output format.  Defaults to `mcregion`.
+* `-o offset` : Specifies the y-offset for the import.
 * `srcpath` : Directory path to the source world.
 * `dstpath` : Directory path to create the new world.
 
@@ -162,10 +163,12 @@ Issues and Bugs
 Changes
 ------
 
+* 1.2:
+  * pmcheck: show height map statistics.
+  * pmconvert: offset y coordinates
 * 1.1: OldSkool release
   * Added support for maps from Minecraft Pocket Edition 0.8.1 or earlier.
   * Added support for PMF maps from PocketMine v1.3.
-
 * 1.0 : First release
 
 Copyright
