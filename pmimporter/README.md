@@ -162,7 +162,7 @@ Issues and Bugs
 Changes
 ------
 
-* 1.2: ?
+* 1.2:
   * pmcheck: show height map statistics.
 * 1.1: OldSkool release
   * Added support for maps from Minecraft Pocket Edition 0.8.1 or earlier.
