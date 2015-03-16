@@ -18,6 +18,7 @@ LevelFormatManager::addFormat(Pm13::class);
 define('CMD',array_shift($argv));
 $dstformat = "mcregion";
 $threads = 1;
+$offset = 0;
 
 while (count($argv)) {
   if ($argv[0] == "-f") {
@@ -29,6 +30,11 @@ while (count($argv)) {
     $rules = array_shift($argv);
     if (!isset($rules)) die("No rules file specified\n");
     loadRules($rules);
+  } elseif ($argv[0] == "-o") {
+    array_shift($argv);
+    $offset = array_shift($argv);
+    if (!isset($offset)) die("No offset specified\n");
+    if (!is_numeric($offset)) die("Must specify a number for offset\n");
   } elseif ($argv[0] == "-t") {
     array_shift($argv);
     $threads = array_shift($argv);
@@ -46,6 +52,7 @@ $srcpath=array_shift($argv);
 if (!isset($srcpath)) die("No src path specified\n");
 $srcpath = preg_replace('/\/*$/',"",$srcpath).'/';
 if (!is_dir($srcpath)) die("$srcpath: not found\n");
+
 $dstpath=array_shift($argv);
 if (!isset($dstpath)) die("No dst path specified\n");
 $dstpath = preg_replace('/\/*$/',"",$dstpath).'/';
@@ -56,8 +63,6 @@ if (!$srcformat) die("$srcpath: Format not recognized\n");
 
 $dstformat = LevelFormatManager::getFormatByName($dstformat);
 if (!$dstformat) die("Output format not recognized\n");
-//if (!is_a($dstformat,Anvil::class,true) && !is_a($dstformat,McRegion::class,true))
-//  die("$dstformat: Format not supported\n");
 if ($dstformat !== McRegion::class) die("$dstformat: Format not supported\n");
 
 $srcfmt = new $srcformat($srcpath);
@@ -131,7 +136,7 @@ function pmconvert_status($state,$data) {
 
 
 //////////////////////////////////////////////////////////////////////
-function copyNextRegion() {
+function copyNextRegion($offset) {
   global $regions,$workers;
   global $srcfmt,$dstfmt;
 
@@ -142,7 +147,8 @@ function copyNextRegion() {
   if ($pid == 0) {
     echo "spawned: ".getmypid().NL;
     Copier::copyRegion($region,$srcfmt,$dstfmt,
-		       __NAMESPACE__."\\pmconvert_status");;
+		       __NAMESPACE__."\\pmconvert_status",
+		       $offset);
     exit(0);
   } elseif ($pid == -1) {
     die("Could not fork\n");
@@ -153,13 +159,14 @@ function copyNextRegion() {
 if ($threads == 1) {
   foreach ($regions as $region) {
     Copier::copyRegion($region,$srcfmt,$dstfmt,
-		       __NAMESPACE__."\\pmconvert_status");;
+		       __NAMESPACE__."\\pmconvert_status",
+		       $offset);
   }
 } else {
   echo "Threads: $threads\n";
   $workers = [];
   for ($c = $threads;$c--;) {
-    copyNextRegion();
+    copyNextRegion($offset);
   }
   while ($pid = pcntl_wait($rstatus)) {
     if (!isset($workers[$pid])) continue;
@@ -171,7 +178,7 @@ if ($threads == 1) {
       echo "$pid ($rX,$rZ) succesful\n";
     }
     if (count($regions)) {
-      copyNextRegion();
+      copyNextRegion($offset);
     } else {
       if (!count($workers)) break;
     }
