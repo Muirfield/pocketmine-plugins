@@ -9,7 +9,9 @@ use pocketmine\utils\Config;
 use pocketmine\level\format\LevelProviderManager;
 
 class Main extends Plugin implements CommandExecutor {
-
+  private function importer() {
+    return $this->getDataFolder().'pmimporter.phar';
+  }
   private function schedule($args) {
     $this->getServer()->getScheduler()->scheduleAsyncTask(new Importer($args));
   }
@@ -29,7 +31,7 @@ class Main extends Plugin implements CommandExecutor {
       }
       if (!isset($args[0])) return $this->usage($sender);
       if ($args[0] == "version") {
-	$this->schedule([$this->getDataFolder(),'version']);
+	$this->schedule([$this->importer(),'version']);
 	return true;
       }
       if (!isset($args[1])) return $this->usage($sender);
@@ -63,7 +65,7 @@ class Main extends Plugin implements CommandExecutor {
       $sender->sendMessage("Importing $impath to $world in the background");
       $this->getServer()->broadcastMessage("Importing world, expect LAG!");
       $dir =$this->getDataFolder();
-      $this->schedule([$dir,'pmconvert',
+      $this->schedule([$this->importer(),'pmconvert',
 		       '-c',$dir.'rules.txt','-f',$dstfmt,
 		       $impath,$target]);
       return true;
@@ -77,12 +79,8 @@ class Main extends Plugin implements CommandExecutor {
   public function onEnable() {
     @mkdir($this->getDataFolder());
     $this->saveResource('rules.txt',false);
-    $importer = 'pmimporter.phar';
-    if (file_exists($this->getDataFolder().$importer)) {
-      $php = escapeshellarg(PHP_BINARY);
-      $current = shell_exec("$php ".
-			    escapeshellarg($this->getDataFolder().$importer).
-			    " version");
+    if (file_exists($this->importer())) {
+      $current = Importer::phpRun([$this->importer(),'version']);
       $fp = $this->getResource('version.txt');
       if ($fp == null) return;
       $embedded = stream_get_contents($fp);
@@ -93,8 +91,10 @@ class Main extends Plugin implements CommandExecutor {
       $this->getLogger()->info("Updating pmimporter version");
       $this->getLogger()->info("..from $current");
       $this->getLogger()->info("..to   $embedded");
+    } else {
+      $this->getLogger()->info("Extracting pmimporter");
     }
-    $this->saveResource($importer,true);
+    $this->saveResource(basename($this->importer()),true);
   }
   public function onDisable() {
     $this->getLogger()->info("ImportMap Unloaded!");

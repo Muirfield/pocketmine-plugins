@@ -87,13 +87,14 @@ for the values being used.
 
 * Depending on the map size, conversions can take some time.
 * Reported not to work under Windows.
-* Need to update to latest pmimporter.
 
 Changes
 ------
 
-* 2.0.1 :
-  * ?
+* 2.1.0 : *UNRELEASED*
+  * Portability tweaks
+  * Added code to update pmimporter when needed.
+  * upgraded `pmimporter` to ???
 * 2.0.0 :
   * Changed to `pmimporter` codebase.
   * Converted to `AsyncTask` implementation.

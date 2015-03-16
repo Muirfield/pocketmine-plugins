@@ -6,6 +6,14 @@ use \pocketmine\Server;
 class Importer extends AsyncTask {
   private $args;
 
+  public static function phpRun(array $args) {
+    $cmd = escapeshellarg(PHP_BINARY);
+    foreach ($args as $i) {
+      $cmd .= ' '.escapeshellarg($i);
+    }
+    //echo "CMD> $cmd\n";
+    return shell_exec($cmd);
+  }
   public function __construct($args) {
     $this->args = serialize($args);
   }
@@ -13,18 +21,10 @@ class Importer extends AsyncTask {
     $this->setResult("ABORTED!");
     $args = unserialize($this->args);
     $start = time();
-    $cmd = escapeshellarg(PHP_BINARY);
-    // Configure PHAR file
-    $args[0] = $args[0].'pmimporter.phar';
-    foreach ($args as $v) {
-      $cmd .= ' '.escapeshellarg($v);
-    }
-    $txt = "> ".$cmd."\n";
-    $txt .= shell_exec($cmd);
+    $txt = self::phpRun($args);
     $end = time();
-
-    if ($start != $end) {
-      $txt .= "\nRun-time: ".($end-$start)."\n";
+    if ($end - $start > 15) {
+      $txt .= "\nRun-time: ".($end-$start);
     }
     $this->setResult($txt);
   }
