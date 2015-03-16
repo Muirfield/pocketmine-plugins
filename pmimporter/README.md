@@ -163,6 +163,8 @@ Issues and Bugs
 Changes
 ------
 
+* 1.3: 
+  * ??
 * 1.2:
   * pmcheck: show height map statistics.
   * pmconvert: offset y coordinates
