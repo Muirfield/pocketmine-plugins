@@ -1,47 +1,77 @@
 ImportMap
 ==========
 
-A very naive Plugin to import PC worlds.
+* Summary: Import PC worlds
+* Dependency Plugins: n/a
+* PocketMine-MP version: 1.4 - API 1.10.0
+* OptionalPlugins: ManyWorlds
+* Categories: World Editing and Management, Admin Tools
+* Plugin Access: Commands, World Editing, Manages Worlds
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ImportMap)
+
+Overview
+--------
+
+A plugin to import PC worlds.
 
 Basic Usage:
 
-* /im <path-to-map> <level>
+* /im *path-to-map* *level*
 
 Documentation
 -------------
 
-This is a proof-of-concept plugin to import PC world maps into
-PocketMine-MP by converting blocks according to a
-configurable translation table.
-
+This plugin imports PC world maps into PocketMine-MP by converting
+blocks according to a configurable translation table.
 
 This plugin supports Minecraft PC edition maps in McRegion and Anvil
 formats.
 
 The way a world is imported is not very optimized, and may take
-a while.  Also, while the import is running, the server may be
-unavailable.
+a while.
 
-Use this plugin with a Pocketmine server that is not in use and after
-the import is done, copy the resulting files to the actual gaming
-Pocketmine server.  If you change the ports being used, you should be
-able to run multiple Pocketmine servers on the same computer.
+This Plugin calls
+[pmimporter](https://github.com/alejandroliu/pocketmine-plugins/tree/master/pmimporter)
+to do the heavy lifting.  Since this operation is not something you
+would do while playing Minecraft, I recommend using `pmimporter`
+directly from the command line instead.  Under Linux, `pmimporter` can
+use multiple threads which can speed-up things significantly.
+
 
 ### Command:
 
-`im <path-to-map> <level>`
+im version
+
+Show the version of the `pmimporter` framework.
+
+im *path-to-map* *level*
 
 * path-to-map : Is the file path towards the location of a map.  By
-  default the path is based from the PocketMine directory.
+  default the path is based from the PocketMine directory.  You can
+  also use a absolute path name.
 * level : This is the name that the world be given.
-
 
 ### Configuration
 
-You can configure the translation.  This plugin will create a
-`config.yml` in its data directory.  This file contains pairs:
+It is recommended that you increase the `async-workers` value to
+something other than `1`.  This setting is in `pocketmine.yml`, in hte
+`settings` section.
 
-    source-block-id: target-block-id
+You can configure the translation.  This plugin will create a
+`rules.txt` in its data directory.  The format of `rules.txt`
+contains:
+
+* comments, start with `;` or `#`.
+* `BLOCKS` - indicates the start of a blocks translation rules section.
+* `source-block = target-block` is a translation rule.  Any block of
+  type `source-block` is converted to `target-block`.
+
+There is a default set of conversion rules, but you can tweak it by
+modifying `rules.txt`.
+
+Please look in
+[blocks.txt](https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/pmimporter/classlib/pmimporter/blocks.txt)
+for block definitions.
 
 Please refer to
 [Minecraft PC data values](http://minecraft.gamepedia.com/Data_values)
@@ -53,25 +83,25 @@ for the values being used.
 
 * im.cmd.im - Allows users to import maps
 
-Issues
-------
+### Plugin Issues
 
-* Entities (mobs) and Tiles (signs, chests, etc) are not supported.  
-  I tried to implement it here, but this would require to actually
-  instanciate these objects in-game, which eventually leads to
-  core-dumps.
-* Anvil maps are silently truncated to be less than 128 blocks high.  
-  The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* An import will block the server.  I tried converting this to an
-  AsyncTask but that was not very succesful.  I got threading problems.
+* Depending on the map size, conversions can take some time.
+* Reported not to work under Windows.
 
 Changes
--------
+------
 
+* 2.1.0 : *UNRELEASED*
+  * Portability tweaks
+  * Added code to update pmimporter when needed.
+  * upgraded `pmimporter` to ???
+* 2.0.0 :
+  * Changed to `pmimporter` codebase.
+  * Converted to `AsyncTask` implementation.
 * 1.0.0 : First release
 
 Copyright
-=========
+---------
 
     ImportMap
     Copyright (C) 2015 Alejandro Liu  

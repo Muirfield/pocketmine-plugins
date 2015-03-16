@@ -98,6 +98,12 @@ function argchk($a,$b,&$c) {
   return false;
 }
 
+function is_interactive() {
+  if (!extension_loaded("posix")) return false;
+  if (!extension_loaded("readline")) return false;
+  return posix_isatty(STDIN);
+}
+
 function read_properties($f,&$s,&$pn,&$pw) {
   if (!is_file($f)) return;
 
@@ -125,7 +131,7 @@ function read_properties($f,&$s,&$pn,&$pw) {
 $cmd = array_shift($argv);
 
 $server = "127.0.0.1";
-$port = 27015;
+$port = 19132; // 27015;
 $passwd = NULL;
 
 read_properties("server.properties",$server,$port,$passwd);
@@ -165,7 +171,7 @@ $rcon->auth($passwd);
 if (count($argv)) {
   echo $rcon->cmd(implode(" ",$argv))."\n";
 } else {
-  if (posix_isatty(STDIN)) {
+  if (is_interactive()) {
     echo "Enter /quit to finish\n";
     while (true) {
       $line = readline("RCON> ");

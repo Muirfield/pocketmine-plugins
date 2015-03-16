@@ -56,9 +56,16 @@ FAQ
   where specifying a `generator` is called incorrectly.
 
 
+TODO
+----
+
+* When teleporting to a new world show a motd.txt in the directory.
+
 Changes
 -------
 
+* 1.0.1 :
+  * BugFix: given an invalid player name to teleport would crash server.
 * 1.0.0 : Initial release
 
 Copyright
