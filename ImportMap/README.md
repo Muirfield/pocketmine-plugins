@@ -86,10 +86,15 @@ for the values being used.
 ### Plugin Issues
 
 * Depending on the map size, conversions can take some time.
+* Reported not to work under Windows.
 
 Changes
 ------
 
+* 2.1.0 : *UNRELEASED*
+  * Portability tweaks
+  * Added code to update pmimporter when needed.
+  * upgraded `pmimporter` to ???
 * 2.0.0 :
   * Changed to `pmimporter` codebase.
   * Converted to `AsyncTask` implementation.

@@ -75,5 +75,7 @@ Ideas
 
 * Create a Generator based of flat that creates infinite maze
 * Port the Minetest Map Generator
-* MW: Show motd.txt on teleport and also add a "readme" to show it.
-* MW: ls should split into pages.
+* pmimporter: allow for an y-offset to be specify so that
+  blocks/tiles/entities can be shifted along side the y axis.
+* pmimporter: merge chunks
+* ImportMap: fix paths / to \
