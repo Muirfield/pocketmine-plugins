@@ -4,7 +4,7 @@ use pmimporter\Blocks;
 use pmimporter\Entities;
 
 abstract class Copier {
-  static public function copyChunk(&$src,&$dst) {
+  static public function copyChunk(&$src,&$dst,$offset=0) {
     $dst->setPopulated($src->isPopulated());
     $dst->setGenerated($dst->isGenerated());
 
@@ -14,7 +14,7 @@ abstract class Copier {
     for ($x = 0;$x < 16;$x++) {
       for ($z=0;$z < 16;$z++) {
 	for ($y=0;$y < 128;$y++) {
-	  list($id,$meta) = $src->getBlock($x,$y,$z);
+	  list($id,$meta) = $src->getBlock($x,$sy,$z);
 	  // if ($id !== Blocks::xlateBlock($id)) ++$converted;
 	  $id = Blocks::xlateBlock($id);
 	  $dst->setBlock($x,$y,$z,$id,$meta);
@@ -62,7 +62,7 @@ abstract class Copier {
     }
   }
 
-  static public function copyRegion($region,&$srcfmt,&$dstfmt,$cb=null) {
+  static public function copyRegion($region,&$srcfmt,&$dstfmt,$cb=null,$offset=0) {
     list($rX,$rZ) = $region;
     if (is_callable($cb)) call_user_func($cb,"CopyRegionStart","$rX,$rZ");
 
@@ -78,7 +78,7 @@ abstract class Copier {
 	  if ($srcchunk->isPopulated() || $srcchunk->isGenerated()) {
 	    $dstchunk = $dstregion->newChunk($cX,$cZ);
 	    if (is_callable($cb)) call_user_func($cb,"CopyChunk","$cX,$cZ");
-	    self::copyChunk($srcchunk,$dstchunk);
+	    self::copyChunk($srcchunk,$dstchunk,$offset);
 	    $dstregion->writeChunk($oX,$oZ,$dstchunk);
 	  }
 	}
