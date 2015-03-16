@@ -61,6 +61,23 @@ function analyze_chunk(Chunk $chunk,&$stats) {
 	list($id,$meta) = $chunk->getBlock($x,$y,$z);
 	incr($stats,$id);
       }
+      $height = $chunk->getHeightMap($x,$z);
+      if (!isset($stats["Height:Max"])) {
+	$stats["Height:Max"] = $height;
+      } elseif ($height > $stats["Height:Max"]) {
+	$stats["Height:Max"] = $height;
+      }
+      if (!isset($stats["Height:Min"])) {
+	$stats["Height:Min"] = $height;
+      } elseif ($height < $stats["Height:Min"]) {
+	$stats["Height:Min"] = $height;
+      }
+      if (!isset($stats["Height:Sum"])) {
+	$stats["Height:Sum"] = $height;
+      } else {
+	$stats["Height:Sum"] += $height;
+      }
+      incr($stats,"Height:Count");
     }
   }
   foreach ($chunk->getEntities() as $entity) {
@@ -127,6 +144,11 @@ foreach ($argv as $ppx) {
   echo "\n";
   unset($region);
   echo "  Chunks:\t$chunks\n";
+  if (isset($stats["Height:Count"]) && isset($stats["Height:Sum"])) {
+    $stats["Height:Avg"] = $stats["Height:Sum"]/$stats["Height:Count"];
+    unset($stats["Height:Count"]);
+    unset($stats["Height:Sum"]);
+  }
   $sorted = array_keys($stats);
   natsort($sorted);
   foreach ($sorted as $k) {
