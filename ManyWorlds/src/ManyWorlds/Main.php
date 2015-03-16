@@ -261,8 +261,15 @@ class Main extends Plugin implements CommandExecutor {
     $location = $world->getSafeSpawn($spawn);
     $player->teleport($location);
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-
     if (file_exists($f)) $player->sendMessage(file_get_contents($f));
+    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),20);
+  }
+  public function delayedTP($m) {
+    list($id,$name,$x,$y,$z) = explode("\0",$m);
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
+    if ($player->getId() != $id) return;
+    $player->teleport(new Vector3($x,$y,$z));
+    $this->getServer()->broadCastMessage("Moving $id/$name to $x,$y,$z");
   }
 }
-
