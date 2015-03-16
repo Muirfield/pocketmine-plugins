@@ -84,6 +84,8 @@ FAQ
 Changes
 -------
 
+* 1.1.0 :
+  * Added support for using ManyWorlds teleport.
 * 1.0.0 : First release
 
 Copyright
