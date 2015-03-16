@@ -60,7 +60,6 @@ Issues
 
 * World names can not contain spaces.
 
-
 Changes
 -------
 
@@ -69,6 +68,8 @@ Changes
     server.
   * Paginated output of ls
   * Teleports show a motd.txt in the map world.
+  * Added some hacks to make teleporting less glitchy
+  * API so other Plugins can also use this teleport functionality
 * 1.0.0 : Initial release
 
 Copyright
