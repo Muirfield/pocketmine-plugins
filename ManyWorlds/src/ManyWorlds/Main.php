@@ -9,9 +9,12 @@ use pocketmine\level\Level;
 use pocketmine\level\generator\Generator;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
+use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
+use pocketmine\utils\TextFormat;
+
 
 class Main extends Plugin implements CommandExecutor {
   public function onLoad() {
@@ -83,8 +86,7 @@ class Main extends Plugin implements CommandExecutor {
 	  } else {
 	    if ($this->mwAutoLoad($sender,$level)) {
 	      $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
-	      $world = $this->getServer()->getLevelByName($level);
-	      $player->teleport($world->getSafeSpawn());
+	      $this->teleport($player,$level);
 	      $sender->sendMessage("[MW] " . $player . " has been teleported to " . $level . "!");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport " . $player . " as\nlevel " . $level . " is not loaded!");
@@ -103,14 +105,13 @@ class Main extends Plugin implements CommandExecutor {
 	  if(!($sender->getLevel() == $this->getServer()->getLevelByName($level))) {
 	    if($this->mwAutoLoad($sender,$level)) {
 	      $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
-	      $world = $this->getServer()->getLevelByName($level);
-	      $sender->teleport($world->getSpawnLocation());
+	      $this->teleport($player,$level);
 	      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport you to " . $level . " as it\nis not loaded!");
 	    }
 	  } else {
-	    $sender->sendMessage("[Universe] You are already in " . $level . "!");
+	    $sender->sendMessage("[MW] You are already in " . $level . "!");
 	  }
 	} else {
 	  return $this->permissionFail($sender);
@@ -162,49 +163,86 @@ class Main extends Plugin implements CommandExecutor {
     if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
       return $this->permissionFail($sender);
     }
+    $txt  = [];
+    $pageNumber = 1;
+    if (is_numeric($args[count($args)-1])) {
+      $pageNumber = (int)array_pop($args);
+      if($pageNumber <= 0) $pageNumber = 1;
+    }
+
     if (isset($args[1])) {
       $level = $args[1];
       if (!$this->mwAutoLoad($sender,$level)) {
 	$sender->sendMessage("[MW] Unable to load $level");
 	return true;
       }
-      $level = $this->getServer()->getLevelByName($level);
-      if (!$level) {
+      $world = $this->getServer()->getLevelByName($level);
+      if (!$world) {
 	$sender->sendMessage("[MW] $level not loaded");
 	return true;
       }
       //==== provider
-      $provider = $level->getProvider();
-      $sender->sendMessage("Provider: ". get_class($provider));
-      $sender->sendMessage("Path: ".$provider->getPath());
-      $sender->sendMessage("Name: ".$provider->getName());
-      $sender->sendMessage("Seed: ".$provider->getSeed());
-      $sender->sendMessage("Generator: ".$provider->getGenerator());
-      $sender->sendMessage("Generator Options: ".print_r($provider->getGeneratorOptions(),true));;
+      $provider = $world->getProvider();
+      $hdr = "Info for $level";
+      $txt[] = "Provider: ". get_class($provider);
+      $txt[] = "Path: ".$provider->getPath();
+      $txt[] = "Name: ".$provider->getName();
+      $txt[] = "Seed: ".$provider->getSeed();
+      $txt[] = "Generator: ".$provider->getGenerator();
+      $txt[] = "Generator Options: ".print_r($provider->getGeneratorOptions(),true);
       $spawn = $provider->getSpawn();
-      $sender->sendMessage("Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ());
-      return true;
-    }
+      $txt[] = "Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
+      $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+      $txt[] = "MOTD: $f";
+      if (file_exists($f)) {
+	$txt[] = "MOTD:";
+	foreach (file($f) as $ln) {
+	  $txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
+	}
+      }
 
-    $dir = $this->getServer()->getDataPath(). "worlds";
-    if (!is_dir($dir)) {
-      $sender->sendMessage("[MW] Missing path $dir");
+    } else {
+      $dir = $this->getServer()->getDataPath(). "worlds";
+      if (!is_dir($dir)) {
+	$sender->sendMessage("[MW] Missing path $dir");
+	return true;
+      }
+      $count = 0;
+      $dh = opendir($dir);
+      if (!$dh) return true;
+      while (($file = readdir($dh)) !== false) {
+	if ($file == '.' || $file == '..') continue;
+	if ($this->getServer()->isLevelLoaded($file)) {
+	  $txt[] = "- $file (loaded)";
+	  ++$count;
+	  continue;
+	}
+	if ($this->getServer()->isLevelGenerated($file)) {
+	  $txt[] = "- $file";
+	  ++$count;
+	  continue;
+	}
+      }
+      closedir($dh);
+      $hdr = "Worlds: ".$count;
+    }
+    if($sender instanceof ConsoleCommandSender){
+      $sender->sendMessage( TextFormat::GREEN.$hdr.TextFormat::RESET);
+      foreach ($txt as $ln) $sender->sendMessage($ln);
       return true;
     }
-    $dh = opendir($dir);
-    if (!$dh) return true;
-    while (($file = readdir($dh)) !== false) {
-      if ($file == '.' || $file == '..') continue;
-      if ($this->getServer()->isLevelLoaded($file)) {
-	$sender->sendMessage("- $file (loaded)");
-	continue;
-      }
-      if ($this->getServer()->isLevelGenerated($file)) {
-	$sender->sendMessage("- $file");
-	continue;
-      }
+    $pageHeight = 5;
+    $hdr = TextFormat::GREEN.$hdr. TextFormat::RESET;
+    if (($pageNumber-1) * $pageHeight >= count($txt)) {
+      $sender->sendMessage($hdr);
+      $sender->sendMessage("Only ".intval(count($txt)/$pageHeight)." pages available");
+      return true;
     }
-    closedir($dh);
+    $hdr .= TextFormat::RED." ($pageNumber of ".intval(count($txt)/$pageHeight).")".TextFormat::RESET;
+    $sender->sendMessage($hdr);
+    for ($ln = ($pageNumber-1)*$pageHeight;$ln < count($txt) && $pageHeight--;++$ln) {
+      $sender->sendMessage($txt[$ln]);
+    }
     return true;
   }
   private function checkPermission(CommandSender $sender, $permission) {
@@ -218,4 +256,13 @@ class Main extends Plugin implements CommandExecutor {
   public function onDisable() {
     $this->getLogger()->info("ManyWorlds Unloaded!");
   }
+  public function teleport($player,$level,$spawn=null) {
+    $world = $this->getServer()->getLevelByName($level);
+    $location = $world->getSafeSpawn($spawn);
+    $player->teleport($location);
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+
+    if (file_exists($f)) $player->sendMessage(file_get_contents($f));
+  }
 }
+

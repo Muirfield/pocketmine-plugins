@@ -98,8 +98,16 @@ class Main extends PluginBase implements Listener {
       $mv = null;
     }
     $event->getPlayer()->sendMessage("Teleporting...");
-    $world = $this->getServer()->getLevelByName($level);
-    $event->getPlayer()->teleport($world->getSafeSpawn($mv));
+
+
+    if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds"))
+	!= null) {
+      // Using ManyWorlds for teleporting...
+      $mw->teleport($event->getPlayer(),$level,$mv);
+    } else {
+      $world = $this->getServer()->getLevelByName($level);
+      $event->getPlayer()->teleport($world->getSafeSpawn($mv));
+    }
     $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
   }
 

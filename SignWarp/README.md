@@ -74,17 +74,11 @@ coordinates of the player.
 * signwarp.place.sign - Allow user to create warp signs
 * signwarp.touch.sign - Allow user to use warp signs
 
-TODO
-----
-
-* Add support for MultipleWorlds:
-  * to spawn point
-  * to a specific x,y,z coordinate
-
 Changes
 -------
 
-* 1.1.0 :
+* 1.1.0 : ??
+  * Use ManyWorlds' teleport when available.
   * Added support for multiple worlds
   * Added permissions for teleporting
 * 1.0.0 : First release
