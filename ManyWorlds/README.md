@@ -55,17 +55,21 @@ FAQ
 * A: PocketMine-MP has a bug in the `Server->generateLevel` method
   where specifying a `generator` is called incorrectly.
 
+Issues
+------
 
-TODO
-----
-
-* When teleporting to a new world show a motd.txt in the directory.
+* World names can not contain spaces.
 
 Changes
 -------
 
-* 1.0.1 :
-  * BugFix: given an invalid player name to teleport would crash server.
+* 1.1.0:
+  * BugFix: given an invalid player name to teleport would crash
+    server.
+  * Paginated output of ls
+  * Teleports show a motd.txt in the map world.
+  * Added some hacks to make teleporting less glitchy
+  * API so other Plugins can also use this teleport functionality
 * 1.0.0 : Initial release
 
 Copyright
