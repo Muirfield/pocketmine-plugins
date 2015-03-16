@@ -63,7 +63,7 @@ Issues
 Changes
 -------
 
-* 1.0.1 :
+* 1.1.0:
   * BugFix: given an invalid player name to teleport would crash
     server.
   * Paginated output of ls
