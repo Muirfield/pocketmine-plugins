@@ -91,7 +91,7 @@ for the values being used.
 Changes
 ------
 
-* 2.1.0 : *UNRELEASED*
+* 2.1.0 :
   * Portability tweaks
   * Added code to update pmimporter when needed.
   * upgraded `pmimporter` to ???
