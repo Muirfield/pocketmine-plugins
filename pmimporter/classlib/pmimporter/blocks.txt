@@ -1,0 +1,198 @@
+;
+; Block definition table
+;
+; Ids used in Minecraft PE are > 0.
+; Ids not used by Minecraft PE (defined in PC edition) are < 0.
+;
+;Id	Name			Conversion
+0	Air
+1	Stone
+2	GrassBlock
+3	Dirt
+4	Cobblestone
+5	WoodenPlank
+6	Sapling
+7	Bedrock
+8	Water
+9	StationaryWater
+10	Lava
+11	StationaryLava
+12	Sand
+13	Gravel
+14	GoldOre
+15	IronOre
+16	CoalOre
+17	Wood
+18	Leaves
+19	Sponge
+20	Glass
+21	LapisLazuliOre
+22	LapisLazuliBlock
+-23	Dispenser		248
+24	Sandstone
+-25	NoteBlock		248
+26	Bed
+27	PoweredRail
+-28	DetectorRail		248
+-29	StickyPiston		248
+30	Cobweb
+31	TallGrass
+32	DeadBush
+-33	Piston			248
+-34	PistonHead		248
+35	Wool
+-36	PistonExtension		248
+37	Dandelion
+38	Poppy
+39	BrownMushroom
+40	RedMushroom
+41	GoldBlock
+42	IronBlock
+43	DoubleStoneSlab
+44	StoneSlab
+45	BrickBlock
+46	TNT
+47	Bookshelf
+48	MossStone
+49	Obsidian
+50	Torch
+51	Fire
+52	MonsterSpawner
+53	OakWoodStairs
+54	Chest
+-55	RedstoneWire		0
+56	DiamondOre
+57	DiamondBlock
+58	CraftingTable
+59	Seeds
+60	Farmland
+61	Furnace
+62	BurningFurnace
+63	SignPost
+64	WoodenDoor
+65	Ladder
+66	Rail
+67	CobblestoneStairs
+68	WallSign
+-69	Lever			0
+-70	StonePressurePlate	1
+71	IronDoor
+-72	WoodenPressurePlate	5
+73	RedstoneOre
+74	GlowingRedstoneOre
+-75	InactiveRedstoneTorch	50
+-76	ActiveRedstoneTorch	50
+-77	StoneButton		0
+78	SnowCover
+79	Ice
+80	Snow
+81	Cactus
+82	Clay
+83	SugarCane
+-84	Jukebox			248
+85	Fence
+86	Pumpkin
+87	NetherRack
+-88	SoulSand		13
+89	Glowstone
+-90	NetherPortal		79
+91	JackoLantern
+92	CakeBlock
+-93	UnpoweredRepeater	248
+-94	PoweredRepeater		248
+95	InvisibleBedrock
+96	Trapdoor
+-97	MonsterEgg		248
+98	StoneBrick
+99	HugeBrownMushroom
+100	HugeRedMushroom
+101	IronBars
+102	GlassPane
+103	Melon
+104	PumpkinStem
+105	MelonStem
+106	Vines
+107	FenceGate
+108	BrickStairs
+109	StoneBrickStairs
+110	Mycelium
+111	LilyPad
+112	NetherBrick
+-113	NetherBrickFence	85
+114	NetherBrickStairs
+-115	NetherWart		39
+-116	EnchantingTable		58
+-117	BrewingStand		248
+-118	Cauldron		248
+-119	EndPortal		0
+120	EndPortalFrame
+121	EndStone
+-122	DragonEgg		248
+-123	RedstoneLamp		50
+-124	LitRedstoneLamp		50
+-125	DoubleWoodenSlab	157
+-126	WoodenSlab		158
+127	Cocoa
+128	SandstoneStairs
+129	EmeraldOre
+-130	EnderChest		248
+-131	TripwireHook		248
+-132	Tripwire		0
+133	BlockofEmerald
+134	SpruceWoodStairs
+135	BirchWoodStairs
+136	JungleWoodStairs
+-137	CommandBlock		248
+-138	Beacon			51
+139	CobblestoneWall
+-140	FlowerPot		2
+141	Carrots
+142	Potato
+-143	WoodenButton		248
+-144	Skull			91
+-145	Anvil			248
+-146	TrappedChest		54
+-147	LightPressurePlate	0
+-148	HeavyPressurePlate	0
+-149	UnpoweredComparator	0
+-150	PoweredComparator	0
+-151	DaylightDetector	0
+-152	RedstoneBlock		89
+-153	NetherQuartzOre		112
+-154	Hopper			248
+155	BlockofQuartz
+156	QuartzStairs
+157	WoodenDoubleSlab
+158	WoodenSlab
+159	StainedClay
+-160	StainedGlassPane	102
+-161	AcaciaDarkOakLeaves	18
+-162	AcaciaDarkOakWood	17
+163	AcaciaWoodStairs
+164	DarkOakWoodStairs
+-165	SlimeBlock		133
+-166	Barrier			95
+-167	IronTrapdoor		96
+-168	Prismarine		247
+-169	SeaLantern		89
+170	HayBlock
+171	Carpet
+172	HardenedClay
+173	BlockofCoal
+174	PackedIce
+-175	LargeFlowers		32
+-176	StandingBanner		0
+-177	WallBanner		248
+-178	InvertedLightSensor	0
+-179	RedSandstone		24
+-180	RedSandstoneStairs	128
+-181	DoubleRedSanstoneSlab	43
+-182	RedSandstoneSlab	44
+243	Podzol
+244	Beetroot
+245	StoneCutter
+246	GlowingObsidian
+247	NetherReactorCore
+248	UpdateGameBlock1
+249	UpdateGameBlock2
+255	.name
