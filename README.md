@@ -75,4 +75,5 @@ Ideas
 
 * Create a Generator based of flat that creates infinite maze
 * Port the Minetest Map Generator
-* pmimporter: show height map statistics (min, max, average)
+* pmimporter: allow for an y-offset to be specify so that
+  blocks/tiles/entities can be shifted along side the y axis.
