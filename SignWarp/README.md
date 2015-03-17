@@ -77,11 +77,10 @@ coordinates of the player.
 Changes
 -------
 
-* 1.2.0 :
+* 1.1.0 :
   * Prevents blocks to be placed when teleporting.
   * Touching a sign while holding a Sign stops teleports.
-* 1.1.0 : Added ManyWorlds Compatibility
-  * Use ManyWorlds' teleport when available.
+  * Use ManyWorlds teleport functionality when available.
 * 1.0.0 : First release
 
 FAQ

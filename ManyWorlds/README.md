@@ -19,6 +19,7 @@ Basic Usage:
 * /mw tp *level* [player]
 * /mw create *level* [seed [flat|normal [preset]]]
 * /mw load *level*
+* /mw unloade [-f] *level*
 * /mw ls [level]
 
 Documentation
@@ -26,6 +27,9 @@ Documentation
 
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
+
+The teleport itself has a number of workarounds to deal with
+Client-Server glitches.  It works for me.
 
 ### Commands:
 
@@ -51,27 +55,28 @@ worlds as well as teleport between worlds.
 FAQ
 ---
 
-* Q: Creating a world using `generator` doesn't work.
-* A: PocketMine-MP has a bug in the `Server->generateLevel` method
-  where specifying a `generator` is called incorrectly.
+* Q: How do I create a `FLAT` world?
+* A: You must be using PocketMine-MP v1.4.1.  Set the `generator` to
+  `flat`.  Unfortunately a bug in PocketMine-MP prevents you from
+  specifying a `preset` string.
+
 
 Issues
 ------
 
 * World names can not contain spaces.
+* Unloading a world may cause a core dump.
 
 Changes
 -------
 
-* 1.2.0:
-  * Added world unload
+* 1.1.0:
+  * Added world unload.  May cause core dumps.
   * Workaround to teleport glitches.
   * Added support for editing motd.txt
-* 1.1.0:
-  * BugFix: given an invalid player name to teleport would crash
-    server.
-  * Paginated output of ls
-  * Teleports show a motd.txt in the map world.
+  * BugFix: given an invalid player name to teleport would crash server.
+  * Paginated output of `ls`
+  * Teleports show a `motd.txt` in the map world.
   * Added some hacks to make teleporting less glitchy
   * API so other Plugins can also use this teleport functionality
 * 1.0.0 : Initial release
@@ -95,4 +100,3 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
