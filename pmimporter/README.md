@@ -133,8 +133,7 @@ FAQ
   flat (boring) area.  Sometimes exting and re-entering the game
   helps.
 * Q: Why I get corrupted chunks after I modify some (very detailed) areas?
-* A: The current release of PocketMine-MP (1.4) has a bug where large
-  chunks get overlapped causing chunk corruption.
+* A: You need to upgrade to PocketMine-MP v1.4.1
 * Q: Why I see some blocks that are not in the original map?
 * A: These have to do with how the translation happens.  There are
   blocks that are not supported by Minecraft Pocket Edition.  These
@@ -158,7 +157,9 @@ Issues and Bugs
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
 * Old Skool formats (i.e PMF v1.3 and MCPE 0.2.0-0.8.1) ignore Entity
-  and Tile information.
+  and Tile information completely.
+* Support for Tile and Entity in Anvil and McRegion files is dodgy.
+
 
 Changes
 ------
