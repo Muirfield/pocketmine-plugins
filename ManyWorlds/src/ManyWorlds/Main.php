@@ -7,19 +7,27 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\permission\Permission;
 use pocketmine\level\Level;
 use pocketmine\level\generator\Generator;
-use pocketmine\command\CommandExecutor;
+//use pocketmine\command\CommandExecutor;
+use pocketmine\event\Listener;
+
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\entity\EntityDamageEvent;
 
+class Main extends Plugin implements Listener {
+  protected $teleporters = [];
 
-class Main extends Plugin implements CommandExecutor {
   public function onLoad() {
     $this->getLogger()->info("ManyWorlds Loaded!");
   }
+  public function onEnable(){
+    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+  }
+
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
     case "mw":
@@ -343,21 +351,54 @@ class Main extends Plugin implements CommandExecutor {
   public function onDisable() {
     $this->getLogger()->info("ManyWorlds Unloaded!");
   }
+  private function after($task,$ticks) {
+    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
+  }
   public function teleport($player,$level,$spawn=null) {
     $world = $this->getServer()->getLevelByName($level);
     $location = $world->getSafeSpawn($spawn);
+    $this->teleporters[$player->getName()] = time();
     $player->teleport($location);
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if (file_exists($f)) $player->sendMessage(file_get_contents($f));
-    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),5);
-    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),10);
-    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),20);
+    foreach ([5,10,20] as $ticks) {
+      $this->after(new MwTask($this,"delayedTP",
+			      [$player->getName(),
+			       $location->getX(),$location->getY(),
+			       $location->getZ()]),$ticks);
+    }
+    $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
+    //echo "Will restore ".$player->getName()." to ".$player->getHealth()."\n";
   }
+  public function restoreHealth($m) {
+    //print_r($m);
+    list($name,$health) = $m;
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
+    $player->setHealth($health);
+    //echo "Restoring ".$player->getName()." to ".$health."\n";
+  }
+
   public function delayedTP($m) {
-    list($name,$x,$y,$z) = explode("\0",$m);
+    list($name,$x,$y,$z) = $m;
     $player = $this->getServer()->getPlayer($name);
     if (!$player) return;
     $player->teleport(new Vector3($x,$y,$z));
     //$this->getServer()->broadCastMessage("Moving $name to $x,$y,$z");
+  }
+  public function onDamage(EntityDamageEvent $event) {
+    $victim= $event->getEntity();
+    if (!($victim instanceof Player)) return;
+    if (!isset($this->teleporters[$victim->getName()])) return;
+    if (time() - $this->teleporters[$victim->getName()] > 2) {
+      unset($this->teleporters[$victim->getName()]);
+      return;
+    }
+    $victim->heal($event->getDamage());
+    //echo "Healing ".$victim->getName()." for ".$event->getDamage()."\n";
+    //echo "CAUSE: ".$event->getCause()."\n";
+    $event->setCancelled(true);
+    $event->setDamage(0);
+    //print_r($event);
   }
 }
