@@ -4,7 +4,6 @@ namespace alejandroliu\SignWarp;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\Server;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -12,13 +11,7 @@ use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 use pocketmine\event\block\SignChangeEvent;
 /** Not currently used but may be later used  */
-use pocketmine\level\Position;
-use pocketmine\entity\Entity;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\item\Item;
-use pocketmine\tile\Tile;
-use pocketmine\Player;
 
 class Main extends PluginBase implements Listener {
   const MAX_COORD = 30000000;
@@ -38,14 +31,13 @@ class Main extends PluginBase implements Listener {
 
     list($line,$x,$y,$z) = $mv;
 
-    //$this->getLogger()->info("x=$x y=$y z=$z");
-
     if ($x <= self::MIN_COORD || $z <= self::MIN_COORD) return false;
     if ($x >= self::MAX_COORD || $z >= self::MAX_COORD) return false;
     if ($y <= self::MIN_HEIGHT || $y >= self::MAX_HEIGHT) return false;
     $vec = [$x,$y,$z];
     return true;
   }
+
   public function onEnable(){
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
   }
@@ -68,7 +60,7 @@ class Main extends PluginBase implements Listener {
     $this->teleporters[$event->getPlayer()->getName()] = time();
     $event->getPlayer()->sendMessage("Warping to $x,$y,$z...");
     $event->getPlayer()->teleport(new Vector3($x,$y,$z));
-    Server::getInstance()->broadcastMessage($event->getPlayer()->getName()." teleported!");
+    $htis->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
   }
   private function longWarp(PlayerInteractEvent $event,$sign){
     if(empty($sign[1])){
@@ -112,6 +104,7 @@ class Main extends PluginBase implements Listener {
     }
     $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
   }
+
   public function onBlockPlace(BlockPlaceEvent $event){
     $name = $event->getPlayer()->getName();
     if (isset($this->teleporters[$name])) {

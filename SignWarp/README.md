@@ -79,12 +79,10 @@ Changes
 
 * 1.2.0 :
   * Prevents blocks to be placed when teleporting.
-* 1.1.0 : Added Multi-World Capability
+  * Touching a sign while holding a Sign stops teleports.
+* 1.1.0 : Added ManyWorlds Compatibility
   * Use ManyWorlds' teleport when available.
-  * Added support for multiple worlds.
-  * Added permissions for teleporting.
 * 1.0.0 : First release
-
 
 FAQ
 ---
@@ -93,14 +91,6 @@ FAQ
 * You can use a plugin like `ManyWorlds` or modify the `worlds` secion
   in your `pocketmine.yml` file.
 
-Changes
--------
-
-* 1.2.0 :
-  * ?
-* 1.1.0 :
-  * Added support for using ManyWorlds teleport.
-* 1.0.0 : First release
 
 Copyright
 =========
