@@ -70,7 +70,7 @@ Git Recipes
     git push origin --tags
 
 
-Ideas
+To-do
 -----
 
 * Create a Generator based of flat that creates infinite maze
@@ -78,5 +78,49 @@ Ideas
 * pmimporter: allow for an y-offset to be specify so that
   blocks/tiles/entities can be shifted along side the y axis.
 * pmimporter: merge chunks
-* ManyWorlds: command to edit motd
-* mw motd [n] <text>
+* pmimporter: Known Entities and Tiles
+  * Entities:
+      - (Enum)Pos: (Double)x,y,z (0,1,2)
+      - (Enum)Motion: (Double)motionX,motionY,motionZ (0,1,2)
+      - (Enum)Rotation: (Float) yaw,pitch (0,1)
+      - (Float)FallDistance
+      - (Short)Fire
+      - (Short)Air
+      - (Byte)OnGround (1/0)
+      - (Byte)Invulerable (1/0)
+    Arrow 
+      - (Short)Age (Projectile)
+    FallingSand
+      - (Int)TileID
+      - (Byte)Data
+    PrimedTNT
+      - (Byte)Fuse
+    Snowball (Projectile)
+      - (Short)Age
+    DroppedItem
+      - (Compound) Item [
+        - (Short) id, Damage
+	- (Byte) Count
+      - (Short) Health,Age,PickupDelay
+      - (String)Owner
+      - (String)Thrower
+    Villager (Creature|NPC,Ageable)
+    Zombie (Monster->Creature)
+    Human (Creature|ProjectileSource,InventoryHolder)
+    Creature->Living->Damageable
+      -(Short)Health
+  * Tiles
+    Sign
+    Chest
+    Furnace
+
+(String)id
+(Int) x, y, z
+SIGN: (String) Text1, Text2, Text3, Text4
+CHEST: Items = new Enum("Inventory", []),
+	setTagType(NBT::TAG_Compound);
+	NBT->Inventory[0..27]
+	(Int) pairx, pairz (if double chest)
+FURNACE: 	Items (Enum/Inventory , TAG_Compound);
+	NBT->Invetory[0..3]
+	(Short) BurnTime, CookTime, BurnTicks
