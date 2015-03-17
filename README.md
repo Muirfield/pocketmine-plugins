@@ -124,3 +124,5 @@ CHEST: Items = new Enum("Inventory", []),
 FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 	NBT->Invetory[0..3]
 	(Short) BurnTime, CookTime, BurnTicks
+
+* Implement carts?
