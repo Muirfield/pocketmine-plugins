@@ -125,6 +125,18 @@ class Main extends PluginBase implements Listener {
 	return;
       }
       $sign = $sign->getText();
+
+      // Check if the user is holding a sign and prevent teleports
+      print_r($event->getItem());
+      echo $event->getItem()->getID()."\n";
+      if ($event->getItem()->getID() == 323) {
+	if ($sign[0] == self::SHORT_WARP || $sign[0] == self::LONG_WARP) {
+	  $event->getPlayer()->sendMessage("Can not teleport while holding a sign!");
+	  return;
+	}
+
+	return;
+      }
       if($sign[0]== self::SHORT_WARP){
 	$this->shortWarp($event,$sign);
       } elseif ($sign[0]== self::LONG_WARP){
