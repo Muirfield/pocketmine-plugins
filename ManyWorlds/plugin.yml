@@ -10,7 +10,7 @@ author: aliuly
 commands:
     mw:
         description: Manage worlds
-        usage: "/mw <tp|create|load|unload|ls> <world>"
+        usage: "/mw <tp|create|load|unload|ls|motd> <world>"
 
 permissions:
     mw.cmd.tp:
@@ -19,6 +19,9 @@ permissions:
     mw.cmd.tp.others:
         default: op
         description: "Allows users to make others travel to other worlds"
+    mw.cmd.world.motd:
+        default: op
+        description: "Allows users to edit the motd text"
     mw.cmd.world.create:
         default: op
         description: "Allows users to create worlds"

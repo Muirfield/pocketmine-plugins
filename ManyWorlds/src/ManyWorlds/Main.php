@@ -38,6 +38,8 @@ class Main extends Plugin implements CommandExecutor {
 	case "ls":
 	case "list":
 	  return $this->mwWorldListCommand($sender,$args);
+	case "motd":
+	  return $this->mwWorldMotdCommand($sender,$args);
 	default:
 	  $sender->sendMessage("Unknown sub command: $args[0]");
 	  return true;
@@ -188,6 +190,61 @@ class Main extends Plugin implements CommandExecutor {
     }
     return true;
   }
+  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
+    if (count($args) < 2) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (count($args) == 2) {
+      // Show a MOTD for a world
+      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
+	return $this->permissionFail($sender);
+      }
+      if (!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+      $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+      if (file_exists($f)) {
+	$l = 1;
+	foreach (file($f) as $ln) {
+	  $ln = preg_replace('/\s+$/','',$ln);
+	  $sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
+	  ++$l;
+	}
+      }
+      return true;
+    }
+    // Edit the MOTD text
+    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
+      return $this->permissionFail($sender);
+    }
+    if (!$this->getServer()->isLevelGenerated($level)) {
+      $sender->sendMessage("[MW] $level does not exist");
+      return true;
+    }
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if (!is_numeric($args[2])) {
+      $sender->sendMessage("[MW] please provide a line number");
+      return true;
+    }
+    $line = (int)$args[2];
+    if ($line < 1 || $line > 5) {
+      $sender->sendMessage("[MW] Line $line must be between 1 and 5");
+      return true;
+    }
+    --$line;
+    if (file_exists($f)) {
+      $txt = file($f);
+    } else {
+      $txt = [ "\n","\n","\n","\n","\n" ];
+    }
+    array_shift($args);array_shift($args);array_shift($args);
+    $txt[$line] = implode(' ',$args)."\n";
+    file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
+    return true;
+  }
   private function mwWorldListCommand(CommandSender $sender, array $args) {
     if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
       return $this->permissionFail($sender);
@@ -226,6 +283,7 @@ class Main extends Plugin implements CommandExecutor {
       if (file_exists($f)) {
 	$txt[] = "MOTD:";
 	foreach (file($f) as $ln) {
+	  $ln = preg_replace('/\s+$/','',$ln);
 	  $txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
 	}
       }
