@@ -4,13 +4,13 @@ load: POSTWORLD
 
 name: ManyWorlds
 description: Manage Multiple Worlds
-version: 1.1.0
+version: 1.2.0
 author: aliuly
 
 commands:
     mw:
         description: Manage worlds
-        usage: "/mw <tp|create|load|ls> <world>"
+        usage: "/mw <tp|create|load|unload|ls|motd> <world>"
 
 permissions:
     mw.cmd.tp:
@@ -19,6 +19,9 @@ permissions:
     mw.cmd.tp.others:
         default: op
         description: "Allows users to make others travel to other worlds"
+    mw.cmd.world.motd:
+        default: op
+        description: "Allows users to edit the motd text"
     mw.cmd.world.create:
         default: op
         description: "Allows users to create worlds"

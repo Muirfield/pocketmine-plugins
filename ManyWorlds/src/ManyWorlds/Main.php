@@ -7,19 +7,27 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\permission\Permission;
 use pocketmine\level\Level;
 use pocketmine\level\generator\Generator;
-use pocketmine\command\CommandExecutor;
+//use pocketmine\command\CommandExecutor;
+use pocketmine\event\Listener;
+
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\entity\EntityDamageEvent;
 
+class Main extends Plugin implements Listener {
+  protected $teleporters = [];
 
-class Main extends Plugin implements CommandExecutor {
   public function onLoad() {
     $this->getLogger()->info("ManyWorlds Loaded!");
   }
+  public function onEnable(){
+    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+  }
+
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
     case "mw":
@@ -30,12 +38,16 @@ class Main extends Plugin implements CommandExecutor {
 	  return $this->mwTeleportCommand($sender,$args);
 	case "create":
 	  return $this->mwWorldCreateCommand($sender,$args);
+	case "unload":
+	  return $this->mwWorldUnloadCommand($sender,$args);
 	case "load":
 	case "ld":
 	  return $this->mwWorldLoadCommand($sender,$args);
 	case "ls":
 	case "list":
 	  return $this->mwWorldListCommand($sender,$args);
+	case "motd":
+	  return $this->mwWorldMotdCommand($sender,$args);
 	default:
 	  $sender->sendMessage("Unknown sub command: $args[0]");
 	  return true;
@@ -105,7 +117,7 @@ class Main extends Plugin implements CommandExecutor {
 	  if(!($sender->getLevel() == $this->getServer()->getLevelByName($level))) {
 	    if($this->mwAutoLoad($sender,$level)) {
 	      $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
-	      $this->teleport($player,$level);
+	      $this->teleport($sender,$level);
 	      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport you to " . $level . " as it\nis not loaded!");
@@ -148,6 +160,33 @@ class Main extends Plugin implements CommandExecutor {
     $this->getServer()->loadLevel($level);
     return true;
   }
+  private function mwWorldUnloadCommand(CommandSender $sender, array $args) {
+    $force = false;
+    if (isset($args[1]) && $args[1] == '-f') {
+      $force = true;
+      array_shift($args);
+    }
+    if(!isset($args[1])) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (!$this->getServer()->isLevelLoaded($level)) {
+      $sender->sendMessage("[MW] Level $level is not loaded.");
+      return true;
+    }
+    $world = $this->getServer()->getLevelByName($level);
+    if ($world === null) {
+      $sender->sendMessage("[MW] Unable to get $level");
+      return true;
+    }
+    if ($this->getServer()->unloadLevel($world,$force)) {
+      $sender->sendMessage("[MW] $level unloaded.");
+    } else {
+      $sender->sendMessage("[MW] Unable to unload $level.  Try -f");
+    }
+    return true;
+  }
   private function mwWorldLoadCommand(CommandSender $sender, array $args) {
     if(!isset($args[1])) {
       $sender->sendMessage("[MW] Must specify level name");
@@ -157,6 +196,61 @@ class Main extends Plugin implements CommandExecutor {
     if (!$this->mwAutoLoad($sender,$level)) {
       $sender->sendMessage("[MW] Unable to load $level");
     }
+    return true;
+  }
+  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
+    if (count($args) < 2) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (count($args) == 2) {
+      // Show a MOTD for a world
+      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
+	return $this->permissionFail($sender);
+      }
+      if (!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+      $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+      if (file_exists($f)) {
+	$l = 1;
+	foreach (file($f) as $ln) {
+	  $ln = preg_replace('/\s+$/','',$ln);
+	  $sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
+	  ++$l;
+	}
+      }
+      return true;
+    }
+    // Edit the MOTD text
+    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
+      return $this->permissionFail($sender);
+    }
+    if (!$this->getServer()->isLevelGenerated($level)) {
+      $sender->sendMessage("[MW] $level does not exist");
+      return true;
+    }
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if (!is_numeric($args[2])) {
+      $sender->sendMessage("[MW] please provide a line number");
+      return true;
+    }
+    $line = (int)$args[2];
+    if ($line < 1 || $line > 5) {
+      $sender->sendMessage("[MW] Line $line must be between 1 and 5");
+      return true;
+    }
+    --$line;
+    if (file_exists($f)) {
+      $txt = file($f);
+    } else {
+      $txt = [ "\n","\n","\n","\n","\n" ];
+    }
+    array_shift($args);array_shift($args);array_shift($args);
+    $txt[$line] = implode(' ',$args)."\n";
+    file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
     return true;
   }
   private function mwWorldListCommand(CommandSender $sender, array $args) {
@@ -197,6 +291,7 @@ class Main extends Plugin implements CommandExecutor {
       if (file_exists($f)) {
 	$txt[] = "MOTD:";
 	foreach (file($f) as $ln) {
+	  $ln = preg_replace('/\s+$/','',$ln);
 	  $txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
 	}
       }
@@ -256,20 +351,47 @@ class Main extends Plugin implements CommandExecutor {
   public function onDisable() {
     $this->getLogger()->info("ManyWorlds Unloaded!");
   }
+  private function after($task,$ticks) {
+    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
+  }
   public function teleport($player,$level,$spawn=null) {
     $world = $this->getServer()->getLevelByName($level);
     $location = $world->getSafeSpawn($spawn);
+    $this->teleporters[$player->getName()] = time();
     $player->teleport($location);
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if (file_exists($f)) $player->sendMessage(file_get_contents($f));
-    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),20);
+    foreach ([5,10,20] as $ticks) {
+      $this->after(new MwTask($this,"delayedTP",
+			      [$player->getName(),
+			       $location->getX(),$location->getY(),
+			       $location->getZ()]),$ticks);
+    }
+    $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
   }
-  public function delayedTP($m) {
-    list($id,$name,$x,$y,$z) = explode("\0",$m);
+  public function restoreHealth($m) {
+    list($name,$health) = $m;
     $player = $this->getServer()->getPlayer($name);
     if (!$player) return;
-    if ($player->getId() != $id) return;
+    $player->setHealth($health);
+  }
+
+  public function delayedTP($m) {
+    list($name,$x,$y,$z) = $m;
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
     $player->teleport(new Vector3($x,$y,$z));
-    $this->getServer()->broadCastMessage("Moving $id/$name to $x,$y,$z");
+  }
+  public function onDamage(EntityDamageEvent $event) {
+    $victim= $event->getEntity();
+    if (!($victim instanceof Player)) return;
+    if (!isset($this->teleporters[$victim->getName()])) return;
+    if (time() - $this->teleporters[$victim->getName()] > 2) {
+      unset($this->teleporters[$victim->getName()]);
+      return;
+    }
+    $victim->heal($event->getDamage());
+    $event->setCancelled(true);
+    $event->setDamage(0);
   }
 }

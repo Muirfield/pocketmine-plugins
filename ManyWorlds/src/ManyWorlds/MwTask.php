@@ -5,14 +5,15 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;
 
 class MwTask extends PluginTask {
-  private $attr;
+  private $method;
+  private $args;
 
-  public function __construct($plugin,$player,$location) {
+  public function __construct($plugin,$method,$args) {
     parent::__construct($plugin);
-    $this->attr = implode("\0",[$player->getId(),$player->getName(),
-				$location->getX(),$location->getY(),$location->getZ()]);
+    $this->method = $method;
+    $this->args = serialize($args);
   }
   public function onRun($ticks) {
-    $this->getOwner()->delayedTP($this->attr);
+    call_user_func([$this->getOwner(),$this->method],unserialize($this->args));
   }
 }

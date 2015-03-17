@@ -29,7 +29,7 @@ class Main extends PluginBase implements Listener {
   const SHORT_WARP = "[SWARP]";
   const LONG_WARP = "[WORLD]";
 
-  //** private $api, $server, $path;
+  protected $teleporters = [];
 
   private function check_coords($line,array &$vec) {
     $mv = array();
@@ -65,6 +65,7 @@ class Main extends PluginBase implements Listener {
       return;
     }
     list($x,$y,$z) = $mv;
+    $this->teleporters[$event->getPlayer()->getName()] = time();
     $event->getPlayer()->sendMessage("Warping to $x,$y,$z...");
     $event->getPlayer()->teleport(new Vector3($x,$y,$z));
     Server::getInstance()->broadcastMessage($event->getPlayer()->getName()." teleported!");
@@ -99,6 +100,7 @@ class Main extends PluginBase implements Listener {
     }
     $event->getPlayer()->sendMessage("Teleporting...");
 
+    $this->teleporters[$event->getPlayer()->getName()] = time();
 
     if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds"))
 	!= null) {
@@ -110,7 +112,12 @@ class Main extends PluginBase implements Listener {
     }
     $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
   }
-
+  public function onBlockPlace(BlockPlaceEvent $event){
+    $name = $event->getPlayer()->getName();
+    if (isset($this->teleporters[$name])) {
+      if (time() - $this->teleporters[$name] < 2) $event->setCancelled();
+    }
+  }
   public function playerBlockTouch(PlayerInteractEvent $event){
     if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68){
       $sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
@@ -118,6 +125,16 @@ class Main extends PluginBase implements Listener {
 	return;
       }
       $sign = $sign->getText();
+
+      // Check if the user is holding a sign and prevent teleports
+      if ($event->getItem()->getID() == 323) {
+	if ($sign[0] == self::SHORT_WARP || $sign[0] == self::LONG_WARP) {
+	  $event->getPlayer()->sendMessage("Can not teleport while holding a sign!");
+	  return;
+	}
+
+	return;
+      }
       if($sign[0]== self::SHORT_WARP){
 	$this->shortWarp($event,$sign);
       } elseif ($sign[0]== self::LONG_WARP){
