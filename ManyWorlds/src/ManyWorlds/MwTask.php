@@ -14,7 +14,6 @@ class MwTask extends PluginTask {
     $this->args = serialize($args);
   }
   public function onRun($ticks) {
-    //echo "Callback: $this->method\n";
     call_user_func([$this->getOwner(),$this->method],unserialize($this->args));
   }
 }

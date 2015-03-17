@@ -368,15 +368,12 @@ class Main extends Plugin implements Listener {
 			       $location->getZ()]),$ticks);
     }
     $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
-    //echo "Will restore ".$player->getName()." to ".$player->getHealth()."\n";
   }
   public function restoreHealth($m) {
-    //print_r($m);
     list($name,$health) = $m;
     $player = $this->getServer()->getPlayer($name);
     if (!$player) return;
     $player->setHealth($health);
-    //echo "Restoring ".$player->getName()." to ".$health."\n";
   }
 
   public function delayedTP($m) {
@@ -384,7 +381,6 @@ class Main extends Plugin implements Listener {
     $player = $this->getServer()->getPlayer($name);
     if (!$player) return;
     $player->teleport(new Vector3($x,$y,$z));
-    //$this->getServer()->broadCastMessage("Moving $name to $x,$y,$z");
   }
   public function onDamage(EntityDamageEvent $event) {
     $victim= $event->getEntity();
@@ -395,10 +391,7 @@ class Main extends Plugin implements Listener {
       return;
     }
     $victim->heal($event->getDamage());
-    //echo "Healing ".$victim->getName()." for ".$event->getDamage()."\n";
-    //echo "CAUSE: ".$event->getCause()."\n";
     $event->setCancelled(true);
     $event->setDamage(0);
-    //print_r($event);
   }
 }
