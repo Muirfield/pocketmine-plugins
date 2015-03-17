@@ -30,6 +30,8 @@ class Main extends Plugin implements CommandExecutor {
 	  return $this->mwTeleportCommand($sender,$args);
 	case "create":
 	  return $this->mwWorldCreateCommand($sender,$args);
+	case "unload":
+	  return $this->mwWorldUnloadCommand($sender,$args);
 	case "load":
 	case "ld":
 	  return $this->mwWorldLoadCommand($sender,$args);
@@ -105,7 +107,7 @@ class Main extends Plugin implements CommandExecutor {
 	  if(!($sender->getLevel() == $this->getServer()->getLevelByName($level))) {
 	    if($this->mwAutoLoad($sender,$level)) {
 	      $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
-	      $this->teleport($player,$level);
+	      $this->teleport($sender,$level);
 	      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
 	    } else {
 	      $sender->sendMessage("[MW] Unable to teleport you to " . $level . " as it\nis not loaded!");
@@ -146,6 +148,33 @@ class Main extends Plugin implements CommandExecutor {
     $this->getServer()->broadcastMessage("[MW] Creating level " . $level . "... (Expect Lag)");
     $this->getServer()->generateLevel($level, $seed, $generator, $options);
     $this->getServer()->loadLevel($level);
+    return true;
+  }
+  private function mwWorldUnloadCommand(CommandSender $sender, array $args) {
+    $force = false;
+    if (isset($args[1]) && $args[1] == '-f') {
+      $force = true;
+      array_shift($args);
+    }
+    if(!isset($args[1])) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (!$this->getServer()->isLevelLoaded($level)) {
+      $sender->sendMessage("[MW] Level $level is not loaded.");
+      return true;
+    }
+    $world = $this->getServer()->getLevelByName($level);
+    if ($world === null) {
+      $sender->sendMessage("[MW] Unable to get $level");
+      return true;
+    }
+    if ($this->getServer()->unloadLevel($world,$force)) {
+      $sender->sendMessage("[MW] $level unloaded.");
+    } else {
+      $sender->sendMessage("[MW] Unable to unload $level.  Try -f");
+    }
     return true;
   }
   private function mwWorldLoadCommand(CommandSender $sender, array $args) {
@@ -262,14 +291,15 @@ class Main extends Plugin implements CommandExecutor {
     $player->teleport($location);
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if (file_exists($f)) $player->sendMessage(file_get_contents($f));
+    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),5);
+    $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),10);
     $this->getServer()->getScheduler()->scheduleDelayedTask(new MwTask($this,$player,$location),20);
   }
   public function delayedTP($m) {
-    list($id,$name,$x,$y,$z) = explode("\0",$m);
+    list($name,$x,$y,$z) = explode("\0",$m);
     $player = $this->getServer()->getPlayer($name);
     if (!$player) return;
-    if ($player->getId() != $id) return;
     $player->teleport(new Vector3($x,$y,$z));
-    $this->getServer()->broadCastMessage("Moving $id/$name to $x,$y,$z");
+    //$this->getServer()->broadCastMessage("Moving $name to $x,$y,$z");
   }
 }

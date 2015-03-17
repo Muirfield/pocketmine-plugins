@@ -10,7 +10,7 @@ author: aliuly
 commands:
     mw:
         description: Manage worlds
-        usage: "/mw <tp|create|load|ls> <world>"
+        usage: "/mw <tp|create|load|unload|ls> <world>"
 
 permissions:
     mw.cmd.tp:

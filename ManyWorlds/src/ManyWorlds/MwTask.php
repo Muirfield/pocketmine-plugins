@@ -9,7 +9,7 @@ class MwTask extends PluginTask {
 
   public function __construct($plugin,$player,$location) {
     parent::__construct($plugin);
-    $this->attr = implode("\0",[$player->getId(),$player->getName(),
+    $this->attr = implode("\0",[$player->getName(),
 				$location->getX(),$location->getY(),$location->getZ()]);
   }
   public function onRun($ticks) {

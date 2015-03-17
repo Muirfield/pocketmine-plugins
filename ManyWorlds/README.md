@@ -64,7 +64,8 @@ Changes
 -------
 
 * 1.2.0:
-  * ?
+  * Added world unload
+  * Delayed teleport tweaks
 * 1.1.0:
   * BugFix: given an invalid player name to teleport would crash
     server.
