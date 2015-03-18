@@ -40,7 +40,8 @@ Client-Server glitches.  It works for me.
   Creates a world named `level`.  You can optionally specify a `seed`
   as number, the generator (`flat` or `normal`) and a `preset` string.
 * mw load *level*  
-  Loads `level` directly.
+  Loads `level` directly.  If you use `--all` for the `level` name, it
+  will load all worlds.
 * mw unload *level*
   Unloads `level`.
 * mw ls [level]  
@@ -86,6 +87,7 @@ Changes
   * Teleports show a `motd.txt` in the map world.
   * Added some hacks to make teleporting less glitchy
   * API so other Plugins can also use this teleport functionality
+  * Added `loadall` functionality.
 * 1.0.0 : Initial release
 
 Copyright

@@ -212,6 +212,18 @@ class Main extends Plugin implements Listener {
       $sender->sendMessage("[MW] Must specify level name");
       return true;
     }
+    if ($args[1] == "--all") {
+      $sender->sendMessage("[MW] ".TextFormat::RED."Loading ALL levels".TextFormat::RESET);
+      foreach (glob($this->getServer()->getDataPath(). "worlds/*") as $f) {
+	$level = basename($f);
+	if ($this->getServer()->isLevelLoaded($level)) continue;
+	if (!$this->getServer()->isLevelGenerated($level)) continue;
+	if (!$this->mwAutoLoad($sender,$level)) {
+	  $sender->sendMessage("[MW] Unable to load $level");
+	}
+      }
+      return true;
+    }
     $level = $args[1];
     if (!$this->mwAutoLoad($sender,$level)) {
       $sender->sendMessage("[MW] Unable to load $level");
