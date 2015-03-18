@@ -61,7 +61,7 @@ Client-Server glitches.  Essentially, it works for me.
   If only *level* is specified, it will show the `motd` message for
   that *level*.  If `line` and `text` is specified (`text` can be
   empty, however), it will modify that line of the `motd` message.
-  
+
 
 ### Permission Nodes:
 
