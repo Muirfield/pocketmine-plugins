@@ -125,6 +125,5 @@ FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 	(Short) BurnTime, CookTime, BurnTicks
 
 * Implement carts?
-* ManyWorlds: Enter motd and shows motd (rules) right away
 * ManyWorlds: Add world to the pocketmine.yml file.
 

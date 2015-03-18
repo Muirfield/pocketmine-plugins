@@ -30,8 +30,14 @@ Documentation
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
 
+It also implements a simple per-world _message of the day_ that is
+shown automatically when a player teleports to a new world.  This is
+stored in the `worlds/level` subdirectory under `motd.txt`.  You can
+edit this file directly using something like `notepad` or write the
+text using the `motd` sub-command.
+
 The teleport itself has a number of workarounds to deal with
-Client-Server glitches.  It works for me.
+Client-Server glitches.  Essentially, it works for me.
 
 ### Commands:
 
@@ -87,17 +93,16 @@ Changes
 
 * 1.1.0:
   * Added world unload.  May cause core dumps.
-  * Workaround to teleport glitches.
-  * Added support for editing motd.txt
-  * BugFix: given an invalid player name to teleport would crash server.
-  * Paginated output of `ls`
-  * `ls` now shows number of players, if the world is automatically
-    loaded, and if it is default.
-  * Teleports show a `motd.txt` in the map world.
-  * Added some hacks to make teleporting less glitchy
-  * API so other Plugins can also use this teleport functionality
+  * `ls` sub-command imporvements:
+    * paginated output
+    * show number of players, autoloading and default status
+  * Per-level `motd.txt`.  Worlds can contain a small `motd.txt` text
+    file that will be displayed when the player enters or when they
+    type the `/motd` command.
+  * Workaround teleport glitches, with a minimal API to let other
+    plugins use this.
   * Added `loadall` functionality.
-  * Added `motd` command
+  * BugFix: given an invalid player name to teleport would crash server.
 * 1.0.0 : Initial release
 
 Copyright

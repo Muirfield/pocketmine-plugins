@@ -24,6 +24,21 @@ class Main extends Plugin implements Listener {
   protected $teleporters = [];
   protected $canUnload = false;
 
+  private function checkPermission(CommandSender $sender, $permission) {
+    if($sender->hasPermission($permission)) return true;
+    return false;
+  }
+  private function permissionFail(CommandSender $sender) {
+    $sender->sendMessage("You do not have permission to do that.");
+    return true;
+  }
+  public function onDisable() {
+    $this->getLogger()->info("ManyWorlds Unloaded!");
+  }
+  private function after($task,$ticks) {
+    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
+  }
+
   public function onLoad() {
     $this->getLogger()->info("ManyWorlds Loaded!");
   }
@@ -83,20 +98,6 @@ class Main extends Plugin implements Listener {
     return true;
   }
 
-  private function motdCommand(CommandSender $sender) {
-    if (!($sender instanceof Player)) {
-      $sender->sendMessage("[MW] You must use this command in-game");
-      return true;
-    }
-    $level = $sender->getLevel()->getName();
-    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    if (file_exists($f)) {
-      $sender->sendMessage(file_get_contents($f));
-    } else {
-      $sender->sendMessage("Sorry, no \"motd.txt\"");
-    }
-    return true;
-  }
 
   private function mwTeleportCommand(CommandSender $sender,array $args) {
     if (!isset($args[1])) {
@@ -251,67 +252,6 @@ class Main extends Plugin implements Listener {
     return true;
   }
 
-  private function mwWorldShowMotd(CommandSender $sender,$level) {
-    // Show a MOTD for a world
-    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    if (file_exists($f)) {
-      $l = 1;
-      foreach (file($f) as $ln) {
-	$ln = preg_replace('/\s+$/','',$ln);
-	$sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
-	++$l;
-      }
-    }
-    return true;
-  }
-  private function mwWorldEditMotd(CommandSender $sender,$level,$line,$lntxt) {
-    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    if ($line < 1 || $line > 5) {
-      $sender->sendMessage("[MW] Line $line must be between 1 and 5");
-      return true;
-    }
-    --$line;
-    if (file_exists($f)) {
-      $txt = file($f);
-    } else {
-      $txt = [ "\n","\n","\n","\n","\n" ];
-    }
-    $txt[$line] = $lntxt;
-    file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
-    return true;
-  }
-
-  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
-    if (count($args) < 2) {
-      $sender->sendMessage("[MW] Must specify level name");
-      return true;
-    }
-    $level = $args[1];
-    if (!$this->getServer()->isLevelGenerated($level)) {
-      $sender->sendMessage("[MW] $level does not exist");
-      return true;
-    }
-
-    if (count($args) == 2) {
-      // Just show it...
-      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
-	return $this->permissionFail($sender);
-      }
-      return $this->mwWorldShowMotd($sender,$level);
-    }
-    // Edit the MOTD text
-    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
-      return $this->permissionFail($sender);
-    }
-    array_shift($args);array_shift($args);
-    $lnum = array_shift($args);
-    if (!is_numeric($lnum)) {
-      $sender->sendMessage("[MW] please provide a line number");
-      return true;
-    }
-    return $this->mwWorldEditMotd($sender,$level,$lnum,implode(" ",$args));
-  }
-
   private function mwWorldDetails(CommandSender $sender,$level) {
     $txt = [];
 
@@ -428,48 +368,81 @@ class Main extends Plugin implements Listener {
     return true;
   }
 
-  private function checkPermission(CommandSender $sender, $permission) {
-    if($sender->hasPermission($permission)) return true;
-    return false;
-  }
-  private function permissionFail(CommandSender $sender) {
-    $sender->sendMessage("You do not have permission to do that.");
+  private function motdCommand(CommandSender $sender) {
+    if (!($sender instanceof Player)) {
+      $sender->sendMessage("[MW] You must use this command in-game");
+      return true;
+    }
+    $level = $sender->getLevel()->getName();
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if (file_exists($f)) {
+      $sender->sendMessage(file_get_contents($f));
+    } else {
+      $sender->sendMessage("Sorry, no \"motd.txt\"");
+    }
     return true;
   }
-  public function onDisable() {
-    $this->getLogger()->info("ManyWorlds Unloaded!");
-  }
-  private function after($task,$ticks) {
-    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
-  }
-  public function teleport($player,$level,$spawn=null) {
-    $world = $this->getServer()->getLevelByName($level);
-    $location = $world->getSafeSpawn($spawn);
-    $this->teleporters[$player->getName()] = time();
-    $player->teleport($location);
-    foreach ([5,10,20] as $ticks) {
-      $this->after(new MwTask($this,"delayedTP",
-			      [$player->getName(),
-			       $location->getX(),$location->getY(),
-			       $location->getZ()]),$ticks);
+  private function mwWorldShowMotd(CommandSender $sender,$level) {
+    // Show a MOTD for a world
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if (file_exists($f)) {
+      $l = 1;
+      foreach (file($f) as $ln) {
+	$ln = preg_replace('/\s+$/','',$ln);
+	$sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
+	++$l;
+      }
     }
-    $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
+    return true;
+  }
+  private function mwWorldEditMotd(CommandSender $sender,$level,$line,$lntxt) {
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if ($line < 1 || $line > 5) {
+      $sender->sendMessage("[MW] Line $line must be between 1 and 5");
+      return true;
+    }
+    --$line;
+    if (file_exists($f)) {
+      $txt = file($f);
+    } else {
+      $txt = [ "\n","\n","\n","\n","\n" ];
+    }
+    $txt[$line] = $lntxt;
+    file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
+    return true;
   }
 
+  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
+    if (count($args) < 2) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (!$this->getServer()->isLevelGenerated($level)) {
+      $sender->sendMessage("[MW] $level does not exist");
+      return true;
+    }
 
-  public function restoreHealth($m) {
-    list($name,$health) = $m;
-    $player = $this->getServer()->getPlayer($name);
-    if (!$player) return;
-    $player->setHealth($health);
+    if (count($args) == 2) {
+      // Just show it...
+      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
+	return $this->permissionFail($sender);
+      }
+      return $this->mwWorldShowMotd($sender,$level);
+    }
+    // Edit the MOTD text
+    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
+      return $this->permissionFail($sender);
+    }
+    array_shift($args);array_shift($args);
+    $lnum = array_shift($args);
+    if (!is_numeric($lnum)) {
+      $sender->sendMessage("[MW] please provide a line number");
+      return true;
+    }
+    return $this->mwWorldEditMotd($sender,$level,$lnum,implode(" ",$args));
   }
 
-  public function delayedTP($m) {
-    list($name,$x,$y,$z) = $m;
-    $player = $this->getServer()->getPlayer($name);
-    if (!$player) return;
-    $player->teleport(new Vector3($x,$y,$z));
-  }
   public function showMotd($m) {
     list($name,$level) = $m;
     $player = $this->getServer()->getPlayer($name);
@@ -497,7 +470,42 @@ class Main extends Plugin implements Listener {
     $this->after(new MwTask($this,"showMotd",[$traveller,$level]),21);
   }
 
+  public function teleport($player,$level,$spawn=null) {
+    $world = $this->getServer()->getLevelByName($level);
+    // Try to find a reasonable spawn location
+    $location = $world->getSafeSpawn($spawn);
+    $this->teleporters[$player->getName()] = time();
+    foreach ([5,10,20] as $ticks) {
+      // Try to keep the player in place until the chunk finish loading
+      $this->after(new MwTask($this,"delayedTP",
+			      [$player->getName(),
+			       $location->getX(),$location->getY(),
+			       $location->getZ()]),$ticks);
+    }
+    // Make sure that any damage he may have taken is restored
+    $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
+    // Make sure the player survives the transfer...
+    $player->setHealth($player->getMaxHealth());
+    $player->teleport($location); // Start the teleport
+  }
+
+
+  public function restoreHealth($m) {
+    list($name,$health) = $m;
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
+    $player->setHealth($health);
+  }
+
+  public function delayedTP($m) {
+    list($name,$x,$y,$z) = $m;
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
+    $player->teleport(new Vector3($x,$y,$z));
+  }
+
   public function onDamage(EntityDamageEvent $event) {
+    // Try keep the player alive while on transit...
     $victim= $event->getEntity();
     if (!($victim instanceof Player)) return;
     if (!isset($this->teleporters[$victim->getName()])) return;
