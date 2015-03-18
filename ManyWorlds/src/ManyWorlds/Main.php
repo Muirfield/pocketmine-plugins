@@ -191,10 +191,12 @@ class Main extends Plugin implements Listener {
     if (isset($args[1]) && $args[1] == '--enable') {
       $this->canUnload = true;
       $sender->sendMessage("[MW] Unload sub-command enabled");
+      $sender->sendMessage("[MW] To disable use: /mw unload --disable");
       return true;
     } elseif (isset($args[1]) && $args[1] == '--disable') {
       $this->canUnload = true;
       $sender->sendMessage("[MW] Unload sub-command disabled");
+      $sender->sendMessage("[MW] To enable use: /mw unload --enable");
       return true;
     }
     if (!$this->canUnload) {
@@ -271,7 +273,7 @@ class Main extends Plugin implements Listener {
     //==== provider
     $provider = $world->getProvider();
     $txt[] = "Info for $level";
-    $txt[] = "Provider: ". get_class($provider);
+    $txt[] = "Provider: ". $provider::getProviderName();
     $txt[] = "Path: ".$provider->getPath();
     $txt[] = "Name: ".$provider->getName();
     $txt[] = "Seed: ".$provider->getSeed();
@@ -280,7 +282,6 @@ class Main extends Plugin implements Listener {
     $spawn = $provider->getSpawn();
     $txt[] = "Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    $txt[] = "MOTD: $f";
     if (file_exists($f)) {
       $txt[] = "MOTD:";
       foreach (file($f) as $ln) {
@@ -316,10 +317,6 @@ class Main extends Plugin implements Listener {
 	$attrs[] = "loaded";
 	$np = count($this->getServer()->getLevelByName($file)->getPlayers());
 	if ($np) $attrs[] = "players:$np";
-      }
-      $fmt = LevelProviderManager::getProvider($dir."/".$file);
-      if ($fmt) {
-	$attrs[] = $fmt::getProviderName();
       }
       $ln = "- $file";
       if (count($attrs)) $ln .= " (".implode(",",$attrs).")";

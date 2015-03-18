@@ -96,7 +96,7 @@ Changes
   * Added world unload.  May cause core dumps.
   * `ls` sub-command imporvements:
     * paginated output
-    * show number of players, autoloading and default status, format.
+    * show number of players, autoloading and default status.
   * Per-level `motd.txt`.  Worlds can contain a small `motd.txt` text
     file that will be displayed when the player enters or when they
     type the `/motd` command.
