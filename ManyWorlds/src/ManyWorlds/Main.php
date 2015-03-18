@@ -20,6 +20,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 
 class Main extends Plugin implements Listener {
   protected $teleporters = [];
+  protected $canUnload = false;
 
   public function onLoad() {
     $this->getLogger()->info("ManyWorlds Loaded!");
@@ -60,6 +61,7 @@ class Main extends Plugin implements Listener {
     }
     return false;
   }
+
   private function mwAutoLoad(CommandSender $c,$level) {
     if (!$this->getServer()->isLevelLoaded($level)) {
       if(!$this->checkPermission($c, "mw.cmd.world.load")) {
@@ -161,6 +163,24 @@ class Main extends Plugin implements Listener {
     return true;
   }
   private function mwWorldUnloadCommand(CommandSender $sender, array $args) {
+    if (isset($args[1]) && $args[1] == '--enable') {
+      $this->canUnload = true;
+      $sender->sendMessage("[MW] Unload sub-command enabled");
+      return true;
+    } elseif (isset($args[1]) && $args[1] == '--disable') {
+      $this->canUnload = true;
+      $sender->sendMessage("[MW] Unload sub-command disabled");
+      return true;
+    }
+    if (!$this->canUnload) {
+      $sender->sendMessage("[MW] Unload sub-command is disabled by default");
+      $sender->sendMessage("[MW] this is because that it usually causes the");
+      $sender->sendMessage("[MW] server to ".TextFormat::RED."crash.".TextFormat::RESET);
+      $sender->sendMessage("[MW] Use: ".TextFormat::BLUE."/mw unload --enable".TextFormat::RESET);
+      $sender->sendMessage("[MW] To activate");
+      return true;
+    }
+
     $force = false;
     if (isset($args[1]) && $args[1] == '-f') {
       $force = true;
@@ -198,46 +218,22 @@ class Main extends Plugin implements Listener {
     }
     return true;
   }
-  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
-    if (count($args) < 2) {
-      $sender->sendMessage("[MW] Must specify level name");
-      return true;
-    }
-    $level = $args[1];
-    if (count($args) == 2) {
-      // Show a MOTD for a world
-      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
-	return $this->permissionFail($sender);
-      }
-      if (!$this->getServer()->isLevelGenerated($level)) {
-	$sender->sendMessage("[MW] $level does not exist");
-	return true;
-      }
-      $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-      if (file_exists($f)) {
-	$l = 1;
-	foreach (file($f) as $ln) {
-	  $ln = preg_replace('/\s+$/','',$ln);
-	  $sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
-	  ++$l;
-	}
-      }
-      return true;
-    }
-    // Edit the MOTD text
-    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
-      return $this->permissionFail($sender);
-    }
-    if (!$this->getServer()->isLevelGenerated($level)) {
-      $sender->sendMessage("[MW] $level does not exist");
-      return true;
-    }
+
+  private function mwWorldShowMotd(CommandSender $sender,$level) {
+    // Show a MOTD for a world
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    if (!is_numeric($args[2])) {
-      $sender->sendMessage("[MW] please provide a line number");
-      return true;
+    if (file_exists($f)) {
+      $l = 1;
+      foreach (file($f) as $ln) {
+	$ln = preg_replace('/\s+$/','',$ln);
+	$sender->sendMessage($l.' '.TextFormat::BLUE.$ln.TextFormat::RESET);
+	++$l;
+      }
     }
-    $line = (int)$args[2];
+    return true;
+  }
+  private function mwWorldEditMotd(CommandSender $sender,$level,$line,$lntxt) {
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if ($line < 1 || $line > 5) {
       $sender->sendMessage("[MW] Line $line must be between 1 and 5");
       return true;
@@ -248,80 +244,139 @@ class Main extends Plugin implements Listener {
     } else {
       $txt = [ "\n","\n","\n","\n","\n" ];
     }
-    array_shift($args);array_shift($args);array_shift($args);
-    $txt[$line] = implode(' ',$args)."\n";
+    $txt[$line] = $lntxt;
     file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
     return true;
   }
+
+  private function mwWorldMotdCommand(CommandSender $sender, array $args) {
+    if (count($args) < 2) {
+      $sender->sendMessage("[MW] Must specify level name");
+      return true;
+    }
+    $level = $args[1];
+    if (!$this->getServer()->isLevelGenerated($level)) {
+      $sender->sendMessage("[MW] $level does not exist");
+      return true;
+    }
+
+    if (count($args) == 2) {
+      // Just show it...
+      if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
+	return $this->permissionFail($sender);
+      }
+      return $this->mwWorldShowMotd($sender,$level);
+    }
+    // Edit the MOTD text
+    if(!$this->checkPermission($sender, "mw.cmd.world.motd")) {
+      return $this->permissionFail($sender);
+    }
+    array_shift($args);array_shift($args);
+    $lnum = array_shift($args);
+    if (!is_numeric($lnum)) {
+      $sender->sendMessage("[MW] please provide a line number");
+      return true;
+    }
+    return $this->mwWorldEditMotd($sender,$level,$lnum,implode(" ",$args));
+  }
+
+  private function mwWorldDetails(CommandSender $sender,$level) {
+    $txt = [];
+
+    if (!$this->mwAutoLoad($sender,$level)) {
+      $sender->sendMessage("[MW] Unable to load $level");
+      return null;
+    }
+    $world = $this->getServer()->getLevelByName($level);
+    if (!$world) {
+      $sender->sendMessage("[MW] $level not loaded");
+      return null;
+    }
+    //==== provider
+    $provider = $world->getProvider();
+    $txt[] = "Info for $level";
+    $txt[] = "Provider: ". get_class($provider);
+    $txt[] = "Path: ".$provider->getPath();
+    $txt[] = "Name: ".$provider->getName();
+    $txt[] = "Seed: ".$provider->getSeed();
+    $txt[] = "Generator: ".$provider->getGenerator();
+    $txt[] = "Generator Options: ".print_r($provider->getGeneratorOptions(),true);
+    $spawn = $provider->getSpawn();
+    $txt[] = "Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    $txt[] = "MOTD: $f";
+    if (file_exists($f)) {
+      $txt[] = "MOTD:";
+      foreach (file($f) as $ln) {
+	$ln = preg_replace('/\s+$/','',$ln);
+	$txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
+      }
+    }
+    return $txt;
+  }
+
+  private function mwWorldListing(CommandSender $sender) {
+    $dir = $this->getServer()->getDataPath(). "worlds";
+    if (!is_dir($dir)) {
+      $sender->sendMessage("[MW] Missing path $dir");
+      return null;
+    }
+    $txt = ["HDR"];
+
+    $auto = $this->getServer()->getProperty("worlds",[]);
+    $default = $this->getServer()->getDefaultLevel()->getName();
+
+    $count = 0;
+    $dh = opendir($dir);
+    if (!$dh) return null;
+    while (($file = readdir($dh)) !== false) {
+      if ($file == '.' || $file == '..') continue;
+      if (!$this->getServer()->isLevelGenerated($file)) continue;
+      $attrs = [];
+      ++$count;
+      if (isset($auto[$file])) $attrs[] = "auto";
+      if ($default == $file) $attrs[]="default";
+      if ($this->getServer()->isLevelLoaded($file)) {
+	$attrs[] = "loaded";
+	$count = count($this->getServer()->getLevelByName($file)->getPlayers());
+	if ($count) $attrs[] = "players:$count";
+      }
+      $ln = "- $file";
+      if (count($attrs)) $ln .= " (".implode(",",$attrs).")";
+      $txt[] = $ln;
+    }
+    closedir($dh);
+    $txt[0] = "Worlds: ".$count;
+    return $txt;
+  }
+
   private function mwWorldListCommand(CommandSender $sender, array $args) {
     if(!$this->checkPermission($sender, "mw.cmd.world.ls")) {
       return $this->permissionFail($sender);
     }
-    $txt  = [];
+    $pageNumber = $this->getPageNumber($args);
+
+    if (isset($args[1])) {
+      $txt = $this->mwWorldDetails($sender,$args[1]);
+      if ($txt == null) return true;
+    } else {
+      $txt = $this->mwWorldListing($sender);
+      if ($txt == null) return true;
+    }
+    return $this->paginateText($sender,$pageNumber,$txt);
+  }
+  private function getPageNumber(array &$args) {
     $pageNumber = 1;
     if (is_numeric($args[count($args)-1])) {
       $pageNumber = (int)array_pop($args);
       if($pageNumber <= 0) $pageNumber = 1;
     }
-
-    if (isset($args[1])) {
-      $level = $args[1];
-      if (!$this->mwAutoLoad($sender,$level)) {
-	$sender->sendMessage("[MW] Unable to load $level");
-	return true;
-      }
-      $world = $this->getServer()->getLevelByName($level);
-      if (!$world) {
-	$sender->sendMessage("[MW] $level not loaded");
-	return true;
-      }
-      //==== provider
-      $provider = $world->getProvider();
-      $hdr = "Info for $level";
-      $txt[] = "Provider: ". get_class($provider);
-      $txt[] = "Path: ".$provider->getPath();
-      $txt[] = "Name: ".$provider->getName();
-      $txt[] = "Seed: ".$provider->getSeed();
-      $txt[] = "Generator: ".$provider->getGenerator();
-      $txt[] = "Generator Options: ".print_r($provider->getGeneratorOptions(),true);
-      $spawn = $provider->getSpawn();
-      $txt[] = "Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
-      $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-      $txt[] = "MOTD: $f";
-      if (file_exists($f)) {
-	$txt[] = "MOTD:";
-	foreach (file($f) as $ln) {
-	  $ln = preg_replace('/\s+$/','',$ln);
-	  $txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
-	}
-      }
-
-    } else {
-      $dir = $this->getServer()->getDataPath(). "worlds";
-      if (!is_dir($dir)) {
-	$sender->sendMessage("[MW] Missing path $dir");
-	return true;
-      }
-      $count = 0;
-      $dh = opendir($dir);
-      if (!$dh) return true;
-      while (($file = readdir($dh)) !== false) {
-	if ($file == '.' || $file == '..') continue;
-	if ($this->getServer()->isLevelLoaded($file)) {
-	  $txt[] = "- $file (loaded)";
-	  ++$count;
-	  continue;
-	}
-	if ($this->getServer()->isLevelGenerated($file)) {
-	  $txt[] = "- $file";
-	  ++$count;
-	  continue;
-	}
-      }
-      closedir($dh);
-      $hdr = "Worlds: ".$count;
-    }
-    if($sender instanceof ConsoleCommandSender){
+    return $pageNumber;
+  }
+  private function paginateText(CommandSender $sender,$pageNumber,array $txt) {
+    $hdr = array_shift($txt);
+    //if($sender instanceof ConsoleCommandSender){
+    if(0) {
       $sender->sendMessage( TextFormat::GREEN.$hdr.TextFormat::RESET);
       foreach ($txt as $ln) $sender->sendMessage($ln);
       return true;
@@ -330,16 +385,17 @@ class Main extends Plugin implements Listener {
     $hdr = TextFormat::GREEN.$hdr. TextFormat::RESET;
     if (($pageNumber-1) * $pageHeight >= count($txt)) {
       $sender->sendMessage($hdr);
-      $sender->sendMessage("Only ".intval(count($txt)/$pageHeight)." pages available");
+      $sender->sendMessage("Only ".intval(count($txt)/$pageHeight+1)." pages available");
       return true;
     }
-    $hdr .= TextFormat::RED." ($pageNumber of ".intval(count($txt)/$pageHeight).")".TextFormat::RESET;
+    $hdr .= TextFormat::RED." ($pageNumber of ".intval(count($txt)/$pageHeight+1).")".TextFormat::RESET;
     $sender->sendMessage($hdr);
     for ($ln = ($pageNumber-1)*$pageHeight;$ln < count($txt) && $pageHeight--;++$ln) {
       $sender->sendMessage($txt[$ln]);
     }
     return true;
   }
+
   private function checkPermission(CommandSender $sender, $permission) {
     if($sender->hasPermission($permission)) return true;
     return false;

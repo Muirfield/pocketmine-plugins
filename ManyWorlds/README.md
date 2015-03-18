@@ -19,7 +19,7 @@ Basic Usage:
 * /mw tp *level* [player]
 * /mw create *level* [seed [flat|normal [preset]]]
 * /mw load *level*
-* /mw unloade [-f] *level*
+* /mw unload [-f] *level*
 * /mw ls [level]
 
 Documentation
@@ -41,6 +41,8 @@ Client-Server glitches.  It works for me.
   as number, the generator (`flat` or `normal`) and a `preset` string.
 * mw load *level*  
   Loads `level` directly.
+* mw unload *level*
+  Unloads `level`.
 * mw ls [level]  
   If `level` is not specified, it will list all available worlds.  If
   `level` is specified, it will provide details on that `level`.
@@ -51,23 +53,18 @@ Client-Server glitches.  It works for me.
 * mw.cmd.tp.others - Allows users to make others travel to other worlds
 * mw.cmd.world.create - Allows users to create worlds
 * mw.cmd.world.load - Allows users to load worlds
+* mw.cmd.world.motd - Allow editing motd text.
 
 FAQ
 ---
 
 * Q: How do I create a `FLAT` world?
 * A: You must be using PocketMine-MP v1.4.1.  Set the `generator` to
-  `flat`.  Unfortunately a bug in PocketMine-MP prevents you from
-  specifying a `preset` string.
+  `flat`.
 * Q: How do I load multiple worlds on start-up?
   A: That functionality is provided by PocketMine-MP core by default.
   In the `pocketmine.yml` file there is a `worlds` section where you
   can define which worlds to load on start-up.
-* Q: Can you create a command to load all worlds?
-  A: In theory yes, but that uses lots of memory and may cause lag on
-  the server.  If you *really* want to do this, you can lists *all*
-  your worlds in the `worlds` section of your `pocketmine.yml` file.
-
 
 Issues
 ------
@@ -84,6 +81,8 @@ Changes
   * Added support for editing motd.txt
   * BugFix: given an invalid player name to teleport would crash server.
   * Paginated output of `ls`
+  * `ls` now shows number of players, if the world is automatically
+    loaded, and if it is default.
   * Teleports show a `motd.txt` in the map world.
   * Added some hacks to make teleporting less glitchy
   * API so other Plugins can also use this teleport functionality
