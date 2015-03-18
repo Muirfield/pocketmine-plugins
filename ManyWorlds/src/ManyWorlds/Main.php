@@ -347,8 +347,7 @@ class Main extends Plugin implements Listener {
   }
   private function paginateText(CommandSender $sender,$pageNumber,array $txt) {
     $hdr = array_shift($txt);
-    //if($sender instanceof ConsoleCommandSender){
-    if(0) {
+    if($sender instanceof ConsoleCommandSender){
       $sender->sendMessage( TextFormat::GREEN.$hdr.TextFormat::RESET);
       foreach ($txt as $ln) $sender->sendMessage($ln);
       return true;
