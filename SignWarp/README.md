@@ -78,8 +78,8 @@ Changes
 -------
 
 * 1.1.0 :
+  * Will not teleport if you are holding a sign.
   * Prevents blocks to be placed when teleporting.
-  * Touching a sign while holding a Sign stops teleports.
   * Use ManyWorlds teleport functionality when available.
 * 1.0.0 : First release
 
