@@ -21,6 +21,8 @@ Basic Usage:
 * /mw load *level*
 * /mw unload [-f] *level*
 * /mw ls [level]
+* /mw motd *level* [line] [text]
+* /motd
 
 Documentation
 -------------
@@ -33,6 +35,8 @@ Client-Server glitches.  It works for me.
 
 ### Commands:
 
+* motd  
+  Show a level specific _message of the day_ type message.
 * mw tp *level* [player]  
   Teleports `player` to `level`.  If no `player` is specified, it
   teleports the current user.
@@ -47,6 +51,11 @@ Client-Server glitches.  It works for me.
 * mw ls [level]  
   If `level` is not specified, it will list all available worlds.  If
   `level` is specified, it will provide details on that `level`.
+* mw motd *level* [line text]  
+  If only *level* is specified, it will show the `motd` message for
+  that *level*.  If `line` and `text` is specified (`text` can be
+  empty, however), it will modify that line of the `motd` message.
+  
 
 ### Permission Nodes:
 
@@ -88,6 +97,7 @@ Changes
   * Added some hacks to make teleporting less glitchy
   * API so other Plugins can also use this teleport functionality
   * Added `loadall` functionality.
+  * Added `motd` command
 * 1.0.0 : Initial release
 
 Copyright

@@ -11,8 +11,14 @@ commands:
     mw:
         description: Manage worlds
         usage: "/mw <tp|create|load|unload|ls|motd> <world>"
+    motd:
+        description: Show a level specific message
+        usage: "/motd"
 
 permissions:
+    mw.cmd.tp:
+        default: op
+        description: "Allows users to travel to other worlds"
     mw.cmd.tp:
         default: op
         description: "Allows users to travel to other worlds"

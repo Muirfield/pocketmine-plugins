@@ -17,6 +17,8 @@ use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 
 class Main extends Plugin implements Listener {
   protected $teleporters = [];
@@ -31,6 +33,9 @@ class Main extends Plugin implements Listener {
 
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
+    case "motd":
+      return $this->motdCommand($sender);
+      break;
     case "mw":
       if(isset($args[0])) {
 	$scmd = strtolower($args[0]);
@@ -74,6 +79,21 @@ class Main extends Plugin implements Listener {
       }
       $c->sendMessage("[MW] Loading $level...");
       $this->getServer()->loadLevel($level);
+    }
+    return true;
+  }
+
+  private function motdCommand(CommandSender $sender) {
+    if (!($sender instanceof Player)) {
+      $sender->sendMessage("[MW] You must use this command in-game");
+      return true;
+    }
+    $level = $sender->getLevel()->getName();
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    if (file_exists($f)) {
+      $sender->sendMessage(file_get_contents($f));
+    } else {
+      $sender->sendMessage("Sorry, no \"motd.txt\"");
     }
     return true;
   }
@@ -427,8 +447,6 @@ class Main extends Plugin implements Listener {
     $location = $world->getSafeSpawn($spawn);
     $this->teleporters[$player->getName()] = time();
     $player->teleport($location);
-    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
-    if (file_exists($f)) $player->sendMessage(file_get_contents($f));
     foreach ([5,10,20] as $ticks) {
       $this->after(new MwTask($this,"delayedTP",
 			      [$player->getName(),
@@ -437,6 +455,8 @@ class Main extends Plugin implements Listener {
     }
     $this->after(new MwTask($this,"restoreHealth",[$player->getName(),$player->getHealth()]),20);
   }
+
+
   public function restoreHealth($m) {
     list($name,$health) = $m;
     $player = $this->getServer()->getPlayer($name);
@@ -450,6 +470,33 @@ class Main extends Plugin implements Listener {
     if (!$player) return;
     $player->teleport(new Vector3($x,$y,$z));
   }
+  public function showMotd($m) {
+    list($name,$level) = $m;
+    $player = $this->getServer()->getPlayer($name);
+    if (!$player) return;
+    $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
+    $txt[] = "MOTD: $f";
+    if (file_exists($f)) {
+      $player->sendMessage(file_get_contents($f));
+    }
+  }
+
+  public function onJoin(PlayerJoinEvent $ev) {
+    $p = $ev->getPlayer();
+    $level = $p->getLevel()->getName();
+    $this->after(new MwTask($this,"showMotd",[$p->getName(),$level]),10);
+  }
+  public function onLevelChange(EntityLevelChangeEvent $ev) {
+    $level = $ev->getTarget()->getName();
+    $traveller = $ev->getEntity();
+    if ($traveller instanceof Player) {
+      $traveller = $traveller->getName();
+    } else {
+      return;
+    }
+    $this->after(new MwTask($this,"showMotd",[$traveller,$level]),21);
+  }
+
   public function onDamage(EntityDamageEvent $event) {
     $victim= $event->getEntity();
     if (!($victim instanceof Player)) return;
