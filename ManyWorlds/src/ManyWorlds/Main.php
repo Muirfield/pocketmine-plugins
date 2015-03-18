@@ -19,6 +19,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\level\format\LevelProviderManager;
 
 class Main extends Plugin implements Listener {
   protected $teleporters = [];
@@ -69,9 +70,11 @@ class Main extends Plugin implements Listener {
 	  return $this->mwWorldListCommand($sender,$args);
 	case "motd":
 	  return $this->mwWorldMotdCommand($sender,$args);
+	case "help":
+	  return false;
 	default:
 	  $sender->sendMessage("Unknown sub command: $args[0]");
-	  return true;
+	  return false;
 	}
       } else {
 	$sender->sendMessage("Must specify sub command");
@@ -101,7 +104,7 @@ class Main extends Plugin implements Listener {
 
   private function mwTeleportCommand(CommandSender $sender,array $args) {
     if (!isset($args[1])) {
-      $sender->sendMessage("[MW] must specify level");
+      $sender->sendMessage("[MW] Usage: /mw tp <world> [player]");
       return true;
     }
 
@@ -159,7 +162,8 @@ class Main extends Plugin implements Listener {
   }
   private function mwWorldCreateCommand(CommandSender $sender, array $args) {
     if(!isset($args[1])) {
-      $sender->sendMessage("[MW] Usage: create level seed generator options");
+      $sender->sendMessage("[MW] Usage: /mw create <level_name> [seed [generator [preset]]]");
+      $sender->sendMessage("Generators: normal,flat");
       return true;
     }
     if(!$this->checkPermission($sender, "mw.cmd.world.create")) {
@@ -208,7 +212,7 @@ class Main extends Plugin implements Listener {
       array_shift($args);
     }
     if(!isset($args[1])) {
-      $sender->sendMessage("[MW] Must specify level name");
+      $sender->sendMessage("[MW] Usage: /mw [-f] unload <world>");
       return true;
     }
     $level = $args[1];
@@ -230,7 +234,7 @@ class Main extends Plugin implements Listener {
   }
   private function mwWorldLoadCommand(CommandSender $sender, array $args) {
     if(!isset($args[1])) {
-      $sender->sendMessage("[MW] Must specify level name");
+      $sender->sendMessage("[MW] Usage: /mw ld <level_name|--all>");
       return true;
     }
     if ($args[1] == "--all") {
@@ -310,8 +314,12 @@ class Main extends Plugin implements Listener {
       if ($default == $file) $attrs[]="default";
       if ($this->getServer()->isLevelLoaded($file)) {
 	$attrs[] = "loaded";
-	$count = count($this->getServer()->getLevelByName($file)->getPlayers());
-	if ($count) $attrs[] = "players:$count";
+	$np = count($this->getServer()->getLevelByName($file)->getPlayers());
+	if ($np) $attrs[] = "players:$np";
+      }
+      $fmt = LevelProviderManager::getProvider($dir."/".$file);
+      if ($fmt) {
+	$attrs[] = $fmt::getProviderName();
       }
       $ln = "- $file";
       if (count($attrs)) $ln .= " (".implode(",",$attrs).")";
@@ -413,7 +421,7 @@ class Main extends Plugin implements Listener {
 
   private function mwWorldMotdCommand(CommandSender $sender, array $args) {
     if (count($args) < 2) {
-      $sender->sendMessage("[MW] Must specify level name");
+      $sender->sendMessage("[MW] Usage: /mw motd <level_name> [line text]");
       return true;
     }
     $level = $args[1];
