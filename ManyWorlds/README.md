@@ -59,6 +59,14 @@ FAQ
 * A: You must be using PocketMine-MP v1.4.1.  Set the `generator` to
   `flat`.  Unfortunately a bug in PocketMine-MP prevents you from
   specifying a `preset` string.
+* Q: How do I load multiple worlds on start-up?
+  A: That functionality is provided by PocketMine-MP core by default.
+  In the `pocketmine.yml` file there is a `worlds` section where you
+  can define which worlds to load on start-up.
+* Q: Can you create a command to load all worlds?
+  A: In theory yes, but that uses lots of memory and may cause lag on
+  the server.  If you *really* want to do this, you can lists *all*
+  your worlds in the `worlds` section of your `pocketmine.yml` file.
 
 
 Issues

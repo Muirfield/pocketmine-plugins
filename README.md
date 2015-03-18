@@ -8,7 +8,6 @@ Repository for my PocketMine plugins
 * NotSoFlat - *Outdated*!
 * ImportMap - Imports maps into PocketMine-MP.
 * ManyWorlds - a multiple world implementation.
-* phpeval - Execute PHP directly.
 * SignWarp - A sign based teleport facility.
 
 ## Available Tools
@@ -126,3 +125,6 @@ FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 	(Short) BurnTime, CookTime, BurnTicks
 
 * Implement carts?
+* ManyWorlds: Enter motd and shows motd (rules) right away
+* ManyWorlds: Show if the world will auto load (using `ls`).
+* ManyWorlds: Add world to the pocketmine.yml file.
