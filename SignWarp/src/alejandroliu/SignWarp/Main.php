@@ -60,7 +60,7 @@ class Main extends PluginBase implements Listener {
     $this->teleporters[$event->getPlayer()->getName()] = time();
     $event->getPlayer()->sendMessage("Warping to $x,$y,$z...");
     $event->getPlayer()->teleport(new Vector3($x,$y,$z));
-    $htis->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
+    $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
   }
   private function longWarp(PlayerInteractEvent $event,$sign){
     if(empty($sign[1])){
