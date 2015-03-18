@@ -91,6 +91,8 @@ Issues
 Changes
 -------
 
+* 1.2.0: ??
+  * nothing yet
 * 1.1.0:
   * Show better help messages.
   * Added world unload.  May cause core dumps.
