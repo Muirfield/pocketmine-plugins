@@ -128,3 +128,4 @@ FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 * ManyWorlds: Enter motd and shows motd (rules) right away
 * ManyWorlds: Show if the world will auto load (using `ls`).
 * ManyWorlds: Add world to the pocketmine.yml file.
+* ManyWorlds: Show rules when entering world event.
