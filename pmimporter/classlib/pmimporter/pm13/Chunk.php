@@ -1,6 +1,7 @@
 <?php
 namespace pmimporter\pm13;
 use pocketmine_1_3\pmf\PMFLevel;
+use pmimporter\pm13\Pm13;
 
 use pocketmine\utils\Binary;
 use pmimporter\ImporterException;
@@ -16,6 +17,8 @@ class Chunk implements \pmimporter\Chunk {
   protected $x;
   protected $z;
   protected $chunks;
+  protected $adjX;
+  protected $adjZ;
 
   protected function getXPos($x) {
     return ($this->x << 4)+$x;
@@ -24,10 +27,13 @@ class Chunk implements \pmimporter\Chunk {
     return ($this->z << 4)+$z;
   }
 
-  public function __construct(PMFLevel $chunks,$x,$z) {
-    $this->chunks = $chunks;
+  public function __construct(Pm13 $fmt,$x,$z) {
+    $this->chunks = $fmt->getPMFLevel();
     $this->x = $x;
     $this->z = $z;
+    $this->adjX = $fmt->getSetting("Xoff") << 4;
+    $this->adjZ = $fmt->getSetting("Zoff") << 4;
+
   }
 
   public function getBiomeId($x, $z) { return 1; }
@@ -107,9 +113,9 @@ class Chunk implements \pmimporter\Chunk {
 				     new String("Text2",$tile["Text2"]),
 				     new String("Text3",$tile["Text3"]),
 				     new String("Text4",$tile["Text4"]),
-				     new Int("x",$tile["x"]),
+				     new Int("x",$tile["x"]+$this->adjX),
 				     new Int("y",$tile["y"]),
-				     new Int("z",$tile["z"])]);
+				     new Int("z",$tile["z"]+$this->adjZ)]);
 	break;
       case TID_FURNACE:
 	$tiles[] = new Compound("",[new String("id",TID_FURNACE),
@@ -118,19 +124,20 @@ class Chunk implements \pmimporter\Chunk {
 				    new Short("CookTime",$tile["CookTime"]),
 				    new Short("CookTimeTotal",$tile["MaxTime"]),
 				    self::convertInventory("Items",$tile["Items"]),
-				    new Int("x",$tile["x"]),
+				    new Int("x",$tile["x"]+$this->adjX),
 				    new Int("y",$tile["y"]),
-				    new Int("z",$tile["z"])]);
+				    new Int("z",$tile["z"]+$this->adjZ)]);
 	break;
       case TID_CHEST:
 	$chest = [new String("id",TID_CHEST),
 		  self::convertInventory("Items",$tile["Items"]),
-		  new Int("x",$tile["x"]),
+		  new Int("x",$tile["x"]+$this->adjX),
 		  new Int("y",$tile["y"]),
-		  new Int("z",$tile["z"])];
-	foreach (["pairx","pairz"] as $idx) {
-	  if (isset($tile[$idx])) $chest[] = new Int($idx,$tile[$idx]);
-	}
+		  new Int("z",$tile["z"]+$this->adjZ)];
+	if (isset($tile["pairx"]))
+	  $chest[] = new Int("pairx",$tile["pairx"]+$this->adjX);
+	if (isset($tile["pairz"]))
+	  $chest[] = new Int("pairz",$tile["pairz"]+$this->adjZ);
 	$tiles[] = new Compound("",$chest);
 	break;
       default:

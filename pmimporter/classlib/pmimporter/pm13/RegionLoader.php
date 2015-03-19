@@ -13,6 +13,8 @@ class RegionLoader {
   }
 
   public function chunkExists($x,$z) {
+    $x -= $this->formatProvider->getSetting("Xoff");
+    $z -= $this->formatProvider->getSetting("Zoff");
     return ($x < 16 && $z < 16 && $x >= 0 && $z >= 0);
   }
   public function close(){
@@ -38,6 +40,8 @@ class RegionLoader {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
   public function readChunk($x,$z) {
-    return new Chunk($this->formatProvider->getPMFLevel(),$x,$z);
+    $x -= $this->formatProvider->getSetting("Xoff");
+    $z -= $this->formatProvider->getSetting("Zoff");
+    return new Chunk($this->formatProvider,$x,$z);
   }
 }
