@@ -3,11 +3,15 @@ namespace pmimporter\mcpe020;
 use pocketmine_1_3\PocketChunkParser;
 use pocketmine\utils\Binary;
 use pmimporter\ImporterException;
+use pmimporter\Entities;
+use pocketmine\nbt\tag\String;
 
 class Chunk implements \pmimporter\Chunk {
   protected $x;
   protected $z;
   protected $chunks;
+  protected $tiles;
+  protected $entities;
 
   protected function getXPos($x) {
     return ($this->x << 4)+$x;
@@ -16,10 +20,16 @@ class Chunk implements \pmimporter\Chunk {
     return ($this->z << 4)+$z;
   }
 
-  public function __construct(PocketChunkParser $chunks,$x,$z) {
+  public function __construct(PocketChunkParser $chunks,$x,$z,$nbt) {
     $this->chunks = $chunks;
     $this->x = $x;
     $this->z = $z;
+    if (isset($nbt["TileEntities"])) {
+      $this->tiles = $nbt["TileEntities"]->getValue();
+    }
+    if (isset($nbt["Entities"])) {
+      $this->entities = $nbt["Entities"]->getValue();
+    }
   }
 
   public function getBiomeId($x, $z) { return 1; }
@@ -38,7 +48,7 @@ class Chunk implements \pmimporter\Chunk {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
   public function getHeightMap($x, $z) {
-    $this->chunks->getFloor($this->getXPos($x),$this->getZPos($z));
+    return $this->chunks->getFloor($this->getXPos($x),$this->getZPos($z));
   }
   public function setHeightMap($x, $z, $value) {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
@@ -53,11 +63,48 @@ class Chunk implements \pmimporter\Chunk {
     }
     return $map;
   }
-  public function getEntities() { return []; }
+  public function getEntities() {
+    $entities = [];
+
+    $min_x = $this->getXPos(0); $min_z = $this->getZPos(0);
+    $max_x = $this->getXPos(15); $max_z = $this->getZPos(15);
+
+    foreach ($this->entities as $ent) {
+      if (!isset($ent->Pos) || !isset($ent->id)) continue;
+      $id = Entities::getEntityById($ent->id->getValue());
+      if ($id == null) continue;
+      if (count($ent->Pos) != 3) continue;
+      $x = (int)$ent->Pos[0];
+      $y = (int)$ent->Pos[1];
+      $z = (int)$ent->Pos[2];
+      if ($x < $min_x || $x > $max_x || $z < $min_z || $z > $max_z) continue;
+      // Conversion
+      $cc = clone $ent;
+      $cc->id = new String("id",$id);
+      $entities[] = $cc;
+    }
+    return $entities;
+  }
   public function setEntities(array $entities = []) {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
-  public function getTileEntities() { return []; }
+  public function getTileEntities() {
+    $tiles = [];
+
+    $min_x = $this->getXPos(0); $min_z = $this->getZPos(0);
+    $max_x = $this->getXPos(15); $max_z = $this->getZPos(15);
+
+    foreach ($this->tiles as $tile) {
+      if (isset($tile->x) && isset($tile->y) && isset($tile->z)) {
+	if ($tile->x->getValue() < $min_x || $tile->x->getValue() > $max_x ||
+	    $tile->z->getValue() < $min_z || $tile->z->getValue() > $max_z) 
+	  continue;
+	// Straight copy.
+	$tiles[] = clone $tile;
+      }
+    }
+    return $tiles;
+  }
   public function setTileEntities(array $tiles = []) {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
