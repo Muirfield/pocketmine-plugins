@@ -9,6 +9,7 @@ Repository for my PocketMine plugins
 * ImportMap - Imports maps into PocketMine-MP.
 * ManyWorlds - a multiple world implementation.
 * SignWarp - A sign based teleport facility.
+* GrabBag - My personal collection of commands.
 
 ## Available Tools
 
@@ -45,19 +46,19 @@ Git Recipes
 
 ## Release
 
-    git checkout <plugin>-dev
+    git checkout dev
     git push ; git pull
     git checkout master
     git push ; git pull
-    git merge --no-ff <plugin>-dev
+    git merge dev
     # ... Check version number ...
     # ... Test phar ...
     git commit -a -m'preparing <plugin> release X.Y'
     git tag -a <plugin>-X.Yrel -m'Release X.Y'
     git push origin --tags
     git push
-    git checkout <plugin>-dev
-    git merge --no-ff master
+    git checkout dev
+    git merge master
     # ... bump version number ...
     git commit -a -m"Bump version number"
     git push origin
@@ -127,12 +128,7 @@ FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 * Implement carts?
   - Rail|PoweredRail
 * ManyWorlds: Add world to the pocketmine.yml file.
-* Add Players:
-  - on PlayerJoin, EntityLevelChange, PlayerDeathEvent, PlayerQuit,
-    PlayerRespawn, PlayerKick... etc.
-  - or EntitySpawn|EntityDespawn
-  - update tiles
-* Release SignWarp
 * Fix PocketMine oldskool import
 * ArmorSpawn/SpawnWithItems -> Genesis
 * Frost/Defrost 
+* Make pmimporter + ImportMap a single phar file.
