@@ -15,7 +15,7 @@ abstract class BaseFormat implements LevelFormat {
   /**
    * @param string $path
    */
-  public function __construct($path,$ro=true) {
+  public function __construct($path,$ro=true,$settings=null) {
     $this->readOnly = $ro;
     if (!is_dir($path))
       throw new ImporterException("$path: path does not exist\n");

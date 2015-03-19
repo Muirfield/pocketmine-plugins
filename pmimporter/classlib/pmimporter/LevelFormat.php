@@ -8,8 +8,10 @@ interface LevelFormat {
 
   /**
    * @param string $path
+   * @param bool $ro
+   * @param mixed $settings
    */
-  public function __construct($path,$ro=true);
+  public function __construct($path,$ro=true,$settings=null);
   /**
    * Returns the full provider name, like "anvil" or "mcregion", will be used
    * to find the correct format.

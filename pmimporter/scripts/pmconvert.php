@@ -19,6 +19,7 @@ define('CMD',array_shift($argv));
 $dstformat = "mcregion";
 $threads = 1;
 $offset = 0;
+$settings = [ "in" => null, "out" => null ];
 
 while (count($argv)) {
   if ($argv[0] == "-f") {
@@ -41,6 +42,11 @@ while (count($argv)) {
     if (!isset($threads)) die("No value specified for -t\n");
     $threads = intval($threads);
     if ($threads < 1) die("Invalid thread value $threads\n");
+  } elseif (preg_match('/^--(in|out)\.([A-Za-z0-9]+)=(.*)$/',$argv[0],$mv)) {
+    array_shift($argv);
+    list(,$mode,$key,$val) = $mv;
+    if (!$settings[$mode]) $settings[$mode] = [];
+    $settings[$mode][$key] = $val;
   } else {
     break;
   }
@@ -65,7 +71,7 @@ $dstformat = LevelFormatManager::getFormatByName($dstformat);
 if (!$dstformat) die("Output format not recognized\n");
 if ($dstformat !== McRegion::class) die("$dstformat: Format not supported\n");
 
-$srcfmt = new $srcformat($srcpath);
+$srcfmt = new $srcformat($srcpath,true,$settings["in"]);
 $regions = $srcfmt->getRegions();
 if (!count($regions)) die("No regions found in $srcpath\n");
 
@@ -75,7 +81,7 @@ $dstformat::generate($dstpath,basename($dstpath),
 		     $srcfmt->getGenerator(),
 		     $srcfmt->getGeneratorOptions());
 
-$dstfmt = new $dstformat($dstpath,false);
+$dstfmt = new $dstformat($dstpath,false,$settings["out"]);
 
 //////////////////////////////////////////////////////////////////////
 function loadRules($file) {
@@ -173,7 +179,7 @@ if ($threads == 1) {
     list($rX,$rZ) = $workers[$pid];
     unset($workers[$pid]);
     if (pcntl_wexitstatus($rstatus)) {
-      echo "$pid ($rX,$rZ) failled\n";
+      echo "$pid ($rX,$rZ) failed\n";
     } else {
       echo "$pid ($rX,$rZ) succesful\n";
     }
