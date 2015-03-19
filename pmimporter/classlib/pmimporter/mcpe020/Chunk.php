@@ -5,6 +5,10 @@ use pocketmine\utils\Binary;
 use pmimporter\ImporterException;
 use pmimporter\Entities;
 use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Double;
+
 
 class Chunk implements \pmimporter\Chunk {
   protected $x;
@@ -12,6 +16,8 @@ class Chunk implements \pmimporter\Chunk {
   protected $chunks;
   protected $tiles;
   protected $entities;
+  protected $adjX;
+  protected $adjZ;
 
   protected function getXPos($x) {
     return ($this->x << 4)+$x;
@@ -20,8 +26,8 @@ class Chunk implements \pmimporter\Chunk {
     return ($this->z << 4)+$z;
   }
 
-  public function __construct(PocketChunkParser $chunks,$x,$z,$nbt) {
-    $this->chunks = $chunks;
+  public function __construct($loader,$x,$z,$nbt) {
+    $this->chunks = $loader->getChunks;
     $this->x = $x;
     $this->z = $z;
     if (isset($nbt["TileEntities"])) {
@@ -30,6 +36,8 @@ class Chunk implements \pmimporter\Chunk {
     if (isset($nbt["Entities"])) {
       $this->entities = $nbt["Entities"]->getValue();
     }
+    $this->adjX = $loader->getProvider()->getSetting("Xoff") << 4;
+    $this->adjZ = $loader->getProvider()->getSetting("Zoff") << 4;
   }
 
   public function getBiomeId($x, $z) { return 1; }
@@ -74,13 +82,16 @@ class Chunk implements \pmimporter\Chunk {
       $id = Entities::getEntityById($ent->id->getValue());
       if ($id == null) continue;
       if (count($ent->Pos) != 3) continue;
-      $x = (int)$ent->Pos[0];
-      $y = (int)$ent->Pos[1];
-      $z = (int)$ent->Pos[2];
+      $x = $ent->Pos[0];
+      $y = $ent->Pos[1];
+      $z = $ent->Pos[2];
       if ($x < $min_x || $x > $max_x || $z < $min_z || $z > $max_z) continue;
       // Conversion
       $cc = clone $ent;
       $cc->id = new String("id",$id);
+      $cc->Pos = new Enum("Pos",[new Double(0,$x+$this->adjX),
+				 new Double(0,$y),
+				 new Double(0,$z+$this->adjZ)]);
       $entities[] = $cc;
     }
     return $entities;
@@ -100,7 +111,15 @@ class Chunk implements \pmimporter\Chunk {
 	    $tile->z->getValue() < $min_z || $tile->z->getValue() > $max_z) 
 	  continue;
 	// Straight copy.
-	$tiles[] = clone $tile;
+	$t = clone $tile;
+	$t->x = new Int("x",$tile->x->getValue()+$this->adjX);
+	$t->z = new Int("z",$tile->z->getValue()+$this->adjZ);
+	if (isset($tile->pairx))
+	  $t->pairx = new Int("pairx",$tile->pairx->getValue()+$this->adjX);
+	if (isset($tile->pairz))
+	  $t->pairz = new Int("pairz",$tile->pairz->getValue()+$this->adjZ);
+
+	$tiles[] = $t;
       }
     }
     return $tiles;

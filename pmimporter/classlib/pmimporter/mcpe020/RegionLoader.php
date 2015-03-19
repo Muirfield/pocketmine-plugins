@@ -12,6 +12,9 @@ class RegionLoader {
   protected $chunks;
   protected $nbt;
 
+  public function getProvider() { return $this->formatProvider; }
+  public function getChunks() { return $this->chunks; }
+
   public function __construct(LevelFormat $fmt) {
     $this->formatProvider = $fmt;
     $this->chunks = new PocketChunkParser();
@@ -31,6 +34,8 @@ class RegionLoader {
   }
 
   public function chunkExists($x,$z) {
+    $x -= $this->formatProvider->getSetting("Xoff");
+    $z -= $this->formatProvider->getSetting("Zoff");
     return ($x < 16 && $z < 16 && $x >= 0 && $z >= 0);
   }
   public function close(){
@@ -56,6 +61,8 @@ class RegionLoader {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
   public function readChunk($x,$z) {
-    return new Chunk($this->chunks,$x,$z,$this->nbt);
+    $x -= $this->formatProvider->getSetting("Xoff");
+    $z -= $this->formatProvider->getSetting("Zoff");
+    return new Chunk($this,$x,$z,$this->nbt);
   }
 }
