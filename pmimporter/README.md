@@ -1,14 +1,11 @@
 pmimporter
 ==========
 
-* Summary: Import Minecraft PC worlds into PocketMine-MP
+* Summary: Import world maps into PocketMine-MP 1.4
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/pmimporter)
 
 Overview
 --------
-
-A tool to import Minecraft PC worlds into PocketMine-MP by converting
-unsupported blocks.
 
 * pmconvert - main conversion tool
 * pmcheck - read world maps and analyze the block, object composition
@@ -20,17 +17,38 @@ unsupported blocks.
 Description
 -----------
 
-A collection of tools used for importing Minecraft PC world maps in
-Anvil and McRegion formats into PocketMine.  It does it by converting
-unsupported blocks and eliminating unsupported entities.  These
-unsupported features when used on a Minecraft PE client would cause
-the game to crash.
+A collection of tools used for importing world maps for use with
+PocketMine-MP and Minecraft PE.
 
-As a bonus, it also supports importing maps from Minecraft Pocket Edition 0.8.1
-or earlier and PocketMine-MP v1.3 maps.
+It supports the following input formats:
+
+- McRegion (Minecraft PC Edition, PocketMine v1.4)
+- Anvil (Minecraft PC Edition)
+- PMF (PocketMine v1.3)
+- mcpe020 (Minecraft PE 0.2.0-0.8.1)
+
+Currently, it only support McRegion format for output.
+
+When importing Minecraft PC Edition world maps (Anvil and McRegion formats) it
+will analyze the used blocks to make sure that only blocks supported
+by Minecraft PE are generated.  It does this by either mapping these
+blocks or removing them.  This conversion/fitering can be tweaked with
+an user provided `rules` file.
+
+Similarly, Tiles and Entities that are not supported by Minecraft PE
+are eliminated.
+
+This is done because using these unsupported features on a Minecraft
+PE client would cause the game to crash.
 
 Command Usage
 -------------
+
+In general, the command usage is:
+
+* _path-to-php-executable_ _path-to-pmimporter.phar_ _sub-command_ [options]
+
+### Sub-commands
 
 	pmconvert [-c rules.txt ] [-t count] [-f format] srcpath dstpath
 
@@ -97,7 +115,8 @@ Requirements:
 * PHP v5.6.0
 * PHP CLI API
 
-Download the `pmimporter.phar` file, and run.
+Download the `pmimporter.phar` file.  It can be used stand-alone and
+does not need installation.
 
 Configuration
 -------------
@@ -156,21 +175,24 @@ Issues and Bugs
 * The only target format implemented is McRegion.
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
-* Old Skool formats (i.e PMF v1.3 and MCPE 0.2.0-0.8.1) ignore Entity
-  and Tile information completely.
+* PMF v1.3 maps do not provide valid Entity data so it is ignored.
+* Entity data is converted but it is a bit dodgy.  This also has to do
+  with the fact that PocketMine itself has incomplete Entity support,
+  so I can not properly test those maps.
 * Support for Tile and Entity in Anvil and McRegion files is dodgy.
-
 
 Changes
 ------
 
-* 1.3: 
-  * ??
-* 1.2:
+* 1.3: OldSkool fixes
+  * Added support for Tiles to PMF maps.
+  * Added support for Tiles and Entities fo MCPE 0.2.0 maps.
+  * Fixed HeightMap calculations in PMF and MCPE 0.2.0 formats
+* 1.2: Fixes
   * pmcheck: show height map statistics.
   * pmconvert: offset y coordinates
 * 1.1: OldSkool release
-  * Added support for maps from Minecraft Pocket Edition 0.8.1 or earlier.
+  * Added support for maps from Minecraft Pocket Edition 0.2.0 - 0.8.1
   * Added support for PMF maps from PocketMine v1.3.
 * 1.0 : First release
 
