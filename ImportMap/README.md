@@ -91,11 +91,10 @@ for the values being used.
 Changes
 ------
 
-* 2.1.3 : upgraded to pmimporter 1.3
-* 2.0.0 : pmimporter release.
+* 2.0 : pmimporter release.
   * Changed to `pmimporter` codebase.
   * Converted to `AsyncTask` implementation.
-* 1.0.0 : First release
+* 1.0 : First release
 
 Copyright
 ---------
