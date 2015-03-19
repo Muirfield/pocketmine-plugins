@@ -125,5 +125,14 @@ FURNACE: 	Items (Enum/Inventory , TAG_Compound);
 	(Short) BurnTime, CookTime, BurnTicks
 
 * Implement carts?
+  - Rail|PoweredRail
 * ManyWorlds: Add world to the pocketmine.yml file.
-
+* Add Players:
+  - on PlayerJoin, EntityLevelChange, PlayerDeathEvent, PlayerQuit,
+    PlayerRespawn, PlayerKick... etc.
+  - or EntitySpawn|EntityDespawn
+  - update tiles
+* Release SignWarp
+* Fix PocketMine oldskool import
+* ArmorSpawn/SpawnWithItems -> Genesis
+* Frost/Defrost 
