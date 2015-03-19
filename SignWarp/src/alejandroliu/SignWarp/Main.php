@@ -12,6 +12,7 @@ use pocketmine\tile\Sign;
 use pocketmine\event\block\SignChangeEvent;
 /** Not currently used but may be later used  */
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\utils\Config;
 
 class Main extends PluginBase implements Listener {
   const MAX_COORD = 30000000;
@@ -39,7 +40,16 @@ class Main extends PluginBase implements Listener {
   }
 
   public function onEnable(){
+    @mkdir($this->getDataFolder());
+    $cfg = (new Config($this->getDataFolder()."config.yml",
+		       Config::YAML,["settings"=>["dynamic-updates" => 1]]))->getAll();
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    if ($cfg["settings"]["dynamic-updates"]) {
+      $this->getLogger()->info("dynamic-updates: ON");
+      $this->getServer()->getScheduler()->scheduleRepeatingTask(new UpdateTimer($this),30);
+    } else {
+      $this->getLogger()->info("dynamic-updates: OFF");
+    }
   }
 
   private function shortWarp(PlayerInteractEvent $event,$sign){
@@ -178,6 +188,25 @@ class Main extends PluginBase implements Listener {
       }
     }
     return true;
+  }
+
+  public function updateSigns() {
+    foreach ($this->getServer()->getLevels() as $lv) {
+      foreach ($lv->getTiles() as $tile) {
+	if (!($tile instanceof Sign)) continue;
+	$sign = $tile->getText();
+	if ($sign[0] != self::LONG_WARP) continue;
+	if (!preg_match('/^Players:/',$sign[3])) continue;
+	if ($this->getServer()->isLevelLoaded($sign[1])) {
+	  $cnt = count($this->getServer()->getLevelByName($sign[1])->getPlayers());
+	  $upd = "Players:$cnt";
+	} else {
+	  $upd = "Players:N/A";
+	}
+	if ($upd == $sign[3]) continue;
+	$tile->setText($sign[0],$sign[1],$sign[2],$upd);
+      }
+    }
   }
 
   public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
