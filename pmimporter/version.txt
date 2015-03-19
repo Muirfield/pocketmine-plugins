@@ -1,1 +1,1 @@
-pmimporter 1.2rel
+pmimporter 1.3pre
