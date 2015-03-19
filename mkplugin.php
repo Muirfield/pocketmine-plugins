@@ -1,5 +1,6 @@
 <?php
 define('CMD',array_shift($argv));
+error_reporting(E_ALL);
 
 function usage() {
   die("Usage:\n\t".CMD." [-o outdir]  <src_directory>\n");
@@ -21,7 +22,6 @@ $plug = preg_replace('/\/*$/',"",$plug).'/';
 if (!is_dir($plug)) die("$plug: directory doesn't exist!\n");
 if (!is_file($pluginYml = $plug."plugin.yml")) die("missing plugin manifest\n");
 if (!is_dir($srcDir = $plug."src/")) die("Source folder not found\n");
-$hasRes = is_dir($resDir = $plug . "resources/");
 
 $manifest = yaml_parse_file($pluginYml);
 if (!isset($manifest["name"]) || !isset($manifest["version"])) {

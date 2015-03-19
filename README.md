@@ -74,12 +74,20 @@ To-do
 
 * Create a Generator based of flat that creates infinite maze
 * Port the Minetest Map Generator
-* pmimporter: merge chunks
+* pmimporter: merge chunks ... by selecting square regions and offsets
+  - limit this at region|chunk resolution.
+  - Always spcify corners and merge
 
 * Implement carts?
   - Rail|PoweredRail
 * ManyWorlds: Add world to the pocketmine.yml file.
-* Fix PocketMine oldskool import
-* ArmorSpawn/SpawnWithItems -> Genesis
+* ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
 * Frost/Defrost 
+
+
+TEST: Mcpe offsets
+DOCUMENT pmconvert --in.<attr>=<value>
+Pm13
+Mcpe020
+DOCUMENT <ImportMap + pmimporter merger>
 * Make pmimporter + ImportMap a single phar file.
