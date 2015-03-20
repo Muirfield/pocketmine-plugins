@@ -27,7 +27,7 @@ class Chunk implements \pmimporter\Chunk {
   }
 
   public function __construct($loader,$x,$z,$nbt) {
-    $this->chunks = $loader->getChunks;
+    $this->chunks = $loader->getChunks();
     $this->x = $x;
     $this->z = $z;
     if (isset($nbt["TileEntities"])) {

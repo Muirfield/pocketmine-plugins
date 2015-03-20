@@ -59,7 +59,7 @@ class McPe020 implements LevelFormat {
       : $this->levelData["SpawnX"] + $this->settings["Xoff"] * 16;
     $z = isset($this->settings["spawnZ"]) ? $this->settings["spawnZ"]
       : $this->levelData["SpawnZ"] + $this->settings["Zoff"] * 16;
-    return new Vector3((float)$x,(float)$this->getAttr("spawnY"),(float)$z);
+    return new Vector3((float)$x,(float)$this->getAttr("spawnY","SpawnY"),(float)$z);
   }
   public function getGenerator() {
     if (isset($this->settings["generator"]))
