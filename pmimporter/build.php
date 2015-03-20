@@ -5,34 +5,18 @@ error_reporting(E_ALL);
 /*
  * Build script
  */
-$compress = true;
-if (isset($argv[0]) && $argv[0] == '-0') {
-  $compress = false;
-  array_shift($argv);
-}
+$plug = "plugin";
+$plug = preg_replace('/\/*$/',"",$plug).'/';
+if (!is_dir($plug)) die("$plug: directory doesn't exist!\n");
+if (!is_file($pluginYml = $plug."plugin.yml"))
+  die("missing plugin manifest\n");
+if (!is_dir($srcDir = $plug."src/")) die("Source folder not found\n");
 
-$plug = array_shift($argv);
-if (isset($plug)) {
-  echo "Will generate a combined PM plugin and standalone program\n";
-  $plug = preg_replace('/\/*$/',"",$plug).'/';
-  if (!is_dir($plug)) die("$plug: directory doesn't exist!\n");
-  if (!is_file($pluginYml = $plug."plugin.yml"))
-    die("missing plugin manifest\n");
-  if (!is_dir($srcDir = $plug."src/")) die("Source folder not found\n");
-  $manifest = yaml_parse_file($pluginYml);
-  if (!isset($manifest["name"]) || !isset($manifest["version"])) {
-    die("Incomplete plugin manifest\n");
-  }
+$p = new Phar('pmimporter.phar',
+	      FilesystemIterator::CURRENT_AS_FILEINFO
+	      | FilesystemIterator::KEY_AS_FILENAME,
+	      'pmimporter.phar');
 
-  $pharname = $manifest["name"]."-PM.phar";
-  $p = new Phar($pharname);
-} else {
-  $plug = '';
-  $p = new Phar('pmimporter.phar',
-		FilesystemIterator::CURRENT_AS_FILEINFO
-		| FilesystemIterator::KEY_AS_FILENAME,
-		'pmimporter.phar');
-}
 // issue the Phar::startBuffering() method call to buffer changes made to the
 // archive until you issue the Phar::stopBuffering() command
 $p->startBuffering();
@@ -81,6 +65,13 @@ while(count($dirs)) {
   closedir($dh);
 }
 
+
+
+$pmversion = preg_replace('/\s*pmimporter\s*/','',file_get_contents("version.txt"));
+$yml = file_get_contents("plugin/plugin.yml");
+$yml = str_replace("<PMIMPORTER>",$pmversion,$yml);
+$p["plugin.yml"] = $yml;
+
 if ($plug) {
   echo("Adding sources...\n");
   $cnt = 0;
@@ -88,12 +79,13 @@ if ($plug) {
     if (!is_file($s)) continue;
     $cnt++;
     $d = substr($s,strlen($plug));
+    if ($d == "plugin.yml") continue;
     echo("  [$cnt] $d\n");
     $p->addFile(realpath($s),$d);
   }
 }
 
-if ($compress) $p->compressFiles(Phar::GZ);
+$p->compressFiles(Phar::GZ);
 
 //Stop buffering write requests to the Phar archive, and save changes to disk
 $p->stopBuffering();

@@ -10,7 +10,11 @@ use pocketmine\level\format\LevelProviderManager;
 
 class Main extends Plugin implements CommandExecutor {
   private function importer() {
-    return $this->getDataFolder().'pmimporter.phar';
+    if ($this->isPhar())
+      return preg_replace('/\/+$/','',substr($this->getFile(),7));
+    //echo "IMPORTER: ".substr($this->getFile(),7)."\n";
+    echo dirname(realpath($this->getFile()))."/pmimporter/pmimporter.phar\n";
+    return dirname(realpath($this->getFile()))."/pmimporter/pmimporter.phar";
   }
   private function schedule($args) {
     $this->getServer()->getScheduler()->scheduleAsyncTask(new Importer($args));
@@ -31,7 +35,7 @@ class Main extends Plugin implements CommandExecutor {
       }
       if (!isset($args[0])) return $this->usage($sender);
       if ($args[0] == "version") {
-	$this->schedule([$this->importer(),'version']);
+	$sender->sendMessage(Importer::phpRun([$this->importer(),'version']));
 	return true;
       }
       if (!isset($args[1])) return $this->usage($sender);
@@ -79,22 +83,6 @@ class Main extends Plugin implements CommandExecutor {
   public function onEnable() {
     @mkdir($this->getDataFolder());
     $this->saveResource('rules.txt',false);
-    if (file_exists($this->importer())) {
-      $current = Importer::phpRun([$this->importer(),'version']);
-      $fp = $this->getResource('version.txt');
-      if ($fp == null) return;
-      $embedded = stream_get_contents($fp);
-      $current = preg_replace('/^\s+/','',preg_replace('/\s+$/','',$current));
-      $embedded = preg_replace('/^\s+/','',preg_replace('/\s+$/','',$embedded));
-      // No need to upgrade!
-      if ($current == $embedded) return;
-      $this->getLogger()->info("Updating pmimporter version");
-      $this->getLogger()->info("..from $current");
-      $this->getLogger()->info("..to   $embedded");
-    } else {
-      $this->getLogger()->info("Extracting pmimporter");
-    }
-    $this->saveResource(basename($this->importer()),true);
   }
   public function onDisable() {
     $this->getLogger()->info("ImportMap Unloaded!");
