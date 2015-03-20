@@ -89,6 +89,7 @@ if ($ro && count($argv)) {
 	}
       }
       break;
+    case "preset":
     case "generatorOptions": // generatorOptions(String)
       if ($levelData->generatorOptions != $v) {
 	++$changed;

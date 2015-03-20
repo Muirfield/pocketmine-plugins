@@ -101,6 +101,7 @@ The following attributes are supported:
 * `seed=integer` : Random Seed.
 * `generator=name[,version]` : Terrain generator.  PocketMine by
   default only supports `flat` and `normal`.
+* `preset=preset` : Alias for `generatorOptions`.
 * `generatorOptions=preset` : Terrain generator `preset` string.
   Ignored by the `normal` generator.  Used by `flat`.
 
