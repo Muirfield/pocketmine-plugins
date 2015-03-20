@@ -91,6 +91,9 @@ for the values being used.
 Changes
 ------
 
+* 2.1-1.3 : Universal package
+  * Upgraded to pmimporter v1.3.
+  * Converted Plugin and commandline tool into a single package.
 * 2.0 : pmimporter release.
   * Changed to `pmimporter` codebase.
   * Converted to `AsyncTask` implementation.

@@ -11,7 +11,7 @@ class Importer extends AsyncTask {
     foreach ($args as $i) {
       $cmd .= ' '.escapeshellarg($i);
     }
-    //echo "CMD> $cmd\n";
+    echo "CMD> $cmd\n";
     return shell_exec($cmd);
   }
   public function __construct($args) {
