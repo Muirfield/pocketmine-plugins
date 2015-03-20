@@ -84,3 +84,8 @@ To-do
 * ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
 * Frost/Defrost 
 
+1. pmcheck old worlds
+2. Import oldworlds and merge with Pacboy
+3. Checkout OldMaps and select a lobby world.
+4. Copy new Pacboy and Lobby world to Prod.
+5. Test conversions.
