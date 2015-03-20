@@ -1,11 +1,11 @@
 <?php
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);
-$plug = "../ImportMap";
 
 /*
  * Build script
  */
+$plug = "plugin";
 $plug = preg_replace('/\/*$/',"",$plug).'/';
 if (!is_dir($plug)) die("$plug: directory doesn't exist!\n");
 if (!is_file($pluginYml = $plug."plugin.yml"))
@@ -65,6 +65,13 @@ while(count($dirs)) {
   closedir($dh);
 }
 
+
+
+$pmversion = preg_replace('/\s*pmimporter\s*/','',file_get_contents("version.txt"));
+$yml = file_get_contents("plugin/plugin.yml");
+$yml = str_replace("<PMIMPORTER>",$pmversion,$yml);
+$p["plugin.yml"] = $yml;
+
 if ($plug) {
   echo("Adding sources...\n");
   $cnt = 0;
@@ -72,6 +79,7 @@ if ($plug) {
     if (!is_file($s)) continue;
     $cnt++;
     $d = substr($s,strlen($plug));
+    if ($d == "plugin.yml") continue;
     echo("  [$cnt] $d\n");
     $p->addFile(realpath($s),$d);
   }
