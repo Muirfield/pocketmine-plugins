@@ -74,18 +74,38 @@ To-do
 
 * Create a Generator based of flat that creates infinite maze
 * Port the Minetest Map Generator
+* Add Shift regions option to Copier.php
 * pmimporter: merge chunks ... by selecting square regions and offsets
   - limit this at region|chunk resolution.
-  - Always spcify corners and merge
+  - Always specify corners and merge
 
 * Implement carts?
   - Rail|PoweredRail
 * ManyWorlds: Add world to the pocketmine.yml file.
 * ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
-* Frost/Defrost 
+* Frost/Defrost
+* Merge old pmf worlds into pacboy.
 
-1. pmcheck old worlds
-2. Import oldworlds and merge with Pacboy
-3. Checkout OldMaps and select a lobby world.
-4. Copy new Pacboy and Lobby world to Prod.
-5. Test conversions.
+- test conversions (including lobbies)
+  - mcpe - ok (with quirks)
+  - 2x mcr
+  - lobbies
+  - 2x Anvil
+  - convert Aboreal with shift 64.
+
+- GO back to single file.
+  pmimporter : contains plugin + cli applet
+- Add an ticking task that will show status...
+- Also lock it so it knows one is running.
+- mv ImportMap into pmimporter/plugin
+- Document slow speed.
+
+1. Should change to PluginTask.
+2. add singleton characteristics
+
+worker:
+lock file, unlock when done.
+
+checker:
+check if lock exists.  If exists send status:
+1. count filesizes in region and report that.

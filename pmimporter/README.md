@@ -238,6 +238,7 @@ References
 Issues and Bugs
 ---------------
 
+* Performance is quite poor.
 * The only target format implemented is McRegion.
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
@@ -245,7 +246,7 @@ Issues and Bugs
 * Entity data is converted but it is a bit dodgy.  This also has to do
   with the fact that PocketMine itself has incomplete Entity support,
   so I can not properly test those maps.
-* Support for Tile and Entity in Anvil and McRegion files is dodgy.
+* Conversion table could be better.  I am open to suggestions.
 
 Changes
 ------
@@ -255,6 +256,7 @@ Changes
   * Added support for Tiles and Entities fo MCPE 0.2.0 maps.
   * Fixed HeightMap calculations in PMF and MCPE 0.2.0 formats
   * Added `settings` capability to tweak conversion.
+  * ?Multiple editions?
 * 1.2: Fixes
   * pmcheck: show height map statistics.
   * pmconvert: offset y coordinates
