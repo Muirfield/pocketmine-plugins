@@ -1,5 +1,5 @@
 bin
 pocketmine-src
 maps
-pmimporter.phar
+*.phar
 t.sh

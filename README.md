@@ -84,10 +84,3 @@ To-do
 * ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
 * Frost/Defrost 
 
-
-TEST: Mcpe offsets
-DOCUMENT pmconvert --in.<attr>=<value>
-Pm13
-Mcpe020
-DOCUMENT <ImportMap + pmimporter merger>
-* Make pmimporter + ImportMap a single phar file.

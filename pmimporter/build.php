@@ -1,10 +1,16 @@
 <?php
 define('CMD',array_shift($argv));
+error_reporting(E_ALL);
 
 /*
  * Build script
  */
-error_reporting(E_ALL);
+$compress = true;
+if (isset($argv[0]) && $argv[0] == '-0') {
+  $compress = false;
+  array_shift($argv);
+}
+
 $plug = array_shift($argv);
 if (isset($plug)) {
   echo "Will generate a combined PM plugin and standalone program\n";
@@ -87,7 +93,7 @@ if ($plug) {
   }
 }
 
-$p->compressFiles(Phar::GZ);
+if ($compress) $p->compressFiles(Phar::GZ);
 
 //Stop buffering write requests to the Phar archive, and save changes to disk
 $p->stopBuffering();

@@ -50,6 +50,8 @@ In general, the command usage is:
 
 ### Sub-commands
 
+#### PMCONVERT
+
 	pmconvert [-c rules.txt ] [-t count] [-f format] srcpath dstpath
 
 Converts maps.
@@ -61,6 +63,17 @@ Converts maps.
 * `srcpath` : Directory path to the source world.
 * `dstpath` : Directory path to create the new world.
 
+Also, `pmconvert` allows you to specify special settings to tweak the
+format reader/writer code.  These settings are specifc to each
+`format`. To configure you must pass the option:
+
+* `--in.setting=value`  
+  for the input format settings.
+* `--out.setting-value`  
+  for the output format settings.
+
+#### PMCHECK
+
 	pmcheck worldpath [--all|[rX,rZ[:cX,cZ[+cX,cZ]]] ...]
 
 Analyze the number of chunks, blocks, etc in a world map.
@@ -71,6 +84,8 @@ Analyze the number of chunks, blocks, etc in a world map.
 * `:cX,cZ` : Specify individual chunks (in Chunk offsets, from 0 to
   31) to analyze.
 * `+cX,cZ` : Additional chunks to add to totals.
+
+#### PMLEVEL
 
 	pmlevel worldpath [attr=value]
 
@@ -89,9 +104,13 @@ The following attributes are supported:
 * `generatorOptions=preset` : Terrain generator `preset` string.
   Ignored by the `normal` generator.  Used by `flat`.
 
+#### NBTDUMP
+
 	nbtdump nbt_file
 
 Dumps the contents of an `NBT` formatted file.
+
+#### DUMPCHUNK
 
 	dumpchunk worldpath rX,rY:cX,cY
 
@@ -102,21 +121,67 @@ Arguments are simmilar to `pmcheck`.
 * `:cX,cZ` : Specify individual chunks (in Chunk offsets, from 0 to
   31) to dump.
 
+Settings
+--------
+
+Settings are configuration strings that can be used to tweak either
+the reading or the writing of maps.  These are format specifc.
+
+## PMF1.3 Settings
+
+- `Xoff` : offsets chunks in the X direction.  Values can be from -15
+  to 15, however, unless the values are from 0 (value) to 8, parts of
+  the maps will be missing (as they will fall outside the region).
+- `Zoff` : offsets chunks in the Z direction.  Values can be from -15
+  to 15, however, unless the values are from 0 (value) to 8, parts of
+  the maps will be missing (as they will fall outside the region).
+- `name` : Changes the reported name of the map.
+- `seed` : Changes the reported seed of the map.
+- `spawn` : Accepts 3 numbers separated by commas.  For example:
+  `128,64,128`.  Changes the reported spawn location.
+- `generator` : Changes the reported map generator value.
+- `preset` : Changes the reported generator presets value.
+
+## McPe0.2.0 Settings
+
+- `Xoff` : offsets chunks in the X direction.  Values can be from -15
+  to 15, however, unless the values are from 0 (value) to 8, parts of
+  the maps will be missing (as they will fall outside the region).
+- `Zoff` : offsets chunks in the Z direction.  Values can be from -15
+  to 15, however, unless the values are from 0 (value) to 8, parts of
+  the maps will be missing (as they will fall outside the region).
+- `name` : Changes the reported name of the map.
+- `seed` : Changes the reported seed of the map.
+- `spawn` : Accepts 3 numbers separated by commas.  For example:
+  `128,64,128`.  Changes the reported spawn location.
+- `generator` : Changes the reported map generator value.
+- `preset` : Changes the reported generator presets value.
 
 Installation
 ------------
 
-The PocketMine-MP plugin can be installed as any PocketMine-MP
-plugin. For the stand-alone version, the following applies.
-
 Requirements:
 
 * This software has only been tested on Linux
-* PHP v5.6.0
+* PHP v5.6.0, version used by PocketMine-MP v1.4.1.  This one contains
+  all dependancies.
 * PHP CLI API
 
-Download the `pmimporter.phar` file.  It can be used stand-alone and
-does not need installation.
+*pmimporter* comes in three editions:
+
+1. pmimporter.phar - This is the stand-alone version.  If you are only
+   using the command line, that is the only version you need.  To
+   install copy the `pmimporter.phar` file somewhere in your system
+   and run it.  There is no special installation procedure.
+2. ImportMap_vX.Y.Z.phar - This is the basic PocketMine-MP plugin.  To
+   install copy the `ImportMap_vX.Y.Z.phar` file to your PocketMine-MP
+   `plugins` directory.  Look
+   [here](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ImportMap)
+   for usage instructions.
+3. ImportMap-PM.phar - This is a combined command line + plugin
+   version in a single file.  To install copy the `ImportMap-PM.phar`
+   file to your PocketMine-MP `plugins` directory.  You can then use
+   it either from PocketMine or directly from the command-line.
 
 Configuration
 -------------
@@ -188,6 +253,7 @@ Changes
   * Added support for Tiles to PMF maps.
   * Added support for Tiles and Entities fo MCPE 0.2.0 maps.
   * Fixed HeightMap calculations in PMF and MCPE 0.2.0 formats
+  * Added `settings` capability to tweak conversion.
 * 1.2: Fixes
   * pmcheck: show height map statistics.
   * pmconvert: offset y coordinates
