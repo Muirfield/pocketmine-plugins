@@ -35,7 +35,7 @@ class Main extends Plugin implements CommandExecutor {
       }
       if (!isset($args[0])) return $this->usage($sender);
       if ($args[0] == "version") {
-	$this->schedule([$this->importer(),'version']);
+	$sender->sendMessage(Importer::phpRun([$this->importer(),'version']));
 	return true;
       }
       if (!isset($args[1])) return $this->usage($sender);
