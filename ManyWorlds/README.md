@@ -62,6 +62,23 @@ Client-Server glitches.  Essentially, it works for me.
   that *level*.  If `line` and `text` is specified (`text` can be
   empty, however), it will modify that line of the `motd` message.
 
+### Examples:
+
+Create a new normal world:
+
+    /mw create overworld 711 normal
+
+Create a new flat world:
+
+    /mw create flatland 404 flat 2;7,59x1,3x3,2;1;
+
+Teleport to this newly created world:
+
+    /mw tp flatland
+
+Teleport a player to another world:
+
+    /mw tp flatland joshua
 
 ### Permission Nodes:
 
