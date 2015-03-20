@@ -27,16 +27,12 @@ class Importer extends AsyncTask {
     echo "CMD> $cmd\n";
     $start = time();
     $fp = popen($cmd,"r");
-    $txt = '';
     while (($c = fread($fp,64)) != false) {
       echo($c);
-      $txt.=$c;
     }
+    pclose($fp);
     $end = time();
-    if ($end - $start > 15) {
-      $txt .= "\nRun-time: ".($end-$start);
-    }
-    $this->setResult($txt);
+    $this->setResult("Run-time: ".($end-$start));
   }
   public function onCompletion(Server $server) {
     $server->broadcastMessage($this->getResult());
