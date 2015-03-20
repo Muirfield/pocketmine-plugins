@@ -85,17 +85,3 @@ To-do
 * ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
 * Frost/Defrost
 * Merge old pmf worlds into pacboy.
-
-- test conversions (including lobbies)
-  - mcpe - ok (with quirks)
-  - 2x mcr
-  - lobbies
-  - 2x Anvil
-  - convert Aboreal with shift 64.
-
-- GO back to single file.
-  pmimporter : contains plugin + cli applet
-- Add an ticking task that will show status...
-- Also lock it so it knows one is running.
-- mv ImportMap into pmimporter/plugin
-- Document slow speed.
