@@ -14,6 +14,8 @@ use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\utils\Config;
 
+use pocketmine\Player;
+
 class Main extends PluginBase implements Listener {
   const MAX_COORD = 30000000;
   const MIN_COORD = -30000000;

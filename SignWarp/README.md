@@ -91,6 +91,8 @@ coordinates of the player.
 Changes
 -------
 
+* 1.1.1 : Bugfix release
+  * Fixed /xyz command.
 * 1.1.0 : Update release
   * Will not teleport if you are holding a sign.
   * Prevents blocks to be placed when teleporting.
