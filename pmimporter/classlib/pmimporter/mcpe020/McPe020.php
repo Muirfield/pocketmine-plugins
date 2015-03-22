@@ -37,6 +37,7 @@ class McPe020 implements LevelFormat {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
   public function getSetting($attr) {
+    if (!isset($this->settings[$attr])) return null;
     return $this->settings[$attr];
   }
   private function getAttr($attr,$nbtattr) {
@@ -49,17 +50,24 @@ class McPe020 implements LevelFormat {
   public function getSeed() {
     return $this->getAttr("seed","RandomSeed");
   }
+  private function adjSpawn($dir) {
+    if (isset($this->settings["spawn".$dir]))
+      return $this->settings["spawn".$dir];
+    $l = $this->levelData["Spawn".$dir] + $this->settings["Xoff"] * 16;
+    if (isset($this->settings["regions"])) {
+      if (preg_match('/^\s*(-?\d+)\s*,\s*(-?\d+)\s*$/',$this->settings["regions"],$mv)) {
+	$l += ($dir == "X" ? $mv[1] : $mv[2])* (16 * 32);
+      }
+    }
+    return $l;
+  }
   public function getSpawn() {
     if (isset($this->settings["spawn"])) {
       $spawn = explode(',',$this->settings["spawn"],3);
       if (count($spawn) == 3)
 	return new Vector3((float)$spawn[0],(float)$spawn[1],(float)$spawn[2]);
     }
-    $x = isset($this->settings["spawnX"]) ? $this->settings["spawnX"]
-      : $this->levelData["SpawnX"] + $this->settings["Xoff"] * 16;
-    $z = isset($this->settings["spawnZ"]) ? $this->settings["spawnZ"]
-      : $this->levelData["SpawnZ"] + $this->settings["Zoff"] * 16;
-    return new Vector3((float)$x,(float)$this->getAttr("spawnY","SpawnY"),(float)$z);
+    return new Vector3((float)$this->adjSpawn("X"),(float)$this->getAttr("spawnY"),(float)$this->adjSpawn("Z"));
   }
   public function getGenerator() {
     if (isset($this->settings["generator"]))
@@ -83,7 +91,14 @@ class McPe020 implements LevelFormat {
     }
     return false;
   }
-  public function getRegions() { return ["0,0" => [0,0]]; }
+  public function getRegions() {
+    if (isset($this->settings["regions"])) {
+      if (preg_match('/^\s*(\d+)\s*,\s*(\d+)\s*$/',$this->settings["regions"],$mv)) {
+	return [$mv[1].",".$mv[2] => [$mv[1],$mv[2]]];
+      }
+    }
+    return ["0,0" => [0,0]];
+  }
   public function getRegion($x, $z) {
     return new RegionLoader($this);
   }
