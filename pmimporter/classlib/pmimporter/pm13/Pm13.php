@@ -37,6 +37,7 @@ class Pm13 implements LevelFormat {
     throw new ImporterException("Unimplemented ".__CLASS__."::".__METHOD__);
   }
   public function getSetting($attr) {
+    if (!isset($this->settings[$attr])) return null;
     return $this->settings[$attr];
   }
   private function getAttr($attr) {

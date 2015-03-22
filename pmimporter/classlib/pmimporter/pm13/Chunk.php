@@ -34,7 +34,7 @@ class Chunk implements \pmimporter\Chunk {
     $this->adjX = $fmt->getSetting("Xoff") << 4;
     $this->adjZ = $fmt->getSetting("Zoff") << 4;
     $r = $fmt->getSetting("regions");
-    if (isset($r)) {
+    if ($r != null) {
       if (preg_match('/^\s*(-?\d+)\s*,\s*(-?\d+)\s*$/',$r,$mv)) {
 	$this->adjX += $mv[1] * (16*32);
 	$this->adjZ += $mv[2] * (16*32);
