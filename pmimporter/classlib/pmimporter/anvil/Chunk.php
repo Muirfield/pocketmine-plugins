@@ -29,12 +29,12 @@ class Chunk extends \pmimporter\generic\Chunk {
     foreach($this->nbt->Sections as $section){
       if($section instanceof Compound){
 	$y = (int) $section["Y"];
-	if($y < 8){
+	if($y < 16){
 	  $sections[$y] = new AnvilSection($section);
 	}
       }
     }
-    for($y = 0; $y < 8; ++$y){
+    for($y = 0; $y < 16; ++$y){
       if(!isset($sections[$y])){
 	$sections[$y] = new EmptyChunkSection($y);
       }

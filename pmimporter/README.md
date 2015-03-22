@@ -60,7 +60,10 @@ Converts maps.
 * `-c rules` : Specify a rules conversion file.
 * `-t count` : Specifies the number of threads to run.
 * `-f format` : Specifies the output format.  Defaults to `mcregion`.
-* `-o offset` : Specifies the y-offset for the import.
+* `-o offset` : Specifies the y-offset for the import.  A value for
+  the number of blocks you want to move the world *down*.  A negative
+  value will move the world *up*.  Be careful when moving the world
+  *down* that you do not remove the ground.
 * `srcpath` : Directory path to the source world.
 * `dstpath` : Directory path to create the new world.
 
@@ -257,7 +260,9 @@ FAQ
 * Q: Why tall builds seem to be chopped off at te top?
 * A: That is a limitation of Pocket Edition.  It only supports chunks
   that are up to 128 blocks high, while the PC edition Anvil worlds
-  can support more.
+  can support up to 256 blocks high.  You can shift worlds down by
+  using the `-o` option.  So if you use `-o 40` that will move the
+  build down 40 blocks.  *BE CAREFUL NOT TO REMOVE THE GROUND*
 * Q: Why my Anvil format file is not recognized?
 * A: That happens with Anvil files that were converted from an
   McRegion file.  These files contain both `.mcr` and .`mca` files.
@@ -305,6 +310,9 @@ Issues and Bugs
 Changes
 ------
 
+* ???:
+  * Added region settings to MCPE0.2.0 and PMF1.3 formats.
+  * Fixed offset functionality.
 * 1.3: OldSkool fixes
   * Added support for Tiles to PMF maps.
   * Added support for Tiles and Entities fo MCPE 0.2.0 maps.

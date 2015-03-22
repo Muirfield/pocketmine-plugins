@@ -14,13 +14,13 @@ abstract class Copier {
     // Copy blocks
     //
     $max_y = 127;
-    if ($dst instanceof \pmimporter\anvil\Chunk) $max_y = 255;
+    if ($src instanceof \pmimporter\anvil\Chunk) $max_y = 255;
 
     for ($x = 0;$x < 16;$x++) {
       for ($z=0;$z < 16;$z++) {
 	for ($y=0;$y < 128;$y++) {
 
-	  $calc_y = $y - $offset;
+	  $calc_y = $y + $offset;
 	  if ($calc_y < 0) {
 	    list($id,$meta) = [7,0];
 	  } elseif ($calc_y > $max_y) {
@@ -63,7 +63,7 @@ abstract class Copier {
       if (Entities::getId($entity->id->getValue()) === null) continue;
       $copy = clone $entity;
       if ($offset != 0 && isset($copy->Pos)) {
-	$copy->Pos[1] = new Double("",$copy->Pos[1]+$offset);
+	$copy->Pos[1] = new Double("",$copy->Pos[1]-$offset);
       }
       $entities[] = $copy;
     }
@@ -76,7 +76,7 @@ abstract class Copier {
       if (Blocks::getTileId($tile->id->getValue()) === null) continue;
       $clone = clone $tile;
       if ($offset != 0) {
-	$clone->y = new Int("y",$clone->y->getValue()+$offset);
+	$clone->y = new Int("y",$clone->y->getValue()-$offset);
       }
       $tiles[] = $clone;
     }
