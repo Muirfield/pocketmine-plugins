@@ -69,6 +69,8 @@ To-do
 Changes
 -------
 
+* 1.1.0 :
+  * Added AdminJoin functionality
 * 1.0.0 : First release
 
 Copyright

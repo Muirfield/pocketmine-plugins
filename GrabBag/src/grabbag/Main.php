@@ -10,6 +10,8 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
+use pocketmine\utils\Config;
+
 use pocketmine\entity\Entity;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\Compound;
@@ -18,9 +20,13 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Float;
 use pocketmine\utils\Random;
 use pocketmine\level\Position;
+use pocketmine\item\Item;
 
 
 class Main extends Plugin implements CommandExecutor {
+  protected $listener;
+  protected $config;
+
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
     if($sender->hasPermission($permission)) return true;
@@ -32,6 +38,12 @@ class Main extends Plugin implements CommandExecutor {
     $sender->sendMessage("You can only use this command in-game");
     return false;
   }
+
+  public function after($ticks,$callback) {
+    $task = new GrabBagTask($this,$callback);
+    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
+  }
+
 
   // Paginate output
   private function getPageNumber(array &$args) {
@@ -86,9 +98,29 @@ class Main extends Plugin implements CommandExecutor {
     $this->getLogger()->info("GrabBag Loaded!");
   }
   public function onEnable(){
-    $this->getLogger()->info("GrabBag Enabled!");
+    $this->getLogger()->info("* GrabBag Enabled!");
+    $this->listener = new GrabBagListener($this);
+    @mkdir($this->getDataFolder());
+    $this->config=(new Config($this->getDataFolder()."config.yml",Config::YAML,
+			      [
+			       "spawn"=>
+			       [
+				"armor"=>
+				[
+				 "head"=>"-",
+				 "body"=>"chainmail",
+				 "legs"=>"leather",
+				 "boots"=>"leather",
+				 ],
+				"items"=>
+				[
+				 "272:0:1",
+				 "17:0:16",
+				 "364:0:5",
+				 ],
+				]
+			       ]))->getAll();
   }
-
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
     case "ops":
@@ -266,5 +298,63 @@ class Main extends Plugin implements CommandExecutor {
     $tab[0][0] = "Players:$cnt";
     $pageNumber = $this->getPageNumber($args);
     return $this->paginateTable($c,$pageNumber,$tab);
+  }
+  //////////////////////////////////////////////////////////////////////
+  // Event based stuff...
+  //////////////////////////////////////////////////////////////////////
+  public function onPlayerJoin($player) {
+    $pl = $this->getServer()->getPlayer($player);
+    if ($pl == null) return;
+    if ($pl->isOp()) {
+      $this->getServer()->broadcastMessage("Server Op ".$pl->getName()." has joined.");
+    }
+  }
+  public function respawnPlayer($player) {
+    $pl = $this->getServer()->getPlayer($player);
+    if ($pl == null) return;
+
+    if (isset($this->config["spawn"])) {
+      if (isset($this->config["spawn"]["armor"])
+	  && $pl->hasPermission("gb.spawnarmor.receive")) {
+	foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
+	  if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
+	  if (!isset($this->config["spawn"]["armor"][$attr])) continue;
+	  $type = strtolower($this->config["spawn"]["armor"][$attr]);
+	  if ($type == "leather") {
+	    $type = 298;
+	  } elseif ($type == "chainmail") {
+	    $type = 302;
+	  } elseif ($type == "iron") {
+	    $type = 306;
+	  } elseif ($type == "gold") {
+	    $type = 314;
+	  } elseif ($type == "diamond") {
+	    $type = 310;
+	  } else {
+	    continue;
+	  }
+	  $pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
+	}
+      }
+      if (isset($this->config["spawn"]["items"])
+	  && $pl->hasPermission("gb.spawitems.receive")) {
+	// Figure out if the inventory is empty...
+	$cnt = 0;
+	$max = $pl->getInventory()->getSize();
+	foreach ($pl->getInventory()->getContents() as $slot => &$item) {
+	  if ($slot < $max) ++$cnt;
+	}
+	if (!$cnt) {
+	  // This player has nothing... let's give them some to get started...
+	  foreach ($this->config["spawn"]["items"] as $i) {
+	    $r = explode(":",$i);
+	    if (count($r) == 3) {
+	      $item = new Item($r[0],$r[1],$r[2]);
+	      $pl->getInventory()->addItem($item);
+	    }
+	  }
+	}
+      }
+    }
   }
 }
