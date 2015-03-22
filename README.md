@@ -84,4 +84,3 @@ To-do
 * ManyWorlds: Add world to the pocketmine.yml file.
 * ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
 * Frost/Defrost
-* Merge old pmf worlds into pacboy.
