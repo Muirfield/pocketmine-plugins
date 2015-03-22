@@ -33,7 +33,13 @@ class Chunk implements \pmimporter\Chunk {
     $this->z = $z;
     $this->adjX = $fmt->getSetting("Xoff") << 4;
     $this->adjZ = $fmt->getSetting("Zoff") << 4;
-
+    $r = $fmt->getSetting("regions");
+    if (isset($r)) {
+      if (preg_match('/^\s*(-?\d+)\s*,\s*(-?\d+)\s*$/',$r,$mv)) {
+	$this->adjX += $mv[1] * (16*32);
+	$this->adjZ += $mv[2] * (16*32);
+      }
+    }
   }
 
   public function getBiomeId($x, $z) { return 1; }

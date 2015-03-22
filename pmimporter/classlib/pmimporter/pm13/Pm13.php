@@ -50,17 +50,25 @@ class Pm13 implements LevelFormat {
   public function getSeed() {
     return $this->getAttr("seed");
   }
+  private function adjSpawn($dir) {
+    if (isset($this->settings["spawn".$dir]))
+      return $this->settings["spawn".$dir];
+    $l = $this->pmfLevel->getAttr("spawn".$dir)+$this->settings[$dir."off"]*16;
+    if (isset($this->settings["regions"])) {
+      if (preg_match('/^\s*(-?\d+)\s*,\s*(-?\d+)\s*$/',$this->settings["regions"],$mv)) {
+	$l += ($dir == "X" ? $mv[1] : $mv[2])* (16 * 32);
+      }
+    }
+    return $l;
+  }
+
   public function getSpawn() {
     if (isset($this->settings["spawn"])) {
       $spawn = explode(',',$this->settings["spawn"],3);
       if (count($spawn) == 3)
 	return new Vector3((float)$spawn[0],(float)$spawn[1],(float)$spawn[2]);
     }
-    $x = isset($this->settings["spawnX"]) ? $this->settings["spawnX"]
-      : $this->pmfLevel->getAttr("spawnX") + $this->settings["Xoff"] * 16;
-    $z = isset($this->settings["spawnZ"]) ? $this->settings["spawnZ"]
-      : $this->pmfLevel->getAttr("spawnZ") + $this->settings["Zoff"] * 16;
-    return new Vector3((float)$x,(float)$this->getAttr("spawnY"),(float)$z);
+    return new Vector3((float)$this->adjSpawn("X"),(float)$this->getAttr("spawnY"),(float)$this->adjSpawn("Z"));
   }
   public function getGenerator() {
     if (isset($this->settings["generator"]))
@@ -80,7 +88,14 @@ class Pm13 implements LevelFormat {
 	    && file_exists($path."/tiles.yml")
 	    && is_dir($path."/chunks"));
   }
-  public function getRegions() { return ["0,0" => [0,0]]; }
+  public function getRegions() {
+    if (isset($this->settings["regions"])) {
+      if (preg_match('/^\s*(\d+)\s*,\s*(\d+)\s*$/',$this->settings["regions"],$mv)) {
+	return [$mv[1].",".$mv[2] => [$mv[1],$mv[2]]];
+      }
+    }
+    return ["0,0" => [0,0]];
+  }
   public function getRegion($x, $z) {
     return new RegionLoader($this);
   }
