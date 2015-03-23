@@ -33,9 +33,9 @@ class Main extends Plugin implements CommandExecutor {
     $sender->sendMessage("You do not have permission to do that.");
     return false;
   }
-  private function inGame(CommandSender $sender) {
+  private function inGame(CommandSender $sender,$msg = true) {
     if ($sender instanceof Player) return true;
-    $sender->sendMessage("You can only use this command in-game");
+    if ($msg) $sender->sendMessage("You can only use this command in-game");
     return false;
   }
 
@@ -101,25 +101,35 @@ class Main extends Plugin implements CommandExecutor {
     $this->getLogger()->info("* GrabBag Enabled!");
     $this->listener = new GrabBagListener($this);
     @mkdir($this->getDataFolder());
-    $this->config=(new Config($this->getDataFolder()."config.yml",Config::YAML,
-			      [
-			       "spawn"=>
-			       [
-				"armor"=>
-				[
-				 "head"=>"-",
-				 "body"=>"chainmail",
-				 "legs"=>"leather",
-				 "boots"=>"leather",
-				 ],
-				"items"=>
-				[
-				 "272:0:1",
-				 "17:0:16",
-				 "364:0:5",
-				 ],
-				]
-			       ]))->getAll();
+    $defaults 
+      = [
+	 "spawn"=>[
+		   "armor"=>[
+			     "head"=>"-",
+			     "body"=>"chainmail",
+			     "legs"=>"leather",
+			     "boots"=>"leather",
+			     ],
+		   "items"=>[
+			     "272:0:1",
+			     "17:0:16",
+			     "364:0:5",
+			     ],
+		   ],
+	 "world-protect"=>[
+			   "world"=>[
+				     "status"=>"locked",
+				     "users"=>["a","b"],
+				     ],
+
+			   ],
+	 ];
+    if (file_exists($this->getDataFolder()."config.yml")) {
+      unset($defaults["world-protect"]["world"]);
+      unset($defaults["spawn"]["items"]);
+    }
+    $this->config=(new Config($this->getDataFolder()."config.yml",
+			      Config::YAML,$defaults))->getAll();
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
@@ -138,6 +148,9 @@ class Main extends Plugin implements CommandExecutor {
     case "gmc":
       if (!$this->access($sender,"gb.cmd.gmc")) return true;
       return $this->cmdGmX($sender,1);
+    case "gma":
+      if (!$this->access($sender,"gb.cmd.gma")) return true;
+      return $this->cmdGmX($sender,2);
     case "slay":
       if (!$this->access($sender,"gb.cmd.slay")) return true;
       return $this->cmdSlay($sender,$args);
@@ -147,6 +160,9 @@ class Main extends Plugin implements CommandExecutor {
     case "whois":
       if (!$this->access($sender,"gb.cmd.whois")) return true;
       return $this->cmdWhois($sender,$args);
+    case "wp":
+      if (!$this->access($sender,"gb.cmd.wp")) return true;
+      return $this->cmdWp($sender,$args);
     }
     return false;
   }
@@ -299,9 +315,140 @@ class Main extends Plugin implements CommandExecutor {
     $pageNumber = $this->getPageNumber($args);
     return $this->paginateTable($c,$pageNumber,$tab);
   }
+  // Manage world protect
+  private function cmdWp(CommandSender $c,$args) {
+    if ($this->inGame($c,false)) {
+      $world = $c->getLevel()->getName();
+    } else {
+      if (!isset($args[0])) {
+	$c->sendMessage("Must specify a world name");
+	return false;
+      }
+      $world = array_shift($args);
+      if (!$this->getServer()->isLevelGenerated($world)) {
+	$c->sendMessage("$world: does not exist");
+	return true;
+      }
+    }
+    if (!isset($this->config["world-protect"]))
+      $this->config["world-protect"] = [];
+    if (!isset($this->config["world-protect"][$world])) {
+      $dat = [ "status"=>"open",
+	      "users"=>[],
+	      ];
+    } else {
+      $dat = $this->config["world-protect"][$world];
+    }
+
+    if (!isset($args[0])) {
+      $c->sendMessage("$world: ".$dat["status"]);
+      if (count($dat["users"])) {
+	$c->sendMessage("- Authorized: ".implode(", ",$dat["users"]));
+      }
+      return true;
+    }
+    if ($this->inGame($c,false)) {
+      if (!in_array($c->getName(),$dat["users"])) {
+	$c->sendMessage("You are not in the authorized list");
+	return true;
+      }
+    }
+
+    switch (array_shift($args)) {
+    case "add":
+      if (!isset($args[0])) {
+	$c->sendMessage("Must specify a player to add");
+	return false;
+      }
+      if (in_array($args[0],$dat["users"])) {
+	$c->sendMessage("$args[0] already in the authorized list");
+	return true;
+      }
+      $p = $this->getServer()->getPlayer($args[0]);
+      if (!$p) {
+	$c->sendMessage("$args[0] can not be found.  Maybe they are offline");
+	return true;
+      }
+      $p->sendMessage("You are now in the authorized list for $world");
+      $dat["users"][] = $p->getName();
+
+      $c->sendMessage("$args[0] added to the authorized list for $world");
+      break;
+    case "rm":
+      if (!isset($args[0])) {
+	$c->sendMessage("Must specify a player to add");
+	return false;
+      }
+      if (!in_array($args[0],$dat["users"])) {
+	$c->sendMessage("$args[0] is not in the authorized list");
+	return true;
+      }
+      $lst = [];
+      foreach ($dat["users"] as $i) {
+	if ($i != $args[0]) $lst[] = $i;
+      }
+      $dat["users"] = $lst;
+      $p = $this->getServer()->getPlayer($args[0]);
+      if ($p) $p->sendMessage("You have been removed from the authorized list for $world");
+      $c->sendMessage("$args[0] removed from authorized list for $world");
+      break;
+    case "close":
+      $dat["status"] = "locked";
+      break;
+    case "lock":
+      $dat["status"] = "locked";
+      break;
+    case "protect":
+      $dat["status"] = "protected";
+      break;
+    case "open":
+      $dat["status"] = "open";
+      break;
+    case "unprotect":
+      $dat = null;
+      break;
+    default:
+      $c->sendMessage("Invalid sub command");
+      return false;
+    }
+    // Save configuration
+    @mkdir($this->getDataFolder());
+    if ($dat) {
+      $this->config["world-protect"][$world]= $dat;
+    } else {
+      unset($this->config["world-protect"][$world]);
+    }
+    $yaml = new Config($this->getDataFolder()."config.yml",Config::YAML,
+		       $this->config);
+    $yaml->setAll($this->config);
+    $yaml->save();
+
+    return true;
+  }
+
   //////////////////////////////////////////////////////////////////////
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////
+  public function worldProtect($player) {
+    if (!isset($this->config["world-protect"])) return false;
+    $world = $player->getLevel()->getName();
+    if (!isset($this->config["world-protect"][$world])) return false;
+    switch ($this->config["world-protect"][$world]["status"]) {
+    case "locked":
+      return true;
+    case "protected":
+      if (!isset($this->config["world-protect"][$world]["users"]))
+	return false;
+      if (in_array($player->getName(),
+		   $this->config["world-protect"][$world]["users"]))
+	return false;
+      return true;
+    case "open":
+    default:
+      return false;
+    }
+    return false;
+  }
   public function onPlayerJoin($player) {
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return;

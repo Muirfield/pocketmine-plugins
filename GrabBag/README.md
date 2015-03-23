@@ -25,6 +25,7 @@ Basic Usage:
 * slay - kill a player
 * heal - Restore health to a player
 * whois - Info about a player
+* wp - world protect functionality
 
 Documentation
 -------------
@@ -50,6 +51,25 @@ wanted to have in a single plugin rather through multiple ones.
   Restore health to a player
 * *whois* *player*  
   Show player info
+* *wp* [world] [add player|rm player|close|lock|open|protect|unprotect]  
+  World Protect functionality.  When used in-game, it will work on the
+  world currently used by the player.  When used in the console, a
+  _world_ needs to be specified. Only the console and players in the
+  authorized list can use the *wp* command to make changes to a world.  
+  Sub Commands:
+  * *add* _player_  
+    Add the _player_ to the authorized list.  The _player_ *must* be
+    on-line.
+  * *rm* _player__  
+    Removes _player_ from the authorized list.
+  * *close|lock*  
+    Lock the world so it can not be modified.
+  * *open|unlock*  
+    Unlock the world so it can be modified by anyone.
+  * *protect*  
+    Only players in the authorized list can modify this world.
+  * *unprotect*  
+    Removes any locks, protection as well as the authorized list.
 
 ### Permission Nodes:
 
@@ -58,8 +78,10 @@ wanted to have in a single plugin rather through multiple ones.
 * gb.cmd.sudo - allow to run commands as somebody else
 * gb.cmd.gms: allow switch gamemode to survival
 * gb.cmd.gmc: allow switch gamemode to creative
+* gb.cmd.gma: allow switch gamemode to adventure
 * gb.cmd.slay: kill other players
 * gb.cmd.whois: show player info
+* gm.cmd.wp : Allow use of the wp command.
 
 To-do
 -----

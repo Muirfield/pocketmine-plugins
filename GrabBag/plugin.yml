@@ -32,6 +32,9 @@ commands:
     whois:
         description: Show player info
         usage: "/whois <player>"
+    wp:
+        description: World protect
+        usage: "/wp [world] [add player|rm player|close|protect|open|unprotect]"
 
 permissions:
     gb.cmd.players:
@@ -43,6 +46,9 @@ permissions:
     gb.cmd.sudo:
         default: op
         description: "Allow to run command as another user"
+    gb.cmd.gma:
+        default: op
+        description: "Allow to switch gamemode to Adventure"
     gb.cmd.gms:
         default: op
         description: "Allow to switch gamemode to survival"
@@ -58,6 +64,9 @@ permissions:
     gb.cmd.whois:
         default: op
         description: "Show player details"
+    gb.cmd.wp:
+        default: op
+        description: "Allow access to world protect commands"
     gb.spawnarmor.receive:
         default: true
         description: "allows to receive armor when you spawn"
