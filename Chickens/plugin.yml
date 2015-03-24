@@ -1,5 +1,5 @@
 name: Chickens
 main: aliuly\chickens\Main
-version: 1.0
+version: 0.1.0
 api: [1.6.0]
 author: Alejandro Liu
