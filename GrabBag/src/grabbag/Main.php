@@ -405,10 +405,7 @@ class Main extends PluginBase implements CommandExecutor {
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////
   public function onPlayerJoin($player) {
-    echo "onPlayerJoin $player\n";
-    print_r($this->modules["listener"]);
     if (!array_key_exists("adminjoin",$this->modules["listener"])) return;
-    echo "onPlayerJoin $player-1\n";
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return;
     if ($pl->isOp()) {
