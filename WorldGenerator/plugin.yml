@@ -1,0 +1,6 @@
+name: WorldGenerator
+main: DeBePlugins\WorldGenerator\WorldGenerator
+load: STARTUP
+api: [1.6.0]
+version: DeBe
+author: DeBe 

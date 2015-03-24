@@ -1,0 +1,5 @@
+name: Minecarts
+main: aliuly\minecarts\Main
+version: 0.1
+api: [1.6.0]
+author: aliuly

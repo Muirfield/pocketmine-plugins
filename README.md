@@ -80,4 +80,6 @@ To-do
   - Always specify corners and merge
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO API
 * Frost/Defrost
-* Localize SignWarp
+* Add a Snowball/Egg or something and use it as football..
+* AI for Chickens?
+* Minecarts
