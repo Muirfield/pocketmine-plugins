@@ -1,7 +1,7 @@
 <?php
 namespace grabbag;
 
-use pocketmine\plugin\PluginBase as Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandSender;
@@ -11,21 +11,24 @@ use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
+use pocketmine\command\PluginCommand;
 
-use pocketmine\entity\Entity;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\utils\Random;
-use pocketmine\level\Position;
+//use pocketmine\entity\Entity;
+//use pocketmine\nbt\tag\Byte;
+//use pocketmine\nbt\tag\Compound;
+//use pocketmine\nbt\tag\Double;
+//use pocketmine\nbt\tag\Enum;
+//use pocketmine\nbt\tag\Float;
+//use pocketmine\utils\Random;
+//use pocketmine\level\Position;
 use pocketmine\item\Item;
 
 
-class Main extends Plugin implements CommandExecutor {
+class Main extends PluginBase implements CommandExecutor {
   protected $listener;
   protected $config;
+  protected $modules;
+  protected $slain = [];
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -95,13 +98,74 @@ class Main extends Plugin implements CommandExecutor {
     $this->getLogger()->info("GrabBag Unloaded!");
   }
   public function onLoad() {
+    @mkdir($this->getDataFolder());
+
+    $v = $this->getDescription()->getVersion();
+    $modules = $this->getDataFolder()."modules-dist.yml";
+    if (is_file($modules)) {
+      $fp = fopen($modules,"r");
+      $fv = preg_replace('/\s+/','',preg_replace('/^\s+/','',fgets($fp)));
+      if ($fv = "version: $v") unlink($modules);
+    }
+    if (!is_file($modules)) {
+      $fp = fopen($modules,"w");
+      fwrite($fp,"version: $v\n");
+      $rfp = $this->getResource(basename("modules.yml"));
+      stream_copy_to_stream($rfp,$fp);
+      fclose($fp);
+      fclose($rfp);
+    }
+    $this->saveResource("modules.yml",false);
+    $this->modules =(new Config($this->getDataFolder()."modules.yml",
+			      Config::YAML,[]))->getAll();
+    foreach (["listener","commands"] as $i) {
+      if (!isset($this->modules[$i])) $this->modules[$i] = [];
+    }
+
+    $pluginCmds = [];
+    foreach ($this->modules["commands"] as $cmd => $dat) {
+      if(strpos($cmd, ":") !== false){
+	$this->getLogger()->info("Unable to load command $cmd");
+	continue;
+      }
+      if (!is_array($dat)) continue;
+      $newCmd = new PluginCommand($cmd,$this);
+      if(isset($dat["description"])){
+	$newCmd->setDescription($dat["description"]);
+      }
+      if(isset($dat["usage"])){
+	$newCmd->setUsage($dat["usage"]);
+      }
+      if(isset($dat["aliases"]) and is_array($dat["aliases"])){
+	$aliasList = [];
+	foreach($dat["aliases"] as $alias){
+	  if(strpos($alias, ":") !== false){
+	    $this->getLogger()->info("Unable to load alias $alias");
+	    continue;
+	  }
+	  $aliasList[] = $alias;
+	}
+	$newCmd->setAliases($aliasList);
+      }
+      if(isset($dat["permission"])){
+	$newCmd->setPermission($dat["permission"]);
+      }
+      if(isset($dat["permission-message"])){
+	$newCmd->setPermissionMessage($dat["permission-message"]);
+      }
+      $pluginCmds[] = $newCmd;
+    }
+    if (count($pluginCmds) > 0) {
+      $cmdMap = $this->getServer()->getCommandMap();
+      $cmdMap->registerAll($this->getDescription()->getName(),$pluginCmds);
+    }
+
     $this->getLogger()->info("GrabBag Loaded!");
   }
   public function onEnable(){
-    $this->getLogger()->info("* GrabBag Enabled!");
     $this->listener = new GrabBagListener($this);
-    @mkdir($this->getDataFolder());
-    $defaults 
+    $this->slain = [];
+    $defaults
       = [
 	 "spawn"=>[
 		   "armor"=>[
@@ -116,22 +180,17 @@ class Main extends Plugin implements CommandExecutor {
 			     "364:0:5",
 			     ],
 		   ],
-	 "world-protect"=>[
-			   "world"=>[
-				     "status"=>"locked",
-				     "users"=>["a","b"],
-				     ],
-
-			   ],
 	 ];
     if (file_exists($this->getDataFolder()."config.yml")) {
-      unset($defaults["world-protect"]["world"]);
       unset($defaults["spawn"]["items"]);
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
+    $this->getLogger()->info("* GrabBag Enabled!");
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+    // Make sure the command is active
+    if (!isset($this->modules["commands"][$cmd->getName()])) return false;
     switch($cmd->getName()) {
     case "ops":
       if (!$this->access($sender,"gb.cmd.ops")) return true;
@@ -235,10 +294,37 @@ class Main extends Plugin implements CommandExecutor {
       $c->sendMessage("Player $args[0] was not found!");
       return true;
     }
+    array_shift($args);
+    $this->slainGc();
+    if (count($args)) {
+      $this->slain[$victim->getName()] = [ time(), implode(" ",$args) ];
+    }
     $victim->setHealth(0);
-    $c->sendMessage(TextFormat::RED.$args[0]." has been slain.".TextFormat::RESET);
+    $c->sendMessage(TextFormat::RED.$victim->getName()." has been slain.".TextFormat::RESET);
     return true;
   }
+  private function slainGc() {
+    $lst = [];
+    $now = time();
+    foreach ($this->slain as $p=>$dat) {
+      list($time,$msg) = $dat;
+      if ($now - $time > 3) $lst[] = $p;
+    }
+    foreach ($lst as $p) {
+      unset($this->slain[$p]);
+    }
+  }
+  public function onPlayerDeath($name) {
+    print_r([$name,$this->slain]);
+    if (isset($this->slain[$name])) {
+      list($time,$msg) = $this->slain[$name];
+      unset($this->slain[$name]);
+      return $msg;
+    }
+    return "";
+  }
+
+
   private function cmdGmX(CommandSender $c,$mode) {
     if (!$this->inGame($c)) return true;
     if ($mode !== $c->getGamemode()) {
@@ -315,193 +401,72 @@ class Main extends Plugin implements CommandExecutor {
     $pageNumber = $this->getPageNumber($args);
     return $this->paginateTable($c,$pageNumber,$tab);
   }
-  // Manage world protect
-  private function cmdWp(CommandSender $c,$args) {
-    if ($this->inGame($c,false)) {
-      $world = $c->getLevel()->getName();
-    } else {
-      if (!isset($args[0])) {
-	$c->sendMessage("Must specify a world name");
-	return false;
-      }
-      $world = array_shift($args);
-      if (!$this->getServer()->isLevelGenerated($world)) {
-	$c->sendMessage("$world: does not exist");
-	return true;
-      }
-    }
-    if (!isset($this->config["world-protect"]))
-      $this->config["world-protect"] = [];
-    if (!isset($this->config["world-protect"][$world])) {
-      $dat = [ "status"=>"open",
-	      "users"=>[],
-	      ];
-    } else {
-      $dat = $this->config["world-protect"][$world];
-    }
-
-    if (!isset($args[0])) {
-      $c->sendMessage("$world: ".$dat["status"]);
-      if (count($dat["users"])) {
-	$c->sendMessage("- Authorized: ".implode(", ",$dat["users"]));
-      }
-      return true;
-    }
-    if ($this->inGame($c,false)) {
-      if (!in_array($c->getName(),$dat["users"])) {
-	$c->sendMessage("You are not in the authorized list");
-	return true;
-      }
-    }
-
-    switch (array_shift($args)) {
-    case "add":
-      if (!isset($args[0])) {
-	$c->sendMessage("Must specify a player to add");
-	return false;
-      }
-      if (in_array($args[0],$dat["users"])) {
-	$c->sendMessage("$args[0] already in the authorized list");
-	return true;
-      }
-      $p = $this->getServer()->getPlayer($args[0]);
-      if (!$p) {
-	$c->sendMessage("$args[0] can not be found.  Maybe they are offline");
-	return true;
-      }
-      $p->sendMessage("You are now in the authorized list for $world");
-      $dat["users"][] = $p->getName();
-
-      $c->sendMessage("$args[0] added to the authorized list for $world");
-      break;
-    case "rm":
-      if (!isset($args[0])) {
-	$c->sendMessage("Must specify a player to add");
-	return false;
-      }
-      if (!in_array($args[0],$dat["users"])) {
-	$c->sendMessage("$args[0] is not in the authorized list");
-	return true;
-      }
-      $lst = [];
-      foreach ($dat["users"] as $i) {
-	if ($i != $args[0]) $lst[] = $i;
-      }
-      $dat["users"] = $lst;
-      $p = $this->getServer()->getPlayer($args[0]);
-      if ($p) $p->sendMessage("You have been removed from the authorized list for $world");
-      $c->sendMessage("$args[0] removed from authorized list for $world");
-      break;
-    case "close":
-      $dat["status"] = "locked";
-      break;
-    case "lock":
-      $dat["status"] = "locked";
-      break;
-    case "protect":
-      $dat["status"] = "protected";
-      break;
-    case "open":
-      $dat["status"] = "open";
-      break;
-    case "unprotect":
-      $dat = null;
-      break;
-    default:
-      $c->sendMessage("Invalid sub command");
-      return false;
-    }
-    // Save configuration
-    @mkdir($this->getDataFolder());
-    if ($dat) {
-      $this->config["world-protect"][$world]= $dat;
-    } else {
-      unset($this->config["world-protect"][$world]);
-    }
-    $yaml = new Config($this->getDataFolder()."config.yml",Config::YAML,
-		       $this->config);
-    $yaml->setAll($this->config);
-    $yaml->save();
-
-    return true;
-  }
-
   //////////////////////////////////////////////////////////////////////
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////
-  public function worldProtect($player) {
-    if (!isset($this->config["world-protect"])) return false;
-    $world = $player->getLevel()->getName();
-    if (!isset($this->config["world-protect"][$world])) return false;
-    switch ($this->config["world-protect"][$world]["status"]) {
-    case "locked":
-      return true;
-    case "protected":
-      if (!isset($this->config["world-protect"][$world]["users"]))
-	return false;
-      if (in_array($player->getName(),
-		   $this->config["world-protect"][$world]["users"]))
-	return false;
-      return true;
-    case "open":
-    default:
-      return false;
-    }
-    return false;
-  }
   public function onPlayerJoin($player) {
+    echo "onPlayerJoin $player\n";
+    print_r($this->modules["listener"]);
+    if (!array_key_exists("adminjoin",$this->modules["listener"])) return;
+    echo "onPlayerJoin $player-1\n";
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return;
     if ($pl->isOp()) {
       $this->getServer()->broadcastMessage("Server Op ".$pl->getName()." has joined.");
     }
   }
+  private function spawnArmor($pl) {
+    foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
+      if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
+      if (!isset($this->config["spawn"]["armor"][$attr])) continue;
+      $type = strtolower($this->config["spawn"]["armor"][$attr]);
+      if ($type == "leather") {
+	$type = 298;
+      } elseif ($type == "chainmail") {
+	$type = 302;
+      } elseif ($type == "iron") {
+	$type = 306;
+      } elseif ($type == "gold") {
+	$type = 314;
+      } elseif ($type == "diamond") {
+	$type = 310;
+      } else {
+	continue;
+      }
+      $pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
+    }
+  }
+  private function spawnItems($pl) {
+    // Figure out if the inventory is empty...
+    $cnt = 0;
+    $max = $pl->getInventory()->getSize();
+    foreach ($pl->getInventory()->getContents() as $slot => &$item) {
+      if ($slot < $max) ++$cnt;
+    }
+    if ($cnt) return;
+
+    // This player has nothing... let's give them some to get started...
+    foreach ($this->config["spawn"]["items"] as $i) {
+      $r = explode(":",$i);
+      if (count($r) != 3) continue;
+      $item = new Item($r[0],$r[1],$r[2]);
+      $pl->getInventory()->addItem($item);
+    }
+  }
+
   public function respawnPlayer($player) {
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return;
-
-    if (isset($this->config["spawn"])) {
-      if (isset($this->config["spawn"]["armor"])
-	  && $pl->hasPermission("gb.spawnarmor.receive")) {
-	foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
-	  if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
-	  if (!isset($this->config["spawn"]["armor"][$attr])) continue;
-	  $type = strtolower($this->config["spawn"]["armor"][$attr]);
-	  if ($type == "leather") {
-	    $type = 298;
-	  } elseif ($type == "chainmail") {
-	    $type = 302;
-	  } elseif ($type == "iron") {
-	    $type = 306;
-	  } elseif ($type == "gold") {
-	    $type = 314;
-	  } elseif ($type == "diamond") {
-	    $type = 310;
-	  } else {
-	    continue;
-	  }
-	  $pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
-	}
-      }
-      if (isset($this->config["spawn"]["items"])
-	  && $pl->hasPermission("gb.spawitems.receive")) {
-	// Figure out if the inventory is empty...
-	$cnt = 0;
-	$max = $pl->getInventory()->getSize();
-	foreach ($pl->getInventory()->getContents() as $slot => &$item) {
-	  if ($slot < $max) ++$cnt;
-	}
-	if (!$cnt) {
-	  // This player has nothing... let's give them some to get started...
-	  foreach ($this->config["spawn"]["items"] as $i) {
-	    $r = explode(":",$i);
-	    if (count($r) == 3) {
-	      $item = new Item($r[0],$r[1],$r[2]);
-	      $pl->getInventory()->addItem($item);
-	    }
-	  }
-	}
-      }
+    if (!isset($this->config["spawn"])) return;
+    if (isset($this->config["spawn"]["armor"])
+	&& array_key_exists("spawnarmor",$this->modules["listener"])
+	&& $pl->hasPermission("gb.spawnarmor.receive")) {
+      $this->spawnArmor($pl);
+    }
+    if (isset($this->config["spawn"]["items"])
+	&& array_key_exists("spawnitems",$this->modules["listener"])
+	&& $pl->hasPermission("gb.spawitems.receive")) {
+      $this->spawnItems($pl);
     }
   }
 }
