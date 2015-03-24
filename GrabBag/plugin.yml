@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands
-version: 1.1.0
+version: 1.0.0
 author: aliuly
 
 permissions:
