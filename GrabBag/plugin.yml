@@ -7,32 +7,6 @@ description: Collection of miscellaneous commands
 version: 1.0.0
 author: aliuly
 
-commands:
-    players:
-        description: show players connected and locations
-        usage: "/players"
-    ops:
-        description: show ops and their on-line status
-        usage: "/ops"
-    as:
-        description: execute a command as somebody else
-        usage: "/as <player> [cmd]"
-    gmc:
-        description: switch gamemode to creative
-        usage: "/gmc"
-    gms:
-        description: switch gamemode to creative
-        usage: "/gms"
-    slay:
-        description: kill a player
-        usage: "/slay <player>"
-    heal:
-        description: Heal player
-        usage: "/heal <player> [amount]"
-    whois:
-        description: Show player info
-        usage: "/whois <player>"
-
 permissions:
     gb.cmd.players:
         default: true
@@ -43,6 +17,9 @@ permissions:
     gb.cmd.sudo:
         default: op
         description: "Allow to run command as another user"
+    gb.cmd.gma:
+        default: op
+        description: "Allow to switch gamemode to Adventure"
     gb.cmd.gms:
         default: op
         description: "Allow to switch gamemode to survival"
@@ -58,3 +35,9 @@ permissions:
     gb.cmd.whois:
         default: op
         description: "Show player details"
+    gb.spawnarmor.receive:
+        default: true
+        description: "allows to receive armor when you spawn"
+    gb.spawnitems.receive:
+        default: true
+        description: "allows to receive items when you spawn"

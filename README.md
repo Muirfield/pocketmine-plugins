@@ -78,9 +78,6 @@ To-do
 * pmimporter: merge chunks ... by selecting square regions and offsets
   - limit this at region|chunk resolution.
   - Always specify corners and merge
-
-* Implement carts?
-  - Rail|PoweredRail
-* ManyWorlds: Add world to the pocketmine.yml file.
-* ArmorSpawn/SpawnWithItems -> Genesis and other RIP plugins
+* ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO API
 * Frost/Defrost
+* Localize SignWarp

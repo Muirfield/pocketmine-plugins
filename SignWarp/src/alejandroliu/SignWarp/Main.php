@@ -17,13 +17,12 @@ use pocketmine\utils\Config;
 use pocketmine\Player;
 
 class Main extends PluginBase implements Listener {
+  protected $text;
+
   const MAX_COORD = 30000000;
   const MIN_COORD = -30000000;
   const MAX_HEIGHT = 128;
   const MIN_HEIGHT = 0;
-
-  const SHORT_WARP = "[SWARP]";
-  const LONG_WARP = "[WORLD]";
 
   protected $teleporters = [];
 
@@ -43,8 +42,28 @@ class Main extends PluginBase implements Listener {
 
   public function onEnable(){
     @mkdir($this->getDataFolder());
+    $defaults =
+      [
+       "settings" => [
+		      "dynamic-updates" => 1
+		      ],
+       "text" => [
+		     "world" => [ "[WORLD]" ],
+		     "warp" => [ "[WARP]", "[SWARP]" ],
+		     "players" => [ "Players:" ],
+		  ]
+       ];
     $cfg = (new Config($this->getDataFolder()."config.yml",
-		       Config::YAML,["settings"=>["dynamic-updates" => 1]]))->getAll();
+		       Config::YAML,$defaults))->getAll();
+    if (!isset($cfg["settings"])) $cfg["settings"] = [];
+    if (!isset($cfg["settings"]["dynamic-updates"]))
+      $cfg["settings"]["dynamic-updates"] = 1;
+    if (!isset($cfg["text"])) $cfg["text"] = [];
+    if (!isset($cfg["text"]["world"])) $cfg["text"]["world"] = ["[WORLD]"];
+    if (!isset($cfg["text"]["warp"])) $cfg["text"]["warp"] = ["[SWARP]"];
+    if (!isset($cfg["text"]["players"])) $cfg["text"]["players"] = ["Players:"];
+    $this->text =  $cfg["text"];
+
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     if ($cfg["settings"]["dynamic-updates"]) {
       $this->getLogger()->info("dynamic-updates: ON");
@@ -133,16 +152,16 @@ class Main extends PluginBase implements Listener {
 
       // Check if the user is holding a sign and prevent teleports
       if ($event->getItem()->getID() == 323) {
-	if ($sign[0] == self::SHORT_WARP || $sign[0] == self::LONG_WARP) {
+	if (in_array($sign[0],$this->text["warp"])
+	    || in_array($sign[0],$this->text["world"])) {
 	  $event->getPlayer()->sendMessage("Can not teleport while holding a sign!");
 	  return;
 	}
-
 	return;
       }
-      if($sign[0]== self::SHORT_WARP){
+      if(in_array($sign[0],$this->text["warp"])){
 	$this->shortWarp($event,$sign);
-      } elseif ($sign[0]== self::LONG_WARP){
+      } elseif(in_array($sign[0],$this->text["world"])){
 	$this->longWarp($event,$sign);
       }
     }
@@ -183,13 +202,20 @@ class Main extends PluginBase implements Listener {
 	return true;
       }
       $sign = $event->getLines();
-      if($sign[0]==self::SHORT_WARP){
+      if (in_array($sign[0],$this->text["warp"])){
 	return $this->validateShortWarp($event,$sign);
-      } elseif($sign[0]==self::LONG_WARP){
+      } elseif(in_array($sign[0],$this->text["world"])){
 	return $this->validateLongWarp($event,$sign);
       }
     }
     return true;
+  }
+
+  private function matchCounter($txt) {
+    foreach ($this->text["players"] as $t) {
+      if (substr($txt,0,strlen($t)) == $t) return $t;
+    }
+    return false;
   }
 
   public function updateSigns() {
@@ -197,13 +223,14 @@ class Main extends PluginBase implements Listener {
       foreach ($lv->getTiles() as $tile) {
 	if (!($tile instanceof Sign)) continue;
 	$sign = $tile->getText();
-	if ($sign[0] != self::LONG_WARP) continue;
-	if (!preg_match('/^Players:/',$sign[3])) continue;
+	if(!in_array($sign[0],$this->text["world"])) continue;
+
+	if (!($t = $this->matchCounter($sign[3]))) continue;
 	if ($this->getServer()->isLevelLoaded($sign[1])) {
 	  $cnt = count($this->getServer()->getLevelByName($sign[1])->getPlayers());
-	  $upd = "Players:$cnt";
+	  $upd = $t.$cnt;
 	} else {
-	  $upd = "Players:N/A";
+	  $upd = $t."N/A";
 	}
 	if ($upd == $sign[3]) continue;
 	$tile->setText($sign[0],$sign[1],$sign[2],$upd);

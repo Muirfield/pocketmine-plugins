@@ -1,4 +1,14 @@
 <?php
+if (ini_get('phar.readonly')) {
+  $cmd = escapeshellarg(PHP_BINARY);
+  $cmd .= ' -d phar.readonly=0';
+  foreach ($argv as $i) {
+    $cmd .= ' '.escapeshellarg($i);
+  }
+  passthru($cmd,$rv);
+  exit($rv);
+}
+
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);
 
@@ -23,7 +33,19 @@ if (!is_dir($plug)) die("$plug: directory doesn't exist!\n");
 if (!is_file($pluginYml = $plug."plugin.yml")) die("missing plugin manifest\n");
 if (!is_dir($srcDir = $plug."src/")) die("Source folder not found\n");
 
-$manifest = yaml_parse_file($pluginYml);
+/*
+ * Read manifest...
+ */
+$fp = fopen($pluginYml,"r");
+if (!$fp) die("Unable to open $pluginYml\n");
+$manifest = [];
+while (($ln = fgets($fp)) !== false &&
+       !(isset($manifest["name"]) && isset($manifest["version"]))) {
+  if (preg_match('/^\s*(name|version):\s*(.*)\s*$/',$ln,$mv)) {
+    $manifest[$mv[1]] = $mv[2];
+  }
+}
+fclose($fp);
 if (!isset($manifest["name"]) || !isset($manifest["version"])) {
   die("Incomplete plugin manifest\n");
 }

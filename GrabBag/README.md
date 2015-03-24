@@ -38,18 +38,40 @@ wanted to have in a single plugin rather through multiple ones.
   Show connected players and locations, health.
 * *ops*  
   Display a list of Server Ops and their on-line status.
-* *as* *player* *cmd* [opts]  
+* *as* *player* *cmd* _[opts]_  
   Run *cmd* as a different *player*.
 * *gms*  
   Switch to survival game mode
 * *gmc*  
   Switch to creative game mode
-* *slay* *player*  
-  Kills immediatly a player
-* *heal* *player* [value]  
+* *slay* *player* _[message]_  
+  Kills a player immediatly
+* *heal* _[player_ _[value]]_  
   Restore health to a player
 * *whois* *player*  
   Show player info
+
+### Listener Modules
+
+Also this plugin supports the following modules:
+
+* adminjoin : Broadcast a message when an op joins.
+* spawnitems : Initialize a player inventory when they spawn.  
+  It will place a configuratble list of inventory items.  Note that it
+  only does it for users who start without any inventory.  As soon as
+  they start owning stuff, spawnitems will stop working for them.
+* spawnarmor : Initialize a player armor when they spawn.  
+  I will configure a player's armor through a configurable list.  Note
+  that it only does it for users without armor.
+
+### Configuration
+
+You can configure the `spawnitems` and `spawnarmor` modules from `config.yml`.
+
+### Activating/De-activating modules
+
+There is a `modules.yml` that by default activates all modules.  You
+can de-activate modules by commenting them out from `modules.yml`.
 
 ### Permission Nodes:
 
@@ -58,23 +80,25 @@ wanted to have in a single plugin rather through multiple ones.
 * gb.cmd.sudo - allow to run commands as somebody else
 * gb.cmd.gms: allow switch gamemode to survival
 * gb.cmd.gmc: allow switch gamemode to creative
+* gb.cmd.gma: allow switch gamemode to adventure
 * gb.cmd.slay: kill other players
+* gb.cmd.heal: healing
 * gb.cmd.whois: show player info
-
-To-do
------
-
-* Custom slay messages
+* gb.spawnarmor.receive: allows player to receive armor when spawning
+* gb.spawnitems.receive: allows player to receive items when spawning
 
 Changes
 -------
 
+* 1.1.0 : Modular
+  * Added AdminJoin functionality
+  * Make system modular
 * 1.0.0 : First release
 
 Copyright
 ---------
 
-    GrabBag
+    GrabBag  
     Copyright (C) 2015 Alejandro Liu  
     All Rights Reserved.
 
