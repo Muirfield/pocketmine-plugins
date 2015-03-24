@@ -22,6 +22,7 @@ Basic Usage:
 * as - run command as somebody else
 * gms - Switch to survival mode
 * gmc - Switch to creative mode
+* gma - Switch to adventure mode
 * slay - kill a player
 * heal - Restore health to a player
 * whois - Info about a player
@@ -90,10 +91,7 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
-* 1.1.0 : Modular
-  * Added AdminJoin functionality
-  * Make system modular
-* 1.0.0 : First release
+* 1.0.0 : First public release
 
 Copyright
 ---------
