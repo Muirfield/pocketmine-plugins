@@ -74,13 +74,31 @@ coordinates of the player.
 ### config.yml
 
 	---
+	# Example config.yml
 	settings:
 	  dynamic-updates: 1
+	text:
+	  world:
+	  - '[WORLD]'
+	  - '[MUNDO]'
+	  warp:
+	  - '[WARP]'
+	  - '[SWARP]'
+	  - '[TELEPORT]'
+	  players:
+	  - 'Players:'
+	  - 'Jugadores:'
 	...
 
 * dynamic-updates: 1 or 0  
   If enabled, signs will be updated with the number of players in a
   particular world.
+* world:  
+  List of texts to use for `[WORLD]` teleport signs.
+* warp:  
+  List of texts to use for `[SWARP]` teleport signs.
+* players:  
+  List of texts to use for the `Players:` counters.
 
 ### Permission Nodes:
 
@@ -91,6 +109,8 @@ coordinates of the player.
 Changes
 -------
 
+* 1.2.0 : Configurable texts
+  * Sign texts can be configured.  Useful for localization.
 * 1.1.1 : Bugfix release
   * Fixed /xyz command.
 * 1.1.0 : Update release
