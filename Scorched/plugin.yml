@@ -1,0 +1,18 @@
+main: aliuly\scorched\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: Scorched
+description: The Mother of All Mini-Games
+version: 1.0.0
+author: aliuly
+
+commands:
+    fire:
+        description: Fire RPG
+        usage: "/fire [speed] [fuse]"
+
+permissions:
+    scorched.cmd.fire:
+        default: true
+        description: "allow players to use RPGs"
