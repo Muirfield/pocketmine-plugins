@@ -37,3 +37,9 @@ permissions:
     mw.cmd.world.ls:
         default: op
         description: "Allows users to list worlds"
+    mw.cmd.world.protect:
+        default: op
+        description: "Allow access to protect functionality"
+    mw.cmd.world.limit:
+        default: op
+        description: "Allow access to limit functionality"

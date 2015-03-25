@@ -7,8 +7,7 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\permission\Permission;
 use pocketmine\level\Level;
 use pocketmine\level\generator\Generator;
-//use pocketmine\command\CommandExecutor;
-use pocketmine\event\Listener;
+use pocketmine\command\CommandExecutor;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
@@ -16,14 +15,13 @@ use pocketmine\command\Command;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
 use pocketmine\utils\TextFormat;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\level\format\LevelProviderManager;
 
-class Main extends Plugin implements Listener {
+class Main extends Plugin implements CommandExecutor {
   protected $teleporters = [];
   protected $canUnload = false;
+  protected $listener;
+  protected $config;
 
   private function checkPermission(CommandSender $sender, $permission) {
     if($sender->hasPermission($permission)) return true;
@@ -36,7 +34,7 @@ class Main extends Plugin implements Listener {
   public function onDisable() {
     $this->getLogger()->info("ManyWorlds Unloaded!");
   }
-  private function after($task,$ticks) {
+  public function after($task,$ticks) {
     $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
   }
 
@@ -44,7 +42,14 @@ class Main extends Plugin implements Listener {
     $this->getLogger()->info("ManyWorlds Loaded!");
   }
   public function onEnable(){
-    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    $this->listener = new MwListener($this);
+    $defaults =
+      [
+       "protect"=>[],
+       "limits"=>[],
+       ];
+    $this->config=(new Config($this->getDataFolder()."config.yml",
+			      Config::YAML,$defaults))->getAll();
   }
 
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
@@ -458,20 +463,10 @@ class Main extends Plugin implements Listener {
     }
   }
 
-  public function onJoin(PlayerJoinEvent $ev) {
-    $p = $ev->getPlayer();
+  public function onJoin($name) {
+    $p = $this->getServer()->getPlayer($name);
     $level = $p->getLevel()->getName();
     $this->after(new MwTask($this,"showMotd",[$p->getName(),$level]),10);
-  }
-  public function onLevelChange(EntityLevelChangeEvent $ev) {
-    $level = $ev->getTarget()->getName();
-    $traveller = $ev->getEntity();
-    if ($traveller instanceof Player) {
-      $traveller = $traveller->getName();
-    } else {
-      return;
-    }
-    $this->after(new MwTask($this,"showMotd",[$traveller,$level]),21);
   }
 
   public function teleport($player,$level,$spawn=null) {
@@ -508,17 +503,15 @@ class Main extends Plugin implements Listener {
     $player->teleport(new Vector3($x,$y,$z));
   }
 
-  public function onDamage(EntityDamageEvent $event) {
+  public function onDamage($vname,$dam) {
     // Try keep the player alive while on transit...
-    $victim= $event->getEntity();
-    if (!($victim instanceof Player)) return;
-    if (!isset($this->teleporters[$victim->getName()])) return;
-    if (time() - $this->teleporters[$victim->getName()] > 2) {
-      unset($this->teleporters[$victim->getName()]);
-      return;
+    $victim = $this->getServer()->getPlayer($vname);
+    if (!isset($this->teleporters[$vname])) return false;
+    if (time() - $this->teleporters[$vname] > 2) {
+      unset($this->teleporters[$vname()]);
+      return false;
     }
-    $victim->heal($event->getDamage());
-    $event->setCancelled(true);
-    $event->setDamage(0);
+    $victim->heal($dam);
+    return true;
   }
 }
