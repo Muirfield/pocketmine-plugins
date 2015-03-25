@@ -1,0 +1,18 @@
+main: aliuly\commander\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: Commander
+description: Demo Command plugin
+version: 1.0.0
+author: aliuly
+
+commands:
+    m:
+        description: main command
+        usage: "/m"
+
+permissions:
+    cmd.cmd.m:
+        default: true
+        description: "allow players command"
