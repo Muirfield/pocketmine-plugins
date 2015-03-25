@@ -2,14 +2,17 @@
 namespace aliuly\minecarts\entity;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\network\protocol\AddMobPacket;
+//use pocketmine\network\protocol\AddMobPacket;
+use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\entity\Vehicle;
 use pocketmine\nbt\tag\Short;
-use pocketmine\entity\Animal;
-//use pocketmine\entity\Vehicle;
+//use pocketmine\entity\Animal;
+use pocketmine\entity\Vehicle;
 
-class Minecart extends Animal {
+// Need to prevent placing on non-Rails
+
+
+class Minecart extends Vehicle {
   const NETWORK_ID=84;
   public $width = 0.98;
   public $length = 0.8125;
@@ -21,15 +24,16 @@ class Minecart extends Animal {
   }
   public function spawnTo(Player $player){
     echo __METHOD__.__LINE__."\n";
-    $pk = new AddMobPacket();
+    $pk = new AddEntityPacket();
     $pk->eid = $this->getId();
     $pk->type = Minecart::NETWORK_ID;
     $pk->x = $this->x;
     $pk->y = $this->y;
     $pk->z = $this->z;
-    $pk->yaw = $this->yaw;
-    $pk->pitch = $this->pitch;
-    $pk->metadata = $this->getData();
+    $pk->did = 0;
+    //$pk->speedX = $this->motionX;
+    //$pk->speedY = $this->motionY;
+    //$pk->speedZ = $this->motionZ;
     $player->dataPacket($pk);
 
     $player->addEntityMotion($this->getId(), $this->motionX, $this->motionY, $this->motionZ);
@@ -56,7 +60,7 @@ class Minecart extends Animal {
     echo __METHOD__.__LINE__."\n";
     return  [ItemItem::get(ItemItem::MINECART, 0, 1)];
   }
-  /*
+
   protected function initEntity(){
     echo __METHOD__.__LINE__."\n";
     if(isset($this->namedtag->HealF)){
@@ -137,5 +141,4 @@ class Minecart extends Animal {
   public function heal($amount, $source = EntityRegainHealthEvent::CAUSE_MAGIC){
     $this->setHealth($this->getHealth() + $amount);
   }
-  */
 }
