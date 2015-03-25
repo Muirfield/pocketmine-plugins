@@ -315,7 +315,6 @@ class Main extends PluginBase implements CommandExecutor {
     }
   }
   public function onPlayerDeath($name) {
-    print_r([$name,$this->slain]);
     if (isset($this->slain[$name])) {
       list($time,$msg) = $this->slain[$name];
       unset($this->slain[$name]);
@@ -413,6 +412,7 @@ class Main extends PluginBase implements CommandExecutor {
     }
   }
   private function spawnArmor($pl) {
+    if ($pl->isCreative()) return;
     foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
       if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
       if (!isset($this->config["spawn"]["armor"][$attr])) continue;
@@ -434,6 +434,8 @@ class Main extends PluginBase implements CommandExecutor {
     }
   }
   private function spawnItems($pl) {
+    if ($pl->isCreative()) return;
+
     // Figure out if the inventory is empty...
     $cnt = 0;
     $max = $pl->getInventory()->getSize();
