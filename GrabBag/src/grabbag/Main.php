@@ -165,22 +165,22 @@ class Main extends PluginBase implements CommandExecutor {
   public function onEnable(){
     $this->listener = new GrabBagListener($this);
     $this->slain = [];
-    $defaults
-      = [
-	 "spawn"=>[
-		   "armor"=>[
-			     "head"=>"-",
-			     "body"=>"chainmail",
-			     "legs"=>"leather",
-			     "boots"=>"leather",
-			     ],
-		   "items"=>[
-			     "272:0:1",
-			     "17:0:16",
-			     "364:0:5",
-			     ],
-		   ],
-	 ];
+    $defaults =
+      [
+       "spawn"=>[
+		 "armor"=>[
+			   "head"=>"-",
+			   "body"=>"chainmail",
+			   "legs"=>"leather",
+			   "boots"=>"leather",
+			   ],
+		 "items"=>[
+			   "272:0:1",
+			   "17:0:16",
+			   "364:0:5",
+			   ],
+		 ],
+       ];
     if (file_exists($this->getDataFolder()."config.yml")) {
       unset($defaults["spawn"]["items"]);
     }
