@@ -11,8 +11,6 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
 
-use pocketmine\item\Item;
-
 
 class Main extends PluginBase implements CommandExecutor {
   protected $canUnload = false;
@@ -122,14 +120,14 @@ class Main extends PluginBase implements CommandExecutor {
 	  return $this->mwHelpCmd($sender,$args);
 	default:
 	  $sender->sendMessage(TextFormat::RED."Unknown sub command: ".
-			       TextFormat::RESET.$args[0]);
+			       TextFormat::RESET.$scmd);
 	  $sender->sendMessage("Use: ".TextFormat::GREEN." /mw help".
 			       TextFormat::RESET);
 	}
 	return true;
       } else {
 	$sender->sendMessage("Must specify sub command");
-	$sender->sendMessage("Use: ".TextFormat::GREEN." /mw help".
+	$sender->sendMessage("Try: ".TextFormat::GREEN." /mw help".
 			       TextFormat::RESET);
 	return false;
       }
@@ -140,9 +138,7 @@ class Main extends PluginBase implements CommandExecutor {
   private function motdCmd(CommandSender $sender,$level) {
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if (file_exists($f)) {
-      $page = $this->getPageNumber($args);
-      $lines = explode("\n",file_get_contents($f));
-      $this->paginateText($sender,$page,$lines);
+      $sender->sendMessage(file_get_contents($f));
     } else {
       $sender->sendMessage(TextFormat::RED."Sorry, no \"motd.txt\"".TextFormat::RESET);
     }
@@ -200,9 +196,9 @@ class Main extends PluginBase implements CommandExecutor {
 	$sender->sendMessage("[MW] " . $args[0] . " is not loaded!");
 	return true;
       }
-      $txt = $this->mwWordDetails($sender,$args[0]);
+      $txt = $this->mwWorldDetails($sender,$args[0]);
     } else {
-      $txt = $this->mwWordList($sender);
+      $txt = $this->mwWorldList($sender);
     }
     if ($txt == null) return true;
     return $this->paginateText($sender,$pageNumber,$txt);
@@ -230,7 +226,7 @@ class Main extends PluginBase implements CommandExecutor {
   }
   private function mwWorldLoadCmd(CommandSender $sender,$args) {
     if (!isset($args[0]))
-      return $this->mwHelpCmd($sender,["load"]);
+      return $this->mwHelpCmd($sender,["ld"]);
     if ($args[0] == "--all") {
       $sender->sendMessage("[MW] ".TextFormat::RED."Loading ALL levels".TextFormat::RESET);
       $args = [];
@@ -334,12 +330,12 @@ class Main extends PluginBase implements CommandExecutor {
     $aliases = [
 		"list" => "ls",
 		"load" => "ld",
-		]
+		];
 
     if (count($args)) {
       foreach ($args as $c) {
 	if (isset($cmds[$c]))
-	  $this->sendMessage(TextFormat::RED."Usage: /mw $c $cmds[$c]"
+	  $sender->sendMessage(TextFormat::RED."Usage: /mw $c $cmds[$c]"
 			     .TextFormat::RESET);
       }
       return true;
@@ -351,8 +347,8 @@ class Main extends PluginBase implements CommandExecutor {
 	if ($j == $a) $ln .= "|$i";
       }
       $ln .= " ".$b;
+      $txt[] = $ln;
     }
-    $txt[] = $ln;
     return $this->paginateText($sender,$pageNumber,$txt);
   }
 
@@ -456,9 +452,8 @@ class Main extends PluginBase implements CommandExecutor {
   //
   // Basic call backs
   //
-  public function showMotd($args) {
-    list($pname,$level) = $args;
-    $player = $this->getServer()->getPlayer($name);
+  public function showMotd($pname,$level) {
+    $player = $this->getServer()->getPlayer($pname);
     if (!$player) return;
     $f = $this->getServer()->getDataPath(). "worlds/".$level."/motd.txt";
     if (!file_exists($f)) return;

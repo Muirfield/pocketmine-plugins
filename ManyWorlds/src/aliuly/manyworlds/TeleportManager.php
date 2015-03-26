@@ -4,6 +4,8 @@ namespace aliuly\manyworlds;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\CallbackTask;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\math\Vector3;
 
 class TeleportManager implements Listener {
   public $owner;
@@ -48,12 +50,12 @@ class TeleportManager implements Listener {
     $this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,$method],$args),$ticks);
   }
   public function restoreHealth($name,$health) {
-    $player = $this->getServer()->getPlayer($name);
+    $player = $this->owner->getServer()->getPlayer($name);
     if (!$player) return;
     $player->setHealth($health);
   }
   public function delayedTP($name,$x,$y,$z) {
-    $player = $this->getServer()->getPlayer($name);
+    $player = $this->owner->getServer()->getPlayer($name);
     if (!$player) return;
     $player->teleport(new Vector3($x,$y,$z));
   }

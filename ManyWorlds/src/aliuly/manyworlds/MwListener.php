@@ -4,9 +4,9 @@ namespace aliuly\manyworlds;
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\Player;
+use pocketmine\scheduler\CallbackTask;
 
 
 class MwListener implements Listener {
@@ -17,8 +17,7 @@ class MwListener implements Listener {
     $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
   }
   private function showMotd($name,$level,$ticks=10) {
-    $this->owner->after(new MwTask($this->owner,"showMotd",[$name,$level]),
-			$ticks);
+    $this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this->owner,"showMotd"],[$name,$level]),$ticks);
   }
   public function onJoin(PlayerJoinEvent $ev) {
     $pl = $ev->getPlayer();
