@@ -40,6 +40,12 @@ permissions:
     mw.cmd.world.protect:
         default: op
         description: "Allow access to protect functionality"
+    mw.world.protect.basic:
+        default: op
+        description: "Allow place/destroy for areas without auth list"
+    mw.cmd.world.border:
+        default: op
+        description: "Allow access to border functionality"
     mw.cmd.world.limit:
         default: op
         description: "Allow access to limit functionality"

@@ -1,7 +1,7 @@
 ManyWorlds
 ==========
 
-* Summary: Basic commands for MultiWorld functionality
+* Summary: A full featured MultiWorld suite
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * OptionalPlugins: n/a
@@ -12,17 +12,30 @@ ManyWorlds
 Overview
 ---------
 
-A very basic Plugin implementing Multiworld functionality.
+A full featured MultiWorld suite
 
 Basic Usage:
 
+* /motd
 * /mw tp *level* [player]
 * /mw create *level* [seed [flat|normal [preset]]]
 * /mw load *level*
 * /mw unload [-f] *level*
 * /mw ls [level]
 * /mw motd *level* [line] [text]
-* /motd
+* /mw open [level]
+* /mw lock [level]
+* /mw protect [level]
+* /mw pvp [level]
+* /mw peace [level]
+* /mw unprotect [level]
+* /mw add [level] *player*
+* /mw rm [level] *player*
+* /mw border [level] *x1 z1 x2 z2*
+* /mw no-border [level]
+* /mw border-off [level]
+* /mw border-on [level]
+* /mw limits
 
 Documentation
 -------------
@@ -41,11 +54,22 @@ Client-Server glitches.  Essentially, it works for me.
 
 ### Commands:
 
+Informational:
+
 * motd  
   Show a level specific _message of the day_ type message.
+
+Teleporting:
+
 * mw tp *level* [player]  
   Teleports `player` to `level`.  If no `player` is specified, it
   teleports the current user.
+* mw ls [level]  
+  If `level` is not specified, it will list all available worlds.  If
+  `level` is specified, it will provide details on that `level`.
+
+World management:
+
 * mw create *level* [seed] [flat|normal] [preset]  
   Creates a world named `level`.  You can optionally specify a `seed`
   as number, the generator (`flat` or `normal`) and a `preset` string.
@@ -54,13 +78,52 @@ Client-Server glitches.  Essentially, it works for me.
   will load all worlds.
 * mw unload *level*
   Unloads `level`.
-* mw ls [level]  
-  If `level` is not specified, it will list all available worlds.  If
-  `level` is specified, it will provide details on that `level`.
 * mw motd *level* [line text]  
   If only *level* is specified, it will show the `motd` message for
   that *level*.  If `line` and `text` is specified (`text` can be
   empty, however), it will modify that line of the `motd` message.
+
+World Protect:
+
+* mw open [level]  
+  Anything is allowed on that [level].
+* mw lock [level]  
+  no pvp, place/destroy block is *not* allowed.  Not even ops.
+* mw protect [level]  
+  no pvp, place/destroy block is allowed for players in the `auth`
+  list.  If the `auth` list is empty, players with
+  `mw.world.protect.basic` permission (by default ops).
+* mw pvp [level]  
+  pvp is allowed.  place/destroy block is *not* allowed.
+* mw peace [level]  
+  pvp is *not* allowed.  Place/destroy block is allowed.
+* mw unprotect [level]  
+  All protections and the `auth` list are removed.
+* mw add [level] *player*  
+  *player* is added to the `auth` list.
+* mw rm [level] *player*  
+  *player* is removed from the `auth` list.
+
+Changing world protect modes is only allowed for users in the `auth`
+list or at the console.
+
+World Borders:
+
+* mw border [level] *x1 z1 x2 z2*  
+  Creates a border for [level] bounded by the x1,z1 to x2,z2 coordinates.
+* mw no-border [level]  
+  Removes any borders for [level].
+* mw border-off [level]  
+  Temporarily disables border control for you.
+* /mw border-on [level]
+  Restores border controls for you.
+
+Player Limits:
+
+* mw limits [level] [value]  
+  Sets the max number of players allow in [level].  Set to `0` or `-1`
+  to remove limits.
+
 
 ### Examples:
 
@@ -87,6 +150,11 @@ Teleport a player to another world:
 * mw.cmd.world.create - Allows users to create worlds
 * mw.cmd.world.load - Allows users to load worlds
 * mw.cmd.world.motd - Allow editing motd text.
+* mw.cmd.world.protect - Allow access to protect functionality
+* mw.world.protect.basic - for worlds without auth lists controls who
+  can place/destroy blocks.
+* mw.cmd.world.border - access to border functions
+* mw.cmd.world.limit - allow access to limit functionality
 
 FAQ
 ---
@@ -108,10 +176,16 @@ Issues
 Changes
 -------
 
+* 1.2.0: Extended functionality
+  * World Protect/PvP restrictions
+  * World Border
+  * World Player Limit
+  * Code clean-up
+  * Teleport functionality encapsulated in TeleportManager.
 * 1.1.0:
   * Show better help messages.
   * Added world unload.  May cause core dumps.
-  * `ls` sub-command imporvements:
+  * `ls` sub-command improvements:
     * paginated output
     * show number of players, autoloading and default status.
   * Per-level `motd.txt`.  Worlds can contain a small `motd.txt` text

@@ -13,9 +13,20 @@ use pocketmine\utils\Config;
 
 
 class Main extends PluginBase implements CommandExecutor {
+  const MIN_BORDER = 128;
+
   protected $canUnload = false;
   private $listener;
   private $tpManager;
+  private $cfg;
+  private $noborders;
+  static private $aliases = [
+			     "list" => "ls",
+			     "load" => "ld",
+			     "no-border" => "noborder",
+			     "limit" => "limits",
+			     "max" => "limits"
+			     ];
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -82,6 +93,12 @@ class Main extends PluginBase implements CommandExecutor {
     $this->getLogger()->info(TextFormat::GREEN."* Enabled!".TextFormat::RESET);
     $this->listener = new MwListener($this);
     $this->tpManager = new TeleportManager($this);
+    @mkdir($this->getDataFolder());
+    $this->cfg = (new Config($this->getDataFolder()."config.yml",
+		       Config::YAML,[]))->getAll();
+    $this->borders = [];
+    if (!isset($this->cfg["protect"])) $this->cfg["protect"] = [];
+    if (!isset($this->cfg["border"])) $this->cfg["border"] = [];
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
@@ -93,21 +110,34 @@ class Main extends PluginBase implements CommandExecutor {
     case "mw":
       if(isset($args[0])) {
 	$scmd = strtolower(array_shift($args));
+	if (isset(self::$aliases[$scmd])) $scmd = self::$aliases[$scmd];
 	switch ($scmd) {
 	case "tp":
 	  if (!$this->access($sender,"mw.cmd.tp")) return false;
 	  return $this->mwTpCmd($sender,$args);
 	  break;
 	case "ls":
-	case "list":
 	  if (!$this->access($sender,"mw.cmd.ls")) return false;
 	  return $this->mwLsCmd($sender,$args);
 	case "create":
 	  if (!$this->access($sender,"mw.cmd.world.create")) return false;
 	  return $this->mwWorldCreateCmd($sender,$args);
 	  break;
+	case "add":
+	  if (!$this->access($sender,"mw.cmd.world.protect")) return false;
+	  return $this->mwWorldProtectAdd($sender,$args);
+	case "rm":
+	  if (!$this->access($sender,"mw.cmd.world.protect")) return false;
+	  return $this->mwWorldProtectRm($sender,$args);
+	case "unprotect":
+	case "open":
+	case "lock":
+	case "protect":
+	case "pvp":
+	case "peace":
+	  if (!$this->access($sender,"mw.cmd.world.protect")) return false;
+	  return $this->mwWorldProtectMode($sender,$scmd,$args);
 	case "ld":
-	case "load":
 	  if (!$this->access($sender,"mw.cmd.world.load")) return false;
 	  return $this->mwWorldLoadCmd($sender,$args);
 	case "unload":
@@ -116,6 +146,21 @@ class Main extends PluginBase implements CommandExecutor {
 	case "motd":
 	  if (!$this->access($sender,"mw.cmd.world.motd")) return false;
 	  return $this->mwWorldMotdCmd($sender,$args);
+	case "border":
+	  if (!$this->access($sender,"mw.cmd.world.border")) return false;
+	  return $this->mwWorldBorderCmd($sender,$args);
+	case "noborder":
+	  if (!$this->access($sender,"mw.cmd.world.border")) return false;
+	  return $this->mwWorldNoBorderCmd($sender,$args);
+	case "border-off":
+	  if (!$this->access($sender,"mw.cmd.world.border")) return false;
+	  return $this->mwWorldToggleBorderCmd($sender,false);
+	case "border-on":
+	  if (!$this->access($sender,"mw.cmd.world.border")) return false;
+	  return $this->mwWorldToggleBorderCmd($sender,true);
+	case "limits":
+	  if (!$this->access($sender,"mw.cmd.world.limit")) return false;
+	  return $this->mwWorldLimitCmd($sender,$args);
 	case "help":
 	  return $this->mwHelpCmd($sender,$args);
 	default:
@@ -157,7 +202,7 @@ class Main extends PluginBase implements CommandExecutor {
 	return true;
       }
       if (!$player->isOnLine()) {
-	$sender->sendMessage("[MW] ".$player." is offline!");
+	$sender->sendMessage("[MW] ".$args[0]." is offline!");
 	return true;
       }
       if($player->getLevel() == $this->getServer()->getLevelByName($level)) {
@@ -321,32 +366,56 @@ class Main extends PluginBase implements CommandExecutor {
   private function mwHelpCmd(CommandSender $sender,$args) {
     $pageNumber = $this->getPageNumber($args);
     $cmds = [
-	     "tp" => "<level> [player]",
-	     "ls" => "[level]",
-	     "create" => "<level> [seed [flat|normal [preset]]]",
-	     "ld" => "<level>|--all",
-	     "unload" => "<level>",
-	     "motd" => "<level> [line [text]]" ];
-    $aliases = [
-		"list" => "ls",
-		"load" => "ld",
-		];
-
+	     "tp" => ["<level> [player]",
+		      "Teleport across worlds"],
+	     "ls" => ["[level]",
+		      "List world information"],
+	     "create" => ["<level> [seed [flat|normal [preset]]]",
+			  "Create a new world"],
+	     "ld" => ["<level>|--all","Load a world"],
+	     "unload" => ["<level>","Attempt to unload a world"],
+	     "motd" => ["<level> [line [text]]",
+			"View/Edit the world's motd file"],
+	     "add" => ["[level] <user>","Add <user> to authorized list"],
+	     "rm" => ["[level] <user>","Remove <user> from authorized list"],
+	     "open" => ["[level]",
+			"Open [level].  Default unprotected world"],
+	     "lock"=>["[level]",
+			"Locked [level].  Nobody (including op) can do anything"],
+	     "protect"=>["[level]",
+			   "Only people on authorized list can build, no pvp"],
+	     "pvp"=>["[level]",
+		     "pvp is allowed.  Placing, destroying blocks is NOT allowed"],
+	     "peace"=>["[level]",
+		       "pvp is NOT allowed.  Placing, destroying blocks is allowed"],
+	     "unprotect"=>["[level]",
+			   "Remove all world protection (including auth list)"],
+	     "border" => ["[level] <x1 z1 x2 z2>",
+			  "Creates a border in [level] defined by x1,z1 to x2,z2"],
+	     "noborder" => ["[level]","Removes a border from level"],
+	     "border-off" => ["","temporarily disable borders for you only"],
+	     "border-on" => ["", "Reverses the effects of border-off"],
+	     "limits" => ["[level] [value]","Limits the number of players in a world to [value] use 0 or -1 to remove limits"],
+	     ];
     if (count($args)) {
       foreach ($args as $c) {
-	if (isset($cmds[$c]))
-	  $sender->sendMessage(TextFormat::RED."Usage: /mw $c $cmds[$c]"
+	if (isset(self::$aliases[$c])) $c = self::$aliases[$c];
+	if (isset($cmds[$c])) {
+	  list($a,$b) = $cmds[$c];
+	  $sender->sendMessage(TextFormat::RED."Usage: /mw $c $a"
 			     .TextFormat::RESET);
+	  $sender->sendMessage($b);
+	}
       }
       return true;
     }
     $txt = ["ManyWorlds sub-commands"];
     foreach ($cmds as $a => $b) {
       $ln = "- ".TextFormat::RED."/mw ".$a;
-      foreach ($aliases as $i => $j) {
+      foreach (self::$aliases as $i => $j) {
 	if ($j == $a) $ln .= "|$i";
       }
-      $ln .= " ".$b;
+      $ln .= " ".$b[0];
       $txt[] = $ln;
     }
     return $this->paginateText($sender,$pageNumber,$txt);
@@ -425,6 +494,23 @@ class Main extends PluginBase implements CommandExecutor {
 	$txt[] = "  ".TextFormat::BLUE.$ln.TextFormat::RESET;
       }
     }
+    if (isset($this->cfg["protect"][$level])) {
+      $txt[] = "World-Protect: ".
+	TextFormat::GREEN.$this->cfg["protect"][$level]["mode"].
+	TextFormat::RESET;
+      $txt[] = "- Auth: ".
+	TextFormat::GREEN.implode(",",$this->cfg["protect"][$level]["auth"]).
+	TextFormat::RESET;
+    }
+    if (isset($this->cfg["border"][$level])) {
+      $txt[] = "World-Border: ".
+	TextFormat::GREEN.implode(",",$this->cfg["border"][$level]).
+	TextFormat::RESET;
+    }
+    if (isset($this->cfg["limits"][$level])) {
+      $txt[] = "Max Players: ".
+	TextFormat::GREEN.$this->cfg["limits"][$level].TextFormat::RESET;
+    }
     return $txt;
   }
   private function mwWorldEditMotd(CommandSender $sender,$level,$line,$lntxt) {
@@ -443,10 +529,251 @@ class Main extends PluginBase implements CommandExecutor {
     file_put_contents($f,preg_replace('/\s+$/','',implode("",$txt))."\n");
     return true;
   }
+  // World-Protect functionality
+  private function mwWorldProtectDefaults(CommandSender $sender,$cmd,$args,
+					  &$user,&$level) {
+    if (count($args) == 1) {
+      if (!$this->inGame($sender)) return false;
+      $level = $sender->getLevel()->getName();
+      $user = $args[0];
+    } elseif (count($args) == 2) {
+      $level = $args[0];
+      $user = $args[1];
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return false;
+      }
+    } else {
+      $this->mwHelpCmd($sender,[$cmd]);
+      return false;
+    }
+    return true;
+  }
+  private function mwWorldProtectAdmin(CommandSender $sender,$level,$new=false) {
+    /* First check access ... */
+    if ($new && !$this->inGame($sender,false)) return true;
+
+    if (!isset($this->cfg["protect"][$level])) {
+      $sender->sendMessage("[MW] $level not using World Protect");
+      if ($this->inGame($sender,false))
+	$sender->sendMessage("[MW] Must be configured from the console");
+      return false;
+    }
+    if (!$this->inGame($sender,false)) return true;
+    if (!isset($this->cfg["protect"][$level]["auth"][$sender->getName()])) {
+      $sender->sendMessage("[MW] You are not allowed to do this");
+      return false;
+    }
+    return true;
+  }
+  private function saveCfg() {
+    $yaml = new Config($this->getDataFolder()."config.yml",Config::YAML,[]);
+    $yaml->setAll($this->cfg);
+    $yaml->save();
+  }
+
+  private function mwWorldProtectAdd(CommandSender $sender,$args){
+    if (!$this->mwWorldProtectDefaults($sender,"add",$args,$user,$level))
+      return true;
+    if (!$this->mwWorldProtectAdmin($sender,$level)) return true;
+    if (isset($this->cfg["protect"][$level]["auth"][$user])) {
+      $sender->sendMessage("[MW] $user is already in $level authorized list");
+      return true;
+    }
+    $player = $this->getServer()->getPlayer($user);
+    if (!$player) {
+      $sender->sendMessage("[MW] $user can not be found.  Are they off-line?");
+      return true;
+    }
+    if (!$player->isOnline()) {
+	$sender->sendMessage("[MW] $user is offline!");
+	return true;
+    }
+    $this->cfg["protect"][$level]["auth"][$user] = $user;
+    $this->saveCfg();
+    $sender->sendMessage("[MW] $user added to $level's authorized list");
+    $player->sendMessage("[MW] You have been added $level's authorized list");
+    return true;
+  }
+  private function mwWorldProtectRm(CommandSender $sender,$args) {
+    if (!$this->mwWorldProtectDefaults($sender,"add",$args,$user,$level))
+      return true;
+    if (!$this->mwWorldProtectAdmin($sender,$level)) return true;
+    if (!isset($this->cfg["protect"][$level]["auth"][$user])) {
+      $sender->sendMessage("[MW] $user is not in $level authorized list");
+      return true;
+    }
+    $player = $this->getServer()->getPlayer($user);
+    if ($player) {
+      if (!$player->isOnline()) $player = null;
+    }
+    unset($this->cfg["protect"][$level]["auth"][$user]);
+    $this->saveCfg();
+    $sender->sendMessage("[MW] $user removed from $level's authorized list");
+    $player->sendMessage("[MW] You have been removed from $level's authorized list");
+    return true;
+  }
+  private function mwWorldProtectMode(CommandSender $sender,$mode,$args) {
+    if (count($args) == 0) {
+      if (!$this->inGame($sender)) return true;
+      $level = $sender->getLevel()->getName();
+    } else {
+      $level = $args[0];
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+    }
+    if (!$this->mwWorldProtectAdmin($sender,$level,true)) return true;
+    if ($mode == "unprotect") {
+      // This is a special case...
+      if (!isset($this->cfg["protect"][$level])) {
+	$sender->sendMessage("[MW] $level is not protected");
+	return true;
+      }
+      unset($this->cfg["protect"][$level]);
+      $this->saveCfg();
+      $sender->sendMessage("[MW] $level is unprotected");
+      return true;
+    }
+    if (!isset($this->cfg["protect"][$level])) {
+      $this->cfg["protect"][$level] = [ "mode"=>"N/A","auth"=>[] ];
+    }
+    if ($this->cfg["protect"][$level]["mode"] == $mode) {
+      $sender->sendMessage("[MW] $level is already in $mode status");
+      return true;
+    }
+    $this->cfg["protect"][$level]["mode"] = $mode;
+    $this->saveCfg();
+    $sender->sendMessage("[MW] $level changed to $mode");
+    return true;
+  }
+  // World limits
+  private function mwWorldLimitCmd(CommandSender $sender,$args) {
+    if (count($args) == 1) {
+      if (!$this->inGame($sender)) return true;
+      $level = $sender->getLevel()->getName();
+    } elseif (count($args) == 2) {
+      $level = array_shift($args);
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+    } else {
+      $this->mwHelpCmd($sender,["limits"]);
+      return false;
+    }
+    $max = intval(array_shift($args));
+    if ($max <= 0) {
+      // Remove limits
+      if (!isset($this->cfg["limits"][$level])) {
+	$sender->sendMessage("[MW] $level is already unlimited");
+	return true;
+      }
+      unset($this->cfg["limits"][$level]);
+      $this->saveCfg();
+      $sender->sendMessage("[MW] Removed player limits on $level");
+      return true;
+    }
+    if (isset($this->cfg["limits"][$level])) {
+      if ($this->cfg["limits"][$level] = $max) {
+	$sender->sendMessage("[MW] Player limits for $level already at $max");
+	return true;
+      }
+    }
+    $this->cfg["limits"][$level] = $max;
+    $this->saveCfg();
+    $sender->sendMessage("[MW] Set limits for $level to $max");
+    return true;
+  }
+
+  // World borders
+  private function mwWorldBorderCmd(CommandSender $sender,$args) {
+    if (count($args) == 4) {
+      if (!$this->inGame($sender)) return true;
+      $level = $sender->getLevel()->getName();
+    } elseif (count($args) == 5) {
+      $level = array_shift($args);
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+    } else {
+      $this->mwHelpCmd($sender,["border"]);
+      return false;
+    }
+    list($x1,$z1,$x2,$z2) = $args;
+    if ($x1 > $x2) list($x1,$x2) = [$x2,$x1];
+    if ($z1 > $z2) list($z1,$z2) = [$z2,$z1];
+    if ($x2 - $x1 < self::MIN_BORDER || $z2 - $z1 < self::MIN_BORDER) {
+      $sender->sendMessage("[MW] Invalid border region");
+      return true;
+    }
+    $this->cfg["border"][$level] = [$x1,$z1,$x2,$z2];
+    $this->saveCfg();
+    $sender->sendMessage("[MW] $level border region: $x1,$z1,$x2,$z2");
+    return true;
+  }
+  private function mwWorldNoBorderCmd(CommandSender $sender,$args) {
+    if (count($args) == 0) {
+      if (!$this->inGame($sender)) return true;
+      $level = $sender->getLevel()->getName();
+    } elseif (count($args) == 1) {
+      $level = array_shift($args);
+      if(!$this->getServer()->isLevelGenerated($level)) {
+	$sender->sendMessage("[MW] $level does not exist");
+	return true;
+      }
+    } else {
+      $this->mwHelpCmd($sender,["noborder"]);
+      return false;
+    }
+    if (isset($this->cfg["border"][$level])) {
+      unset($this->cfg["border"][$level]);
+      $this->saveCfg();
+      $sender->sendMessage("[MW] Removed border controls for $level");
+      return true;
+    }
+    $sender->sendMessage("[MW] $level has no borders");
+    return true;
+  }
+  private function mwWorldToggleBorderCmd(CommandSender $sender,$mode) {
+    if (!$this->inGame($sender)) return true;
+    $name = $sender->getName();
+    if ($mode) {
+      // Border ON
+      if (isset($this->noborders[$name])) {
+	unset($this->noborder[$name]);
+	$sender->sendMessage("[MW] borders are enforced");
+      } else {
+	$sender->sendMessage("[MW] borders are already being enforced for you");
+      }
+      return true;
+    }
+    // Border OFF
+    if (!isset($this->noborders[$name])) {
+      $this->noborder[$name] = $name;
+      $this->sendMessage("[MW] borders enforcing is being turned off for you");
+    } else {
+      $sender->sendMessage("[MW] borders are not being enforced for you");
+    }
+    return true;
+  }
   //
   // Public API
   //
   public function teleport($player,$level,$spawn=null) {
+    /*
+     * Enforce world limits
+     */
+    if (isset($this->cfg["limits"][$level])) {
+      if (!$this->getServer()->isLevelLoaded($level)) return;
+      $np = count($this->getServer()->getLevelByName($level)->getPlayers());
+      if ($np >= $this->cfg["limits"][$level]) {
+	$player->sendMessage("Can not teleport to $level, its FULL\n");
+	return;
+      }
+    }
     $this->tpManager->teleport($player,$level,$spawn);
   }
   //
@@ -459,7 +786,39 @@ class Main extends PluginBase implements CommandExecutor {
     if (!file_exists($f)) return;
     $player->sendMessage(file_get_contents($f));
   }
+  // Callbacks
+  public function checkPvP($level) {
+    if (!isset($this->cfg["protect"][$level])) return true;
+    switch ($this->cfg["protect"][$level]["mode"]) {
+    case "protect": return false;
+    case "lock": return false;
+    case "peace": return false;
+    }
+    return true;
+  }
+  public function checkBlockPlaceBreak($pname,$level) {
+    if (!isset($this->cfg["protect"][$level])) return true;
+    switch ($this->cfg["protect"][$level]["mode"]) {
+    case "lock": return false;
+    case "protect":
+      if (!count($this->cfg["protect"][$level]["auth"])) {
+	$sender = $this->getServer()->getPlayer();
+	if (!$sender) return false;
+	if ($sender->hasPermission("mw.world.protect.basic")) return true;
+	return false;
+      }
+      if (!isset($this->cfg["protect"][$level]["auth"][$pname])) return false;
+      break;
+    case "pvp": return false;
+    }
+    return true;
 
-
-
+  }
+  public function checkMove($name,$level,$x,$z) {
+    if (isset($this->noborder[$name])) return true;
+    if (!isset($this->cfg["border"][$level])) return true;
+    list($x1,$z1,$x2,$z2) = $this->cfg["border"][$level];
+    if ($x1 < $x && $x < $x2 && $z1 < $z && $z < $z2) return true;
+    return false;
+  }
 }
