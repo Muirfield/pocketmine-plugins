@@ -42,12 +42,6 @@ class Main extends PluginBase implements CommandExecutor {
     return false;
   }
 
-  public function after($ticks,$callback) {
-    $task = new GrabBagTask($this,$callback);
-    $this->getServer()->getScheduler()->scheduleDelayedTask($task,$ticks);
-  }
-
-
   // Paginate output
   private function getPageNumber(array &$args) {
     $pageNumber = 1;
