@@ -48,6 +48,7 @@ class Main extends Plugin implements CommandExecutor {
        "protect"=>[],
        "limits"=>[],
        ];
+    @mkdir($this->getDataFolder());
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
   }
