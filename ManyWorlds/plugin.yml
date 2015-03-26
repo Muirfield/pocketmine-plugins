@@ -1,30 +1,33 @@
-main: ManyWorlds\Main
+main: aliuly\manyworlds\Main
 api: 1.10.0
 load: POSTWORLD
 
 name: ManyWorlds
 description: Manage Multiple Worlds
-version: 1.1.0
+version: 1.2.0
 author: aliuly
 
 commands:
     mw:
         description: Manage worlds
-        usage: "/mw <tp|create|load|unload|ls|motd> <world>"
+        usage: "/mw <help|sub-cmd> [options]"
     motd:
         description: Show a level specific message of the day
         usage: "/motd"
 
 permissions:
-    mw.cmd.tp:
-        default: op
-        description: "Allows users to travel to other worlds"
+    mw.motd:
+        default: true
+        description: Allow access to motd.
     mw.cmd.tp:
         default: op
         description: "Allows users to travel to other worlds"
     mw.cmd.tp.others:
         default: op
         description: "Allows users to make others travel to other worlds"
+    mw.cmd.ls:
+        default: op
+        description: "Allows users to list worlds"
     mw.cmd.world.motd:
         default: op
         description: "Allows users to edit the motd text"
@@ -34,9 +37,6 @@ permissions:
     mw.cmd.world.load:
         default: op
         description: "Allows users to load worlds"
-    mw.cmd.world.ls:
-        default: op
-        description: "Allows users to list worlds"
     mw.cmd.world.protect:
         default: op
         description: "Allow access to protect functionality"

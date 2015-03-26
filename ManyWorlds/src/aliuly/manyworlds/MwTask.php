@@ -1,5 +1,5 @@
 <?php
-namespace ManyWorlds;
+namespace aliuly\manyworlds;
 
 use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;

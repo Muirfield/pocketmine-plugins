@@ -1,5 +1,6 @@
 <?php
-namespace ManyWorlds;
+namespace aliuly\manyworlds;
+
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -15,21 +16,18 @@ class MwListener implements Listener {
     $this->owner = $plugin;
     $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
   }
+  private function showMotd($name,$level,$ticks=10) {
+    $this->owner->after(new MwTask($this->owner,"showMotd",[$name,$level]),
+			$ticks);
+  }
   public function onJoin(PlayerJoinEvent $ev) {
-    $this->owner->onJoin($ev->getPlayer()->getName());
+    $pl = $ev->getPlayer();
+    $this->showMotd($pl->getName(),$pl->getLevel()->getName());
   }
   public function onLevelChange(EntityLevelChangeEvent $ev) {
     $pl = $ev->getEntity();
     if (!($pl instanceof Player)) return;
     $level = $ev->getTarget()->getName();
-    $this->owner->after(new MwTask($this->owner,"showMotd",[$pl->getName(),$level]),21);
-  }
-  public function onDamage(EntityDamageEvent $event) {
-    // Try keep the player alive while on transit...
-    $victim= $event->getEntity();
-    if (!($victim instanceof Player)) return;
-    if (!$this->owner->onDamage($victim->getName(),$event->getDamage())) return;
-    $event->setDamage(0);
-    $event->setCancelled(true);
+    $this->showMotd($pl->getName(),$level);
   }
 }
