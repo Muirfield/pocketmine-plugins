@@ -213,9 +213,9 @@ class Main extends PluginBase implements CommandExecutor {
     case "whois":
       if (!$this->access($sender,"gb.cmd.whois")) return true;
       return $this->cmdWhois($sender,$args);
-    case "wp":
-      if (!$this->access($sender,"gb.cmd.wp")) return true;
-      return $this->cmdWp($sender,$args);
+    case "showtimings":
+      if (!$this->access($sender,"gb.cmd.timings")) return true;
+      return $this->cmdTimings($sender,$args);
     }
     return false;
   }
@@ -317,7 +317,6 @@ class Main extends PluginBase implements CommandExecutor {
     return "";
   }
 
-
   private function cmdGmX(CommandSender $c,$mode) {
     if (!$this->inGame($c)) return true;
     if ($mode !== $c->getGamemode()) {
@@ -394,6 +393,38 @@ class Main extends PluginBase implements CommandExecutor {
     $pageNumber = $this->getPageNumber($args);
     return $this->paginateTable($c,$pageNumber,$tab);
   }
+  private function cmdTimings(CommandSender $c,$args) {
+    $pageNumber = $this->getPageNumber($args);
+    if (count($args)) {
+      // Show the specified report
+      $rpt = array_shift($args);
+      $rpt = preg_replace('/[^0-9]+/i','',$rpt);
+      $f = $this->getServer()->getDataPath()."timings/timings$rpt.txt";
+      if (!file_exists($f)) {
+	$c->sendMessage("Report $rpt can not be found");
+	return true;
+      }
+      $txt = file($f);
+      array_unshift($txt,"Report: timings$rpt");
+      return $this->paginateText($c,$pageNumber,$txt);
+    }
+    $txt = ["HDR"];
+    // Inventorise the reports
+    $count = 0;
+    foreach (glob($this->getServer()->getDataPath(). "timings/timings*.txt") as $f) {
+      ++$count;
+      $txt[] = "- ".basename($f);
+    }
+    if ($count == 0) {
+      $sender->sendMessage(TextFormat::RED."No timmings report found");
+      $sender->sendMessage("Enable timings by typing /timings on");
+      $sender->sendMessage("Generate timings report by typing /timings report");
+      return true;
+    }
+    $txt[0] = "Reports: $count";
+    return $this->paginateText($c,$pageNumber,$txt);
+  }
+
   //////////////////////////////////////////////////////////////////////
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////

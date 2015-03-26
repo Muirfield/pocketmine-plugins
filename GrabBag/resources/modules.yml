@@ -36,3 +36,6 @@ commands:
     whois:
         description: Show player info
         usage: "/whois <player>"
+    showtimings:
+        description: Show timings data (see /timings)
+        usage: "/showtimings"

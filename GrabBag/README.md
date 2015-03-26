@@ -1,7 +1,7 @@
 GrabBag
 =======
 
-* Summary: A miscellaneous colletion of commands
+* Summary: A miscellaneous colletion of commands and listener modules
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
@@ -13,7 +13,10 @@ GrabBag
 Overview
 --------
 
-A miscellaneous collection of commands
+A miscellaneous collection of commands and listener modules.  Features
+can be configured to be disable|enable so as to co-exists with other
+plugins.
+
 
 Basic Usage:
 
@@ -22,15 +25,20 @@ Basic Usage:
 * as - run command as somebody else
 * gms - Switch to survival mode
 * gmc - Switch to creative mode
+* gma - Switch to adventure mode
 * slay - kill a player
 * heal - Restore health to a player
 * whois - Info about a player
+* showtimings - Display the info gathered through /timings
 
 Documentation
 -------------
 
-This plugin collects a number of commands that I find useful and
-wanted to have in a single plugin rather through multiple ones.
+This plugin collects a number of commands and listener plugins that I
+find useful and wanted to have in a single plugin rather through
+multiple ones.  The available commands and listener modules can be
+configured.  This allows this plugin to co-exist peacefully with other
+plugins.
 
 ### Commands:
 
@@ -44,12 +52,16 @@ wanted to have in a single plugin rather through multiple ones.
   Switch to survival game mode
 * *gmc*  
   Switch to creative game mode
+* *gma*  
+  Switch to adventure game mode
 * *slay* *player* _[message]_  
   Kills a player immediatly
 * *heal* _[player_ _[value]]_  
   Restore health to a player
 * *whois* *player*  
   Show player info
+* *showtimings* _[report]_ _[page]_  
+  Show the timings data from the `/timings` command.
 
 ### Listener Modules
 
@@ -86,13 +98,15 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.whois: show player info
 * gb.spawnarmor.receive: allows player to receive armor when spawning
 * gb.spawnitems.receive: allows player to receive items when spawning
+* gb.cmd.timings: show timings data
+
 
 Changes
 -------
 
-* 1.1.0 : Modular
-  * Added AdminJoin functionality
-  * Make system modular
+* 1.1.0 : Additional functionality
+  * showtimings command
+  * removed un-used old code.
 * 1.0.0 : First release
 
 Copyright

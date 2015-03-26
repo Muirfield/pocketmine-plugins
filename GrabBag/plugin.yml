@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands
-version: 1.0.0
+version: 1.2.0
 author: aliuly
 
 permissions:
@@ -35,6 +35,9 @@ permissions:
     gb.cmd.whois:
         default: op
         description: "Show player details"
+    gb.cmd.timings:
+        default: op
+        description: "Show timings data"
     gb.spawnarmor.receive:
         default: true
         description: "allows to receive armor when you spawn"
