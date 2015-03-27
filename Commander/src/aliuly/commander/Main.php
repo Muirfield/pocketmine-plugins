@@ -12,8 +12,9 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
 
-use pocketmine\item\Item;
 
+use pocketmine\item\Item;
+use pocketmine\network\protocol\SetHealthPacket;
 
 class Main extends PluginBase implements CommandExecutor {
   // Access and other permission related checks
@@ -91,7 +92,13 @@ class Main extends PluginBase implements CommandExecutor {
   // Command implementations
 
   private function cmdMain(CommandSender $c,$args) {
-    $c->sendMessage("ARGS: ".implode(',',$args));
+    //$c->sendMessage("ARGS: ".implode(',',$args));
+    if (count($args) == 0) return false;
+    $p = $this->getServer()->getPlayer($args[0]);
+    if ($p == null) return false;
+    $pk = new SetHealthPacket;
+    $pk->health = $p->getHealth()-1;
+    $p->dataPacket($pk);
     return true;
   }
 }
