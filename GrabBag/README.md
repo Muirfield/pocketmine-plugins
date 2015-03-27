@@ -107,7 +107,7 @@ Changes
 * 1.1.0 : Additional functionality
   * showtimings command
   * removed un-used old code.
-* 1.0.0 : First release
+* 1.0.0 : First public release
 
 Copyright
 ---------
