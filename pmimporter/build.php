@@ -40,6 +40,7 @@ foreach (glob('scripts/*.php') as $f) {
   $help .= "\t$f\n";
 }
 $help .= "\tversion\n";
+$help .= "\tplugin\n";
 $help .= "\treadme\n";
 $p['scripts/help.php'] = $help;
 $p['scripts/version.php'] = "<?php echo PMIMPORTER_VERSION.NL;";
@@ -65,12 +66,16 @@ while(count($dirs)) {
   closedir($dh);
 }
 
-
-
 $pmversion = preg_replace('/\s*pmimporter\s*/','',file_get_contents("version.txt"));
 $yml = file_get_contents("plugin/plugin.yml");
 $yml = str_replace("<PMIMPORTER>",$pmversion,$yml);
 $p["plugin.yml"] = $yml;
+if (preg_match('/\n\s*version: ([^\s]+)\s*\n/',$yml,$mv)) {
+  echo "Plugin Version: $mv[1]\n";
+  $p['scripts/plugin.php'] = "ImportMap v$mv[1]\n";
+} else {
+  $p['scripts/plugin.php'] = "generic ImportMap\n";
+}
 
 if ($plug) {
   echo("Adding sources...\n");
