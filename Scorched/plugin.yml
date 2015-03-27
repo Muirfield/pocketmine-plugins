@@ -8,9 +8,12 @@ version: 1.0.0
 author: aliuly
 
 commands:
+    rpg:
+        description: Arm RPG
+        usage: "/rpg [fuse speed|short|long|fast]"
     fire:
-        description: Fire RPG
-        usage: "/fire [speed] [fuse]"
+        description: Fire grenade
+        usage: "/fire [fuse speed|short|long|fast]"
 
 permissions:
     scorched.cmd.fire:
