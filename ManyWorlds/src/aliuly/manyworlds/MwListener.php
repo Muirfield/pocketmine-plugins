@@ -10,7 +10,7 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\player\PlayerMoveEvent;
-//use pocketmine\event\entity\EntityDamageEvent; // Is this necessary?
+use pocketmine\event\entity\EntityDamageEvent;
 //use pocketmine\event\player\PlayerInteractEvent; // Not used for now...
 
 use pocketmine\Player;
@@ -68,8 +68,9 @@ class MwListener implements Listener {
     $this->msg($pl,"You are not allowed to do that here");
     $ev->setCancelled();
   }
-  public function onPvP(EntityDamageByEntityEvent $ev) {
-    //if(!($eventPvP instanceof EntityDamageByEntityEvent)) return;
+
+  public function onPvP(EntityDamageEvent $ev) {
+    if(!($ev instanceof EntityDamageByEntityEvent)) return;
     if (!($ev->getEntity() instanceof Player && $ev->getDamager() instanceof Player)) return;
     if ($this->owner->checkPvP($ev->getEntity()->getLevel()->getName())) return;
     $this->msg($ev->getDamager(),"You are not allowed to do that here");
