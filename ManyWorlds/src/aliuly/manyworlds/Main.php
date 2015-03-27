@@ -214,8 +214,11 @@ class Main extends PluginBase implements CommandExecutor {
 	return true;
       }
       $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
-      $this->teleport($player,$level);
-      $sender->sendMessage("[MW] " . $player . " has been teleported to " . $level . "!");
+      if ($this->teleport($player,$level)) {
+	$sender->sendMessage("[MW] " . $player->getName() . " has been teleported to " . $level . "!");
+      } else {
+	$sender->sendMessage("[MW] unable to teleport ".$player->getName()." to ".$level);
+      }
       return true;
     }
     // Teleport self...
@@ -230,8 +233,11 @@ class Main extends PluginBase implements CommandExecutor {
       return true;
     }
     $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
-    $this->teleport($sender,$level);
-    $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
+    if ($this->teleport($sender,$level)) {
+      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
+    } else {
+      $this->getServer()->broadcastMessage("[MW] Unable to teleport ".$sender->getName()." to $level");
+    }
     return true;
   }
   private function mwLsCmd(CommandSender $sender,$args) {
@@ -767,14 +773,14 @@ class Main extends PluginBase implements CommandExecutor {
      * Enforce world limits
      */
     if (isset($this->cfg["limits"][$level])) {
-      if (!$this->getServer()->isLevelLoaded($level)) return;
+      if (!$this->getServer()->isLevelLoaded($level)) return false;
       $np = count($this->getServer()->getLevelByName($level)->getPlayers());
       if ($np >= $this->cfg["limits"][$level]) {
 	$player->sendMessage("Can not teleport to $level, its FULL\n");
-	return;
+	return false;
       }
     }
-    $this->tpManager->teleport($player,$level,$spawn);
+    return $this->tpManager->teleport($player,$level,$spawn);
   }
   //
   // Basic call backs

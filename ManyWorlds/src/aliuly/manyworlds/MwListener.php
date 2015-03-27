@@ -19,10 +19,24 @@ use pocketmine\scheduler\CallbackTask;
 
 class MwListener implements Listener {
   public $owner;
+  public $spam;
+  const SPAM_DELAY = 5;
+
+  private function msg($pl,$txt) {
+    $n = $pl->getName();
+    if (isset($this->spam[$n])) {
+      // Check if we are spamming...
+      if (time() - $this->spam[$n][0] < self::SPAM_DELAY
+	  && $this->spam[$n][1] == $txt) return;
+    }
+    $this->spam[$n] = [ time(), $txt ];
+    $pl->sendMessage($txt);
+  }
 
   public function __construct(Plugin $plugin) {
     $this->owner = $plugin;
     $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
+    $this->spam = [];
   }
   private function showMotd($name,$level,$ticks=10) {
     $this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this->owner,"showMotd"],[$name,$level]),$ticks);
@@ -44,21 +58,21 @@ class MwListener implements Listener {
     $pl = $ev->getPlayer();
     if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 					   $pl->getLevel()->getName())) return;
-    $pl->sendMessage("You are not allowed to do that here");
+    $this->msg($pl,"You are not allowed to do that here");
     $ev->setCancelled();
   }
   public function onBlockPlace(BlockPlaceEvent $ev){
     $pl = $ev->getPlayer();
     if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 					   $pl->getLevel()->getName())) return;
-    $pl->sendMessage("You are not allowed to do that here");
+    $this->msg($pl,"You are not allowed to do that here");
     $ev->setCancelled();
   }
   public function onPvP(EntityDamageByEntityEvent $ev) {
     //if(!($eventPvP instanceof EntityDamageByEntityEvent)) return;
     if (!($ev->getEntity() instanceof Player && $ev->getDamager() instanceof Player)) return;
     if ($this->owner->checkPvP($ev->getEntity()->getLevel()->getName())) return;
-    $ev->getDamager()->sendMessage("You are not allowed to do that here");
+    $this->msg($ev->getDamager(),"You are not allowed to do that here");
     $ev->setCancelled();
   }
 
@@ -67,7 +81,7 @@ class MwListener implements Listener {
     $pos = $ev->getTo();
     if ($this->owner->checkMove($pl->getName(),$pl->getLevel()->getName(),
 				$pos->getX(),$pos->getZ())) return;
-    $pl->sendMessage("You have reached the end of the world");
+    $this->msg($pl,"You have reached the end of the world");
     $ev->setCancelled();
   }
 }

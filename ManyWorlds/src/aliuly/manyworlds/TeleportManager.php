@@ -45,6 +45,7 @@ class TeleportManager implements Listener {
     // Make sure the player survives the transfer...
     $player->setHealth($player->getMaxHealth());
     $player->teleport($location); // Start the teleport
+    return true;
   }
   public function after($method,$args,$ticks) {
     $this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,$method],$args),$ticks);
