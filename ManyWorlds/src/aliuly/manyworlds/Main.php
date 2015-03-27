@@ -743,7 +743,7 @@ class Main extends PluginBase implements CommandExecutor {
     if ($mode) {
       // Border ON
       if (isset($this->noborders[$name])) {
-	unset($this->noborder[$name]);
+	unset($this->noborders[$name]);
 	$sender->sendMessage("[MW] borders are enforced");
       } else {
 	$sender->sendMessage("[MW] borders are already being enforced for you");
@@ -752,8 +752,8 @@ class Main extends PluginBase implements CommandExecutor {
     }
     // Border OFF
     if (!isset($this->noborders[$name])) {
-      $this->noborder[$name] = $name;
-      $this->sendMessage("[MW] borders enforcing is being turned off for you");
+      $this->noborders[$name] = $name;
+      $sender->sendMessage("[MW] borders enforcing is being turned off for you");
     } else {
       $sender->sendMessage("[MW] borders are not being enforced for you");
     }
@@ -815,7 +815,7 @@ class Main extends PluginBase implements CommandExecutor {
 
   }
   public function checkMove($name,$level,$x,$z) {
-    if (isset($this->noborder[$name])) return true;
+    if (isset($this->noborders[$name])) return true;
     if (!isset($this->cfg["border"][$level])) return true;
     list($x1,$z1,$x2,$z2) = $this->cfg["border"][$level];
     if ($x1 < $x && $x < $x2 && $z1 < $z && $z < $z2) return true;
