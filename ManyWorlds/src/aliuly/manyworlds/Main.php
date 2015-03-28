@@ -656,7 +656,7 @@ class Main extends PluginBase implements CommandExecutor {
       }
       unset($this->cfg["protect"][$level]);
       $this->saveCfg();
-      $sender->sendMessage("[MW] $level is unprotected");
+      $this->getServer()->broadcastMessage("[MW] Protection removed from world $level");
       return true;
     }
     if (!isset($this->cfg["protect"][$level])) {
@@ -668,7 +668,12 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->cfg["protect"][$level]["mode"] = $mode;
     $this->saveCfg();
-    $sender->sendMessage("[MW] $level changed to $mode");
+    $m = ["open"=>"World $level is now fully open",
+	  "lock"=>"World $level has been locked",
+	  "protect"=>"World $level has been protected",
+	  "pvp"=>"$level is now a PvP world",
+	  "peace"=>"PvP in world $level is now disallowed"];
+    $this->getServer()->broadcastMessage("[MW] ".$m[$mode]);
     return true;
   }
   // World limits
@@ -825,7 +830,7 @@ class Main extends PluginBase implements CommandExecutor {
     case "lock": return false;
     case "protect":
       if (!count($this->cfg["protect"][$level]["auth"])) {
-	$sender = $this->getServer()->getPlayer();
+	$sender = $this->getServer()->getPlayer($pname);
 	if (!$sender) return false;
 	if ($sender->hasPermission("mw.world.protect.basic")) return true;
 	return false;
