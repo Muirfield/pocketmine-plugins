@@ -222,7 +222,11 @@ class Main extends PluginBase implements CommandExecutor {
       }
       $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
       if ($this->teleport($player,$level)) {
-	$sender->sendMessage("[MW] " . $player->getName() . " has been teleported to " . $level . "!");
+	if ($this->cfg["settings"]["broadcast-tp"]) {
+	  $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." was teleported to $level");
+	} else {
+	  $sender->sendMessage("[MW] " . $player->getName() . " has been teleported to " . $level . "!");
+	}
       } else {
 	$sender->sendMessage("[MW] unable to teleport ".$player->getName()." to ".$level);
       }
@@ -241,8 +245,11 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
     if ($this->teleport($sender,$level)) {
-      if ($this->cfg["settings"]["broadcast"])
+      if ($this->cfg["settings"]["broadcast-tp"]) {
 	$this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
+      } else {
+	$sender->sendMessage("[MW] you were teleported to $level");
+      }
     } else {
       $sender->sendMessage("[MW] Unable to teleport ".$sender->getName()." to $level");
     }
