@@ -39,3 +39,12 @@ commands:
     showtimings:
         description: Show timings data (see /timings)
         usage: "/showtimings"
+    seeinv:
+        description: 
+        usage: "/seeinv <player>"
+    seearmor:
+        description:
+        usage: "/seearmor <player>"
+    get:
+        description:
+        usage: "/get <item[:damage]> [amount]"

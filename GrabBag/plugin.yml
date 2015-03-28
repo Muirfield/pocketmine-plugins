@@ -38,6 +38,15 @@ permissions:
     gb.cmd.timings:
         default: op
         description: "Show timings data"
+    gb.cmd.seearmor:
+        default: op
+        description: "Show player's armor"
+    gb.cmd.seeinv:
+        default: op
+        description: "Show player's inventory"
+    gb.cmd.get:
+        default: op
+        description: "Get blocks"
     gb.spawnarmor.receive:
         default: true
         description: "allows to receive armor when you spawn"

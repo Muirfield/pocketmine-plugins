@@ -81,37 +81,45 @@ class Main extends PluginBase implements CommandExecutor {
       }
     }
     $txt = [];
+    $fmt = "";
+    foreach ($cols as $c) {
+      if (strlen($fmt) > 0) $fmt .= " ";
+      $fmt .= "%-".$c."s";
+    }
     foreach ($tab as $row) {
-      $txt[] = sprintf("%-$cols[0]s %-$cols[1]s %-$cols[2]s %-$cols[3]s",
-		       $row[0],$row[1],$row[2],$row[3]);
+      $txt[] = sprintf($fmt,...$row);
     }
     return $this->paginateText($sender,$pageNumber,$txt);
   }
   // Standard call-backs
   public function onDisable() {
-    $this->getLogger()->info("GrabBag Unloaded!");
+    //$this->getLogger()->info("GrabBag Unloaded!");
   }
   public function onLoad() {
     @mkdir($this->getDataFolder());
 
     $v = $this->getDescription()->getVersion();
     $modules = $this->getDataFolder()."modules-dist.yml";
-    if (is_file($modules)) {
-      $fp = fopen($modules,"r");
-      $fv = preg_replace('/\s+/','',preg_replace('/^\s+/','',fgets($fp)));
-      if ($fv = "version: $v") unlink($modules);
+    $modcfg = $this->getDataFolder()."modules.yml";
+    $current = is_file($modules) ? file_get_contents($modules) : "";
+    $active = is_file($modcfg) ? file_get_contents($modcfg) : "";
+    $fp = $this->getResource(basename($modcfg));
+    $next = "version: $v\n".stream_get_contents($fp);
+    fclose($fp);
+    if ($next != $current) {
+      // We need to upgrade...
+      file_put_contents($modules,$next);
+      if ($current == $active) {
+	// It is not a custom yml, so we just upgrade...
+	file_put_contents($modcfg,$next);
+	$this->getLogger()->info(TextFormat::RED."module configuration has been updated".TextFormat::RESET);
+      } else {
+	$this->getLogger()->info(TextFormat::RED."modules-dist.yml has been updated".TextFormat::RESET);
+	$this->getLogger()->info(TextFormat::GREEN."Review your modules.yml to activate new features".TextFormat::RESET);
+      }
     }
-    if (!is_file($modules)) {
-      $fp = fopen($modules,"w");
-      fwrite($fp,"version: $v\n");
-      $rfp = $this->getResource(basename("modules.yml"));
-      stream_copy_to_stream($rfp,$fp);
-      fclose($fp);
-      fclose($rfp);
-    }
-    $this->saveResource("modules.yml",false);
     $this->modules =(new Config($this->getDataFolder()."modules.yml",
-			      Config::YAML,[]))->getAll();
+				Config::YAML,[]))->getAll();
     foreach (["listener","commands"] as $i) {
       if (!isset($this->modules[$i])) $this->modules[$i] = [];
     }
@@ -180,7 +188,7 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
-    $this->getLogger()->info("* GrabBag Enabled!");
+    // $this->getLogger()->info("* GrabBag Enabled!");
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
@@ -216,6 +224,15 @@ class Main extends PluginBase implements CommandExecutor {
     case "showtimings":
       if (!$this->access($sender,"gb.cmd.timings")) return true;
       return $this->cmdTimings($sender,$args);
+    case "get":
+      if (!$this->access($sender,"gb.cmd.get")) return true;
+      return $this->cmdGet($sender,$args);
+    case "seeinv":
+      if (!$this->access($sender,"gb.cmd.seeinv")) return true;
+      return $this->cmdSeeInv($sender,$args);
+    case "seearmor":
+      if (!$this->access($sender,"gb.cmd.seearmor")) return true;
+      return $this->cmdSeeArmor($sender,$args);
     }
     return false;
   }
@@ -424,7 +441,75 @@ class Main extends PluginBase implements CommandExecutor {
     $txt[0] = "Reports: $count";
     return $this->paginateText($c,$pageNumber,$txt);
   }
-
+  private function cmdGet(CommandSender $c,$args) {
+    if (!isset($args[0])) return false;
+    if (!$this->inGame($c)) return true;
+    if ($c->isCreative()) {
+      $c->sendMessage("You are in creative mode");
+      return true;
+    }
+    $item = Item::fromString($args[0]);
+    if ($item->getId() == 0) {
+      $c->sendMessage(TextFormat::RED."There is no item called ".$args[0]);
+      return true;
+    }
+    if (isset($args[1])) {
+      $item->setCount((int)$args[1]);
+    } else {
+      $item->setCount($item->getMaxStackSize());
+    }
+    $c->getInventory()->addItem(clone $item);
+    $this->getServer()->broadcastMessage($c->getName()." got ".
+					 $item->getCount()." of ".
+					 $item->getName().
+					 " (" . $item->getId() . ":" .
+					 $item->getDamage() . ")");
+    return true;
+  }
+  private function cmdSeeArmor(CommandSender $c,$args) {
+    $pageNumber = $this->getPageNumber($args);
+    if (count($args) != 1) {
+      $c->sendMessage("You must specify a player's name");
+      return true;
+    }
+    $target = $this->getServer()->getPlayer($args[0]);
+    if($target == null) {
+      $c->sendMessage($args[0]." can not be found.");
+      return true;
+    }
+    $tab= [["Armor for",TextFormat::RED.$args[0]]];
+    foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
+      $item = $target->getInventory()->getArmorItem($slot);
+      if ($item->getID() == 0) continue;
+      $tab[]=[$attr.TextFormat::BLUE,
+	      $item->getName()." (" .$item->getId().":".$item->getDamage().")"];
+    }
+    return $this->paginateTable($c,$pageNumber,$tab);
+  }
+  private function cmdSeeInv(CommandSender $c,$args) {
+    $pageNumber = $this->getPageNumber($args);
+    if (count($args) != 1) {
+      $c->sendMessage("You must specify a player's name");
+      return true;
+    }
+    $target = $this->getServer()->getPlayer($args[0]);
+    if($target == null) {
+      $c->sendMessage($args[0]." can not be found.");
+      return true;
+    }
+    $tab= [[$args[0],"Count","Damage"]];
+    $max = $target->getInventory()->getSize();
+    foreach ($target->getInventory()->getContents() as $slot => &$item) {
+      if ($slot >= $max) continue;
+      $tab[] = [$item->getName()." (".$item->getId().")",
+		$item->getCount(),$item->getDamage() ];
+    }
+    if (count($tab) == 1) {
+      $c->sendMessage("The inventory for $args[0] is EMPTY");
+      return true;
+    }
+    return $this->paginateTable($c,$pageNumber,$tab);
+  }
   //////////////////////////////////////////////////////////////////////
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////

@@ -30,6 +30,9 @@ Basic Usage:
 * heal - Restore health to a player
 * whois - Info about a player
 * showtimings - Display the info gathered through /timings
+* seearmor - show player's armor
+* seeinv - show player's inventory
+* get - obtain an item
 
 Documentation
 -------------
@@ -62,6 +65,13 @@ plugins.
   Show player info
 * *showtimings* _[report]_ _[page]_  
   Show the timings data from the `/timings` command.
+* *seearmor* *player*  
+  Show player's armor
+* *seeinv* *player*  
+  Show player's inventory
+* *get* *item[:damage]* _[amount]_  
+  Obtain an *item*.  When the item name contain spaces in the name,
+  use `_` instead.
 
 ### Listener Modules
 
@@ -96,6 +106,9 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.slay: kill other players
 * gb.cmd.heal: healing
 * gb.cmd.whois: show player info
+* gb.cmd.seearmor: Show player's armor
+* gb.cmd.seeinv: Show player's inventory
+* gb.cmd.get: get blocks.  A shortcut to give.
 * gb.spawnarmor.receive: allows player to receive armor when spawning
 * gb.spawnitems.receive: allows player to receive items when spawning
 * gb.cmd.timings: show timings data
@@ -106,6 +119,8 @@ Changes
 
 * 1.1.0 : Additional functionality
   * showtimings command
+  * added seearmor, seeinv and get
+  * Improved the way how modules.yml is updated
   * removed un-used old code.
 * 1.0.0 : First public release
 
