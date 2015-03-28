@@ -8,6 +8,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\level\generator\Generator;
 
 use pocketmine\utils\Config;
 
