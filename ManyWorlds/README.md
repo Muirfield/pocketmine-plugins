@@ -143,6 +143,16 @@ Teleport a player to another world:
 
     /mw tp flatland joshua
 
+### Configuration
+
+In the plugin's config.yml file you can have:
+
+	settings:
+	  broadcast-tp: true
+
+Change `brodcast-tp` to `false` to disable the broadcast message that
+somebody teleported.
+
 ### Permission Nodes:
 
 * mw.cmd.tp - Allows users to travel to other worlds
@@ -180,6 +190,7 @@ Changes
   * World Protect/PvP restrictions
   * World Border
   * World Player Limit
+  * Added a setting to control if to broadcast when people teleport.
   * Code clean-up
   * Teleport functionality encapsulated in TeleportManager.
 * 1.1.0:

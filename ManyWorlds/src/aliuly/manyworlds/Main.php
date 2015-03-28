@@ -94,8 +94,15 @@ class Main extends PluginBase implements CommandExecutor {
     $this->listener = new MwListener($this);
     $this->tpManager = new TeleportManager($this);
     @mkdir($this->getDataFolder());
+    $defaults = [
+		 "settings" => [
+				"broadcast-tp" => true,
+				],
+		 ];
+
+
     $this->cfg = (new Config($this->getDataFolder()."config.yml",
-		       Config::YAML,[]))->getAll();
+		       Config::YAML,$defaults))->getAll();
     $this->borders = [];
     if (!isset($this->cfg["protect"])) $this->cfg["protect"] = [];
     if (!isset($this->cfg["border"])) $this->cfg["border"] = [];
@@ -234,9 +241,10 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $sender->sendMessage("[MW] Teleporting you to level " . $level . "...");
     if ($this->teleport($sender,$level)) {
-      $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
+      if ($this->cfg["settings"]["broadcast"])
+	$this->getServer()->broadcastMessage("[MW] ".$sender->getName()." teleported to $level");
     } else {
-      $this->getServer()->broadcastMessage("[MW] Unable to teleport ".$sender->getName()." to $level");
+      $sender->sendMessage("[MW] Unable to teleport ".$sender->getName()." to $level");
     }
     return true;
   }
