@@ -61,11 +61,13 @@ class Main extends PluginBase implements CommandExecutor, Listener {
     if (!isset($this->shooters[$n])) return;
     $e->setCancelled(); // Disable it and replace it with our own
 
-    if (!$this->checkAmmo($p,true)) {
-      $p->sendMessage("You are out of grenades");
-      $p->sendMessage("RPG disarmed");
-      unset($this->shoters[$n]);
-      return;
+    if (!$p->isCreative()) {
+      if (!$this->checkAmmo($p,true)) {
+	$p->sendMessage("You are out of grenades");
+	$p->sendMessage("RPG disarmed");
+	unset($this->shoters[$n]);
+	return;
+      }
     }
 
     // $e->getBow(); // Check if damage and if below number can malfunction
@@ -102,7 +104,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	$count = $item->getCount();
 	if ($count == 1) {
 	  // The last one...
-	  $c->getInventory()->clear($slot);
+	  $p->getInventory()->clear($slot);
 	} else {
 	  $item->setCount($count-1);
 	  $p->getInventory()->setItem($slot,$item);
