@@ -30,7 +30,7 @@ class NotNormal extends Generator{
   /** @var Random */
   private $random;
   private $worldHeight = 65;
-  private $waterHeight = 63;
+  private $waterHeight = 54;
   /** @var Simplex */
   private $noiseHills;
   /** @var Simplex */
