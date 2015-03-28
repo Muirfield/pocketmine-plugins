@@ -284,6 +284,7 @@ class Main extends PluginBase implements CommandExecutor {
     if(isset($args[0])) $seed = intval($args[0]);
     if(isset($args[1])) {
       $generator = Generator::getGenerator($args[1]);
+      $sender->sendMessage("Using ".Generator::getGeneratorName($generator));
     }
     if(isset($args[2])) $options = ["preset" => $args[2] ];
     $this->getServer()->broadcastMessage("[MW] Creating level " . $level . "... (Expect Lag)");
