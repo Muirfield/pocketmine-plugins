@@ -109,6 +109,9 @@ coordinates of the player.
 Changes
 -------
 
+* 1.2.1 : Minor updates
+  * Added broadcast-tp setting.
+  * Small changes on the way ManyWorlds API is used.
 * 1.2.0 : Configurable texts
   * Sign texts can be configured.  Useful for localization.
 * 1.1.1 : Bugfix release
