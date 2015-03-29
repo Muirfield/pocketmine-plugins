@@ -85,6 +85,8 @@ Also this plugin supports the following modules:
 * spawnarmor : Initialize a player armor when they spawn.  
   I will configure a player's armor through a configurable list.  Note
   that it only does it for users without armor.
+* compasstp: When holding a compass tap the screen for 1 second, will
+  teleport you in the direciton you are facing.
 
 ### Configuration
 
@@ -112,13 +114,14 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.spawnarmor.receive: allows player to receive armor when spawning
 * gb.spawnitems.receive: allows player to receive items when spawning
 * gb.cmd.timings: show timings data
-
+* gb.compasstp.allow : allow player to use a Compass to Teleport
 
 Changes
 -------
 
 * 1.1.0 : Additional functionality
   * showtimings command
+  * Added the ability to teleport with a Compass.
   * added seearmor, seeinv and get
   * Improved the way how modules.yml is updated
   * removed un-used old code.

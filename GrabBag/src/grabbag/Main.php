@@ -574,8 +574,15 @@ class Main extends PluginBase implements CommandExecutor {
     }
     if (isset($this->config["spawn"]["items"])
 	&& array_key_exists("spawnitems",$this->modules["listener"])
-	&& $pl->hasPermission("gb.spawitems.receive")) {
+	&& $pl->hasPermission("gb.spawnitems.receive")) {
       $this->spawnItems($pl);
     }
+  }
+
+  public function canCompassTp($player) {
+    if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
+    $pl = $this->getServer()->getPlayer($player);
+    if ($pl == null) return false;
+    return $pl->hasPermission("gb.compasstp.allow");
   }
 }

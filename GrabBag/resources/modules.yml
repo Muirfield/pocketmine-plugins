@@ -7,6 +7,7 @@ listener:
     adminjoin:
     spawnitems:
     spawnarmor:
+    compasstp:
 
 commands:
     players:

@@ -53,3 +53,6 @@ permissions:
     gb.spawnitems.receive:
         default: true
         description: "allows to receive items when you spawn"
+    gb.compasstp.allow:
+        default: op
+        description: "Allow players to use Compass to Teleport"
