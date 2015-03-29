@@ -14,6 +14,19 @@ Overview
 
 A full featured MultiWorld suite
 
+Features:
+
+* Basic Multiworld Management:
+  * teleport
+  * load/unload
+  * create
+  * world info
+* Per world MOTD
+* World-protect Anti-griefing
+* PvP worlds
+* World borders
+* Player Limits on worlds
+
 Basic Usage:
 
 * /motd
@@ -86,26 +99,28 @@ World management:
 World Protect:
 
 * mw open [level]  
-  Anything is allowed on that [level].
+  Placing/destroying blocks are allowed.
 * mw lock [level]  
-  no pvp, place/destroy block is *not* allowed.  Not even ops.
+  Place/destroy block is *not* allowed.  Not even for ops.
 * mw protect [level]  
-  no pvp, place/destroy block is allowed for players in the `auth`
+  Place/destroy block is allowed for players in the `auth`
   list.  If the `auth` list is empty, players with
   `mw.world.protect.basic` permission (by default ops).
-* mw pvp [level]  
-  pvp is allowed.  place/destroy block is *not* allowed.
-* mw peace [level]  
-  pvp is *not* allowed.  Place/destroy block is allowed.
-* mw unprotect [level]  
-  All protections and the `auth` list are removed.
 * mw add [level] *player*  
   *player* is added to the `auth` list.
 * mw rm [level] *player*  
   *player* is removed from the `auth` list.
 
-Changing world protect modes is only allowed for users in the `auth`
+Also changing world protect modes is only allowed for users in the `auth`
 list or at the console.
+
+Per-world PvP:
+
+* mw pvp [level]  
+  pvp is allowed.
+* mw nopvp [level]  
+  pvp is *not* allowed.
+
 
 World Borders:
 
@@ -115,7 +130,7 @@ World Borders:
   Removes any borders for [level].
 * mw border-off [level]  
   Temporarily disables border control for you.
-* /mw border-on [level]
+* /mw border-on [level]  
   Restores border controls for you.
 
 Player Limits:
@@ -123,7 +138,6 @@ Player Limits:
 * mw limits [level] [value]  
   Sets the max number of players allow in [level].  Set to `0` or `-1`
   to remove limits.
-
 
 ### Examples:
 
@@ -149,9 +163,17 @@ In the plugin's config.yml file you can have:
 
 	settings:
 	  broadcast-tp: true
+	  player-limits: true
+	  world-border: true
+	  world-protect: true
+	  pvp-worlds: true
 
-Change `brodcast-tp` to `false` to disable the broadcast message that
-somebody teleported.
+* `broadcast-tp`: Controls broadcast message that somebody teleported.
+* `player-limits`: Enables the player limits.  Max number of players
+  in a world.
+* `world-border`: Enables creating a border around a world.
+* `world-protect`: Protects worlds from griefing.
+* `pvp-worlds`: Controls if PvP is allowed in specific worlds.
 
 ### Permission Nodes:
 
@@ -163,6 +185,7 @@ somebody teleported.
 * mw.cmd.world.protect - Allow access to protect functionality
 * mw.world.protect.basic - for worlds without auth lists controls who
   can place/destroy blocks.
+* mw.cmd.world.pvp - access to per world pvp functionality
 * mw.cmd.world.border - access to border functions
 * mw.cmd.world.limit - allow access to limit functionality
 
@@ -182,6 +205,8 @@ Issues
 
 * World names can not contain spaces.
 * Unloading a world may cause a core dump.
+* Placing a sign on worlds that do not allow placing blocks will crash
+  the MCPE client.
 
 Changes
 -------
