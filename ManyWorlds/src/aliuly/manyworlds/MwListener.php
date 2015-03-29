@@ -12,6 +12,10 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 //use pocketmine\event\player\PlayerInteractEvent; // Not used for now...
+use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\level\LevelUnloadEvent;
+
+
 
 use pocketmine\Player;
 use pocketmine\scheduler\CallbackTask;
@@ -51,6 +55,15 @@ class MwListener implements Listener {
     $level = $ev->getTarget()->getName();
     $this->showMotd($pl->getName(),$level);
   }
+
+  // Make sure configs are loaded/unloaded
+  public function onLevelLoad(LevelLoadEvent $e) {
+    $this->owner->loadWorldConfig($e->getLevel());
+  }
+  public function onLevelUnload(LevelUnloadEvent $e) {
+    $this->owner->unloadWorld($e->getLevel()->getName());
+  }
+
   //
   // World protect
   //

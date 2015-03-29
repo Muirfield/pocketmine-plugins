@@ -1,6 +1,6 @@
 main: aliuly\manyworlds\Main
 api: 1.10.0
-load: POSTWORLD
+load: STARTUP
 
 name: ManyWorlds
 description: Manage Multiple Worlds
@@ -42,10 +42,13 @@ permissions:
         description: "Allow access to protect functionality"
     mw.world.protect.basic:
         default: op
-        description: "Allow place/destroy for areas without auth list"
+        description: "Used if world.protect does not have an auth list"
     mw.cmd.world.border:
         default: op
         description: "Allow access to border functionality"
+    mw.cmd.world.pvp:
+        default: op
+        description: "Allow PvP controls"
     mw.cmd.world.limit:
         default: op
         description: "Allow access to limit functionality"
