@@ -1,6 +1,6 @@
 main: aliuly\manyworlds\Main
 api: 1.10.0
-load: STARTUP
+load: POSTWORLD
 
 name: ManyWorlds
 description: Manage Multiple Worlds
@@ -11,14 +11,12 @@ commands:
     mw:
         description: Manage worlds
         usage: "/mw <help|sub-cmd> [options]"
-    motd:
-        description: Show a level specific message of the day
-        usage: "/motd"
+        permission: mw.cmds
 
 permissions:
-    mw.motd:
+    mw.cmds:
         default: true
-        description: Allow access to motd.
+        description: "Allow all the ManyWorlds functionality"
     mw.cmd.tp:
         default: op
         description: "Allows users to travel to other worlds"
@@ -28,27 +26,9 @@ permissions:
     mw.cmd.ls:
         default: op
         description: "Allows users to list worlds"
-    mw.cmd.world.motd:
-        default: op
-        description: "Allows users to edit the motd text"
     mw.cmd.world.create:
         default: op
         description: "Allows users to create worlds"
     mw.cmd.world.load:
         default: op
         description: "Allows users to load worlds"
-    mw.cmd.world.protect:
-        default: op
-        description: "Allow access to protect functionality"
-    mw.world.protect.basic:
-        default: op
-        description: "Used if world.protect does not have an auth list"
-    mw.cmd.world.border:
-        default: op
-        description: "Allow access to border functionality"
-    mw.cmd.world.pvp:
-        default: op
-        description: "Allow PvP controls"
-    mw.cmd.world.limit:
-        default: op
-        description: "Allow access to limit functionality"

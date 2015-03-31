@@ -1,7 +1,7 @@
 ManyWorlds
 ==========
 
-* Summary: A full featured MultiWorld suite
+* Summary: Basic commands for MultiWorld functionality
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * OptionalPlugins: n/a
@@ -12,43 +12,22 @@ ManyWorlds
 Overview
 ---------
 
-A full featured MultiWorld suite
+A very basic plugin implementing MultiWorld functionality
 
 Features:
 
-* Basic Multiworld Management:
-  * teleport
-  * load/unload
-  * create
-  * world info
-* Per world MOTD
-* World-protect Anti-griefing
-* PvP worlds
-* World borders
-* Player Limits on worlds
+* teleport
+* load/unload
+* create
+* world info
 
 Basic Usage:
 
-* /motd
 * /mw tp *level* [player]
 * /mw create *level* [seed [flat|normal [preset]]]
 * /mw load *level*
 * /mw unload [-f] *level*
 * /mw ls [level]
-* /mw motd *level* [line] [text]
-* /mw open [level]
-* /mw lock [level]
-* /mw protect [level]
-* /mw pvp [level]
-* /mw peace [level]
-* /mw unprotect [level]
-* /mw add [level] *player*
-* /mw rm [level] *player*
-* /mw border [level] *x1 z1 x2 z2*
-* /mw no-border [level]
-* /mw border-off [level]
-* /mw border-on [level]
-* /mw limits
 
 Documentation
 -------------
@@ -56,21 +35,10 @@ Documentation
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
 
-It also implements a simple per-world _message of the day_ that is
-shown automatically when a player teleports to a new world.  This is
-stored in the `worlds/level` subdirectory under `motd.txt`.  You can
-edit this file directly using something like `notepad` or write the
-text using the `motd` sub-command.
-
 The teleport itself has a number of workarounds to deal with
 Client-Server glitches.  Essentially, it works for me.
 
 ### Commands:
-
-Informational:
-
-* motd  
-  Show a level specific _message of the day_ type message.
 
 Teleporting:
 
@@ -91,53 +59,6 @@ World management:
   will load all worlds.
 * mw unload *level*
   Unloads `level`.
-* mw motd *level* [line text]  
-  If only *level* is specified, it will show the `motd` message for
-  that *level*.  If `line` and `text` is specified (`text` can be
-  empty, however), it will modify that line of the `motd` message.
-
-World Protect:
-
-* mw open [level]  
-  Placing/destroying blocks are allowed.
-* mw lock [level]  
-  Place/destroy block is *not* allowed.  Not even for ops.
-* mw protect [level]  
-  Place/destroy block is allowed for players in the `auth`
-  list.  If the `auth` list is empty, players with
-  `mw.world.protect.basic` permission (by default ops).
-* mw add [level] *player*  
-  *player* is added to the `auth` list.
-* mw rm [level] *player*  
-  *player* is removed from the `auth` list.
-
-Also changing world protect modes is only allowed for users in the `auth`
-list or at the console.
-
-Per-world PvP:
-
-* mw pvp [level]  
-  pvp is allowed.
-* mw nopvp [level]  
-  pvp is *not* allowed.
-
-
-World Borders:
-
-* mw border [level] *x1 z1 x2 z2*  
-  Creates a border for [level] bounded by the x1,z1 to x2,z2 coordinates.
-* mw no-border [level]  
-  Removes any borders for [level].
-* mw border-off [level]  
-  Temporarily disables border control for you.
-* /mw border-on [level]  
-  Restores border controls for you.
-
-Player Limits:
-
-* mw limits [level] [value]  
-  Sets the max number of players allow in [level].  Set to `0` or `-1`
-  to remove limits.
 
 ### Examples:
 
@@ -163,17 +84,8 @@ In the plugin's config.yml file you can have:
 
 	settings:
 	  broadcast-tp: true
-	  player-limits: true
-	  world-border: true
-	  world-protect: true
-	  pvp-worlds: true
 
 * `broadcast-tp`: Controls broadcast message that somebody teleported.
-* `player-limits`: Enables the player limits.  Max number of players
-  in a world.
-* `world-border`: Enables creating a border around a world.
-* `world-protect`: Protects worlds from griefing.
-* `pvp-worlds`: Controls if PvP is allowed in specific worlds.
 
 ### Permission Nodes:
 
@@ -181,13 +93,6 @@ In the plugin's config.yml file you can have:
 * mw.cmd.tp.others - Allows users to make others travel to other worlds
 * mw.cmd.world.create - Allows users to create worlds
 * mw.cmd.world.load - Allows users to load worlds
-* mw.cmd.world.motd - Allow editing motd text.
-* mw.cmd.world.protect - Allow access to protect functionality
-* mw.world.protect.basic - for worlds without auth lists controls who
-  can place/destroy blocks.
-* mw.cmd.world.pvp - access to per world pvp functionality
-* mw.cmd.world.border - access to border functions
-* mw.cmd.world.limit - allow access to limit functionality
 
 FAQ
 ---
@@ -205,17 +110,13 @@ Issues
 
 * World names can not contain spaces.
 * Unloading a world may cause a core dump.
-* Placing a sign on worlds that do not allow placing blocks will crash
-  the MCPE client.
 
 Changes
 -------
 
-* 1.2.0: Extended functionality
-  * World Protect/PvP restrictions
-  * World Border
-  * World Player Limit
+* 1.2.0: Clean-ups
   * Added a setting to control if to broadcast when people teleport.
+  * Removed per-level `motd.txt`.
   * Code clean-up
   * Teleport functionality encapsulated in TeleportManager.
 * 1.1.0:
@@ -237,7 +138,7 @@ Copyright
 ---------
 
     ManyWorlds
-    Copyright (C) 2015 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify
