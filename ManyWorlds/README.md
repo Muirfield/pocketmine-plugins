@@ -119,6 +119,7 @@ Changes
   * Removed per-level `motd.txt`.
   * Code clean-up
   * Teleport functionality encapsulated in TeleportManager.
+  * Added workaround to remove TileEntities that linger on when teleporting.
 * 1.1.0:
   * Show better help messages.
   * Added world unload.  May cause core dumps.
