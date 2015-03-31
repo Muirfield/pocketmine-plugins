@@ -3,7 +3,7 @@ api: 1.10.0
 load: POSTWORLD
 
 name: GrabBag
-description: Collection of miscellaneous commands
+description: Collection of miscellaneous commands and listener modules
 version: 1.2.0
 author: aliuly
 
@@ -56,3 +56,6 @@ permissions:
     gb.compasstp.allow:
         default: op
         description: "Allow players to use Compass to Teleport"
+    gb.cmd.shield:
+        default: op
+        description: "Allow players to become invulnerable"

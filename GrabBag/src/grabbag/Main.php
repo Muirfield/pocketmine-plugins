@@ -12,6 +12,7 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
+use pocketmine\math\Vector3;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -25,10 +26,11 @@ use pocketmine\item\Item;
 
 
 class Main extends PluginBase implements CommandExecutor {
-  protected $listener;
+  protected $listeners[];
   protected $config;
   protected $modules;
   protected $slain = [];
+  protected $shield = [];
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -91,10 +93,11 @@ class Main extends PluginBase implements CommandExecutor {
     }
     return $this->paginateText($sender,$pageNumber,$txt);
   }
+  //////////////////////////////////////////////////////////////////////
+  //
   // Standard call-backs
-  public function onDisable() {
-    //$this->getLogger()->info("GrabBag Unloaded!");
-  }
+  //
+  //////////////////////////////////////////////////////////////////////
   public function onLoad() {
     @mkdir($this->getDataFolder());
 
@@ -160,15 +163,34 @@ class Main extends PluginBase implements CommandExecutor {
     if (count($pluginCmds) > 0) {
       $cmdMap = $this->getServer()->getCommandMap();
       $cmdMap->registerAll($this->getDescription()->getName(),$pluginCmds);
+      $this->getLogger()->info("Loaded ".count($pluginCmds)." command(s)");
     }
-
-    $this->getLogger()->info("GrabBag Loaded!");
   }
   public function onEnable(){
-    $this->listener = new GrabBagListener($this);
-    $this->slain = [];
+    if (array_key_exists($this->modules["listener"]["adminjoin"]))
+      $this->listeners["adminjoin"] = new AdminJoinMgr($this);
+    if (array_key_exists($this->modules["listener"]["spawnitems"])
+	|| array_key_exists($this->modules["listener"]["spawnarmor"]))
+      $this->listeners["spawnmgr"] = new SpawnMgr($this);
+    if (array_key_exists($this->modules["listener"]["compasstp"]))
+      $this->listeners["compasstp"] = new CompassTpMgr($this);
+    if (array_key_exists($this->modules["listener"]["noexplode"]))
+      $this->listeners["noexplode"] = new NoExplodeMgr($this);
+    if (array_key_exists($this->modules["commands"]["slay"]))
+      $this->listeners["cmd.slay"] = new ReaperMgr($this);
+    if (array_key_exists($this->modules["commands"]["shield"]))
+      $this->listeners["cmd.shield"] = new ShieldMgr($this);
+
+    $this->getLogger()->info("Installed ".count($this->listeners)." managers");
+
     $defaults =
       [
+       "noexplode" => [
+		       "worlds"=>[
+				  ],
+		       "spawns"=>[
+				  ],
+		       ],
        "spawn"=>[
 		 "armor"=>[
 			   "head"=>"-",
@@ -188,56 +210,47 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
-    // $this->getLogger()->info("* GrabBag Enabled!");
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
     if (!isset($this->modules["commands"][$cmd->getName()])) return false;
     switch($cmd->getName()) {
     case "ops":
-      if (!$this->access($sender,"gb.cmd.ops")) return true;
       return $this->cmdOps($sender,$args);
     case "players":
-      if (!$this->access($sender,"gb.cmd.players")) return true;
       return $this->cmdPlayers($sender,$args);
     case "as":
-      if (!$this->access($sender,"gb.cmd.sudo")) return true;
       return $this->cmdSudo($sender,$args);
     case "gms":
-      if (!$this->access($sender,"gb.cmd.gms")) return true;
       return $this->cmdGmX($sender,0);
     case "gmc":
-      if (!$this->access($sender,"gb.cmd.gmc")) return true;
       return $this->cmdGmX($sender,1);
     case "gma":
-      if (!$this->access($sender,"gb.cmd.gma")) return true;
       return $this->cmdGmX($sender,2);
     case "slay":
-      if (!$this->access($sender,"gb.cmd.slay")) return true;
       return $this->cmdSlay($sender,$args);
     case "heal":
-      if (!$this->access($sender,"gb.cmd.heal")) return true;
       return $this->cmdHeal($sender,$args);
     case "whois":
-      if (!$this->access($sender,"gb.cmd.whois")) return true;
       return $this->cmdWhois($sender,$args);
     case "showtimings":
-      if (!$this->access($sender,"gb.cmd.timings")) return true;
       return $this->cmdTimings($sender,$args);
     case "get":
-      if (!$this->access($sender,"gb.cmd.get")) return true;
       return $this->cmdGet($sender,$args);
     case "seeinv":
-      if (!$this->access($sender,"gb.cmd.seeinv")) return true;
       return $this->cmdSeeInv($sender,$args);
     case "seearmor":
-      if (!$this->access($sender,"gb.cmd.seearmor")) return true;
       return $this->cmdSeeArmor($sender,$args);
+    case "shield":
+      return $this->cmdShield($sender,$args);
     }
     return false;
   }
+  //////////////////////////////////////////////////////////////////////
+  //
   // Command implementations
-
+  //
+  //////////////////////////////////////////////////////////////////////
   private function cmdWhois(CommandSender $c,$args) {
     $pageNumber = $this->getPageNumber($args);
     if (count($args) != 1) {
@@ -295,6 +308,41 @@ class Main extends PluginBase implements CommandExecutor {
     $c->sendMessage("$args[0] was healed.");
     return true;
   }
+  private function cmdShield(CommandSender $c,$args) {
+    if (!$this->inGame($c)) return true;
+    if (count($args) > 1) return false;
+    $name = $c->getName();
+    if (count($args) == 0) {
+      if (isset($this->shield[$name])) {
+	$c->sendMessage("Shields UP!");
+      } else {
+	$c->sendMessage("Shields DOWN!");
+      }
+      return true;
+    }
+    $status = strtolower($args[0]);
+    if ($status =="on" || $status=="up" || $status=="true" || $status==1) {
+      if (isset($this->shield[$name])) {
+	$c->sendMessage("Shields are already up");
+      } else {
+	$c->sendMessage("Raising shields!");
+	$this->shield[$name] = $name;
+      }
+      return true;
+    }
+    if (!isset($this->shield[$name])) {
+      $c->sendMessage("Shields are already down");
+      return true;
+    }
+    $c->sendMessage("Lowering shields!");
+    unset($this->shield[$name]);
+    return true;
+  }
+  public function checkShield($name) {
+    if (isset($this->shield[$name])) return false;
+    return true;
+  }
+
   private function cmdSlay(CommandSender $c,$args) {
     if (!isset($args[0])) {
       $c->sendMessage("Must specify a player to slay");
@@ -513,14 +561,28 @@ class Main extends PluginBase implements CommandExecutor {
   //////////////////////////////////////////////////////////////////////
   // Event based stuff...
   //////////////////////////////////////////////////////////////////////
-  public function onPlayerJoin($player) {
-    if (!array_key_exists("adminjoin",$this->modules["listener"])) return;
+  public function canCompassTp($player) {
+    if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
     $pl = $this->getServer()->getPlayer($player);
-    if ($pl == null) return;
-    if ($pl->isOp()) {
-      $this->getServer()->broadcastMessage("Server Op ".$pl->getName()." has joined.");
-    }
+    if ($pl == null) return false;
+    return $pl->hasPermission("gb.compasstp.allow");
   }
+  public function checkNoExplode($x,$y,$z,$level) {
+    if (!array_key_exists("compasstp",$this->modules["noexplode"])) return true;
+    if (array_key_exists($this->config["noexplode"]["worlds"][$level]))
+      return false;
+    if (!array_key_exists($this->config["noexplode"]["spawns"][$level]))
+      return true;
+    $lv = $this->getServer()->getLevelByName($level);
+    if (!$lv) return true;
+    $sp = $lv->getSpawnLocation();
+    $dist = $sp->distance(new Vector3($x,$y,$z));
+    if ($dist < $this->getServer()->getSpawnRadius()) {
+      return false;
+    }
+    return true;
+  }
+
   private function spawnArmor($pl) {
     if ($pl->isCreative()) return;
     foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
@@ -579,10 +641,4 @@ class Main extends PluginBase implements CommandExecutor {
     }
   }
 
-  public function canCompassTp($player) {
-    if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
-    $pl = $this->getServer()->getPlayer($player);
-    if ($pl == null) return false;
-    return $pl->hasPermission("gb.compasstp.allow");
-  }
 }

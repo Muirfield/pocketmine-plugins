@@ -33,6 +33,7 @@ Basic Usage:
 * seearmor - show player's armor
 * seeinv - show player's inventory
 * get - obtain an item
+* shield [up|down] - Protect a player
 
 Documentation
 -------------
@@ -72,6 +73,8 @@ plugins.
 * *get* *item[:damage]* _[amount]_  
   Obtain an *item*.  When the item name contain spaces in the name,
   use `_` instead.
+* *shield* _[up|down]_  
+  Show shield status.  Or raise/lower shields.
 
 ### Listener Modules
 

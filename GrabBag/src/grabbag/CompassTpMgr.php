@@ -3,16 +3,12 @@ namespace grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\scheduler\CallbackTask;
-
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 
-class GrabBagListener implements Listener {
+class CompassTpMgr implements Listener {
   public $owner;
   public function __construct(Plugin $plugin) {
     $this->owner = $plugin;
@@ -23,7 +19,6 @@ class GrabBagListener implements Listener {
     if (!$pl) return;
     $pl->teleport(new Vector3($x,$y,$z));
   }
-
   public function onPlayerInteract(PlayerInteractEvent $e) {
     // Implement the CompassTP thingie...
     $pl = $e->getPlayer();
@@ -65,20 +60,6 @@ class GrabBagListener implements Listener {
       $z = (($pos->getZ()-$start->getZ())*$f/$m)+$start->getZ();
       $c = new CallbackTask([$this,"delayedTP"],[$pl->getName(),$x,$y,$z]);
       $this->owner->getServer()->getScheduler()->scheduleDelayedTask($c,$ticks);
-    }
-  }
-  public function onPlayerJoin(PlayerJoinEvent $e) {
-    $task =new CallbackTask([$this->owner,"onPlayerJoin"],
-			    [$e->getPlayer()->getName()]);
-    $this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,20);
-  }
-  public function onRespawn(PlayerRespawnEvent $e) {
-    $this->owner->respawnPlayer($e->getPlayer()->getName());
-  }
-  public function onPlayerDeath(PlayerDeathEvent $e) {
-    $name = $e->getEntity()->getName();
-    if (($msg = $this->owner->onPlayerDeath($name)) != "") {
-      $e->setDeathMessage($msg);
     }
   }
 }

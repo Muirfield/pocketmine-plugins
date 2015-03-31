@@ -8,44 +8,63 @@ listener:
     spawnitems:
     spawnarmor:
     compasstp:
+    noexplode:
 
 commands:
     players:
         description: show players connected and locations
         usage: "/players"
+        aliases: [w,who]
+        permission: gb.cmd.players
     ops:
         description: show ops and their on-line status
         usage: "/ops"
+        permission: gb.cmd.ops
     as:
         description: execute a command as somebody else
         usage: "/as <player> [cmd]"
+        permission: gb.cmd.sudo
     gmc:
         description: switch gamemode to creative
         usage: "/gmc"
+        permission: gb.cmd.gmc
     gms:
         description: switch gamemode to creative
         usage: "/gms"
+        permission: gb.cmd.gms
     gma:
         description: switch gamemode to adventure
         usage: "/gma"
+        permission: gb.cmd.gma
     slay:
         description: kill a player
         usage: "/slay <player> [message]"
+        permission: gb.cmd.slay
     heal:
         description: Heal player
         usage: "/heal <player> [amount]"
+        permission: gb.cmd.heal
     whois:
         description: Show player info
         usage: "/whois <player>"
+        permission: gb.cmd.whois
     showtimings:
         description: Show timings data (see /timings)
         usage: "/showtimings"
+        permission: gb.cmd.timings
     seeinv:
-        description: 
+        description:
         usage: "/seeinv <player>"
+        permission: gb.cmd.seeinv
     seearmor:
         description:
         usage: "/seearmor <player>"
+        permission: gb.cmd.seearmor
     get:
-        description:
+        description: Shortcut to /give me something functionality
         usage: "/get <item[:damage]> [amount]"
+        permission: gb.cmd.get
+    shield:
+        description: Make the player invulnerable
+        usage: "/shield [on|off]"
+        permission: gb.cmd.shield
