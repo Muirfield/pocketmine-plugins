@@ -19,11 +19,8 @@ Repository for my PocketMine plugins
 ## Development
 
 * Commander - test and dev
-* LocalChat - chats are localized, is you are far away we can't hear
-  you.
 * NotNormal - a terrain generator.
 * NotSoFlat - to be deleted
-* RunePvP - ruinpvp improved
 
 ## Available Tools
 
