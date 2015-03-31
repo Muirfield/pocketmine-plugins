@@ -22,6 +22,6 @@ class AdminJoinMgr implements Listener {
     $this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,self::$delay);
   }
   public function announceOp($pn) {
-    $this->owner->getServer()->broadcastMsg("Server op $pn joined");
+    $this->owner->getServer()->broadcastMessage("Server op $pn joined");
   }
 }

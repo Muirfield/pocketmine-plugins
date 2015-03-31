@@ -14,7 +14,7 @@ commands:
     players:
         description: show players connected and locations
         usage: "/players"
-        aliases: [w,who]
+        aliases: [who]
         permission: gb.cmd.players
     ops:
         description: show ops and their on-line status

@@ -4,6 +4,8 @@ namespace grabbag;
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\Player;
 
 class ShieldMgr implements Listener {
   public $owner;

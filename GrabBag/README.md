@@ -90,10 +90,42 @@ Also this plugin supports the following modules:
   that it only does it for users without armor.
 * compasstp: When holding a compass tap the screen for 1 second, will
   teleport you in the direciton you are facing.
+* noexplode: Prevent explosions in specified worlds.
 
 ### Configuration
 
-You can configure the `spawnitems` and `spawnarmor` modules from `config.yml`.
+Configuration is through the `config.yml` file:
+
+	---
+	noexplode:
+	  worlds:
+	    other_world:
+	    safe_world:
+	  spawns:
+	    world:
+	spawn:
+	  armor:
+	    head: '-'
+	    body: chainmail
+	    legs: leather
+	    boots: leather
+	  items:
+	  - "272:0:1"
+	  - "17:0:16"
+	  - "364:0:5"
+	...
+
+Under `noexplode` you can list the worlds where explosions will be
+prevented.  There are *two* lists.  In the list `worlds`, explosions
+will be stopped everywhere.  In the list `spawns`, explosions will
+*only* be stopped around the *spawn* location up to the distance of
+`spawn-protection` in `server.properties`.
+
+The `spawn` section contains two lists:
+
+* `armor`: defines the list of armor that players will spawn with.
+* `items`: lists the `item_id`:`damage`:`count` for initial items that
+  will be placed in the players inventory at spawn time.
 
 ### Activating/De-activating modules
 
@@ -118,6 +150,7 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.spawnitems.receive: allows player to receive items when spawning
 * gb.cmd.timings: show timings data
 * gb.compasstp.allow : allow player to use a Compass to Teleport
+* gn.cmd.shield: Allow players to become invulnerable
 
 Changes
 -------
@@ -127,7 +160,9 @@ Changes
   * Added the ability to teleport with a Compass.
   * added seearmor, seeinv and get
   * Improved the way how modules.yml is updated
-  * removed un-used old code.
+  * added shield command
+  * added noexplosion module
+  * removed un-used old code/re-organized code.
 * 1.0.0 : First public release
 
 Copyright

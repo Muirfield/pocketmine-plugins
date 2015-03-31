@@ -4,6 +4,7 @@ namespace grabbag;
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityExplodeEvent;
+use pocketmine\utils\TextFormat;
 
 class NoExplodeMgr implements Listener {
   public $owner;
@@ -12,6 +13,7 @@ class NoExplodeMgr implements Listener {
     $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
   }
   public function onExplode(EntityExplodeEvent $ev){
+    //echo __METHOD__.",".__LINE__."\n";
     $et = $ev->getEntity();
     if ($this->owner->checkNoExplode($et->getX(),$et->getY(),$et->getZ(),
 				     $et->getLevel()->getName())) return;

@@ -26,11 +26,12 @@ use pocketmine\item\Item;
 
 
 class Main extends PluginBase implements CommandExecutor {
-  protected $listeners[];
+  protected $listeners = [];
   protected $config;
   protected $modules;
   protected $slain = [];
   protected $shield = [];
+  static $items = [];
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -43,7 +44,21 @@ class Main extends PluginBase implements CommandExecutor {
     if ($msg) $sender->sendMessage("You can only use this command in-game");
     return false;
   }
-
+  public function itemName(Item $item) {
+    if (count(self::$items) == 0) {
+      $constants = array_keys((new \ReflectionClass("pocketmine\\item\\Item"))->getConstants());
+      foreach ($constants as $constant) {
+	$id = constant("pocketmine\\item\\Item::$constant");
+	$constant = str_replace("_", " ", $constant);
+	self::$items[$id] = $constant;
+      }
+    }
+    $n = $item->getName();
+    if ($n != "Unknown") return $n;
+    if (isset(self::$items[$item->getId()]))
+      return self::$items[$item->getId()];
+    return $n;
+  }
   // Paginate output
   private function getPageNumber(array &$args) {
     $pageNumber = 1;
@@ -120,6 +135,12 @@ class Main extends PluginBase implements CommandExecutor {
 	$this->getLogger()->info(TextFormat::RED."modules-dist.yml has been updated".TextFormat::RESET);
 	$this->getLogger()->info(TextFormat::GREEN."Review your modules.yml to activate new features".TextFormat::RESET);
       }
+    } else {
+      if ($active == "") {
+	// Special case... user deleted modules.yml...
+	file_put_contents($modcfg,$next);
+	$this->getLogger()->info(TextFormat::GREEN."modules.yml initialized with defaults".TextFormat::RESET);
+      }
     }
     $this->modules =(new Config($this->getDataFolder()."modules.yml",
 				Config::YAML,[]))->getAll();
@@ -167,18 +188,18 @@ class Main extends PluginBase implements CommandExecutor {
     }
   }
   public function onEnable(){
-    if (array_key_exists($this->modules["listener"]["adminjoin"]))
+    if (array_key_exists("adminjoin",$this->modules["listener"]))
       $this->listeners["adminjoin"] = new AdminJoinMgr($this);
-    if (array_key_exists($this->modules["listener"]["spawnitems"])
-	|| array_key_exists($this->modules["listener"]["spawnarmor"]))
+    if (array_key_exists("spawnitems",$this->modules["listener"])
+	|| array_key_exists("spawnarmor",$this->modules["listener"]))
       $this->listeners["spawnmgr"] = new SpawnMgr($this);
-    if (array_key_exists($this->modules["listener"]["compasstp"]))
+    if (array_key_exists("compasstp",$this->modules["listener"]))
       $this->listeners["compasstp"] = new CompassTpMgr($this);
-    if (array_key_exists($this->modules["listener"]["noexplode"]))
+    if (array_key_exists("noexplode",$this->modules["listener"]))
       $this->listeners["noexplode"] = new NoExplodeMgr($this);
-    if (array_key_exists($this->modules["commands"]["slay"]))
+    if (array_key_exists("slay",$this->modules["commands"]))
       $this->listeners["cmd.slay"] = new ReaperMgr($this);
-    if (array_key_exists($this->modules["commands"]["shield"]))
+    if (array_key_exists("shield",$this->modules["commands"]))
       $this->listeners["cmd.shield"] = new ShieldMgr($this);
 
     $this->getLogger()->info("Installed ".count($this->listeners)." managers");
@@ -210,6 +231,13 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
+    if (!isset($this->config["noexplode"])) $this->config["noexplode"]=[];
+    if (!isset($this->config["noexplode"]["worlds"]))
+      $this->config["noexplode"]["worlds"]=[];
+    if (!isset($this->config["noexplode"]["spawns"]))
+      $this->config["noexplode"]["spawns"]=[];
+
+    print_r($this->config["noexplode"]);
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
@@ -283,6 +311,11 @@ class Main extends PluginBase implements CommandExecutor {
       . $target->getDisplayName().TextFormat::RESET;
     $txt[] = TextFormat::GREEN."Flying: ".TextFormat::WHITE
       . ($target->isOnGround() ? "NO" : "YES").TextFormat::RESET;
+
+    if (isset($this->modules["commands"]["shield"])) {
+      $txt[] = TextFormat::GREEN."Shield: ".TextFormat::WHITE
+	. (isset($this->shield[$target->getName()]) ? "UP" : "DOWN").TextFormat::RESET;
+    }
     return $this->paginateText($c,$pageNumber,$txt);
   }
 
@@ -530,7 +563,7 @@ class Main extends PluginBase implements CommandExecutor {
       $item = $target->getInventory()->getArmorItem($slot);
       if ($item->getID() == 0) continue;
       $tab[]=[$attr.TextFormat::BLUE,
-	      $item->getName()." (" .$item->getId().":".$item->getDamage().")"];
+	      $this->itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
     }
     return $this->paginateTable($c,$pageNumber,$tab);
   }
@@ -549,7 +582,7 @@ class Main extends PluginBase implements CommandExecutor {
     $max = $target->getInventory()->getSize();
     foreach ($target->getInventory()->getContents() as $slot => &$item) {
       if ($slot >= $max) continue;
-      $tab[] = [$item->getName()." (".$item->getId().")",
+      $tab[] = [$this->itemName($item)." (".$item->getId().")",
 		$item->getCount(),$item->getDamage() ];
     }
     if (count($tab) == 1) {
@@ -568,10 +601,10 @@ class Main extends PluginBase implements CommandExecutor {
     return $pl->hasPermission("gb.compasstp.allow");
   }
   public function checkNoExplode($x,$y,$z,$level) {
-    if (!array_key_exists("compasstp",$this->modules["noexplode"])) return true;
-    if (array_key_exists($this->config["noexplode"]["worlds"][$level]))
+    if (!array_key_exists("noexplode",$this->modules["listener"])) return false;
+    if (array_key_exists($level,$this->config["noexplode"]["worlds"]))
       return false;
-    if (!array_key_exists($this->config["noexplode"]["spawns"][$level]))
+    if (!array_key_exists($level,$this->config["noexplode"]["spawns"]))
       return true;
     $lv = $this->getServer()->getLevelByName($level);
     if (!$lv) return true;
@@ -585,6 +618,7 @@ class Main extends PluginBase implements CommandExecutor {
 
   private function spawnArmor($pl) {
     if ($pl->isCreative()) return;
+
     foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
       if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
       if (!isset($this->config["spawn"]["armor"][$attr])) continue;
@@ -602,6 +636,7 @@ class Main extends PluginBase implements CommandExecutor {
       } else {
 	continue;
       }
+      //echo "slot=$slot($attr) type=$type ".($type+$slot)."\n";
       $pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
     }
   }
@@ -629,16 +664,15 @@ class Main extends PluginBase implements CommandExecutor {
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return;
     if (!isset($this->config["spawn"])) return;
-    if (isset($this->config["spawn"]["armor"])
-	&& array_key_exists("spawnarmor",$this->modules["listener"])
-	&& $pl->hasPermission("gb.spawnarmor.receive")) {
-      $this->spawnArmor($pl);
-    }
     if (isset($this->config["spawn"]["items"])
 	&& array_key_exists("spawnitems",$this->modules["listener"])
 	&& $pl->hasPermission("gb.spawnitems.receive")) {
       $this->spawnItems($pl);
     }
+    if (isset($this->config["spawn"]["armor"])
+	&& array_key_exists("spawnarmor",$this->modules["listener"])
+	&& $pl->hasPermission("gb.spawnarmor.receive")) {
+      $this->spawnArmor($pl);
+    }
   }
-
 }
