@@ -9,12 +9,12 @@ description: Animates Zombies
 
 commands:
     voodoo:
-        description: Debug
+        description: Spawn more zombies
         usage: "/voodoo"
         permission: voodo.cmd
         aliases: [v]
 
 permissions:
     voodo.cmd:
-        default: true
+        default: op
         description: Allow access to voodo

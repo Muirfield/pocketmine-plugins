@@ -7,10 +7,21 @@ use pocketmine\entity\Zombie;
 use pocketmine\math\Vector3;
 use pocketmine\event\entity\EntityDamageEvent;
 
+// Used for spawning zombies
+use pocketmine\Player;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\entity\Entity;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Float;
+use pocketmine\utils\Random;
+use pocketmine\level\Position;
+
 
 //class Main extends PluginBase implements Listener {
 class Main extends PluginBase implements Listener,CommandExecutor {
@@ -55,6 +66,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	  $ent->setRotation($newYaw,$newPitch);
 
 	  //echo "Approaching ".$pl->getName()."\n";
+	  //$ent->setMotion($dir);
 	  $dir = $dir->multiply($this->speed);
 	  //echo "DIRVECTOR: ".$dir->distance(new Vector3(0,0,0))."\n";
 
@@ -66,16 +78,59 @@ class Main extends PluginBase implements Listener,CommandExecutor {
   }
   public function onEnable(){
     $this->range = 32;
-    $this->speed = 0.2;
+    $this->speed = 0.4;
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->getServer()->getScheduler()->scheduleRepeatingTask(new UpdateTask($this),30);
   }
   // DEBUG
+  private function inGame(CommandSender $sender,$msg = true) {
+    if ($sender instanceof Player) return true;
+    if ($msg) $sender->sendMessage("You can only use this command in-game");
+    return false;
+  }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
-    if (isset($args[0]) && $args[0] == "spawn") {
+    if (!$this->inGame($sender)) return true;
+    try {
+      $bl = $sender->getTargetBlock(100,[0,8,9,10,11]);
+    } catch(\Exception $e) {
+      if(\pocketmine\DEBUG > 1){
+	$this->getLogger()->alert("TargetBlock error!");
+      }
+      $sender->sendMessage("Unable to find a suitable block to spawn zombie");
       return true;
     }
 
+    if ($bl === null) {
+      $sender->sendMessage("You must be pointing at some ground");
+      return true;
+    }
+    $mot = (new Random())->nextSignedFloat() * M_PI * 2;
+    $pos = new Position($bl->getX(),$bl->getY()+5,$bl->getZ(),$sender->getLevel());
+    $nbt =
+      new Compound("",
+		   [
+		    "Pos"=>new Enum("Pos",[
+					   new Double("",$pos->x+0.5),
+					   new Double("",$pos->y),
+					   new Double("",$pos->z+0.5)
+					   ]),
+		    "Motion"=>new Enum("Motion",[
+						 new Double("",-sin($mot)*0.02),
+						 new Double("", 0.2),
+						 new Double("",-cos($mot)*0.02)
+						 ]),
+		    "Rotation" => new Enum("Rotation", [
+							new Float("", 0),
+							new Float("", 0)
+							]),
+		    // IsVillager Byte
+		    // IsBaby Byte
+		    // ConversionTime Int
+		    //"CanBreakDoors" => new Byte("CanBreakDoors", 0),
+		    ]);
+    $entity = Entity::createEntity("Zombie", $pos->getLevel()->getChunk($pos->x >> 4, $pos->z >> 4),$nbt);
+    $entity->namedtag->setName("VoodooZombie");
+    $entity->spawnToAll();
     return true;
   }
 }

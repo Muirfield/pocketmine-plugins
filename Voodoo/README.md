@@ -26,6 +26,9 @@ AI.  The zombies will approach the closest player within range (32
 blocks away) and attack them.  It simply follows a straight line to
 the player so it will *not* avoid obstacles.
 
+### Todo
+
+* Make it ignore players in creative...
 
 ### Issues
 
@@ -38,6 +41,8 @@ the player so it will *not* avoid obstacles.
 Changes
 -------
 
+* 0.2.0 : Testing
+  * Added command to spawn zombies
 * 0.1.0 : First release
 
 Copyright
