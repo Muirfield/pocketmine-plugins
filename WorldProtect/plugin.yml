@@ -1,0 +1,49 @@
+main: aliuly\worldprotect\Main
+api: [1.10.0]
+load: STARTUP
+softdepend: [ManyWorlds]
+
+name: WorldProtect
+description: protect worlds from griefers, pvp, limits and borders
+version: 1.0.0pre
+author: aliuly
+
+commands:
+    worldprotect:
+        description: Manage worlds
+        usage: "/wp <help|sub-cmd> [options]"
+        permission: wp.cmd.all
+        aliases: [wp]
+    motd:
+        description: Show the world's message of the day
+        usage: "/motd [world]"
+        permission: wp.motd
+
+permissions:
+    wp.motd:
+        default: true
+        description: "Display MOTD"
+    wp.cmd.all:
+        default: op
+        description: "Allow access to protect command"
+    wp.cmd.protect:
+        default: op
+        description: "Change protect mode"
+    wp.cmd.protect.auth:
+        default: op
+        description: "Permit place/destroy in protected worlds"
+    wp.cmd.border:
+        default: op
+        description: "Allow contfol of border functionality"
+    wp.cmd.pvp:
+        default: op
+        description: "Allow PvP controls"
+    wp.cmd.limit:
+        default: op
+        description: "Allow control to limit functionality"
+    wp.cmd.wpmotd:
+        default: op
+        description: "Allow editing the motd"
+    wp.cmd.addrm:
+        default: op
+        description: "Allow modifying the auth list"
