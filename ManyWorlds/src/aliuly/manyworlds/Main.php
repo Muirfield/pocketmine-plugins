@@ -430,7 +430,7 @@ class Main extends PluginBase implements CommandExecutor {
   }
   public function _getMaxPlayers($level) { return 0; }
   public function maxPlayers1st($level) {
-    $fn = "getMaxPlayers";
+    $fn = "getPlayerLimit";
     foreach ($this->getServer()->getPluginManager()->getPlugins() as $p) {
       if ($p->isDisabled()) continue;
       if (is_callable([$p,$fn])) {

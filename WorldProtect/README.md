@@ -53,6 +53,10 @@ It is able to:
   what is allowed (or not allowed) in specific worlds.  For example
   you could warn players when they are entering a PvP world.
 
+Note that limiting players in a world is only supported by
+[ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
+and any plugin that uses ManyWorlds teleport functionality.
+
 ### Commands:
 
 Informational:

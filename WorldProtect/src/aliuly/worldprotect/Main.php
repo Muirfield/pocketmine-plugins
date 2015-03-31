@@ -597,7 +597,7 @@ class Main extends PluginBase implements CommandExecutor {
   // ManyWorlds entry points
   //
   //////////////////////////////////////////////////////////////////////
-  public function getMaxPlayers($level) {
+  public function getPlayerLimit($level) {
     if (!isset($this->wcfg[$level])) return 0;
     if (!isset($this->wcfg[$level]["max-players"])) return 0;
     return $this->wcfg[$level]["max-players"];
