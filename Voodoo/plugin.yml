@@ -1,0 +1,20 @@
+name: Voodoo
+main: aliuly\voodoo\Main
+version: 0.1.0
+api: [1.6.0]
+load: POSTWORLD
+
+author: Alejandro Liu
+description: Animates Zombies
+
+commands:
+    voodoo:
+        description: Debug
+        usage: "/voodoo"
+        permission: voodo.cmd
+        aliases: [v]
+
+permissions:
+    voodo.cmd:
+        default: true
+        description: Allow access to voodo
