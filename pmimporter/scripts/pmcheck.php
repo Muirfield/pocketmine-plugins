@@ -85,8 +85,12 @@ function analyze_chunk(Chunk $chunk,&$stats) {
   }
   foreach ($chunk->getEntities() as $entity) {
     if (!isset($entity->id)) continue;
+    if ($entity->id->getValue() == "Item") {
+      incr($stats,"ENTITY:Item:".$entity->Item->id->getValue());
+      continue;
+    }
     incr($stats,"ENTITY:".$entity->id->getValue());
-    //print_r($entity);
+
   }
   foreach ($chunk->getTileEntities() as $tile) {
     if (!isset($tile->id)) continue;
