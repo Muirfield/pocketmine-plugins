@@ -251,12 +251,8 @@ class Main extends PluginBase implements Listener {
     switch ($cmd->getName()) {
     case "xyz":
       if ($sender instanceof Player) {
-	if ($sender->hasPermission("signwarp.cmd.xyz")) {
-	  $pos = $sender->getPosition();
-	  $sender->sendMessage("You are at ".intval($pos->getX()).",".intval($pos->getY()).",".intval($pos->getZ()));
-	} else {
-	  $sender->sendMessage("[SignWarp] You do not have permission to do that.");
-	}
+	$pos = $sender->getPosition();
+	$sender->sendMessage("You are at ".intval($pos->getX()).",".intval($pos->getY()).",".intval($pos->getZ()));
       } else {
 	$sender->sendMessage("[SignWarp] This command may only be used in-game");
       }
