@@ -237,7 +237,7 @@ class Main extends PluginBase implements CommandExecutor {
     if (!isset($this->config["noexplode"]["spawns"]))
       $this->config["noexplode"]["spawns"]=[];
 
-    print_r($this->config["noexplode"]);
+    //print_r($this->config["noexplode"]);
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
