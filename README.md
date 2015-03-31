@@ -6,15 +6,30 @@ Repository for my PocketMine plugins
 ## Available Plugins
 
 * NotSoFlat - *Outdated*!
-* ImportMap - Imports maps into PocketMine-MP.
 * ManyWorlds - a multiple world implementation.
 * SignWarp - A sign based teleport facility.
-* GrabBag - My personal collection of commands.
+
+## Preparing release
+
+* GrabBag - My personal collection of commands and listener modules.
+* Scorched - Major world destruction
+* Voodoo - Animate zombies
+* WorldProtect - Anti-griefing and per world pvp.
+
+## Development
+
+* Commander - test and dev
+* LocalChat - chats are localized, is you are far away we can't hear
+  you.
+* NotNormal - a terrain generator.
+* NotSoFlat - to be deleted
+* RunePvP - ruinpvp improved
 
 ## Available Tools
 
 * rcon - An rcon client.
 * pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
+    * ImportMap - Imports maps into PocketMine-MP.
 
 Copyright
 =========
@@ -80,13 +95,14 @@ To-do
   - Always specify corners and merge
 * Local chat.  Chat only works around you
 * GrabBag: Interact peacefully
-  - No Explode
+  - CompassTP : Use fast move?
+  * Frost/Defrost
+* Player Interact
   - Protect (player are not PvP)
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)
   - if holding compass/clock/food/string/feather/seeds (never)
-  - CompassTP : Use fast move?
-  * Frost/Defrost
+
 * Add a Snowball/Egg or something and use it as football..
 
 * PMScript:
