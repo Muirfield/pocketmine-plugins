@@ -312,7 +312,8 @@ Issues and Bugs
 Changes
 ------
 
-* 1.4: Un-released
+* 1.4: Maintenance release
+  * Added pmentity to dump entity data
   * Added region settings to MCPE0.2.0 and PMF1.3 formats.
   * Fixed offset functionality.
   * Filter out Dropped Item entities.
