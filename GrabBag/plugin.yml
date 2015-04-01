@@ -3,8 +3,8 @@ api: 1.10.0
 load: POSTWORLD
 
 name: GrabBag
-description: Collection of miscellaneous commands
-version: 1.0.0
+description: Collection of miscellaneous commands and listener modules
+version: 1.2.0
 author: aliuly
 
 permissions:
@@ -35,9 +35,27 @@ permissions:
     gb.cmd.whois:
         default: op
         description: "Show player details"
+    gb.cmd.timings:
+        default: op
+        description: "Show timings data"
+    gb.cmd.seearmor:
+        default: op
+        description: "Show player's armor"
+    gb.cmd.seeinv:
+        default: op
+        description: "Show player's inventory"
+    gb.cmd.get:
+        default: op
+        description: "Get blocks"
     gb.spawnarmor.receive:
         default: true
         description: "allows to receive armor when you spawn"
     gb.spawnitems.receive:
         default: true
         description: "allows to receive items when you spawn"
+    gb.compasstp.allow:
+        default: op
+        description: "Allow players to use Compass to Teleport"
+    gb.cmd.shield:
+        default: op
+        description: "Allow players to become invulnerable"

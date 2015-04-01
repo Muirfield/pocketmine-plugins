@@ -12,7 +12,14 @@ ManyWorlds
 Overview
 ---------
 
-A very basic Plugin implementing Multiworld functionality.
+A very basic plugin implementing MultiWorld functionality
+
+Features:
+
+* teleport
+* load/unload
+* create
+* world info
 
 Basic Usage:
 
@@ -21,8 +28,6 @@ Basic Usage:
 * /mw load *level*
 * /mw unload [-f] *level*
 * /mw ls [level]
-* /mw motd *level* [line] [text]
-* /motd
 
 Documentation
 -------------
@@ -30,22 +35,22 @@ Documentation
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
 
-It also implements a simple per-world _message of the day_ that is
-shown automatically when a player teleports to a new world.  This is
-stored in the `worlds/level` subdirectory under `motd.txt`.  You can
-edit this file directly using something like `notepad` or write the
-text using the `motd` sub-command.
-
 The teleport itself has a number of workarounds to deal with
 Client-Server glitches.  Essentially, it works for me.
 
 ### Commands:
 
-* motd  
-  Show a level specific _message of the day_ type message.
+Teleporting:
+
 * mw tp *level* [player]  
   Teleports `player` to `level`.  If no `player` is specified, it
   teleports the current user.
+* mw ls [level]  
+  If `level` is not specified, it will list all available worlds.  If
+  `level` is specified, it will provide details on that `level`.
+
+World management:
+
 * mw create *level* [seed] [flat|normal] [preset]  
   Creates a world named `level`.  You can optionally specify a `seed`
   as number, the generator (`flat` or `normal`) and a `preset` string.
@@ -54,13 +59,6 @@ Client-Server glitches.  Essentially, it works for me.
   will load all worlds.
 * mw unload *level*
   Unloads `level`.
-* mw ls [level]  
-  If `level` is not specified, it will list all available worlds.  If
-  `level` is specified, it will provide details on that `level`.
-* mw motd *level* [line text]  
-  If only *level* is specified, it will show the `motd` message for
-  that *level*.  If `line` and `text` is specified (`text` can be
-  empty, however), it will modify that line of the `motd` message.
 
 ### Examples:
 
@@ -80,13 +78,21 @@ Teleport a player to another world:
 
     /mw tp flatland joshua
 
+### Configuration
+
+In the plugin's config.yml file you can have:
+
+	settings:
+	  broadcast-tp: true
+
+* `broadcast-tp`: Controls broadcast message that somebody teleported.
+
 ### Permission Nodes:
 
 * mw.cmd.tp - Allows users to travel to other worlds
 * mw.cmd.tp.others - Allows users to make others travel to other worlds
 * mw.cmd.world.create - Allows users to create worlds
 * mw.cmd.world.load - Allows users to load worlds
-* mw.cmd.world.motd - Allow editing motd text.
 
 FAQ
 ---
@@ -108,10 +114,16 @@ Issues
 Changes
 -------
 
+* 1.2.0: Clean-ups
+  * Added a setting to control if to broadcast when people teleport.
+  * Removed per-level `motd.txt`.
+  * Code clean-up
+  * Teleport functionality encapsulated in TeleportManager.
+  * Added workaround to remove TileEntities that linger on when teleporting.
 * 1.1.0:
   * Show better help messages.
   * Added world unload.  May cause core dumps.
-  * `ls` sub-command imporvements:
+  * `ls` sub-command improvements:
     * paginated output
     * show number of players, autoloading and default status.
   * Per-level `motd.txt`.  Worlds can contain a small `motd.txt` text
@@ -127,7 +139,7 @@ Copyright
 ---------
 
     ManyWorlds
-    Copyright (C) 2015 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify

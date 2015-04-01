@@ -61,6 +61,7 @@ abstract class Copier {
     foreach ($src->getEntities() as $entity) {
       if (!isset($entity->id)) continue;
       if (Entities::getId($entity->id->getValue()) === null) continue;
+      if (Entities::getId($entity->id->getValue()) == "Item") continue;
       $copy = clone $entity;
       if ($offset != 0 && isset($copy->Pos)) {
 	$copy->Pos[1] = new Double("",$copy->Pos[1]-$offset);

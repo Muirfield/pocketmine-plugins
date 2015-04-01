@@ -77,6 +77,7 @@ coordinates of the player.
 	# Example config.yml
 	settings:
 	  dynamic-updates: 1
+	  broadcast-tp: 1
 	text:
 	  world:
 	  - '[WORLD]'
@@ -93,6 +94,8 @@ coordinates of the player.
 * dynamic-updates: 1 or 0  
   If enabled, signs will be updated with the number of players in a
   particular world.
+* broadcast-tp: 1 or 0  
+  If enabled, teleports will be broadcast to all players.
 * world:  
   List of texts to use for `[WORLD]` teleport signs.
 * warp:  
@@ -109,6 +112,9 @@ coordinates of the player.
 Changes
 -------
 
+* 1.2.1 : Minor updates
+  * Added broadcast-tp setting.
+  * Small changes on the way ManyWorlds API is used.
 * 1.2.0 : Configurable texts
   * Sign texts can be configured.  Useful for localization.
 * 1.1.1 : Bugfix release

@@ -297,22 +297,25 @@ Issues and Bugs
 ---------------
 
 * Performance is quite poor.  It takes me 5 minutes to process a small
-  map on Linux.
+  map on Linux.  Large maps can easily take days.
 * The only target format implemented is McRegion.
 * Anvil maps are silently truncated to be less than 128 blocks high.  
   The PocketMine-MP core API only support Y dimensions for 0 to 127.
 * PMF v1.3 maps do not provide valid Entity data so it is ignored.
-* Entity data is converted but it is a bit dodgy.  This also has to do
-  with the fact that PocketMine itself has incomplete Entity support,
-  so I can not properly test those maps.
+* Entity data is a bit dodgy:
+  * Dropped items are currently *not* copied.  They sometimes crash the
+    client.
+  * PocketMine itself has incomplete Entity support, so things are
+    copied but are usually ignored by PocketMine.
 * Conversion table could be better.  I am open to suggestions.
 
 Changes
 ------
 
-* ???:
+* 1.4: Un-released
   * Added region settings to MCPE0.2.0 and PMF1.3 formats.
   * Fixed offset functionality.
+  * Filter out Dropped Item entities.
 * 1.3: OldSkool fixes
   * Added support for Tiles to PMF maps.
   * Added support for Tiles and Entities fo MCPE 0.2.0 maps.

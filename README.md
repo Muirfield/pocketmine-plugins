@@ -6,15 +6,27 @@ Repository for my PocketMine plugins
 ## Available Plugins
 
 * NotSoFlat - *Outdated*!
-* ImportMap - Imports maps into PocketMine-MP.
 * ManyWorlds - a multiple world implementation.
 * SignWarp - A sign based teleport facility.
-* GrabBag - My personal collection of commands.
+
+## Preparing release
+
+* GrabBag - My personal collection of commands and listener modules.
+* Scorched - Major world destruction
+* Voodoo - Animate zombies
+* WorldProtect - Anti-griefing and per world pvp.
+
+## Development
+
+* Commander - test and dev
+* NotNormal - a terrain generator.
+* NotSoFlat - to be deleted
 
 ## Available Tools
 
 * rcon - An rcon client.
 * pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
+    * ImportMap - Imports maps into PocketMine-MP.
 
 Copyright
 =========
@@ -72,12 +84,31 @@ Git Recipes
 To-do
 -----
 
-* Create a Generator based of flat that creates infinite maze
-* Port the Minetest Map Generator
 * Add Shift regions option to Copier.php
+* ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
+  API
 * pmimporter: merge chunks ... by selecting square regions and offsets
   - limit this at region|chunk resolution.
   - Always specify corners and merge
-* ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO API
-* Frost/Defrost
-* Localize SignWarp
+* Local chat.  Chat only works around you
+* GrabBag: Interact peacefully
+  - CompassTP : Use fast move?
+  * Frost/Defrost
+* Player Interact
+  - Protect (player are not PvP)
+  - command: attack/interact - defualts to interact
+  - if holding a weapon attack (always)
+  - if holding compass/clock/food/string/feather/seeds (never)
+
+* Add a Snowball/Egg or something and use it as football..
+
+* PMScript:
+  {{ something }} the something is a PHP expression.
+  @ php ... this is raw PHP code.. prefered altenate syntax.
+  else goes to "PM command processor"
+  Event handlers... per world.
+
+v1.5 will bring:
+
+1. new world generator: biomes
+2. full Entity classes and physics

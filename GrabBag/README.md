@@ -1,7 +1,7 @@
 GrabBag
 =======
 
-* Summary: A miscellaneous colletion of commands
+* Summary: A miscellaneous colletion of commands and listener modules
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
@@ -13,7 +13,10 @@ GrabBag
 Overview
 --------
 
-A miscellaneous collection of commands
+A miscellaneous collection of commands and listener modules.  Features
+can be configured to be disable|enable so as to co-exists with other
+plugins.
+
 
 Basic Usage:
 
@@ -26,12 +29,20 @@ Basic Usage:
 * slay - kill a player
 * heal - Restore health to a player
 * whois - Info about a player
+* showtimings - Display the info gathered through /timings
+* seearmor - show player's armor
+* seeinv - show player's inventory
+* get - obtain an item
+* shield [up|down] - Protect a player
 
 Documentation
 -------------
 
-This plugin collects a number of commands that I find useful and
-wanted to have in a single plugin rather through multiple ones.
+This plugin collects a number of commands and listener plugins that I
+find useful and wanted to have in a single plugin rather through
+multiple ones.  The available commands and listener modules can be
+configured.  This allows this plugin to co-exist peacefully with other
+plugins.
 
 ### Commands:
 
@@ -45,12 +56,25 @@ wanted to have in a single plugin rather through multiple ones.
   Switch to survival game mode
 * *gmc*  
   Switch to creative game mode
+* *gma*  
+  Switch to adventure game mode
 * *slay* *player* _[message]_  
   Kills a player immediatly
 * *heal* _[player_ _[value]]_  
   Restore health to a player
 * *whois* *player*  
   Show player info
+* *showtimings* _[report]_ _[page]_  
+  Show the timings data from the `/timings` command.
+* *seearmor* *player*  
+  Show player's armor
+* *seeinv* *player*  
+  Show player's inventory
+* *get* *item[:damage]* _[amount]_  
+  Obtain an *item*.  When the item name contain spaces in the name,
+  use `_` instead.
+* *shield* _[up|down]_  
+  Show shield status.  Or raise/lower shields.
 
 ### Listener Modules
 
@@ -64,10 +88,44 @@ Also this plugin supports the following modules:
 * spawnarmor : Initialize a player armor when they spawn.  
   I will configure a player's armor through a configurable list.  Note
   that it only does it for users without armor.
+* compasstp: When holding a compass tap the screen for 1 second, will
+  teleport you in the direciton you are facing.
+* noexplode: Prevent explosions in specified worlds.
 
 ### Configuration
 
-You can configure the `spawnitems` and `spawnarmor` modules from `config.yml`.
+Configuration is through the `config.yml` file:
+
+	---
+	noexplode:
+	  worlds:
+	    other_world:
+	    safe_world:
+	  spawns:
+	    world:
+	spawn:
+	  armor:
+	    head: '-'
+	    body: chainmail
+	    legs: leather
+	    boots: leather
+	  items:
+	  - "272:0:1"
+	  - "17:0:16"
+	  - "364:0:5"
+	...
+
+Under `noexplode` you can list the worlds where explosions will be
+prevented.  There are *two* lists.  In the list `worlds`, explosions
+will be stopped everywhere.  In the list `spawns`, explosions will
+*only* be stopped around the *spawn* location up to the distance of
+`spawn-protection` in `server.properties`.
+
+The `spawn` section contains two lists:
+
+* `armor`: defines the list of armor that players will spawn with.
+* `items`: lists the `item_id`:`damage`:`count` for initial items that
+  will be placed in the players inventory at spawn time.
 
 ### Activating/De-activating modules
 
@@ -85,12 +143,26 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.slay: kill other players
 * gb.cmd.heal: healing
 * gb.cmd.whois: show player info
+* gb.cmd.seearmor: Show player's armor
+* gb.cmd.seeinv: Show player's inventory
+* gb.cmd.get: get blocks.  A shortcut to give.
 * gb.spawnarmor.receive: allows player to receive armor when spawning
 * gb.spawnitems.receive: allows player to receive items when spawning
+* gb.cmd.timings: show timings data
+* gb.compasstp.allow : allow player to use a Compass to Teleport
+* gn.cmd.shield: Allow players to become invulnerable
 
 Changes
 -------
 
+* 1.1.0 : Additional functionality
+  * showtimings command
+  * Added the ability to teleport with a Compass.
+  * added seearmor, seeinv and get
+  * Improved the way how modules.yml is updated
+  * added shield command
+  * added noexplosion module
+  * removed un-used old code/re-organized code.
 * 1.0.0 : First public release
 
 Copyright

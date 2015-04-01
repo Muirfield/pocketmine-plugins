@@ -45,7 +45,7 @@ abstract class Blocks {
 	  $cname = strtoupper(self::from_camel_case($name));
 	  define("BL_".$cname,$code);
 	} else {
-	  self::$blockConv[-$code] = isset($ln[0]) ? $ln[0] : INVALID_BLOCK;
+	  self::$blockConv[-$code] = isset($ln[0]) ? $ln[0] : self::INVALID_BLOCK;
 	}
       }
       fclose($fp);
@@ -81,6 +81,6 @@ abstract class Blocks {
   public static function xlateBlock($id) {
     if (isset(self::$blockConv[$id])) return self::$blockConv[$id];
     if (isset(self::$blockNames[$id])) return $id;
-    return INVALID_BLOCK;
+    return self::INVALID_BLOCK;
   }
 }

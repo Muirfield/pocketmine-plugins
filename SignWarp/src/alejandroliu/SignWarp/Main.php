@@ -25,6 +25,7 @@ class Main extends PluginBase implements Listener {
   const MIN_HEIGHT = 0;
 
   protected $teleporters = [];
+  protected $broadcast = true;
 
   private function check_coords($line,array &$vec) {
     $mv = array();
@@ -45,7 +46,8 @@ class Main extends PluginBase implements Listener {
     $defaults =
       [
        "settings" => [
-		      "dynamic-updates" => 1
+		      "dynamic-updates" => 1,
+		      "broadcast-tp" => 1,
 		      ],
        "text" => [
 		     "world" => [ "[WORLD]" ],
@@ -58,6 +60,11 @@ class Main extends PluginBase implements Listener {
     if (!isset($cfg["settings"])) $cfg["settings"] = [];
     if (!isset($cfg["settings"]["dynamic-updates"]))
       $cfg["settings"]["dynamic-updates"] = 1;
+    if (!isset($cfg["settings"]["broadcast-tp"])) {
+      $cfg["settings"]["broadcast-tp"] = true;
+    }
+    $this->broadcast = $cfg["settings"]["broadcast-tp"];
+
     if (!isset($cfg["text"])) $cfg["text"] = [];
     if (!isset($cfg["text"]["world"])) $cfg["text"]["world"] = ["[WORLD]"];
     if (!isset($cfg["text"]["warp"])) $cfg["text"]["warp"] = ["[SWARP]"];
@@ -91,7 +98,8 @@ class Main extends PluginBase implements Listener {
     $this->teleporters[$event->getPlayer()->getName()] = time();
     $event->getPlayer()->sendMessage("Warping to $x,$y,$z...");
     $event->getPlayer()->teleport(new Vector3($x,$y,$z));
-    $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
+    if ($this->broadcast)
+      $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
   }
   private function longWarp(PlayerInteractEvent $event,$sign){
     if(empty($sign[1])){
@@ -128,12 +136,13 @@ class Main extends PluginBase implements Listener {
     if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds"))
 	!= null) {
       // Using ManyWorlds for teleporting...
-      $mw->teleport($event->getPlayer(),$level,$mv);
+      if (!$mw->teleport($event->getPlayer(),$level,$mv)) return;
     } else {
       $world = $this->getServer()->getLevelByName($level);
       $event->getPlayer()->teleport($world->getSafeSpawn($mv));
     }
-    $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
+    if ($this->broadcast)
+      $this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported to $level");
   }
 
   public function onBlockPlace(BlockPlaceEvent $event){
@@ -242,12 +251,8 @@ class Main extends PluginBase implements Listener {
     switch ($cmd->getName()) {
     case "xyz":
       if ($sender instanceof Player) {
-	if ($sender->hasPermission("signwarp.cmd.xyz")) {
-	  $pos = $sender->getPosition();
-	  $sender->sendMessage("You are at ".intval($pos->getX()).",".intval($pos->getY()).",".intval($pos->getZ()));
-	} else {
-	  $sender->sendMessage("[SignWarp] You do not have permission to do that.");
-	}
+	$pos = $sender->getPosition();
+	$sender->sendMessage("You are at ".intval($pos->getX()).",".intval($pos->getY()).",".intval($pos->getZ()));
       } else {
 	$sender->sendMessage("[SignWarp] This command may only be used in-game");
       }
