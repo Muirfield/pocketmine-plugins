@@ -1,6 +1,0 @@
-name: NotNormal
-main: aliuly\notnormal\Main
-load: STARTUP
-api: [1.6.0]
-version: 0.1
-author: aliuly
