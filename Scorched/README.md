@@ -8,7 +8,7 @@ Scorched
 * OptionalPlugins: -
 * Categories: General
 * Plugin Access: Commands
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/dev/Scorched)
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/Scorched)
 
 Overview
 --------
