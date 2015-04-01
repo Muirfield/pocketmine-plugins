@@ -59,7 +59,8 @@ reaches a level up.
 
 * Rankings
 * Show rankings on a sign
-* Show stats on a sign
+* Show stats on a sign.  Tap a sign and we send a packet update sign
+  with stats.  TileEntity is not changed!
 
 Changes
 -------
