@@ -12,12 +12,10 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\utils\Config;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
   protected $dbm;
-  protected $hits = [];
   protected $points;
 
   // Access and other permission related checks
@@ -56,7 +54,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     $cfg = (new Config($this->getDataFolder()."config.yml",
 		       Config::YAML,$defaults))->getAll();
     $this->points = $cfg["points"];
-    print_r($this->points);
+    //print_r($this->points);
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
@@ -93,9 +91,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
       } else {
 	$money = $this->getMoney($pl);
 	if (count($args) != 1) $c->sendMessage(TextFormat::BLUE.$pl);
-	$c->sendMessage(TextFormat::GREEN."Level: ".
+	$c->sendMessage(TextFormat::GREEN."Level:  ".
 			TextFormat::WHITE.$score["level"]);
-	$c->sendMessage(TextFormat::GREEN."Kills: ".
+	$c->sendMessage(TextFormat::GREEN."Kills:  ".
 			TextFormat::WHITE.$score["kills"]);
 	$c->sendMessage(TextFormat::GREEN."Points: ".
 			TextFormat::WHITE.$money);
@@ -134,7 +132,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     return $this->getServer()->getPluginManager()->getPlugin("PocketMoney")->grantMoney($player,$count);
   }
   public function getMoney($player) {
-    echo "GetMoney: $player\n";
+    //echo "GetMoney: $player\n";
     return $this->getServer()->getPluginManager()->getPlugin("PocketMoney")->getMoney($player);
   }
   //////////////////////////////////////////////////////////////////////
@@ -144,13 +142,17 @@ class Main extends PluginBase implements CommandExecutor,Listener {
   //////////////////////////////////////////////////////////////////////
   public function onPlayerDeath(PlayerDeathEvent $e) {
     $pv = $e->getEntity();
-    $vic = $pv->getName();
-    if (!isset($this->hits[$vic])) return; // No recorded hit
-    $perp = $this->hits[$vic];
-    $perp_score = $this->dbm->getScore($perp);
-    $pp = $this->getServer()->getPlayer($perp);
+    if ($pv->getLastDamageCause()->getCause() != EntityDamageEvent::CAUSE_ENTITY_ATTACK) return;
+    if (!($pv instanceof Player)) return; // We don't really need this check!
+    $pp = $pv->getLastDamageCause()->getDamager();
+    if (!($pp instanceof Player)) return; // Not killed by player...
 
-    echo "VIC=$vic PERP=$perp\n";
+    $vic = $pv->getName();
+    $perp = $pp->getName();
+
+    $perp_score = $this->dbm->getScore($perp);
+
+    //echo "VIC=$vic PERP=$perp\n";
 
     if ($perp_score == null) return; // Non players!
     if (++$perp_score["kills"] >= $perp_score["level"]*10) {
@@ -177,15 +179,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		       " points");
     }
     $this->dbm->updateScore($perp,$perp_score["level"],$perp_score["kills"]);
-  }
-  public function onDamage(EntityDamageEvent $ev) {
-    if(!($ev instanceof EntityDamageByEntityEvent)) return;
-    if (!($ev->getEntity() instanceof Player)) return;
-    $vic = $ev->getEntity()->getName();
-    if (isset($this->hits[$vic])) unset($this->hits[$vic]);
-    if (!($ev->getDamager() instanceof Player)) return;
-    if ($ev->isCancelled()) return;
-    $this->hits[$vic] = $ev->getDamager()->getName();
   }
 
   public function onPlayerJoin(PlayerJoinEvent $e) {

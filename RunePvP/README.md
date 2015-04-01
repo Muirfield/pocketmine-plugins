@@ -58,16 +58,20 @@ reaches a level up.
 ### TODO
 
 * Rankings
+* Show rankings on a sign
+* Show stats on a sign
 
 Changes
 -------
 
+* 1.1.0 : Minor tweaks
+  * Some code fixes and removed some debug code that slipped through
 * 1.0.0 : First public release
 
 Copyright
 ---------
 
-    GrabBag
+    RunePvP
     Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
