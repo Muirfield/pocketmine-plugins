@@ -1,5 +1,5 @@
 <?php
-namespace aliuly\commander;
+namespace aliuly\pmptemplate;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandExecutor;

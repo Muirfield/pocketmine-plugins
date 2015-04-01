@@ -1,9 +1,9 @@
-main: aliuly\commander\Main
+main: aliuly\pmptemplate\Main
 api: 1.10.0
 load: POSTWORLD
 
-name: Commander
-description: Demo Command plugin
+name: pmptemplate
+description: PocketMine Plugin Template
 version: 1.0.0
 author: aliuly
 
