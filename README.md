@@ -8,17 +8,15 @@ Repository for my PocketMine plugins
 * NotSoFlat - *Outdated*!
 * ManyWorlds - a multiple world implementation.
 * SignWarp - A sign based teleport facility.
-
-## Preparing release
-
 * GrabBag - My personal collection of commands and listener modules.
 * Scorched - Major world destruction
 * Voodoo - Animate zombies
 * WorldProtect - Anti-griefing and per world pvp.
+* RunePvP - A basic PvP manager
 
 ## Development
 
-* Commander - test and dev
+* pmptemlate - test and dev
 * NotNormal - a terrain generator.
 * NotSoFlat - to be deleted
 
@@ -27,6 +25,13 @@ Repository for my PocketMine plugins
 * rcon - An rcon client.
 * pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
     * ImportMap - Imports maps into PocketMine-MP.
+
+## Notes
+
+	specter spawn Playername # The full command to spawn a new dummy
+	s s playername # Luckily there is shorthand
+	s c playername /spawn # Execute /spawn as player
+
 
 Copyright
 =========
