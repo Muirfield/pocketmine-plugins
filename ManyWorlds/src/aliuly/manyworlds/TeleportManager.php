@@ -35,7 +35,7 @@ class TeleportManager implements Listener {
     // whenever you teleport!
     //
     $current = $player->getLevel();
-    if ($current->getLevel()->getName() != $level) {
+    if ($current->getName() != $level) {
       foreach ($current->getTiles() as $tile) {
 	$pk = new \pocketmine\network\protocol\UpdateBlockPacket();
 	$pk->x = $tile->x;
