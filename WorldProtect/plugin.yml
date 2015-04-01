@@ -5,7 +5,7 @@ softdepend: [ManyWorlds]
 
 name: WorldProtect
 description: protect worlds from griefers, pvp, limits and borders
-version: 1.0.0pre
+version: 1.0.0
 author: aliuly
 
 commands:
