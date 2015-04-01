@@ -28,6 +28,7 @@ class CompassTpMgr implements Listener {
 
     $pos = $pl->getPosition()->add(0,$pl->getEyeHeight(),0);
     $start = new Vector3($pos->getX(),$pos->getY(),$pos->getZ());
+
     $lv = $pl->getLevel();
     for ($start = new Vector3($pos->getX(),$pos->getY(),$pos->getZ());
 	 $start->distance($pos) < 120;
@@ -39,10 +40,17 @@ class CompassTpMgr implements Listener {
       $pl->sendMessage("Can not teleport to the void!");
       return;
     }
+    $pos=$pos->subtract($pl->getDirectionVector());
+    $dist = $start->distance($pos);
+    if ($dist < 2.8) {
+      $pl->sendMessage("Not teleporting...");
+      $pl->sendMessage("You could easily walk there!");
+      return;
+    }
     //echo "Block: ".$block->getName()." (".$block->getId().")\n";
     //print_r($pos);
     //echo "Distance: ".$start->distance($pos)."\n";
-    $pl->sendMessage("Teleporting... ".intval($start->distance($pos)));
+    $pl->sendMessage("Teleporting... ".intval($dist));
     $pos = $pos->add(0,1,0);
 
     /*$cb = new CallbackTask([$this,"delayedTP"],[$pl->getName(),

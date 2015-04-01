@@ -51,7 +51,8 @@ plugins.
 * *ops*  
   Display a list of Server Ops and their on-line status.
 * *as* *player* *cmd* _[opts]_  
-  Run *cmd* as a different *player*.
+  Run *cmd* as a different *player*.  If you want to send a `chat`
+  line as *player* use `chat` for *cmd*.
 * *gms*  
   Switch to survival game mode
 * *gmc*  
@@ -155,6 +156,10 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
+* 1.1.1 : ?
+  * CompassTP: Prevent teleports to very nearby locations.  Also,
+    removed suffocation dangers...  (this is traded with a risk of
+    falling from high places...)
 * 1.1.0 : Additional functionality
   * showtimings command
   * Added the ability to teleport with a Compass.
