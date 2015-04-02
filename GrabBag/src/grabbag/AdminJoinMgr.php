@@ -8,11 +8,10 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class AdminJoinMgr implements Listener {
   public $owner;
-  static $delay;
+  static $delay = 15;
   public function __construct(Plugin $plugin) {
     $this->owner = $plugin;
     $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-    self::$delay = 15;
   }
   public function onPlayerJoin(PlayerJoinEvent $e) {
     $pl = $e->getPlayer();

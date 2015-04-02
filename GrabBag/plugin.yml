@@ -59,3 +59,9 @@ permissions:
     gb.cmd.shield:
         default: op
         description: "Allow players to become invulnerable"
+    gb.cmd.servicemode:
+        default: op
+        description: "Allow access to service mode command"
+    gb.servicemode.allow:
+        default: op
+        description: "Allow login when in service mode."

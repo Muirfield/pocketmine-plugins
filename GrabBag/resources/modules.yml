@@ -68,3 +68,7 @@ commands:
         description: Make the player invulnerable
         usage: "/shield [on|off]"
         permission: gb.cmd.shield
+    servicemode:
+        description: Enter/Exit servicemode
+        usage: "/servicemode [on|off] [message]"
+        permission: gb.cmd.servicemode

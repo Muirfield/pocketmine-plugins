@@ -201,6 +201,8 @@ class Main extends PluginBase implements CommandExecutor {
       $this->listeners["cmd.slay"] = new ReaperMgr($this);
     if (array_key_exists("shield",$this->modules["commands"]))
       $this->listeners["cmd.shield"] = new ShieldMgr($this);
+    if (array_key_exists("servicemode",$this->modules["commands"]))
+      $this->listeners["cmd.servicemode"] = new SrvModeMgr($this);
 
     $this->getLogger()->info("Installed ".count($this->listeners)." managers");
 
@@ -271,6 +273,8 @@ class Main extends PluginBase implements CommandExecutor {
       return $this->cmdSeeArmor($sender,$args);
     case "shield":
       return $this->cmdShield($sender,$args);
+    case "servicemode":
+      return $this->cmdSrvMode($sender,$args);
     }
     return false;
   }
@@ -373,6 +377,26 @@ class Main extends PluginBase implements CommandExecutor {
   }
   public function checkShield($name) {
     if (isset($this->shield[$name])) return false;
+    return true;
+  }
+  private function cmdSrvMode(CommandSender $c,$args) {
+    if (count($args) == 0) {
+      $mode = $this->listeners["cmd.servicemode"]->getMode();
+      if ($mode) {
+	$c->sendMessage(TextFormat::RED."In Service Mode: $mode");
+      } else {
+	$c->sendMessage(TextFormat::GREEN."In Normal operating mode");
+      }
+      return true;
+    }
+    $status = strtolower(array_shift($args));
+    if ($status =="on" || $status=="up" || $status=="true" || $status==1) {
+      $msg = implode(" ",$args);
+      if (!$msg) $msg = "Scheduled maintenance";
+    } else {
+      $msg = false;
+    }
+    $this->listeners["cmd.servicemode"]->setMode($msg);
     return true;
   }
 

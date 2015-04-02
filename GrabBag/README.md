@@ -34,6 +34,7 @@ Basic Usage:
 * seeinv - show player's inventory
 * get - obtain an item
 * shield [up|down] - Protect a player
+* servicemode [on|off] - enter maintenance mode
 
 Documentation
 -------------
@@ -76,6 +77,9 @@ plugins.
   use `_` instead.
 * *shield* _[up|down]_  
   Show shield status.  Or raise/lower shields.
+* *servicemode* _[on|off]_  _[message]_
+  In servicemode, new connections are not allowed.  Existing users are
+  OK.  Ops (gb.servicemode.allow) can always login.
 
 ### Listener Modules
 
@@ -151,7 +155,9 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.spawnitems.receive: allows player to receive items when spawning
 * gb.cmd.timings: show timings data
 * gb.compasstp.allow : allow player to use a Compass to Teleport
-* gn.cmd.shield: Allow players to become invulnerable
+* gb.cmd.shield: Allow players to become invulnerable
+* gb.cmd.servicemode: Allow access to service mode command
+* gb.servicemode.allow: Allow login when in service mode.
 
 Changes
 -------
@@ -160,6 +166,7 @@ Changes
   * CompassTP: Prevent teleports to very nearby locations.  Also,
     removed suffocation dangers...  (this is traded with a risk of
     falling from high places...)
+  * Added servicemode functionality
 * 1.1.0 : Additional functionality
   * showtimings command
   * Added the ability to teleport with a Compass.
