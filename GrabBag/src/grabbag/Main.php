@@ -32,6 +32,9 @@ class Main extends PluginBase implements CommandExecutor {
   protected $slain = [];
   protected $shield = [];
   static $items = [];
+  // Override the MaxStacks counter...
+  static $stacks = [ Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
+		     Item::CLOCK => 1 ];
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -561,10 +564,10 @@ class Main extends PluginBase implements CommandExecutor {
     if (isset($args[1])) {
       $item->setCount((int)$args[1]);
     } else {
-      if ($item->getId() < 256) {
-	$item->setCount($item->getMaxStackSize());
+      if (isset(self::$stacks[$item->getId()])) {
+	$item->setCount(self::$stacks[$item->getId()]);
       } else {
-	$item->setCount(1); // For items we default to ONE
+	$item->setCount($item->getMaxStackSize());
       }
     }
     $c->getInventory()->addItem(clone $item);
