@@ -561,12 +561,16 @@ class Main extends PluginBase implements CommandExecutor {
     if (isset($args[1])) {
       $item->setCount((int)$args[1]);
     } else {
-      $item->setCount($item->getMaxStackSize());
+      if ($item->getId() < 256) {
+	$item->setCount($item->getMaxStackSize());
+      } else {
+	$item->setCount(1); // For items we default to ONE
+      }
     }
     $c->getInventory()->addItem(clone $item);
     $this->getServer()->broadcastMessage($c->getName()." got ".
 					 $item->getCount()." of ".
-					 $item->getName().
+					 $this->itemName($item).
 					 " (" . $item->getId() . ":" .
 					 $item->getDamage() . ")");
     return true;
