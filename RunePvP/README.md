@@ -2,10 +2,10 @@ RunePvP
 =======
 
 * Summary: A funny PvP manager plugin inspired in RuinPvP
-* Dependency Plugins: PocketMoney
+* Dependency Plugins: N/A
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
-* OptionalPlugins: SignShop
+* OptionalPlugins: SignShop,PocketMoney,MassiveEconomy,EconomyAPI
 * Categories: Fun
 * Plugin Access: Commands, Entity
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/RunePvP)
@@ -13,13 +13,13 @@ RunePvP
 Overview
 --------
 
-A simple PvP manager inspired by RuinPvP.  It uses PocketMoney for
-points.
+A simple PvP manager inspired by RuinPvP.  It needs a economy plugin
+like PocketMoney, for example.
 
 Rules:
 
 At first, every users gets 500 points.  This is configured in
-PocketMoney.
+PocketMoney (or whatever Economy plugin you use).
 
 If players kills another player, the winner gets 100 points and the
 loser loses 100 points.  Once players are under 100 points they will
@@ -30,7 +30,6 @@ points prize.
 
 For the full RuinPvP experience you need additional plugins.  For
 example you can get a SignShop plugin or a Gambling plugin.
-Essentially any plugin that supports PocketMoney can be used.
 
 Basic Usage:
 
@@ -39,6 +38,9 @@ Basic Usage:
 
 Documentation
 -------------
+
+This plugin supports PocketMoney and has experimental support for
+MassiveEconomy and EconomyAPI.
 
 ### Configuration
 
@@ -65,8 +67,9 @@ reaches a level up.
 Changes
 -------
 
-* 1.1.0 : Minor tweaks
+* 1.1.0 : More econmoy support
   * Some code fixes and removed some debug code that slipped through
+  * Added support for Economy and MassiveEconomy.
 * 1.0.0 : First public release
 
 Copyright

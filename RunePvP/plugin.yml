@@ -3,7 +3,8 @@ version: 1.1.0
 main: aliuly\runepvp\Main
 api: 1.10.0
 load: POSTWORLD
-depend: [PocketMoney]
+# You have to have at least one of these...
+softdepend: [SignShop,PocketMoney,MassiveEconomy,EconomyAPI]
 
 description: A funny PvP manager plugin inspired in RuinPvP
 author: aliuly

@@ -17,6 +17,7 @@ use pocketmine\utils\Config;
 class Main extends PluginBase implements CommandExecutor,Listener {
   protected $dbm;
   protected $points;
+  protected $money;
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -36,9 +37,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
   //////////////////////////////////////////////////////////////////////
   public function onEnable(){
     $this->getLogger()->info(TextFormat::YELLOW.
-			     "#Credit: Cha0sRuin(alchemistdy@naver.com) for");
+			     "#Credit: Cha0sRuin(alchemistdy@naver.com)");
     $this->getLogger()->info(TextFormat::YELLOW.
-			     "#    the original RuinPvP that this plugin");
+			     "#    for the original RuinPvP that this plugin");
     $this->getLogger()->info(TextFormat::YELLOW.
 			     "#    was inspired from");
     @mkdir($this->getDataFolder());
@@ -54,7 +55,25 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     $cfg = (new Config($this->getDataFolder()."config.yml",
 		       Config::YAML,$defaults))->getAll();
     $this->points = $cfg["points"];
-    //print_r($this->points);
+    $pm = $this->getServer()->getPluginManager();
+    if(!($this->money = $pm->getPlugin("PocketMoney"))
+       && !($this->money = $pm->getPlugin("EconomyAPI"))
+       && !($this->money = $pm->getPlugin("MassiveEconomy"))){
+      $this->getLogger()->info(TextFormat::RED.
+			       "# MISSING MONEY API PLUGIN");
+      $this->getLogger()->info(TextFormat::BLUE.
+			       ". Please install one of the following:");
+      $this->getLogger()->info(TextFormat::WHITE.
+			       "* PocketMoney");
+      $this->getLogger()->info(TextFormat::WHITE.
+			       "* EconomyAPI or");
+      $this->getLogger()->info(TextFormat::WHITE.
+			       "* MassiveEconomy");
+    } else {
+      $this->getLogger()->info(TextFormat::BLUE."Using money API from ".
+			       TextFormat::WHITE.$this->money->getName()." v".
+			       $this->money->getDescription()->getVersion());
+    }
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     switch($cmd->getName()) {
@@ -125,15 +144,38 @@ class Main extends PluginBase implements CommandExecutor,Listener {
   }
   //////////////////////////////////////////////////////////////////////
   //
-  // PocketMoney handlers
+  // Economy/Money handlers
   //
   //////////////////////////////////////////////////////////////////////
-  public function grantMoney($player,$count) {
-    return $this->getServer()->getPluginManager()->getPlugin("PocketMoney")->grantMoney($player,$count);
+  public function grantMoney($p,$money) {
+    if(!$this->money) return false;
+    switch($this->money->getName()){
+    case "PocketMoney":
+      $this->money->grantMoney($p, $money);
+      break;
+    case "EconomyAPI":
+      $this->money->setMoney($p,$this->money->getMoney($p)+$money);
+      break;
+    case "MassiveEconomy":
+      $this->money->payPlayer($p,$money);
+      break;
+    default:
+      return false;
+    }
+    return true;
   }
   public function getMoney($player) {
-    //echo "GetMoney: $player\n";
-    return $this->getServer()->getPluginManager()->getPlugin("PocketMoney")->getMoney($player);
+    if(!$this->money) return false;
+    switch($this->money->getName()){
+    case "PocketMoney":
+    case "MassiveEconomy":
+      return $this->money->getMoney($player);
+    case "EconomyAPI":
+      return $this->money->mymoney($player);
+    default:
+      return false;
+      break;
+    }
   }
   //////////////////////////////////////////////////////////////////////
   //
