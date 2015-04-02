@@ -65,6 +65,19 @@ speed of the grenade.  Faster means the TNT will travel farther.
 
 * scorched.cmd.fire - access to commands.
 
+### TODO
+
+* There are two events, ExplosionPrimeEvent for when the entity is
+  about to explode and EntityExplodeEvent when actually exploding.
+* Catch ExplosionPrimeEvent so we can have an option to disable block
+  breaking (setBlockBreaking false)... Anti personel grenade.
+  * Needs to add a namedtag to indicate is one of our grenades.
+  * EntityExplodeEvent can change the yield?  Mega grenateds?
+  * Maybe we can add random cancel to ExplosionPrimeEvent so there is
+    a misfired grenade resulting in lying around ordenance.
+* Does the bow get damage?  A damaged bow should have a chance to
+  explode.
+
 Changes
 -------
 
