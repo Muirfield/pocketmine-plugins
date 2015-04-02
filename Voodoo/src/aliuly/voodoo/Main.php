@@ -19,6 +19,8 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Short;
+use pocketmine\nbt\tag\String;
 use pocketmine\utils\Random;
 use pocketmine\level\Position;
 
@@ -106,30 +108,31 @@ class Main extends PluginBase implements Listener,CommandExecutor {
     }
     $mot = (new Random())->nextSignedFloat() * M_PI * 2;
     $pos = new Position($bl->getX(),$bl->getY()+5,$bl->getZ(),$sender->getLevel());
+    echo __METHOD__.",".__LINE__."\n";
     $nbt =
       new Compound("",
-		   [
-		    "Pos"=>new Enum("Pos",[
-					   new Double("",$pos->x+0.5),
+		   ["Pos"=>new Enum("Pos",[new Double("",$pos->x+0.5),
 					   new Double("",$pos->y),
-					   new Double("",$pos->z+0.5)
-					   ]),
-		    "Motion"=>new Enum("Motion",[
-						 new Double("",-sin($mot)*0.02),
+					   new Double("",$pos->z+0.5)]),
+		    "Motion"=>new Enum("Motion",[new Double("",-sin($mot)*0.02),
 						 new Double("", 0.2),
 						 new Double("",-cos($mot)*0.02)
 						 ]),
-		    "Rotation" => new Enum("Rotation", [
-							new Float("", 0),
+		    "Rotation" => new Enum("Rotation", [new Float("", 0),
 							new Float("", 0)
 							]),
+		    "Health" => new Short("Health",20),
 		    // IsVillager Byte
 		    // IsBaby Byte
 		    // ConversionTime Int
 		    //"CanBreakDoors" => new Byte("CanBreakDoors", 0),
 		    ]);
+    echo __METHOD__.",".__LINE__."\n";
     $entity = Entity::createEntity("Zombie", $pos->getLevel()->getChunk($pos->x >> 4, $pos->z >> 4),$nbt);
+    echo __METHOD__.",".__LINE__."\n";
+
     $entity->namedtag->setName("VoodooZombie");
+    echo __METHOD__.",".__LINE__."\n";
     $entity->spawnToAll();
     return true;
   }
