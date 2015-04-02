@@ -1,4 +1,13 @@
 <?php
+if (ini_get('phar.readonly')) {
+  $cmd = escapeshellarg(PHP_BINARY);
+  $cmd .= ' -d phar.readonly=0';
+  foreach ($argv as $i) {
+    $cmd .= ' '.escapeshellarg($i);
+  }
+  passthru($cmd,$rv);
+  exit($rv);
+}
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);
 
@@ -43,7 +52,7 @@ $help .= "\tversion\n";
 $help .= "\tplugin\n";
 $help .= "\treadme\n";
 $p['scripts/help.php'] = $help;
-$p['scripts/version.php'] = "<?php echo PMIMPORTER_VERSION.NL;";
+$p['scripts/version.php'] = "<?php require_once(CLASSLIB_DIR.'version.txt');";
 $p['scripts/readme.php'] = file_get_contents('README.md');
 
 $dirs=['classlib','scripts'];
@@ -90,7 +99,8 @@ if ($plug) {
   }
 }
 
-$p->compressFiles(Phar::GZ);
+// COMMENTED THIS OUT AS COMPRESSING WAS GENERATING CORRUPTED ARCHIVES!
+//$p->compressFiles(Phar::GZ);
 
 //Stop buffering write requests to the Phar archive, and save changes to disk
 $p->stopBuffering();

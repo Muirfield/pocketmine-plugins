@@ -39,7 +39,7 @@ define("PMIMPORTER_VERSION",preg_replace('/^\s+/','',preg_replace('/\s+$/','',fi
 );
 
 if(version_compare("5.6.0", PHP_VERSION) > 0)
-  die("PHP Version >5.6.0 required - (".PHP_VERSION.")\n");
+  die("PHP Version >5.6.0 required - (Using ".PHP_VERSION.")\n");
 if(php_sapi_name() !== "cli") die("Must run on CLI API php version\n");
 
 // Other stuff that we want to pre-load...

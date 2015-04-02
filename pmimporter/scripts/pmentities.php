@@ -27,17 +27,24 @@ if (!is_dir($wpath)) die("$wpath: not found\n");
 
 $provider = LevelFormatManager::getFormat($wpath);
 if (!$provider) die("$wpath: Format not recognized\n");
+$fmt = new $provider($wpath,true);
 
 function analyze_chunk(Chunk $chunk) {
   foreach ($chunk->getEntities() as $entity) {
     if (!isset($entity->id)) continue;
+    echo("//// ENTITY ////\n");
     print_r($entity);
   }
   foreach ($chunk->getTileEntities() as $tile) {
     if (!isset($tile->id)) continue;
+    echo("//// TILE_ENTITY ////\n");
     print_r($tile);
   }
 }
+
+
+$regions = $fmt->getRegions();
+
 
 if (isset($argv[0]) && $argv[0] == '--all') {
   // Process all regions
@@ -53,7 +60,7 @@ foreach ($argv as $ppx) {
   $pp = array_shift($ppx);
 
   if (!isset($regions[$pp])) die("Region $pp does not exist\n");
-  echo " Reg: $pp ";
+  echo " Reg: $pp\n";
   $chunks = 0;
   list($rX,$rZ) = $regions[$pp];
   $region = $fmt->getRegion($rX,$rZ);

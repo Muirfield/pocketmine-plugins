@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\Config;
 use pocketmine\level\format\LevelProviderManager;
+use pocketmine\utils\TextFormat;
 
 class Main extends Plugin implements CommandExecutor {
   private function importer() {
@@ -21,8 +22,8 @@ class Main extends Plugin implements CommandExecutor {
   }
   private function usage(CommandSender $c) {
     $c->sendMessage("Usage:");
-    $c->sendMessage("-    im version : get the pmimporter version");
-    $c->sendMessage("-    im path world : import [path] as [world]");
+    $c->sendMessage("-  ".TextFormat::GREEN."/im version".TextFormat::RESET.": get the pmimporter version");
+    $c->sendMessage("-  ".TextFormat::GREEN."/im path world".TextFormat::RESET.": import map in [path] as level named [world]");
     return true;
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {

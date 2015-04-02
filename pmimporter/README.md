@@ -9,6 +9,7 @@ Overview
 
 * pmconvert - main conversion tool
 * pmcheck - read world maps and analyze the block, object composition
+* pmentities - dump entity information
 * pmlevel - manipulate some level.dat settings
 * nbtdump - Dump the contents of NBT files
 * dumpchunk - Extract an specific chunk from a map so it can be
@@ -312,6 +313,9 @@ Issues and Bugs
 Changes
 ------
 
+* 1.5: ????
+  * pmentities fix typos
+  * minor text info tweaks
 * 1.4: Maintenance release
   * Added pmentity to dump entity data
   * Added region settings to MCPE0.2.0 and PMF1.3 formats.

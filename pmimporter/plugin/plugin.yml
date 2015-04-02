@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: ImportMap
 description: Import Maps
-version: 2.1-<PMIMPORTER>
+version: 2.2-<PMIMPORTER>
 author: aliuly
 
 commands:
