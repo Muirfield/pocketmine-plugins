@@ -118,7 +118,7 @@ class Chunk extends \pmimporter\generic\Chunk {
     if(!isset($chunk->Level) or !($chunk->Level instanceof Compound)){
       return null;
     }
-    $x = $chunk->Level->Blocks->getValue();
+    //$x = $chunk->Level->Blocks->getValue();
     return new Chunk($chunk->Level);
   }
 
