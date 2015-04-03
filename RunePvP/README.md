@@ -63,7 +63,6 @@ reaches a level up.
 
 ### TODO
 
-* Rankings
 * Show rankings on a sign
 * Show stats on a sign.  Tap a sign and we send a packet update sign
   with stats.  TileEntity is not changed!
@@ -74,6 +73,7 @@ Changes
 * 1.1.0 : More economy support
   * Some code fixes and removed some debug code that slipped through
   * Added support for Economy and MassiveEconomy.
+  * Added top (rankings) command
 * 1.0.0 : First public release
 
 Copyright
