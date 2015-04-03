@@ -1,0 +1,335 @@
+<?php
+namespace aliuly\itemcasepe;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\command\CommandExecutor;
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
+use pocketmine\Player;
+use pocketmine\event\Listener;
+
+use pocketmine\block\Block;
+use pocketmine\entity\Entity;
+use pocketmine\math\Vector3;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
+use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\network\protocol\AddItemEntityPacket;
+use pocketmine\network\protocol\RemoveEntityPacket;
+//use pocketmine\network\protocol\MoveEntityPacket;
+use pocketmine\level\Level;
+use pocketmine\item\Item;
+use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\level\LevelUnloadEvent;
+use pocketmine\utils\Config;
+use pocketmine\scheduler\CallbackTask;
+use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\block\SignChangeEvent;
+use pocketmine\event\block\BlockBreakEvent;
+
+class Main extends PluginBase implements CommandExecutor,Listener {
+  protected $cases = [];
+  protected $touches = [];
+  protected $places = [];
+
+  // Access and other permission related checks
+  private function access(CommandSender $sender, $permission) {
+    if($sender->hasPermission($permission)) return true;
+    $sender->sendMessage("You do not have permission to do that.");
+    return false;
+  }
+  private function inGame(CommandSender $sender,$msg = true) {
+    if ($sender instanceof Player) return true;
+    if ($msg) $sender->sendMessage("You can only use this command in-game");
+    return false;
+  }
+  // Standard call-backs
+  public function onDisable() {
+    //$this->getLogger()->info("Commander Unloaded!");
+  }
+  public function onEnable(){
+    $this->getLogger()->info("* Enabled!");
+    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    // Check pre-loaded worlds
+    foreach ($this->getServer()->getLevels() as $l) {
+      $this->loadCfg($l);
+    }
+  }
+  public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+    switch($cmd->getName()) {
+    case "itemcase":
+      if (!count($args)) return $this->cmdAdd($sender);
+      $scmd = strtolower(array_shift($args));
+      switch ($scmd) {
+      case "add":
+	return $this->cmdAdd($sender);
+      case "cancel":
+	return $this->cmdCancelAdd($sender);
+      case "respawn":
+	return $this->cmdRespawn($sender);
+      case "reset":
+      case "list":
+	$sender->sendMessage("Not implemented yet!");
+	return false;
+      }
+    }
+    return false;
+  }
+  // Command implementations
+
+  private function cmdCancelAdd(CommandSender $c) {
+    if (!$this->inGame($c)) return true;
+    if (!isset($this->places[$c->getName()])) {
+      unset($this->places[$c->getName()]);
+    }
+    if (!isset($this->touches[$c->getName()])) {
+      $c->sendMessage("NOT adding an ItemCase");
+      return true;
+    }
+    unset($this->touches[$c->getName()]);
+    $c->sendMessage("Add ItemCase CANCELLED");
+    return true;
+  }
+  private function cmdAdd(CommandSender $c) {
+    if (!$this->inGame($c)) return true;
+    $c->sendMessage("Tap on the target block while holding an item");
+    $this->touches[$c->getName()] = time();
+    if (!isset($this->places[$c->getName()])) {
+      unset($this->places[$c->getName()]);
+    }
+    return true;
+  }
+  private function cmdRespawn(CommandSender $c) {
+    $players = $this->getServer()->getOnlinePlayers();
+    foreach ($this->getServer()->getLevels() as $lv) {
+      $world = $lv->getName();
+      foreach (array_keys($this->cases[$world]) as $cid) {
+	$this->rmItemCase($lv,$cid,$players);
+      }
+    }
+    foreach ($this->getServer()->getLevels() as $lv) {
+      $world = $lv->getName();
+      foreach (array_keys($this->cases[$world]) as $cid) {
+	$this->sndItemCase($lv,$cid,$players);
+      }
+    }
+    return true;
+  }
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // Place/Remove ItemCases
+  //
+  ////////////////////////////////////////////////////////////////////////
+  private function rmItemCase(Level $level,$cid,array $players) {
+    echo __METHOD__.",".__LINE__."\n";
+    $world = $level->getName();
+    echo "world=$world cid=$cid\n";
+    // No EID assigned, it has not been spawned yet!
+    if (!isset($this->cases[$world][$cid]["eid"])) return;
+
+    $pk = new RemoveEntityPacket();
+    $pk->eid = $this->cases[$world][$cid]["eid"];
+    foreach ($players as $pl) {
+      $pl->directDataPacket($pk);
+    }
+  }
+
+  private function sndItemCase(Level $level,$cid,array $players) {
+    echo __METHOD__.",".__LINE__."\n";
+    $world = $level->getName();
+    echo "world=$world cid=$cid\n";
+    $pos = explode(":",$cid);
+    if (!isset($this->cases[$world][$cid]["eid"]))
+      $this->cases[$world][$cid]["eid"] = Entity::$entityCount++;
+    $item = Item::fromString($this->cases[$world][$cid]["item"]);
+    $item->setCount($this->cases[$world][$cid]["count"]);
+    $pk = new AddItemEntityPacket();
+    $pk->eid = $this->cases[$world][$cid]["eid"];
+    $pk->item = $item;
+    $pk->x = $pos[0] + 0.5;
+    $pk->y = $pos[1];
+    $pk->z = $pos[2] + 0.5;
+    $pk->yaw = 0;
+    $pk->pitch = 0;
+    $pk->roll = 0;
+    foreach ($players as $pl) {
+      $pl->directDataPacket($pk);
+    }
+    //$pk = new MoveEntityPacket();
+    //$pk->entities = [[$this->cases[$world][$cid]["eid"],
+    //$pos[0] + 0.5,$pos[1] + 0.25,$pos[2] + 0.5,0,0]];
+    //foreach ($players as $pl) {
+    //$pl->directDataPacket($pk);
+    //}
+  }
+
+  public function spawnPlayerCases(Player $pl,Level $level){
+    if (!isset($this->cases[$level->getName()])) return;
+    foreach (array_keys($this->cases[$level->getName()]) as $cid) {
+      $this->sndItemCase($level,$cid,[$pl]);
+    }
+  }
+  public function spawnLevelItemCases(Level $level){
+    if (!isset($this->cases[$level->getName()])) return;
+    $ps = $level->getPlayers();
+    if (!count($ps)) continue;
+    foreach (array_keys($this->cases[$level->getName()]) as $cid) {
+      $this->sndItemCase($level,$cid,$ps);
+    }
+  }
+
+  public function despawnPlayerCases(Player $pl,Level $level){
+    $world = $level->getName();
+    foreach (array_keys($this->cases[$world]) as $cid) {
+      $this->rmItemCase($level,$cid,[$pl]);
+    }
+  }
+
+  public function addItemCase(Level $level,$cid, $idmeta, $count){
+    echo __METHOD__.",".__LINE__."\n";
+    $world = $level->getName();
+    echo "world=$world cid=$cid idmeta=$idmeta\n";
+    if (!isset($this->cases[$world])) $this->cases[$world] = [];
+    if (isset($this->cases[$world][$cid])) return false;
+    $this->cases[$world][$cid] = [ "item"=>$idmeta,"count"=> $count ];
+    $this->saveCfg($level);
+    echo "ADDING $cid - $idmeta,$count\n";
+    $this->sndItemCase($level,$cid,$level->getPlayers());
+    return true;
+  }
+
+  private function saveCfg(Level $lv) {
+    $world = $lv->getName();
+    $f = $lv->getProvider()->getPath()."itemcasepe.txt";
+    if (!isset($this->cases[$world]) || count($this->cases[$world]) == 0) {
+      if (file_exists($f)) unlink($f);
+      return;
+    }
+    $dat = "# ItemCasePE data \n";
+    foreach ($this->cases[$world] as $cid => $ii) {
+      $dat.=implode(",",[$cid,$ii["item"],$ii["count"]])."\n";
+    }
+    file_put_contents($f,$dat);
+  }
+  private function loadCfg(Level $lv) {
+    $world = $lv->getName();
+    $f = $lv->getProvider()->getPath()."itemcasepe.txt";
+    $this->cases[$world] = [];
+    if (!file_exists($f)) return;
+    foreach (explode("\n",file_get_contents($f)) as $ln) {
+      if (preg_match('/^\s*#/',$ln)) continue;
+      if (($ln = trim($ln)) == "") continue;
+      $v = explode(",",$ln);
+      if (count($v) < 3) continue;
+      $this->cases[$world][$v[0]] = ["item" => $v[1], "count" => $v[2]];
+    }
+  }
+  //////////////////////////////////////////////////////////////////////
+  //
+  // Event handlers
+  //
+  //////////////////////////////////////////////////////////////////////
+  //
+  // Make sure configs are loaded/unloaded
+  public function onLevelLoad(LevelLoadEvent $e) {
+    $this->loadCfg($e->getLevel());
+  }
+  public function onLevelUnload(LevelUnloadEvent $e) {
+    $world = $e->getLevel()->getName();
+    if (isset($this->cases[$world])) unset($this->cases[$world]);
+  }
+
+  public function onPlayerRespawn(PlayerRespawnEvent $ev) {
+    $pl = $ev->getPlayer();
+    $level = $pl->getLocation()->getLevel();
+    $this->spawnPlayerCases($pl,$level);
+  }
+  public function onLevelChange(EntityLevelChangeEvent $ev) {
+    if ($ev->isCancelled()) return;
+    $pl = $ev->getEntity();
+    if (!($pl instanceof Player)) return;
+    echo $pl->getName()." Level Change\n";
+    foreach ($this->getServer()->getLevels() as $lv) {
+      $this->despawnPlayerCases($pl,$lv);
+    }
+    $this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"spawnPlayerCases"],[$pl,$ev->getTarget()]), 20);
+    //$this->spawnPlayerCases($pl,$ev->getTarget());
+  }
+  public function onPlayerInteract(PlayerInteractEvent $ev){
+    $pl = $ev->getPlayer();
+    if (!isset($this->touches[$pl->getName()])) return;
+    $bl = $ev->getBlock();
+    if ($bl->getID() != Block::GLASS) {
+      if ($bl->getID() == Block::SLAB)
+	$bl = $bl->getSide(Vector3::SIDE_UP);
+      else {
+	$pl->sendMessage("You must place item cases on slabs");
+	$pl->sendMessage("or glass blocks!");
+	return;
+      }
+    }
+
+    $cid = implode(":",[$bl->getX(),$bl->getY(),$bl->getZ()]);
+    $item = $pl->getInventory()->getItemInHand();
+
+    if (!$this->addItemCase($bl->getLevel(),$cid,
+			    implode(":",[$item->getId(),$item->getDamage()]),
+			    $item->getCount())) {
+      $pl->sendMessage("There is already an ItemCase there!");
+    } else {
+      $pl->sendMessage("ItemCase placed!");
+    }
+    unset($this->touches[$pl->getName()]);
+    $ev->setCancelled();
+    if ($ev->getItem()->isPlaceable())
+      $this->places[$pl->getName()] = $pl->getName();
+  }
+  public function onBlockPlace(BlockPlaceEvent $ev){
+    $pl = $ev->getPlayer();
+    if (!isset($this->places[$pl->getName()])) return;
+    $id = $ev->getBlock()->getId();
+    if ($id == Block::SIGN_POST) {
+      // Oh no.. placing a SignPost!
+      $this->places[$pl->getName()] = [ $ev->getBlockReplaced()->getId(),
+					$ev->getBlockReplaced()->getDamage(),
+					0 ];
+      return;
+    }
+    $ev->setCancelled();
+    unset($this->places[$pl->getName()]);
+  }
+  public function onSignChanged(SignChangeEvent $ev){
+    $pl = $ev->getPlayer();
+    if (!isset($this->places[$pl->getName()])) return;
+    if (!is_array($this->places[$pl->getName()])) return;
+    list($id,$meta,$cnt) = $this->places[$pl->getName()];
+    if ($cnt == 0) {
+      $this->places[$pl->getName()][2] = 1;
+      return;
+    }
+    unset($this->places[$pl->getName()]);
+    $block =$ev->getBlock();
+    $l = $block->getLevel();
+    $x = $block->getX();
+    $y = $block->getY();
+    $z = $block->getZ();
+    $l->setBlockIdAt($x,$y,$z,$id);
+    $l->setBlockDataAt($x,$y,$z,$meta);
+  }
+  public function onBlockBreak(BlockBreakEvent $ev){
+    $pl = $ev->getPlayer();
+    $bl = $ev->getBlock();
+    $lv = $bl->getLevel();
+    $cid = implode(":",[$bl->getX(),$bl->getY(),$bl->getZ()]);
+    if (isset($this->cases[$lv->getName()][$cid])) {
+      if (!$this->access($pl,"itemcase.destroy")) {
+	$ev->setCancelled();
+	return;
+      }
+      $pl->sendMessage("Destroying ItemCase $cid");
+      $this->rmItemCase($lv,$cid,$this->getServer()->getOnlinePlayers());
+      unset($this->cases[$lv->getName()][$cid]);
+      $this->saveCfg($lv);
+    }
+  }
+}
