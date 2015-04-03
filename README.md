@@ -15,6 +15,10 @@ Repository for my PocketMine plugins
 * RunePvP - A basic PvP manager
 * LocalChat - Localized chat
 
+## Beta
+
+* ItemCasePE - A port of Bukkit ItemCase
+
 ## Development
 
 * pmptemlate - test and dev
@@ -24,9 +28,6 @@ Repository for my PocketMine plugins
 ## Available Tools
 
 * rcon - An rcon client.
-* pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
-    * ImportMap - Imports maps into PocketMine-MP.
-
 
 Copyright
 =========
@@ -87,13 +88,16 @@ To-do
 * Add Shift regions option to Copier.php
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
+  * Check Level->getName vs getFolderName
 * pmimporter: merge chunks ... by selecting square regions and offsets
   - limit this at region|chunk resolution.
   - Always specify corners and merge
 * GrabBag:
+  * Repeat last command with optionally a different page
   * Frost/Defrost
   * after - certain time, execute command (scheduled stop)
   * clear entities
+  * opmsg - chat only for ops
 * Player Interact Peacefully
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)
@@ -108,6 +112,11 @@ To-do
   * Implements the RuinPvP casino and shop functionality.
   * Provide rankings and stats...
   * Moves around randomly in his spawn area...
+
+
+
+
+
 
 * PMScript:
   {{ something }} the something is a PHP expression.
@@ -131,7 +140,7 @@ To-do
 	>>>HandlerList::unregisterAll($plugin);
 	?removePermissions
 
-
+* * *
 
 
 v1.5 will bring:
