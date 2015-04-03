@@ -32,3 +32,6 @@ permissions:
     mw.cmd.world.load:
         default: op
         description: "Allows users to load worlds"
+    mw.cmd.lvdat:
+        default: op
+        description: "Manipulate level.dat"
