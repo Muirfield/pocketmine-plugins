@@ -135,6 +135,7 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.slay: kill other players
 * gb.cmd.heal: healing
 * gb.cmd.whois: show player info
+* gb.cmd.whois.showip: Allow to view IP addresses
 * gb.cmd.seearmor: Show player's armor
 * gb.cmd.seeinv: Show player's inventory
 * gb.cmd.get: get blocks.  A shortcut to give.
@@ -149,20 +150,18 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
-* 1.1.1 : ?
+* 1.1.1 : More functionality
   * CompassTP: Prevent teleports to very nearby locations.  Also,
     removed suffocation dangers...  (this is traded with a risk of
     falling from high places...)
   * Added servicemode functionality
-  * Removed noexplosion module
-* 1.1.0 : Additional functionality
   * showtimings command
   * Added the ability to teleport with a Compass.
   * added seearmor, seeinv and get
   * Improved the way how modules.yml is updated
   * added shield command
-  * added noexplosion module
   * removed un-used old code/re-organized code.
+  * Hide IP address in whois output
 * 1.0.0 : First public release
 
 Copyright

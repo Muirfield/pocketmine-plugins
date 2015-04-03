@@ -35,6 +35,9 @@ permissions:
     gb.cmd.whois:
         default: op
         description: "Show player details"
+    gb.cmd.whois.showip:
+        default: op
+        description: "Show player IP address"
     gb.cmd.timings:
         default: op
         description: "Show timings data"

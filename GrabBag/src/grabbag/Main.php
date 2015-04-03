@@ -290,7 +290,8 @@ class Main extends PluginBase implements CommandExecutor {
       .$target->getLevel()->getName().TextFormat::RESET;
     
     $txt[] = TextFormat::GREEN."Location: ".TextFormat::WHITE."X:".floor($target->getPosition()->x)." Y:".floor($target->getPosition()->y)." Z:".floor($target->getPosition()->z)."".TextFormat::RESET;
-    $txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
+    if ($c->hasPermission("gb.cmd.whois.showip"))
+      $txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
     $txt[] = TextFormat::GREEN."Gamemode: ".TextFormat::WHITE
       .ucfirst(strtolower(Server::getGamemodeString($target->getGamemode())))
       .TextFormat::RESET;
