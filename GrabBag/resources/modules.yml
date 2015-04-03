@@ -8,7 +8,6 @@ listener:
     spawnitems:
     spawnarmor:
     compasstp:
-    noexplode:
 
 commands:
     players:

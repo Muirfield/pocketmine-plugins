@@ -95,19 +95,12 @@ Also this plugin supports the following modules:
   that it only does it for users without armor.
 * compasstp: When holding a compass tap the screen for 1 second, will
   teleport you in the direciton you are facing.
-* noexplode: Prevent explosions in specified worlds.
 
 ### Configuration
 
 Configuration is through the `config.yml` file:
 
 	---
-	noexplode:
-	  worlds:
-	    other_world:
-	    safe_world:
-	  spawns:
-	    world:
 	spawn:
 	  armor:
 	    head: '-'
@@ -119,12 +112,6 @@ Configuration is through the `config.yml` file:
 	  - "17:0:16"
 	  - "364:0:5"
 	...
-
-Under `noexplode` you can list the worlds where explosions will be
-prevented.  There are *two* lists.  In the list `worlds`, explosions
-will be stopped everywhere.  In the list `spawns`, explosions will
-*only* be stopped around the *spawn* location up to the distance of
-`spawn-protection` in `server.properties`.
 
 The `spawn` section contains two lists:
 
@@ -167,6 +154,7 @@ Changes
     removed suffocation dangers...  (this is traded with a risk of
     falling from high places...)
   * Added servicemode functionality
+  * Removed noexplosion module
 * 1.1.0 : Additional functionality
   * showtimings command
   * Added the ability to teleport with a Compass.

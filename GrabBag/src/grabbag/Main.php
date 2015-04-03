@@ -12,7 +12,6 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
-use pocketmine\math\Vector3;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -198,8 +197,6 @@ class Main extends PluginBase implements CommandExecutor {
       $this->listeners["spawnmgr"] = new SpawnMgr($this);
     if (array_key_exists("compasstp",$this->modules["listener"]))
       $this->listeners["compasstp"] = new CompassTpMgr($this);
-    if (array_key_exists("noexplode",$this->modules["listener"]))
-      $this->listeners["noexplode"] = new NoExplodeMgr($this);
     if (array_key_exists("slay",$this->modules["commands"]))
       $this->listeners["cmd.slay"] = new ReaperMgr($this);
     if (array_key_exists("shield",$this->modules["commands"]))
@@ -211,12 +208,6 @@ class Main extends PluginBase implements CommandExecutor {
 
     $defaults =
       [
-       "noexplode" => [
-		       "worlds"=>[
-				  ],
-		       "spawns"=>[
-				  ],
-		       ],
        "spawn"=>[
 		 "armor"=>[
 			   "head"=>"-",
@@ -236,13 +227,6 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
-    if (!isset($this->config["noexplode"])) $this->config["noexplode"]=[];
-    if (!isset($this->config["noexplode"]["worlds"]))
-      $this->config["noexplode"]["worlds"]=[];
-    if (!isset($this->config["noexplode"]["spawns"]))
-      $this->config["noexplode"]["spawns"]=[];
-
-    //print_r($this->config["noexplode"]);
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
@@ -630,21 +614,6 @@ class Main extends PluginBase implements CommandExecutor {
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return false;
     return $pl->hasPermission("gb.compasstp.allow");
-  }
-  public function checkNoExplode($x,$y,$z,$level) {
-    if (!array_key_exists("noexplode",$this->modules["listener"])) return false;
-    if (array_key_exists($level,$this->config["noexplode"]["worlds"]))
-      return false;
-    if (!array_key_exists($level,$this->config["noexplode"]["spawns"]))
-      return true;
-    $lv = $this->getServer()->getLevelByName($level);
-    if (!$lv) return true;
-    $sp = $lv->getSpawnLocation();
-    $dist = $sp->distance(new Vector3($x,$y,$z));
-    if ($dist < $this->getServer()->getSpawnRadius()) {
-      return false;
-    }
-    return true;
   }
 
   private function spawnArmor($pl) {

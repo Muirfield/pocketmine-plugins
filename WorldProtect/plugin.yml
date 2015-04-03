@@ -38,6 +38,9 @@ permissions:
     wp.cmd.pvp:
         default: op
         description: "Allow PvP controls"
+    wp.cmd.noexplode:
+        default: op
+        description: "Allow NoExplode controls"
     wp.cmd.limit:
         default: op
         description: "Allow control to limit functionality"
