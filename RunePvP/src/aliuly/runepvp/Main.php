@@ -82,7 +82,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
       $scmd = strtolower(array_shift($args));
       switch ($scmd) {
       case "stats":
+	if (!$this->access($sender,"runepvp.cmd.stats")) return true;
 	return $this->cmdStats($sender,$args);
+      case "top":
+	if (!$this->access($sender,"runepvp.cmd.top")) return true;
+	return $this->cmdTops($sender,$args);
       case "help":
 	return $this->cmdHelp($sender,$args);
       default:
@@ -97,12 +101,46 @@ class Main extends PluginBase implements CommandExecutor,Listener {
   // Command implementations
   //
   //////////////////////////////////////////////////////////////////////
+  public function getRankings($limit=10,$online=false) {
+    if ($online) {
+      // Online players only...
+      $plist = [];
+      foreach ($this->getServer()->getOnlinePlayers() as $p) {
+	$plist[] = $p->getName();
+      }
+      if (count($plist) < 2) return null;
+    } else {
+      $plist = null;
+    }
+    return $this->dbm->getTops($limit,$plist);
+  }
+  private function cmdTops(CommandSender $c,$args) {
+    if (count($args) == 0) {
+      $res = $this->getRankings(5);
+    } else {
+      $res = $this->getRankings(5,true);
+      if ($res == null) {
+	$c->sendMessage("Not enough on-line players");
+	return true;
+      }
+    }
+    $c->sendMessage(". Player Level Kills");
+    $i = 1;
+    foreach ($res as $r) {
+      $c->sendMessage(implode(" ",[$i++,$r["player"],$r["level"],$r["kills"]]));
+    }
+    return true;
+  }
+
   private function cmdStats(CommandSender $c,$args) {
     if (count($args) == 0) {
       if (!$this->inGame($c)) return true;
       $args = [ $c->getName() ];
     }
     foreach ($args as $pl) {
+      if ($this->inGame($c,false) && $pl != $c->getName()) {
+	if (!$this->access($c,"runepvp.cmd.stats.other")) return true;
+      }
       $score = $this->dbm->getScore($pl);
       if ($score == null) {
 	$c->sendMessage("No scores found for $pl");

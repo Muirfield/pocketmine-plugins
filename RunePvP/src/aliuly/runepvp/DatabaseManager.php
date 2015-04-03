@@ -18,6 +18,27 @@ class DatabaseManager {
 		)";
       $this->database->exec($sql);
     }
+    public function getTops($limit,$players = null) {
+      $sql = "SELECT * FROM Scores";
+      if ($players != null) {
+	$sql .= " WHERE player IN (";
+	$q = "";
+	foreach ($players as $p) {
+	  $sql .= $q.self::prepare($player);
+	  $q = ",";
+	}
+	$sql .=")";
+      }
+      $sql .= " ORDER BY kills DESC";
+      if ($limit) $sql .= " LIMIT ".intval($limit);
+      $res = $this->database->query($sql);
+      if ($res === false) return null;
+      $tab = [];
+      while (($row = $res->fetchArray(SQLITE3_ASSOC)) != false) {
+	$tab[] = $row;
+      }
+      return $tab;
+    }
 
     public function getScore($player) {
       $sql = "SELECT * FROM Scores WHERE player = ".self::prepare($player);
