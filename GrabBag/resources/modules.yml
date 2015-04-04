@@ -8,6 +8,7 @@ listener:
     spawnitems:
     spawnarmor:
     compasstp:
+    repeater:
 
 commands:
     players:

@@ -197,6 +197,8 @@ class Main extends PluginBase implements CommandExecutor {
       $this->listeners["spawnmgr"] = new SpawnMgr($this);
     if (array_key_exists("compasstp",$this->modules["listener"]))
       $this->listeners["compasstp"] = new CompassTpMgr($this);
+    if (array_key_exists("repeater",$this->modules["listener"]))
+      $this->listeners["repeater"] = new RepeatMgr($this);
     if (array_key_exists("slay",$this->modules["commands"]))
       $this->listeners["cmd.slay"] = new ReaperMgr($this);
     if (array_key_exists("shield",$this->modules["commands"]))
@@ -448,9 +450,14 @@ class Main extends PluginBase implements CommandExecutor {
     $ms = TextFormat::BLUE.
       "OpMsg [".$c->getName()."] ".TextFormat::YELLOW.implode(" ",$args);
     $this->getLogger()->info($ms);
+    $count = 0;
     foreach ($this->getServer()->getOnlinePlayers() as $pl) {
       if (!$pl->isOp()) continue;
       $pl->sendMessage($ms);
+      ++$count;
+    }
+    if (($c instanceof Player) && !$c->isOp()) {
+      $pl->sendMessage("(ops:$count) ".implode(" ",$args));
     }
     return true;
   }

@@ -36,6 +36,7 @@ Basic Usage:
 * shield [up|down] - Protect a player
 * servicemode [on|off] - enter maintenance mode
 * opms [msg] - send op only chat messages
+* !! - repeat command with changes
 
 Documentation
 -------------
@@ -86,6 +87,32 @@ plugins.
   should use the *ops* command to see if there are any server ops
   on-line.
 
+### Command repeater
+
+If you want to repeat a previous command enter `!!` *without* any `/`
+in front.  This works for commands and chat messages.
+
+You can optionally append additional text to `!!` to do certain
+things:
+
+* `!!` number  
+  Will let you paginate output.  For example, entering:
+	/mw ls
+	!!2
+	!!3
+  This will start showing the output of `/mw ls` and consecutive pages.
+* `!!` text  
+  Will append `text` to the previous command.  For example:
+	/gamemode
+	!! survival john
+  This will show the usage of survival, the next line will change the
+  gamemode of john to survival.
+* `!!` str1 str2
+  Will repate the previous command replacing `str1` with `str2`
+  Example:
+	/give player drt
+	!!drt dirt
+  This will change `drt` into `dirt`.
 
 ### Listener Modules
 
@@ -157,17 +184,18 @@ Changes
 -------
 
 * 1.1.1 : More functionality
+  * Hide IP address from whois output
+  * New opms command.
   * CompassTP: Prevent teleports to very nearby locations.  Also,
     removed suffocation dangers...  (this is traded with a risk of
     falling from high places...)
+  * Added the ability to teleport with a Compass.
   * Added servicemode functionality
   * showtimings command
-  * Added the ability to teleport with a Compass.
   * added seearmor, seeinv and get
   * Improved the way how modules.yml is updated
   * added shield command
   * removed un-used old code/re-organized code.
-  * Hide IP address in whois output
 * 1.0.0 : First public release
 
 Copyright
