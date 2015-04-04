@@ -2,7 +2,7 @@ main: aliuly\itemcasepe\Main
 api: 1.10.0
 load: POSTWORLD
 
-name: ItemCase PE
+name: ItemCasePE
 description: An implementation of Bukkit's ItemCase
 version: 1.0.0
 author: aliuly
