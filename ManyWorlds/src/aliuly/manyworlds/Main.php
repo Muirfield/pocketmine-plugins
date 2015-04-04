@@ -184,7 +184,7 @@ class Main extends PluginBase implements CommandExecutor {
       $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
       if ($this->teleport($player,$level)) {
 	if ($this->cfg["settings"]["broadcast-tp"]) {
-	  $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." was teleported to $level");
+	  $this->getServer()->broadcastMessage("[MW] ".$player->getName()." was teleported to $level");
 	} else {
 	  $sender->sendMessage("[MW] " . $player->getName() . " has been teleported to " . $level . "!");
 	}
