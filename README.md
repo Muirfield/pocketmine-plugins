@@ -97,6 +97,12 @@ To-do
   * Frost/Defrost
   * after - certain time, execute command (scheduled stop)
   * clear entities
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\server\RemoteServerCommandEvent;
+use pocketmine\event\server\ServerCommandEvent;
+
 * Player Interact Peacefully
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)
@@ -104,13 +110,14 @@ To-do
 * Add a Snowball/Egg or something and use it as football..
 * RuneGM:
 * Adds a GameMaster:
-  * Automatically spawned villager
+  * Automatically spawned villager or a NPC (Player)
   * If LocalChat is active we use it... otherwise you need to use /rp
     command.
   * If attacked it will retaliate (or kill you...)
   * Implements the RuinPvP casino and shop functionality.
   * Provide rankings and stats...
   * Moves around randomly in his spawn area...
+
 
 * PMScript:
   {{ something }} the something is a PHP expression.
@@ -160,3 +167,7 @@ Give/Get items:
 
 * zombie : spawn_egg:32
 * villager : spawn_egg:15
+
+- resubmit
+  - RunePVP (after imporvemennts)
+  - Voodoo - improve movement
