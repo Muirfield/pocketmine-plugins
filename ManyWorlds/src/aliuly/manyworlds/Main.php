@@ -536,6 +536,14 @@ class Main extends PluginBase implements CommandExecutor {
 	}
       }
     }
+    //////////////////////////////////////////////////////////////////////
+    // Checks
+    //$txt[] = "levelName:    ".$world->getName()."\n";
+    //$txt[] = "folderName:   ".$world->getFolderName()."\n";
+    //$txt[] = "providerName: ".$provider->getName()."\n";
+    //////////////////////////////////////////////////////////////////////
+
+
     // Check for warnings...
     if ($provider->getName() != $level) {
       $txt[] = TextFormat::RED."Folder Name and Level.Dat names do NOT match";
