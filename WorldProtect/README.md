@@ -133,11 +133,13 @@ In the plugin's config.yml file you can have:
 	  world-protect: true
 	  per-world-pvp: true
 	  motd: true
+	  no-explode: true
 
 * player-limits: Enables the per world player limits
 * world-borders: Enables the world border module
 * world-protect: Enables the anti-griefing module
 * per-world-pvp: Enables per world PvP functionality
+* no-explode: Enables explosion protection
 * motd : Enable per world MOTD text
 
 ### Permission Nodes:
@@ -150,6 +152,7 @@ In the plugin's config.yml file you can have:
 * wp.cmd.pvp - Allow PvP controls
 * wp.cmd.limit - Allow control to limit functionality
 * wp.cmd.wpmotd - Allow editing the motd
+* wp.cmd.noexplode - no explode command access
 
 ### ManyWorlds
 
