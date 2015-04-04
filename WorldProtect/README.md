@@ -174,7 +174,7 @@ Will show additional information.
 Changes
 -------
 
-* ???
+* 1.1.0: no-explode
   * Added NoExplode functionality
 * 1.0.0 : Initial release
 

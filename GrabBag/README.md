@@ -196,6 +196,7 @@ Changes
   * Improved the way how modules.yml is updated
   * added shield command
   * removed un-used old code/re-organized code.
+  * Command repeater
 * 1.0.0 : First public release
 
 Copyright
