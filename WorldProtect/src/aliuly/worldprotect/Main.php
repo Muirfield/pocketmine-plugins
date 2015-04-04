@@ -300,7 +300,7 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $sender->sendMessage("WorldProtect sub-commands");
     foreach ($cmds as $a => $b) {
-      $ln = "- ".TextFormat::GREEN."/mw ".$a;
+      $ln = "- ".TextFormat::GREEN."/wp ".$a;
       foreach (self::$aliases as $i => $j) {
 	if ($j == $a) $ln .= "|$i";
       }
