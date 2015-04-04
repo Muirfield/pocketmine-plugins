@@ -132,7 +132,9 @@ Changes
 
 * 1.3.0: Level.dat hacking.
   * Added `lvdat` command to change `level.dat` settings.
-  * Added `fixname` command to fix `levelName` vs. `foldername` mismatches.
+  * Added `fixname` command to fix `levelName` vs. `foldername`
+    mismatches.
+  * Fixed critical error for teleport!
 * 1.2.0: Clean-ups
   * Added a setting to control if to broadcast when people teleport.
   * Removed per-level `motd.txt`.

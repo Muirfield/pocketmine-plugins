@@ -556,7 +556,7 @@ class Main extends PluginBase implements CommandExecutor {
     }
     return $txt;
   }
-  public function _getMaxPlayers($level) { return 0; }
+  public function _getPlayerLimit($level) { return 0; }
   public function maxPlayers1st($level) {
     $fn = "getPlayerLimit";
     foreach ($this->getServer()->getPluginManager()->getPlugins() as $p) {
