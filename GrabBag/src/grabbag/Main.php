@@ -262,6 +262,8 @@ class Main extends PluginBase implements CommandExecutor {
       return $this->cmdShield($sender,$args);
     case "servicemode":
       return $this->cmdSrvMode($sender,$args);
+    case "opms":
+      return $this->cmdOpMsg($sender,$args);
     }
     return false;
   }
@@ -441,7 +443,17 @@ class Main extends PluginBase implements CommandExecutor {
     }
     return true;
   }
-
+  private function cmdOpMsg(CommandSender $c,$args) {
+    if (count($args) == 0) return false;
+    $ms = TextFormat::BLUE.
+      "OpMsg [".$c->getName()."] ".TextFormat::YELLOW.implode(" ",$args);
+    $this->getLogger()->info($ms);
+    foreach ($this->getServer()->getOnlinePlayers() as $pl) {
+      if (!$pl->isOp()) continue;
+      $pl->sendMessage($ms);
+    }
+    return true;
+  }
   private function cmdOps(CommandSender $c,$args) {
     $txt = [ "" ];
     $pageNumber = $this->getPageNumber($args);

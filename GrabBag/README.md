@@ -35,6 +35,7 @@ Basic Usage:
 * get - obtain an item
 * shield [up|down] - Protect a player
 * servicemode [on|off] - enter maintenance mode
+* opms [msg] - send op only chat messages
 
 Documentation
 -------------
@@ -80,6 +81,11 @@ plugins.
 * *servicemode* _[on|off]_  _[message]_
   In servicemode, new connections are not allowed.  Existing users are
   OK.  Ops (gb.servicemode.allow) can always login.
+* *opms* text
+  Send a message that can only be seen by ops or by the console.  You
+  should use the *ops* command to see if there are any server ops
+  on-line.
+
 
 ### Listener Modules
 

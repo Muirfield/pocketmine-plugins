@@ -68,3 +68,6 @@ permissions:
     gb.servicemode.allow:
         default: op
         description: "Allow login when in service mode."
+    gb.cmd.opms:
+        default: true
+        description: "Allow to send op only messages"
