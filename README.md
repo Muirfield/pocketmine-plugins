@@ -97,7 +97,6 @@ To-do
   * Frost/Defrost
   * after - certain time, execute command (scheduled stop)
   * clear entities
-  * opmsg - chat only for ops
 * Player Interact Peacefully
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)
@@ -112,11 +111,6 @@ To-do
   * Implements the RuinPvP casino and shop functionality.
   * Provide rankings and stats...
   * Moves around randomly in his spawn area...
-
-
-
-
-
 
 * PMScript:
   {{ something }} the something is a PHP expression.
