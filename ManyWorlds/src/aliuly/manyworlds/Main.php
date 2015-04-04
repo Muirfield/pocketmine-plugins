@@ -9,8 +9,14 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\level\generator\Generator;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\Long;
+use pocketmine\nbt\tag\Compound;
 
 use pocketmine\utils\Config;
+use pocketmine\math\Vector3;
 
 
 class Main extends PluginBase implements CommandExecutor {
@@ -115,6 +121,17 @@ class Main extends PluginBase implements CommandExecutor {
 	  if (!$this->access($sender,"mw.cmd.world.create")) return false;
 	  return $this->mwWorldCreateCmd($sender,$args);
 	  break;
+	case "fixname":
+	  if (!$this->access($sender,"mw.cmd.lvdat")) return false;
+	  if (count($args) != 1) return $this->mwHelpCmd($sender,["fixname"]);
+	  $sender->sendMessage("Running /mw lvdat $args[0] name=$args[0]");
+	  return $this->mwLevelDatCmd($sender,[$args[0],
+					       "name=".$args[0]]);
+	  break;
+	case "lvdat":
+	  if (!$this->access($sender,"mw.cmd.lvdat")) return false;
+	  return $this->mwLevelDatCmd($sender,$args);
+	  break;
 	case "ld":
 	  if (!$this->access($sender,"mw.cmd.world.load")) return false;
 	  return $this->mwWorldLoadCmd($sender,$args);
@@ -213,6 +230,97 @@ class Main extends PluginBase implements CommandExecutor {
     if ($txt == null) return true;
     return $this->paginateText($sender,$pageNumber,$txt);
   }
+  private function mwLevelDatCmd(CommandSender $sender,$args) {
+    if (!count($args)) return $this->mwHelpCmd($sender,["lvdat"]);
+    $level = array_shift($args);
+    if(!$this->mwAutoLoad($sender,$level)) {
+      $sender->sendMessage("[MW] $level is not loaded!");
+      return true;
+    }
+    $world = $this->getServer()->getLevelByName($level);
+    if (!$world) {
+      $sender->sendMessage("[MW] $level not loaded");
+      return null;
+    }
+    //==== provider
+    $provider = $world->getProvider();
+    $changed = false; $unload = false;
+    foreach ($args as $kv) {
+      $kv = explode("=",$kv,2);
+      if (count($kv) != 2) {
+	$sender->sendMessage("Invalid element: $kv[0], ignored");
+	continue;
+      }
+      list($k,$v) = $kv;
+      switch ($k) {
+      case "spawn":
+	$pos = explode(",",$v);
+	if (count($pos)!=3) {
+	  $sender->sendMessage("Invalid spawn location: ".implode(",",$pos));
+	  continue;
+	}
+	list($x,$y,$z) = $pos;
+	$cpos = $provider->getSpawn();
+	if (($x=intval($x)) == $cpos->getX() &&
+	    ($y=intval($y)) == $cpos->getY() &&
+	    ($z=intval($z)) == $cpos->getZ()) {
+	  $sender->sendMessage("Spawn location is unchanged");
+	  continue;
+	}
+	$changed = true;
+	$provider->setSpawn(new Vector3($x,$y,$z));
+	break;
+      case "seed":
+	if ($provider->getSeed() != intval($v)) {
+	  $sender->sendMessage("Seed unchanged");
+	  continue;
+	}
+	$changed = true; $unload = true;
+	$provider->setSeed($v);
+	break;
+      case "name": // LevelName String
+	if ($provider->getName() == $v) {
+	  $sender->sendMessage("Name unchanged");
+	  continue;
+	}
+	$changed = true;
+	$provider->getLevelData()->LevelName = new String("LevelName",$v);
+	break;
+      case "generator":	// generatorName(String)
+	if ($provider->getLevelData()->generatorName == $v) {
+	  $sender->sendMessage("Generator unchanged");
+	  continue;
+	}
+	$changed=true; $unload=true;
+	$provider->getLevelData()->generatorName=new String("generatorName",$v);
+	break;
+      case "preset":	// String("generatorOptions");
+	if ($provider->getLevelData()->generatorOptions == $v) {
+	  $sender->sendMessage("Preset unchanged");
+	  continue;
+	}
+	$changed=true; $unload=true;
+	$provider->getLevelData()->generatorOptions =
+	  new String("generatorOptions",$v);
+	break;
+      default:
+	$sender->sendMessage("Unknown key $k, ignored");
+	continue;
+      }
+    }
+    if ($changed) {
+      $sender->sendMessage("Updating level.dat for $level");
+      $provider->saveLevelData();
+      if ($unload) {
+	$sender->sendMessage(TextFormat::RED.
+			   "CHANGES WILL NOT TAKE EFFECT UNTIL UNLOAD");
+      }
+    } else {
+      $sender->sendMessage("Nothing happens");
+    }
+    return true;
+  }
+
   private function mwWorldCreateCmd(CommandSender $sender,$args) {
     if (!isset($args[0]))
       return $this->mwHelpCmd($sender,["create"]);
@@ -316,6 +424,8 @@ class Main extends PluginBase implements CommandExecutor {
 		      "List world information"],
 	     "create" => ["<level> [seed [flat|normal [preset]]]",
 			  "Create a new world"],
+	     "lvdat" => ["<level> [attr=value]","Manipulate level.dat"],
+	     "fixname" => ["<level>","Fix level.dat world names"],
 	     "ld" => ["<level>|--all","Load a world"],
 	     "unload" => ["<level>","Attempt to unload a world"],
 	     ];
@@ -424,6 +534,16 @@ class Main extends PluginBase implements CommandExecutor {
 	foreach (call_user_func([$p,$fn],$world->getName()) as $ln) {
 	  $txt[] = $ln;
 	}
+      }
+    }
+    // Check for warnings...
+    if ($provider->getName() != $level) {
+      $txt[] = TextFormat::RED."Folder Name and Level.Dat names do NOT match";
+      $txt[] = TextFormat::RED."This can cause intermitent problems";
+      if($sender->hasPermission("mw.cmd.lvdat")) {
+	$txt[] = TextFormat::RED."Use: ";
+	$txt[] = TextFormat::GREEN."> /mw fixname $level";
+	$txt[] = TextFormat::RED."to fix this issue";
       }
     }
     return $txt;

@@ -20,6 +20,16 @@ permissions:
     runepvp.cmd:
         default: true
         description: "Give players access to RunePvP command"
+    runepvp.cmd.stats:
+        default: true
+        description: "Access to stats command"
+    runepvp.cmd.stats.other:
+        default: op
+        description: "View other's stats"
+    runepvp.cmd.top:
+        default: true
+        description: "View top players"
+
 #    runepvp.signs.place:
 #        default: op
 #        description: "Allow users to place RunePvP signs"

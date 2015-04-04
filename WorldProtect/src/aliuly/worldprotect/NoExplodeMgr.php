@@ -1,5 +1,5 @@
 <?php
-namespace grabbag;
+namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;

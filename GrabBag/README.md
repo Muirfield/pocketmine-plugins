@@ -35,6 +35,7 @@ Basic Usage:
 * get - obtain an item
 * shield [up|down] - Protect a player
 * servicemode [on|off] - enter maintenance mode
+* opms [msg] - send op only chat messages
 
 Documentation
 -------------
@@ -80,6 +81,11 @@ plugins.
 * *servicemode* _[on|off]_  _[message]_
   In servicemode, new connections are not allowed.  Existing users are
   OK.  Ops (gb.servicemode.allow) can always login.
+* *opms* text
+  Send a message that can only be seen by ops or by the console.  You
+  should use the *ops* command to see if there are any server ops
+  on-line.
+
 
 ### Listener Modules
 
@@ -95,19 +101,12 @@ Also this plugin supports the following modules:
   that it only does it for users without armor.
 * compasstp: When holding a compass tap the screen for 1 second, will
   teleport you in the direciton you are facing.
-* noexplode: Prevent explosions in specified worlds.
 
 ### Configuration
 
 Configuration is through the `config.yml` file:
 
 	---
-	noexplode:
-	  worlds:
-	    other_world:
-	    safe_world:
-	  spawns:
-	    world:
 	spawn:
 	  armor:
 	    head: '-'
@@ -119,12 +118,6 @@ Configuration is through the `config.yml` file:
 	  - "17:0:16"
 	  - "364:0:5"
 	...
-
-Under `noexplode` you can list the worlds where explosions will be
-prevented.  There are *two* lists.  In the list `worlds`, explosions
-will be stopped everywhere.  In the list `spawns`, explosions will
-*only* be stopped around the *spawn* location up to the distance of
-`spawn-protection` in `server.properties`.
 
 The `spawn` section contains two lists:
 
@@ -148,6 +141,7 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.slay: kill other players
 * gb.cmd.heal: healing
 * gb.cmd.whois: show player info
+* gb.cmd.whois.showip: Allow to view IP addresses
 * gb.cmd.seearmor: Show player's armor
 * gb.cmd.seeinv: Show player's inventory
 * gb.cmd.get: get blocks.  A shortcut to give.
@@ -162,19 +156,18 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
-* 1.1.1 : ?
+* 1.1.1 : More functionality
   * CompassTP: Prevent teleports to very nearby locations.  Also,
     removed suffocation dangers...  (this is traded with a risk of
     falling from high places...)
   * Added servicemode functionality
-* 1.1.0 : Additional functionality
   * showtimings command
   * Added the ability to teleport with a Compass.
   * added seearmor, seeinv and get
   * Improved the way how modules.yml is updated
   * added shield command
-  * added noexplosion module
   * removed un-used old code/re-organized code.
+  * Hide IP address in whois output
 * 1.0.0 : First public release
 
 Copyright

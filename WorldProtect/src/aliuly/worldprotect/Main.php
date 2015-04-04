@@ -9,7 +9,7 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
-
+use pocketmine\math\Vector3;
 
 class Main extends PluginBase implements CommandExecutor {
   const MIN_BORDER = 32;
@@ -21,6 +21,7 @@ class Main extends PluginBase implements CommandExecutor {
   static private $aliases = [
 			     "unprotect" => "unlock",
 			     "open" => "unlock",
+			     "notnt" => "noexplode",
 			     ];
 
   // Access and other permission related checks
@@ -43,6 +44,7 @@ class Main extends PluginBase implements CommandExecutor {
 				"world-protect" => true,
 				"per-world-pvp" => true,
 				"motd" => true,
+				"no-explode" => true,
 				],
 		 ];
     @mkdir($this->getDataFolder());
@@ -66,6 +68,9 @@ class Main extends PluginBase implements CommandExecutor {
       $this->listeners["borders"] = new WpBordersMgr($this);
     if ($cfg["settings"]["per-world-pvp"])
       $this->listeners["pvp"] = new WpPvpMgr($this);
+    if ($cfg["settings"]["no-explode"])
+      $this->listeners["no-explode"] = new NoExplodeMgr($this);
+
     $this->settings = $cfg["settings"];
 
     $this->wcfg = [];
@@ -142,6 +147,20 @@ class Main extends PluginBase implements CommandExecutor {
     return false;
   }
   //
+  // No explode callback
+  //
+  public function checkNoExplode($x,$y,$z,$level) {
+    if (!isset($this->wcfg[$level]["no-explode"])) return true;
+    if ($this->wcfg[$level]["no-explode"] == "world") return false;
+    if ($this->wcfg[$level]["no-explode"] != "spawn") return true;
+    $lv = $this->getServer()->getLevelByName($level);
+    if (!$lv) return true;
+    $sp = $lv->getSpawnLocation();
+    $dist = $sp->distance(new Vector3($x,$y,$z));
+    if ($dist < $this->getServer()->getSpawnRadius()) return false;
+    return true;
+  }
+  //
   // PvP callback
   //
   public function checkPvP($level) {
@@ -207,6 +226,10 @@ class Main extends PluginBase implements CommandExecutor {
 	  if (!$this->access($sender,"wp.cmd.protect")) return false;
 	  if (!$this->settings["world-protect"]) return false;
 	  return $this->worldProtectMode($sender,$scmd,$args);
+	case "noexplode":
+	  if (!$this->access($sender,"wp.cmd.noexplode")) return false;
+	  if (!$this->settings["no-explode"]) return false;
+	  return $this->worldNoExplodeMode($sender,$args);
 	case "pvp":
 	  if (!$this->access($sender,"wp.cmd.pvp")) return false;
 	  if (!$this->settings["per-world-pvp"]) return false;
@@ -256,6 +279,8 @@ class Main extends PluginBase implements CommandExecutor {
 	     "lock"=>["[level]","Locked.  Nobody (including op) can build"],
 	     "protect"=>["[level]","Only authorized people can build"],
 	     "pvp"=>["[level] [on|off]","Enable|disable pvp"],
+	     "noexplode" =>["[level] [off|world|spawn]",
+			    "Stop explosions in world or spawn area"],
 	     "border" => ["[level] [x1 z1 x2 z2|none]",
 			  "Creates a border in [level] defined by x1,z1 to x2,z2"],
 	     "max" => ["[level] [value]",
@@ -405,6 +430,60 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->saveWorldConfig($level);
     $this->getServer()->broadcastMessage("[WP] World $level protection mode changed to $mode");    
+    return true;
+  }
+  // No Explode controls
+  private function worldNoExplodeMode(CommandSender $sender,$args) {
+    if (count($args) == 0) {
+      if (!$this->inGame($sender)) return true;
+      $level = $sender->getLevel()->getName();
+      $mode = "show";
+    } elseif (count($args) == 1) {
+      if (in_array(strtolower($args[0]),["off","world","spawn"])) {
+	if (!$this->inGame($sender)) return true;
+	$mode = strtolower($args[0]);
+	$level = $sender->getLevel()->getName();
+      } else {
+	$mode = "show";
+	$level = $args[0];
+      }
+    } elseif (count($args) == 2) {
+      list($level,$mode) = $args;
+      $mode = strtolower($mode);
+    } else {
+      return $this->helpCmd($sender,["noexplode"]);
+    }
+    if (!$this->doLoadWorldConfig($sender,$level)) return true;
+    if ($mode == "show") {
+      $m = "NoExplode status for $level is ";
+      if (!isset($this->wcfg[$level]["no-explode"])) {
+	$m .= TextFormat::RED."OFF".TextFormat::RESET." (explosions allowed)";
+      } elseif ($this->wcfg[$level]["no-explode"] == "world") {
+	$m .= TextFormat::GREEN."world";
+      } elseif ($this->wcfg[$level]["no-explode"] == "spawn") {
+	$m .= TextFormat::YELLOW."spawn";
+      } else {
+	$m .= TextFormat::RED."Unknown".TextFormat::RESET.
+	  " (explosions allowed)";
+      }
+      $sender->sendMessage($m);
+      return true;
+    }
+    if (!$this->isAuth($sender,$level)) return true;
+    if ($mode == "off") {
+      if (!isset($this->wcfg[$level]["no-explode"])) {
+	$sender->sendMessage("no-explode status unchanged");
+	return;
+      }
+      unset($this->wcfg[$level]["no-explode"]);
+    } elseif ($mode == "world" || $mode == "spawn") {
+      $this->wcfg[$level]["no-explode"] = $mode;
+    } else {
+      $this->sendMessage("Invalid no-explode mode $mode");
+      return;
+    }
+    $this->saveWorldConfig($level);
+    $this->getServer()->broadcastMessage("[WP] World $level no-explode changed to $mode");
     return true;
   }
   // pvp mode
@@ -621,6 +700,15 @@ class Main extends PluginBase implements CommandExecutor {
       $txt[] = "PvP: ".TextFormat::RED."ON";
     } else {
       $txt[] = "PvP: ".TextFormat::GREEN."OFF";
+    }
+    if (isset($this->wcfg[$level]["no-explode"])) {
+      if ($this->wcfg[$level]["no-explode"] == "world") {
+	$txt[] = "NoExplode: ".TextFormat::GREEN."world";
+      } elseif ($this->wcfg[$level]["no-explode"] == "spawn") {
+	$txt[] = "NoExplode: ".TextFormat::YELLOW."spawn";
+      } else {
+	$txt[]= "NoExplode: ".TextFormat::RED.$this->wcfg[$level]["no-explode"];
+      }
     }
     if (isset($this->wcfg[$level]["border"])) {
       $txt[] = "World Borders:".implode(",",$this->wcfg[$level]["border"]);

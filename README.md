@@ -15,6 +15,10 @@ Repository for my PocketMine plugins
 * RunePvP - A basic PvP manager
 * LocalChat - Localized chat
 
+## Beta
+
+* ItemCasePE - A port of Bukkit ItemCase
+
 ## Development
 
 * pmptemlate - test and dev
@@ -24,9 +28,6 @@ Repository for my PocketMine plugins
 ## Available Tools
 
 * rcon - An rcon client.
-* pmimporter - Import/Convert into PocketMine-MP.  (Used by ImportMap)
-    * ImportMap - Imports maps into PocketMine-MP.
-
 
 Copyright
 =========
@@ -87,13 +88,21 @@ To-do
 * Add Shift regions option to Copier.php
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
+  * Check Level->getName vs getFolderName
 * pmimporter: merge chunks ... by selecting square regions and offsets
   - limit this at region|chunk resolution.
   - Always specify corners and merge
 * GrabBag:
+  * Repeat last command with optionally a different page
   * Frost/Defrost
   * after - certain time, execute command (scheduled stop)
   * clear entities
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\server\RemoteServerCommandEvent;
+use pocketmine\event\server\ServerCommandEvent;
+
 * Player Interact Peacefully
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)
@@ -101,13 +110,14 @@ To-do
 * Add a Snowball/Egg or something and use it as football..
 * RuneGM:
 * Adds a GameMaster:
-  * Automatically spawned villager
+  * Automatically spawned villager or a NPC (Player)
   * If LocalChat is active we use it... otherwise you need to use /rp
     command.
   * If attacked it will retaliate (or kill you...)
   * Implements the RuinPvP casino and shop functionality.
   * Provide rankings and stats...
   * Moves around randomly in his spawn area...
+
 
 * PMScript:
   {{ something }} the something is a PHP expression.
@@ -131,7 +141,7 @@ To-do
 	>>>HandlerList::unregisterAll($plugin);
 	?removePermissions
 
-
+* * *
 
 
 v1.5 will bring:
@@ -157,3 +167,7 @@ Give/Get items:
 
 * zombie : spawn_egg:32
 * villager : spawn_egg:15
+
+- resubmit
+  - RunePVP (after imporvemennts)
+  - Voodoo - improve movement

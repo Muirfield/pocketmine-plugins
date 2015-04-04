@@ -35,6 +35,7 @@ Basic Usage:
 
 * runepvp - Will show your RunePvP stats.
 * runepvp stats [player] - Show the RunePvP stats for [player]
+* runepvp top [online] - Show top players.
 
 Documentation
 -------------
@@ -56,10 +57,12 @@ reaches a level up.
 ### Permission Nodes:
 
 * runepvp.cmd: Give players access to RunePvP command
+* runepvp.cmd.stats: Stats sub command
+* runepvp.cmd.stats.other: View stats of other players
+* runepvp.cmd.top: View rankings
 
 ### TODO
 
-* Rankings
 * Show rankings on a sign
 * Show stats on a sign.  Tap a sign and we send a packet update sign
   with stats.  TileEntity is not changed!
@@ -67,9 +70,10 @@ reaches a level up.
 Changes
 -------
 
-* 1.1.0 : More econmoy support
+* 1.1.0 : More economy support
   * Some code fixes and removed some debug code that slipped through
   * Added support for Economy and MassiveEconomy.
+  * Added top (rankings) command
 * 1.0.0 : First public release
 
 Copyright

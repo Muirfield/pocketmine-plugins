@@ -28,6 +28,8 @@ Basic Usage:
 * /mw load *level*
 * /mw unload [-f] *level*
 * /mw ls [level]
+* /mw lvdat [level] [attr=value]
+* /mw fixname [level]
 
 Documentation
 -------------
@@ -57,8 +59,21 @@ World management:
 * mw load *level*  
   Loads `level` directly.  If you use `--all` for the `level` name, it
   will load all worlds.
-* mw unload *level*
+* mw unload *level*  
   Unloads `level`.
+
+Format hacking:
+
+* mw fixname *level*  
+  Fixes `level.dat` files so that the name matches the folder name.
+* mw lvdat *attr=value* *attr=value*  
+  Change directly some `level.dat` values/attributes.  Supported
+  attributes:
+  * spawn=x,y,z : Sets spawn point
+  * seed=randomseed : seed used for terrain generation
+  * name=string : Level name
+  * generator=flat|normal : Terrain generator
+  * preset=string : Presets string.
 
 ### Examples:
 
@@ -93,6 +108,7 @@ In the plugin's config.yml file you can have:
 * mw.cmd.tp.others - Allows users to make others travel to other worlds
 * mw.cmd.world.create - Allows users to create worlds
 * mw.cmd.world.load - Allows users to load worlds
+* mw.cmd.lvdat - Manipulate level data
 
 FAQ
 ---
@@ -114,6 +130,9 @@ Issues
 Changes
 -------
 
+* ???: 
+  * Added `lvdat` command to change `level.dat` settings.
+  * Added `fixname` command to fix `levelName` vs. `foldername` mismatches.
 * 1.2.0: Clean-ups
   * Added a setting to control if to broadcast when people teleport.
   * Removed per-level `motd.txt`.

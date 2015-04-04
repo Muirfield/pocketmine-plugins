@@ -21,6 +21,7 @@ Features:
 * Create limits in your limitless worlds
 * Limit the number of players in a world
 * Show a text file when players enter a world
+* Stops explosions from happening in a world
 
 Basic Usage:
 
@@ -29,6 +30,7 @@ Basic Usage:
 * /wp lock [level]
 * /wp protect [level]
 * /wp pvp [level] [on|off]
+* /wp noexplode [level] [off|world|spawn]
 * /wp border [level] [x1 z1 x2 z2|none]
 * /wp max [level] [count]
 * /wp add [level] *player*
@@ -88,6 +90,14 @@ Per-world PvP:
 * wp pvp [level] [on|off]  
   If nothing is specified it will show the PvP status of the current
   level.  Otherwise PvP will either be activated|de-activated.
+
+No Explode:
+
+* /wp noexplode [level] [off|world|spawn]
+  If nothing is specified it will show the NoExplode status of the current
+  level. If off, allows explosions (default).  If world, explosions are
+  prevented in the whole world.  If spawn, explosions are prevented in
+  the spawn area.
 
 World borders:
 
@@ -150,16 +160,22 @@ Also, if ManyWorlds is installed, the
 
 Will show additional information.
 
-Issues
-------
+### Issues
 
 * World names can not contain spaces.
 * Placing a sign on worlds that do not allow placing blocks will crash
   the MCPE client.
 
+### TODO
+
+* Prevent PvP in spawn. pvp spawn
+
+
 Changes
 -------
 
+* ???
+  * Added NoExplode functionality
 * 1.0.0 : Initial release
 
 Copyright

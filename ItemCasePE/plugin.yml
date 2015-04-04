@@ -1,0 +1,23 @@
+main: aliuly\itemcasepe\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: ItemCasePE
+description: An implementation of Bukkit's ItemCase
+version: 1.0.0
+author: aliuly
+
+commands:
+    itemcase:
+        description: ItemCase management command
+        usage: "/itemcase [add|cancel|respawn]"
+        aliases: [ic]
+        permission: itemcase.cmd
+
+permissions:
+    itemcase.cmd:
+        default: op
+        description: "allow players access to the itemcase command"
+    itemcase.destroy:
+        default: op
+        description: "allow players to destroy cases"

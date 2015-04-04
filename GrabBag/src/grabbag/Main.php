@@ -12,7 +12,6 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
-use pocketmine\math\Vector3;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -198,8 +197,6 @@ class Main extends PluginBase implements CommandExecutor {
       $this->listeners["spawnmgr"] = new SpawnMgr($this);
     if (array_key_exists("compasstp",$this->modules["listener"]))
       $this->listeners["compasstp"] = new CompassTpMgr($this);
-    if (array_key_exists("noexplode",$this->modules["listener"]))
-      $this->listeners["noexplode"] = new NoExplodeMgr($this);
     if (array_key_exists("slay",$this->modules["commands"]))
       $this->listeners["cmd.slay"] = new ReaperMgr($this);
     if (array_key_exists("shield",$this->modules["commands"]))
@@ -211,12 +208,6 @@ class Main extends PluginBase implements CommandExecutor {
 
     $defaults =
       [
-       "noexplode" => [
-		       "worlds"=>[
-				  ],
-		       "spawns"=>[
-				  ],
-		       ],
        "spawn"=>[
 		 "armor"=>[
 			   "head"=>"-",
@@ -236,13 +227,6 @@ class Main extends PluginBase implements CommandExecutor {
     }
     $this->config=(new Config($this->getDataFolder()."config.yml",
 			      Config::YAML,$defaults))->getAll();
-    if (!isset($this->config["noexplode"])) $this->config["noexplode"]=[];
-    if (!isset($this->config["noexplode"]["worlds"]))
-      $this->config["noexplode"]["worlds"]=[];
-    if (!isset($this->config["noexplode"]["spawns"]))
-      $this->config["noexplode"]["spawns"]=[];
-
-    //print_r($this->config["noexplode"]);
   }
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
     // Make sure the command is active
@@ -278,6 +262,8 @@ class Main extends PluginBase implements CommandExecutor {
       return $this->cmdShield($sender,$args);
     case "servicemode":
       return $this->cmdSrvMode($sender,$args);
+    case "opms":
+      return $this->cmdOpMsg($sender,$args);
     }
     return false;
   }
@@ -306,7 +292,8 @@ class Main extends PluginBase implements CommandExecutor {
       .$target->getLevel()->getName().TextFormat::RESET;
     
     $txt[] = TextFormat::GREEN."Location: ".TextFormat::WHITE."X:".floor($target->getPosition()->x)." Y:".floor($target->getPosition()->y)." Z:".floor($target->getPosition()->z)."".TextFormat::RESET;
-    $txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
+    if ($c->hasPermission("gb.cmd.whois.showip"))
+      $txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
     $txt[] = TextFormat::GREEN."Gamemode: ".TextFormat::WHITE
       .ucfirst(strtolower(Server::getGamemodeString($target->getGamemode())))
       .TextFormat::RESET;
@@ -456,7 +443,17 @@ class Main extends PluginBase implements CommandExecutor {
     }
     return true;
   }
-
+  private function cmdOpMsg(CommandSender $c,$args) {
+    if (count($args) == 0) return false;
+    $ms = TextFormat::BLUE.
+      "OpMsg [".$c->getName()."] ".TextFormat::YELLOW.implode(" ",$args);
+    $this->getLogger()->info($ms);
+    foreach ($this->getServer()->getOnlinePlayers() as $pl) {
+      if (!$pl->isOp()) continue;
+      $pl->sendMessage($ms);
+    }
+    return true;
+  }
   private function cmdOps(CommandSender $c,$args) {
     $txt = [ "" ];
     $pageNumber = $this->getPageNumber($args);
@@ -630,21 +627,6 @@ class Main extends PluginBase implements CommandExecutor {
     $pl = $this->getServer()->getPlayer($player);
     if ($pl == null) return false;
     return $pl->hasPermission("gb.compasstp.allow");
-  }
-  public function checkNoExplode($x,$y,$z,$level) {
-    if (!array_key_exists("noexplode",$this->modules["listener"])) return false;
-    if (array_key_exists($level,$this->config["noexplode"]["worlds"]))
-      return false;
-    if (!array_key_exists($level,$this->config["noexplode"]["spawns"]))
-      return true;
-    $lv = $this->getServer()->getLevelByName($level);
-    if (!$lv) return true;
-    $sp = $lv->getSpawnLocation();
-    $dist = $sp->distance(new Vector3($x,$y,$z));
-    if ($dist < $this->getServer()->getSpawnRadius()) {
-      return false;
-    }
-    return true;
   }
 
   private function spawnArmor($pl) {
