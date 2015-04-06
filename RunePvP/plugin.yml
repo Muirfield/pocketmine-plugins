@@ -6,7 +6,7 @@ load: POSTWORLD
 # You have to have at least one of these...
 softdepend: [SignShop,PocketMoney,MassiveEconomy,EconomyAPI]
 
-description: A funny PvP manager plugin inspired in RuinPvP
+description: A funny PvP manager plugin inspired by RuinPvP
 author: aliuly
 
 commands:
@@ -29,10 +29,39 @@ permissions:
     runepvp.cmd.top:
         default: true
         description: "View top players"
-
-#    runepvp.signs.place:
-#        default: op
-#        description: "Allow users to place RunePvP signs"
-#    runepvp.signs.use:
-#        default: op
-#        description: "Allow users to place RunePvP signs"
+    runepvp.signs.place:
+        default: op
+        description: "Allow users to place RunePvP signs"
+    runepvp.signs.place.stats:
+        default: op
+        description: "Allow users to place RunePvP signs for Stats"
+    runepvp.signs.place.rankings:
+        default: op
+        description: "Allow users to place RunePvP signs for Rankings"
+    runepvp.signs.place.onlineranks:
+        default: op
+        description: "Allow users to place RunePvP signs for Online ranks"
+    runepvp.signs.place.shop:
+        default: op
+        description: "Allow users to place RunePvP signs for shops"
+    runepvp.signs.place.casino:
+        default: op
+        description: "Allow users to place RunePvP signs for Casinos"
+    runepvp.signs.use:
+        default: op
+        description: "Allow users to use RunePvP signs"
+    runepvp.signs.use.stats:
+        default: op
+        description: "Allow users to use specific RunePvP signs"
+    runepvp.signs.use.rankings:
+        default: op
+        description: "Allow users to use specific RunePvP signs"
+    runepvp.signs.use.onlineranks:
+        default: op
+        description: "Allow users to use specific RunePvP signs"
+    runepvp.signs.use.shop:
+        default: op
+        description: "Allow users to use specific RunePvP signs"
+    runepvp.signs.use.casino:
+        default: op
+        description: "Allow users to use specific RunePvP signs"

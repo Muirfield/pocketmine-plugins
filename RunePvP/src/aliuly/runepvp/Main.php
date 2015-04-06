@@ -9,15 +9,28 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\Listener;
+use pocketmine\utils\Config;
+use pocketmine\block\Block;
+use pocketmine\item\Item;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\utils\Config;
+use pocketmine\tile\Sign;
+use pocketmine\event\block\SignChangeEvent;
+use pocketmine\event\player\PlayerInteractEvent;
+
+use pocketmine\network\protocol\EntityDataPacket;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\String;
+use pocketmine\scheduler\CallbackTask;
+
 
 class Main extends PluginBase implements CommandExecutor,Listener {
   protected $dbm;
   protected $points;
   protected $money;
+  protected $texts;
 
   // Access and other permission related checks
   private function access(CommandSender $sender, $permission) {
@@ -46,15 +59,37 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->dbm = new DatabaseManager($this->getDataFolder()."runepvp.sqlite3");
     $defaults = [
+		 "settings" => [
+				"dynamic-updates" => 1,
+				],
 		 "points" => [
 			      "kills" => 100,
 			      "level" => 1000,
 			      ],
+		 "signs" => [
+			     "stats" => ["[STATS]"],
+			     "rankings" => ["[RANKINGS]"],
+			     "onlineranks" => ["[ONLINE RANKS]"],
+			     "shop" => ["[SHOP]"],
+			     "casino" => ["[CASINO]"],
+			     ],
 		 ];
 
     $cfg = (new Config($this->getDataFolder()."config.yml",
 		       Config::YAML,$defaults))->getAll();
     $this->points = $cfg["points"];
+    if (isset($cfg["settings"]["dynamic-updates"])) {
+      $this->getLogger()->info("dynamic-updates: ON");
+      $this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this,"updateTimer"],[]),40);
+    }
+
+    // Configure texts
+    foreach ($cfg["signs"] as $sn => $tab) {
+      foreach ($tab as $z) {
+	$this->texts[$z] = $sn;
+      }
+    }
+
     $pm = $this->getServer()->getPluginManager();
     if(!($this->money = $pm->getPlugin("PocketMoney"))
        && !($this->money = $pm->getPlugin("EconomyAPI"))
@@ -112,6 +147,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     } else {
       $plist = null;
     }
+    //print_r([$limit,$plist]);
     return $this->dbm->getTops($limit,$plist);
   }
   private function cmdTops(CommandSender $c,$args) {
@@ -216,6 +252,191 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     }
   }
   //////////////////////////////////////////////////////////////////////
+  // Manage signs
+  //////////////////////////////////////////////////////////////////////
+  private function parseItemLine($txt) {
+    $txt = preg_split('/\s+/',$txt);
+    if (count($txt) == 0) return null;
+    $cnt = $txt[count($txt)-1];
+    if (preg_match('/^x(\d+)$/',$cnt,$mv)) {
+      $cnt = $mv[1];
+      array_pop($txt);
+    } else {
+      $cnt = 1;
+    }
+    $item = Item::fromString(implode("_",$txt));
+    if ($item->getId() == 0) return null;
+    $item->setCount($cnt);
+    return $item;
+  }
+  private function parsePriceLine($txt) {
+    $n = intval(preg_replace('/[^0-9]/', '', $txt));
+    if ($n == 0) return null;
+    return $n;
+  }
+  private function parseCasinoLine($txt) {
+    $txt = preg_replace('/^\s*odds:\s*/i','',$txt);
+    $txt = preg_split('/\s*:\s*/',$txt);
+    if (count($txt) != 2) return [null,null];
+    list($odds,$payout) = $txt;
+    $payout = $this->parsePriceLine($payout);
+    if ($payout === null) return [null,null];
+    return [$this->parsePriceLine($odds),$payout];
+  }
+  private function updateTile($tile) {
+    $sign = $tile->getText();
+    $sn = $this->texts[$sign[0]];
+    $upd = [ $sign[0], $sign[1], $sign[2], $sign[3] ];
+    switch ($sn) {
+    case "stats":
+      $lv = $tile->getLevel();
+      foreach ($lv->getPlayers() as $pl) {
+	$score = $this->dbm->getScore($pl->getName());
+	if ($score == null) continue;
+	$money = $this->getMoney($pl->getName());
+	$data = $tile->getSpawnCompound();
+	$data->Text1 = new String("Text1",$sign[0]);
+	$data->Text2 = new String("Text2","Level: ".$score["level"]);
+	$data->Text3 = new String("Text3","Kills: ".$score["kills"]);
+	$data->Text4 = new String("Text4","Points: ".$money);
+	$nbt = new NBT(NBT::LITTLE_ENDIAN);
+	$nbt->setData($data);
+	$pk = new EntityDataPacket();
+	$pk->x = $tile->getX();
+	$pk->y = $tile->getY();
+	$pk->z = $tile->getZ();
+	$pk->namedtag = $nbt->write();
+	$pl->dataPacket($pk);
+      }
+      break;
+    case "rankings":
+    case "onlineranks":
+      $res = $this->getRankings(3, $sn == "onlineranks");
+      if ($res == null) {
+	$upd[1] = "Not Available";
+	$upd[2] = "insufficient";
+	$upd[3] = "players on-line";
+	break;
+      }
+      $upd[1] = "";
+      $upd[2] = "";
+      $upd[3] = "";
+      $i =1;
+      foreach ($res as $r) {
+	$upd[$i] = implode(" ",[$r["player"],$r["kills"]]);
+	++$i;
+      }
+      break;
+    default:
+      return;
+    }
+    if ($upd[0] == $sign[0] && $upd[2] == $sign[2] &&
+	$upd[1] == $sign[1] && $upd[3] == $sign[3]) return;
+    $tile->setText($upd[0],$upd[1],$upd[2],$upd[3]);
+  }
+
+  private function activateSign($pl,$tile) {
+    $sign = $tile->getText();
+    if (!$this->access($pl,"runepvp.signs.use")) return;
+    $sn = $this->texts[$sign[0]];
+    if (!$this->access($pl,"runepvp.signs.use.".$sn)) return;
+    switch ($sn) {
+    case "stats":
+      $this->updateTile($tile);
+      break;
+    case "rankings":
+      $this->updateTile($tile);
+      $this->cmdTops($pl,[]);
+      break;
+    case "onlineranks":
+      $this->updateTile($tile);
+      $this->cmdTops($pl,["online"]);
+      break;
+    case "shop":
+      $item = $this->parseItemLine($sign[1]);
+      if ($item === null) {
+	$pl->sendMessage("Invalid item line");
+	return false;
+      }
+      $price = $this->parsePriceLine($sign[2]);
+      if ($price === null) {
+	$pl->sendMessage("Invalid price line");
+	return false;
+      }
+      $money = $this->getMoney($pl->getName());
+      if ($money < $price) {
+	$pl->sendMessage("[RunePvP] You do not have enough points");
+      } else {
+	$this->grantMoney($pl->getName(),-$price);
+	$pl->getInventory()->addItem(clone $item);
+	$pl->sendMessage("[RunePvP] Item purchased");
+      }
+      break;
+    case "casino":
+      list($odds,$payout) = $this->parseCasinoLine($sign[1]);
+      if ($odds === null) {
+	$pl->sendMessage("Invalid odds line");
+	return false;
+      }
+      $price = $this->parsePriceLine($sign[2]);
+      if ($price === null) {
+	$pl->sendMessage("Invalid price line");
+	return false;
+      }
+      $money = $this->getMoney($pl->getName());
+      if ($money < $price) {
+	$pl->sendMessage("[RunePvP] You do not have enough points");
+      } else {
+	$pl->sendMessage("[RunePvP] Betting $price...");
+	$this->grantMoney($pl->getName(),-$price);
+	$rand = mt_rand(0,$odds);
+	if ($rand == 1) {
+	  $pl->sendMessage("[RunePvP] You WON!!! prize...".$payout);
+	  $this->grantMoney($pl->getName(),$payout);
+	} else {
+	  $pl->sendMessage("[RunePvP] BooooM!!! You lost");
+	}
+      }
+      break;
+    }
+    return true;
+  }
+
+  private function validateSign($pl,$sign) {
+    if (!$this->access($pl,"runepvp.signs.place")) return false;
+    $sn = $this->texts[$sign[0]];
+    if (!$this->access($pl,"runepvp.signs.place.".$sn)) return false;
+    switch ($sn) {
+    case "shop":
+      $item = $this->parseItemLine($sign[1]);
+      if ($item === null) {
+	$pl->sendMessage("Invalid item line");
+	return false;
+      }
+      $price = $this->parsePriceLine($sign[2]);
+      if ($price === null) {
+	$pl->sendMessage("Invalid price line");
+	return false;
+      }
+      break;
+    case "casino":
+      list($odds,$payout) = $this->parseCasinoLine($sign[1]);
+      if ($odds === null) {
+	$pl->sendMessage("Invalid odds line");
+	return false;
+      }
+      $price = $this->parsePriceLine($sign[2]);
+      if ($price === null) {
+	$pl->sendMessage("Invalid price line");
+	return false;
+      }
+      break;
+    }
+    return true;
+  }
+
+
+  //////////////////////////////////////////////////////////////////////
   //
   // Event handlers
   //
@@ -275,5 +496,46 @@ class Main extends PluginBase implements CommandExecutor,Listener {
     }
     $this->getServer()->broadcastMessage("[RunePvP] <Lv.$lv> $pn joined the game.");
   }
-}
 
+  // Sign functionality
+  public function placeSign(SignChangeEvent $ev){
+    if($ev->getBlock()->getId() != Block::SIGN_POST && 
+       $ev->getBlock()->getId() != Block::WALL_SIGN) return;
+    $sign = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
+    if(!($sign instanceof Sign)) return;
+
+    $sign = $ev->getLines();
+    if (!isset($this->texts[$sign[0]])) return;
+    if (!$this->validateSign($ev->getPlayer(),$sign)) {
+      $ev->setLine(0,"[BROKEN]");
+      return;
+    }
+    $ev->getPlayer()->sendMessage("[RunePvP] placed sign");
+  }
+
+  public function playerTouchSign(PlayerInteractEvent $ev){
+    if($ev->getBlock()->getId() != Block::SIGN_POST &&
+       $ev->getBlock()->getId() != Block::WALL_SIGN) return;
+    //echo "TOUCHED\n";
+    $sign = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
+    if(!($sign instanceof Sign)) return;
+    //echo __METHOD__.",".__LINE__."\n";
+    $lines = $sign->getText();
+    //print_r($lines);
+    //print_r($this->texts);
+    if (!isset($this->texts[$lines[0]])) return;
+    //echo __METHOD__.",".__LINE__."\n";
+    $this->activateSign($ev->getPlayer(),$sign);
+  }
+  public function updateTimer() {
+    foreach ($this->getServer()->getLevels() as $lv) {
+      if (count($lv->getPlayers()) == 0) continue;
+      foreach ($lv->getTiles() as $tile) {
+	if (!($tile instanceof Sign)) continue;
+	$sign = $tile->getText();
+	if (!isset($this->texts[$sign[0]])) continue;
+	$this->updateTile($tile);
+      }
+    }
+  }
+}

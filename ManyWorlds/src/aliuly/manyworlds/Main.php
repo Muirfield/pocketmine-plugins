@@ -184,7 +184,7 @@ class Main extends PluginBase implements CommandExecutor {
       $player->sendMessage("[MW] Teleporting you to " . $level . " at\n" . $sender->getName() . "'s request...");
       if ($this->teleport($player,$level)) {
 	if ($this->cfg["settings"]["broadcast-tp"]) {
-	  $this->getServer()->broadcastMessage("[MW] ".$sender->getName()." was teleported to $level");
+	  $this->getServer()->broadcastMessage("[MW] ".$player->getName()." was teleported to $level");
 	} else {
 	  $sender->sendMessage("[MW] " . $player->getName() . " has been teleported to " . $level . "!");
 	}
@@ -536,6 +536,14 @@ class Main extends PluginBase implements CommandExecutor {
 	}
       }
     }
+    //////////////////////////////////////////////////////////////////////
+    // Checks
+    //$txt[] = "levelName:    ".$world->getName()."\n";
+    //$txt[] = "folderName:   ".$world->getFolderName()."\n";
+    //$txt[] = "providerName: ".$provider->getName()."\n";
+    //////////////////////////////////////////////////////////////////////
+
+
     // Check for warnings...
     if ($provider->getName() != $level) {
       $txt[] = TextFormat::RED."Folder Name and Level.Dat names do NOT match";
@@ -548,7 +556,7 @@ class Main extends PluginBase implements CommandExecutor {
     }
     return $txt;
   }
-  public function _getMaxPlayers($level) { return 0; }
+  public function _getPlayerLimit($level) { return 0; }
   public function maxPlayers1st($level) {
     $fn = "getPlayerLimit";
     foreach ($this->getServer()->getPluginManager()->getPlugins() as $p) {

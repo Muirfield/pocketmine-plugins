@@ -10,17 +10,20 @@ Repository for my PocketMine plugins
 * SignWarp - A sign based teleport facility.
 * GrabBag - My personal collection of commands and listener modules.
 * Scorched - Major world destruction
-* Voodoo - Animate zombies
 * WorldProtect - Anti-griefing and per world pvp.
-* RunePvP - A basic PvP manager
 * LocalChat - Localized chat
 
 ## Beta
 
 * ItemCasePE - A port of Bukkit ItemCase
 
+## Unofficial
+
+* RunePvP - A basic PvP manager
+
 ## Development
 
+* Voodoo - Animate zombies
 * pmptemlate - test and dev
 * NotNormal - a terrain generator.
 * NotSoFlat - to be deleted
@@ -96,7 +99,6 @@ To-do
   * Frost/Defrost
   * after - certain time, execute command (scheduled stop)
   * clear entities
-
 * Player Interact Peacefully
   - command: attack/interact - defualts to interact
   - if holding a weapon attack (always)

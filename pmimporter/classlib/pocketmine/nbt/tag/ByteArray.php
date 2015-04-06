@@ -1,1 +1,0 @@
-../../../../pocketmine-src/nbt/tag/ByteArray.php

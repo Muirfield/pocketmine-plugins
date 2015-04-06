@@ -34,6 +34,7 @@ It will shows casino command.
 
 =RuinPvP Point Shop=
 [Wooden Sword:200p]/ruinpvp buywood
+
 [Golden Sword:250p]/ruinpvp buygold
 [Stone Sword:500p]/ruinpvp buystone
 [Iron Sword:700p]/ruinpvp buyiron

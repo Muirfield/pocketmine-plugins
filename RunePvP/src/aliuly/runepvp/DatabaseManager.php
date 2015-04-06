@@ -24,7 +24,7 @@ class DatabaseManager {
 	$sql .= " WHERE player IN (";
 	$q = "";
 	foreach ($players as $p) {
-	  $sql .= $q.self::prepare($player);
+	  $sql .= $q.self::prepare($p);
 	  $q = ",";
 	}
 	$sql .=")";
