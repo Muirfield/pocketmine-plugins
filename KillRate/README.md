@@ -20,8 +20,8 @@ to reward killing.
 
 Basic Usage:
 
-* killrate - Will show your RunePvP stats.
-* killrate stats [player] - Show the RunePvP stats for [player]
+* killrate - Will show your KillRate stats.
+* killrate stats [player] - Show the KillRate stats for [player]
 * killrate top [online] - Show top players.
 
 Documentation
