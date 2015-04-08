@@ -443,9 +443,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
   //////////////////////////////////////////////////////////////////////
   public function onPlayerDeath(PlayerDeathEvent $e) {
     $pv = $e->getEntity();
-    if ($pv->getLastDamageCause()->getCause() != EntityDamageEvent::CAUSE_ENTITY_ATTACK) return;
+	 $cause = $pv->getLastDamageCause();
+	 // If we don't know the real cause, we can score it!
+	 if (!($cause instanceof EntityDamageEvent)) return;
+
+    if ($cause->getCause() != EntityDamageEvent::CAUSE_ENTITY_ATTACK) return;
     if (!($pv instanceof Player)) return; // We don't really need this check!
-    $pp = $pv->getLastDamageCause()->getDamager();
+    $pp = $cause->getDamager();
     if (!($pp instanceof Player)) return; // Not killed by player...
 
     $vic = $pv->getName();
@@ -499,7 +503,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 
   // Sign functionality
   public function placeSign(SignChangeEvent $ev){
-    if($ev->getBlock()->getId() != Block::SIGN_POST && 
+    if($ev->getBlock()->getId() != Block::SIGN_POST &&
        $ev->getBlock()->getId() != Block::WALL_SIGN) return;
     $sign = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
     if(!($sign instanceof Sign)) return;

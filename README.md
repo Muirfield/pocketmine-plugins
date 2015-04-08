@@ -137,6 +137,10 @@ To-do
 	>>>HandlerList::unregisterAll($plugin);
 	?removePermissions
 
+NEW PLUGIN:
+- scores: keep track your kills
+- plots: place a sign claim a plot.  Place a sign restrict the plot.
+
 * * *
 
 

@@ -527,173 +527,180 @@ class Main extends PluginBase implements CommandExecutor {
 		if (count($args)) {
 			// Show the specified report
 			$rpt = array_shift($args);
-			if ($rpt ==
-				 $rpt = preg_replace('/[^0-9]+/i','',$rpt);
-				 $f = $this->getServer()->getDataPath()."timings/timings$rpt.txt";
-				 if (!file_exists($f)) {
-					 $c->sendMessage("Report $rpt can not be found");
-					 return true;
-				 }
-				 $txt = file($f);
-				 array_unshift($txt,"Report: timings$rpt");
-				 return $this->paginateText($c,$pageNumber,$txt);
-				 }
-			$txt = ["HDR"];
-			// Inventorise the reports
-			$count = 0;
-			foreach (glob($this->getServer()->getDataPath(). "timings/timings*.txt") as $f) {
-				++$count;
-				$txt[] = "- ".basename($f);
-			}
-			if ($count == 0) {
-				$sender->sendMessage(TextFormat::RED."No timmings report found");
-				$sender->sendMessage("Enable timings by typing /timings on");
-				$sender->sendMessage("Generate timings report by typing /timings report");
+			if ($rpt == "clear") {
+				$count = 0;
+				foreach (glob($this->getServer()->getDataPath(). "timings/timings*.txt") as $f) {
+					unlink($f); $count++;
+				}
+				$c->sendMessage("Deleted reports: $count");
 				return true;
 			}
-			$txt[0] = "Reports: $count";
+			$rpt = preg_replace('/[^0-9]+/i','',$rpt);
+			$f = $this->getServer()->getDataPath()."timings/timings$rpt.txt";
+			if (!file_exists($f)) {
+				$c->sendMessage("Report $rpt can not be found");
+				return true;
+			}
+			$txt = file($f);
+			array_unshift($txt,"Report: timings$rpt");
 			return $this->paginateText($c,$pageNumber,$txt);
 		}
-		private function cmdGet(CommandSender $c,$args) {
-			if (!isset($args[0])) return false;
-			if (!$this->inGame($c)) return true;
-			if ($c->isCreative()) {
-				$c->sendMessage("You are in creative mode");
-				return true;
-			}
-			$item = Item::fromString($args[0]);
-			if ($item->getId() == 0) {
-				$c->sendMessage(TextFormat::RED."There is no item called ".$args[0]);
-				return true;
-			}
-			if (isset($args[1])) {
-				$item->setCount((int)$args[1]);
-			} else {
-				if (isset(self::$stacks[$item->getId()])) {
-					$item->setCount(self::$stacks[$item->getId()]);
-				} else {
-					$item->setCount($item->getMaxStackSize());
-				}
-			}
-			$c->getInventory()->addItem(clone $item);
-			$this->getServer()->broadcastMessage($c->getName()." got ".
-															 $item->getCount()." of ".
-															 $this->itemName($item).
-															 " (" . $item->getId() . ":" .
-															 $item->getDamage() . ")");
+		$txt = ["HDR"];
+		// Inventorise the reports
+		$count = 0;
+		foreach (glob($this->getServer()->getDataPath(). "timings/timings*.txt") as $f) {
+			++$count;
+			$txt[] = "- ".basename($f);
+		}
+		if ($count == 0) {
+			$sender->sendMessage(TextFormat::RED."No timmings report found");
+			$sender->sendMessage("Enable timings by typing /timings on");
+			$sender->sendMessage("Generate timings report by typing /timings report");
 			return true;
 		}
-			private function cmdSeeArmor(CommandSender $c,$args) {
-				$pageNumber = $this->getPageNumber($args);
-				if (count($args) != 1) {
-					$c->sendMessage("You must specify a player's name");
-					return true;
-				}
-				$target = $this->getServer()->getPlayer($args[0]);
-				if($target == null) {
-					$c->sendMessage($args[0]." can not be found.");
-					return true;
-				}
-				$tab= [["Armor for",TextFormat::RED.$args[0]]];
-				foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
-					$item = $target->getInventory()->getArmorItem($slot);
-					if ($item->getID() == 0) continue;
-					$tab[]=[$attr.TextFormat::BLUE,
-							  $this->itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
-				}
-				return $this->paginateTable($c,$pageNumber,$tab);
+		$txt[0] = "Reports: $count";
+		return $this->paginateText($c,$pageNumber,$txt);
+	}
+	private function cmdGet(CommandSender $c,$args) {
+		if (!isset($args[0])) return false;
+		if (!$this->inGame($c)) return true;
+		if ($c->isCreative()) {
+			$c->sendMessage("You are in creative mode");
+			return true;
+		}
+		$item = Item::fromString($args[0]);
+		if ($item->getId() == 0) {
+			$c->sendMessage(TextFormat::RED."There is no item called ".$args[0]);
+			return true;
+		}
+		if (isset($args[1])) {
+			$item->setCount((int)$args[1]);
+		} else {
+			if (isset(self::$stacks[$item->getId()])) {
+				$item->setCount(self::$stacks[$item->getId()]);
+			} else {
+				$item->setCount($item->getMaxStackSize());
 			}
-			private function cmdSeeInv(CommandSender $c,$args) {
-				$pageNumber = $this->getPageNumber($args);
-				if (count($args) != 1) {
-					$c->sendMessage("You must specify a player's name");
-					return true;
-				}
-				$target = $this->getServer()->getPlayer($args[0]);
-				if($target == null) {
-					$c->sendMessage($args[0]." can not be found.");
-					return true;
-				}
-				$tab= [[$args[0],"Count","Damage"]];
-				$max = $target->getInventory()->getSize();
-				foreach ($target->getInventory()->getContents() as $slot => &$item) {
-					if ($slot >= $max) continue;
-					$tab[] = [$this->itemName($item)." (".$item->getId().")",
-								 $item->getCount(),$item->getDamage() ];
-				}
-				if (count($tab) == 1) {
-					$c->sendMessage("The inventory for $args[0] is EMPTY");
-					return true;
-				}
-				return $this->paginateTable($c,$pageNumber,$tab);
-			}
-			//////////////////////////////////////////////////////////////////////
-			// Event based stuff...
-			//////////////////////////////////////////////////////////////////////
-			public function canCompassTp($player) {
-				if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
-				$pl = $this->getServer()->getPlayer($player);
-				if ($pl == null) return false;
-				return $pl->hasPermission("gb.compasstp.allow");
-			}
+		}
+		$c->getInventory()->addItem(clone $item);
+		$this->getServer()->broadcastMessage($c->getName()." got ".
+														 $item->getCount()." of ".
+														 $this->itemName($item).
+														 " (" . $item->getId() . ":" .
+														 $item->getDamage() . ")");
+		return true;
+	}
+	private function cmdSeeArmor(CommandSender $c,$args) {
+		$pageNumber = $this->getPageNumber($args);
+		if (count($args) != 1) {
+			$c->sendMessage("You must specify a player's name");
+			return true;
+		}
+		$target = $this->getServer()->getPlayer($args[0]);
+		if($target == null) {
+			$c->sendMessage($args[0]." can not be found.");
+			return true;
+		}
+		$tab= [["Armor for",TextFormat::RED.$args[0]]];
+		foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
+			$item = $target->getInventory()->getArmorItem($slot);
+			if ($item->getID() == 0) continue;
+			$tab[]=[$attr.TextFormat::BLUE,
+					  $this->itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
+		}
+		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	private function cmdSeeInv(CommandSender $c,$args) {
+		$pageNumber = $this->getPageNumber($args);
+		if (count($args) != 1) {
+			$c->sendMessage("You must specify a player's name");
+			return true;
+		}
+		$target = $this->getServer()->getPlayer($args[0]);
+		if($target == null) {
+			$c->sendMessage($args[0]." can not be found.");
+			return true;
+		}
+		$tab= [[$args[0],"Count","Damage"]];
+		$max = $target->getInventory()->getSize();
+		foreach ($target->getInventory()->getContents() as $slot => &$item) {
+			if ($slot >= $max) continue;
+			$tab[] = [$this->itemName($item)." (".$item->getId().")",
+						 $item->getCount(),$item->getDamage() ];
+		}
+		if (count($tab) == 1) {
+			$c->sendMessage("The inventory for $args[0] is EMPTY");
+			return true;
+		}
+		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	//////////////////////////////////////////////////////////////////////
+	// Event based stuff...
+	//////////////////////////////////////////////////////////////////////
+	public function canCompassTp($player) {
+		if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
+		$pl = $this->getServer()->getPlayer($player);
+		if ($pl == null) return false;
+		return $pl->hasPermission("gb.compasstp.allow");
+	}
 
-			private function spawnArmor($pl) {
-				if ($pl->isCreative()) return;
+	private function spawnArmor($pl) {
+		if ($pl->isCreative()) return;
 
-				foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
-					if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
-					if (!isset($this->config["spawn"]["armor"][$attr])) continue;
-					$type = strtolower($this->config["spawn"]["armor"][$attr]);
-					if ($type == "leather") {
-						$type = 298;
-					} elseif ($type == "chainmail") {
-						$type = 302;
-					} elseif ($type == "iron") {
-						$type = 306;
-					} elseif ($type == "gold") {
-						$type = 314;
-					} elseif ($type == "diamond") {
-						$type = 310;
-					} else {
-						continue;
-					}
-					//echo "slot=$slot($attr) type=$type ".($type+$slot)."\n";
-					$pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
-				}
+		foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
+			if ($pl->getInventory()->getArmorItem($slot)->getID() != 0) continue;
+			if (!isset($this->config["spawn"]["armor"][$attr])) continue;
+			$type = strtolower($this->config["spawn"]["armor"][$attr]);
+			if ($type == "leather") {
+				$type = 298;
+			} elseif ($type == "chainmail") {
+				$type = 302;
+			} elseif ($type == "iron") {
+				$type = 306;
+			} elseif ($type == "gold") {
+				$type = 314;
+			} elseif ($type == "diamond") {
+				$type = 310;
+			} else {
+				continue;
 			}
-			private function spawnItems($pl) {
-				if ($pl->isCreative()) return;
+			//echo "slot=$slot($attr) type=$type ".($type+$slot)."\n";
+			$pl->getInventory()->setArmorItem($slot,new Item($type+$slot,0,1));
+		}
+	}
+	private function spawnItems($pl) {
+		if ($pl->isCreative()) return;
 
-				// Figure out if the inventory is empty...
-				$cnt = 0;
-				$max = $pl->getInventory()->getSize();
-				foreach ($pl->getInventory()->getContents() as $slot => &$item) {
-					if ($slot < $max) ++$cnt;
-				}
-				if ($cnt) return;
+		// Figure out if the inventory is empty...
+		$cnt = 0;
+		$max = $pl->getInventory()->getSize();
+		foreach ($pl->getInventory()->getContents() as $slot => &$item) {
+			if ($slot < $max) ++$cnt;
+		}
+		if ($cnt) return;
 
-				// This player has nothing... let's give them some to get started...
-				foreach ($this->config["spawn"]["items"] as $i) {
-					$r = explode(":",$i);
-					if (count($r) != 3) continue;
-					$item = new Item($r[0],$r[1],$r[2]);
-					$pl->getInventory()->addItem($item);
-				}
-			}
+		// This player has nothing... let's give them some to get started...
+		foreach ($this->config["spawn"]["items"] as $i) {
+			$r = explode(":",$i);
+			if (count($r) != 3) continue;
+			$item = new Item($r[0],$r[1],$r[2]);
+			$pl->getInventory()->addItem($item);
+		}
+	}
 
-			public function respawnPlayer($player) {
-				$pl = $this->getServer()->getPlayer($player);
-				if ($pl == null) return;
-				if (!isset($this->config["spawn"])) return;
-				if (isset($this->config["spawn"]["items"])
-					 && array_key_exists("spawnitems",$this->modules["listener"])
-					 && $pl->hasPermission("gb.spawnitems.receive")) {
-					$this->spawnItems($pl);
-				}
-				if (isset($this->config["spawn"]["armor"])
-					 && array_key_exists("spawnarmor",$this->modules["listener"])
-					 && $pl->hasPermission("gb.spawnarmor.receive")) {
-					$this->spawnArmor($pl);
-				}
-			}
-			}
+	public function respawnPlayer($player) {
+		$pl = $this->getServer()->getPlayer($player);
+		if ($pl == null) return;
+		if (!isset($this->config["spawn"])) return;
+		if (isset($this->config["spawn"]["items"])
+			 && array_key_exists("spawnitems",$this->modules["listener"])
+			 && $pl->hasPermission("gb.spawnitems.receive")) {
+			$this->spawnItems($pl);
+		}
+		if (isset($this->config["spawn"]["armor"])
+			 && array_key_exists("spawnarmor",$this->modules["listener"])
+			 && $pl->hasPermission("gb.spawnarmor.receive")) {
+			$this->spawnArmor($pl);
+		}
+	}
+}
