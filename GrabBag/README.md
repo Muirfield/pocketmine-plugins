@@ -68,7 +68,7 @@ plugins.
   Restore health to a player
 * *whois* *player*  
   Show player info
-* *showtimings* _[report]_ _[page]_  
+* *showtimings* _[report|clear]_ _[page]_  
   Show the timings data from the `/timings` command.
 * *seearmor* *player*  
   Show player's armor
@@ -183,6 +183,8 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
+* ?? :
+  * showtimings, added clear operation.
 * 1.1.1 : More functionality
   * Hide IP address from whois output
   * New opms command.
