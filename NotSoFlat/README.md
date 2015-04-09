@@ -94,7 +94,7 @@ _(This is an extension to the Superflat generator)_
 
 ### References
 
-- [Diamond-Square Algorithm][1]
+- [Simplex Noise][1]
 - [Minecraft Superflat generator][2]
 - [PocketMine-MP][3]
 
