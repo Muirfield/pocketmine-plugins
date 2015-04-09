@@ -30,7 +30,7 @@ class Main extends PluginBase implements Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
-		@mkdir($this->getDataFolder());
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"settings" => [
