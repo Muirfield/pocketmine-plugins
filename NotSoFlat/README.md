@@ -138,7 +138,7 @@ Changes
 Copyright
 ---------
 
-    Mobsters
+    NotSoFlat
     Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
