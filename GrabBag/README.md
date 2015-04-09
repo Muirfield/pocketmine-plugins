@@ -195,9 +195,10 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
-* 1.2.0 : ???
+* 1.2.0 : Additional functionality
   * Entities command
   * servermotd module
+  * Fixed one warning
 * 1.1.2 : Fixes
   * showtimings, added clear operation.
   * "/as": bug fixes
