@@ -63,6 +63,8 @@ You can overhear players that are up to `far` blocks away.
 * localchat.brodcast: Allow access to `.` and `:` to broadcast messages.
 * localchat.brodcast.level: Allow access to `.` messages
 * localchat.brodcast.server: Allow access to `:` messages
+* localchat.spy: Users with this permission are always able to hear
+  all messages.
 
 ### TODO
 
@@ -70,8 +72,9 @@ You can overhear players that are up to `far` blocks away.
 Changes
 -------
 
-* 1.0.2 : Minor fixes
+* 1.2.0 : Minor fixes + spying
   * Fixed mkdir warning
+  * Added spying permission
 * 1.0.1 : Minor update
   * Fixed bug where players don't see their own chat messages.
 * 1.0.0 : First public release

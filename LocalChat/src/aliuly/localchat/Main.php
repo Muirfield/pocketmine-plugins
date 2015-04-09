@@ -60,6 +60,7 @@ class Main extends PluginBase implements Listener {
 	//
 	public function checkNear(Player $from,Player $to,$msg) {
 		if ($from == $to) return true;
+		if ($to->hasPermission("localchat.spy")) return true;
 		if ($from->getLevel() != $to->getLevel()) return false; // Different worlds
 		$diff = (float)$from->distance($to);
 		//echo "DIFF: $diff\n";
@@ -82,6 +83,7 @@ class Main extends PluginBase implements Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onChat(PlayerChatEvent $e){
+		if ($e->isCancelled()) return;
 		$pw = $e->getPlayer();
 		// Non players are handled normally
 		if (!($pw instanceof Player)) return;
