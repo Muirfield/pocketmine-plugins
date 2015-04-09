@@ -98,9 +98,9 @@ _(This is an extension to the Superflat generator)_
 - [Minecraft Superflat generator][2]
 - [PocketMine-MP][3]
 
-	[1]: http://en.wikipedia.org/wiki/Simplex_noise "Wikipedia"
-	[2]: http://minecraft.gamepedia.com/Superflat "Superflat Generator"
-	[3]: http://www.pocketmine.net/ "PocketMine-MP"
+    [1]: http://en.wikipedia.org/wiki/Simplex_noise "Wikipedia"
+    [2]: http://minecraft.gamepedia.com/Superflat "Superflat Generator"
+    [3]: http://www.pocketmine.net/ "PocketMine-MP"
 
 Changes
 -------
