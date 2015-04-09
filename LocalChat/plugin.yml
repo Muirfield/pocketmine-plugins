@@ -1,5 +1,5 @@
 name: LocalChat
-version: 1.0.1
+version: 1.0.2
 main: aliuly\localchat\Main
 api: 1.10.0
 load: POSTWORLD

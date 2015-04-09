@@ -38,7 +38,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
-		@mkdir($this->getDataFolder());
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->dbm = new DatabaseManager($this->getDataFolder()."stats.sqlite3");
 		$defaults = [

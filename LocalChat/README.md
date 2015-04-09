@@ -70,6 +70,8 @@ You can overhear players that are up to `far` blocks away.
 Changes
 -------
 
+* 1.0.2 : Minor fixes
+  * Fixed mkdir warning
 * 1.0.1 : Minor update
   * Fixed bug where players don't see their own chat messages.
 * 1.0.0 : First public release

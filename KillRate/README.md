@@ -74,6 +74,8 @@ awarded per kill type.
 Changes
 -------
 
+* 1.0.1 : Bugfixes
+  * Removed warnings
 * 1.0.0 : First submission
 
 Copyright

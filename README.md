@@ -77,6 +77,8 @@ To-do
 
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
+* Scorched : Add configurable presets... Show presets when arming
+
 
 * * *
 
