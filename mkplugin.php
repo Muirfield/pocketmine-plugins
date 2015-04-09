@@ -71,7 +71,7 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as 
 		  $txt = "";
 		  while (($ln = fgets($fp)) !== FALSE) {
 			  ++$cc1;
-			  if (preg_match('/\s*print_r\s*\(/',$ln)) continue;
+			  if (preg_match('/^\s*print_r\s*\(/',$ln)) continue;
 			  if (preg_match('/\/\/##DEBUG/',$ln)) continue;
 			  ++$cc2;
 			  $txt .= $ln;

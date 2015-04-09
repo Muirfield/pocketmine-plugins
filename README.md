@@ -5,7 +5,6 @@ Repository for my PocketMine plugins
 
 ## Available Plugins
 
-* NotSoFlat - *Outdated*!
 * ManyWorlds - a multiple world implementation.
 * SignWarp - A sign based teleport facility.
 * GrabBag - My personal collection of commands and listener modules.
@@ -17,7 +16,7 @@ Repository for my PocketMine plugins
 
 * ItemCasePE - A port of Bukkit ItemCase
 * KillRate - Keep track of killing
-* RunePvP - A basic PvP manager
+* NotSoFlat - *Outdated*!
 
 
 Copyright
@@ -78,12 +77,6 @@ To-do
 
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
-* GrabBag:
-  * Frost/Defrost
-  * after - certain time, execute command (scheduled stop)
-  * clear entities
-
-
 
 * * *
 
@@ -91,17 +84,3 @@ To-do
 
 1. new world generator: biomes
 2. full Entity classes and physics
-
-* * *
-
-## Notes
-
-	specter spawn Playername # The full command to spawn a new dummy
-	s s playername # Luckily there is shorthand
-	s c playername /spawn # Execute /spawn as player
-
-Give/Get items:
-
-* zombie : spawn_egg:32
-* villager : spawn_egg:15
-
