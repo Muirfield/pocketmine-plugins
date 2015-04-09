@@ -9,6 +9,7 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\Config;
 
 use pocketmine\event\Listener;
 use pocketmine\item\Item;
@@ -18,24 +19,17 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Float;
+use pocketmine\scheduler\CallbackTask;
 
 use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\entity\EntityShootBowEvent;
 
 class Main extends PluginBase implements CommandExecutor, Listener {
 	protected $shooters;
-	static $presets = [
-		"short" => [30, 0.5],
-		"long" => [80, 1.0],
-		"fast" => [20, 1.0],
-	];
+	protected $presets;
+	protected $cfg;
 
 	// Access and other permission related checks
-	private function access(CommandSender $sender, $permission) {
-		if($sender->hasPermission($permission)) return true;
-		$sender->sendMessage("You do not have permission to do that.");
-		return false;
-	}
 	private function inGame(CommandSender $sender,$msg = true) {
 		if ($sender instanceof Player) return true;
 		if ($msg) $sender->sendMessage("You can only use this command in-game");
@@ -52,9 +46,20 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			$p->sendMessage("Disarming RPG");
 		}
 	}
+	public function breakBow($n) {
+		$p = $this->getServer()->getPlayer($n);
+		if (!$p) return;
+		if (!$p->isOnline()) return;
+		$hand = $p->getInventory()->getItemInHand();
+		if ($hand->getID() != Item::BOW) return;
+		$hand->setDamage($hand->getDamage() + $this->cfg["usage"]);
+		$p->getInventory()->setItemInHand($hand);
+	}
+
 	public function onShoot(EntityShootBowEvent $e) {
 		$p = $e->getEntity();
 		if (!($p instanceof Player)) return;
+
 		$n = $p->getName();
 		if (!isset($this->shooters[$n])) return;
 		if ($e->isCancelled()) return;
@@ -68,11 +73,20 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				unset($this->shoters[$n]);
 				return;
 			}
+			$bow = $e->getBow();
+			$dam = $bow->getDamage();
+			echo "DAM=$dam\n"; //## DEBUG
+			if (mt_rand(0,$this->cfg["failure"]) < $dam &&
+				 (mt_rand()/mt_getrandmax()) < $this->cfg["rate"]) {
+				// Oh no... failed!
+				$p->sendMessage("RPG misfired!");
+				$this->fire($p,mt_rand(1,$this->shooters[$n][0]),0.01);
+				return;
+			}
+			// Since we are cancelling the event, we change the damage later
+			$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"breakBow"],[$n]),5);
 		}
-
-		// $e->getBow(); // Check if damage and if below number can malfunction
-		// $e->getForce(); // always returns the same value of 1.5!
-
+		//echo "FORCE: ". $e->getForce()."\n"; //## DEBUG
 		$this->fire($p,$this->shooters[$n][0],$this->shooters[$n][1]);
 	}
 
@@ -81,17 +95,35 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		//$this->getLogger()->info("- Scorched Unloaded!");
 	}
 	public function onEnable(){
-		//$this->getLogger()->info("* Scorched Enabled!");
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		$defaults = [
+			"presets" => [
+				"short" => [ 30, 0.5 ],
+				"long" => [ 80, 1.0 ],
+				"fast" => [ 20, 1.0 ],
+			],
+			"settings" => [
+				"failure" => 385,
+				"rate" => 0.5,
+				"usage" => 5,
+				"max-speed" => 4.0,
+				"min-speed" => 0.5,
+				"max-fuse" => 120,
+				"min-fuse" => 10,
+			],
+		];
+		$cfg = (new Config($this->getDataFolder()."config.yml",
+								 Config::YAML,$defaults))->getAll();
+		$this->presets = $cfg["presets"];
+		$this->cfg = $cfg["settings"];
 		$this->shooters = [];
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		switch($cmd->getName()) {
 			case "rpg":
-				if (!$this->access($sender,"scorched.cmd.fire")) return true;
 				return $this->cmdRpg($sender,$args);
 			case "fire":
-				if (!$this->access($sender,"scorched.cmd.fire")) return true;
 				return $this->cmdFire($sender,$args);
 		}
 		return false;
@@ -127,7 +159,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$speed = 0.75;
 
 		if (count($args)) {
-			if (isset(self::$presets[$args[0]])) $args = self::$presets[$args[0]];
+			if (isset($this->presets[$args[0]])) $args = $this->presets[$args[0]];
 			if (count($args) != 2) return false;
 			$fuse = (int)$args[0];
 			$speed = (float)$args[1];
@@ -183,17 +215,17 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			return true;
 		}
 
-		if (isset(self::$presets[$args[0]])) $args = self::$presets[$args[0]];
+		if (isset($this->presets[$args[0]])) $args = $this->presets[$args[0]];
 		if (count($args) != 2) return false;
 		$fuse = (int)$args[0];
 		$speed = (float)$args[1];
-		if ($speed > 4.0) $speed = 4.0;
-		if ($speed < 0.5) $speed = 0.5;
-		if ($fuse > 120) $fuse = 120;
-		if ($fuse < 10) $fuse = 10;
+		if ($speed > $this->cfg["max-speed"]) $speed = $this->cfg["max-speed"];
+		if ($speed < $this->cfg["min-speed"]) $speed = $this->cfg["min-speed"];
+		if ($fuse > $this->cfg["max-fuse"]) $fuse = $this->cfg["max-fuse"];
+		if ($fuse < $this->cfg["min-fuse"]) $fuse = $this->cfg["min-fuse"];
 
 		$this->shooters[$n] = [(int)$fuse,(float)$speed];
-		$c->sendMessage("RPG armed!");
+		$c->sendMessage("RPG armed! fuse=$fuse speed=$speed");
 		return true;
 	}
 
@@ -201,7 +233,6 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	private function fire(Player $c,$fuse,$speed) {
 		$pos = $c->getPosition();
 		$pos->y += $c->getEyeHeight();
-		$speed = 2.5;
 
 		$dir = $c->getDirectionVector();
 		$dir->x = $dir->x * $speed;
@@ -209,20 +240,24 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$dir->z = $dir->z * $speed;
 
 		$nbt =
-			  new Compound("", ["Pos" => new Enum("Pos", [new Double("", $pos->x),
-																		 new Double("", $pos->y),
-																		 new Double("", $pos->z)]),
-									  "Motion" => new Enum("Motion",[new Double("",$dir->x),
-																				new Double("",$dir->y),
-																				new Double("",$dir->z)]),
-									  "Rotation" => new Enum("Rotation", [new Float("", 0),
-																					  new Float("", 0)]),
-									  "Fuse" => new Byte("Fuse", $fuse)]);
+			  new Compound("",
+								["Pos" => new Enum("Pos",
+														 [new Double("", $pos->x),
+														  new Double("", $pos->y),
+														  new Double("", $pos->z)]),
+								 "Motion" => new Enum("Motion",
+															 [new Double("",$dir->x),
+															  new Double("",$dir->y),
+															  new Double("",$dir->z)]),
+								 "Rotation" => new Enum("Rotation",
+																[new Float("", 0),
+																 new Float("", 0)]),
+								 "Fuse" => new Byte("Fuse", $fuse)]);
 
 		$entity = Entity::createEntity("PrimedTNT",
 												 $pos->getLevel()->getChunk($pos->x >> 4, $pos->z >> 4),
 												 $nbt);
-		$entity->namedtag->setName("EssNuke");
+		$entity->namedtag->setName("Scorched");
 		$entity->spawnToAll();
 
 		return true;

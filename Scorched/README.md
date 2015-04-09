@@ -55,11 +55,29 @@ The _fuse_ is the time (in ticks) that the grenade will explode.
 Be careful of using very short fuses.  The _speed_ is the initial
 speed of the grenade.  Faster means the TNT will travel farther.
 
-### Presets:
+### Configuration
 
-* short: fuse=30, speed=0.5
-* long: fuse=80, speed=1.0
-* fast: fuse=20, speed=1.0
+	presets:
+	  short: [ 30, 0.5 ]
+	  long: [ 80, 1.0 ]
+	  fast: [ 20, 1.0 ]
+	settings:
+	  failure: 385
+	  rate: 0.5
+	  usage: 5
+	  max-speed: 4.0
+	  min-speed: 0.5
+	  max-fuse: 120
+	  min-fuse: 10
+
+* `presets` contains config values for the rpg command.
+* `failure` is the max damage level for the bow
+* `rate` is the chance that the bow will fail
+* `usage` is the bow wear and tear
+* `max-speed` is the max speed configurable
+* `min-speed` is the min speed configurable
+* `max-fuse` is the max fuse configurable
+* `min-fuse` is the min fuse configurable
 
 ### Permission Nodes:
 
@@ -75,12 +93,14 @@ speed of the grenade.  Faster means the TNT will travel farther.
   * EntityExplodeEvent can change the yield?  Mega grenateds?
   * Maybe we can add random cancel to ExplosionPrimeEvent so there is
     a misfired grenade resulting in lying around ordenance.
-* Does the bow get damage?  A damaged bow should have a chance to
-  explode.
 
 Changes
 -------
 
+* 1.2.0 : Fun and games
+  * Bows suffer wear and tear... the more damaged the bow, the higher
+    the risk that it will misfired (exploding in your face!)
+  * Configurable stuff
 * 1.1.0 : Playability improvements
 * 1.0.0 : First release
 

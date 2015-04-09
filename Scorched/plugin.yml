@@ -4,16 +4,18 @@ load: POSTWORLD
 
 name: Scorched
 description: The Mother of All Mini-Games
-version: 1.1.0
+version: 1.2.0
 author: aliuly
 
 commands:
     rpg:
         description: Arm RPG
         usage: "/rpg [fuse speed|short|long|fast]"
+        permission: scorched.cmd.fire
     fire:
         description: Fire grenade
         usage: "/fire [fuse speed|short|long|fast]"
+        permission: scorched.cmd.fire
 
 permissions:
     scorched.cmd.fire:
