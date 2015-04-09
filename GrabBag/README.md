@@ -37,6 +37,7 @@ Basic Usage:
 * servicemode [on|off] - enter maintenance mode
 * opms [msg] - send op only chat messages
 * !! - repeat command with changes
+* entities - manage entities
 
 Documentation
 -------------
@@ -86,6 +87,15 @@ plugins.
   Send a message that can only be seen by ops or by the console.  You
   should use the *ops* command to see if there are any server ops
   on-line.
+* *entities* _level_ _subcommand_  
+  By default it will show the current entities.  The following
+  sub-commands are available:
+  * *tiles*  
+    Show tile entities
+  * *info* _[e#|t#]_  
+    Show details about one or more entities or tiles.
+  * *rm* _[e#]_  
+    Removes one or more entities.
 
 ### Command repeater
 
@@ -119,6 +129,7 @@ things:
 Also this plugin supports the following modules:
 
 * adminjoin : Broadcast a message when an op joins.
+* servermotd : Display the server's motd when connecting.
 * spawnitems : Initialize a player inventory when they spawn.  
   It will place a configuratble list of inventory items.  Note that it
   only does it for users who start without any inventory.  As soon as
@@ -179,10 +190,14 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.shield: Allow players to become invulnerable
 * gb.cmd.servicemode: Allow access to service mode command
 * gb.servicemode.allow: Allow login when in service mode.
+* gb.cmd.entities: Manage entities
 
 Changes
 -------
 
+* 1.2.0 : ???
+  * Entities command
+  * servermotd module
 * 1.1.2 : Fixes
   * showtimings, added clear operation.
   * "/as": bug fixes

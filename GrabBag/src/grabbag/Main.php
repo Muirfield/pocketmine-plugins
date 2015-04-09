@@ -13,10 +13,11 @@ use pocketmine\event\player\PlayerChatEvent;
 
 use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
+use pocketmine\entity\Living;
+use pocketmine\nbt\tag\Compound;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
-//use pocketmine\nbt\tag\Compound;
 //use pocketmine\nbt\tag\Double;
 //use pocketmine\nbt\tag\Enum;
 //use pocketmine\nbt\tag\Float;
@@ -46,6 +47,9 @@ class Main extends PluginBase implements CommandExecutor {
 		if ($sender instanceof Player) return true;
 		if ($msg) $sender->sendMessage("You can only use this command in-game");
 		return false;
+	}
+	public function checkModule($name) {
+		return array_key_exists($name,$this->modules["listener"]);
 	}
 	public function itemName(Item $item) {
 		if (count(self::$items) == 0) {
@@ -117,7 +121,7 @@ class Main extends PluginBase implements CommandExecutor {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onLoad() {
-		@mkdir($this->getDataFolder());
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 
 		$v = $this->getDescription()->getVersion();
 		$modules = $this->getDataFolder()."modules-dist.yml";
@@ -191,7 +195,8 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 	}
 	public function onEnable(){
-		if (array_key_exists("adminjoin",$this->modules["listener"]))
+		if (array_key_exists("adminjoin",$this->modules["listener"])
+			 || array_key_exists("servermotd",$this->modules["listener"]))
 			$this->listeners["adminjoin"] = new AdminJoinMgr($this);
 		if (array_key_exists("spawnitems",$this->modules["listener"])
 			 || array_key_exists("spawnarmor",$this->modules["listener"]))
@@ -267,6 +272,8 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdSrvMode($sender,$args);
 			case "opms":
 				return $this->cmdOpMsg($sender,$args);
+			case "entities":
+				return $this->cmdEntities($sender,$args);
 		}
 		return false;
 	}
@@ -634,6 +641,151 @@ class Main extends PluginBase implements CommandExecutor {
 			return true;
 		}
 		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	private function cmdTileList(CommandSender $c,$level,$pageNumber) {
+		$tab = [];
+		$tab[] = [$level->getName(),"Name","Position"];
+		foreach ($level->getTiles() as $t) {
+			$id = $t->getId();
+			$pos = implode(",",[floor($t->getX()),floor($t->getY()),floor($t->getZ())]);
+			$name = basename(strtr(get_class($t),"\\","/"));
+			$tab[] = [ $id,$name,$pos ];
+		}
+		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	private function cmdEtList(CommandSender $c,$level,$pageNumber) {
+		$tab = [];
+		$tab[] = [$level->getName(),"Name","Position","Health"];
+		foreach ($level->getEntities() as $e) {
+			if ($e instanceof Player) continue;
+			$id = $e->getId();
+			$pos = implode(",",[floor($e->getX()),floor($e->getY()),floor($e->getZ())]);
+			if ($e instanceof Living) {
+				$name = $e->getName();
+			} elseif ($e instanceof \pocketmine\entity\Item) {
+				$name = "Item:".$this->itemName($e->getItem());
+			} else {
+				//print_r($e->namedtag->id);
+				$name = basename(strtr(get_class($e),"\\","/"));
+			}
+			$tab[] = [ $id,$name,$pos,$e->getHealth() ];
+		}
+		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	private function cmdEtInfo(CommandSender $c,$level,$args,$pageNumber) {
+		$cnt = 0;
+		if (count($args) == 0) return false;
+		$txt = [];
+		if (count($args) > 1) {
+			$txt[] = "";
+		}
+		foreach ($args as $i) {
+			if (strtolower(substr($i,0,1)) == "t") {
+				$i = substr($i,1);
+				if (!is_numeric($i)) {
+					$c->sendMessage("Invalid Tile id $i");
+					continue;
+				}
+				$tile = $level->getTileById(intval($i));
+				if ($tile == null) {
+					$c->sendMessage("Tile $i not found");
+					continue;
+				}
+				++$cnt;
+				$txt[] = "Tile: $i";
+				//foreach ($tile->namedtag as $k=>$v) {
+				//
+				//$txt[] = "- $k : $v";
+				//}
+				$name = '';
+				foreach (explode("\n",print_r($tile->namedtag,true)) as $l) {
+					if(preg_match('/^\s*\[name:protected\]\s*=>\s*(.*)$/',$l,$m)){
+						$name = $m[1];
+					}elseif(preg_match('/^(\s)*\[value:protected\]\s*=>\s*(.*)$/',$l,$m)){
+						if ($name && $m[2] != "Array") {
+							$txt[] = ".".$m[1].$name.": ".$m[2];
+						}
+						$name = '';
+					}
+				}
+			} else {
+				if (strtolower(substr($i,0,1)) == "e") {
+					$i = substr($i,1);
+				}
+				if (!is_numeric($i)) {
+					$c->sendMessage("Invalid Entity id $i");
+					continue;
+				}
+				$et = $level->getEntity(intval($i));
+				if ($et == null) {
+					$c->sendMessage("Entity $i not found");
+					continue;
+				}
+				++$cnt;
+				$txt[] = "Entity: $i";
+				foreach (explode("\n",print_r($et->namedtag,true)) as $l) {
+					$txt[] = ".".$l;
+				}
+			}
+		}
+		if (count($args) > 1) {
+			$txt[0] = "$cnt Entities";
+		}
+		return $this->paginateText($c,$pageNumber,$txt);
+	}
+	private function cmdEtRm(CommandSender $c,$level,$args) {
+		$cnt = 0;
+		if (count($args) == 0) return false;
+		foreach ($args as $i) {
+			if (strtolower(substr($i,0,1)) == "e") {
+				$i = substr($i,1);
+			}
+			if (!is_numeric($i)) {
+				$c->sendMessage("Invalid Entity id $i");
+				continue;
+			}
+			$et = $level->getEntity(intval($i));
+			if ($et == null) {
+				$c->sendMessage("Entity $i not found");
+				continue;
+			}
+			++$cnt;
+			$level->removeEntity($et);
+		}
+		if ($cnt) {
+			$c->sendMessage("Removed entities: ".$cnt);
+		}
+		return true;
+	}
+	private function cmdEntities(CommandSender $c,$args) {
+		$pageNumber = $this->getPageNumber($args);
+		$level = null;
+		if (isset($args[0])) {
+			$level = $this->getServer()->getLevelByName($args[0]);
+			if ($level) array_shift($args);
+		}
+		if (!$level) {
+			if (!$this->inGame($c)) return false;
+			$level = $c->getLevel();
+		}
+		// list entities
+		// remove entity
+		// remove *ALL* entities
+		if (count($args)) {
+			$sub = strtolower(array_shift($args));
+			switch ($sub) {
+				case "tiles":
+				case "tile":
+					return $this->cmdTileList($c,$level,$pageNumber);
+				case "info":
+				case "nbt":
+					return $this->cmdEtInfo($c,$level,$args,$pageNumber);
+				case "rm":
+					return $this->cmdEtRm($c,$level,$args);
+			}
+			return false;
+		}
+		return $this->cmdEtList($c,$level,$pageNumber);
 	}
 	//////////////////////////////////////////////////////////////////////
 	// Event based stuff...

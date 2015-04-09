@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 1.1.2
+version: 1.2.0
 author: aliuly
 
 permissions:
@@ -71,3 +71,6 @@ permissions:
     gb.cmd.opms:
         default: true
         description: "Allow to send op only messages"
+    gb.cmd.entities:
+        default: op
+        description: "Access entities command"

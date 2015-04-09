@@ -5,6 +5,7 @@
 #
 listener:
     adminjoin:
+    servermotd:
     spawnitems:
     spawnarmor:
     compasstp:
@@ -76,3 +77,8 @@ commands:
         description: Send a message to ops only
         usage: "/opms message"
         permission: gb.cmd.opms
+    entities:
+        description: Manage entities
+        usage: "/entitites [level] [tiles|info|rm] ..."
+        permission: gb.cmd.entities
+        aliases: [et]
