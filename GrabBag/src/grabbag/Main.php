@@ -488,7 +488,7 @@ class Main extends PluginBase implements CommandExecutor {
 			$c->sendMessage("Player $name not found");
 			return true;
 		}
-		if ($args[0] == 'chat') {
+		if ($args[0] == 'chat' || $args[0] == 'say') {
 			array_shift($args);
 			$chat = implode(" ",$args);
 			$c->sendMessage("Sending message as $name");

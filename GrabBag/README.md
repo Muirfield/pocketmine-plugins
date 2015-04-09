@@ -183,8 +183,10 @@ can de-activate modules by commenting them out from `modules.yml`.
 Changes
 -------
 
-* ?? :
+* 1.1.2 : Fixes
   * showtimings, added clear operation.
+  * "/as": bug fixes
+  * Fixed typo in modules.yml
 * 1.1.1 : More functionality
   * Hide IP address from whois output
   * New opms command.
