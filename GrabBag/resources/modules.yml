@@ -29,7 +29,7 @@ commands:
         usage: "/gmc"
         permission: gb.cmd.gmc
     gms:
-        description: switch gamemode to creative
+        description: switch gamemode to survival
         usage: "/gms"
         permission: gb.cmd.gms
     gma:

@@ -59,7 +59,7 @@ class Main extends PluginBase implements Listener {
   // Compute stuff...
   //
   public function checkNear(Player $from,Player $to,$msg) {
-    if ($from == $to) return false;
+    if ($from == $to) return true;
     if ($from->getLevel() != $to->getLevel()) return false; // Different worlds
     $diff = (float)$from->distance($to);
     //echo "DIFF: $diff\n";

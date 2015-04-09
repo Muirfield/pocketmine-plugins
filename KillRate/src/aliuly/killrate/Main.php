@@ -222,6 +222,23 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	// Event handlers
 	//
 	//////////////////////////////////////////////////////////////////////
+	public function announce($pp,$points,$money) {
+		if ($points) {
+			if ($points > 0) {
+				$pp->sendMessage("$points points awarded!");
+			} else {
+				$pp->sendMessage("$points points deducted!");
+			}
+		}
+		if ($money) {
+			if ($money > 0) {
+				$pp->sendMessage("You earn $money!");
+			} else {
+				$pp->sendMessage("You have been fined $money!");
+			}
+		}
+	}
+
 	public function updateDb($perp,$vic,$incr = 1) {
 		$score = $this->dbm->getScore($perp,$vic);
 		if ($score) {
@@ -242,16 +259,20 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function updateScores($perp,$vic) {
 		//echo "VIC=$vic PERP=$perp\n";
 		$this->updateDb($perp,$vic);
+		$awards = [ false,false];
 		if (isset($this->cfg["settings"]["points"])) {
 			// Add points...
 			list($points,$money) = $this->getPrizes($vic);
 			$this->updateDb($perp,"points",$points);
+			$awards[0] = $points;
 		}
 		if (isset($this->cfg["settings"]["rewards"])) {
 			// Add money...
 			list($points,$money) = $this->getPrizes($vic);
 			$this->grantMoney($perp,$money);
+			$awards[1] = $money;
 		}
+		return $awards;
 	}
 	public function onPlayerDeath(PlayerDeathEvent $e) {
 		$pv = $e->getEntity();
@@ -266,7 +287,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		// No scoring for creative players...
 		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
 		$perp = $pp->getName();
-		$this->updateScores($perp,"Player");
+		list ($points,$money) = $this->updateScores($perp,"Player");
+		$this->announce($pp,$points,$money);
 	}
 	public function onDeath(EntityDeathEvent $e) {
 		$pv = $e->getEntity();
@@ -286,7 +308,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		// No scoring for creative players...
 		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
 		$pp->sendMessage("Killed $vic!");
-		$this->updateScores($perp,$vic);
+		list ($points,$money) = $this->updateScores($perp,$vic);
+		$this->announce($pp,$points,$money);
 	}
 
 }

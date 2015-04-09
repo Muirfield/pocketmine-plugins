@@ -9,6 +9,7 @@ use pocketmine\command\Command;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\player\PlayerChatEvent;
 
 use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
@@ -491,7 +492,7 @@ class Main extends PluginBase implements CommandExecutor {
 			array_shift($args);
 			$chat = implode(" ",$args);
 			$c->sendMessage("Sending message as $name");
-			$this->getServer()->getPlugingManager()->callEvent($ev = new PlayerChatEvent($player,$chat));
+			$this->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($player,$chat));
 			if (!$ev->isCancelled()) {
 				$this->getServer()->broadcastMessage(sprintf($ev->getFormat(),$ev->getPlayer()->getDisplayName(),$ev->getMessage()),$ev->getRecipients());
 			}
