@@ -130,8 +130,10 @@ Issues
 Changes
 -------
 
-* ???:
-  * Fixed a bug around not show who was teleported for 3rd party teleport
+* 1.3.1:
+  * Fixed a bug around not show who was teleported for 3rd party
+    teleport
+  * Fixed all bugs reported by [Crash Archive](http://crash.pocketmine.net/)
 * 1.3.0: Level.dat hacking.
   * Added `lvdat` command to change `level.dat` settings.
   * Added `fixname` command to fix `levelName` vs. `foldername`
