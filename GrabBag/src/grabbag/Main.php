@@ -66,6 +66,45 @@ class Main extends PluginBase implements CommandExecutor {
 			return self::$items[$item->getId()];
 		return $n;
 	}
+	public function cleanupPlayer($pl) {
+		if (isset($this->listeners["cmd.mute"])) {
+			$this->listeners["cmd.mute"]->unmute($pl);
+		}
+		if (isset($this->listeners["cmd.freeze"])) {
+			$this->listeners["cmd.freeze"]->thaw($pl);
+		}
+	}
+	private function dumpNbtIndent($spc,&$off,&$last) {
+		if (isset($off[$spc])) return $off[$spc];
+		$last += 2;
+		$off[$spc] = str_repeat(' ',$last);
+		return $off[$spc];
+	}
+	public function dumpNbt($nbt) {
+		$txt = [];
+		$name = '';
+		$off=[];
+		$last = 0;
+
+		foreach (explode("\n",print_r($nbt,true)) as $ln) {
+			if (trim($ln) == "(" || trim($ln) == ")" || trim($ln) == "") continue;
+			if (preg_match('/^(\s*)(\[[^\]]+\])\s*=>\s*pocketmine\\\\nbt\\\\tag\\\\(Enum|Compound)/',$ln,$m)) {
+				$txt[] = ".".$this->dumpNbtIndent($m[1],$off,$last).$m[2];
+				continue;
+			}
+			if (preg_match('/^\s*\[name:protected\]\s*=>\s*(.*)$/',$ln,$m)) {
+				$name = $m[1];
+			}
+			if (preg_match('/^(\s*)\[value:protected\]\s*=>\s*(.*)$/',$ln,$m)) {
+				if ($m[2] == "Array") continue;
+				$txt[] = ".".$this->dumpNbtIndent($m[1],$off,$last).$name.": ".
+						 $m[2];
+				$name = "";
+			}
+		}
+		return $txt;
+	}
+
 	// Paginate output
 	private function getPageNumber(array &$args) {
 		$pageNumber = 1;
@@ -195,27 +234,11 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 	}
 	public function onEnable(){
-		if (array_key_exists("adminjoin",$this->modules["listener"])
-			 || array_key_exists("servermotd",$this->modules["listener"]))
-			$this->listeners["adminjoin"] = new AdminJoinMgr($this);
-		if (array_key_exists("spawnitems",$this->modules["listener"])
-			 || array_key_exists("spawnarmor",$this->modules["listener"]))
-			$this->listeners["spawnmgr"] = new SpawnMgr($this);
-		if (array_key_exists("compasstp",$this->modules["listener"]))
-			$this->listeners["compasstp"] = new CompassTpMgr($this);
-		if (array_key_exists("repeater",$this->modules["listener"]))
-			$this->listeners["repeater"] = new RepeatMgr($this);
-		if (array_key_exists("slay",$this->modules["commands"]))
-			$this->listeners["cmd.slay"] = new ReaperMgr($this);
-		if (array_key_exists("shield",$this->modules["commands"]))
-			$this->listeners["cmd.shield"] = new ShieldMgr($this);
-		if (array_key_exists("servicemode",$this->modules["commands"]))
-			$this->listeners["cmd.servicemode"] = new SrvModeMgr($this);
-
-		$this->getLogger()->info("Installed ".count($this->listeners)." managers");
-
 		$defaults =
 					 [
+						 "settings" =>[
+							 "hard-freeze"=>false,
+						 ],
 						 "spawn"=>[
 							 "armor"=>[
 								 "head"=>"-",
@@ -235,6 +258,34 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 		$this->config=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
+
+		$hardfreeze = isset($this->config["settings"]["hard-freeze"]) ?
+						$this->config["settings"]["hard-freeze"] : false;
+
+		if (array_key_exists("adminjoin",$this->modules["listener"])
+			 || array_key_exists("servermotd",$this->modules["listener"]))
+			$this->listeners["adminjoin"] = new AdminJoinMgr($this);
+		if (array_key_exists("spawnitems",$this->modules["listener"])
+			 || array_key_exists("spawnarmor",$this->modules["listener"]))
+			$this->listeners["spawnmgr"] = new SpawnMgr($this);
+		if (array_key_exists("compasstp",$this->modules["listener"]))
+			$this->listeners["compasstp"] = new CompassTpMgr($this);
+		if (array_key_exists("repeater",$this->modules["listener"]))
+			$this->listeners["repeater"] = new RepeatMgr($this);
+		if (array_key_exists("slay",$this->modules["commands"]))
+			$this->listeners["cmd.slay"] = new ReaperMgr($this);
+		if (array_key_exists("shield",$this->modules["commands"]))
+			$this->listeners["cmd.shield"] = new ShieldMgr($this);
+		if (array_key_exists("servicemode",$this->modules["commands"]))
+			$this->listeners["cmd.servicemode"] = new SrvModeMgr($this);
+		if (array_key_exists("mute",$this->modules["commands"]) &&
+			 array_key_exists("unmute",$this->modules["commands"]))
+			$this->listeners["cmd.mute"] = new MuteMgr($this);
+		if (array_key_exists("freeze",$this->modules["commands"]) &&
+			 array_key_exists("thaw",$this->modules["commands"]))
+			$this->listeners["cmd.freeze"] = new FreezeMgr($this,$hardfreeze);
+
+		$this->getLogger()->info("Installed ".count($this->listeners)." managers");
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		// Make sure the command is active
@@ -268,6 +319,12 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdSeeArmor($sender,$args);
 			case "shield":
 				return $this->cmdShield($sender,$args);
+			case "mute":
+			case "unmute":
+				return $this->cmdMute($sender,$cmd->getName(),$args);
+			case "freeze":
+			case "thaw":
+				return $this->cmdFreeze($sender,$cmd->getName(),$args);
 			case "servicemode":
 				return $this->cmdSrvMode($sender,$args);
 			case "opms":
@@ -345,6 +402,67 @@ class Main extends PluginBase implements CommandExecutor {
 		$c->sendMessage("$args[0] was healed.");
 		return true;
 	}
+	private function cmdMute(CommandSender $c,$cmd,$args) {
+		if (count($args)) {
+			$cnt = 0;
+			foreach ($args as $i) {
+				$pl = $this->getServer()->getPlayer($i);
+				if ($pl) {
+					if ($cmd == "mute") {
+						$msg = $this->listeners["cmd.mute"]->mute($pl->getName());
+					} else {
+						$msg = $this->listeners["cmd.mute"]->unmute($pl->getName());
+					}
+					if ($msg)
+						$c->sendMessage($msg);
+					else {
+						++$cnt;
+						$pl->sendMessage("You have been muted by ".$c->getName());
+					}
+				} else {
+					$c->sendMessage("Player $i not found");
+				}
+			}
+			if (!$cnt) return false;
+			$c->sendMessage("Affected Players: $cnt");
+			return true;
+		}
+		$lst = $this->listeners["cmd.mute"]->getMutes();
+		$c->sendMessage("Mutes: ".count($lst));
+		if (count($lst)) $c->sendMessage(implode(", ",$lst));
+		return true;
+	}
+	private function cmdFreeze(CommandSender $c,$cmd,$args) {
+		if (count($args)) {
+			$cnt = 0;
+			foreach ($args as $i) {
+				$pl = $this->getServer()->getPlayer($i);
+				if ($pl) {
+					if ($cmd == "freeze") {
+						$msg = $this->listeners["cmd.freeze"]->freeze($pl->getName());
+					} else {
+						$msg = $this->listeners["cmd.freeze"]->thaw($pl->getName());
+					}
+					if ($msg)
+						$c->sendMessage($msg);
+					else {
+						++$cnt;
+						$pl->sendMessage("You have been frozen by ".$c->getName());
+					}
+				} else {
+					$c->sendMessage("Player $i not found");
+				}
+			}
+			if (!$cnt) return false;
+			$c->sendMessage("Affected Players: $cnt");
+			return true;
+		}
+		$lst = $this->listeners["cmd.freeze"]->getFrosties();
+		$c->sendMessage("Frozen: ".count($lst));
+		if (count($lst)) $c->sendMessage(implode(", ",$lst));
+		return true;
+	}
+
 	private function cmdShield(CommandSender $c,$args) {
 		if (!$this->inGame($c)) return true;
 		if (count($args) > 1) return false;
@@ -665,7 +783,6 @@ class Main extends PluginBase implements CommandExecutor {
 			} elseif ($e instanceof \pocketmine\entity\Item) {
 				$name = "Item:".$this->itemName($e->getItem());
 			} else {
-				//print_r($e->namedtag->id);
 				$name = basename(strtr(get_class($e),"\\","/"));
 			}
 			$tab[] = [ $id,$name,$pos,$e->getHealth() ];
@@ -693,20 +810,8 @@ class Main extends PluginBase implements CommandExecutor {
 				}
 				++$cnt;
 				$txt[] = "Tile: $i";
-				//foreach ($tile->namedtag as $k=>$v) {
-				//
-				//$txt[] = "- $k : $v";
-				//}
-				$name = '';
-				foreach (explode("\n",print_r($tile->namedtag,true)) as $l) {
-					if(preg_match('/^\s*\[name:protected\]\s*=>\s*(.*)$/',$l,$m)){
-						$name = $m[1];
-					}elseif(preg_match('/^(\s)*\[value:protected\]\s*=>\s*(.*)$/',$l,$m)){
-						if ($name && $m[2] != "Array") {
-							$txt[] = ".".$m[1].$name.": ".$m[2];
-						}
-						$name = '';
-					}
+				foreach ($this->dumpNbt($tile->namedtag) as $ln) {
+					$txt[] = $ln;
 				}
 			} else {
 				if (strtolower(substr($i,0,1)) == "e") {
@@ -723,8 +828,8 @@ class Main extends PluginBase implements CommandExecutor {
 				}
 				++$cnt;
 				$txt[] = "Entity: $i";
-				foreach (explode("\n",print_r($et->namedtag,true)) as $l) {
-					$txt[] = ".".$l;
+				foreach ($this->dumpNbt($et->namedtag) as $ln) {
+					$txt[] = $ln;
 				}
 			}
 		}

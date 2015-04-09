@@ -1,7 +1,7 @@
 #
 # Sample modules.yml
 #
-# To disable features, comment them out using "#"
+# To disable features, comment them out using "#" in front of the feature.
 #
 listener:
     adminjoin:
@@ -82,3 +82,20 @@ commands:
         usage: "/entitites [level] [tiles|info|rm] ..."
         permission: gb.cmd.entities
         aliases: [et]
+    mute:
+        description: Mute a player so they can not use chat
+        usage: "/mute [player]"
+        permission: gb.cmd.mute
+    unmute:
+        description: Un mute a player so they can use chat
+        usage: "/unmute [player]"
+        permission: gb.cmd.mute
+    freeze:
+        description: Freeze a player so they can not move
+        usage: "/freeze [player]"
+        permission: gb.cmd.freeze
+    thaw:
+        description: Reverse the effects of freeze
+        usage: "/thaw [player]"
+        permission: gb.cmd.reeze
+        aliases: [unfreeze]

@@ -36,14 +36,17 @@ Basic Usage:
 * shield [up|down] - Protect a player
 * servicemode [on|off] - enter maintenance mode
 * opms [msg] - send op only chat messages
-* !! - repeat command with changes
 * entities - manage entities
+* mute/unmute [player] - mute players
+* freeze/thaw [player] - freeze players
+* !! - repeat command with changes
 
 Documentation
 -------------
 
 This plugin collects a number of commands and listener plugins that I
-find useful and wanted to have in a single plugin rather through
+find useful and wanted t
+o have in a single plugin rather through
 multiple ones.  The available commands and listener modules can be
 configured.  This allows this plugin to co-exist peacefully with other
 plugins.
@@ -87,6 +90,12 @@ plugins.
   Send a message that can only be seen by ops or by the console.  You
   should use the *ops* command to see if there are any server ops
   on-line.
+* *mute|unmute* _[player]_
+  Stops players from chatting.  If no player specified it will show a
+  list of mutes.
+* *freeze|thaw* _[player]_
+  Stops players from moving.  If no player specified it will show a
+  list of statues.
 * *entities* _level_ _subcommand_  
   By default it will show the current entities.  The following
   sub-commands are available:
@@ -145,6 +154,8 @@ Also this plugin supports the following modules:
 Configuration is through the `config.yml` file:
 
 	---
+	settings:
+	  hard-freeze: false
 	spawn:
 	  armor:
 	    head: '-'
@@ -155,7 +166,13 @@ Configuration is through the `config.yml` file:
 	  - "272:0:1"
 	  - "17:0:16"
 	  - "364:0:5"
+
 	...
+
+Settings:
+
+* `hard-freeze` : if `true` no movement is allowed for frozen
+  players.  If `false`, moves are not allowed, but turning is allowed.
 
 The `spawn` section contains two lists:
 
@@ -167,6 +184,8 @@ The `spawn` section contains two lists:
 
 There is a `modules.yml` that by default activates all modules.  You
 can de-activate modules by commenting them out from `modules.yml`.
+This is done by inserting a `#` in front of the text.
+
 
 ### Permission Nodes:
 
@@ -191,10 +210,15 @@ can de-activate modules by commenting them out from `modules.yml`.
 * gb.cmd.servicemode: Allow access to service mode command
 * gb.servicemode.allow: Allow login when in service mode.
 * gb.cmd.entities: Manage entities
+* gb.cmd.mute: mute/unmute
+* gb.cmd.freeze: freeze/thaw
 
 Changes
 -------
-
+* 1.3.0: More Commands
+  * Added freeze and mute commands
+  * Improved entities output
+  * Improved documentation
 * 1.2.0 : Additional functionality
   * Entities command
   * servermotd module
