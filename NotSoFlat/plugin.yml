@@ -1,0 +1,6 @@
+name: NotSoFlat
+main: aliuly\notsoflat\Main
+load: STARTUP
+api: [1.6.0]
+version: 1.0.0
+author: aliuly

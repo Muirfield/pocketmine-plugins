@@ -1,0 +1,48 @@
+Simplex(Random,octaves,frequency,amplitude)
+Simplex:
+(OCTAVES #:int) (FREQUENCY #:float) (AMPLITUDE #:float -- Int?)
+
+OCTAVES is the number of octaves of noise to sample,
+The number of octaves control the amount of detail of Perlin
+noise. Adding more octaves increases the detail of Perlin noise, with
+the added drawback of increasing the calculation time.
+
+FREQUENCY is the frequency of the first octave,  The number of cycles
+per unit length that a specific coherent-noise function outputs.
+
+
+AMPLITUDE is the amplitude of the first octave.  Max abs value that
+can be output. (-n to +n? or just 0 to n)
+
+
+* More complex terrain: Based on normal
+  - Height - (Normal has *base*)
+  - Incline - Multiplier to height (to generate more ruggged terrain)
+
+  - Altitude (computed)
+  - Precipitation -
+  - Temperature - (softer)
+  - Diversity - Changes the selection of stuff
+
+High Temp
+
+Alt \ Precp	High	Medium	Low
+High		Mesa	Mesa	DesHill
+Medium		Jungle	Savan	Desert
+Low		Swamp	Savan	Desert
+
+
+Medium Temp
+
+Alt \ Precp	High	Medium	Low
+High		SnowHll	Hills	Mesa
+Medium		Forest	Plains	Savanna
+Low		Jungle	Swamps	Beach
+
+Low Temp
+
+Alt \ Precp	High	Medium		Low
+High		SnowHil	ColdHill	Taiga
+Medium		SnowPla	SnowPlain	Taiga
+Low		IcePlai	ColdBeach	IcePla
+
