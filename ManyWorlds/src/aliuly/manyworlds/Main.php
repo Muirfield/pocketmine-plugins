@@ -92,7 +92,7 @@ class Main extends PluginBase implements CommandExecutor {
 	// Standard call-backs
 	public function onEnable(){
 		$this->tpManager = new TeleportManager($this);
-		@mkdir($this->getDataFolder());
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
 			"settings" => [
 				"broadcast-tp" => true,
