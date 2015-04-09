@@ -475,7 +475,8 @@ class Main extends PluginBase implements CommandExecutor {
 		$txt = ["HDR"];
 
 		$auto = $this->getServer()->getProperty("worlds",[]);
-		$default = $this->getServer()->getDefaultLevel()->getName();
+		$default = $this->getServer()->getDefaultLevel();
+		if ($default) $default = $default->getName();
 
 		$count = 0;
 		$dh = opendir($dir);

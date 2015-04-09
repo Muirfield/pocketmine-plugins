@@ -48,6 +48,11 @@ class TeleportManager implements Listener {
 		}
 
 		$world = $this->owner->getServer()->getLevelByName($level);
+		if (!$world) {
+			$player->sendMessage("Unable to teleport to $level");
+			$player->sendMessage("Level $level was not found");
+			return false;
+		}
 		// Try to find a reasonable spawn location
 		$location = $world->getSafeSpawn($spawn);
 		$this->teleporters[$player->getName()] = time();
