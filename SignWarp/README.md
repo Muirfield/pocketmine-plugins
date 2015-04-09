@@ -112,10 +112,11 @@ coordinates of the player.
 Changes
 -------
 
+* 1.2.2: Bug fixes
+  * Fixed errors reported by [Crash Archive](http://crash.pocketmine.net/)
 * 1.2.1 : Minor updates
   * Added broadcast-tp setting.
   * Small changes on the way ManyWorlds API is used.
-  * Fixed errors reported by [Crash Archive](http://crash.pocketmine.net/)
 * 1.2.0 : Configurable texts
   * Sign texts can be configured.  Useful for localization.
 * 1.1.1 : Bugfix release
