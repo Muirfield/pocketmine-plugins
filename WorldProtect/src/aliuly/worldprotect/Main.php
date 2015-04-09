@@ -47,9 +47,7 @@ class Main extends PluginBase implements CommandExecutor {
 				"no-explode" => true,
 			],
 		];
-		if (!is_dir($this->getDataFolder())) {
-			mkdir($this->getDataFolder());
-		}
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$cfg = (new Config($this->getDataFolder()."config.yml",
 								 Config::YAML,$defaults))->getAll();
 		if ($cfg["settings"]["player-limits"] &&
