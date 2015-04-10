@@ -15,6 +15,7 @@ use pocketmine\utils\Config;
 use pocketmine\command\PluginCommand;
 use pocketmine\entity\Living;
 use pocketmine\nbt\tag\Compound;
+use pocketmine\scheduler\CallbackTask;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -73,6 +74,9 @@ class Main extends PluginBase implements CommandExecutor {
 		if (isset($this->listeners["cmd.freeze"])) {
 			$this->listeners["cmd.freeze"]->thaw($pl);
 		}
+	}
+	public function runCommand($cmd) {
+		$this->getServer()->dispatchCommand(new ConsoleCommandSender(),$cmd);
 	}
 	private function dumpNbtIndent($spc,&$off,&$last) {
 		if (isset($off[$spc])) return $off[$spc];
@@ -329,6 +333,10 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdSrvMode($sender,$args);
 			case "opms":
 				return $this->cmdOpMsg($sender,$args);
+			case "after":
+				return $this->cmdAfter($sender,$args);
+			case "at":
+				return $this->cmdAt($sender,$args);
 			case "entities":
 				return $this->cmdEntities($sender,$args);
 		}
@@ -339,6 +347,48 @@ class Main extends PluginBase implements CommandExecutor {
 	// Command implementations
 	//
 	//////////////////////////////////////////////////////////////////////
+	private function cmdAfter(CommandSender $c,$args) {
+		if (count($args) < 2) return false;
+		if (!is_numeric($args[0])) {
+			$c->sendMessage("Unable to specify delay $args[0]");
+			return false;
+		}
+		$secs = intval(array_shift($args));
+		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,time()+$secs));
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"runCommand"],[implode(" ",$args)]),$secs * 20);
+		return true;
+	}
+	private function cmdAt(CommandSender $c,$args) {
+		if (count($args) < 2) {
+			$c->sendMessage("Time now is: ".date(DATE_RFC2822));
+			return false;
+		}
+		if (($pos = array_search(":",$args)) != false) {
+			if ($pos == 0) return false;
+			$ts = [];
+			while ($pos--) {
+				$ts[] = array_shift($args);
+			}
+			array_shift($args);
+			if (count($args) == 0) return false;
+			$ts = implode(" ",$ts);
+			$when = strtotime($ts);
+		} else {
+			for ($ts = array_shift($args);
+				  ($when = strtotime($ts)) == false && count($args) > 1;
+				  $ts .= ' '.array_shift($args)) ;
+		}
+		if ($when == false) {
+			$c->sendMessage("Unable to parse time specification $ts");
+			return false;
+		}
+		while ($when < time()) {
+			$when += 86400; // We can not travel back in time...
+		}
+		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,$when));
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"runCommand"],[implode(" ",$args)]),($when - time())*20);
+		return true;
+	}
 	private function cmdWhois(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) != 1) {

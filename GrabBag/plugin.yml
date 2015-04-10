@@ -80,3 +80,6 @@ permissions:
     gb.cmd.freeze:
         default: op
         description: "freeze/thaw users"
+    gb.cmd.after:
+        default: op
+        description: "Schedule commands"

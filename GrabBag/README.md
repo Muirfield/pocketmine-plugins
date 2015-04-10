@@ -39,6 +39,8 @@ Basic Usage:
 * entities - manage entities
 * mute/unmute [player] - mute players
 * freeze/thaw [player] - freeze players
+* after [secs] cmd - Schedule command
+* at [timespec] cmd - Schedule command
 * !! - repeat command with changes
 
 Documentation
@@ -83,19 +85,26 @@ plugins.
   use `_` instead.
 * *shield* _[up|down]_  
   Show shield status.  Or raise/lower shields.
-* *servicemode* _[on|off]_  _[message]_
+* *servicemode* _[on|off]_  _[message]_  
   In servicemode, new connections are not allowed.  Existing users are
   OK.  Ops (gb.servicemode.allow) can always login.
-* *opms* text
+* *opms* text  
   Send a message that can only be seen by ops or by the console.  You
   should use the *ops* command to see if there are any server ops
   on-line.
-* *mute|unmute* _[player]_
+* *mute|unmute* _[player]_  
   Stops players from chatting.  If no player specified it will show a
   list of mutes.
-* *freeze|thaw* _[player]_
+* *freeze|thaw* _[player]_  
   Stops players from moving.  If no player specified it will show a
   list of statues.
+* *at* *time* _[:]_ *command*  
+  Will schedule to run *command* at the given date/time.  This uses
+  php's [strtotime](http://php.net/manual/en/function.strtotime.php)
+  function so *times* must follow the format described in
+  [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
+* *after* *seconds* *command*  
+  Will schedule to run *command* after *seconds*.
 * *entities* _level_ _subcommand_  
   By default it will show the current entities.  The following
   sub-commands are available:
@@ -105,6 +114,10 @@ plugins.
     Show details about one or more entities or tiles.
   * *rm* _[e#]_  
     Removes one or more entities.
+
+Note that commands scheduled with `at` and `after` will only run as
+long as the server is running.  These scheduled commands will *not*
+survive server reloads or reboots.
 
 ### Command repeater
 
@@ -212,11 +225,13 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.entities: Manage entities
 * gb.cmd.mute: mute/unmute
 * gb.cmd.freeze: freeze/thaw
+* gb.cmd.after: Access to command scheduler
 
 Changes
 -------
 * 1.3.0: More Commands
   * Added freeze and mute commands
+  * Added at and after commands
   * Improved entities output
   * Improved documentation
 * 1.2.0 : Additional functionality

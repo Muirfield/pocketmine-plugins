@@ -97,5 +97,13 @@ commands:
     thaw:
         description: Reverse the effects of freeze
         usage: "/thaw [player]"
-        permission: gb.cmd.reeze
+        permission: gb.cmd.freeze
         aliases: [unfreeze]
+    after:
+        description: Schedule to run a command after x seconds
+        usage: "/after [seconds] command"
+        permission: gb.cmd.after
+    at:
+        description: Schedule to run a command at a certain time
+        usage: "/at [time] command"
+        permission: gb.cmd.after
