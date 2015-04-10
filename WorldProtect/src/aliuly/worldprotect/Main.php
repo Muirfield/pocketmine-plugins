@@ -10,6 +10,8 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
+use pocketmine\scheduler\CallbackTask;
+
 
 class Main extends PluginBase implements CommandExecutor {
 	const MIN_BORDER = 32;
