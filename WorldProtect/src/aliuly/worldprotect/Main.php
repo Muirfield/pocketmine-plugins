@@ -122,7 +122,7 @@ class Main extends PluginBase implements CommandExecutor {
 		if (is_array($this->wcfg[$level]["motd"])) {
 			$ticks = 10;
 			foreach ($this->wcfg[$level]["motd"] as $ln) {
-				getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$player,"sendMessage"],[$ln]),$ticks);
+				$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$player,"sendMessage"],[$ln]),$ticks);
 				$ticks += 10;
 			}
 		} else {

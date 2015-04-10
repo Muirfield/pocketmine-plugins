@@ -177,6 +177,8 @@ Will show additional information.
 Changes
 -------
 
+* ?
+  * Bugfix in sending motd text
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode
