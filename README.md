@@ -11,12 +11,12 @@ Repository for my PocketMine plugins
 * Scorched - Major world destruction
 * WorldProtect - Anti-griefing and per world pvp.
 * LocalChat - Localized chat
+* NotSoFlat - An altenative world generator.
 
 ## Pending Moderation
 
 * ItemCasePE - A port of Bukkit ItemCase
 * KillRate - Keep track of killing
-* NotSoFlat - *Outdated*!
 
 
 Copyright
@@ -77,11 +77,3 @@ To-do
 
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
-
-
-* * *
-
-# PocketMine v1.5 will bring:
-
-1. new world generator: biomes
-2. full Entity classes and physics

@@ -47,8 +47,7 @@ Documentation
 -------------
 
 This plugin collects a number of commands and listener plugins that I
-find useful and wanted t
-o have in a single plugin rather through
+find useful and wanted to have in a single plugin rather through
 multiple ones.  The available commands and listener modules can be
 configured.  This allows this plugin to co-exist peacefully with other
 plugins.
@@ -133,6 +132,10 @@ things:
 	!!2
 	!!3
   This will start showing the output of `/mw ls` and consecutive pages.
+* `!!` `/`  
+  if you forgot the `/` in front, this command will add it.  Example:
+	help
+	!!/
 * `!!` text  
   Will append `text` to the previous command.  For example:
 	/gamemode
@@ -230,6 +233,7 @@ This is done by inserting a `#` in front of the text.
 Changes
 -------
 * 1.3.0: More Commands
+  * Added !! / to repeater
   * Added freeze and mute commands
   * Added at and after commands
   * Improved entities output

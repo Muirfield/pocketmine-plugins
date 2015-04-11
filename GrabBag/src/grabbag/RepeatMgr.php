@@ -44,6 +44,9 @@ class RepeatMgr implements Listener {
 						$newmsg = $this->last[$player]." ".$msg;
 					}
 				}
+			} elseif ($msg == "/" && substr($this->last[$player],0,1) != "/") {
+				// Forgotten "/"
+				$newmsg = "/".$this->last[$player];
 			} else {
 				$words = preg_split('/\s+/',$msg,2);
 				if (count($words) > 1
