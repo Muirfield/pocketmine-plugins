@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: ItemCasePE
 description: An implementation of Bukkit's ItemCase
-version: 1.0.0
+version: 1.0.1
 author: aliuly
 
 commands:
