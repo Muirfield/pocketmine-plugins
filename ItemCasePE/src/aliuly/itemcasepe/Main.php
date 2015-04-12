@@ -27,8 +27,7 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\server\DataPacketSendEvent;
-
-
+use pocketmine\network\protocol\Info as ProtocolInfo;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $cases = [];
@@ -246,6 +245,23 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$pl = $ev->getPlayer();
 		$level = $pl->getLocation()->getLevel();
 		$this->spawnPlayerCases($pl,$level);
+	}
+	public function onSendPacket(DataPacketSendEvent $ev) {
+		if ($ev->getPacket()->pid() !== ProtocolInfo::FULL_CHUNK_DATA_PACKET)
+			return;
+		// Re-spawn as chunks get sent...
+		$pl = $ev->getPlayer();
+		$level = $pl->getLevel();
+		if (!isset($this->cases[$level->getName()])) return;
+		$chunkX = $ev->getPacket()->chunkX;
+		$chunkZ = $ev->getPacket()->chunkZ;
+		foreach (array_keys($this->cases[$level->getName()]) as $cid) {
+			$pos = explode(":",$cid);
+			if ($pos[0] >> 4 == $chunkX && $pos[2] >> 4 == $chunkZ) {
+				echo "Respawn case... $cid\n"; //##DEBUG
+				$this->sndItemCase($level,$cid,[$pl]);
+			}
+		}
 	}
 	public function onLevelChange(EntityLevelChangeEvent $ev) {
 		if ($ev->isCancelled()) return;
