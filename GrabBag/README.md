@@ -32,6 +32,7 @@ Basic Usage:
 * showtimings - Display the info gathered through /timings
 * seearmor - show player's armor
 * seeinv - show player's inventory
+* clearinv - Clear player's inventory
 * get - obtain an item
 * shield [up|down] - Protect a player
 * servicemode [on|off] - enter maintenance mode
@@ -79,6 +80,8 @@ plugins.
   Show player's armor
 * *seeinv* *player*  
   Show player's inventory
+* *clearinv* *player*  
+  Clear player's inventory
 * *get* *item[:damage]* _[amount]_  
   Obtain an *item*.  When the item name contain spaces in the name,
   use `_` instead.
@@ -113,6 +116,8 @@ plugins.
     Show details about one or more entities or tiles.
   * *rm* _[e#]_  
     Removes one or more entities.
+  * *signN* _[t#]_ _message text_  
+    Changes the text line _N_ in the tile/sign identified by _t#_.
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
@@ -217,6 +222,7 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.whois.showip: Allow to view IP addresses
 * gb.cmd.seearmor: Show player's armor
 * gb.cmd.seeinv: Show player's inventory
+* gb.cmd.clearinv: Clear player's inventory
 * gb.cmd.get: get blocks.  A shortcut to give.
 * gb.spawnarmor.receive: allows player to receive armor when spawning
 * gb.spawnitems.receive: allows player to receive items when spawning
@@ -232,6 +238,10 @@ This is done by inserting a `#` in front of the text.
 
 Changes
 -------
+* ???
+  * clearinv : new command
+  * players : shows game mode
+  * et signX : new subcommand
 * 1.3.0: More Commands
   * Added !! / to repeater
   * Added freeze and mute commands

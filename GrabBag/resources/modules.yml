@@ -54,11 +54,15 @@ commands:
         usage: "/showtimings"
         permission: gb.cmd.timings
     seeinv:
-        description:
+        description: "Show a players inventory"
         usage: "/seeinv <player>"
         permission: gb.cmd.seeinv
+    clearinv:
+        description: "Clear a player's inventory"
+        usage: "/clearinv <player>"
+        permission: gb.cmd.clearinv
     seearmor:
-        description:
+        description: "Show players armor"
         usage: "/seearmor <player>"
         permission: gb.cmd.seearmor
     get:
@@ -79,7 +83,7 @@ commands:
         permission: gb.cmd.opms
     entities:
         description: Manage entities
-        usage: "/entitites [level] [tiles|info|rm] ..."
+        usage: "/entitites [level] [tiles|info|rm|sign1-4] ..."
         permission: gb.cmd.entities
         aliases: [et]
     mute:

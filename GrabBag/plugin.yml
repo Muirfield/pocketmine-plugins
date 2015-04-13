@@ -47,6 +47,9 @@ permissions:
     gb.cmd.seeinv:
         default: op
         description: "Show player's inventory"
+    gb.cmd.clearinv:
+        default: op
+        description: "Clear player's inventory"
     gb.cmd.get:
         default: op
         description: "Get blocks"

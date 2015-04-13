@@ -16,6 +16,7 @@ use pocketmine\command\PluginCommand;
 use pocketmine\entity\Living;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\scheduler\CallbackTask;
+use pocketmine\tile\Sign;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -319,6 +320,8 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdGet($sender,$args);
 			case "seeinv":
 				return $this->cmdSeeInv($sender,$args);
+			case "clearinv":
+				return $this->cmdClearInv($sender,$args);
 			case "seearmor":
 				return $this->cmdSeeArmor($sender,$args);
 			case "shield":
@@ -679,15 +682,17 @@ class Main extends PluginBase implements CommandExecutor {
 		return true;
 	}
 	private function cmdPlayers(CommandSender $c,$args) {
-		$tab = [[ "Player","World","Pos","Health" ]];
+		$tab = [[ "Player","World","Pos","Health","Mode" ]];
 		$cnt = 0;
 		foreach ($this->getServer()->getOnlinePlayers() as $player) {
 			if(!$player->isOnline() || (($c instanceof Player) && !$c->canSee($player))) continue;
 			$pos = $player->getPosition();
 			$j = count($tab);
+			$mode = substr(ucfirst(strtolower(Server::getGamemodeString($player->getGamemode()))),0,4);
 			$tab[]=[$player->getDisplayName(),$player->getLevel()->getName(),
 					  $pos->getFloorX().",".$pos->getFloorY().",".$pos->getFloorZ(),
-					  intval($player->getHealth()).'/'.intval($player->getMaxHealth())];
+					  intval($player->getHealth()).'/'.intval($player->getMaxHealth()),
+					  $mode];
 			++$cnt;
 		}
 		if (!$cnt) {
@@ -785,6 +790,21 @@ class Main extends PluginBase implements CommandExecutor {
 					  $this->itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
 		}
 		return $this->paginateTable($c,$pageNumber,$tab);
+	}
+	private function cmdClearInv(CommandSender $c,$args) {
+		if (count($args) != 1) {
+			$c->sendMessage("You must specify a player's name");
+			return true;
+		}
+		$target = $this->getServer()->getPlayer($args[0]);
+		if($target == null) {
+			$c->sendMessage($args[0]." can not be found.");
+			return true;
+		}
+		$target->getInventory()->clearAll();
+		$target->sendMessage("Your inventory has been cleared by ".$c->getName());
+		$c->sendMessage($target->getName()."'s inventory cleared");
+		return true;
 	}
 	private function cmdSeeInv(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
@@ -912,6 +932,39 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 		return true;
 	}
+	private function cmdEtSign(CommandSender $c,$level,$sub,$args) {
+		if (count($args) < 1) return false;
+		$i = array_shift($args);
+		if (strtolower(substr($i,0,1)) != "t") {
+			$c->sendMessage("Only applies to tile ids");
+			return false;
+		}
+		$i = substr($i,1);
+		if (!is_numeric($i)) {
+			$c->sendMessage("Invalid Tile id $i");
+			return false;
+		}
+		$tile = $level->getTileById(intval($i));
+		if ($tile == null) {
+			$c->sendMessage("Tile $i not found");
+			return false;
+		}
+		if (!($tile instanceof Sign)) {
+			$c->sendMessage("Tile $i is not a sign");
+			return false;
+		}
+		$sign = $tile->getText();
+		$txt = implode(" ",$args);
+		$sub = intval(substr($sub,-1)) - 1;
+		if ($sign[$sub] == $txt) {
+			$c->sendMessage("Text unchanged");
+			return true;
+		}
+		$sign[$sub] = $txt;
+		$tile->setText($sign[0],$sign[1],$sign[2],$sign[3]);
+		$c->sendMessage("Changed to \"$txt\"");
+		return true;
+	}
 	private function cmdEntities(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
 		$level = null;
@@ -937,6 +990,11 @@ class Main extends PluginBase implements CommandExecutor {
 					return $this->cmdEtInfo($c,$level,$args,$pageNumber);
 				case "rm":
 					return $this->cmdEtRm($c,$level,$args);
+				case "sign1":
+				case "sign2":
+				case "sign3":
+				case "sign4":
+					return $this->cmdEtSign($c,$level,$sub,$args);
 			}
 			return false;
 		}
