@@ -86,3 +86,12 @@ permissions:
     gb.cmd.after:
         default: op
         description: "Schedule commands"
+    gb.cmd.rpt:
+        default: true
+        description: "Report issues"
+    gb.cmd.rpt.read:
+        default: op
+        description: "Read reported issues"
+    gb.ubab.override:
+        default: false
+        description: "Blocks that can not be broken"

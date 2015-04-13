@@ -10,6 +10,7 @@ listener:
     spawnarmor:
     compasstp:
     repeater:
+    unbreakable:
 
 commands:
     players:
@@ -111,3 +112,7 @@ commands:
         description: Schedule to run a command at a certain time
         usage: "/at [time] command"
         permission: gb.cmd.after
+    rpt:
+        description: Report issues to ops
+        usage: "/rpt [message|read m##|clear [all|m##]]"
+        permssion: gb.cmd.rpt

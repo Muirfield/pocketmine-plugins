@@ -42,6 +42,7 @@ Basic Usage:
 * freeze/thaw [player] - freeze players
 * after [secs] cmd - Schedule command
 * at [timespec] cmd - Schedule command
+* rpt [message] - report issues to ops
 * !! - repeat command with changes
 
 Documentation
@@ -118,6 +119,12 @@ plugins.
     Removes one or more entities.
   * *signN* _[t#]_ _message text_  
     Changes the text line _N_ in the tile/sign identified by _t#_.
+* *rpt* _[text]_
+  Report issues to server ops.  Sub commands:
+  * read
+    Show messages
+  * clear _[m#|all]_
+    Clears messages
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
@@ -169,6 +176,7 @@ Also this plugin supports the following modules:
   that it only does it for users without armor.
 * compasstp: When holding a compass tap the screen for 1 second, will
   teleport you in the direciton you are facing.
+* unbreakable : Unbreakable blocks.
 
 ### Configuration
 
@@ -177,6 +185,9 @@ Configuration is through the `config.yml` file:
 	---
 	settings:
 	  hard-freeze: false
+	unbreakable:
+	  - 32
+	  - 45
 	spawn:
 	  armor:
 	    head: '-'
@@ -194,6 +205,9 @@ Settings:
 
 * `hard-freeze` : if `true` no movement is allowed for frozen
   players.  If `false`, moves are not allowed, but turning is allowed.
+
+The `unbreakable` section is for the `unbreakable` listener module.
+Lists block ids that can not be broken.
 
 The `spawn` section contains two lists:
 
@@ -235,11 +249,15 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.mute: mute/unmute
 * gb.cmd.freeze: freeze/thaw
 * gb.cmd.after: Access to command scheduler
+* gb.cmd.rpt: Report issues
+* gb.cmd.rpt.read: Read reported issues
+* gb.ubab.override: Can break blocks in the ubab list.
 
 Changes
 -------
 * ???
-  * clearinv : new command
+  * new commands: clearinv, rpt
+  * new listeners: unbreakable
   * players : shows game mode
   * et signX : new subcommand
 * 1.3.0: More Commands

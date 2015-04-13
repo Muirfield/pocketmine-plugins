@@ -34,6 +34,8 @@ class Main extends PluginBase implements CommandExecutor {
 	protected $modules;
 	protected $slain = [];
 	protected $shield = [];
+	protected $rpt;
+
 	static $items = [];
 	// Override the MaxStacks counter...
 	static $stacks = [ Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
@@ -52,6 +54,9 @@ class Main extends PluginBase implements CommandExecutor {
 	}
 	public function checkModule($name) {
 		return array_key_exists($name,$this->modules["listener"]);
+	}
+	public function checkCommand($name) {
+		return array_key_exists($name,$this->modules["commands"]);
 	}
 	public function itemName(Item $item) {
 		if (count(self::$items) == 0) {
@@ -244,6 +249,10 @@ class Main extends PluginBase implements CommandExecutor {
 						 "settings" =>[
 							 "hard-freeze"=>false,
 						 ],
+						 "unbreakable"=>[
+							 7,
+							 95,
+						 ],
 						 "spawn"=>[
 							 "armor"=>[
 								 "head"=>"-",
@@ -260,6 +269,7 @@ class Main extends PluginBase implements CommandExecutor {
 					 ];
 		if (file_exists($this->getDataFolder()."config.yml")) {
 			unset($defaults["spawn"]["items"]);
+			unset($defaults["unbreakable"]);
 		}
 		$this->config=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
@@ -268,11 +278,17 @@ class Main extends PluginBase implements CommandExecutor {
 						$this->config["settings"]["hard-freeze"] : false;
 
 		if (array_key_exists("adminjoin",$this->modules["listener"])
+			 || array_key_exists("rpt",$this->modules["commands"])
 			 || array_key_exists("servermotd",$this->modules["listener"]))
 			$this->listeners["adminjoin"] = new AdminJoinMgr($this);
 		if (array_key_exists("spawnitems",$this->modules["listener"])
 			 || array_key_exists("spawnarmor",$this->modules["listener"]))
 			$this->listeners["spawnmgr"] = new SpawnMgr($this);
+		if (array_key_exists("unbreakable",$this->modules["listener"]) &&
+			 isset($this->config["unbreakable"]) &&
+			 is_array($this->config["unbreakable"]))
+			$this->listeners["unbreakable"] = new UnbreakMgr($this,
+																			 $this->config["unbreakable"]);
 		if (array_key_exists("compasstp",$this->modules["listener"]))
 			$this->listeners["compasstp"] = new CompassTpMgr($this);
 		if (array_key_exists("repeater",$this->modules["listener"]))
@@ -289,6 +305,12 @@ class Main extends PluginBase implements CommandExecutor {
 		if (array_key_exists("freeze",$this->modules["commands"]) &&
 			 array_key_exists("thaw",$this->modules["commands"]))
 			$this->listeners["cmd.freeze"] = new FreezeMgr($this,$hardfreeze);
+		if (array_key_exists("rpt",$this->modules["commands"])) {
+			$this->rpt = new Config($this->getDataFolder()."reports.yml",
+											Config::YAML,[0,[]]);
+		} else {
+			$this->rpt = null;
+		}
 
 		$this->getLogger()->info("Installed ".count($this->listeners)." managers");
 	}
@@ -336,6 +358,8 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdSrvMode($sender,$args);
 			case "opms":
 				return $this->cmdOpMsg($sender,$args);
+			case "rpt":
+				return $this->cmdRpt($sender,$args);
 			case "after":
 				return $this->cmdAfter($sender,$args);
 			case "at":
@@ -622,6 +646,62 @@ class Main extends PluginBase implements CommandExecutor {
 		} else {
 			$c->sendMessage("You are alredy in ".strtolower(Server::getGamemodeString($mode))." mode");
 		}
+		return true;
+	}
+	public function checkRpt($name) {
+		$pl = $this->getServer()->getPlayer($name);
+		if ($pl == null) return;
+		if(!$pl->hasPermission("gb.cmd.rpt.read")) return;
+		list($id,$rpt) = $this->rpt->getAll();
+		if (count($rpt)) $pl->sendMessage(count($rpt)." reports on file");
+	}
+	private function cmdRpt(CommandSender $c,$args) {
+		if (count($args) == 0) return false;
+		list($id,$rpt) = $this->rpt->getAll();
+		if ($args[0] == "read" && (count($args) == 1 ||
+											(count($args) == 2 && is_numeric($args[1])))) {
+			if (!$this->access($c,"gb.cmd.rpt.read")) return false;
+			if (count($rpt) == 0) {
+				$c->sendMessage(TextFormat::RED."No reports on file!");
+				return true;
+			}
+			$pageNumber = $this->getPageNumber($args);
+			$tab = [[ "ID","Date","Name","Reports: ".count($rpt) ]];
+			foreach ($rpt as $i=>$ln) {
+				list($tm,$name,$ms) = $ln;
+				$tm = date("d-M H:i",$tm);
+				$tab[] = [ $i,$tm,$name,$ms ];
+			}
+			$this->paginateTable($c,$pageNumber,$tab);
+			return true;
+		}
+		if ($args[0] == "clear" && count($args) == 2) {
+			if (!$this->access($c,"gb.cmd.rpt.read")) return false;
+			if ($args[1] == "all") {
+				$rpt = [];
+			} else {
+				$i = intval($args[1]);
+				if (!isset($rpt[$i])) {
+					$c->sendMessage("Unknown report #$i");
+					return true;
+				}
+				unset($rpt[$i]);
+				$c->sendMessage("Deleting report #$i");
+			}
+		} else {
+			$rpt[++$id] = [time(),$c->getName(),implode(" ",$args)];
+
+			$c->sendMessage("Report filed as #".$id);
+			$ms = TextFormat::BLUE.
+				 "Rpt[#$id from ".$c->getName()."] ".TextFormat::YELLOW.implode(" ",$args);
+			$this->getLogger()->info($ms);
+			foreach ($this->getServer()->getOnlinePlayers() as $pl) {
+				if (!$pl->isOp()) continue;
+				$pl->sendMessage($ms);
+			}
+		}
+		$this->rpt->setAll([$id,$rpt]);
+		$this->rpt->save();
 		return true;
 	}
 	private function cmdOpMsg(CommandSender $c,$args) {

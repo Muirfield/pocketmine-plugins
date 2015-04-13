@@ -19,11 +19,16 @@ class AdminJoinMgr implements Listener {
 		if ($this->owner->checkModule("servermotd")) {
 			$pl->sendMessage($this->owner->getServer()->getMotd());
 		}
-		if ($this->owner->checkModule("adminjoin") && $pl->isOp()) {
-			$task =new CallbackTask([$this,"announceOp"],[$pl->getName()]);
-			$this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,self::$delay);
+		if ($pl->isOp()) {
+			if ($this->owner->checkModule("adminjoin")) {
+				$task =new CallbackTask([$this,"announceOp"],[$pl->getName()]);
+				$this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,self::$delay);
+			}
+			if ($this->owner->checkCommand("rpt")) {
+				$task =new CallbackTask([$this->owner,"checkRpt"],[$pl->getName()]);
+				$this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,self::$delay);
+			}
 		}
-
 	}
 	public function announceOp($pn) {
 		$this->owner->getServer()->broadcastMessage("Server op $pn joined");
