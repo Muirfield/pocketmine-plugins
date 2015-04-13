@@ -182,6 +182,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 
 	public function despawnPlayerCases(Player $pl,Level $level){
 		$world = $level->getName();
+		if (!isset($this->cases[$world])) return;
 		foreach (array_keys($this->cases[$world]) as $cid) {
 			$this->rmItemCase($level,$cid,[$pl]);
 		}
