@@ -125,8 +125,7 @@ class Main extends PluginBase implements CommandExecutor {
 							if (!$this->access($sender,"mw.cmd.lvdat")) return false;
 							if (count($args) != 1) return $this->mwHelpCmd($sender,["fixname"]);
 							$sender->sendMessage("Running /mw lvdat $args[0] name=$args[0]");
-							return $this->mwLevelDatCmd($sender,[$args[0],
-																			 "name=".$args[0]]);
+							return $this->mwLevelDatCmd($sender,[$args[0], "name=".$args[0]]);
 							break;
 						case "lvdat":
 							if (!$this->access($sender,"mw.cmd.lvdat")) return false;
