@@ -109,7 +109,7 @@ To use the teleport provided by ManyWorlds, you can use this code:
 	if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
 	    $mw->mwtp($player,$pos);
 	} else {
-	    $pl->teleport($pos);
+	    $player->teleport($pos);
 	}
 
 You need to do this in order for WorldProtect limits to work.
@@ -142,8 +142,9 @@ Issues
 Changes
 -------
 
-* ?
+* 1.3.2: API update
   * Allow WorldProtect to call our commands.
+  * Simplified API and updated its documentation
 * 1.3.1:
   * Fixed a bug around not show who was teleported for 3rd party
     teleport
