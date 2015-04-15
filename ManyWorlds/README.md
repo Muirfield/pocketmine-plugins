@@ -102,6 +102,18 @@ In the plugin's config.yml file you can have:
 
 * `broadcast-tp`: Controls broadcast message that somebody teleported.
 
+### API
+
+To use the teleport provided by ManyWorlds, you can use this code:
+
+	if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
+	    $mw->mwtp($player,$pos);
+	} else {
+	    $pl->teleport($pos);
+	}
+
+You need to do this in order for WorldProtect limits to work.
+
 ### Permission Nodes:
 
 * mw.cmd.tp - Allows users to travel to other worlds
@@ -130,6 +142,8 @@ Issues
 Changes
 -------
 
+* ?
+  * Allow WorldProtect to call our commands.
 * 1.3.1:
   * Fixed a bug around not show who was teleported for 3rd party
     teleport

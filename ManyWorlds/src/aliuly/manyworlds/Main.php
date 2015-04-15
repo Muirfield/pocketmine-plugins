@@ -17,6 +17,7 @@ use pocketmine\nbt\tag\Compound;
 
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
+use pocketmine\level\Position;
 
 
 class Main extends PluginBase implements CommandExecutor {
@@ -105,6 +106,7 @@ class Main extends PluginBase implements CommandExecutor {
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		switch($cmd->getName()) {
+			case "worldprotect": // Allow WP to call us...
 			case "mw":
 				if(isset($args[0])) {
 					$scmd = strtolower(array_shift($args));
@@ -575,6 +577,17 @@ class Main extends PluginBase implements CommandExecutor {
 	//
 	// Public API
 	//
+	public function mwtp($pl,$pos) {
+		if ($pos instanceof Position) {
+			// Using ManyWorlds for teleporting...
+			return $this->teleport($pl,$pos->getLevel()->getName(),
+										  new Vector3($pos->getX(),
+														  $pos->getY(),
+														  $pos->getZ()));
+		}
+		$pl->teleport($pos);
+		return true;
+	}
 	public function teleport($player,$level,$spawn=null) {
 		if (!$this->getServer()->isLevelLoaded($level)) return false;
 		/*
