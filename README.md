@@ -5,13 +5,20 @@ Repository for my PocketMine plugins
 
 ## Available Plugins
 
-* ManyWorlds - a multiple world implementation.
-* SignWarp - A sign based teleport facility.
-* GrabBag - My personal collection of commands and listener modules.
-* Scorched - Major world destruction
-* WorldProtect - Anti-griefing and per world pvp.
-* LocalChat - Localized chat
-* NotSoFlat - An altenative world generator.
+* [ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
+  - a multiple world implementation.
+* [SignWarp](http://forums.pocketmine.net/plugins/signwarp.1043/) - A
+  sign based teleport facility.
+* [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) - My
+  personal collection of commands and listener modules.
+* [Scorched](http://forums.pocketmine.net/plugins/scorched.1062/) -
+  Major world destruction
+* [WorldProtect](http://forums.pocketmine.net/plugins/worldprotect.1079/) -
+  Anti-griefing and per world pvp.
+* [LocalChat](http://forums.pocketmine.net/plugins/localchat.1083/) -
+  Localized chat
+* [NotSoFlat](http://forums.pocketmine.net/plugins/notsoflat.385/) -
+  An altenative world generator.
 
 ## Pending Moderation
 
