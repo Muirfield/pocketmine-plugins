@@ -43,6 +43,11 @@ Basic Usage:
 * after [secs] cmd - Schedule command
 * at [timespec] cmd - Schedule command
 * rpt [message] - report issues to ops
+* summon <player> [msg] - teleports <player> to you.
+* dismiss <player> [msg] - teleports <player> back to where they were
+  summoned.
+* pushtp <x y z|player|world> - save current location and teleport
+* poptp - goes back to saved location
 * !! - repeat command with changes
 
 Documentation
@@ -125,6 +130,16 @@ plugins.
     Show messages
   * clear _[m#|all]_
     Clears messages
+* *summon* <player> [msg]  
+  teleports <player> to you.
+* *dismiss* <player> [msg]  
+  teleports <player> back to where they were summoned from.
+* *pushtp* <x y z|player|world>
+  save current location and teleport (if desired).
+* *poptp*
+  goes back to saved location.  Push and pop work in a stack.  Push
+  will save the current location on the top of the stack, while pop
+  will pop it from the top of the stack.
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
@@ -252,6 +267,8 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.rpt: Report issues
 * gb.cmd.rpt.read: Read reported issues
 * gb.ubab.override: Can break blocks in the ubab list.
+* gb.cmd.summon: Access to summon/dismiss command
+* gb.cmd.pushpoptp: Access to push/pop teleport
 
 Changes
 -------
@@ -260,6 +277,8 @@ Changes
   * new listeners: unbreakable
   * players : shows game mode
   * et signX : new subcommand
+  * summon/dismiss commands
+  * push/pop teleport commands
 * 1.3.0: More Commands
   * Added !! / to repeater
   * Added freeze and mute commands

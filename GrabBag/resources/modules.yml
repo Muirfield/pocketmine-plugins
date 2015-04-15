@@ -116,3 +116,19 @@ commands:
         description: Report issues to ops
         usage: "/rpt [message|read m##|clear [all|m##]]"
         permssion: gb.cmd.rpt
+    summon:
+        description: Teleports players to your location
+        usage: "/summon <player> [message]"
+        permission: gb.cmd.summon
+    dismiss:
+        description: Dismiss players that you summoned
+        usage: "/dismiss <player|--all> [message]"
+        permission: gb.cmd.summon
+    pushtp:
+        description: Save your current x,y,z coordinate
+        usage: "/pushtp [player|position]"
+        permission: gb.cmd.pushpoptp
+    poptp:
+        description: Return to previously saved coordinates
+        usage: "/poptp"
+        permission: gb.cmd.pushpoptp

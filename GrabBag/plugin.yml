@@ -95,3 +95,9 @@ permissions:
     gb.ubab.override:
         default: false
         description: "Blocks that can not be broken"
+    gb.cmd.summon:
+        default: op
+        description: "Summon|Dismiss command"
+    gb.cmd.pushpoptp:
+        default: op
+        description: "push/pop teleport"

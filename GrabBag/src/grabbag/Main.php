@@ -17,6 +17,7 @@ use pocketmine\entity\Living;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\scheduler\CallbackTask;
 use pocketmine\tile\Sign;
+use pocketmine\level\Position;
 
 //use pocketmine\entity\Entity;
 //use pocketmine\nbt\tag\Byte;
@@ -24,8 +25,8 @@ use pocketmine\tile\Sign;
 //use pocketmine\nbt\tag\Enum;
 //use pocketmine\nbt\tag\Float;
 //use pocketmine\utils\Random;
-//use pocketmine\level\Position;
 use pocketmine\item\Item;
+use pocketmine\math\Vector3;
 
 
 class Main extends PluginBase implements CommandExecutor {
@@ -34,6 +35,7 @@ class Main extends PluginBase implements CommandExecutor {
 	protected $modules;
 	protected $slain = [];
 	protected $shield = [];
+	protected $state = [];
 	protected $rpt;
 
 	static $items = [];
@@ -305,6 +307,10 @@ class Main extends PluginBase implements CommandExecutor {
 		if (array_key_exists("freeze",$this->modules["commands"]) &&
 			 array_key_exists("thaw",$this->modules["commands"]))
 			$this->listeners["cmd.freeze"] = new FreezeMgr($this,$hardfreeze);
+		if (array_key_exists("shield",$this->modules["commands"]) ||
+			 array_key_exists("summon",$this->modules["commands"])) {
+			$this->listeners["cleanup"] = new Cleaner($this);
+		}
 		if (array_key_exists("rpt",$this->modules["commands"])) {
 			$this->rpt = new Config($this->getDataFolder()."reports.yml",
 											Config::YAML,[0,[]]);
@@ -366,6 +372,14 @@ class Main extends PluginBase implements CommandExecutor {
 				return $this->cmdAt($sender,$args);
 			case "entities":
 				return $this->cmdEntities($sender,$args);
+			case "summon":
+				return $this->cmdSummon($sender,$args);
+			case "dismiss":
+				return $this->cmdDismiss($sender,$args);
+			case "pushtp":
+				return $this->cmdPushTp($sender,$args);
+			case "poptp":
+				return $this->cmdPopTp($sender,$args);
 		}
 		return false;
 	}
@@ -374,6 +388,163 @@ class Main extends PluginBase implements CommandExecutor {
 	// Command implementations
 	//
 	//////////////////////////////////////////////////////////////////////
+	private function mwteleport($pl,$pos) {
+		if (($pos instanceof Position) &&
+			 ($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
+			// Using ManyWorlds for teleporting...
+			$mw->teleport($pl,$pos->getLevel()->getName(),
+							  new Vector3($pos->getX(),
+											  $pos->getY(),
+											  $pos->getZ()));
+		} else {
+			$pl->teleport($pos);
+		}
+	}
+
+	private function cmdPushTp(CommandSender $c,$args) {
+		if (!$this->inGame($c)) return true;
+
+		// Determine target...
+		if (count($args) == 3 && is_numeric($args[0]) && is_numeric($args[1]) && is_numeric($args[2])) {
+			$target = new Vector3($args[0],$args[1],$args[2]);
+		} elseif (count($args) == 1 || count($args) == 4) {
+			// is it a person or a world?...
+			if (count($args) == 1
+				 && ($pl = $this->getServer()->getPlayer($args[0]))) {
+				$target = $pl;
+			} else {
+				// Assume it is a level...
+				$level = array_shift($args);
+				if (count($args) == 3) {
+					if (!(is_numeric($args[0]) && is_numeric($args[1]) && is_numeric($args[2]))) {
+						$c->sendMessage("Invalid coordinate set");
+						return true;
+					}
+					$cc = new Vector3($args[0],$args[1],$args[2]);
+				} else {
+					$cc = null;
+				}
+				if (!$this->getServer()->isLevelLoaded($level)) {
+					if (!$this->getServer()->loadLevel($level)) {
+						$c->sendMessage("Level not found $level");
+						return true;
+					}
+				}
+				$level = $this->getServer()->getLevelByName($level);
+				if (!$level) {
+					$c->sendMesage("$level not found");
+					return treu;
+				}
+				$target = $level->getSafeSpawn($cc);
+			}
+		} elseif (count($args) == 0) {
+			$target = null;
+		} else {
+			return false;
+		}
+
+		// save location...
+		$cn = $c->getName();
+		if (!isset($this->state[$cn])) $this->state[$cn] = [];
+		if (!isset($this->state[$cn]["tpstack"]))
+			$this->state[$cn]["tpstack"] = [];
+		array_push($this->state[$cn]["tpstack"],new Position($c->getX(),
+																			  $c->getY(),
+																			  $c->getZ(),
+																			  $c->getLevel()));
+		$c->sendMessage("Position saved!");
+
+
+		if ($target) {
+			$c->sendMessage("Teleporting...");
+			$this->mwteleport($c,$target);
+		}
+		return true;
+	}
+	private function cmdPopTp(CommandSender $c,$args) {
+		if (!$this->inGame($c)) return true;
+		$cn = $c->getName();
+		if (!isset($this->state[$cn]) ||
+			 !isset($this->state[$cn]["tpstack"]) ||
+			 count($this->state[$cn]["tpstack"]) == 0) {
+			$c->sendMessage("Your tpstack is empty");
+			return true;
+		}
+		$pos = array_pop($this->state[$cn]["tpstack"]);
+		$c->sendMessage("Teleporting...");
+		$this->mwteleport($c,$pos);
+	}
+	private function cmdSummon(CommandSender $c,$args) {
+		if (count($args) == 0) return false;
+		if (!$this->inGame($c)) return true;
+		$pl = $this->getServer()->getPlayer($args[0]);
+		if (!$pl) {
+			$c->sendMessage("$args[0] can not be found");
+			return true;
+		}
+		array_shift($args);
+		if (count($args)) {
+			$pl->sendMessage(implode(" ",$args));
+		} else {
+			$pl->sendMessage("You have been summoned by ".$c->getName());
+		}
+		// Do we need to save current location?
+		$cn = $c->getName();
+		$pn = $pl->getName();
+		if (!isset($this->state[$cn])) $this->state[$cn] = [];
+		if (!isset($this->state[$cn]["summons"]))
+			$this->state[$cn]["summons"] = [];
+		if (!isset($this->state[$cn]["summons"][$pn])) {
+			$this->state[$cn]["summons"][$pn] = new Position($pl->getX(),
+																			 $pl->getY(),
+																			 $pl->getZ(),
+																			 $pl->getLevel());
+		}
+		$mv = new Vector3($c->getX()+mt_rand(-3,3),$c->getY(),
+								$c->getZ()+mt_rand(-3,3));
+		$c->sendMessage("Summoning $pn....");
+		$this->mwteleport($pl,$c->getLevel()->getSafeSpawn($mv));
+		return true;
+	}
+	private function cmdDismiss(CommandSender $c,$args) {
+		if (count($args) == 0) return false;
+		if (!$this->inGame($c)) return true;
+		$cn = $c->getName();
+		if (!isset($this->state[$cn]) ||
+			 !isset($this->state[$cn]["summons"]) ||
+			 count($this->state[$cn]["summons"]) == 0) {
+			$c->sendMessage("There is nobody to dismiss");
+			$c->sendMessage("You need to summon people first");
+			return true;
+		}
+		$plist = [ array_shift($args) ];
+		if ($plist[0] == "--all") {
+			$plist = array_keys($this->state[$cn]["summons"]);
+		}
+		if (count($args)) {
+			$msg = implode(" ",$args);
+		} else {
+			$msg = "You have been dismissed by ".$cn;
+		}
+		foreach ($plist as $i) {
+			$pl = $this->getServer()->getPlayer($i);
+			if (!$pl) {
+				$c->sendMessage("$i can not be found");
+				continue;
+			}
+			$pn = $pl->getName();
+			if (!isset($this->state[$cn]["summons"][$pn])) {
+				$c->sendMessage("$pn was never summoned");
+				continue;
+			}
+			$pl->sendMessage($msg);
+			$c->sendMessage("Dismissing $pn");
+			$this->mwteleport($pl,$this->state[$cn]["summons"][$pn]);
+			unset($this->state[$cn]["summons"][$pn]);
+		}
+		return true;
+	}
+
 	private function cmdAfter(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		if (!is_numeric($args[0])) {
@@ -1083,6 +1254,12 @@ class Main extends PluginBase implements CommandExecutor {
 	//////////////////////////////////////////////////////////////////////
 	// Event based stuff...
 	//////////////////////////////////////////////////////////////////////
+	public function cleanup($player) {
+		// Called when a player disconnects, to release state related resources...
+		if (isset($this->shield[$player])) unset($this->shield[$player]);
+		if (isset($this->state[$player])) unset($this->state[$player]);
+	}
+
 	public function canCompassTp($player) {
 		if (!array_key_exists("compasstp",$this->modules["listener"])) return false;
 		$pl = $this->getServer()->getPlayer($player);
