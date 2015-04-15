@@ -22,12 +22,18 @@ use pocketmine\nbt\tag\Float;
 use pocketmine\scheduler\CallbackTask;
 
 use pocketmine\event\player\PlayerItemHeldEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityShootBowEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
+use pocketmine\event\entity\ExplosionPrimeEvent;
+use pocketmine\level\Explosion;
 
 class Main extends PluginBase implements CommandExecutor, Listener {
 	protected $shooters;
+	protected $dumdums;
 	protected $presets;
 	protected $cfg;
+	protected $features;
 
 	// Access and other permission related checks
 	private function inGame(CommandSender $sender,$msg = true) {
@@ -37,13 +43,25 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	// Event handlers
+	public function onQuit(PlayerQuitEvent $e) {
+		$n = $e->getPlayer()->getName();
+		if (!isset($this->shooters[$n])) unset($this->shooters[$n]);
+		if (!isset($this->dumdums[$n])) unset($this->dumdums[$n]);
+	}
+
 	public function onItemHeld(PlayerItemHeldEvent $e) {
 		$p = $e->getPlayer();
 		$n = $p->getName();
-		if (!isset($this->shooters[$n])) return;
-		if ($e->getItem()->getID() != Item::BOW) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if ($e->getItem()->getID() == Item::BOW) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if (isset($this->shooters[$n])) {
 			unset($this->shooters[$n]);
 			$p->sendMessage("Disarming RPG");
+		}
+		if (isset($this->dumdums[$n])) {
+			unset($this->dumdums[$n]);
+			$p->sendMessage("Unloading dumdums");
 		}
 	}
 	public function breakBow($n) {
@@ -55,14 +73,49 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$hand->setDamage($hand->getDamage() + $this->cfg["usage"]);
 		$p->getInventory()->setItemInHand($hand);
 	}
+	private function misfire($bow) {
+		$dam = $bow->getDamage();
+		echo "DAM=$dam\n"; //## DEBUG
+		if (mt_rand(0,$this->cfg["failure"]) < $dam &&
+			 (mt_rand()/mt_getrandmax()) < $this->cfg["rate"]) {
+			// Oh no... failed!
+			return true;
+		}
+		return false;
+	}
 
+	public function onArrowHit(ProjectileHitEvent $ev) {
+		//if ($ev->isCancelled()) return;
+		$et = $ev->getEntity();
+		if (!$et->namedtag) return;
+		$c = explode(":",$et->namedtag->getName());
+		if (count($c) != 3) return;
+		if ($c[0] != "dumdum") return;
+		$explosion = new Explosion($et,intval($c[1]),$et);
+		if (!$c[2]) $explosion->explodeA();
+		$explosion->explodeB();
+	}
 	public function onShoot(EntityShootBowEvent $e) {
 		$p = $e->getEntity();
 		if (!($p instanceof Player)) return;
+		if ($e->isCancelled()) return;
 
 		$n = $p->getName();
+		if (isset($this->dumdums[$n])) {
+			if ($this->misfire($e->getBow())) {
+				$e->setCancelled(); // Bow broke!
+				$p->sendMessage("Dumdum failure!");
+				$explosion = new Explosion($p,$this->dumdums[$n][0],$p);
+				if (!$this->dumdums[$n][1]) $explosion->explodeA();
+				$explosion->explodeB();
+				return;
+			}
+			$arrow = $e->getProjectile();
+			$arrow->namedtag->setName("dumdum:".implode(":",$this->dumdums[$n]));
+			return;
+		}
+
 		if (!isset($this->shooters[$n])) return;
-		if ($e->isCancelled()) return;
 		if (!isset($this->shooters[$n])) return;
 		$e->setCancelled(); // Disable it and replace it with our own
 
@@ -73,12 +126,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				unset($this->shoters[$n]);
 				return;
 			}
-			$bow = $e->getBow();
-			$dam = $bow->getDamage();
-			echo "DAM=$dam\n"; //## DEBUG
-			if (mt_rand(0,$this->cfg["failure"]) < $dam &&
-				 (mt_rand()/mt_getrandmax()) < $this->cfg["rate"]) {
-				// Oh no... failed!
+			if ($this->misfire($e->getBow())) {
 				$p->sendMessage("RPG misfired!");
 				$this->fire($p,mt_rand(1,$this->shooters[$n][0]),0.01);
 				return;
@@ -88,6 +136,18 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		}
 		//echo "FORCE: ". $e->getForce()."\n"; //## DEBUG
 		$this->fire($p,$this->shooters[$n][0],$this->shooters[$n][1]);
+	}
+	public function readyToExplode(ExplosionPrimeEvent $e) {
+		$g = $e->getEntity();
+		if (!$g->namedtag) return;
+		if ($g->namedtag->getName() != "Scorched") return;
+		if ((mt_rand()/mt_getrandmax()) < $this->cfg["rpg-noexplode"]) {
+
+			$e->setCancelled();
+			return;
+		}
+		$e->setForce($this->cfg["rpg-yield"]);
+		if ($this->cfg["rpg-magic"]) $ev->setBlockBreaking(false);
 	}
 
 	// Standard call-backs
@@ -110,6 +170,14 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				"min-speed" => 0.5,
 				"max-fuse" => 120,
 				"min-fuse" => 10,
+				"rpg-yield" => 4,
+				"rpg-magic" => false,
+				"rpg-noexplode" => 0.10,
+				"default-yield" => 2,
+				"default-magic" => false,
+				"forced-magic" => false,
+				"no-magic" => false,
+				"max-yield" => 5,
 			],
 		];
 		$cfg = (new Config($this->getDataFolder()."config.yml",
@@ -121,6 +189,8 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		switch($cmd->getName()) {
+			case "dumdum":
+				return $this->cmdDumDums($sender,$args);
 			case "rpg":
 				return $this->cmdRpg($sender,$args);
 			case "fire":
@@ -180,6 +250,46 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$this->fire($c,$fuse,$speed);
 		return true;
 	}
+	private function cmdDumDums(CommandSender $c,$args) {
+		if (!$this->inGame($c)) return false;
+		$n = $c->getName();
+		if (count($args) == 0) {
+			$yield = $this->cfg["default-yield"];
+			$magic = $this->cfg["default-magic"];
+		} elseif (count($args) == 1 && $args[0] == "off") {
+			if (!isset($this->dumdums[$n])) {
+				unset($this->dumdums[$n]);
+				$c->sendMessage("Turning off dumdums");
+			} else {
+				$c->sendMessage("Dumdums are off");
+			}
+			return true;
+		} elseif (count($args) == 1 && is_numeric($args[0])) {
+			$yield = intval($args[0]);
+			$magic = false;
+		} elseif (count($args) == 2 && is_numeric($args[0])) {
+			$yield = intval($args[0]);
+			$magic = true;
+		} else {
+			return false;
+		}
+		if ($yield > $this->cfg["max-yield"]) $yield = $this->cfg["max-yield"];
+		if ($this->cfg["forced-magic"]) $magic = true;
+		if ($this->cfg["no-magic"]) $magic = false;
+
+		$hand = $c->getInventory()->getItemInHand();
+		if ($hand->getID() != Item::BOW) {
+			$c->sendMessage("Unable to load DumDums,\nyou must be holding a Bow");
+			return true;
+		}
+
+		if (!isset($this->shooters[$n])) unset($this->shooters[$n]);
+
+		$this->dumdums[$n] = [ $yield,$magic ];
+		$c->sendMessage("Loaded dumdums. yield=$yield".($magic? " magical" : ""));
+		return true;
+	}
+
 	private function cmdRpg(CommandSender $c,$args) {
 		if (!$this->inGame($c)) return false;
 		$n = $c->getName();
@@ -226,6 +336,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 
 		$this->shooters[$n] = [(int)$fuse,(float)$speed];
 		$c->sendMessage("RPG armed! fuse=$fuse speed=$speed");
+		if (!isset($this->dumdums[$n])) unset($this->dumdums[$n]);
 		return true;
 	}
 
@@ -262,4 +373,5 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 
 		return true;
 	}
+
 }

@@ -16,8 +16,15 @@ commands:
         description: Fire grenade
         usage: "/fire [fuse speed|short|long|fast]"
         permission: scorched.cmd.fire
+    dumdum:
+        description: Enable exploding arrows
+        usage: "/dumdum [yield magic]"
+        permission: scorched.cmd.dumdums
 
 permissions:
     scorched.cmd.fire:
         default: true
         description: "allow players to use RPGs"
+    scorched.cmd.dumdums:
+        default: true
+        description: "allow players to use Exploding arrows"
