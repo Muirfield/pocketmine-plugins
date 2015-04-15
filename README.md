@@ -84,6 +84,7 @@ To-do
 
 * ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
   API
-* Publish new GrabBag
-* Publish new WorldProtect
+* GrabBag
 * Scorched
+* Later:
+* WorldProtect
