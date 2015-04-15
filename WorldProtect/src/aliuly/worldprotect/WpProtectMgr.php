@@ -23,8 +23,6 @@ class WpProtectMgr implements Listener {
 		$z = $block->getZ();
 		return implode(":",[$l,$x,$y,$z]);
 	}
-
-
 	public function __construct(Plugin $plugin) {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
@@ -47,7 +45,7 @@ class WpProtectMgr implements Listener {
 			$this->signs[$h][2] = 1;
 			return;
 		}
-		unset($this->sings[$h]);
+		unset($this->signs[$h]);
 		$block =$ev->getBlock();
 		$l = $block->getLevel();
 		$x = $block->getX();
@@ -64,7 +62,7 @@ class WpProtectMgr implements Listener {
 		$this->owner->msg($pl,"You are not allowed to do that here");
 		$id = $ev->getBlock()->getId();
 
-		if ($id == 63) {
+		if ($id == Block::SIGN_POST || $id == Block::WALL_SIGN) {
 			// Oh no.. placing a SignPost!
 			$h = self::blockAddr($ev->getBlock());
 			$this->signs[$h] = [ $ev->getBlockReplaced()->getId(),

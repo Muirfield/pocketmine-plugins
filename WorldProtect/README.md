@@ -179,6 +179,8 @@ Changes
 
 * ?
   * Bugfix in sending motd text
+  * Bugfixes WpProtect
+  * wp ls/ld - will call ManyWorlds.  Needs latest ManyWorlds
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode

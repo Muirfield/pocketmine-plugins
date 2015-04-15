@@ -250,6 +250,14 @@ class Main extends PluginBase implements CommandExecutor {
 							return $this->worldMotdCmd($sender,$args);
 						case "help":
 							return $this->helpCmd($sender,$args);
+						case "ls":
+						case "ld":
+							// These commands actually come from ManyWorlds...
+							$pm = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds");
+							if ($pm) {
+								array_unshift($args,$scmd);
+								return $pm->onCommand($sender,$cmd,$label,$args);
+							}
 						default:
 							$sender->sendMessage(TextFormat::RED."Unknown sub command: ".
 														TextFormat::RESET.$scmd);
@@ -385,6 +393,7 @@ class Main extends PluginBase implements CommandExecutor {
 		if (!$this->doLoadWorldConfig($sender,$level)) return true;
 		if (!$this->isAuth($sender,$level)) return true;
 
+		//print_r($this->wcfg[$level]); //##DEBUG
 		if (!isset($this->wcfg[$level]["auth"][$user])) {
 			$sender->sendMessage("[WP] $user is not in $level authorized list");
 			return true;
@@ -684,6 +693,7 @@ class Main extends PluginBase implements CommandExecutor {
 		return $this->wcfg[$level]["max-players"];
 	}
 	public function getWorldInfo($level) {
+		//echo "WORLDINFO: $level\n";//##DEBUG
 		$txt = [];
 		if (!isset($this->wcfg[$level])) return $txt;
 		if (isset($this->wcfg[$level]["motd"])) {
