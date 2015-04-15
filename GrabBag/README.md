@@ -272,7 +272,7 @@ This is done by inserting a `#` in front of the text.
 
 Changes
 -------
-* ???
+* 1.4.0
   * new commands: clearinv, rpt
   * new listeners: unbreakable
   * players : shows game mode
