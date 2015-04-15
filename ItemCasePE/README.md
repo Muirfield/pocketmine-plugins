@@ -47,6 +47,8 @@ Available sub-commands:
 Changes
 -------
 
+* 1.0.1 : Bugfix
+  - Fixed despawn when chunk unloads
 * 1.0.0 : First release
 
 Copyright

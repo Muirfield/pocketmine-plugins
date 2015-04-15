@@ -1,14 +1,16 @@
 #
 # Sample modules.yml
 #
-# To disable features, comment them out using "#"
+# To disable features, comment them out using "#" in front of the feature.
 #
 listener:
     adminjoin:
+    servermotd:
     spawnitems:
     spawnarmor:
     compasstp:
     repeater:
+    unbreakable:
 
 commands:
     players:
@@ -29,7 +31,7 @@ commands:
         usage: "/gmc"
         permission: gb.cmd.gmc
     gms:
-        description: switch gamemode to creative
+        description: switch gamemode to survival
         usage: "/gms"
         permission: gb.cmd.gms
     gma:
@@ -53,11 +55,15 @@ commands:
         usage: "/showtimings"
         permission: gb.cmd.timings
     seeinv:
-        description:
+        description: "Show a players inventory"
         usage: "/seeinv <player>"
         permission: gb.cmd.seeinv
+    clearinv:
+        description: "Clear a player's inventory"
+        usage: "/clearinv <player>"
+        permission: gb.cmd.clearinv
     seearmor:
-        description:
+        description: "Show players armor"
         usage: "/seearmor <player>"
         permission: gb.cmd.seearmor
     get:
@@ -76,3 +82,53 @@ commands:
         description: Send a message to ops only
         usage: "/opms message"
         permission: gb.cmd.opms
+    entities:
+        description: Manage entities
+        usage: "/entitites [level] [tiles|info|rm|sign1-4] ..."
+        permission: gb.cmd.entities
+        aliases: [et]
+    mute:
+        description: Mute a player so they can not use chat
+        usage: "/mute [player]"
+        permission: gb.cmd.mute
+    unmute:
+        description: Un mute a player so they can use chat
+        usage: "/unmute [player]"
+        permission: gb.cmd.mute
+    freeze:
+        description: Freeze a player so they can not move
+        usage: "/freeze [player]"
+        permission: gb.cmd.freeze
+    thaw:
+        description: Reverse the effects of freeze
+        usage: "/thaw [player]"
+        permission: gb.cmd.freeze
+        aliases: [unfreeze]
+    after:
+        description: Schedule to run a command after x seconds
+        usage: "/after [seconds] command"
+        permission: gb.cmd.after
+    at:
+        description: Schedule to run a command at a certain time
+        usage: "/at [time] command"
+        permission: gb.cmd.after
+    rpt:
+        description: Report issues to ops
+        usage: "/rpt [message|read m##|clear [all|m##]]"
+        permssion: gb.cmd.rpt
+    summon:
+        description: Teleports players to your location
+        usage: "/summon <player> [message]"
+        permission: gb.cmd.summon
+    dismiss:
+        description: Dismiss players that you summoned
+        usage: "/dismiss <player|--all> [message]"
+        permission: gb.cmd.summon
+    pushtp:
+        description: Save your current x,y,z coordinate
+        usage: "/pushtp [player|position]"
+        permission: gb.cmd.pushpoptp
+    poptp:
+        description: Return to previously saved coordinates
+        usage: "/poptp"
+        permission: gb.cmd.pushpoptp

@@ -1,5 +1,5 @@
 name: LocalChat
-version: 1.0.0
+version: 1.2.0
 main: aliuly\localchat\Main
 api: 1.10.0
 load: POSTWORLD
@@ -17,3 +17,6 @@ permissions:
     localchat.broadcast.level:
         default: true
         description: "Broadcast to the level"
+    localchat.spy:
+        default: true
+        description: "Grant players the ability to spy on players"

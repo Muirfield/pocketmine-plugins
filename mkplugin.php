@@ -58,12 +58,33 @@ $phar->startBuffering();
 
 echo("Adding sources...\n");
 $cnt = 0;
+$cc1 = 0;
+$cc2 = 0;
 foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as $s){
   if (!is_file($s)) continue;
   $cnt++;
   $d = substr($s,strlen($plug));
   echo("  [$cnt] $d\n");
-  $phar->addFile(realpath($s),$d);
+  if (preg_match('/\.php$/',$d)) {
+	  $fp = fopen($s,"r");
+	  if ($fp) {
+		  $txt = "";
+		  while (($ln = fgets($fp)) !== FALSE) {
+			  ++$cc1;
+			  if (preg_match('/^\s*print_r\s*\(/',$ln)) continue;
+			  if (preg_match('/\/\/##DEBUG/',$ln)) continue;
+			  ++$cc2;
+			  $txt .= $ln;
+		  }
+		  fclose($fp);
+		  $phar[$d] = $txt;
+	  }
+  } else {
+	  $phar->addFile(realpath($s),$d);
+  }
+}
+if ($cc1 != $cc2) {
+	echo "Removed ".($cc1-$cc2)." lines!\n";
 }
 
 echo("Compressing files...\n");

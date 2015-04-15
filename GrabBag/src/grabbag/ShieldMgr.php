@@ -8,15 +8,15 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\Player;
 
 class ShieldMgr implements Listener {
-  public $owner;
-  public function __construct(Plugin $plugin) {
-    $this->owner = $plugin;
-    $this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-  }
-  public function onDamage(EntityDamageEvent $ev) {
-    if(!($ev instanceof EntityDamageByEntityEvent)) return;
-    if (!($ev->getEntity() instanceof Player)) return;
-    if ($this->owner->checkShield($ev->getEntity()->getName())) return;
-    $ev->setCancelled();
-  }
+	public $owner;
+	public function __construct(Plugin $plugin) {
+		$this->owner = $plugin;
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
+	}
+	public function onDamage(EntityDamageEvent $ev) {
+		if(!($ev instanceof EntityDamageByEntityEvent)) return;
+		if (!($ev->getEntity() instanceof Player)) return;
+		if ($this->owner->checkShield($ev->getEntity()->getName())) return;
+		$ev->setCancelled();
+	}
 }

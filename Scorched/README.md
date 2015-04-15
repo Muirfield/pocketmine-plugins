@@ -6,8 +6,8 @@ Scorched
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
 * OptionalPlugins: -
-* Categories: General
-* Plugin Access: Commands
+* Categories: Fun
+* Plugin Access: Commands, Entities, Item/Blocks
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/Scorched)
 
 Overview
@@ -18,8 +18,9 @@ Let's you play a simulation of the old PC game
 
 Commands:
 
-* *rpg* _[fuse speed|short|long|fast]_
-* *fire* _[fuse speed|short|long|fast]_
+* *rpg*  [fuse speed|short|long|fast]
+* *fire* [fuse speed|short|long|fast]
+* *dumdum* [yield magic|off]
 
 Documentation
 -------------
@@ -28,6 +29,8 @@ Documentation
 
 Let's you play a game similar to
 [Scorched Earth](http://en.wikipedia.org/wiki/Scorched_Earth_%28video_game%29).
+
+### RPGs
 
 You need to have a bow, at least one arrow and as many TNT's as you
 can muster.
@@ -55,32 +58,103 @@ The _fuse_ is the time (in ticks) that the grenade will explode.
 Be careful of using very short fuses.  The _speed_ is the initial
 speed of the grenade.  Faster means the TNT will travel farther.
 
-### Presets:
+### Exploding Arrows
 
-* short: fuse=30, speed=0.5
-* long: fuse=80, speed=1.0
-* fast: fuse=20, speed=1.0
+You need a bow and arrows.  Equip the bow and enter the command:
+
+	/dumdum
+
+Activates exploding arrows.  Arrows will explode on impact.
+You can change the explosion characteristics:
+
+	/dumdum yield magic
+
+The `yield` controls how large the explosion is going to be.  If you
+use `magic` the explosion will kill entities/players but will not
+cause physical damage to the world.
+
+### Mines
+
+To place a mine you need to stack a TNT block on top of a Nether
+Reactor Block.  The Nether Reactor acts as a detonator/sensor.  You
+can place an additional block on top of this contraption and it would
+still work.  This is to hide the mine.
+
+When a player passes on top of the mine, it will explode.
+
+Entities may moving on top of the mine may also explode as long as the
+`EntityMotionEvent` is fired.  This is not always the case, depending
+on the `EntityManager` that you are using.
+
+### Configuration
+
+	presets:
+	  short: [ 30, 0.5 ]
+	  long: [ 80, 1.0 ]
+	  fast: [ 20, 1.0 ]
+	settings:
+	  failure: 385
+	  rate: 0.5
+	  usage: 5
+	  max-speed: 4.0
+	  min-speed: 0.5
+	  max-fuse: 120
+	  min-fuse: 10
+	  max-yield: 5
+	  default-yield: 3
+	  default-magic: false
+	  forced-magic: false
+	  no-magic: false
+	  rpg-yield: 4
+	  rpg-magic: false
+	  rpg-noexplode: 0.10
+	  mines: true
+	mines:
+	  block1: 46
+	  block2: 247
+	  yield: 5
+	  magic: false
+
+* `presets` contains config values for the rpg command.
+* `failure` is the max damage level for the bow
+* `rate` is the chance that the bow will fail
+* `usage` is the bow wear and tear
+* `max-speed` is the max speed configurable
+* `min-speed` is the min speed configurable
+* `max-fuse` is the max fuse configurable
+* `min-fuse` is the min fuse configurable
+* `default-yield` default yield configuration for exploding arrows
+* `max-yield` max yield for exploding arrows.  Large yields cause lag!
+* `default-magic`, arrows are magic by default
+* `forced-magic`, arrows are always magical
+* `no-magic`, arrows can not be magical
+* `rpg-yield`, explosion yield for grenades
+* `rpg-magic`, if true, rpgs will be magic.
+* `rpg-noexplode`, probability that the RPG will fail to explode.
+* `mines`, enables the mines functionality
+  * `block1` : The mine block (TNT)
+  * `block2` : The detonator block (Nether Reactor)
+  * `yield` : Force of the explosion
+  * `magic` : Magical mine
 
 ### Permission Nodes:
 
-* scorched.cmd.fire - access to commands.
+* scorched.cmd.fire - access to rpgs
+* scorched.cmd.dumdums - access to exploding arrows
 
-### TODO
-
-* There are two events, ExplosionPrimeEvent for when the entity is
-  about to explode and EntityExplodeEvent when actually exploding.
-* Catch ExplosionPrimeEvent so we can have an option to disable block
-  breaking (setBlockBreaking false)... Anti personel grenade.
-  * Needs to add a namedtag to indicate is one of our grenades.
-  * EntityExplodeEvent can change the yield?  Mega grenateds?
-  * Maybe we can add random cancel to ExplosionPrimeEvent so there is
-    a misfired grenade resulting in lying around ordenance.
-* Does the bow get damage?  A damaged bow should have a chance to
-  explode.
 
 Changes
 -------
 
+* 1.3.0 : Dum Dums
+  * Adds exploding arrows
+  * Configure RPG yield and magic, also chance that RPG will not
+    explode
+  * Added mines
+* 1.2.0 : Fun and games
+  * Bows suffer wear and tear... the more damaged the bow, the higher
+    the risk that it will misfired (exploding in your face!)
+  * Configurable stuff
 * 1.1.0 : Playability improvements
 * 1.0.0 : First release
 
@@ -88,7 +162,7 @@ Copyright
 ---------
 
     Scorched
-    Copyright (C) 2015 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify

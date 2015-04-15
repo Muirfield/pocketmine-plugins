@@ -102,6 +102,18 @@ In the plugin's config.yml file you can have:
 
 * `broadcast-tp`: Controls broadcast message that somebody teleported.
 
+### API
+
+To use the teleport provided by ManyWorlds, you can use this code:
+
+	if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
+	    $mw->mwtp($player,$pos);
+	} else {
+	    $player->teleport($pos);
+	}
+
+You need to do this in order for WorldProtect limits to work.
+
 ### Permission Nodes:
 
 * mw.cmd.tp - Allows users to travel to other worlds
@@ -130,9 +142,18 @@ Issues
 Changes
 -------
 
-* ???: 
+* 1.3.2: API update
+  * Allow WorldProtect to call our commands.
+  * Simplified API and updated its documentation
+* 1.3.1:
+  * Fixed a bug around not show who was teleported for 3rd party
+    teleport
+  * Fixed all bugs reported by [Crash Archive](http://crash.pocketmine.net/)
+* 1.3.0: Level.dat hacking.
   * Added `lvdat` command to change `level.dat` settings.
-  * Added `fixname` command to fix `levelName` vs. `foldername` mismatches.
+  * Added `fixname` command to fix `levelName` vs. `foldername`
+    mismatches.
+  * Fixed critical error for teleport!
 * 1.2.0: Clean-ups
   * Added a setting to control if to broadcast when people teleport.
   * Removed per-level `motd.txt`.

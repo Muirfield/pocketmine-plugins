@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 1.1.1
+version: 1.3.0
 author: aliuly
 
 permissions:
@@ -47,6 +47,9 @@ permissions:
     gb.cmd.seeinv:
         default: op
         description: "Show player's inventory"
+    gb.cmd.clearinv:
+        default: op
+        description: "Clear player's inventory"
     gb.cmd.get:
         default: op
         description: "Get blocks"
@@ -71,3 +74,30 @@ permissions:
     gb.cmd.opms:
         default: true
         description: "Allow to send op only messages"
+    gb.cmd.entities:
+        default: op
+        description: "Access entities command"
+    gb.cmd.mute:
+        default: op
+        description: "mute/unmute"
+    gb.cmd.freeze:
+        default: op
+        description: "freeze/thaw users"
+    gb.cmd.after:
+        default: op
+        description: "Schedule commands"
+    gb.cmd.rpt:
+        default: true
+        description: "Report issues"
+    gb.cmd.rpt.read:
+        default: op
+        description: "Read reported issues"
+    gb.ubab.override:
+        default: false
+        description: "Blocks that can not be broken"
+    gb.cmd.summon:
+        default: op
+        description: "Summon|Dismiss command"
+    gb.cmd.pushpoptp:
+        default: op
+        description: "push/pop teleport"

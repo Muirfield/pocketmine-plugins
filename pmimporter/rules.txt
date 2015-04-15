@@ -1,7 +1,0 @@
-;
-; Sample block translation rules file
-; The ";" is a comment
-;
-; BLOCKS
-;  GrassBlock = Gravel
-;  5 = 4	;WoodenPlank -> Cobblestone
