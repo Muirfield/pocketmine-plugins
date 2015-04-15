@@ -14,6 +14,7 @@ use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 use pocketmine\item\Item;
 use pocketmine\entity\Entity;
+use pocketmine\entity\Living;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Double;
@@ -26,14 +27,18 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityShootBowEvent;
 use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
+use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\level\Explosion;
+use pocketmine\level\Position;
+use pocketmine\block\Block;
 
 class Main extends PluginBase implements CommandExecutor, Listener {
 	protected $shooters;
 	protected $dumdums;
 	protected $presets;
 	protected $cfg;
-	protected $features;
+	protected $mine;
 
 	// Access and other permission related checks
 	private function inGame(CommandSender $sender,$msg = true) {
@@ -43,6 +48,45 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	// Event handlers
+	public function checkMove(Position $p) {
+		if (!$this->cfg["mines"]) return false;
+		$bl = [];
+		for ($i =1; $i < 4;$i++) {
+			$bl[$i] = $p->getLevel()->getBlockIdAt($p->getX(),$p->getY()-$i,$p->getZ());
+		}
+		for ($i=1;$i < 3; $i++) {
+			if ($bl[$i] == $this->mine["block1"]) {
+				if (isset($this->mine["block2"])
+					 && $this->mine["block2"] != $bl[$i+1]) continue;
+				// explode!
+				$p->getLevel()->setBlockIdAt($p->getX(),
+													  $p->getY()-$i,
+													  $p->getZ(),0);
+				$explosion = new Explosion(new Position($p->getX(),
+																	 $p->getY()-$i,
+																	 $p->getZ(),
+																	 $p->getLevel()),
+													$this->mine["yield"]);
+				if (!$this->mine["magic"]) $explosion->explodeA();
+				$explosion->explodeB();
+				return false;
+			}
+		}
+		return false;
+	}
+	public function onMove(PlayerMoveEvent $ev) {
+		if ($this->checkMove($ev->getTo())) {
+			$ev->setCancelled();
+		}
+		return;
+	}
+	public function onEntityMotion(EntityMotionEvent $ev) {
+		$et = $ev->getEntity();
+		if (!($et instanceof Living)) return;
+		if ($et instanceof Player) return; // Handled through PlayerMoveEvent
+		$this->checkMove($et);
+	}
+
 	public function onQuit(PlayerQuitEvent $e) {
 		$n = $e->getPlayer()->getName();
 		if (!isset($this->shooters[$n])) unset($this->shooters[$n]);
@@ -162,6 +206,12 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				"long" => [ 80, 1.0 ],
 				"fast" => [ 20, 1.0 ],
 			],
+			"mines" => [
+				"block1" => Block::TNT,
+				"block2" => Block::NETHER_REACTOR,
+				"yield" => 5,
+				"magic" => false,
+			],
 			"settings" => [
 				"failure" => 385,
 				"rate" => 0.5,
@@ -178,12 +228,14 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				"forced-magic" => false,
 				"no-magic" => false,
 				"max-yield" => 5,
+				"mines" => true,
 			],
 		];
 		$cfg = (new Config($this->getDataFolder()."config.yml",
 								 Config::YAML,$defaults))->getAll();
 		$this->presets = $cfg["presets"];
 		$this->cfg = $cfg["settings"];
+		$this->mine = $cfg["mines"];
 		$this->shooters = [];
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}

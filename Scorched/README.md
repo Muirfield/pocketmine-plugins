@@ -6,8 +6,8 @@ Scorched
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
 * OptionalPlugins: -
-* Categories: General
-* Plugin Access: Commands
+* Categories: Fun
+* Plugin Access: Commands, Entities, Item/Blocks
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/Scorched)
 
 Overview
@@ -18,8 +18,8 @@ Let's you play a simulation of the old PC game
 
 Commands:
 
-* *rpg* _[fuse speed|short|long|fast]_
-* *fire* _[fuse speed|short|long|fast]_
+* *rpg*  [fuse speed|short|long|fast]
+* *fire* [fuse speed|short|long|fast]
 * *dumdum* [yield magic|off]
 
 Documentation
@@ -58,7 +58,7 @@ The _fuse_ is the time (in ticks) that the grenade will explode.
 Be careful of using very short fuses.  The _speed_ is the initial
 speed of the grenade.  Faster means the TNT will travel farther.
 
-## Exploding Arrows
+### Exploding Arrows
 
 You need a bow and arrows.  Equip the bow and enter the command:
 
@@ -72,6 +72,19 @@ You can change the explosion characteristics:
 The `yield` controls how large the explosion is going to be.  If you
 use `magic` the explosion will kill entities/players but will not
 cause physical damage to the world.
+
+### Mines
+
+To place a mine you need to stack a TNT block on top of a Nether
+Reactor Block.  The Nether Reactor acts as a detonator/sensor.  You
+can place an additional block on top of this contraption and it would
+still work.  This is to hide the mine.
+
+When a player passes on top of the mine, it will explode.
+
+Entities may moving on top of the mine may also explode as long as the
+`EntityMotionEvent` is fired.  This is not always the case, depending
+on the `EntityManager` that you are using.
 
 ### Configuration
 
@@ -95,6 +108,12 @@ cause physical damage to the world.
 	  rpg-yield: 4
 	  rpg-magic: false
 	  rpg-noexplode: 0.10
+	  mines: true
+	mines:
+	  block1: 46
+	  block2: 247
+	  yield: 5
+	  magic: false
 
 * `presets` contains config values for the rpg command.
 * `failure` is the max damage level for the bow
@@ -112,6 +131,11 @@ cause physical damage to the world.
 * `rpg-yield`, explosion yield for grenades
 * `rpg-magic`, if true, rpgs will be magic.
 * `rpg-noexplode`, probability that the RPG will fail to explode.
+* `mines`, enables the mines functionality
+  * `block1` : The mine block (TNT)
+  * `block2` : The detonator block (Nether Reactor)
+  * `yield` : Force of the explosion
+  * `magic` : Magical mine
 
 ### Permission Nodes:
 
@@ -122,9 +146,11 @@ cause physical damage to the world.
 Changes
 -------
 
-* ? : Dum Dums
+* 1.3.0 : Dum Dums
   * Adds exploding arrows
-  * Configure RPG yield and magic, also chance that RPG will not explode
+  * Configure RPG yield and magic, also chance that RPG will not
+    explode
+  * Added mines
 * 1.2.0 : Fun and games
   * Bows suffer wear and tear... the more damaged the bow, the higher
     the risk that it will misfired (exploding in your face!)
