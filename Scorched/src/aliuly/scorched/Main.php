@@ -96,9 +96,9 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	public function onItemHeld(PlayerItemHeldEvent $e) {
 		$p = $e->getPlayer();
 		$n = $p->getName();
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($e->getItem()->getID() == Item::BOW) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (isset($this->shooters[$n])) {
 			unset($this->shooters[$n]);
 			$p->sendMessage("Disarming RPG");
