@@ -102,6 +102,14 @@ class Main extends PluginBase implements CommandExecutor {
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
 		$this->maxplayers = [$this,"maxPlayers1st"];
+
+		// Depending on the API, we allow unload by default...
+		$api = explode(".",$this->getServer()->getApiVersion());
+		if (intval($api[1]) < 12) {
+			$this->canUnload = false;
+		} else {
+			$this->canUnload = true;
+		}
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
