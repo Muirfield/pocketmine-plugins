@@ -172,15 +172,16 @@ Will show additional information.
 ### TODO
 
 * Prevent PvP in spawn. pvp spawn
-
+* When destroying signs, we need to delete the tileEntity too!
 
 Changes
 -------
 
-* ?
+* 1.1.2: PM v1.5 updates
   * Bugfix in sending motd text
   * Bugfixes WpProtect
   * wp ls/ld - will call ManyWorlds.  Needs latest ManyWorlds
+  * Fixed Signs Tiles being left all over...
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode
