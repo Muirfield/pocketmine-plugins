@@ -1163,6 +1163,24 @@ class Main extends PluginBase implements CommandExecutor {
 		$cnt = 0;
 		if (count($args) == 0) return false;
 		foreach ($args as $i) {
+			if (strtolower(substr($i,0,1)) == "t") {
+				$i = substr($i,1);
+				if (!is_numeric($i)) {
+					$c->sendMessage("Invalid Tile id $i");
+					continue;
+				}
+				$tile = $level->getTileById(intval($i));
+				if ($tile == null) {
+					$c->sendMessage("Tile $i not found");
+					continue;
+				}
+				++$cnt;
+				$level->removeTile($tile);
+				// We gotta do this because otherwise it won't work!
+				$chunk = $level->getChunk($tile->getX()>>4,$tile->getZ()>>4,false);
+				if ($chunk) $chunk->removeTile($tile);
+				continue;
+			}
 			if (strtolower(substr($i,0,1)) == "e") {
 				$i = substr($i,1);
 			}
