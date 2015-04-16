@@ -27,10 +27,10 @@ Basic Usage:
 * gmc - Switch to creative mode
 * gma - Switch to adventure mode
 * slay - kill a player
-* heal - Restore health to a player
+* heal - Restore health to a player *unable to test*
 * whois - Info about a player
 * showtimings - Display the info gathered through /timings
-* seearmor - show player's armor
+* seearmor - show player's armor *broken in 1.5*
 * seeinv - show player's inventory
 * clearinv - Clear player's inventory
 * get - obtain an item
@@ -187,6 +187,7 @@ Also this plugin supports the following modules:
   only does it for users who start without any inventory.  As soon as
   they start owning stuff, spawnitems will stop working for them.
 * spawnarmor : Initialize a player armor when they spawn.  
+  *Broken in 1.5*
   I will configure a player's armor through a configurable list.  Note
   that it only does it for users without armor.
 * compasstp: When holding a compass tap the screen for 1 second, will

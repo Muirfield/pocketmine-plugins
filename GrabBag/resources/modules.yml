@@ -114,7 +114,7 @@ commands:
         permission: gb.cmd.after
     rpt:
         description: Report issues to ops
-        usage: "/rpt [message|read m##|clear [all|m##]]"
+        usage: "/rpt [message|read|clear [all|##]]"
         permssion: gb.cmd.rpt
     summon:
         description: Teleports players to your location

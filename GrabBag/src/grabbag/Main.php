@@ -43,6 +43,16 @@ class Main extends PluginBase implements CommandExecutor {
 	static $stacks = [ Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
 							 Item::CLOCK => 1 ];
 
+	private static function gamemodeString($mode) {
+		// For the moment we do this... When PM1.5 hits GA, we change
+		// to proper localized strings.
+		$t = Server::getGamemodeString($mode);
+		if (substr($t,0,strlen("%gamemode.")) == "%gameMode.") {
+			$t = substr($t,strlen("%gamemode."));
+		}
+		return ucfirst(strtolower($t));
+	}
+
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
 		if($sender->hasPermission($permission)) return true;
@@ -610,7 +620,7 @@ class Main extends PluginBase implements CommandExecutor {
 		if ($c->hasPermission("gb.cmd.whois.showip"))
 			$txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
 		$txt[] = TextFormat::GREEN."Gamemode: ".TextFormat::WHITE
-				 .ucfirst(strtolower(Server::getGamemodeString($target->getGamemode())))
+				 .self::gamemodeString($target->getGamemode())
 				 .TextFormat::RESET;
 		$txt[] = TextFormat::GREEN."Whitelisted: ".TextFormat::WHITE
 				 . ($target->isWhitelisted() ? "YES" : "NO").TextFormat::RESET;
@@ -812,10 +822,14 @@ class Main extends PluginBase implements CommandExecutor {
 			if ($mode !== $c->getGamemode()) {
 				$c->sendMessage("Unable to change gamemode");
 			} else {
-				$this->getServer()->broadcastMessage($c->getName()." changed gamemode to ". strtolower(Server::getGamemodeString($mode))." mode");
+				$this->getServer()->broadcastMessage($c->getName().
+																 " changed gamemode to ".
+																 self::gamemodeString($mode).
+																 " mode");
 			}
 		} else {
-			$c->sendMessage("You are alredy in ".strtolower(Server::getGamemodeString($mode))." mode");
+			$c->sendMessage("You are alredy in ".self::gamemodeString($mode).
+								 " mode");
 		}
 		return true;
 	}
@@ -939,7 +953,7 @@ class Main extends PluginBase implements CommandExecutor {
 			if(!$player->isOnline() || (($c instanceof Player) && !$c->canSee($player))) continue;
 			$pos = $player->getPosition();
 			$j = count($tab);
-			$mode = substr(ucfirst(strtolower(Server::getGamemodeString($player->getGamemode()))),0,4);
+			$mode = substr(self::gamemodeString($player->getGamemode()),0,4);
 			$tab[]=[$player->getDisplayName(),$player->getLevel()->getName(),
 					  $pos->getFloorX().",".$pos->getFloorY().",".$pos->getFloorZ(),
 					  intval($player->getHealth()).'/'.intval($player->getMaxHealth()),
