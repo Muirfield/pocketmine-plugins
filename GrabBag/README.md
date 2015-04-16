@@ -272,6 +272,9 @@ This is done by inserting a `#` in front of the text.
 
 Changes
 -------
+* ???
+  * Fixed a bug in showtimings.
+  * Fixed improper usage of the API in Removing Tile and Entities.
 * 1.4.0
   * new commands: clearinv, rpt
   * new listeners: unbreakable

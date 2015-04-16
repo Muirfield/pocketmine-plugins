@@ -69,12 +69,7 @@ class WpProtectMgr implements Listener {
 		$l = $this->owner->getServer()->getLevelByName($level);
 		if (!$l) return;
 		$sign = $l->getTile(new Vector3($x,$y,$z));
-		if ($sign instanceof Sign) {
-			$l->removeTile($sign);
-			// We gotta do this because otherwise it won't work!
-			$chunk = $l->getChunk($x>>4,$z>>4,false);
-			if ($chunk) $chunk->removeTile($sign);
-		}
+		if ($sign instanceof Sign) $sign->close();
 	}
 
 

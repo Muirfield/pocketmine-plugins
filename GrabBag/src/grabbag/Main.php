@@ -985,9 +985,9 @@ class Main extends PluginBase implements CommandExecutor {
 			$txt[] = "- ".basename($f);
 		}
 		if ($count == 0) {
-			$sender->sendMessage(TextFormat::RED."No timmings report found");
-			$sender->sendMessage("Enable timings by typing /timings on");
-			$sender->sendMessage("Generate timings report by typing /timings report");
+			$c->sendMessage(TextFormat::RED."No timmings report found");
+			$c->sendMessage("Enable timings by typing /timings on");
+			$c->sendMessage("Generate timings report by typing /timings report");
 			return true;
 		}
 		$txt[0] = "Reports: $count";
@@ -1175,10 +1175,7 @@ class Main extends PluginBase implements CommandExecutor {
 					continue;
 				}
 				++$cnt;
-				$level->removeTile($tile);
-				// We gotta do this because otherwise it won't work!
-				$chunk = $level->getChunk($tile->getX()>>4,$tile->getZ()>>4,false);
-				if ($chunk) $chunk->removeTile($tile);
+				$tile->close();
 				continue;
 			}
 			if (strtolower(substr($i,0,1)) == "e") {
@@ -1194,7 +1191,7 @@ class Main extends PluginBase implements CommandExecutor {
 				continue;
 			}
 			++$cnt;
-			$level->removeEntity($et);
+			$et->close();
 		}
 		if ($cnt) {
 			$c->sendMessage("Removed entities: ".$cnt);
