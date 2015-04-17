@@ -332,3 +332,23 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+* * *
+
+# REFACTOR
+
+* Main
+  * loader
+  * config
+  * state
+
+* Command
+  - common code
+    - paginate
+    - inGame
+    - access
+  <xxx>Cmd - modules.yml contains the cmd to class mapping
+  execute(Sender,$cmd,$args)
+
+* Manager - modules.yml contains the listener to class mapping
+  * <xxx>Mgr
