@@ -30,7 +30,7 @@ Copyright
 =========
 
     pocketmine-plugins
-    Copyright (C) 2013 Alejandro Liu  
+    Copyright (C) 2013 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -82,9 +82,8 @@ Git Recipes
 To-do
 -----
 
-* ManyWorlds: Add world to the pocketmine.yml file -- Not possible: NO
-  API
-* GrabBag
-* Scorched
-* Later:
-* WorldProtect
+* ManyWorlds
+  * Add world to the pocketmine.yml - NO, there is no API for it
+  * Re-factor common code
+* Refactor into modules
+  * one file per command/listener
