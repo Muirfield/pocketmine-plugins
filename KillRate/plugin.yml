@@ -12,7 +12,7 @@ author: aliuly
 commands:
     killrate:
         description: Show kill rate stats
-        usage: "/killrate"
+        usage: "/killrate [stats|top]"
         aliases: [kr]
         permission: killrate.cmd
 
