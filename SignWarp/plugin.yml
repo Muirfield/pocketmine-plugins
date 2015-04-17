@@ -2,15 +2,9 @@ name: SignWarp
 api: [1.10.0]
 version: 1.2.2
 load: POSTWORLD
-main: alejandroliu\SignWarp\Main
+main: aliuly\signwarp\Main
 author: aliuly
 softdepend: [ManyWorlds]
-
-commands:
-  xyz:
-    description: Return x,y,z coordinates
-    usage: "/xyz"
-    permission: signwarp.cmd.xyz
 
 permissions:
   signwarp.place.sign:
