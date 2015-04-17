@@ -218,6 +218,8 @@ class Main extends PluginBase implements CommandExecutor {
 
 		$pluginCmds = [];
 		foreach ($this->modules["commands"] as $cmd => $dat) {
+			echo "<$cmd>\n";//##DEBUG
+			print_r($dat);//##DEBUG
 			if(strpos($cmd, ":") !== false){
 				$this->getLogger()->info("Unable to load command $cmd");
 				continue;

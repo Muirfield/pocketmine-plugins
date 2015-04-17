@@ -284,10 +284,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return $awards;
 	}
+	/**
+	 * @priority MONITOR
+	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
+	/**
+	 * @priority MONITOR
+	 */
 	public function onDeath(EntityDeathEvent $e) {
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());

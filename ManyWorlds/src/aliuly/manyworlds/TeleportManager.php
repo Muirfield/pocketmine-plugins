@@ -15,6 +15,9 @@ class TeleportManager implements Listener {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
+	/**
+	 * @priority LOWEST
+	 */
 	public function onDamage(EntityDamageEvent $event) {
 		// Try keep the player alive while on transit...
 		$victim= $event->getEntity();

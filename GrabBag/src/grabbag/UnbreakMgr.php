@@ -16,6 +16,7 @@ class UnbreakMgr implements Listener {
 		foreach ($blst as $bl) $this->blocks[$bl] = $bl;
 	}
 	public function onBlockBreak(BlockBreakEvent $ev){
+		if ($ev->isCancelled()) return;
 		$bl = $ev->getBlock();
 		if (!isset($this->blocks[$bl->getId()])) return;
 		$pl = $ev->getPlayer();

@@ -14,6 +14,7 @@ class NoExplodeMgr implements Listener {
 	}
 	public function onExplode(EntityExplodeEvent $ev){
 		//echo __METHOD__.",".__LINE__."\n";
+		if ($ev->isCancelled()) return;
 		$et = $ev->getEntity();
 		if ($this->owner->checkNoExplode($et->getX(),$et->getY(),$et->getZ(),
 													$et->getLevel()->getName())) return;

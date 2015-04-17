@@ -74,12 +74,14 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		return false;
 	}
 	public function onMove(PlayerMoveEvent $ev) {
+		if ($ev->isCancelled()) return;
 		if ($this->checkMove($ev->getTo())) {
 			$ev->setCancelled();
 		}
 		return;
 	}
 	public function onEntityMotion(EntityMotionEvent $ev) {
+		if ($ev->isCancelled()) return;
 		$et = $ev->getEntity();
 		if (!($et instanceof Living)) return;
 		if ($et instanceof Player) return; // Handled through PlayerMoveEvent
@@ -93,6 +95,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	public function onItemHeld(PlayerItemHeldEvent $e) {
+		if ($e->isCancelled()) return;
 		$p = $e->getPlayer();
 		$n = $p->getName();
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
@@ -128,6 +131,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	public function onArrowHit(ProjectileHitEvent $ev) {
+		if ($ev->isCancelled()) return;
 		//if ($ev->isCancelled()) return;
 		$et = $ev->getEntity();
 		if (!$et->namedtag) return;
@@ -147,9 +151,9 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$explosion->explodeB();
 	}
 	public function onShoot(EntityShootBowEvent $e) {
+		if ($e->isCancelled()) return;
 		$p = $e->getEntity();
 		if (!($p instanceof Player)) return;
-		if ($e->isCancelled()) return;
 
 		$n = $p->getName();
 		if (isset($this->dumdums[$n])) {
@@ -189,6 +193,8 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$this->fire($p,$this->shooters[$n][0],$this->shooters[$n][1]);
 	}
 	public function readyToExplode(ExplosionPrimeEvent $e) {
+		if ($e->isCancelled()) return;
+
 		$g = $e->getEntity();
 		if (!$g->namedtag) return;
 		if ($g->namedtag->getName() != "Scorched") return;

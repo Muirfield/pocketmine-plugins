@@ -33,6 +33,7 @@ class WpProtectMgr implements Listener {
 	}
 
 	public function onBlockBreak(BlockBreakEvent $ev){
+		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 															$pl->getLevel()->getName())) return;
@@ -40,6 +41,7 @@ class WpProtectMgr implements Listener {
 		$ev->setCancelled();
 	}
 	public function onSignChanged(SignChangeEvent $ev){
+		if ($ev->isCancelled()) return;
 		$h = self::blockAddr($ev->getBlock());
 		if (!isset($this->signs[$h])) return;
 		list($id,$meta,$cnt,$time) = $this->signs[$h];
@@ -74,6 +76,7 @@ class WpProtectMgr implements Listener {
 
 
 	public function onBlockPlace(BlockPlaceEvent $ev){
+		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 															$pl->getLevel()->getName())) return;
