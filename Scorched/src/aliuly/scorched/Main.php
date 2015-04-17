@@ -32,6 +32,8 @@ use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\level\Explosion;
 use pocketmine\level\Position;
 use pocketmine\block\Block;
+use pocketmine\entity\Projectile;
+use pocketmine\math\Vector3;
 
 class Main extends PluginBase implements CommandExecutor, Listener {
 	protected $shooters;
@@ -62,13 +64,10 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				$p->getLevel()->setBlockIdAt($p->getX(),
 													  $p->getY()-$i,
 													  $p->getZ(),0);
-				$explosion = new Explosion(new Position($p->getX(),
-																	 $p->getY()-$i,
-																	 $p->getZ(),
-																	 $p->getLevel()),
-													$this->mine["yield"]);
-				if (!$this->mine["magic"]) $explosion->explodeA();
-				$explosion->explodeB();
+				$this->scorchit(new Position($p->getX()+0.5,
+													  $p->getY()-$i+0.5,
+													  $p->getZ()+0.5,$p->getLevel()),
+									 new Vector3(0,0,0),1);
 				return false;
 			}
 		}
@@ -135,7 +134,15 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$c = explode(":",$et->namedtag->getName());
 		if (count($c) != 3) return;
 		if ($c[0] != "dumdum") return;
-		$explosion = new Explosion($et,intval($c[1]),$et);
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$source = $et;
+		if ($et instanceof Projectile) $source = $et->shootingEntity;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+
+		$this->getServer()->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($et, 4));
+		if ($ev->isCancelled()) return;
+
+		$explosion = new Explosion($et,intval($c[1]),$source);
 		if (!$c[2]) $explosion->explodeA();
 		$explosion->explodeB();
 	}
@@ -149,7 +156,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			if ($this->misfire($e->getBow())) {
 				$e->setCancelled(); // Bow broke!
 				$p->sendMessage("Dumdum failure!");
-				$explosion = new Explosion($p,$this->dumdums[$n][0],$p);
+				$explosion = new Explosion($p,$this->dumdums[$n][0]);
 				if (!$this->dumdums[$n][1]) $explosion->explodeA();
 				$explosion->explodeB();
 				return;
@@ -195,9 +202,6 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	// Standard call-backs
-	public function onDisable() {
-		//$this->getLogger()->info("- Scorched Unloaded!");
-	}
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
@@ -209,8 +213,6 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			"mines" => [
 				"block1" => Block::TNT,
 				"block2" => Block::NETHER_REACTOR,
-				"yield" => 5,
-				"magic" => false,
 			],
 			"settings" => [
 				"failure" => 385,
@@ -401,7 +403,9 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		$dir->x = $dir->x * $speed;
 		$dir->y = $dir->y * $speed;
 		$dir->z = $dir->z * $speed;
-
+		$this->scorchit($pos,$dir,$fuse);
+	}
+	private function scorchit($pos,$dir,$fuse) {
 		$nbt =
 			  new Compound("",
 								["Pos" => new Enum("Pos",
@@ -422,7 +426,6 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 												 $nbt);
 		$entity->namedtag->setName("Scorched");
 		$entity->spawnToAll();
-
 		return true;
 	}
 
