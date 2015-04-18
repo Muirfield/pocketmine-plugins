@@ -97,6 +97,7 @@ class Main extends PluginBase implements Listener {
 		list($x,$y,$z) = $mv;
 		$this->teleporters[$event->getPlayer()->getName()] = time();
 		$event->getPlayer()->sendMessage("Warping to $x,$y,$z...");
+		$event->getPlayer()->sendPopup("§l§aYou has been teleported to §b$x,$y,$z!");
 		$event->getPlayer()->teleport(new Vector3($x,$y,$z));
 		if ($this->broadcast)
 			$this->getServer()->broadcastMessage($event->getPlayer()->getName()." teleported!");
