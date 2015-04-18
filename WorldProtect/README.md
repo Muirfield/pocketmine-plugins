@@ -174,7 +174,7 @@ Changes
 * 1.1.2: PM v1.5 updates
   * Bugfix in sending motd text
   * Bugfixes WpProtect
-  * wp ls/ld - will call ManyWorlds.  Needs latest ManyWorlds
+  * wp ls/ld - will call ManyWorlds.  Needs ManyWorlds v1.3.2.
   * Fixed Signs Tiles being left all over...
   * Added stop PvP in spawn areas
 * 1.1.1 : bugfix
