@@ -15,9 +15,13 @@ commands:
         permission: itemcase.cmd
 
 permissions:
-    itemcase.cmd:
-        default: op
-        description: "allow players access to the itemcase command"
-    itemcase.destroy:
-        default: op
-        description: "allow players to destroy cases"
+    itemcase:
+        default: false
+        description: "allow players access to all itemcase feature"
+        children:
+            itemcase.cmd:
+                default: op
+                description: "allow players access to the itemcase command"
+            itemcase.destroy:
+                default: op
+                description: "allow players to destroy cases"
