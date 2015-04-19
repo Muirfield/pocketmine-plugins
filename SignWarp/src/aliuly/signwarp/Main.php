@@ -19,7 +19,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
 use pocketmine\level\Position;
-use pocketmine\level\Vector3;
+use pocketmine\math\Vector3;
 use pocketmine\scheduler\CallbackTask;
 
 
@@ -93,13 +93,15 @@ class Main extends PluginBase implements Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	private function checkSign(Player $pl,array $sign) {
+		print_r($sign);//##DEBUG
 		if (isset($this->text["warp"][$sign[0]])) {
 			// Short warp...
 			if (empty($sign[1])) {
 				$pl->sendMessage("[SignWarp] No coordinates specified");
 				return null;
 			}
-			if (!$this->check_coords($sign[1],$mv)) {
+			$mv = [];
+			if ($this->check_coords($sign[1],$mv) !== true) {
 				$pl->sendMessage("[SignWarp] Invalid coordinates ".$sign[1]);
 				return null;
 			}
@@ -152,11 +154,10 @@ class Main extends PluginBase implements Listener {
 	}
 	private function check_coords($line,array &$vec) {
 		$mv = array();
-		if (!preg_match('/^\s*(-?\d+)\s+(-?\d+)\s+(-?\d+)\s*$/',$line,$mv))
+		if (!preg_match('/^\s*(-?\d+)\s+(-?\d+)\s+(-?\d+)\s*$/',$line,$mv)) {
 			return false;
-
+		}
 		list($line,$x,$y,$z) = $mv;
-
 		if ($x <= self::MIN_COORD || $z <= self::MIN_COORD) return false;
 		if ($x >= self::MAX_COORD || $z >= self::MAX_COORD) return false;
 		if ($y <= self::MIN_HEIGHT || $y >= self::MAX_HEIGHT) return false;
@@ -210,8 +211,8 @@ class Main extends PluginBase implements Listener {
 		}
 	}
 	public function signChanged(SignChangeEvent $event){
-		if(!$event->getBlock()->getId() != Block::SIGN_POST &&
-			!$event->getBlock()->getId() != Block::WALL_SIGN) return;
+		if($event->getBlock()->getId() != Block::SIGN_POST &&
+			$event->getBlock()->getId() != Block::WALL_SIGN) return;
 		$pl = $event->getPlayer();
 		$tile = $pl->getLevel()->getTile($event->getBlock());
 		if(!($tile instanceof Sign))return;
@@ -241,12 +242,11 @@ class Main extends PluginBase implements Listener {
 															 $pl->getName());
 	}
 	public function playerTouchIt(PlayerInteractEvent $event){
-		if(!$event->getBlock()->getId() != Block::SIGN_POST &&
-			!$event->getBlock()->getId() != Block::WALL_SIGN) return;
+		if($event->getBlock()->getId() != Block::SIGN_POST &&
+			$event->getBlock()->getId() != Block::WALL_SIGN) return;
 		$pl = $event->getPlayer();
 		$sign = $pl->getLevel()->getTile($event->getBlock());
 		if(!($sign instanceof Sign)) return;
-
 		$sign = $sign->getText();
 		if (!isset($this->text["sign"][$sign[0]])) return;
 
