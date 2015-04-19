@@ -273,9 +273,10 @@ This is done by inserting a `#` in front of the text.
 
 Changes
 -------
-* ???
+* 1.4.1: maintenance
   * Fixed a bug in showtimings.
   * Fixed improper usage of the API in Removing Tile and Entities.
+  * Changed so unbreakable is off by default
 * 1.4.0
   * new commands: clearinv, rpt
   * new listeners: unbreakable

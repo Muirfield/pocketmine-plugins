@@ -10,7 +10,7 @@ listener:
     spawnarmor:
     compasstp:
     repeater:
-    unbreakable:
+#    unbreakable:
 
 commands:
     players:
