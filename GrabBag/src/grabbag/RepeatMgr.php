@@ -70,18 +70,27 @@ class RepeatMgr implements Listener {
 		if (isset($this->last[$ev->getPlayer()->getName()]))
 			unset($this->last[$ev->getPlayer()->getName()]);
 	}
+	/**
+	 * @priority LOWEST
+	 */
 	public function onPlayerCmd(PlayerCommandPreprocessEvent $ev) {
 		$res = $this->processCmd($ev->getMessage(),$ev->getPlayer()->getName(),
 										 $ev->getPlayer());
 		if ($res === false) return;
 		$ev->setMessage($res);
 	}
+	/**
+	 * @priority LOWEST
+	 */
 	public function onRconCmd(RemoteServerCommandEvent $ev) {
 		$res = $this->processCmd($ev->getCommand(),"[RCON]",
 										 $ev->getSender());
 		if ($res === false) return;
 		$ev->setCommand($res);
 	}
+	/**
+	 * @priority LOWEST
+	 */
 	public function onConsoleCmd(ServerCommandEvent $ev) {
 		$res = $this->processCmd($ev->getCommand(),"[CONSOLE]",
 										 $ev->getSender());

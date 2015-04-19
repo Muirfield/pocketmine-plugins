@@ -8,6 +8,9 @@ use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\SignChangeEvent;
+use pocketmine\tile\Sign;
+use pocketmine\scheduler\CallbackTask;
+use pocketmine\math\Vector3;
 
 //use pocketmine\event\player\PlayerInteractEvent; // Not used for now...
 //use pocketmine\event\entity\EntityExplodeEvent; // Also not used...
@@ -30,6 +33,7 @@ class WpProtectMgr implements Listener {
 	}
 
 	public function onBlockBreak(BlockBreakEvent $ev){
+		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 															$pl->getLevel()->getName())) return;
@@ -37,13 +41,18 @@ class WpProtectMgr implements Listener {
 		$ev->setCancelled();
 	}
 	public function onSignChanged(SignChangeEvent $ev){
+		if ($ev->isCancelled()) return;
 		$h = self::blockAddr($ev->getBlock());
 		if (!isset($this->signs[$h])) return;
-
 		list($id,$meta,$cnt,$time) = $this->signs[$h];
-		if ($cnt == 0) {
-			$this->signs[$h][2] = 1;
-			return;
+
+		// API check...
+		$api = explode(".",$this->owner->getServer()->getApiVersion());
+		if (intval($api[1]) < 12) {
+			if ($cnt == 0) {
+				$this->signs[$h][2] = 1;
+				return;
+			}
 		}
 		unset($this->signs[$h]);
 		$block =$ev->getBlock();
@@ -53,9 +62,21 @@ class WpProtectMgr implements Listener {
 		$z = $block->getZ();
 		$l->setBlockIdAt($x,$y,$z,$id);
 		$l->setBlockDataAt($x,$y,$z,$meta);
+
+		$tt = new CallbackTask([$this,"ripSign"],[$l->getName(),$x,$y,$z]);
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask($tt,10);
 	}
 
+	public function ripSign($level,$x,$y,$z) {
+		$l = $this->owner->getServer()->getLevelByName($level);
+		if (!$l) return;
+		$sign = $l->getTile(new Vector3($x,$y,$z));
+		if ($sign instanceof Sign) $sign->close();
+	}
+
+
 	public function onBlockPlace(BlockPlaceEvent $ev){
+		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 															$pl->getLevel()->getName())) return;

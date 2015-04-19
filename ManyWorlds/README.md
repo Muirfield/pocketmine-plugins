@@ -137,11 +137,12 @@ Issues
 ------
 
 * World names can not contain spaces.
-* Unloading a world may cause a core dump.
 
 Changes
 -------
 
+* 1.3.3: Updates for PM1.5
+  * Changes default canUnload to true if running on PM1.5
 * 1.3.2: API update
   * Allow WorldProtect to call our commands.
   * Simplified API and updated its documentation

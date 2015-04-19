@@ -12,6 +12,9 @@ class ReaperMgr implements Listener {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
+	/**
+	 * @priority LOW
+	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
 		$name = $e->getEntity()->getName();
 		if (($msg = $this->owner->onPlayerDeath($name)) != "") {

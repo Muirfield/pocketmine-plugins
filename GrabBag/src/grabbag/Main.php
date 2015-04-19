@@ -43,6 +43,16 @@ class Main extends PluginBase implements CommandExecutor {
 	static $stacks = [ Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
 							 Item::CLOCK => 1 ];
 
+	private static function gamemodeString($mode) {
+		// For the moment we do this... When PM1.5 hits GA, we change
+		// to proper localized strings.
+		$t = Server::getGamemodeString($mode);
+		if (substr($t,0,strlen("%gamemode.")) == "%gameMode.") {
+			$t = substr($t,strlen("%gamemode."));
+		}
+		return ucfirst(strtolower($t));
+	}
+
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
 		if($sender->hasPermission($permission)) return true;
@@ -208,6 +218,8 @@ class Main extends PluginBase implements CommandExecutor {
 
 		$pluginCmds = [];
 		foreach ($this->modules["commands"] as $cmd => $dat) {
+			//echo "<$cmd>\n";//##DEBUG
+			//print_r($dat);//##DEBUG
 			if(strpos($cmd, ":") !== false){
 				$this->getLogger()->info("Unable to load command $cmd");
 				continue;
@@ -610,7 +622,7 @@ class Main extends PluginBase implements CommandExecutor {
 		if ($c->hasPermission("gb.cmd.whois.showip"))
 			$txt[] = TextFormat::GREEN."IP Address: ".TextFormat::WHITE.$target->getAddress().TextFormat::RESET;
 		$txt[] = TextFormat::GREEN."Gamemode: ".TextFormat::WHITE
-				 .ucfirst(strtolower(Server::getGamemodeString($target->getGamemode())))
+				 .self::gamemodeString($target->getGamemode())
 				 .TextFormat::RESET;
 		$txt[] = TextFormat::GREEN."Whitelisted: ".TextFormat::WHITE
 				 . ($target->isWhitelisted() ? "YES" : "NO").TextFormat::RESET;
@@ -812,10 +824,14 @@ class Main extends PluginBase implements CommandExecutor {
 			if ($mode !== $c->getGamemode()) {
 				$c->sendMessage("Unable to change gamemode");
 			} else {
-				$this->getServer()->broadcastMessage($c->getName()." changed gamemode to ". strtolower(Server::getGamemodeString($mode))." mode");
+				$this->getServer()->broadcastMessage($c->getName().
+																 " changed gamemode to ".
+																 self::gamemodeString($mode).
+																 " mode");
 			}
 		} else {
-			$c->sendMessage("You are alredy in ".strtolower(Server::getGamemodeString($mode))." mode");
+			$c->sendMessage("You are alredy in ".self::gamemodeString($mode).
+								 " mode");
 		}
 		return true;
 	}
@@ -939,7 +955,7 @@ class Main extends PluginBase implements CommandExecutor {
 			if(!$player->isOnline() || (($c instanceof Player) && !$c->canSee($player))) continue;
 			$pos = $player->getPosition();
 			$j = count($tab);
-			$mode = substr(ucfirst(strtolower(Server::getGamemodeString($player->getGamemode()))),0,4);
+			$mode = substr(self::gamemodeString($player->getGamemode()),0,4);
 			$tab[]=[$player->getDisplayName(),$player->getLevel()->getName(),
 					  $pos->getFloorX().",".$pos->getFloorY().",".$pos->getFloorZ(),
 					  intval($player->getHealth()).'/'.intval($player->getMaxHealth()),
@@ -985,9 +1001,9 @@ class Main extends PluginBase implements CommandExecutor {
 			$txt[] = "- ".basename($f);
 		}
 		if ($count == 0) {
-			$sender->sendMessage(TextFormat::RED."No timmings report found");
-			$sender->sendMessage("Enable timings by typing /timings on");
-			$sender->sendMessage("Generate timings report by typing /timings report");
+			$c->sendMessage(TextFormat::RED."No timmings report found");
+			$c->sendMessage("Enable timings by typing /timings on");
+			$c->sendMessage("Generate timings report by typing /timings report");
 			return true;
 		}
 		$txt[0] = "Reports: $count";
@@ -1163,6 +1179,21 @@ class Main extends PluginBase implements CommandExecutor {
 		$cnt = 0;
 		if (count($args) == 0) return false;
 		foreach ($args as $i) {
+			if (strtolower(substr($i,0,1)) == "t") {
+				$i = substr($i,1);
+				if (!is_numeric($i)) {
+					$c->sendMessage("Invalid Tile id $i");
+					continue;
+				}
+				$tile = $level->getTileById(intval($i));
+				if ($tile == null) {
+					$c->sendMessage("Tile $i not found");
+					continue;
+				}
+				++$cnt;
+				$tile->close();
+				continue;
+			}
 			if (strtolower(substr($i,0,1)) == "e") {
 				$i = substr($i,1);
 			}
@@ -1176,7 +1207,7 @@ class Main extends PluginBase implements CommandExecutor {
 				continue;
 			}
 			++$cnt;
-			$level->removeEntity($et);
+			$et->close();
 		}
 		if ($cnt) {
 			$c->sendMessage("Removed entities: ".$cnt);

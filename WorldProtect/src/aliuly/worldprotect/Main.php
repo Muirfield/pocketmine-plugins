@@ -78,6 +78,20 @@ class Main extends PluginBase implements CommandExecutor {
 		$this->wcfg = [];
 		$this->spam = [];
 	}
+	protected function wpPvpMode($level) {
+		if (isset($this->wcfg[$level]["pvp"])) {
+			$x = $this->wcfg[$level]["pvp"];
+			echo __METHOD__.",".__LINE__."-$x\n";
+			if ($x === "spawn") {
+				return TextFormat::YELLOW."spawn";
+			} elseif ($x) {
+				return TextFormat::RED."ON";
+			} else {
+				return TextFormat::GREEN."OFF";
+			}
+		}
+		return TextFormat::RED."ON";
+	}
 	////////////////////////////////////////////////////////////////////////
 	//
 	// Event handlers...
@@ -165,8 +179,17 @@ class Main extends PluginBase implements CommandExecutor {
 	//
 	// PvP callback
 	//
-	public function checkPvP($level) {
+	public function checkPvP($level,$x,$y,$z) {
 		if (!isset($this->wcfg[$level]["pvp"])) return true;
+		if ($this->wcfg[$level]["pvp"] === "spawn") {
+			// Check spawn position
+			$lv = $this->getServer()->getLevelByName($level);
+			if (!$lv) return true;
+			$sp = $lv->getSpawnLocation();
+			$dist = $sp->distance(new Vector3($x,$y,$z));
+			if ($dist < $this->getServer()->getSpawnRadius()) return false;
+			return true;
+		}
 		return $this->wcfg[$level]["pvp"];
 	}
 	//
@@ -288,7 +311,7 @@ class Main extends PluginBase implements CommandExecutor {
 			"unlock" => ["[level]","Unprotects a world"],
 			"lock"=>["[level]","Locked.  Nobody (including op) can build"],
 			"protect"=>["[level]","Only authorized people can build"],
-			"pvp"=>["[level] [on|off]","Enable|disable pvp"],
+			"pvp"=>["[level] [on|off|spawn]","Enable|disable pvp"],
 			"noexplode" =>["[level] [off|world|spawn]",
 								"Stop explosions in world or spawn area"],
 			"border" => ["[level] [x1 z1 x2 z2|none]",
@@ -504,7 +527,9 @@ class Main extends PluginBase implements CommandExecutor {
 			$level = $sender->getLevel()->getName();
 			$mode = "show";
 		} elseif (count($args) == 1) {
-			if (strtolower($args[0]) == "on" || strtolower($args[0]) == "off") {
+			if (strtolower($args[0]) == "on" ||
+				 strtolower($args[0]) == "off" ||
+				 strtolower($args[0]) == "spawn") {
 				if (!$this->inGame($sender)) return true;
 				$mode = strtolower($args[0]);
 				$level = $sender->getLevel()->getName();
@@ -521,20 +546,27 @@ class Main extends PluginBase implements CommandExecutor {
 		if (!$this->doLoadWorldConfig($sender,$level)) return true;
 		if ($mode == "show") {
 			$sender->sendMessage("PvP status for $level is ".
-										($this->checkPvP($level) ?
-										 TextFormat::RED."ON" :
-										 TextFormat::GREEN."OFF"));
+										$this->wpPvpMode($level));
 			return true;
 		}
 		if (!$this->isAuth($sender,$level)) return true;
 		if ($mode == "on") {
-			if ($this->checkPvP($level)) {
+			if (!isset($this->wcfg[$level]["pvp"]) ||
+				 $this->wcfg[$level]["pvp"] === true) {
 				$sender->sendMessage("PvP status unchanged");
 				return true;
 			}
 			$this->wcfg[$level]["pvp"] = true;
+		} elseif ($mode == "spawn") {
+			if (isset($this->wcfg[$level]["pvp"]) &&
+				 $this->wcfg[$level]["pvp"] === "spawn") {
+				$sender->sendMessage("PvP status unchanged");
+				return true;
+			}
+			$this->wcfg[$level]["pvp"] = "spawn";
 		} else {
-			if (!$this->checkPvP($level)) {
+			if (isset($this->wcfg[$level]["pvp"]) &&
+				 $this->wcfg[$level]["pvp"] == false) {
 				$sender->sendMessage("PvP status unchanged");
 				return true;
 			}
@@ -708,11 +740,7 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 		if (isset($this->wcfg[$level]["protect"]))
 			$txt[] = "Protect Status:  ".$this->wcfg[$level]["protect"];
-		if ($this->checkPvP($level)) {
-			$txt[] = "PvP: ".TextFormat::RED."ON";
-		} else {
-			$txt[] = "PvP: ".TextFormat::GREEN."OFF";
-		}
+		$txt[] = "PvP: ".$this->wpPvpMode($level);
 		if (isset($this->wcfg[$level]["no-explode"])) {
 			if ($this->wcfg[$level]["no-explode"] == "world") {
 				$txt[] = "NoExplode: ".TextFormat::GREEN."world";

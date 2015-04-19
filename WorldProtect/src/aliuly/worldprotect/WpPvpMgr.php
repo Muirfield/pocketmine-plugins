@@ -19,8 +19,10 @@ class WpPvpMgr implements Listener {
 	public function onPvP(EntityDamageEvent $ev) {
 		if ($ev->isCancelled()) return;
 		if(!($ev instanceof EntityDamageByEntityEvent)) return;
-		if (!($ev->getEntity() instanceof Player && $ev->getDamager() instanceof Player)) return;
-		if ($this->owner->checkPvP($ev->getEntity()->getLevel()->getName())) return;
+		if (!(($pl = $ev->getEntity()) instanceof Player
+				&& $ev->getDamager() instanceof Player)) return;
+		if ($this->owner->checkPvP($pl->getLevel()->getName(),
+											$pl->getX(),$pl->getY(),$pl->getZ())) return;
 		$this->owner->msg($ev->getDamager(),"You are not allowed to do that here");
 		$ev->setCancelled();
 	}

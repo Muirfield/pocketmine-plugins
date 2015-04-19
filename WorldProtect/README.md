@@ -29,7 +29,7 @@ Basic Usage:
 * /wp unprotect|unlock [level]
 * /wp lock [level]
 * /wp protect [level]
-* /wp pvp [level] [on|off]
+* /wp pvp [level] [on|off|spawn]
 * /wp noexplode [level] [off|world|spawn]
 * /wp border [level] [x1 z1 x2 z2|none]
 * /wp max [level] [count]
@@ -87,9 +87,10 @@ Protect:
 
 Per-world PvP:
 
-* wp pvp [level] [on|off]  
+* wp pvp [level] [on|off|spawn]  
   If nothing is specified it will show the PvP status of the current
-  level.  Otherwise PvP will either be activated|de-activated.
+  level.  Otherwise PvP will either be activated|de-activated.  If set
+  to `spawn`, PvP is turned off in the spawn area of this world.
 
 No Explode:
 
@@ -166,21 +167,16 @@ Will show additional information.
 ### Issues
 
 * World names can not contain spaces.
-* Placing a sign on worlds that do not allow placing blocks will crash
-  the MCPE client.
-
-### TODO
-
-* Prevent PvP in spawn. pvp spawn
-
 
 Changes
 -------
 
-* ?
+* 1.1.2: PM v1.5 updates
   * Bugfix in sending motd text
   * Bugfixes WpProtect
-  * wp ls/ld - will call ManyWorlds.  Needs latest ManyWorlds
+  * wp ls/ld - will call ManyWorlds.  Needs ManyWorlds v1.3.2.
+  * Fixed Signs Tiles being left all over...
+  * Added stop PvP in spawn areas
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode

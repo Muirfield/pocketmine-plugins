@@ -57,12 +57,15 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 
 		$pm = $this->getServer()->getPluginManager();
 		if(!($this->money = $pm->getPlugin("PocketMoney"))
+			&& !($this->money = $pm->getPlugin("GoldStd"))
 			&& !($this->money = $pm->getPlugin("EconomyAPI"))
 			&& !($this->money = $pm->getPlugin("MassiveEconomy"))){
 			$this->getLogger()->info(TextFormat::RED.
 											 "# MISSING MONEY API PLUGIN");
 			$this->getLogger()->info(TextFormat::BLUE.
 											 ". Please install one of the following:");
+			$this->getLogger()->info(TextFormat::WHITE.
+											 "* GoldStd");
 			$this->getLogger()->info(TextFormat::WHITE.
 											 "* PocketMoney");
 			$this->getLogger()->info(TextFormat::WHITE.
@@ -104,7 +107,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//////////////////////////////////////////////////////////////////////
 	private function cmdHelp(CommandSender $sender,$args) {
 		$cmds = [
-			"stats" => ["[player ...]","Show player scores"]
+			"stats" => ["[player ...]","Show player scores"],
+			"top" => ["[online]","Show top  players"],
 		];
 		if (count($args)) {
 			foreach ($args as $c) {
@@ -190,6 +194,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function grantMoney($p,$money) {
 		if(!$this->money) return false;
 		switch($this->money->getName()){
+			case "GoldStd":
+				$this->money->grantMoney($p, $money);
+				break;
 			case "PocketMoney":
 				$this->money->grantMoney($p, $money);
 				break;
@@ -207,6 +214,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function getMoney($player) {
 		if(!$this->money) return false;
 		switch($this->money->getName()){
+			case "GoldStd":
+				$this->money->getMoney($p, $money);
+				break;
 			case "PocketMoney":
 			case "MassiveEconomy":
 				return $this->money->getMoney($player);
@@ -274,40 +284,58 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return $awards;
 	}
+	/**
+	 * @priority MONITOR
+	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
-		$pv = $e->getEntity();
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$this->deadDealer($e->getEntity());
+	}
+	/**
+	 * @priority MONITOR
+	 */
+	public function onDeath(EntityDeathEvent $e) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$this->deadDealer($e->getEntity());
+	}
+	public function deadDealer($pv) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if ($pv instanceof Player) {
+			// Score that this player died!
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			$this->updateDb($pv->getName(),"death");
+		}
 		$cause = $pv->getLastDamageCause();
 		// If we don't know the real cause, we can score it!
+		echo __METHOD__.",".__LINE__."-".get_class($cause)."\n";//##DEBUG
 		if (!($cause instanceof EntityDamageEvent)) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 
-		if ($cause->getCause() != EntityDamageEvent::CAUSE_ENTITY_ATTACK) return;
-		if (!($pv instanceof Player)) return; // We don't really need this check!
-		$pp = $cause->getDamager();
+		switch ($cause->getCause()) {
+			case EntityDamageEvent::CAUSE_PROJECTILE:
+				$pp = $cause->getDamager();
+				break;
+			case EntityDamageEvent::CAUSE_ENTITY_ATTACK:
+				$pp = $cause->getDamager();
+				break;
+			case EntityDamageEvent::CAUSE_ENTITY_EXPLOSION:
+				$pp = $cause->getDamager();
+				echo get_class($pp)."\n";//##DEBUG
+				break;
+			default:
+				echo "Cause: ".$cause->getCause()."\n";//##DEBUG
+				return;
+		}
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!($pp instanceof Player)) return; // Not killed by player...
 		// No scoring for creative players...
 		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
 		$perp = $pp->getName();
-		list ($points,$money) = $this->updateScores($perp,"Player");
-		$this->announce($pp,$points,$money);
-	}
-	public function onDeath(EntityDeathEvent $e) {
-		$pv = $e->getEntity();
-		$cause = $pv->getLastDamageCause();
-		// If we don't know the real cause, we can't score it!
-		if (!($cause instanceof EntityDamageEvent)) return;
-
-		if ($cause->getCause() != EntityDamageEvent::CAUSE_ENTITY_ATTACK) return;
-
-		$pp = $cause->getDamager();
-		if (!($pp instanceof Player)) return; // Not killed by player...
 		$vic = $pv->getName();
 		if ($pv instanceof Player) {
 			$vic = "Player";
 		}
 		$perp = $pp->getName();
-		// No scoring for creative players...
-		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
-		$pp->sendMessage("Killed $vic!");
 		list ($points,$money) = $this->updateScores($perp,$vic);
 		$this->announce($pp,$points,$money);
 	}

@@ -76,8 +76,9 @@ coordinates of the player.
 	---
 	# Example config.yml
 	settings:
-	  dynamic-updates: 1
-	  broadcast-tp: 1
+	  dynamic-updates: true
+	  broadcast-tp: true
+	  xyz.cmd: true
 	text:
 	  world:
 	  - '[WORLD]'
@@ -91,11 +92,13 @@ coordinates of the player.
 	  - 'Jugadores:'
 	...
 
-* dynamic-updates: 1 or 0  
+* dynamic-updates: 1 or 0, true or false  
   If enabled, signs will be updated with the number of players in a
   particular world.
-* broadcast-tp: 1 or 0  
+* broadcast-tp: 1 or 0, true or false  
   If enabled, teleports will be broadcast to all players.
+* xyz.cmd: 1 or 0, true or false  
+  If enabled, the `xyz` command will be available.
 * world:  
   List of texts to use for `[WORLD]` teleport signs.
 * warp:  
@@ -112,6 +115,9 @@ coordinates of the player.
 Changes
 -------
 
+* 1.3.0: Re-write
+  * /xyz can now be disabled
+  * cleaned up the code
 * 1.2.2: Bug fixes
   * Fixed errors reported by [Crash Archive](http://crash.pocketmine.net/)
 * 1.2.1 : Minor updates

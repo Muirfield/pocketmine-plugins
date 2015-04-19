@@ -17,6 +17,7 @@ class WpBordersMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onPlayerMove(PlayerMoveEvent $ev) {
+		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		$pos = $ev->getTo();
 		if ($this->owner->checkMove($pl->getLevel()->getName(),

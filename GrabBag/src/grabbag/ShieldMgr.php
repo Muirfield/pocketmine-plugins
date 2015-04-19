@@ -14,6 +14,7 @@ class ShieldMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onDamage(EntityDamageEvent $ev) {
+		if ($ev->isCancelled()) return;
 		if(!($ev instanceof EntityDamageByEntityEvent)) return;
 		if (!($ev->getEntity() instanceof Player)) return;
 		if ($this->owner->checkShield($ev->getEntity()->getName())) return;

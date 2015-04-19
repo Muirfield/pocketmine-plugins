@@ -27,8 +27,8 @@ Basic Usage:
 Documentation
 -------------
 
-This plugin supports PocketMoney and has experimental support for
-MassiveEconomy and EconomyAPI.
+This plugin supports PocketMoney and GoldStd and has experimental
+support for MassiveEconomy and EconomyAPI.
 
 ### Configuration
 
@@ -54,7 +54,8 @@ If `rewards` is true, money is awarded.  You need an economy plugin
 for this to work.
 
 `values` are used to configure how many points or how much money is
-awarded per kill type.
+awarded per kill type.  The first number is points, the second is
+money.  You can use negative values.
 
 ### Permission Nodes:
 
@@ -76,6 +77,9 @@ Changes
 
 * 1.0.1 : Bugfixes
   * Removed warnings
+  * Improve the scoring detection
+  * Scores deaths
+  * Added support for GoldStd
 * 1.0.0 : First submission
 
 Copyright
