@@ -93,7 +93,6 @@ class Main extends PluginBase implements Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	private function checkSign(Player $pl,array $sign) {
-		print_r($sign);//##DEBUG
 		if (isset($this->text["warp"][$sign[0]])) {
 			// Short warp...
 			if (empty($sign[1])) {
