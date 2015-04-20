@@ -303,7 +303,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($pv instanceof Player) {
 			// Score that this player died!
 			echo __METHOD__.",".__LINE__."\n";//##DEBUG
-			$this->updateDb($pv->getName(),"death");
+			$this->updateDb($pv->getName(),"deaths");
 		}
 		$cause = $pv->getLastDamageCause();
 		// If we don't know the real cause, we can score it!

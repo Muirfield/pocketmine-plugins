@@ -1,10 +1,10 @@
-main: grabbag\Main
+main: aliuly\grabbag\Main
 api: 1.10.0
 load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 1.4.1
+version: 2.0.0
 author: aliuly
 
 permissions:
@@ -53,15 +53,6 @@ permissions:
     gb.cmd.get:
         default: op
         description: "Get blocks"
-    gb.spawnarmor.receive:
-        default: true
-        description: "allows to receive armor when you spawn"
-    gb.spawnitems.receive:
-        default: true
-        description: "allows to receive items when you spawn"
-    gb.compasstp.allow:
-        default: op
-        description: "Allow players to use Compass to Teleport"
     gb.cmd.shield:
         default: op
         description: "Allow players to become invulnerable"
@@ -92,12 +83,15 @@ permissions:
     gb.cmd.rpt.read:
         default: op
         description: "Read reported issues"
-    gb.ubab.override:
-        default: false
-        description: "Blocks that can not be broken"
     gb.cmd.summon:
         default: op
         description: "Summon|Dismiss command"
     gb.cmd.pushpoptp:
         default: op
         description: "push/pop teleport"
+    gb.cmd.prefix:
+        default: true
+        description: "Allow the use of /prefix"
+    gb.module.repeater:
+        default: true
+        description: "Access to repeater module"
