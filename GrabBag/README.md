@@ -48,6 +48,8 @@ Basic Usage:
   summoned.
 * pushtp <x y z|player|world> - save current location and teleport
 * poptp - goes back to saved location
+* prefix <prefix text> - Prepend prefix to commands (to run multiple
+  `/as player` commands in a row).
 * !! - repeat command with changes
 
 Documentation
@@ -140,6 +142,11 @@ plugins.
   goes back to saved location.  Push and pop work in a stack.  Push
   will save the current location on the top of the stack, while pop
   will pop it from the top of the stack.
+* *prefix* _[-n]_ <text>  
+  Will prepend `<text>` to the following commands.  Enter */prefix* on
+  its own to stop.  This is useful when entering multipe `/as
+  <player>`  commands in a row.  The _-n_ options will *not* insert a
+  space between `prefix` and `command`.
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
@@ -169,12 +176,14 @@ things:
 	!! survival john
   This will show the usage of survival, the next line will change the
   gamemode of john to survival.
-* `!!` str1 str2
-  Will repate the previous command replacing `str1` with `str2`
+* `!!` str1 str2  
+  Will repeat the previous command replacing `str1` with `str2`
   Example:
 	/give player drt
 	!!drt dirt
   This will change `drt` into `dirt`.
+* `!!`^ text  
+  Will insert `text` at the beginning of the command.
 
 ### Listener Modules
 
@@ -182,60 +191,53 @@ Also this plugin supports the following modules:
 
 * adminjoin : Broadcast a message when an op joins.
 * servermotd : Display the server's motd when connecting.
-* spawnitems : Initialize a player inventory when they spawn.  
-  It will place a configuratble list of inventory items.  Note that it
-  only does it for users who start without any inventory.  As soon as
-  they start owning stuff, spawnitems will stop working for them.
-* spawnarmor : Initialize a player armor when they spawn.  
-  *Broken in 1.5*
-  I will configure a player's armor through a configurable list.  Note
-  that it only does it for users without armor.
-* compasstp: When holding a compass tap the screen for 1 second, will
-  teleport you in the direciton you are facing.
-* unbreakable : Unbreakable blocks.
 
 ### Configuration
 
 Configuration is through the `config.yml` file:
 
-	---
-	settings:
+	commands:
+	  players: true
+	  ops: true
+	  gm?: true
+	  as: true
+	  slay: true
+	  heal: true
+	  whois: true
+	  showtimings: true
+	  seeinv-seearmor: true
+	  clearinv: true
+	  get: true
+	  shield: true
+	  servicemode: true
+	  opms: true
+	  entitites: true
+	  mute-unmute: true
+	  freeze-thaw: true
+	  after-at: true
+	  rpt: true
+	  summon-dismiss: true
+	  pushtp-poptp: true
+	  prefix: true
+	  opms-rpt: true
+	  srvmode: true
+	  entities: true
+	modules:
+	  adminjoin: true
+	  servermotd: true
+	  repeater: true
+	freeze-thaw:
 	  hard-freeze: false
-	unbreakable:
-	  - 32
-	  - 45
-	spawn:
-	  armor:
-	    head: '-'
-	    body: chainmail
-	    legs: leather
-	    boots: leather
-	  items:
-	  - "272:0:1"
-	  - "17:0:16"
-	  - "364:0:5"
 
-	...
+* commands: This is a list of available commands.  Set to true to
+  activate commands, false ot deactivate.
+* modules: List of available modules.  Set true to activate, false to
+  deactivate.
+* freeze-thaw
+  * `hard-freeze` : if `true` no movement is allowed for frozen
+     players.  If `false`, moves are not allowed, but turning is
+     allowed.
 
-Settings:
-
-* `hard-freeze` : if `true` no movement is allowed for frozen
-  players.  If `false`, moves are not allowed, but turning is allowed.
-
-The `unbreakable` section is for the `unbreakable` listener module.
-Lists block ids that can not be broken.
-
-The `spawn` section contains two lists:
-
-* `armor`: defines the list of armor that players will spawn with.
-* `items`: lists the `item_id`:`damage`:`count` for initial items that
-  will be placed in the players inventory at spawn time.
-
-### Activating/De-activating modules
-
-There is a `modules.yml` that by default activates all modules.  You
-can de-activate modules by commenting them out from `modules.yml`.
-This is done by inserting a `#` in front of the text.
 
 
 ### Permission Nodes:
@@ -254,10 +256,7 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.seeinv: Show player's inventory
 * gb.cmd.clearinv: Clear player's inventory
 * gb.cmd.get: get blocks.  A shortcut to give.
-* gb.spawnarmor.receive: allows player to receive armor when spawning
-* gb.spawnitems.receive: allows player to receive items when spawning
 * gb.cmd.timings: show timings data
-* gb.compasstp.allow : allow player to use a Compass to Teleport
 * gb.cmd.shield: Allow players to become invulnerable
 * gb.cmd.servicemode: Allow access to service mode command
 * gb.servicemode.allow: Allow login when in service mode.
@@ -267,12 +266,18 @@ This is done by inserting a `#` in front of the text.
 * gb.cmd.after: Access to command scheduler
 * gb.cmd.rpt: Report issues
 * gb.cmd.rpt.read: Read reported issues
-* gb.ubab.override: Can break blocks in the ubab list.
 * gb.cmd.summon: Access to summon/dismiss command
 * gb.cmd.pushpoptp: Access to push/pop teleport
+* gb.cmd.prefix: Access to /prefix
+* gb.module.repeater: Access to repeater module
 
 Changes
 -------
+* 2.0.0: Re-factoring
+  * Re-factoring the code so it is more maintainable
+  * Removed unbreakable, CompassTP, spawnitems, spawnarmor
+  * Added /prefix
+
 * 1.4.1: maintenance
   * Fixed a bug in showtimings.
   * Fixed improper usage of the API in Removing Tile and Entities.
@@ -335,21 +340,3 @@ Copyright
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
-# REFACTOR
-
-* Main
-  * loader
-  * config
-  * state
-
-* Command
-  - common code
-    - paginate
-    - inGame
-    - access
-  <xxx>Cmd - modules.yml contains the cmd to class mapping
-  execute(Sender,$cmd,$args)
-
-* Manager - modules.yml contains the listener to class mapping
-  * <xxx>Mgr
