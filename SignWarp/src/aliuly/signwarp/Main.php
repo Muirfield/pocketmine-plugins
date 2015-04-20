@@ -33,7 +33,7 @@ class Main extends PluginBase implements Listener {
 	protected $broadcast;
 	protected $text;
 
-	public function onLoad(){
+	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults =
 					 [
@@ -71,7 +71,7 @@ class Main extends PluginBase implements Listener {
 			$cmdMap = $this->getServer()->getCommandMap();
 			$cmdMap->registerAll($this->getDescription()->getName(),
 										[$newCmd]);
-			$this->getLogger()->info("Loaded /xyz command");
+			$this->getLogger()->info("enabled /xyz command");
 		}
 
 		if ($cfg["settings"]["dynamic-updates"]) {
@@ -81,9 +81,6 @@ class Main extends PluginBase implements Listener {
 		} else {
 			$this->getLogger()->info("dynamic-updates: OFF");
 		}
-	}
-
-	public function onEnable(){
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 

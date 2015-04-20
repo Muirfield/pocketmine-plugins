@@ -115,6 +115,9 @@ coordinates of the player.
 Changes
 -------
 
+* ??
+  * removed onLoad... All initialization happens onEnable
+
 * 1.3.0: Re-write
   * /xyz can now be disabled
   * cleaned up the code
