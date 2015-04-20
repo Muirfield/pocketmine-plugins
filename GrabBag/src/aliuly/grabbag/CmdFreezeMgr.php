@@ -66,7 +66,7 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 		return false;
 	}
 	public function onMove(PlayerMoveEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->isCancelled()) return;
 		$p = $ev->getPlayer();
 		if (isset($this->frosties[strtolower($p->getName())])) {

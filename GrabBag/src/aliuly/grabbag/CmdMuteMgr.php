@@ -64,7 +64,7 @@ class CmdMuteMgr extends BaseCommand implements Listener {
 	}
 
 	public function onChat(PlayerChatEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->isCancelled()) return;
 		$p = $ev->getPlayer();
 		if (isset($this->mutes[strtolower($p->getName())])) {

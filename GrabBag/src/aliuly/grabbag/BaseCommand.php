@@ -88,15 +88,15 @@ abstract class BaseCommand implements CommandExecutor {
 	}
 
 	public function getState(CommandSender $player,$default) {
-		echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		return $this->owner->getState(get_class($this),$player,$default);
 	}
 	public function setState(CommandSender $player,$val) {
-		echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		$this->owner->setState(get_class($this),$player,$val);
 	}
 	public function unsetState(CommandSender $player) {
-		echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		$this->owner->unsetState(get_class($this),$player);
 	}
 
