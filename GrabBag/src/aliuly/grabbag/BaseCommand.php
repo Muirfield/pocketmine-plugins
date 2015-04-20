@@ -6,8 +6,10 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
+
 use pocketmine\utils\TextFormat;
 use pocketmine\Player;
+use pocketmine\item\Item;
 
 abstract class BaseCommand implements CommandExecutor {
 	protected $owner;
@@ -16,7 +18,33 @@ abstract class BaseCommand implements CommandExecutor {
 		$this->owner = $owner;
 	}
 
-	//public function onCommand(CommandSender $sender,Command $command,$label, array $args);
+	static $items = [];
+
+	public function itemName(Item $item) {
+		if (count(self::$items) == 0) {
+			$constants = array_keys((new \ReflectionClass("pocketmine\\item\\Item"))->getConstants());
+			foreach ($constants as $constant) {
+				$id = constant("pocketmine\\item\\Item::$constant");
+				$constant = str_replace("_", " ", $constant);
+				self::$items[$id] = $constant;
+			}
+		}
+		$n = $item->getName();
+		if ($n != "Unknown") return $n;
+		if (isset(self::$items[$item->getId()]))
+			return self::$items[$item->getId()];
+		return $n;
+	}
+
+	public function mwteleport($pl,$pos) {
+		if (($pos instanceof Position) &&
+			 ($mw = $this->owner->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
+			// Using ManyWorlds for teleporting...
+			$mw->mwtp($pl,$pos);
+		} else {
+			$pl->teleport($pos);
+		}
+	}
 
 	public function enableCmd($cmd,$yaml) {
 		$newCmd = new PluginCommand($cmd,$this->owner);
@@ -122,4 +150,5 @@ abstract class BaseCommand implements CommandExecutor {
 		return $this->paginateText($sender,$pageNumber,$txt);
 	}
 
+	//public function onCommand(CommandSender $sender,Command $command,$label, array $args);
 }

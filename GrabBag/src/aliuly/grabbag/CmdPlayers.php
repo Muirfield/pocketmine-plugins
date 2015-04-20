@@ -25,7 +25,7 @@ class CmdPlayers extends BaseCommand {
 		$cnt = 0;
 		foreach ($this->owner->getServer()->getOnlinePlayers() as $player) {
 			if(!$player->isOnline() ||
-				(($sender instanceof Player) && !$c->canSee($player))) continue;
+				(($sender instanceof Player) && !$sender->canSee($player))) continue;
 			$pos = $player->getPosition();
 			$j = count($tab);
 			$mode = substr($this->owner->gamemodeString($player->getGamemode()),0,4);

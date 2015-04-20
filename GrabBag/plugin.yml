@@ -89,3 +89,9 @@ permissions:
     gb.cmd.pushpoptp:
         default: op
         description: "push/pop teleport"
+    gb.cmd.prefix:
+        default: true
+        description: "Allow the use of /prefix"
+    gb.module.repeater:
+        default: true
+        description: "Access to repeater module"

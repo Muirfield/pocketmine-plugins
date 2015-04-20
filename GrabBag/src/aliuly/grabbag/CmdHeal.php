@@ -22,7 +22,7 @@ class CmdHeal extends BaseCommand {
 			$sender->sendMessage("You have been healed");
 			return true;
 		}
-		$patient = $this->getServer()->getPlayer($args[0]);
+		$patient = $this->owner->getServer()->getPlayer($args[0]);
 		if ($patient == null) {
 			$sender->sendMessage("$args[0] was not found");
 			return true;
