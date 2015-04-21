@@ -20,6 +20,10 @@ commands:
         description: Enable exploding arrows
         usage: "/dumdum [yield magic]"
         permission: scorched.cmd.dumdums
+    akira:
+        description: Create an explosion
+        usage: "/akira [yield=##] [magic] [delay=ticks]"
+        permission: scorched.cmd.akira
 
 permissions:
     scorched.cmd.fire:
@@ -28,3 +32,6 @@ permissions:
     scorched.cmd.dumdums:
         default: true
         description: "allow players to use Exploding arrows"
+    scorched.cmd.akira:
+        default: false
+        description: "Create a possibly big explosion!"

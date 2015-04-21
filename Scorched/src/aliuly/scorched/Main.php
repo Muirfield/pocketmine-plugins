@@ -255,6 +255,8 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				return $this->cmdRpg($sender,$args);
 			case "fire":
 				return $this->cmdFire($sender,$args);
+			case "akira":
+				return $this->cmdExplode($sender,$args);
 		}
 		return false;
 	}
@@ -279,6 +281,38 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			unset($this->shooters[$p->getName()]);
 		}
 		return false;
+	}
+
+	// Command implementations
+	private function cmdExplode(CommandSender $c,$args) {
+		if (!$this->inGame($c)) return false;
+		$magic = false;
+		$delay = 20;
+		$yield = 5;
+		foreach ($args as $i) {
+			$i = strtolower($i);
+			if ($i == "magic") {
+				$magic = true;
+			} elseif ($i == "no-magic" || $i == "nomagic") {
+				$magic = false;
+			} elseif (substr($i,0,strlen("yield=")) == "yield=") {
+				$yield = intval(substr($i,strlen("yield=")));
+			} elseif (substr($i,0,strlen("delay=")) == "delay=") {
+				$delay = intval(substr($i,strlen("delay=")));
+			} else {
+				return false;
+			}
+		}
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"akira"],[$c->getName(),new Position($c->getX(),$c->getY(),$c->getZ(),$c->getLevel()),$magic,$yield]),$delay);
+		$c->sendMessage("GET THE HECK OUT OF HERE!");
+		return true;
+	}
+	public function akira($n,$pos,$magic,$yield) {
+		$this->getServer()->broadcastMessage("AAAAKIIIIIRAAAAA!!!!!");
+		$source = $this->getServer()->getPlayer($n);
+		$explosion = new Explosion($pos,$yield,$source);
+		if (!$magic) $explosion->explodeA();
+		$explosion->explodeB();
 	}
 
 	// Command implementations
