@@ -11,7 +11,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
 use pocketmine\scheduler\CallbackTask;
-
+use pocketmine\item\Item;
 
 class Main extends PluginBase implements CommandExecutor {
 	const MIN_BORDER = 32;
@@ -21,6 +21,8 @@ class Main extends PluginBase implements CommandExecutor {
 	protected $spam;
 	const SPAM_DELAY = 5;
 	static private $aliases = [
+		"ubab" => "unbreakable",
+		"bab" => "breakable",
 		"unprotect" => "unlock",
 		"open" => "unlock",
 		"notnt" => "noexplode",
@@ -47,6 +49,7 @@ class Main extends PluginBase implements CommandExecutor {
 				"per-world-pvp" => true,
 				"motd" => true,
 				"no-explode" => true,
+				"unbreakable" => true,
 			],
 		];
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
@@ -55,16 +58,18 @@ class Main extends PluginBase implements CommandExecutor {
 		if ($cfg["settings"]["player-limits"] &&
 			 $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")==null){
 			$this->getLogger()->info(TextFormat::RED.
-											 "player-limits functionality ONLY works with the ".
+											 "player-limits functionality ".
+											 TextFormat::AQUA."WITHOUT");
+			$this->getLogger()->info(TextFormat::RED."the ".
 											 TextFormat::WHITE."ManyWorlds".
-											 TextFormat::RED." plugin");
-			$cfg["settings"]["player-limits"] = false;
+											 TextFormat::RED." plugin is experimental");
+			//$cfg["settings"]["player-limits"] = false;
 		}
 		$this->listeners = [];
 		$this->listeners["main"] = new WpListener($this);
 		if ($cfg["settings"]["motd"])
 			$this->listeners["motd"] = new WpMotdMgr($this);
-		if ($cfg["settings"]["world-protect"])
+		if ($cfg["settings"]["world-protect"] || $cfg["settings"]["unbreakable"])
 			$this->listeners["protect"] = new WpProtectMgr($this);
 		if ($cfg["settings"]["world-borders"])
 			$this->listeners["borders"] = new WpBordersMgr($this);
@@ -147,6 +152,23 @@ class Main extends PluginBase implements CommandExecutor {
 			$player->sendMessage($this->wcfg[$level]["motd"]);
 		}
 	}
+	//
+	// Unbreakable
+	//
+	public function checkUnbreakable($pname,$level,$blkid) {
+		if (!isset($this->wcfg[$level]["ubab"])) return false;
+		if (!count($this->wcfg[$level]["ubab"])) return false;
+		// Check if user is in auth list...
+		if (isset($this->wcfg[$level]["auth"])
+			 && count($this->wcfg[$level]["auth"])
+			 && isset($this->wcfg[$level]["auth"][$pname])) return false;
+		$player = $this->getServer()->getPlayer($pname);
+		if ($player && $player->hasPermission("wp.cmd.protect.auth"))
+			return false;
+		if (isset($this->wcfg[$level]["ubab"][$blkid])) return true;
+		return false;
+	}
+
 	//
 	// World protect
 	//
@@ -247,6 +269,11 @@ class Main extends PluginBase implements CommandExecutor {
 						case "rm":
 							if (!$this->access($sender,"wp.cmd.addrm")) return false;
 							return $this->worldProtectRm($sender,$args);
+						case "unbreakable":
+						case "breakable":
+							if (!$this->access($sender,"wp.cmd.unbreakable")) return false;
+							if (!$this->settings["unbreakable"]) return false;
+							return $this->worldUBAB($sender,$scmd,$args);
 						case "unlock":
 						case "lock":
 						case "protect":
@@ -320,6 +347,11 @@ class Main extends PluginBase implements CommandExecutor {
 							 "Creates a border in [level] defined by x1,z1 to x2,z2"],
 			"max" => ["[level] [value]",
 						 "Limits the number of players in a world to [value] use 0 or -1 to remove limits"],
+			"unbreakable" => [ "[level] <id> <id>",
+									 "Sets blocks to unbreakable status" ],
+			"breakable" =>  [ "[level] <id> <id>",
+									 "Remove blocks from unbreakable status" ],
+
 		];
 		if (count($args)) {
 			foreach ($args as $c) {
@@ -432,6 +464,48 @@ class Main extends PluginBase implements CommandExecutor {
 		$sender->sendMessage("[WP] $user removed from $level's authorized list");
 		if ($player)
 			$player->sendMessage("[WP] You have been removed from $level's authorized list");
+		return true;
+	}
+	//
+	// Unbreakable blocks
+	//
+	private function worldUBAB(CommandSender $sender,$mode,$args) {
+		if (count($args) == 0) return false;
+		if ($this->getServer()->isLevelGenerated($args[0])) {
+			$level = array_shift($args);
+		} else {
+			if (!$this->inGame($sender)) return true;
+			$level = $sender->getLevel()->getName();
+		}
+		if (!$this->doLoadWorldConfig($sender,$level)) return true;
+		if (!$this->isAuth($sender,$level)) return true;
+		if(!count($args)) {
+			if(isset($this->wcfg[$level]["ubab"])) {
+				$lst = "";
+				foreach ($this->wcfg[$level]["ubab"] as $b) {
+					$lst .= (strlen($lst)>0 ? ", " : "").$b;
+				}
+				$sender->sendMessage("Unbreakables(".
+											count($this->wcfg[$level]["ubab"])."): ".
+											$lst);
+			} else {
+				$sender->sendMessage("No unbreakable blocks in $level");
+			}
+			return true;
+		}
+		if ($mode == "breakable") {
+			foreach ($args as $i) {
+				$item = Item::fromString($i);
+				unset($this->wcfg[$level]["ubab"][$item->getId()]);
+			}
+		} else {
+			foreach ($args as $i) {
+				$item = Item::fromString($i);
+				if ($item->getId() == Item::AIR) continue;
+				$this->wcfg[$level]["ubab"][$item->getId()] = $i."(".$item->getId().")";
+			}
+		}
+		$this->saveWorldConfig($level);
 		return true;
 	}
 	//
@@ -741,26 +815,26 @@ class Main extends PluginBase implements CommandExecutor {
 			}
 		}
 		if (isset($this->wcfg[$level]["protect"]))
-			$txt[] = "Protect Status:  ".$this->wcfg[$level]["protect"];
-		$txt[] = "PvP: ".$this->wpPvpMode($level);
+			$txt[] = TextFormat::AQUA."Protect Status:  ".
+					 TextFormat::WHITE.$this->wcfg[$level]["protect"];
+		$txt[] = TextFormat::AQUA."PvP: ".$this->wpPvpMode($level);
 		if (isset($this->wcfg[$level]["no-explode"])) {
 			if ($this->wcfg[$level]["no-explode"] == "world") {
-				$txt[] = "NoExplode: ".TextFormat::GREEN."world";
+				$txt[] = TextFormat::AQUA."NoExplode: ".TextFormat::GREEN."world";
 			} elseif ($this->wcfg[$level]["no-explode"] == "spawn") {
-				$txt[] = "NoExplode: ".TextFormat::YELLOW."spawn";
+				$txt[] = TextFormat::AQUA."NoExplode: ".TextFormat::YELLOW."spawn";
 			} else {
-				$txt[]= "NoExplode: ".TextFormat::RED.$this->wcfg[$level]["no-explode"];
+				$txt[]= TextFormat::AQUA."NoExplode: ".TextFormat::RED.$this->wcfg[$level]["no-explode"];
 			}
 		}
 		if (isset($this->wcfg[$level]["border"])) {
-			$txt[] = "World Borders:".implode(",",$this->wcfg[$level]["border"]);
-		}
-		if (isset($this->wcfg[$level]["max-players"])) {
-			$txt[] = "Max-Players: ".$this->wcfg[$level]["max-players"];
+			$txt[] = TextFormat::AQUA."World Borders:".
+					 TextFormat::WHITE.implode(",",$this->wcfg[$level]["border"]);
 		}
 		if (isset($this->wcfg[$level]["auth"]) && count($this->wcfg[$level]["auth"])) {
-			$txt[] = "Auth-List(".count($this->wcfg[$level]["auth"])."):".
-					 implode(", ",$this->wcfg[$level]["auth"]);
+			$txt[] = TextFormat::AQUA.
+					 "Auth-List(".count($this->wcfg[$level]["auth"])."):".
+					 TextFormat::WHITE.implode(", ",$this->wcfg[$level]["auth"]);
 		}
 		return $txt;
 	}

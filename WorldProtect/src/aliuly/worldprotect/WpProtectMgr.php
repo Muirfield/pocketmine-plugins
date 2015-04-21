@@ -35,6 +35,13 @@ class WpProtectMgr implements Listener {
 	public function onBlockBreak(BlockBreakEvent $ev){
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
+		if ($this->owner->checkUnbreakable($pl->getName(),
+													  $pl->getLevel()->getName(),
+													  $ev->getBlock()->getId())) {
+			$ev->setCancelled();
+			$this->owner->msg($pl,"It cannot be broken");
+			return;
+		}
 		if ($this->owner->checkBlockPlaceBreak($pl->getName(),
 															$pl->getLevel()->getName())) return;
 		$this->owner->msg($pl,"You are not allowed to do that here");

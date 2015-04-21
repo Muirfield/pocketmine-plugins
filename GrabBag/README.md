@@ -17,6 +17,9 @@ A miscellaneous collection of commands and listener modules.  Features
 can be configured to be disable|enable so as to co-exists with other
 plugins.
 
+This plugin is focused more towards commands to help system
+administration.
+
 
 Basic Usage:
 
@@ -50,6 +53,7 @@ Basic Usage:
 * poptp - goes back to saved location
 * prefix <prefix text> - Prepend prefix to commands (to run multiple
   `/as player` commands in a row).
+* spawn - teleport to spawn point
 * !! - repeat command with changes
 
 Documentation
@@ -147,6 +151,8 @@ plugins.
   its own to stop.  This is useful when entering multipe `/as
   <player>`  commands in a row.  The _-n_ options will *not* insert a
   space between `prefix` and `command`.
+* *spawn*  
+  Teleport to spawn poin.
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
@@ -222,6 +228,7 @@ Configuration is through the `config.yml` file:
 	  opms-rpt: true
 	  srvmode: true
 	  entities: true
+	  spawn: true
 	modules:
 	  adminjoin: true
 	  servermotd: true
@@ -238,10 +245,9 @@ Configuration is through the `config.yml` file:
      players.  If `false`, moves are not allowed, but turning is
      allowed.
 
-
-
 ### Permission Nodes:
 
+* gb.module.repeater: Access to repeater module
 * gb.cmd.players - Allow players command
 * gb.cmd.ops - list server ops
 * gb.cmd.sudo - allow to run commands as somebody else
@@ -269,15 +275,15 @@ Configuration is through the `config.yml` file:
 * gb.cmd.summon: Access to summon/dismiss command
 * gb.cmd.pushpoptp: Access to push/pop teleport
 * gb.cmd.prefix: Access to /prefix
-* gb.module.repeater: Access to repeater module
+* gb.cmd.spawn: Access to /spawn
 
 Changes
 -------
 * 2.0.0: Re-factoring
   * Re-factoring the code so it is more maintainable
-  * Removed unbreakable, CompassTP, spawnitems, spawnarmor
-  * Added /prefix
-
+  * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
+    ToyBox), spawnitems, spawnarmor (moved to SpawnControl).
+  * Added /prefix, /spawn
 * 1.4.1: maintenance
   * Fixed a bug in showtimings.
   * Fixed improper usage of the API in Removing Tile and Entities.

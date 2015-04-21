@@ -12,7 +12,6 @@ use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 
 class CmdPrefixMgr extends BaseCommand implements Listener {
-	protected $mode;
 	static $delay = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
@@ -21,7 +20,6 @@ class CmdPrefixMgr extends BaseCommand implements Listener {
 								"usage" => "/prefix [-n] <text>",
 								"permission" => "gb.cmd.prefix"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->mode = false;
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "prefix") return false;

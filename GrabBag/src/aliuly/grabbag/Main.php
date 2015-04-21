@@ -5,9 +5,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
-
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\Server;
 
 class Main extends PluginBase implements Listener {
 	protected $state;
@@ -38,6 +36,7 @@ class Main extends PluginBase implements Listener {
 				"summon-dismiss" => true,
 				"pushtp-poptp" => true,
 				"prefix" => true,
+				"spawn" => true,
 			],
 			"modules" => [
 				"adminjoin" => true,
@@ -92,6 +91,8 @@ class Main extends PluginBase implements Listener {
 			$this->modules[]= new CmdTpStack($this);
 		if ($cfg["commands"]["prefix"])
 			$this->modules[]= new CmdPrefixMgr($this);
+		if ($cfg["commands"]["spawn"])
+			$this->modules[]= new CmdSpawn($this);
 
 		if ($cfg["modules"]["repeater"])
 			$this->modules[] = new RepeatMgr($this);
@@ -133,12 +134,11 @@ class Main extends PluginBase implements Listener {
 	}
 
 	public function gamemodeString($mode) {
-		// For the moment we do this... When PM1.5 hits GA, we change
-		// to proper localized strings.
-		$t = Server::getGamemodeString($mode);
-		if (substr($t,0,strlen("%gamemode.")) == "%gameMode.") {
-			$t = substr($t,strlen("%gamemode."));
+		switch($mode) {
+			case 0: return "Survival";
+			case 1: return "Creative";
+			case 2: return "Adventure";
 		}
-		return ucfirst(strtolower($t));
+		return "$mode-mode";
 	}
 }

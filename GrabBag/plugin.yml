@@ -8,6 +8,9 @@ version: 2.0.0
 author: aliuly
 
 permissions:
+    gb.module.repeater:
+        default: true
+        description: "Access to repeater module"
     gb.cmd.players:
         default: true
         description: "allow players command"
@@ -92,6 +95,6 @@ permissions:
     gb.cmd.prefix:
         default: true
         description: "Allow the use of /prefix"
-    gb.module.repeater:
+    gb.cmd.spawn:
         default: true
-        description: "Access to repeater module"
+        description: "Allow to teleport to spawn"

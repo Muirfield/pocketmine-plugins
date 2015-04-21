@@ -141,6 +141,8 @@ Issues
 Changes
 -------
 
+* ???:
+  * Minor cosmetic changes.
 * 1.3.3: Updates for PM1.5
   * Changes default canUnload to true if running on PM1.5
 * 1.3.2: API update

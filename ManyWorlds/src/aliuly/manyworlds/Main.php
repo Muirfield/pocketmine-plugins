@@ -503,7 +503,7 @@ class Main extends PluginBase implements CommandExecutor {
 				if ($np) $attrs[] = "players:$np";
 			}
 			$ln = "- $file";
-			if (count($attrs)) $ln .= " (".implode(",",$attrs).")";
+			if (count($attrs)) $ln .= TextFormat::AQUA." (".implode(",",$attrs).")";
 			$txt[] = $ln;
 		}
 		closedir($dh);
@@ -520,22 +520,29 @@ class Main extends PluginBase implements CommandExecutor {
 		//==== provider
 		$provider = $world->getProvider();
 		$txt[] = "Info for $level";
-		$txt[] = "Provider: ". $provider::getProviderName();
-		$txt[] = "Path: ".$provider->getPath();
-		$txt[] = "Name: ".$provider->getName();
-		$txt[] = "Seed: ".$provider->getSeed();
-		$txt[] = "Generator: ".$provider->getGenerator();
-		$txt[] = "Generator Options: ".print_r($provider->getGeneratorOptions(),true);
+		$txt[] = TextFormat::AQUA."Provider: ".TextFormat::WHITE. $provider::getProviderName();
+		$txt[] = TextFormat::AQUA."Path: ".TextFormat::WHITE.$provider->getPath();
+		$txt[] = TextFormat::AQUA."Name: ".TextFormat::WHITE.$provider->getName();
+		$txt[] = TextFormat::AQUA."Seed: ".TextFormat::WHITE.$provider->getSeed();
+		$txt[] = TextFormat::AQUA."Generator: ".TextFormat::WHITE.$provider->getGenerator();
+		$gopts = $provider->getGeneratorOptions();
+		if ($gopts["preset"] != "")
+			$txt[] = TextFormat::AQUA."Generator Presets: ".TextFormat::WHITE.
+					 $gopts["preset"];
 		$spawn = $provider->getSpawn();
-		$txt[] = "Spawn: ".$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
+		$txt[] = TextFormat::AQUA."Spawn: ".TextFormat::WHITE.$spawn->getX().",".$spawn->getY().",".$spawn->getZ();
 		$plst = $this->getServer()->getLevelByName($level)->getPlayers();
+		$lst = "";
 		if (count($plst)) {
-			$lst = "";
 			foreach ($plst as $p) {
 				$lst .= (strlen($lst) ? ", " : "").$p->getName();
 			}
-			$txt[] = "Players(".count($plst)."): ".$lst;
 		}
+		$total = count($plst);
+		$max = call_user_func($this->maxplayers,$level);
+		if ($max) $total .= "/$max";
+		$txt[] = TextFormat::AQUA."Players(".TextFormat::WHITE.$total.
+				 TextFormat::AQUA."): ".TextFormat::WHITE.$lst;
 
 		$fn = "getWorldInfo";
 		foreach ($this->getServer()->getPluginManager()->getPlugins() as $p) {
