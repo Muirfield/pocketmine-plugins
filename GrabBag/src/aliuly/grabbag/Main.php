@@ -36,6 +36,7 @@ class Main extends PluginBase implements Listener {
 				"summon-dismiss" => true,
 				"pushtp-poptp" => true,
 				"prefix" => true,
+				"spawn" => true,
 			],
 			"modules" => [
 				"adminjoin" => true,
@@ -90,6 +91,8 @@ class Main extends PluginBase implements Listener {
 			$this->modules[]= new CmdTpStack($this);
 		if ($cfg["commands"]["prefix"])
 			$this->modules[]= new CmdPrefixMgr($this);
+		if ($cfg["commands"]["spawn"])
+			$this->modules[]= new CmdSpawn($this);
 
 		if ($cfg["modules"]["repeater"])
 			$this->modules[] = new RepeatMgr($this);
