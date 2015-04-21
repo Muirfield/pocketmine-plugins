@@ -267,7 +267,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		return [0,0];
 	}
 	public function updateScores($perp,$vic) {
-		//echo "VIC=$vic PERP=$perp\n";
+		//echo "VIC=$vic PERP=$perp\n";//##DEBUG
 		$this->updateDb($perp,$vic);
 		$awards = [ false,false];
 		if (isset($this->cfg["settings"]["points"])) {
@@ -288,28 +288,28 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	 * @priority MONITOR
 	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	/**
 	 * @priority MONITOR
 	 */
 	public function onDeath(EntityDeathEvent $e) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	public function deadDealer($pv) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($pv instanceof Player) {
 			// Score that this player died!
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$this->updateDb($pv->getName(),"deaths");
 		}
 		$cause = $pv->getLastDamageCause();
 		// If we don't know the real cause, we can score it!
-		echo __METHOD__.",".__LINE__."-".get_class($cause)."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."-".get_class($cause)."\n";//##DEBUG
 		if (!($cause instanceof EntityDamageEvent)) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 
 		switch ($cause->getCause()) {
 			case EntityDamageEvent::CAUSE_PROJECTILE:
@@ -320,13 +320,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				break;
 			case EntityDamageEvent::CAUSE_ENTITY_EXPLOSION:
 				$pp = $cause->getDamager();
-				echo get_class($pp)."\n";//##DEBUG
+				//echo get_class($pp)."\n";//##DEBUG
 				break;
 			default:
-				echo "Cause: ".$cause->getCause()."\n";//##DEBUG
+				//echo "Cause: ".$cause->getCause()."\n";//##DEBUG
 				return;
 		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!($pp instanceof Player)) return; // Not killed by player...
 		// No scoring for creative players...
 		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
