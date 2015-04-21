@@ -36,6 +36,7 @@ Basic Usage:
 * /wp add [level] *player*
 * /wp rm [level] *player*
 * /wp motd [level] [text]
+* /wp unbreakable [level] [id id id]
 
 Documentation
 -------------
@@ -124,6 +125,13 @@ Access to these commands is controlled by standard PocketMine
 permission system.  When a world's `auth` list is defined, access to
 these commands are restricted to the people in the `auth` list.
 
+Unbreakable blocks:
+
+* wp unbreakable [level] [id ...]  
+  Will add the *id* to the list of unbreakable blocks for this world.
+* wp breakable [level] [id ...]  
+  Will remove the *id* from the list of unbreakable blocks for this world.
+
 ### Configuration
 
 In the plugin's config.yml file you can have:
@@ -154,6 +162,8 @@ In the plugin's config.yml file you can have:
 * wp.cmd.limit - Allow control to limit functionality
 * wp.cmd.wpmotd - Allow editing the motd
 * wp.cmd.noexplode - no explode command access
+* wp.cmd.addrm - Allow modifying the auth list
+* wp.cmd.unbreakable - Allow modifying the unbreakable block list
 
 ### ManyWorlds
 
@@ -177,6 +187,7 @@ Changes
   * wp ls/ld - will call ManyWorlds.  Needs ManyWorlds v1.3.2.
   * Fixed Signs Tiles being left all over...
   * Added stop PvP in spawn areas
+  * Added Unbreakable blocks
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode

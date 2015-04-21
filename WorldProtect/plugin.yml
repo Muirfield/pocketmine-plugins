@@ -50,3 +50,6 @@ permissions:
     wp.cmd.addrm:
         default: op
         description: "Allow modifying the auth list"
+    wp.cmd.unbreakable:
+        default: op
+        description: "Modify unbreakable block list"
