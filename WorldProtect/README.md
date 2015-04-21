@@ -181,13 +181,14 @@ Will show additional information.
 Changes
 -------
 
-* 1.2.0: PM v1.5 updates
+* 1.2.0: Update
   * Bugfix in sending motd text
   * Bugfixes WpProtect
   * wp ls/ld - will call ManyWorlds.  Needs ManyWorlds v1.3.2.
   * Fixed Signs Tiles being left all over...
   * Added stop PvP in spawn areas
   * Added Unbreakable blocks
+  * Max players per world should now work *without* ManyWorlds.
 * 1.1.1 : bugfix
   * Fixes bugs reported by [Crash Archive](http://crash.pocketmine.net/search)
 * 1.1.0: no-explode
