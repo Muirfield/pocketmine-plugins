@@ -181,7 +181,7 @@ Will show additional information.
 Changes
 -------
 
-* 1.1.2: PM v1.5 updates
+* 1.2.0: PM v1.5 updates
   * Bugfix in sending motd text
   * Bugfixes WpProtect
   * wp ls/ld - will call ManyWorlds.  Needs ManyWorlds v1.3.2.

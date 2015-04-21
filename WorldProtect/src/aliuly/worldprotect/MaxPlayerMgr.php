@@ -24,6 +24,7 @@ class MaxPlayerMgr implements Listener {
 		echo "FROM:$from TO:$to\n";//##DEBUG
 		if ($from == $to) return;
 		$max = $this->owner->getPlayerLimit($to);
+		if ($max == 0) return;
 		$np = count($this->owner->getServer()->getLevelByName($to)->getPlayers());
 		if($np >= $max) {
 			$ev->setCancelled();
