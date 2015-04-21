@@ -151,8 +151,10 @@ Will generate an explosion out of nothing.  Do not use this lightly.
 Changes
 -------
 
-* ??? :
+* 1.4.0 :
   * Added /akira.
+  * Make it so Mine and Arrow explosions can be caught by Anti-Grief
+    plugins.
 * 1.3.0 : Dum Dums
   * Adds exploding arrows
   * Configure RPG yield and magic, also chance that RPG will not

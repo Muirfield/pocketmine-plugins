@@ -160,6 +160,10 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 			if ($this->misfire($e->getBow())) {
 				$e->setCancelled(); // Bow broke!
 				$p->sendMessage("Dumdum failure!");
+
+				$this->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($p, 4));
+				if ($cc->isCancelled()) return;
+
 				$explosion = new Explosion($p,$this->dumdums[$n][0]);
 				if (!$this->dumdums[$n][1]) $explosion->explodeA();
 				$explosion->explodeB();
@@ -310,6 +314,10 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	public function akira($n,$pos,$magic,$yield) {
 		$this->getServer()->broadcastMessage("AAAAKIIIIIRAAAAA!!!!!");
 		$source = $this->getServer()->getPlayer($n);
+
+		$this->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($source, 4));
+		if ($cc->isCancelled()) return;
+
 		$explosion = new Explosion($pos,$yield,$source);
 		if (!$magic) $explosion->explodeA();
 		$explosion->explodeB();
