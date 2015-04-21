@@ -33,5 +33,5 @@ permissions:
         default: true
         description: "allow players to use Exploding arrows"
     scorched.cmd.akira:
-        default: true
+        default: false
         description: "Create a possibly big explosion!"

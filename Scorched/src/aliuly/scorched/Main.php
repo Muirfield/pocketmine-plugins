@@ -131,22 +131,21 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	}
 
 	public function onArrowHit(ProjectileHitEvent $ev) {
-		if ($ev->isCancelled()) return;
-		//if ($ev->isCancelled()) return;
+		//if ($ev->isCancelled()) return; // NOT CANCELLABLE!
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$et = $ev->getEntity();
 		if (!$et->namedtag) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$c = explode(":",$et->namedtag->getName());
 		if (count($c) != 3) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($c[0] != "dumdum") return;
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$source = $et;
-		if ($et instanceof Projectile) $source = $et->shootingEntity;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 
-		$this->getServer()->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($et, 4));
-		if ($ev->isCancelled()) return;
+		$this->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($et, intval($c[1])));
+		if ($cc->isCancelled()) return;
 
-		$explosion = new Explosion($et,intval($c[1]),$source);
+		$explosion = new Explosion($et,intval($c[1]),$et);//,$source);
 		if (!$c[2]) $explosion->explodeA();
 		$explosion->explodeB();
 	}
@@ -309,16 +308,27 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 		}
 		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"akira"],[$c->getName(),new Position($c->getX(),$c->getY(),$c->getZ(),$c->getLevel()),$magic,$yield]),$delay);
 		$c->sendMessage("GET THE HECK OUT OF HERE!");
+		if ($delay > 40) {
+			for ($i=1;$i<4;$i++) {
+				$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"countdown"],[(4-$i)."..."]),($delay/4)*$i);
+			}
+		}
 		return true;
+	}
+	public function countdown($i) {
+		$this->getServer()->broadcastMessage($i);
 	}
 	public function akira($n,$pos,$magic,$yield) {
 		$this->getServer()->broadcastMessage("AAAAKIIIIIRAAAAA!!!!!");
 		$source = $this->getServer()->getPlayer($n);
 
-		$this->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($source, 4));
-		if ($cc->isCancelled()) return;
+		$this->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($source, $yield));
+		if ($cc->isCancelled()) {
+			//echo("Cancelled\n");//##DEBUG
+			return;
+		}
 
-		$explosion = new Explosion($pos,$yield,$source);
+		$explosion = new Explosion($pos,$yield);
 		if (!$magic) $explosion->explodeA();
 		$explosion->explodeB();
 	}
