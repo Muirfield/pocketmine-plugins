@@ -55,10 +55,8 @@ It is able to:
 * Show a text file when players enter a world.  To explain players
   what is allowed (or not allowed) in specific worlds.  For example
   you could warn players when they are entering a PvP world.
+* Create unbreakable blocks.
 
-Note that limiting players in a world is only supported by
-[ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
-and any plugin that uses ManyWorlds teleport functionality.
 
 ### Commands:
 
@@ -143,13 +141,9 @@ In the plugin's config.yml file you can have:
 	  per-world-pvp: true
 	  motd: true
 	  no-explode: true
+	  unbreakable: true
 
-* player-limits: Enables the per world player limits
-* world-borders: Enables the world border module
-* world-protect: Enables the anti-griefing module
-* per-world-pvp: Enables per world PvP functionality
-* no-explode: Enables explosion protection
-* motd : Enable per world MOTD text
+Control what modules are active.
 
 ### Permission Nodes:
 
@@ -167,12 +161,15 @@ In the plugin's config.yml file you can have:
 
 ### ManyWorlds
 
-The World Limit functionality requires the use of ManyWorlds teleport.
-Also, if ManyWorlds is installed, the
+If ManyWorlds is installed, the
 
     /mw ls [level]
 
-Will show additional information.
+Will show additional information.  Also, you can enter:
+
+    /wp ls [level]
+
+To get world details.
 
 ### Issues
 
