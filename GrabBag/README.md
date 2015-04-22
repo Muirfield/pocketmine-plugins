@@ -130,6 +130,10 @@ plugins.
     Removes one or more entities.
   * *signN* _[t#]_ _message text_  
     Changes the text line _N_ in the tile/sign identified by _t#_.
+  * *count*  
+    Show a count of the number of entities on the server.
+  * *nuke* _[all|mobs|others]_  
+    Clear entities from the server.
 * *rpt* _[text]_
   Report issues to server ops.  Sub commands:
   * read
@@ -284,6 +288,7 @@ Changes
   * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
     ToyBox), spawnitems, spawnarmor (moved to SpawnControl).
   * Added /prefix, /spawn
+  * /et subcommands: count and nuke.
 * 1.4.1: maintenance
   * Fixed a bug in showtimings.
   * Fixed improper usage of the API in Removing Tile and Entities.

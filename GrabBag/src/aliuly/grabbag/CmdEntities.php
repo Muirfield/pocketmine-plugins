@@ -7,6 +7,8 @@ use pocketmine\command\Command;
 
 use pocketmine\Player;
 use pocketmine\entity\Living;
+use pocketmine\entity\Human;
+use pocketmine\entity\Creature;
 use pocketmine\tile\Sign;
 
 
@@ -15,12 +17,22 @@ class CmdEntities extends BaseCommand {
 		parent::__construct($owner);
 		$this->enableCmd("entities",
 							  ["description" => "Manage entities",
-								"usage" => "/entities [tile|info|rm|sign#] [args]",
+								"usage" => "/entities [tile|info|rm|sign#|count|nuke] [args]",
 								"aliases" => ["et"],
 								"permission" => "gb.cmd.entities"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "entities") return false;
+		if (count($args) == 0) return false;
+
+		// Global commands
+		if (strtolower($args[0]) == "count") {
+			array_shift($args);
+			return $this->cmdCount($sender);
+		} elseif (strtolower($args[0]) == "nuke") {
+			array_shift($args);
+			return $this->cmdNuke($sender,$args);
+		}
 
 		$pageNumber = $this->getPageNumber($args);
 		$level = null;
@@ -52,6 +64,72 @@ class CmdEntities extends BaseCommand {
 			return false;
 		}
 		return $this->cmdEtList($sender,$level,$pageNumber);
+	}
+	private function cmdNuke(CommandSender $c,$args) {
+		$mobs = true;
+		$ents = false;
+		if (count($args) == 1) {
+			switch(strtolower($args[0])) {
+				case "others":
+					$mobs = false;
+					$ents = true;
+					break;
+				case "mobs":
+					$mobs = true;
+					$ents = false;
+					break;
+				case "all":
+					$mobs = true;
+					$ents = true;
+				default:
+					$c->sendMessage("Invalid option");
+					return false;
+			}
+		} elseif (count($args) != 0) {
+			$c->sendMessage("NUKE Options: all, mobs, others");
+			return false;
+		}
+		$mcnt = $ecnt = 0;
+		foreach($this->owner->getServer()->getLevels() as $l) {
+			foreach($l->getEntities() as $e) {
+				if($e instanceof Human) continue;
+				if (($e instanceof Creature) && $mobs) {
+					$mcnt++;
+					$e->close();
+					continue;
+				}
+				if ($ents) {
+					$ecnt++;
+					$e->close();
+				}
+			}
+		}
+		if ($mcnt) $c->sendMessage("Removed $mcnt mobs");
+		if ($ecnt) $c->sendMessage("Removed $ecnt entities");
+		if ($mcnt == 0 && $ecnt == 0) $c->sendMessage("Nothing was deleted");
+		return true;
+	}
+	private function cmdCount(CommandSender $c) {
+		$humans = 0;
+		$mobs = 0;
+		$others = 0;
+		$tiles = 0;
+		foreach ($this->owner->getServer()->getLevels() as $l) {
+			foreach ($l->getEntities() as $e) {
+				if ($e instanceof Human)
+					++$humans;
+				elseif($e instanceof Creature)
+					++$mobs;
+				else
+					++$others;
+			}
+			$tiles += count($l->getTiles());
+		}
+		$c->sendMessage("Players: $humans");
+		$c->sendMessage("Mobs:    $mobs");
+		$c->sendMessage("Others:  $others");
+		$c->sendMessage("Tiles:   $tiles");
+		return true;
 	}
 	private function cmdTileList(CommandSender $c,$level,$pageNumber) {
 		$tab = [];
