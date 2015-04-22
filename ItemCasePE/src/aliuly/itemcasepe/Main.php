@@ -28,11 +28,13 @@ use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\network\protocol\Info as ProtocolInfo;
+use pocketmine\utils\TextFormat;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $cases = [];
 	protected $touches = [];
 	protected $places = [];
+	protected $classic = true;
 
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
@@ -46,16 +48,22 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		return false;
 	}
 	// Standard call-backs
-	public function onDisable() {
-		//$this->getLogger()->info("Commander Unloaded!");
-	}
 	public function onEnable(){
-		$this->getLogger()->info("* Enabled!");
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		// Check pre-loaded worlds
 		foreach ($this->getServer()->getLevels() as $l) {
 			$this->loadCfg($l);
 		}
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		$defaults = [
+			"settings" => [
+				"classic" => true,
+			],
+		];
+		$cf = (new Config($this->getDataFolder()."config.yml",
+								Config::YAML,$defaults))->getAll();
+		$this->classic = $cf["settings"]["classic"];
+		if (!$this->classic) $this->getLogger()->info(TextFormat::YELLOW."ItemCasePE in NEW WAVE mode");
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		switch($cmd->getName()) {
@@ -279,16 +287,21 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$pl = $ev->getPlayer();
 		if (!isset($this->touches[$pl->getName()])) return;
 		$bl = $ev->getBlock();
-		if ($bl->getID() != Block::GLASS) {
-			if ($bl->getID() == Block::SLAB)
+		if ($this->classic) {
+			if ($bl->getID() != Block::GLASS) {
+				if ($bl->getID() == Block::SLAB)
+					$bl = $bl->getSide(Vector3::SIDE_UP);
+				else {
+					$pl->sendMessage("You must place item cases on slabs");
+					$pl->sendMessage("or glass blocks!");
+					return;
+				}
+			}
+		} else {
+			if ($bl->getID() != Block::GLASS) {
 				$bl = $bl->getSide(Vector3::SIDE_UP);
-			else {
-				$pl->sendMessage("You must place item cases on slabs");
-				$pl->sendMessage("or glass blocks!");
-				return;
 			}
 		}
-
 		$cid = implode(":",[$bl->getX(),$bl->getY(),$bl->getZ()]);
 		$item = $pl->getInventory()->getItemInHand();
 
