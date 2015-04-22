@@ -54,6 +54,10 @@ Basic Usage:
 * prefix <prefix text> - Prepend prefix to commands (to run multiple
   `/as player` commands in a row).
 * spawn - teleport to spawn point
+* burn <player> [secs] - Burn player
+* throw <player> [force] - throw player up in the air
+* blowup <player> [yield|magic|normal] - explode player
+
 * !! - repeat command with changes
 
 Documentation
@@ -158,7 +162,15 @@ plugins.
   <player>`  commands in a row.  The _-n_ options will *not* insert a
   space between `prefix` and `command`.
 * *spawn*  
-  Teleport to spawn poin.
+  Teleport to spawn point.
+* burn <player> [secs]  
+  Burn player for the specified number of seconds
+* throw <player> [force]  
+  throw player up in the air.  The force tells how high to go.
+* blowup <player> [yield|magic|normal]  
+  explode player.  Yield is a number that specifies the force of the explosion.
+
+
 
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
