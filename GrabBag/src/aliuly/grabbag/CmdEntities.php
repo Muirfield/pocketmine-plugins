@@ -23,6 +23,7 @@ class CmdEntities extends BaseCommand {
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "entities") return false;
+
 		if (count($args) == 0) return false;
 
 		// Global commands
