@@ -39,6 +39,19 @@ Available sub-commands:
 * /itemcase respawn  
   Debug sub-command.  Re-creates all ItemCases.
 
+### Configuring
+
+By default you need to place items on Slabs or on Glass blocks.  This
+is **classic** mode.  You can, if you want, enable **new wave** mode.
+This would let you place items on any type of blocks.  To enable this,
+modify the `config.yml` file:
+
+    settings:
+      classic: true
+
+Change the line `classic` from `true` to `false`.  Note that **new
+wave** mode is experimental and has not been fully tested.
+
 ### Permission Nodes:
 
 * itemcase.cmd: allow players access to the itemcase command
@@ -47,6 +60,8 @@ Available sub-commands:
 Changes
 -------
 
+* 1.0.3 : new wave vs classic
+  - Added new wave mode that allows you to place itemcases everywhere.
 * 1.0.2 : Bugfix
   - Fixed bugs and improved permissions.
 * 1.0.1 : Bugfix
