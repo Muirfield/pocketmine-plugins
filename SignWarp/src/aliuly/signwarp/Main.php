@@ -9,7 +9,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\block\Block;
-use pocketmine\item\Item;;
+use pocketmine\item\Item;
 use pocketmine\tile\Sign;
 use pocketmine\utils\Config;
 
