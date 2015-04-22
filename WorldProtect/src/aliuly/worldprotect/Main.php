@@ -77,6 +77,8 @@ class Main extends PluginBase implements CommandExecutor {
 			$this->listeners["pvp"] = new WpPvpMgr($this);
 		if ($cfg["settings"]["no-explode"])
 			$this->listeners["no-explode"] = new NoExplodeMgr($this);
+		if ($cfg["settings"]["player-limits"])
+			$this->listeners["player-limits"] = new MaxPlayerMgr($this);
 
 		$this->settings = $cfg["settings"];
 

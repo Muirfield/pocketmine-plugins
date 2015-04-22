@@ -21,6 +21,7 @@ Commands:
 * *rpg*  [fuse speed|short|long|fast]
 * *fire* [fuse speed|short|long|fast]
 * *dumdum* [yield magic|off]
+* *akira* [yield=##] [magic] [delay=ticks]
 
 Documentation
 -------------
@@ -86,6 +87,10 @@ Entities may moving on top of the mine may also explode as long as the
 `EntityMotionEvent` is fired.  This is not always the case, depending
 on the `EntityManager` that you are using.
 
+### Akira
+
+Will generate an explosion out of nothing.  Do not use this lightly.
+
 ### Configuration
 
 	presets:
@@ -141,11 +146,15 @@ on the `EntityManager` that you are using.
 
 * scorched.cmd.fire - access to rpgs
 * scorched.cmd.dumdums - access to exploding arrows
-
+* scorched.cmd.akira - Create an explosion!
 
 Changes
 -------
 
+* 1.4.0 :
+  * Added /akira.
+  * Make it so Mine and Arrow explosions can be caught by Anti-Grief
+    plugins.
 * 1.3.0 : Dum Dums
   * Adds exploding arrows
   * Configure RPG yield and magic, also chance that RPG will not

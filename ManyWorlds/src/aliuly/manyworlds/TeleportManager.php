@@ -63,7 +63,8 @@ class TeleportManager implements Listener {
 			// Try to keep the player in place until the chunk finish loading
 			$this->after("delayedTP",[$player->getName(),
 											  $location->getX(),$location->getY(),
-											  $location->getZ()],$ticks);
+											  $location->getZ(),
+											  $location->getLevel()->getName()],$ticks);
 		}
 		// Make sure that any damage he may have taken is restored
 		$this->after("restoreHealth",[$player->getName(),$player->getHealth()],20);
@@ -80,9 +81,10 @@ class TeleportManager implements Listener {
 		if (!$player) return;
 		$player->setHealth($health);
 	}
-	public function delayedTP($name,$x,$y,$z) {
+	public function delayedTP($name,$x,$y,$z,$level) {
 		$player = $this->owner->getServer()->getPlayer($name);
 		if (!$player) return;
+		if($player->getLevel()->getName() != $level) return;
 		$player->teleport(new Vector3($x,$y,$z));
 	}
 

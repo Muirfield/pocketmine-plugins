@@ -37,6 +37,9 @@ class Main extends PluginBase implements Listener {
 				"pushtp-poptp" => true,
 				"prefix" => true,
 				"spawn" => true,
+				"burn" => true,
+				"throw" => true,
+				"blowup" => true,
 			],
 			"modules" => [
 				"adminjoin" => true,
@@ -93,6 +96,12 @@ class Main extends PluginBase implements Listener {
 			$this->modules[]= new CmdPrefixMgr($this);
 		if ($cfg["commands"]["spawn"])
 			$this->modules[]= new CmdSpawn($this);
+		if ($cfg["commands"]["burn"])
+			$this->modules[]= new CmdBurn($this);
+		if ($cfg["commands"]["throw"])
+			$this->modules[]= new CmdThrow($this);
+		if ($cfg["commands"]["blowup"])
+			$this->modules[]= new CmdBlowUp($this);
 
 		if ($cfg["modules"]["repeater"])
 			$this->modules[] = new RepeatMgr($this);

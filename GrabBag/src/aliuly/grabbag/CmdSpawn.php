@@ -5,12 +5,6 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use pocketmine\event\Listener;
-use pocketmine\Player;
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
-use pocketmine\event\server\RemoteServerCommandEvent;
-use pocketmine\event\server\ServerCommandEvent;
-
 class CmdSpawn extends BaseCommand {
 	public function __construct($owner) {
 		parent::__construct($owner);

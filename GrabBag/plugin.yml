@@ -96,5 +96,14 @@ permissions:
         default: true
         description: "Allow the use of /prefix"
     gb.cmd.spawn:
-        default: true
+        default: op
         description: "Allow to teleport to spawn"
+    gb.cmd.burn:
+        default: op
+        description: "Allow the use of burn command"
+    gb.cmd.throw:
+        default: op
+        description: "Allow to throw players up in the air"
+    gb.cmd.blowup:
+        default: op
+        description: "Allow to blow-up players"
