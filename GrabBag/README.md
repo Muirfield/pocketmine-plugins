@@ -119,11 +119,13 @@ plugins.
   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
 * *after* *seconds* *command*  
   Will schedule to run *command* after *seconds*.
-* *entities* _level_ _subcommand_  
+* *entities* _subcommand_ _[options]  
   By default it will show the current entities.  The following
   sub-commands are available:
-  * *tiles*  
-    Show tile entities
+  * *ls* _[world]_  
+    Show entities in _[world]_ (or current world if not specified).
+  * *tiles* _[world]_  
+    Show tile entities in _[world]_ (or current world if not specified).
   * *info* _[e#|t#]_  
     Show details about one or more entities or tiles.
   * *rm* _[e#]_  
@@ -288,7 +290,7 @@ Changes
   * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
     ToyBox), spawnitems, spawnarmor (moved to SpawnControl).
   * Added /prefix, /spawn
-  * /et subcommands: count and nuke.
+  * /et subcommands: count and nuke, overall simplified entities.
 * 1.4.1: maintenance
   * Fixed a bug in showtimings.
   * Fixed improper usage of the API in Removing Tile and Entities.
