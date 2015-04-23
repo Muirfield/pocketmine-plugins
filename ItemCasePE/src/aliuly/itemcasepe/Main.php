@@ -267,7 +267,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		foreach (array_keys($this->cases[$level->getName()]) as $cid) {
 			$pos = explode(":",$cid);
 			if ($pos[0] >> 4 == $chunkX && $pos[2] >> 4 == $chunkZ) {
-				echo "Respawn case... $cid\n"; //##DEBUG
+				//echo "Respawn case... $cid\n"; //##DEBUG
 				$this->sndItemCase($level,$cid,[$pl]);
 			}
 		}
