@@ -24,7 +24,7 @@ class JoinMgr implements Listener {
 			$pl->sendMessage($this->owner->getServer()->getMotd());
 		}
 		if ($this->admjoin && $pl->isOp()) {
-			$pn = $pl->getName();
+			$pn = $pl->getDisplayName();
 			$this->owner->getServer()->broadcastMessage("Server op $pn joined.");
 		}
 	}
