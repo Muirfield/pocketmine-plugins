@@ -14,14 +14,14 @@ class MaxPlayerMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onTeleport(EntityTeleportEvent $ev){
-		echo __METHOD__.",".__LINE__."\n"; //##DEBUG
+		//echo __METHOD__.",".__LINE__."\n"; //##DEBUG
 		if ($ev->isCancelled()) return;
 		$et = $ev->getEntity();
 		if (!($et instanceof Player)) return;
 
 		$from = $ev->getFrom()->getLevel()->getName();
 		$to = $ev->getTo()->getLevel()->getName();
-		echo "FROM:$from TO:$to\n";//##DEBUG
+		//echo "FROM:$from TO:$to\n";//##DEBUG
 		if ($from == $to) return;
 		$max = $this->owner->getPlayerLimit($to);
 		if ($max == 0) return;

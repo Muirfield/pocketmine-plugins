@@ -4,7 +4,6 @@ namespace aliuly\worldprotect;
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 
-
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\Player;
