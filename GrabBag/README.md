@@ -1,6 +1,9 @@
 GrabBag
 =======
 
+**DOCUMENTATION IS A MESS**
+
+
 * Summary: A miscellaneous colletion of commands and listener modules
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
@@ -20,48 +23,92 @@ plugins.
 This plugin is focused more towards commands to help system
 administration.
 
-
-Basic Usage:
+### Informational
 
 * players - show players and their locations
 * ops - show ops
-* as - run command as somebody else
+* whois - Info about a player
+* showtimings - Display the info gathered through /timings
+  * showtimings - shows available reports.
+  * showtimings report <rpt> - show the the report <rpt>
+  * showtimings clear - deletes timing reports
+
+### Player management
+
 * gms - Switch to survival mode
 * gmc - Switch to creative mode
 * gma - Switch to adventure mode
-* slay - kill a player
-* heal - Restore health to a player *unable to test*
-* whois - Info about a player
-* showtimings - Display the info gathered through /timings
-* seearmor - show player's armor *broken in 1.5*
-* seeinv - show player's inventory
-* clearinv - Clear player's inventory
-* get - obtain an item
+* as - run command as somebody else
+  * as <player> <cmd>
 * shield [up|down] - Protect a player
-* servicemode [on|off] - enter maintenance mode
-* opms [msg] - send op only chat messages
-* entities - manage entities
+
+### Inventory Management
+
+* get - obtain an item
+  * get <item>
+* seearmor <player> - show player's armor *broken in 1.5?*
+* setarmor - armor up (works also in creative mode)
+  * setarmor [player] [head|body|legs|boots] >leather|chainmail|iron|gold|diamond>
+* seeinv [player] - show player's inventory
+* clearinv [player] - Clear player's inventory
+
+### Trolling
+
+* slay <player> [message] - kills a player
+* heal [player] [ammount] - Restore health to a player
 * mute/unmute [player] - mute players
 * freeze/thaw [player] - freeze players
+* burn <player> [secs] - Burn player for a number of secs
+* throw <player> [force] - throw player up in the air, with the
+  specified force numeric value.
+* blowup <player> [yield|magic|normal] - explode player with the given
+  yield (a number), with magic (no damage to blocks) or normal.
+* spectator/unspectator <player> - turns a player into an spectator.
+  Spectator can move in a world but can not interact with it.  Can not
+  open chests, place/break blocks, fight etc.
+
+### Server Management
+
+* servicemode [on|off] [message] - enter maintenance mode.  When in
+  maintenance mode, only ops can join the server.
+* opms [msg] - send op only chat messages
 * after [secs] cmd - Schedule command
 * at [timespec] cmd - Schedule command
 * rpt [message] - report issues to ops
+* rcon - an rcon client
+
+### Entity Management
+
+* entities - manage entities
+
+### Teleporting
+
+* spawn - teleport to spawn point
 * summon <player> [msg] - teleports <player> to you.
 * dismiss <player> [msg] - teleports <player> back to where they were
   summoned.
 * pushtp <x y z|player|world> - save current location and teleport
 * poptp - goes back to saved location
+* followers - list who is following who
+* follow - follow a player
+* followme - make people follow you
+* follow-off - stop following a player
+* followme-off - make peole stop following you
+
+### Command Entry
+
 * prefix <prefix text> - Prepend prefix to commands (to run multiple
   `/as player` commands in a row).
-* spawn - teleport to spawn point
-* burn <player> [secs] - Burn player
-* throw <player> [force] - throw player up in the air
-* blowup <player> [yield|magic|normal] - explode player
-
 * !! - repeat command with changes
+
+### Modules
+
+* joins - Show MOTD and when an admin joins.
 
 Documentation
 -------------
+
+**NOTE: In v2.0.0 Configuration has been changed**
 
 This plugin collects a number of commands and listener plugins that I
 find useful and wanted to have in a single plugin rather through

@@ -11,11 +11,11 @@ class JoinMgr implements Listener {
 	protected $srvmotd;
 	static $delay = 15;
 
-	public function __construct(Plugin $plugin,$admjoin,$srvmotd) {
+	public function __construct(Plugin $plugin,$cfg) {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->admjoin = $admjoin;
-		$this->srvmotd = $srvmotd;
+		$this->admjoin = $cfg["adminjoin"];
+		$this->srvmotd = $cfg["servermotd"];
 	}
 	public function onPlayerJoin(PlayerJoinEvent $e) {
 		$pl = $e->getPlayer();

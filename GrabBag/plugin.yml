@@ -107,3 +107,24 @@ permissions:
     gb.cmd.blowup:
         default: op
         description: "Allow to blow-up players"
+    gb.cmd.setarmor:
+        default: op
+        description: "Allow you to set your armor"
+    gb.cmd.setarmor.others:
+        default: op
+        description: "Allow you to set others armor"
+    gb.cmd.spectator:
+        default: op
+        description: "Turn players into spectators"
+    gb.cmd.follow:
+        default: op
+        description: "Let players can follow others"
+    gb.cmd.followme:
+        default: op
+        description: "Make players follow you"
+    gb.cmd.rcon:
+        default: op
+        description: "use RCON client"
+    gb.cmd.rcon.config:
+        default: op
+        description: "Modify the RCON configuration"

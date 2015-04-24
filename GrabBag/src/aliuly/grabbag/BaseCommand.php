@@ -87,6 +87,13 @@ abstract class BaseCommand implements CommandExecutor {
 		return false;
 	}
 
+	public function iName($player) {
+		if ($player instanceof Player) {
+			$player = strtolower($player->getName());
+		}
+		return $player;
+	}
+
 	public function getState(CommandSender $player,$default) {
 		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		return $this->owner->getState(get_class($this),$player,$default);

@@ -15,36 +15,43 @@ class Main extends PluginBase implements Listener {
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
 			"commands" => [
-				"players" => true,
-				"ops" => true,
-				"gm?" => true,
-				"as" => true,
-				"slay" => true,
-				"heal" => true,
-				"whois" => true,
-				"mute-unmute" => true,
-				"freeze-thaw" => true,
-				"showtimings" => true,
-				"seeinv-seearmor" => true,
-				"clearinv" => true,
-				"get" => true,
-				"shield" => true,
-				"srvmode" => true,
-				"opms-rpt" => true,
-				"entities" => true,
-				"after-at" => true,
-				"summon-dismiss" => true,
-				"pushtp-poptp" => true,
-				"prefix" => true,
-				"spawn" => true,
-				"burn" => true,
-				"throw" => true,
-				"blowup" => true,
+				"players" => "CmdPlayers",
+				"ops" => "CmdOps",
+				"gm?" => "CmdGmx",
+				"as" => "CmdAs",
+				"slay" => "CmdSlay",
+				"heal" => "CmdHeal",
+				"whois" => "CmdWhois",
+				"mute-unmute" => "CmdMuteMgr",
+				"freeze-thaw" => "CmdFreezeMgr",
+				"showtimings" => "CmdTimings",
+				"seeinv-seearmor" => "CmdShowInv",
+				"clearinv" => "CmdClearInv",
+				"get" => "CmdGet",
+				"shield" => "CmdShieldMgr",
+				"srvmode" => "CmdSrvModeMgr",
+				"opms-rpt" => "CmdOpMsg",
+				"entities" => "CmdEntities",
+				"after-at" => "CmdAfterAt",
+				"summon-dismiss" => "CmdSummon",
+				"pushtp-poptp" => "CmdTpStack",
+				"prefix" => "CmdPrefixMgr",
+				"spawn" => "CmdSpawn",
+				"burn" => "CmdBurn",
+				"throw" => "CmdThrow",
+				"blowup" => "CmdBlowUp",
+				"setarmor" => "CmdSetArmor",
+				"spectator"=> "CmdSpectator",
+				"followers"=> "CmdFollowMgr",
+				"rcon-client" => "CmdRcon",
 			],
 			"modules" => [
+				"joins" => "JoinMgr",
+				"repeater" => "RepeatMgr"
+			],
+			"joins" => [
 				"adminjoin" => true,
 				"servermotd" => true,
-				"repeater" => true,
 			],
 			"freeze-thaw" => [
 				"hard-freeze"=>false,
@@ -52,63 +59,20 @@ class Main extends PluginBase implements Listener {
 		];
 		$cfg=(new Config($this->getDataFolder()."config.yml",
 									  Config::YAML,$defaults))->getAll();
-		if ($cfg["commands"]["players"])
-			$this->modules[]= new CmdPlayers($this);
-		if ($cfg["commands"]["ops"])
-			$this->modules[]= new CmdOps($this);
-		if ($cfg["commands"]["gm?"])
-			$this->modules[]= new CmdGmx($this);
-		if ($cfg["commands"]["as"])
-			$this->modules[]= new CmdAs($this);
-		if ($cfg["commands"]["slay"])
-			$this->modules[]= new CmdSlay($this);
-		if ($cfg["commands"]["heal"])
-			$this->modules[]= new CmdHeal($this);
-		if ($cfg["commands"]["whois"])
-			$this->modules[]= new CmdWhois($this);
-		if ($cfg["commands"]["freeze-thaw"])
-			$this->modules[]= new CmdFreezeMgr($this,$cfg["freeze-thaw"]["hard-freeze"]);
-		if ($cfg["commands"]["mute-unmute"])
-			$this->modules[]= new CmdMuteMgr($this);
-		if ($cfg["commands"]["showtimings"])
-			$this->modules[]= new CmdTimings($this);
-		if ($cfg["commands"]["seeinv-seearmor"])
-			$this->modules[]= new CmdShowInv($this);
-		if ($cfg["commands"]["clearinv"])
-			$this->modules[]= new CmdClearInv($this);
-		if ($cfg["commands"]["get"])
-			$this->modules[]= new CmdGet($this);
-		if ($cfg["commands"]["shield"])
-			$this->modules[]= new CmdShieldMgr($this);
-		if ($cfg["commands"]["srvmode"])
-			$this->modules[]= new CmdSrvModeMgr($this);
-		if ($cfg["commands"]["opms-rpt"])
-			$this->modules[]= new CmdOpMsg($this);
-		if ($cfg["commands"]["entities"])
-			$this->modules[]= new CmdEntities($this);
-		if ($cfg["commands"]["after-at"])
-			$this->modules[]= new CmdAfterAt($this);
-		if ($cfg["commands"]["summon-dismiss"])
-			$this->modules[]= new CmdSummon($this);
-		if ($cfg["commands"]["pushtp-poptp"])
-			$this->modules[]= new CmdTpStack($this);
-		if ($cfg["commands"]["prefix"])
-			$this->modules[]= new CmdPrefixMgr($this);
-		if ($cfg["commands"]["spawn"])
-			$this->modules[]= new CmdSpawn($this);
-		if ($cfg["commands"]["burn"])
-			$this->modules[]= new CmdBurn($this);
-		if ($cfg["commands"]["throw"])
-			$this->modules[]= new CmdThrow($this);
-		if ($cfg["commands"]["blowup"])
-			$this->modules[]= new CmdBlowUp($this);
-
-		if ($cfg["modules"]["repeater"])
-			$this->modules[] = new RepeatMgr($this);
-		if ($cfg["modules"]["adminjoin"] || $cfg["modules"]["servermotd"])
-			$this->modules[] = new JoinMgr($this,
-													 $cfg["modules"]["adminjoin"],
-													 $cfg["modules"]["servermotd"]);
+		if (!isset($cfg["rcon-client"])) $cfg["rcon-client"] = [];
+		$this->modules = [];
+		foreach(["commands","modules"] as $type) {
+			//print_r($cfg[$type]);//##DEBUG
+			foreach($cfg[$type] as $name=>$class) {
+				if(strpos($class,"\\") === false)
+					$class = __NAMESPACE__."\\".$class;
+				//echo "$class\n";//##DEBUG
+				if (isset($cfg[$name]))
+					$this->modules[] = new $class($this,$cfg[$name]);
+				else
+					$this->modules[] = new $class($this);
+			}
+		}
 
 		if (count($this->modules)) {
 			$this->state = [];
