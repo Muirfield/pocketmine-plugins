@@ -23,6 +23,9 @@ class MaxPlayerMgr implements Listener {
 		$to = $ev->getTo()->getLevel();
 		if (!($from && $to)) return;// We don't continue if anything is null
 
+		$from = $from->getName();
+		$to = $to->getName();
+
 		//echo "FROM:$from TO:$to\n";//##DEBUG
 		if ($from == $to) return;
 		$max = $this->owner->getPlayerLimit($to);
