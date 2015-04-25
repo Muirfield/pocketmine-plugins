@@ -49,6 +49,20 @@ fclose($fp);
 if (!isset($manifest["name"]) || !isset($manifest["version"])) {
 	die("Incomplete plugin manifest\n");
 }
+$ignore = [];
+
+if (is_executable($plug."maker")) {
+	$ignore["maker"] = "maker";
+	$done = system($plug."maker");
+	if ($done != "OK") exit(1);
+}
+if (is_file($plug."ignore.txt")) {
+	$ignore["ignore.txt"] = "ignore.txt";
+	foreach (file($plug."ignore.txt") as $ln) {
+		$ln = trim(preg_subst('/^#.$/',"",$ln));
+		$ignore[$ln] = $ln;
+	}
+}
 
 $pharname = $manifest["name"]."_v".$manifest["version"].".phar";
 $phar = new Phar($path.$pharname);
@@ -64,9 +78,7 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as 
 	if (!is_file($s)) continue;
 	$cnt++;
 	$d = substr($s,strlen($plug));
-	if (dirname($d) == ".") {
-		echo "$d is .\n";
-	}
+	if (isset($ignore[$d])) continue;
 	echo("  [$cnt] $d\n");
 	if (preg_match('/\.php$/',$d)) {
 		$fp = fopen($s,"r");

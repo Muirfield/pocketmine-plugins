@@ -1,4 +1,20 @@
 <?php
+/**
+ ** OVERVIEW:Inventory Management
+ **
+ ** COMMANDS
+ **
+ ** * setarmor : Sets armor (even in creative)
+ **   usage: **setarmor** _[player]_ _[piece]_ _<type>_
+ **
+ **   This command lets you armor up.  It can armor up creative players too.
+ **   If no `player` is given, the player giving the command will be armored.
+ **
+ **   Piece can be one of `head`, `body`, `legs`, or `boots`.
+ **
+ **   Type can be one of `leather`, `chainmail`, `iron`, `gold` or `diamond`.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

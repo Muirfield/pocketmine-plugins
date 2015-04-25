@@ -1,4 +1,13 @@
 <?php
+/**
+ ** OVERVIEW:Informational
+ **
+ ** COMMANDS
+ **
+ ** * players: Shows what players are on-line
+ **   usage: **players**
+ **/
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

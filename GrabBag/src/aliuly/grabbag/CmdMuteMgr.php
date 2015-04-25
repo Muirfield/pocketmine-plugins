@@ -1,4 +1,17 @@
 <?php
+/**
+ ** OVERVIEW:Trolling
+ **
+ ** COMMANDS
+ **
+ ** * mute|unmute : mutes/unmutes a player so they can not use chat
+ **   usage: **mute|unmute** _[player]_
+ **
+ **   Stops players from chatting.  If no player specified it will show
+ **   the list of muted players.
+ **
+ **/
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

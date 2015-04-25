@@ -1,4 +1,37 @@
 <?php
+/**
+ ** OVERVIEW:Server Management
+ **
+ ** COMMANDS
+ **
+ ** * rcon : rcon client
+ **   usage: **rcon** **[--add|--rm|--ls|id]** _<command>_
+ **
+ **   This is an rcon client that you can used to send commands to other
+ **   remote servers.  Options:
+ **   - **rcon --add** _<id>_ _<address>_ _<port>_ _<password>_ _[comments]_
+ **     - adds a `rcon` connection with `id`.
+ **   - **rcon --rm** _<id>_
+ **     - Removes `rcon` connection `id`.
+ **   - **rcon --ls**
+ **     - List configured rcon connections.
+ **   - **rcon** _<id>_ _<command>_
+ **     - Sends the `command` to the connection `id`.
+ **   should use the `rpt` command.
+ **
+ ** * rpt : report an issue to ops
+ **   usage: **rpt** [_message_|**read|clear** _<all|##>_]
+ **
+ **   Logs/reports an issue to server ops.  These issues are stored in a
+ **   a file which can be later read by the server operators.  Use this
+ **   when there are **no** ops on-line.  If there are ops on-line you
+ **   should use the `opms` command.
+ **
+ ** CONFIG:rcon-client
+ **
+ ** This section configures the rcon client connections.  You can configure
+ ** this section through the *rcon* command.
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\ConsoleCommandSender;
@@ -6,7 +39,6 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use pocketmine\utils\Config;
 
 class CmdRcon extends BaseCommand {
 	protected $servers;
@@ -39,13 +71,6 @@ class CmdRcon extends BaseCommand {
 		}
 		return false;
 	}
-	private function cfgSave() {
-		$cfg=new Config($this->owner->getDataFolder()."config.yml",Config::YAML);
-		$dat = $cfg->getAll();
-		$dat["rcon-client"] = $this->servers;
-		$cfg->setAll($dat);
-		$cfg->save();
-	}
 	private function cmdAdd(CommandSender $c,$args) {
 		if (!$this->access($c,"gb.cmd.rcon.config")) return true;
 
@@ -64,7 +89,7 @@ class CmdRcon extends BaseCommand {
 			return false;
 		}
 		$this->servers[$id] = implode(" ",$args);
-		$this->cfgSave();
+		$this->cfgSave("rcon-client",$this->servers);
 		$c->sendMessage("Rcon id $id configured");
 		return true;
 	}

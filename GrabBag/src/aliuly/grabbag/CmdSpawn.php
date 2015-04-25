@@ -1,4 +1,13 @@
 <?php
+/**
+ ** OVERVIEW:Teleporting
+ **
+ ** COMMANDS
+ **
+ ** * spawn : Teleport player to spawn point
+ **   usage: **spawn**
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

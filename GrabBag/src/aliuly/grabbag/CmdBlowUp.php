@@ -1,4 +1,17 @@
 <?php
+/**
+ ** OVERVIEW:Trolling
+ **
+ ** COMMANDS
+ **
+ ** * blowup : explode a player
+ **   usage: **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**
+ **
+ **   Explodes `player` with an explosion with the given `yield` (a number).
+ **   If `magic` is specified no damage will be taken by blocks.  The
+ **   default is `normal`, where blocks do get damaged.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

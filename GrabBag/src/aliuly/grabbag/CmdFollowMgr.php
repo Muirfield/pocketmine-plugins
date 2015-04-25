@@ -1,4 +1,22 @@
 <?php
+/**
+ ** OVERVIEW:Teleporting
+ **
+ ** COMMANDS
+ **
+ ** * followers : List who is following who
+ **   usage: **followers**
+ ** * follow : Follow a player
+ **   usage: **follow** _<player>_
+ ** * follow-off : stop following a player
+ **   usage: **follow-off**
+ ** * followme : Make a player follow you
+ **   usage: **folowme** _<player>_
+ ** * followme-off : stop making a player follow you
+ **   usage: **followme-off** _<player>_
+ **
+ **/
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -36,7 +54,7 @@ class CmdFollowMgr extends BaseCommand implements Listener {
 								"permission" => "gb.cmd.followme"]);
 		$this->enableCmd("followme-off",
 							  ["description" => "stop dragging a player",
-								"usage" => "/follow-off [player]",
+								"usage" => "/followme-off [player]",
 								"permission" => "gb.cmd.followme"]);
 		$this->leaders = [];
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);

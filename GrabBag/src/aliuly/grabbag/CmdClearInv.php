@@ -1,4 +1,13 @@
 <?php
+/**
+ ** OVERVIEW:Inventory Management
+ **
+ ** COMMANDS
+ **
+ ** * clearinv : Clear player's inventory
+ **   usage: **clearinv** _<player>_
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

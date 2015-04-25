@@ -1,4 +1,15 @@
 <?php
+/**
+ ** OVERVIEW:Teleporting
+ **
+ ** COMMANDS
+ **
+ ** * pushtp : Saves current location and teleport
+ **   usage: **pushtp** _<player>_ _[target]_
+ ** * poptp : Returns to the previous location
+ **   usage:: **poptp**
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

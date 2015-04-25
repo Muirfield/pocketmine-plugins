@@ -1,4 +1,21 @@
 <?php
+/**
+ ** MODULE:join-mgr
+ ** Announce joining ops, and show server motd
+ **
+ ** This listener module will broadcast a message for ops joining
+ ** a server.
+ **
+ ** Also, it will show the server's motd on connect.
+ **
+ ** CONFIG:join-mgr
+ **
+ ** * adminjoin - broadcast whenever an op joins
+ ** * servermotd - show the server's motd when joining
+ **/
+
+
+
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;
