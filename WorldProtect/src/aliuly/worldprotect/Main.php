@@ -43,7 +43,7 @@ class Main extends PluginBase implements CommandExecutor {
 	public function onEnable(){
 		$defaults = [
 			"settings" => [
-				"player-limits" => true,
+				"player-limits" => false,
 				"world-borders" => true,
 				"world-protect" => true,
 				"per-world-pvp" => true,

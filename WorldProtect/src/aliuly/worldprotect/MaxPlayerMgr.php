@@ -21,7 +21,10 @@ class MaxPlayerMgr implements Listener {
 
 		$from = $ev->getFrom()->getLevel();
 		$to = $ev->getTo()->getLevel();
-		if (!($from && $to)) return;// We don't continue if anything is null
+		if (!($from && $to)) {
+			echo __METHOD__.",".__LINE__."\n"; //##DEBUG
+			return;// We don't continue if anything is null
+		}
 
 		$from = $from->getName();
 		$to = $to->getName();
