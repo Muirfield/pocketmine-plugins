@@ -178,6 +178,8 @@ To get world details.
 Changes
 -------
 
+* 1.2.1: BugFix
+  * Positions are not configured correctly.
 * 1.2.0: Update
   * Bugfix in sending motd text
   * Bugfixes WpProtect
