@@ -40,7 +40,7 @@ $fp = fopen($pluginYml,"r");
 if (!$fp) die("Unable to open $pluginYml\n");
 $manifest = [];
 while (($ln = fgets($fp)) !== false &&
-       !(isset($manifest["name"]) && isset($manifest["version"]))) {
+		 !(isset($manifest["name"]) && isset($manifest["version"]))) {
 	if (preg_match('/^\s*(name|version):\s*(.*)\s*$/',$ln,$mv)) {
 		$manifest[$mv[1]] = $mv[2];
 	}
@@ -64,6 +64,9 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as 
 	if (!is_file($s)) continue;
 	$cnt++;
 	$d = substr($s,strlen($plug));
+	if (dirname($d) == ".") {
+		echo "$d is .\n";
+	}
 	echo("  [$cnt] $d\n");
 	if (preg_match('/\.php$/',$d)) {
 		$fp = fopen($s,"r");
