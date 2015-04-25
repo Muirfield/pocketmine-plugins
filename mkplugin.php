@@ -1,27 +1,27 @@
 <?php
 if (ini_get('phar.readonly')) {
-  $cmd = escapeshellarg(PHP_BINARY);
-  $cmd .= ' -d phar.readonly=0';
-  foreach ($argv as $i) {
-    $cmd .= ' '.escapeshellarg($i);
-  }
-  passthru($cmd,$rv);
-  exit($rv);
+	$cmd = escapeshellarg(PHP_BINARY);
+	$cmd .= ' -d phar.readonly=0';
+	foreach ($argv as $i) {
+		$cmd .= ' '.escapeshellarg($i);
+	}
+	passthru($cmd,$rv);
+	exit($rv);
 }
 
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);
 
 function usage() {
-  die("Usage:\n\t".CMD." [-o outdir]  <src_directory>\n");
+	die("Usage:\n\t".CMD." [-o outdir]  <src_directory>\n");
 }
 $path = ".";
 
 if (isset($argv[0]) && $argv[0] == '-o') {
-  array_shift($argv);
-  $path = array_shift($argv);
-  if (!isset($path)) die("Must specify output path\n");
-  if (!is_dir($path)) die("$path: output directory not found\n");
+	array_shift($argv);
+	$path = array_shift($argv);
+	if (!isset($path)) die("Must specify output path\n");
+	if (!is_dir($path)) die("$path: output directory not found\n");
 }
 $path = preg_replace('/\/*$/',"",$path).'/';
 
@@ -41,13 +41,13 @@ if (!$fp) die("Unable to open $pluginYml\n");
 $manifest = [];
 while (($ln = fgets($fp)) !== false &&
        !(isset($manifest["name"]) && isset($manifest["version"]))) {
-  if (preg_match('/^\s*(name|version):\s*(.*)\s*$/',$ln,$mv)) {
-    $manifest[$mv[1]] = $mv[2];
-  }
+	if (preg_match('/^\s*(name|version):\s*(.*)\s*$/',$ln,$mv)) {
+		$manifest[$mv[1]] = $mv[2];
+	}
 }
 fclose($fp);
 if (!isset($manifest["name"]) || !isset($manifest["version"])) {
-  die("Incomplete plugin manifest\n");
+	die("Incomplete plugin manifest\n");
 }
 
 $pharname = $manifest["name"]."_v".$manifest["version"].".phar";
@@ -61,27 +61,27 @@ $cnt = 0;
 $cc1 = 0;
 $cc2 = 0;
 foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as $s){
-  if (!is_file($s)) continue;
-  $cnt++;
-  $d = substr($s,strlen($plug));
-  echo("  [$cnt] $d\n");
-  if (preg_match('/\.php$/',$d)) {
-	  $fp = fopen($s,"r");
-	  if ($fp) {
-		  $txt = "";
-		  while (($ln = fgets($fp)) !== FALSE) {
-			  ++$cc1;
-			  if (preg_match('/^\s*print_r\s*\(/',$ln)) continue;
-			  if (preg_match('/\/\/##DEBUG/',$ln)) continue;
-			  ++$cc2;
-			  $txt .= $ln;
-		  }
-		  fclose($fp);
-		  $phar[$d] = $txt;
-	  }
-  } else {
-	  $phar->addFile(realpath($s),$d);
-  }
+	if (!is_file($s)) continue;
+	$cnt++;
+	$d = substr($s,strlen($plug));
+	echo("  [$cnt] $d\n");
+	if (preg_match('/\.php$/',$d)) {
+		$fp = fopen($s,"r");
+		if ($fp) {
+			$txt = "";
+			while (($ln = fgets($fp)) !== FALSE) {
+				++$cc1;
+				if (preg_match('/^\s*print_r\s*\(/',$ln)) continue;
+				if (preg_match('/\/\/##DEBUG/',$ln)) continue;
+				++$cc2;
+				$txt .= $ln;
+			}
+			fclose($fp);
+			$phar[$d] = $txt;
+		}
+	} else {
+		$phar->addFile(realpath($s),$d);
+	}
 }
 if ($cc1 != $cc2) {
 	echo "Removed ".($cc1-$cc2)." lines!\n";
