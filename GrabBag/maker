@@ -31,7 +31,7 @@ foreach(file(SRCDIR."README.md",FILE_IGNORE_NEW_LINES) as $ln) {
 		$txt[] = "\n<CMDREF>";
 		continue;
 	}
-	if ($x == "### listener modules") {
+	if ($x == "### module reference") {
 		$state = "mgrs";
 		if ($txt[count($txt)-1] !=  "") $txt[] = "";
 		$txt[] = $ln;
@@ -259,7 +259,7 @@ foreach ($txt as $ln) {
 				$usage = isset($cc["usage"]) ? $cc["usage"] : "";
 				if ($usage != "") {
 					$out[] = "* $usage  ";
-					if ($sdesc) $out[] = "  $cm : $sdesc  ";
+					if ($sdesc) $out[] = "  $sdesc  ";
 				} elseif ($sdesc != "") {
 					$out[] = "* $cm : $sdesc  ";
 				} else {
@@ -305,7 +305,7 @@ foreach ($txt as $ln) {
 			}
 			if (isset($db["mgrs"]) && count($db["mgrs"])) {
 				if ($out[count($out)-1] !=  "") $out[] = "";
-				$out[] = "### Listener Modules";
+				$out[] = "### Modules";
 				$out[] = "";
 				ksort($db["mgrs"],SORT_NATURAL|SORT_FLAG_CASE);
 				foreach ($db["mgrs"] as $i => $j) {

@@ -79,57 +79,10 @@ administration.
 * spectator|unspectator : toggle a player's spectator mode
 * throw : Throw a player in the air
 
-### Listener Modules
+### Modules
 
 * join-mgr : Announce joining ops, and show server motd
 * repeater : Uses `!!` to repeat command with changes
-
-### Listener Modules
-
-#### join-mgr
-
-Announce joining ops, and show server motd
-
-This listener module will broadcast a message for ops joining
-a server.
-
-Also, it will show the server's motd on connect.
-
-#### repeater
-
-Uses `!!` to repeat command with changes
-
-If you want to repeat a previous command enter `!!` *without* any `/`
-in front.  This works for commands and chat messages.
-
-You can optionally append additional text to `!!` to do certain
-things:
-
-* `!!` number
-  - Will let you paginate output.  For example, entering:
-		/mw ls
-		!!2
-		!!3
-  This will start showing the output of `/mw ls` and consecutive pages.
-* `!!` `/`
-  - if you forgot the `/` in front, this command will add it.  Example:
-		help
-		!!/
-* `!!` text
-  - Will append `text` to the previous command.  For example:
-		/gamemode
-		!! survival john
-  This will show the usage of survival, the next line will change the
-  gamemode of john to survival.
-* `!!` str1 str2
-  - Will repeat the previous command replacing `str1` with `str2`
-    Example:
-		/give player drt
-		!!drt dirt
-  This will change `drt` into `dirt`.
-* `!!`^ text
-  - Will insert `text` at the beginning of the command.
-
 
 ## Documentation
 
@@ -146,15 +99,15 @@ plugins.
 The following commands are available:
 
 * **after** _<seconds>_ _<command>_  
-  after : schedule command after a number of seconds  
+  schedule command after a number of seconds  
 
   Will schedule to run *command* after *seconds*
 
 * **as** _<player>_ _<command>_  
-  as : run command as somebody else  
+  run command as somebody else  
 
 * **at** _<time>_ _[:]_ _command_  
-  at : schedule command at an appointed date/time  
+  schedule command at an appointed date/time  
 
   Will schedule to run *command* at the given date/time.  This uses
   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
@@ -162,26 +115,26 @@ The following commands are available:
   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
 
 * **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**  
-  blowup : explode a player  
+  explode a player  
 
   Explodes `player` with an explosion with the given `yield` (a number).
   If `magic` is specified no damage will be taken by blocks.  The
   default is `normal`, where blocks do get damaged.
 
 * **burn** _<player>_ _[secs]_  
-  burn : Burns the specified player  
+  Burns the specified player  
 
   Sets `player` on fire for the specified number of seconds.
   Default is 15 seconds.
 
 * **clearinv** _<player>_  
-  clearinv : Clear player's inventory  
+  Clear player's inventory  
 
-* : **dismiss** _<player>_ _[message]_  
-  dismiss : Dismiss a previously summoned player  
+* **dismiss** _<player>_ _[message]_  
+  Dismiss a previously summoned player  
 
 * **entities** _[subcommand_ _[options]_  
-  entities : entity management  
+  entity management  
 
   By default it will show the current entities.  The following
   sub-commands are available:
@@ -201,18 +154,18 @@ The following commands are available:
     -Clear entities from the server.
 
 * **follow** _<player>_  
-  follow : Follow a player  
+  Follow a player  
 * **follow-off**  
-  follow-off : stop following a player  
+  stop following a player  
 * **followers**  
-  followers : List who is following who  
+  List who is following who  
 * **folowme** _<player>_  
-  followme : Make a player follow you  
+  Make a player follow you  
 * **followme-off** _<player>_  
-  followme-off : stop making a player follow you  
+  stop making a player follow you  
 
 * **freeze|thaw** [_player_|**--hard|--soft**]  
-  freeze|thaw : freeze/unfreeze a player so they cannot move.  
+  freeze/unfreeze a player so they cannot move.  
 
   Stops players from moving.  If no player specified it will show
   the list of frozen players.
@@ -221,46 +174,46 @@ The following commands are available:
   will change the freeze mode.
 
 * **get** _<item>_  
-  get : obtain an item  
+  obtain an item  
 
   This is a shortcut to `/give` that lets player get items for
   themselves.
 
 * **gma**  
-  gma : Change your gamemode to _Adventure_.  
+  Change your gamemode to _Adventure_.  
 
 * **gmc**  
-  gmc : Change your gamemode to _Creative_.  
+  Change your gamemode to _Creative_.  
 * **gms**  
-  gms : Change your gamemode to _Survival_.  
+  Change your gamemode to _Survival_.  
 * **heal** _[player]_ _[ammount]_  
-  heal : Restore health to a player  
+  Restore health to a player  
 
   Heals a player.  If the amount is positive it will heal, if negative
   the player will be hurt.  The units are in 1/2 hearts.
 
 * **mute|unmute** _[player]_  
-  mute|unmute : mutes/unmutes a player so they can not use chat  
+  mutes/unmutes a player so they can not use chat  
 
   Stops players from chatting.  If no player specified it will show
   the list of muted players.
 
 * **opms** _[msg]_  
-  opms : sends a message to ops only  
+  sends a message to ops only  
 
   Sends chat messages that are only see by ops.  Only works with ops
   that are on-line at the moment.  If you no ops are on-line you
   should use the `rpt` command.
 
 * **ops**  
-  ops : Shows who are the ops on this server.  
+  Shows who are the ops on this server.  
 * **players**  
-  players : Shows what players are on-line  
-* : **poptp**  
-  poptp : Returns to the previous location  
+  Shows what players are on-line  
+* **poptp**  
+  Returns to the previous location  
 
 * **prefix** _[-n]_ _<prefix text>_  
-  prefix : prepend prefix to chat lines  
+  prepend prefix to chat lines  
 
   This allows you to prepend a prefix to chat lines.  Usage examples:
 
@@ -269,9 +222,9 @@ The following commands are available:
   - You prefer commands over chat: `-n /`
 
 * **pushtp** _<player>_ _[target]_  
-  pushtp : Saves current location and teleport  
+  Saves current location and teleport  
 * **rcon** **[--add|--rm|--ls|id]** _<command>_  
-  rcon : rcon client  
+  rcon client  
 
   This is an rcon client that you can used to send commands to other
   remote servers.  Options:
@@ -286,7 +239,7 @@ The following commands are available:
   should use the `rpt` command.
 
 * **rpt** [_message_|**read|clear** _<all|##>_]  
-  rpt : report an issue to ops  
+  report an issue to ops  
 
   Logs/reports an issue to server ops.  These issues are stored in a
   a file which can be later read by the server operators.  Use this
@@ -294,19 +247,19 @@ The following commands are available:
   should use the `opms` command.
 
 * **seearmor** _<player>_  
-  seearmor : Show player's armor  
+  Show player's armor  
 
 * **seeinv** _<player>_  
-  seeinv : Show player's inventory  
+  Show player's inventory  
 * **servicemode** **[on|off** _[message]_ **]**  
-  servicemode : controls servicemode  
+  controls servicemode  
 
   If `on` it will activate service mode.  In service mode new
   players can not join (unless they are ops).  Existing players
   can remain but may be kicked manually by any ops.
 
 * **setarmor** _[player]_ _[piece]_ _<type>_  
-  setarmor : Sets armor (even in creative)  
+  Sets armor (even in creative)  
 
   This command lets you armor up.  It can armor up creative players too.
   If no `player` is given, the player giving the command will be armored.
@@ -316,12 +269,12 @@ The following commands are available:
   Type can be one of `leather`, `chainmail`, `iron`, `gold` or `diamond`.
 
 * **shield**  
-  shield : player is protected from taking damage  
+  player is protected from taking damage  
 
   This will toggle your shield status.
 
 * **timings** _[t#]_  
-  showtimings : Shows timing repots as reported by `/timings`  
+  Shows timing repots as reported by `/timings`  
 
   If nothing specified it will list available reports.  These are
   of the form of `timings.txt` or `timings1.txt`.
@@ -329,15 +282,15 @@ The following commands are available:
   To specify a report enter `t` for `timings.txt` or `t1` for
   `timings1.txt`.
 * **slay** _<player>_ _[msg]_  
-  slay : Kills the specified player  
+  Kills the specified player  
 
   Kills a player with an optional `message`.
 
 * **spawn**  
-  spawn : Teleport player to spawn point  
+  Teleport player to spawn point  
 
 * **spectator|unspectator** _[player]_  
-  spectator|unspectator : toggle a player's spectator mode  
+  toggle a player's spectator mode  
 
   `/spectator` will turn a player into an spectator.  In this mode
   players can move but not interact (i.e. can't take/give damage,
@@ -345,11 +298,11 @@ The following commands are available:
 
   If no player was specified, it will list spectators.
 * **summon** _<player>_ _[message]_  
-  summon : Summons a player to your location  
+  Summons a player to your location  
 * **throw** _<player>_ _[force]_  
-  throw : Throw a player in the air  
+  Throw a player in the air  
 * **whois** _<player>_  
-  whois : Gives detail information on players  
+  Gives detail information on players  
 
 
 Commands scheduled by `at` and `after` will only run as
@@ -357,7 +310,7 @@ long as the server is running.  These scheduled commands will *not*
 survive server reloads or reboots.
 
 
-### Listener Modules
+### Module reference
 
 #### join-mgr
 
@@ -445,7 +398,7 @@ this section through the *rcon* command.
   * Re-factoring the code so it is more maintainable
   * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
     ToyBox), spawnitems, spawnarmor (moved to SpawnMgr).
-  * Added /prefix, /spawn
+  * Added /prefix, /spawn, etc...
   * /et subcommands: count and nuke, overall simplified entities.
 * 1.4.1: maintenance
   * Fixed a bug in showtimings.
@@ -490,8 +443,8 @@ this section through the *rcon* command.
 
 # Copyright
 
-    GrabBag  
-    Copyright (C) 2015 Alejandro Liu  
+    GrabBag
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify

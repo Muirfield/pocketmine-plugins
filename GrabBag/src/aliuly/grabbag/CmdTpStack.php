@@ -7,7 +7,7 @@
  ** * pushtp : Saves current location and teleport
  **   usage: **pushtp** _<player>_ _[target]_
  ** * poptp : Returns to the previous location
- **   usage:: **poptp**
+ **   usage: **poptp**
  **
  **/
 namespace aliuly\grabbag;
