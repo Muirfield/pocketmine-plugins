@@ -322,6 +322,9 @@ foreach ($txt as $ln) {
 	}
 }
 while (count($out) && $out[0] == "") array_shift($out);
+while (count($out)>1 && $out[count($out)-1] == "") array_pop($out);
+$out[] = "";
+$out[] = "";
 
 //print_r($db);
 file_put_contents(SRCDIR."README.md",implode("\n",$out));
