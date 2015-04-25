@@ -43,7 +43,7 @@ class Main extends PluginBase implements CommandExecutor {
 	public function onEnable(){
 		$defaults = [
 			"settings" => [
-				"player-limits" => true,
+				"player-limits" => false,
 				"world-borders" => true,
 				"world-protect" => true,
 				"per-world-pvp" => true,
@@ -303,6 +303,10 @@ class Main extends PluginBase implements CommandExecutor {
 						case "help":
 							return $this->helpCmd($sender,$args);
 						case "ls":
+							if (count($args) == 0 ||
+								 (count($args) == 1 && is_numeric($args[0]))) {
+								return $this->wpList($sender,$args);
+							}
 						case "ld":
 							// These commands actually come from ManyWorlds...
 							$pm = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds");
@@ -376,7 +380,56 @@ class Main extends PluginBase implements CommandExecutor {
 		}
 		return true;
 	}
-
+	private function attrList($wcfg) {
+		$attr = [];
+		if (isset($wcfg["motd"])) {
+			$attr[] = "motd";
+		}
+		if (isset($wcfg["protect"])) $attr[] = $wcfg["protect"];
+		if (isset($wcfg["pvp"])) {
+			if ($wcfg["pvp"] === "spawn") {
+				$attr[] = "pvp:spawn";
+			} elseif ($wcfg["pvp"]) {
+				$attr[] = "pvp:on";
+			} else {
+				$attr[] = "pvp:off";
+			}
+		}
+		if (isset($wcfg["no-explode"]))
+			$attr[] = "notnt:".$wcfg["no-explode"];
+		if (isset($wcfg["border"])) $attr[] = "border";
+		if (isset($wcfg["auth"]))
+			$attr[] = "auth(".count($wcfg["auth"]).")";
+		return $attr;
+	}
+	private function wpList(CommandSender $c,$args) {
+		$dir = $this->getServer()->getDataPath(). "worlds";
+		if (!is_dir($dir)) {
+			$sender->sendMessage("[WP] Missing path $dir");
+			return true;
+		}
+		$dh = opendir($dir);
+		if (!$dh) return false;
+		while (($file = readdir($dh)) !== false) {
+			if ($file == '.' || $file == '..') continue;
+			if (!$this->getServer()->isLevelGenerated($file)) continue;
+			$attrs = [];
+			if (isset($this->wcfg[$file])) {
+				$attrs = $this->attrList($this->wcfg[$file]);
+			} else {
+				$f = "$dir/$file/wpcfg.yml";
+				if (is_file($f)) {
+					$attrs=$this->attrList((new Config($f,Config::YAML))->getAll());
+				}
+			}
+			$txt = $file;
+			if (count($attrs)) {
+				$txt.=" (".implode(", ",$attrs).")";
+			}
+			$c->sendMessage($txt);
+		}
+		return true;
+	}
 	private function motdCmd(CommandSender $sender,$args) {
 		if (count($args) == 0) {
 			if (!$this->inGame($sender)) return true;
