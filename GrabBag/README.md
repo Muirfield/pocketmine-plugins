@@ -1,5 +1,4 @@
-GrabBag
-=======
+# GrabBag
 
 **DOCUMENTATION IS A MESS**
 
@@ -13,8 +12,8 @@ GrabBag
 * Plugin Access: Commands
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 
-Overview
---------
+## Overview
+
 
 A miscellaneous collection of commands and listener modules.  Features
 can be configured to be disable|enable so as to co-exists with other
@@ -101,12 +100,11 @@ administration.
   `/as player` commands in a row).
 * !! - repeat command with changes
 
-### Modules
+### Misc Modules
 
 * joins - Show MOTD and when an admin joins.
 
-Documentation
--------------
+## Documentation
 
 **NOTE: In v2.0.0 Configuration has been changed**
 
@@ -116,7 +114,7 @@ multiple ones.  The available commands and listener modules can be
 configured.  This allows this plugin to co-exist peacefully with other
 plugins.
 
-### Commands:
+### Command Reference
 
 * *players*  
   Show connected players and locations, health.
@@ -217,8 +215,6 @@ plugins.
 * blowup <player> [yield|magic|normal]  
   explode player.  Yield is a number that specifies the force of the explosion.
 
-
-
 Note that commands scheduled with `at` and `after` will only run as
 long as the server is running.  These scheduled commands will *not*
 survive server reloads or reboots.
@@ -297,6 +293,7 @@ Configuration is through the `config.yml` file:
 	modules:
 	  adminjoin: true
 	  servermotd: true
+
 	  repeater: true
 	freeze-thaw:
 	  hard-freeze: false
@@ -342,8 +339,8 @@ Configuration is through the `config.yml` file:
 * gb.cmd.prefix: Access to /prefix
 * gb.cmd.spawn: Access to /spawn
 
-Changes
--------
+# Changes
+
 * 2.0.0: Re-factoring
   * Re-factoring the code so it is more maintainable
   * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
@@ -391,8 +388,7 @@ Changes
   * Command repeater
 * 1.0.0 : First public release
 
-Copyright
----------
+# Copyright
 
     GrabBag  
     Copyright (C) 2015 Alejandro Liu  
