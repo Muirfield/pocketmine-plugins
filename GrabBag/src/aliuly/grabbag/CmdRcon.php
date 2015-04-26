@@ -105,8 +105,9 @@ class CmdRcon extends BaseCommand {
 			return false;
 		}
 		unset($this->servers[$id]);
-		$this->cfgSave();
+		$this->cfgSave("rcon-client",$this->servers);
 		$c->sendMessage("Rcon id $id deleted");
+		return true;
 	}
 	private function cmdList(CommandSender $c,$args) {
 		foreach ($this->servers as $id => $dat) {

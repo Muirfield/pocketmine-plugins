@@ -222,6 +222,7 @@ class CmdEntities extends BaseCommand {
 				case "all":
 					$mobs = true;
 					$ents = true;
+					break;
 				default:
 					$c->sendMessage("Invalid option");
 					return false;

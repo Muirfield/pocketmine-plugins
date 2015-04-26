@@ -109,6 +109,7 @@ class CmdOpMsg extends BaseCommand implements Listener {
 					if (!$this->access($sender,"gb.cmd.rpt.read")) return false;
 					if ($args[1] == "all") {
 						$rpt = [];
+						$sender->sendMessage(TextFormat::RED."All reports deleted");
 					} else {
 						$i = intval($args[1]);
 						if (!isset($rpt[$i])) {
