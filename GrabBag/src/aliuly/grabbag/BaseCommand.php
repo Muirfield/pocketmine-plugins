@@ -6,6 +6,7 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
+use pocketmine\utils\Config;
 
 use pocketmine\utils\TextFormat;
 use pocketmine\Player;
@@ -87,6 +88,13 @@ abstract class BaseCommand implements CommandExecutor {
 		return false;
 	}
 
+	public function iName($player) {
+		if ($player instanceof Player) {
+			$player = strtolower($player->getName());
+		}
+		return $player;
+	}
+
 	public function getState(CommandSender $player,$default) {
 		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		return $this->owner->getState(get_class($this),$player,$default);
@@ -148,6 +156,14 @@ abstract class BaseCommand implements CommandExecutor {
 			$txt[] = sprintf($fmt,...$row);
 		}
 		return $this->paginateText($sender,$pageNumber,$txt);
+	}
+
+	protected function cfgSave($key,$settings) {
+		$cfg=new Config($this->owner->getDataFolder()."config.yml",Config::YAML);
+		$dat = $cfg->getAll();
+		$dat[$key] = $settings;
+		$cfg->setAll($dat);
+		$cfg->save();
 	}
 
 	//public function onCommand(CommandSender $sender,Command $command,$label, array $args);

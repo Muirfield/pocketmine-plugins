@@ -30,6 +30,7 @@ class MaxPlayerMgr implements Listener {
 			// But we return because they do not intent to change worlds
 			return;
 		}
+
 		$from = $from->getName();
 		$to = $to->getName();
 

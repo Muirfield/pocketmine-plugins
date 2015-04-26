@@ -1,4 +1,15 @@
 <?php
+/**
+ ** OVERVIEW:Player Management
+ **
+ ** COMMANDS
+ **
+ ** * shield : player is protected from taking damage
+ **   usage: **shield**
+ **
+ **   This will toggle your shield status.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

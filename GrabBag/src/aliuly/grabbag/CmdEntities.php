@@ -1,4 +1,30 @@
 <?php
+/**
+ ** OVERVIEW:Entity Management
+ **
+ ** COMMANDS
+ **
+ ** * entities : entity management
+ **   usage: **entities** _[subcommand_ _[options]_
+ **
+ **   By default it will show the current entities.  The following
+ **   sub-commands are available:
+ **   - **entities** **ls** _[world]_
+ **      - Show entities in _[world]_ (or current world if not specified).
+ **   - **entities** **tiles** _[world]_
+ **      - Show tile entities in _[world]_ (or current world if not specified).
+ **   - **entities** **info** _[e#|t#]_
+ **     - Show details about one or more entities or tiles.
+ **   - **entities** **rm** _[e#]_
+ **     - Removes one or more entities.
+ **   - **entities** **sign**_N_ _[t#]_ _message text_
+ **     - Changes the text line _N_ in the tile/sign identified by _t#_.
+ **   - **entities** **count**
+ **     - Show a count of the number of entities on the server.
+ **   - **entities** **nuke** _[all|mobs|others]_
+ **     -Clear entities from the server.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -196,6 +222,7 @@ class CmdEntities extends BaseCommand {
 				case "all":
 					$mobs = true;
 					$ents = true;
+					break;
 				default:
 					$c->sendMessage("Invalid option");
 					return false;

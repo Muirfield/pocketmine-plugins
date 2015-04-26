@@ -1,4 +1,16 @@
 <?php
+/**
+ ** OVERVIEW:Inventory Management
+ **
+ ** COMMANDS
+ **
+ ** * get : obtain an item
+ **   usage: **get** _<item>_
+ **
+ **   This is a shortcut to `/give` that lets player get items for
+ **   themselves.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

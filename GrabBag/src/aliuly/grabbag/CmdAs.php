@@ -1,4 +1,13 @@
 <?php
+/**
+ ** OVERVIEW:Player Management
+ **
+ ** COMMANDS
+ **
+ ** * as : run command as somebody else
+ **   usage: **as** _<player>_ _<command>_
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

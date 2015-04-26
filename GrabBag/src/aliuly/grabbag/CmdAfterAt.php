@@ -1,4 +1,30 @@
 <?php
+/**
+ ** OVERVIEW:Server Management
+ **
+ ** COMMANDS
+ **
+ ** * after : schedule command after a number of seconds
+ **   usage: **after** _<seconds>_ _<command>_
+ **
+ **   Will schedule to run *command* after *seconds*
+ **
+ ** * at : schedule command at an appointed date/time
+ **   usage: **at** _<time>_ _[:]_ _command_
+ **
+ **   Will schedule to run *command* at the given date/time.  This uses
+ **   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
+ **   function so _times_ must follow the format described in
+ **   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
+ **
+ ** DOCS
+ **
+ ** Commands scheduled by `at` and `after` will only run as
+ ** long as the server is running.  These scheduled commands will *not*
+ ** survive server reloads or reboots.
+ **
+ **/
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\ConsoleCommandSender;

@@ -1,4 +1,13 @@
 <?php
+/**
+ ** OVERVIEW:Informational
+ **
+ ** COMMANDS
+ **
+ ** * whois : Gives detail information on players
+ **   usage: **whois** _<player>_
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

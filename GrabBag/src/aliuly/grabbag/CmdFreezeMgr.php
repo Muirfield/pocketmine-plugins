@@ -1,4 +1,25 @@
 <?php
+/**
+ ** OVERVIEW:Trolling
+ **
+ ** COMMANDS
+ **
+ ** * freeze|thaw : freeze/unfreeze a player so they cannot move.
+ **   usage: **freeze|thaw** [_player_|**--hard|--soft**]
+ **
+ **   Stops players from moving.  If no player specified it will show
+ **   the list of frozen players.
+ **
+ **   If `--hard` or `--soft` is specified instead of a player name, it
+ **   will change the freeze mode.
+ **
+ ** CONFIG:freeze-thaw
+ **
+ ** * hard-freeze (false): if `true` no movement is allowed.  If `false`,
+ **   turning is allowed but not walking/running/flying, etc.
+ **
+ **/
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -11,9 +32,9 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 	protected $frosties;
 	protected $hard;
 
-	public function __construct($owner,$hard) {
+	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
-		$this->hard = $hard;
+		$this->hard = $cfg["hard-freeze"];
 		$this->enableCmd("freeze",
 							  ["description" => "freeze player",
 								"usage" => "/freeze [player]",
@@ -35,6 +56,18 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 		}
 		switch ($cmd->getName()) {
 			case "freeze":
+				if ($args[0] == "--hard") {
+					$this->hard = true;
+					$sender->sendMessage("Now doing hard freeze");
+					$this->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					return true;
+				} elseif ($args[0] == "--soft") {
+					$this->hard = false;
+					$sender->sendMessage("Now doing soft freeze");
+					$this->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					return true;
+				}
+
 				foreach ($args as $n) {
 					$player = $this->owner->getServer()->getPlayer($n);
 					if ($player) {

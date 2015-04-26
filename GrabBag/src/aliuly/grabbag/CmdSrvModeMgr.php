@@ -1,4 +1,17 @@
 <?php
+/**
+ ** OVERVIEW:Server Management
+ **
+ ** COMMANDS
+ **
+ ** * servicemode : controls servicemode
+ **   usage: **servicemode** **[on|off** _[message]_ **]**
+ **
+ **   If `on` it will activate service mode.  In service mode new
+ **   players can not join (unless they are ops).  Existing players
+ **   can remain but may be kicked manually by any ops.
+ **
+ **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
