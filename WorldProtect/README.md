@@ -178,7 +178,9 @@ To get world details.
 Changes
 -------
 
-* ?1.2.2: protection overview
+* 1.2.3: Suggested change
+  * Simpler border setting using a single "range" number
+* 1.2.2: protection overview (un-published)
   * Added an overview of protected worlds
 * 1.2.1: BugFix
   * Positions are not configured correctly.

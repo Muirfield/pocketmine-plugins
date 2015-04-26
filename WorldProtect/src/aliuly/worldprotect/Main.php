@@ -708,6 +708,14 @@ class Main extends PluginBase implements CommandExecutor {
 
 	// World borders
 	private function worldBorderCmd(CommandSender $sender,$args) {
+		// [level] [x1 z1 x2 z2]
+		// [level] [number]
+		// [level] [none]
+		// [[x1 z1 x2 z2]
+		// [number]
+		// [none]
+		//
+
 		if (count($args) == 4) {
 			if (!$this->inGame($sender)) return true;
 			$level = $sender->getLevel()->getName();
@@ -722,16 +730,36 @@ class Main extends PluginBase implements CommandExecutor {
 			} else {
 				$level = array_shift($args);
 			}
+		} elseif (count($args) == 0) {
+			if (!$this->inGame($sender)) return false;
+			$level = $sender->getLevel()->getName();
 		} else {
 			return $this->helpCmd($sender,["border"]);
 		}
 		if (!$this->doLoadWorldConfig($sender,$level)) return true;
 		if (count($args) == 0) {
+			if(!isset($this->wcfg[$level]["border"])) {
+				$sender->sendMessage("[WP] No border for $level");
+				return true;
+			}
 			list($x1,$z1,$x2,$z2) = $this->wcfg[$level]["border"];
 			$sender->sendMessage("[WP] Border for $level is ($x1,$z1)-($x2,$z2)");
 			return true;
 		}
 		if (!$this->isAuth($sender,$level)) return true;
+		if (count($args) == 1 && is_numeric($args[0])) {
+			// Range was given...
+			$l = $this->getServer()->getLevelByName($level);
+			if ($l == null) {
+				$sender->sendMessage("[WP] Unable to load $level");
+				return true;
+			}
+			$range = intval($args[0]);
+			$pos = $l->getSpawnLocation();
+			$args = [ $pos->getX() - $range, $pos->getZ() - $range,
+						 $pos->getX() + $range, $pos->getZ() + $range ];
+		}
+
 		if (count($args) == 4) {
 			list($x1,$z1,$x2,$z2) = $args;
 			if ($x1 > $x2) list($x1,$x2) = [$x2,$x1];
@@ -742,6 +770,7 @@ class Main extends PluginBase implements CommandExecutor {
 			}
 			$this->wcfg[$level]["border"] = [$x1,$z1,$x2,$z2];
 		} else {
+
 			if (!isset($this->wcfg[$level]["border"])) {
 				$sender->sendMessage("[WP] No border for $level currently");
 				return true;
