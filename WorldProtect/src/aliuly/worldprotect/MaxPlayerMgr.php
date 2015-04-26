@@ -21,11 +21,11 @@ class MaxPlayerMgr implements Listener {
 
 		$from = $ev->getFrom()->getLevel();
 		$to = $ev->getTo()->getLevel();
-		if (!$from->getLevel()) {
+		if (!$from) {
 			// THIS SHOULDN'T HAPPEN!
 			return;
 		}
-		if (!$to->getLevel()) {
+		if (!$to) {
 			// Somebody did not initialize the level properly!
 			// But we return because they do not intent to change worlds
 			return;
