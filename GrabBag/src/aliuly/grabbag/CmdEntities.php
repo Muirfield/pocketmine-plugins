@@ -159,8 +159,9 @@ class CmdEntities extends BaseCommand {
 			}
 		}
 
+		$cnt=0;
 		$tab = [];
-		$tab[] = [$level->getName(),"Name","Position","Health"];
+		$tab[] = ["-","Name","Position","Health"];
 		foreach ($level->getEntities() as $e) {
 			if ($e instanceof Player) continue;
 			$id = $e->getId();
@@ -172,9 +173,13 @@ class CmdEntities extends BaseCommand {
 			} else {
 				$name = basename(strtr(get_class($e),"\\","/"));
 			}
+			++$cnt;
 			$tab[] = [ $id,$name,$pos,$e->getHealth() ];
 		}
-		return $this->paginateTable($c,$pageNumber,$tab);
+		$tab[0][0] = "#:$cnt";
+		if ($cnt) return $this->paginateTable($c,$pageNumber,$tab);
+		$c->sendMessage("No entities found");
+		return true;
 	}
 	private function cmdTileList(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
@@ -195,16 +200,20 @@ class CmdEntities extends BaseCommand {
 				$level = $this->owner->getServer()->getDefaultLevel();
 			}
 		}
-
+		$cnt = 0;
 		$tab = [];
-		$tab[] = [$level->getName(),"Name","Position"];
+		$tab[] = ["-","Name","Position"];
 		foreach ($level->getTiles() as $t) {
 			$id = $t->getId();
 			$pos = implode(",",[floor($t->getX()),floor($t->getY()),floor($t->getZ())]);
 			$name = basename(strtr(get_class($t),"\\","/"));
 			$tab[] = [ $id,$name,$pos ];
+			++$cnt;
 		}
-		return $this->paginateTable($c,$pageNumber,$tab);
+		$tab[0][0] = "#:$cnt";
+		if ($cnt) return $this->paginateTable($c,$pageNumber,$tab);
+		$c->sendMessage("No tiles found");
+		return true;
 	}
 	private function cmdNuke(CommandSender $c,$args) {
 		$mobs = true;
