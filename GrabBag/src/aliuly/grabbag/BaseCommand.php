@@ -125,15 +125,17 @@ abstract class BaseCommand implements CommandExecutor {
 			return true;
 		}
 		$pageHeight = 5;
+		$lineCount = count($txt);
+		$pageCount = intval($lineCount/$pageHeight) + ($lineCount % $pageHeight ? 1 : 0);
 		$hdr = TextFormat::GREEN.$hdr. TextFormat::RESET;
-		if (($pageNumber-1) * $pageHeight >= count($txt)) {
+		if ($pageNumber > $pageCount) {
 			$sender->sendMessage($hdr);
-			$sender->sendMessage("Only ".intval(count($txt)/$pageHeight+1)." pages available");
+			$sender->sendMessage("Only $pageCount pages available");
 			return true;
 		}
-		$hdr .= TextFormat::RED." ($pageNumber of ".intval(count($txt)/$pageHeight+1).")".TextFormat::RESET;
+		$hdr .= TextFormat::RED." ($pageNumber of $pageCount)";
 		$sender->sendMessage($hdr);
-		for ($ln = ($pageNumber-1)*$pageHeight;$ln < count($txt) && $pageHeight--;++$ln) {
+		for ($ln = ($pageNumber-1)*$pageHeight;$ln < $lineCount && $pageHeight--;++$ln) {
 			$sender->sendMessage($txt[$ln]);
 		}
 		return true;
