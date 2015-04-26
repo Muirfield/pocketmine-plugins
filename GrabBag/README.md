@@ -248,6 +248,12 @@ The following commands are available:
   when there are **no** ops on-line.  If there are ops on-line you
   should use the `opms` command.
 
+  The following ops only commands are available:
+  - **rpt** **read** _[##]_
+    - reads reports.  You can specify the page by specifying a number.
+  - **rpt** **clear** _<all|##>_
+    - will delete the specified report or if `all`, all the reports.
+
 * **seearmor** _<player>_  
   Show player's armor  
 
