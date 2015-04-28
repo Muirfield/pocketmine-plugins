@@ -148,6 +148,10 @@ Will generate an explosion out of nothing.  Do not use this lightly.
 * scorched.cmd.dumdums - access to exploding arrows
 * scorched.cmd.akira - Create an explosion!
 
+Todo
+----
+* Shotgun : shoots multiple arrows in one go
+
 Changes
 -------
 
