@@ -1,10 +1,10 @@
 name: KillRate
-version: 1.0.1
+version: 1.0.2
 main: aliuly\killrate\Main
 api: 1.10.0
 load: POSTWORLD
 # You have to have at least one of these...
-softdepend: [PocketMoney,MassiveEconomy,EconomyAPI]
+softdepend: [PocketMoney,MassiveEconomy,EconomyAPI,GoldStd]
 
 description: Keep track of the number of kills
 author: aliuly

@@ -5,7 +5,7 @@ KillRate
 * Dependency Plugins: N/A
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
-* OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI
+* OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI,GoldStd
 * Categories: Informational
 * Plugin Access: Commands, Entity
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
@@ -75,6 +75,10 @@ money.  You can use negative values.
 Changes
 -------
 
+* 1.0.2 : Arrow
+  * Improved scoring of Exploding arrows
+  * Fixed a bug in the way we call the EconomyAPI
+  * 
 * 1.0.1 : Bugfixes
   * Removed warnings
   * Improve the scoring detection
