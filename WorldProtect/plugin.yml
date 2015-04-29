@@ -14,10 +14,6 @@ commands:
         usage: "/wp <help|sub-cmd> [options]"
         permission: wp.cmd.all
         aliases: [wp]
-    motd:
-        description: Show the world's message of the day
-        usage: "/motd [world]"
-        permission: wp.motd
 
 permissions:
     wp.motd:

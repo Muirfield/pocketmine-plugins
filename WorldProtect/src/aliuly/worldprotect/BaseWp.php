@@ -38,6 +38,32 @@ abstract class BaseWp {
 	public function enableSCmd($cmd,$opts) {
 		$this->owner->registerScmd($cmd,[$this,"onSCommand"],$opts);
 	}
+	public function enableCmd($cmd,$yaml) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$newCmd = new PluginCommand($cmd,$this->owner);
+		if (isset($yaml["description"]))
+			$newCmd->setDescription($yaml["description"]);
+		if (isset($yaml["usage"]))
+			$newCmd->setUsage($yaml["usage"]);
+		if(isset($yaml["aliases"]) and is_array($yaml["aliases"])) {
+			$aliasList = [];
+			foreach($yaml["aliases"] as $alias) {
+				if(strpos($alias,":")!== false) {
+					$this->owner->getLogger()->info("Unable to load alias $alias");
+					continue;
+				}
+				$aliasList[] = $alias;
+			}
+			$newCmd->setAliases($aliasList);
+		}
+		if(isset($yaml["permission"]))
+			$newCmd->setPermission($yaml["permission"]);
+		if(isset($yaml["permission-message"]))
+			$newCmd->setPermissionMessage($yaml["permission-message"]);
+		$newCmd->setExecutor($this);
+		$cmdMap = $this->owner->getServer()->getCommandMap();
+		$cmdMap->register($this->owner->getDescription()->getName(),$newCmd);
+	}
 
 	// Paginate output
 	protected function getPageNumber(array &$args) {

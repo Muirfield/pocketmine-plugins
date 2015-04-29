@@ -47,14 +47,17 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			"max-players" => [ "MaxPlayerMgr", false ],
 			"protect" => [ "WpProtectMgr", true ],
 			"border" => [ "WpBordersMgr", true ],
-			//"pvp" => [ "WpPvpMgr", true ],
-			//"motd" => [ "WpMotdMgr", false ],
+			"pvp" => [ "WpPvpMgr", true ],
+			"motd" => [ "WpMotdMgr", false ],
 			//"no-explode" => [ "WpNoExplodeMgr", false ],
 			//"unbreakable" => [ "WpUnbreakableMgr",false ],
 		];
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
 			"features" => [],
+			"motd" => [
+				"ticks" => 15,
+			],
 		];
 		foreach ($mods as $i => $j) {
 			$defaults["features"][$i] = $j[1];
