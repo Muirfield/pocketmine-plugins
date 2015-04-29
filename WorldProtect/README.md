@@ -1,5 +1,4 @@
-WorldProtect
-============
+# WorldProtect
 
 * Summary: protect worlds from griefers, pvp, limits and borders
 * Dependency Plugins: n/a
@@ -9,8 +8,7 @@ WorldProtect
 * Plugin Access: Commands, Manages Permission, Data Saving, World Editing
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 
-Overview
----------
+## Overview
 
 A full featured World protection plugin.
 
@@ -23,7 +21,7 @@ Features:
 * Show a text file when players enter a world
 * Stops explosions from happening in a world
 
-Basic Usage:
+### Basic Usage
 
 * /motd [level]
 * /wp unprotect|unlock [level]
@@ -38,8 +36,10 @@ Basic Usage:
 * /wp motd [level] [text]
 * /wp unbreakable [level] [id id id]
 
-Documentation
--------------
+## Documentation
+
+**NOTE: v2.0.0 is a complete rewrite.  Please test your settings
+carefully when upgrading**
 
 This plugin let's you limit what happens in a world.
 
@@ -58,7 +58,7 @@ It is able to:
 * Create unbreakable blocks.
 
 
-### Commands:
+### Command Reference
 
 Informational:
 
@@ -178,6 +178,7 @@ To get world details.
 Changes
 -------
 
+* 2.0.0: Complete re-write
 * 1.2.3: Suggested change
   * Simpler border setting using a single "range" number
 * 1.2.2: protection overview (un-published)

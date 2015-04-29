@@ -49,8 +49,8 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			"border" => [ "WpBordersMgr", true ],
 			"pvp" => [ "WpPvpMgr", true ],
 			"motd" => [ "WpMotdMgr", false ],
-			//"no-explode" => [ "WpNoExplodeMgr", false ],
-			//"unbreakable" => [ "WpUnbreakableMgr",false ],
+			"no-explode" => [ "NoExplodeMgr", false ],
+			"unbreakable" => [ "Unbreakable",false ],
 		];
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
