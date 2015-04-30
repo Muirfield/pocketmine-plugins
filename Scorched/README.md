@@ -151,6 +151,7 @@ Will generate an explosion out of nothing.  Do not use this lightly.
 Todo
 ----
 * Shotgun : shoots multiple arrows in one go
+* Fire arrows ... incendiary arrows
 
 Changes
 -------
