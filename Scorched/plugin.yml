@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: Scorched
 description: The Mother of All Mini-Games
-version: 1.4.0
+version: 1.4.1
 author: aliuly
 
 commands:

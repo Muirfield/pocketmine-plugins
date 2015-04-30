@@ -20,7 +20,6 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Float;
-use pocketmine\scheduler\CallbackTask;
 
 use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -190,7 +189,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				return;
 			}
 			// Since we are cancelling the event, we change the damage later
-			$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"breakBow"],[$n]),5);
+			$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"breakBow"],[$n]),5);
 		}
 		//echo "FORCE: ". $e->getForce()."\n"; //## DEBUG
 		$this->fire($p,$this->shooters[$n][0],$this->shooters[$n][1]);
@@ -306,11 +305,11 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 				return false;
 			}
 		}
-		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"akira"],[$c->getName(),new Position($c->getX(),$c->getY(),$c->getZ(),$c->getLevel()),$magic,$yield]),$delay);
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"akira"],[$c->getName(),new Position($c->getX(),$c->getY(),$c->getZ(),$c->getLevel()),$magic,$yield]),$delay);
 		$c->sendMessage("GET THE HECK OUT OF HERE!");
 		if ($delay > 40) {
 			for ($i=1;$i<4;$i++) {
-				$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"countdown"],[(4-$i)."..."]),($delay/4)*$i);
+				$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"countdown"],[(4-$i)."..."]),($delay/4)*$i);
 			}
 		}
 		return true;
