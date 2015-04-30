@@ -78,11 +78,3 @@ Git Recipes
     git push origin <plugin>-dev
     git push origin --tags
 
-To-do
------
-
-* ManyWorlds
-  * Add world to the pocketmine.yml - NO, there is no API for it
-* Re-factoring:
-  * WorldProtect ...
-  * ManyWorlds
