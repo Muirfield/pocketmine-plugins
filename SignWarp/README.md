@@ -144,6 +144,8 @@ You need the **FastTransfer** plugin for this to work.
 Changes
 -------
 
+* 1.3.2: CallbackTask
+  * Removed CallbackTask deprecation warnings
 * 1.3.1: FastTransfer
   * removed onLoad... All initialization happens onEnable
   * FastTransfer support
