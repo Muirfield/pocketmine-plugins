@@ -22,7 +22,6 @@ use pocketmine\item\Item;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\utils\Config;
-use pocketmine\scheduler\CallbackTask;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockBreakEvent;
@@ -280,7 +279,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		foreach ($this->getServer()->getLevels() as $lv) {
 			$this->despawnPlayerCases($pl,$lv);
 		}
-		$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"spawnPlayerCases"],[$pl,$ev->getTarget()]), 20);
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"spawnPlayerCases"],[$pl,$ev->getTarget()]), 20);
 		//$this->spawnPlayerCases($pl,$ev->getTarget());
 	}
 	public function onPlayerInteract(PlayerInteractEvent $ev){
