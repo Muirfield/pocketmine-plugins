@@ -98,15 +98,15 @@ plugins.
 
 The following commands are available:
 
-* **after** _<seconds>_ _<command>_  
+* **after** _&lt;seconds&gt;_ _&lt;command&gt;_  
   schedule command after a number of seconds  
 
   Will schedule to run *command* after *seconds*
 
-* **as** _<player>_ _<command>_  
+* **as** _&lt;player&gt;_ _&lt;command&gt;_  
   run command as somebody else  
 
-* **at** _<time>_ _[:]_ _command_  
+* **at** _&lt;time&gt;_ _[:]_ _command_  
   schedule command at an appointed date/time  
 
   Will schedule to run *command* at the given date/time.  This uses
@@ -114,23 +114,23 @@ The following commands are available:
   function so _times_ must follow the format described in
   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
 
-* **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**  
+* **blowup** _&lt;player&gt;_ _[yield]_ **[magic]** **[normal]**  
   explode a player  
 
   Explodes `player` with an explosion with the given `yield` (a number).
   If `magic` is specified no damage will be taken by blocks.  The
   default is `normal`, where blocks do get damaged.
 
-* **burn** _<player>_ _[secs]_  
+* **burn** _&lt;player&gt;_ _[secs]_  
   Burns the specified player  
 
   Sets `player` on fire for the specified number of seconds.
   Default is 15 seconds.
 
-* **clearinv** _<player>_  
+* **clearinv** _&lt;player&gt;_  
   Clear player's inventory  
 
-* **dismiss** _<player>_ _[message]_  
+* **dismiss** _&lt;player&gt;_ _[message]_  
   Dismiss a previously summoned player  
 
 * **entities** _[subcommand_ _[options]_  
@@ -153,15 +153,15 @@ The following commands are available:
   - **entities** **nuke** _[all|mobs|others]_
     -Clear entities from the server.
 
-* **follow** _<player>_  
+* **follow** _&lt;player&gt;_  
   Follow a player  
 * **follow-off**  
   stop following a player  
 * **followers**  
   List who is following who  
-* **folowme** _<player>_  
+* **folowme** _&lt;player&gt;_  
   Make a player follow you  
-* **followme-off** _<player>_  
+* **followme-off** _&lt;player&gt;_  
   stop making a player follow you  
 
 * **freeze|thaw** [_player_|**--hard|--soft**]  
@@ -173,7 +173,7 @@ The following commands are available:
   If `--hard` or `--soft` is specified instead of a player name, it
   will change the freeze mode.
 
-* **get** _<item>_  
+* **get** _&lt;item&gt;_  
   obtain an item  
 
   This is a shortcut to `/give` that lets player get items for
@@ -212,7 +212,7 @@ The following commands are available:
 * **poptp**  
   Returns to the previous location  
 
-* **prefix** _[-n]_ _<prefix text>_  
+* **prefix** _[-n]_ _&lt;prefix text&gt;_  
   prepend prefix to chat lines  
 
   This allows you to prepend a prefix to chat lines.
@@ -223,9 +223,9 @@ The following commands are available:
   - Start a private chat `/tell player` with another player.
   - You prefer commands over chat: `-n /`
 
-* **pushtp** _<player>_ _[target]_  
+* **pushtp** _&lt;player&gt;_ _[target]_  
   Saves current location and teleport  
-* **rcon** **[--add|--rm|--ls|id]** _<command>_  
+* **rcon** **[--add|--rm|--ls|id]** _&lt;command&gt;_  
   rcon client  
 
   This is an rcon client that you can used to send commands to other
@@ -240,7 +240,7 @@ The following commands are available:
     - Sends the `command` to the connection `id`.
   should use the `rpt` command.
 
-* **rpt** [_message_|**read|clear** _<all|##>_]  
+* **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
 
   Logs/reports an issue to server ops.  These issues are stored in a
@@ -254,10 +254,10 @@ The following commands are available:
   - **rpt** **clear** _<all|##>_
     - will delete the specified report or if `all`, all the reports.
 
-* **seearmor** _<player>_  
+* **seearmor** _&lt;player&gt;_  
   Show player's armor  
 
-* **seeinv** _<player>_  
+* **seeinv** _&lt;player&gt;_  
   Show player's inventory  
 * **servicemode** **[on|off** _[message]_ **]**  
   controls servicemode  
@@ -266,7 +266,7 @@ The following commands are available:
   players can not join (unless they are ops).  Existing players
   can remain but may be kicked manually by any ops.
 
-* **setarmor** _[player]_ _[piece]_ _<type>_  
+* **setarmor** _[player]_ _[piece]_ _&lt;type&gt;_  
   Sets armor (even in creative)  
 
   This command lets you armor up.  It can armor up creative players too.
@@ -289,7 +289,7 @@ The following commands are available:
 
   To specify a report enter `t` for `timings.txt` or `t1` for
   `timings1.txt`.
-* **slay** _<player>_ _[msg]_  
+* **slay** _&lt;player&gt;_ _[msg]_  
   Kills the specified player  
 
   Kills a player with an optional `message`.
@@ -305,11 +305,11 @@ The following commands are available:
   can't place/break blocks, etc).
 
   If no player was specified, it will list spectators.
-* **summon** _<player>_ _[message]_  
+* **summon** _&lt;player&gt;_ _[message]_  
   Summons a player to your location  
-* **throw** _<player>_ _[force]_  
+* **throw** _&lt;player&gt;_ _[force]_  
   Throw a player in the air  
-* **whois** _<player>_  
+* **whois** _&lt;player&gt;_  
   Gives detail information on players  
 
 

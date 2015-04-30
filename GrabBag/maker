@@ -258,7 +258,7 @@ foreach ($txt as $ln) {
 				$sdesc = isset($cc["sdesc"]) ? $cc["sdesc"] : "";
 				$usage = isset($cc["usage"]) ? $cc["usage"] : "";
 				if ($usage != "") {
-					$out[] = "* $usage  ";
+					$out[] = "* ".htmlentities($usage)."  ";
 					if ($sdesc) $out[] = "  $sdesc  ";
 				} elseif ($sdesc != "") {
 					$out[] = "* $cm : $sdesc  ";
