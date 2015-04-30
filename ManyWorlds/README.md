@@ -141,6 +141,8 @@ Issues
 Changes
 -------
 
+* 1.4.0: Updates for PM1.5
+  * Removed CallbackTask deprecation warnings
 * 1.3.3: Updates for PM1.5
   * Minor cosmetic changes.
   * Changes default canUnload to true if running on PM1.5

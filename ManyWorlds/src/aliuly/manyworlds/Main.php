@@ -27,6 +27,7 @@ class Main extends PluginBase implements CommandExecutor {
 	private $tpManager;
 	private $cfg;
 	protected $maxplayers;
+	public $is15;
 
 	static private $aliases = [
 		"list" => "ls",
@@ -92,6 +93,21 @@ class Main extends PluginBase implements CommandExecutor {
 	}
 	// Standard call-backs
 	public function onEnable(){
+		// Depending on the API, we allow unload by default...
+		$api = explode(".",$this->getServer()->getApiVersion());
+		if (intval($api[1]) < 12) {
+			$this->canUnload = false;
+			$this->is15 = false;
+		} else {
+			$this->getLogger()->info("Runniong on PocketMine-MP v1.5 or better");
+			$this->getLogger()->info(TextFormat::RED.
+											 "This version is still under development");
+			$this->getLogger()->info(TextFormat::RED.
+											 "and it may not be fully stable");
+			$this->canUnload = true;
+			$this->is15 = true;
+		}
+
 		$this->tpManager = new TeleportManager($this);
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
@@ -102,14 +118,6 @@ class Main extends PluginBase implements CommandExecutor {
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
 		$this->maxplayers = [$this,"maxPlayers1st"];
-
-		// Depending on the API, we allow unload by default...
-		$api = explode(".",$this->getServer()->getApiVersion());
-		if (intval($api[1]) < 12) {
-			$this->canUnload = false;
-		} else {
-			$this->canUnload = true;
-		}
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
