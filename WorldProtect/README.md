@@ -20,6 +20,13 @@ Features:
 * Limit the number of players in a world
 * Show a text file when players enter a world
 * Stops explosions from happening in a world
+* Unbreakable blocks
+
+All commands require a `world` name to be given, otherwise a default
+is selected.  If in-game, the default `world` is the world the player
+is currently in.  On the console the default is the `default-world` as
+specified in the `server.properties` file.
+
 
 ### Basic Usage
 
@@ -175,10 +182,10 @@ To get world details.
 
 * World names can not contain spaces.
 
-Changes
--------
+# Changes
 
 * 2.0.0: Complete re-write
+  * Refactor so it is now more modular
 * 1.2.4: CallbackTask
   * Removed CallbackTask deprecation warnings
 * 1.2.3: Suggested change
@@ -202,8 +209,7 @@ Changes
   * Fixed stupid typo about /mw subcommands
 * 1.0.0 : Initial release
 
-Copyright
----------
+# Copyright
 
     WorldProtect
     Copyright (C) 2015 Alejandro Liu

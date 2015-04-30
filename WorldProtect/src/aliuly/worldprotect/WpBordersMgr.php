@@ -1,12 +1,34 @@
 <?php
+/**
+ ** OVERVIEW:Basic Usage
+ **
+ ** COMMANDS
+ **
+ ** * border : defines a border for a world
+ **   usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
+ **   Defines a border for an otherwise infinite world.  Usage:
+ **   - /wp _[world]_ **border**
+ **     - will show the current borders for _[world]_.
+ **   - /wp _[world]_ **border** _x1 z1 x2 z2_
+ **     - define the border as the region defined by _x1,z1_ and _x2,z2_.
+ **   - /wp _[world]_ **border** _range_
+ **     - define the border as being _range_ blocks in `x` and `z` axis away
+ **       from the spawn point.
+ **   - /wp _[world]_ **border** **none**
+ **     - Remove borders
+ **/
+
+
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\Player;
 
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
 
 class WpBordersMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
@@ -88,4 +110,25 @@ class WpBordersMgr extends BaseWp implements Listener {
 		$this->owner->msg($pl,"You have reached the end of the world");
 		$ev->setCancelled();
 	}
+
+	public function onTeleport(EntityTeleportEvent $ev){
+		if ($ev->isCancelled()) return;
+		$pl = $ev->getEntity();
+		if (!($pl instanceof Player)) return;
+		$to = clone $ev->getTo();
+		if (!$to) return;// This should never happen!
+		if ($to->getLevel()) {
+			$world = $to->getLevel()->getName();
+		} else {
+			$from = $ev->getFrom();
+			if (!$from) return; // OK, this would be weird...
+			if (!$from->getLevel()) return; // Can't determine the level at all!
+			$world = $from->getLevel()->getName();
+		}
+		//echo __METHOD__.",".__LINE__."world=$world\n"; //##DEBUG
+		if ($this->checkMove($world,$to->getX(),$to->getZ())) return;
+		$this->owner->msg($pl,"You are teleporting outside the world");
+		$ev->setCancelled();
+	}
+
 }

@@ -1,4 +1,18 @@
 <?php
+/**
+ ** OVERVIEW:Basic Usage
+ **
+ ** COMMANDS
+ **
+ ** * noexplode : Stops explosions in a world
+ **   usage: /wp  _[world]_ **noexplode** _[off|world|spawn]_
+ **   - /wp _[world]_ **noexplode** **off**
+ **     - no-explode feature is `off`, so explosions are allowed.
+ **   - /wp _[world]_ **noexplode** **world**
+ **     - no explosions allowed in the whole _world_.
+ **   - /wp _[world]_ **noexplode** **spawn**
+ **     - no explosions allowed in the world's spawn area.
+ **/
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;

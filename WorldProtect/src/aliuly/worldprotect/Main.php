@@ -1,7 +1,7 @@
 <?php
 /**
  **
- ** CONFIG:settings
+ ** CONFIG:features
  **
  ** This section you can enable/disable modules.
  ** You do this in order to avoid conflicts between different

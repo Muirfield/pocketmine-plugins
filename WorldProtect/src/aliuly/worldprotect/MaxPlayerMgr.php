@@ -1,4 +1,18 @@
 <?php
+/**
+ ** OVERVIEW:Basic Usage
+ **
+ ** COMMANDS
+ **
+ ** * max : Limits the number of players per world.
+ **   usage : /wp _[world]_ max _[value]_
+ **   - /wp _[world]_ **max**
+ **     - shows the current limit
+ **   - /wp _[world]_ **max** _value_
+ **     - Sets limit value to _value_.
+ **   - /wp _[world]_ **max** **0**
+ **     - Removes world limits
+ **/
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;

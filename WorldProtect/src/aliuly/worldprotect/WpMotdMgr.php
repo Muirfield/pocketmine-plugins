@@ -1,4 +1,34 @@
 <?php
+/**
+ ** OVERVIEW:Basic Usage
+ **
+ ** COMMANDS
+ **
+ ** * /motd : Shows the world's *motd* text
+ **   usage: /motd  _[world]_
+ **   Shows the *motd* text of a _world_.  This can be used to show
+ **   rules around a world.
+ ** * motd : Modifies the world's *motd* text.
+ **   usage: /wp _[world]_ **motd** _<text>_
+ **   Let's you modify the world's *motd* text.  The command only
+ **   supports a single line, however you can modify the *motd* text
+ **   by editing the `wpcfg.yml` file that is stored in the `world`
+ **   folder.  For example:
+ **
+ **       [CODE]
+ **       motd:
+ **       - line 1
+ **       - line 2
+ **       - line 3
+ **       - line 4... etc
+ **       [/CODE]
+ **
+ **
+ ** CONFIG:motd
+ **
+ ** * `ticks` : delay before showing multi-line motd texts.
+ **
+ **/
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;
