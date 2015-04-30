@@ -402,6 +402,8 @@ this section through the *rcon* command.
 
 # Changes
 
+* 2.0.1: CallbackTasks
+  * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring
   * Re-factoring the code so it is more maintainable
   * Removed unbreakable (moved to WorldProtect), CompassTP (moved to
