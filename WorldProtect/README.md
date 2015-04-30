@@ -179,6 +179,8 @@ Changes
 -------
 
 * 2.0.0: Complete re-write
+* 1.2.4: CallbackTask
+  * Removed CallbackTask deprecation warnings
 * 1.2.3: Suggested change
   * Simpler border setting using a single "range" number
 * 1.2.2: protection overview (un-published)
@@ -204,7 +206,7 @@ Copyright
 ---------
 
     WorldProtect
-    Copyright (C) 2015 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify

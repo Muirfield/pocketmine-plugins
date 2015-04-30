@@ -10,7 +10,6 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\Player;
-use pocketmine\scheduler\CallbackTask;
 
 
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
@@ -54,6 +53,7 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 		$this->showMotd($sender,$world);
 		return true;
 	}
+
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
 		if ($scmd != "motd") return false;
 		if (count($args) == 0) {
@@ -75,7 +75,7 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 			if ($c instanceof Player) {
 				$ticks = $this->ticks;
 				foreach ($motd as $ln) {
-					$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$c,"sendMessage"],[$ln]),$ticks);
+					$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$c,"sendMessage"],[$ln]),$ticks);
 					$ticks += $this->ticks;
 				}
 			} else {

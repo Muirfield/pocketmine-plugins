@@ -8,7 +8,6 @@ use pocketmine\command\Command;
 
 use pocketmine\event\player\PlayerMoveEvent;
 
-
 class WpBordersMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);

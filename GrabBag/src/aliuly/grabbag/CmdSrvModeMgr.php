@@ -19,7 +19,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\Listener;
 
-use pocketmine\scheduler\CallbackTask;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
@@ -67,9 +66,9 @@ class CmdSrvModeMgr extends BaseCommand implements Listener {
 		if ($pl == null) return;
 		if ($this->mode === false) return;
 		if ($pl->hasPermission("gb.servicemode.allow")) {
-			$task =new CallbackTask([$this,"announce"],[$pl->getName()]);
+			$task =new PluginCallbackTask($this->owner,[$this,"announce"],[$pl->getName()]);
 		} else {
-			$task =new CallbackTask([$this,"kickuser"],[$pl->getName()]);
+			$task =new PluginCallbackTask($this->owner,[$this,"kickuser"],[$pl->getName()]);
 		}
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask($task,self::$delay);
 	}

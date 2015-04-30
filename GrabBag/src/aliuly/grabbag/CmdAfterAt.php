@@ -32,8 +32,6 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use pocketmine\scheduler\CallbackTask;
-
 class CmdAfterAt extends BaseCommand {
 
 	public function __construct($owner) {
@@ -68,7 +66,7 @@ class CmdAfterAt extends BaseCommand {
 		}
 		$secs = intval(array_shift($args));
 		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,time()+$secs));
-		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"runCommand"],[implode(" ",$args)]),$secs * 20);
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this,"runCommand"],[implode(" ",$args)]),$secs * 20);
 		return true;
 	}
 	private function cmdAt(CommandSender $c,$args) {
@@ -99,7 +97,7 @@ class CmdAfterAt extends BaseCommand {
 			$when += 86400; // We can not travel back in time...
 		}
 		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,$when));
-		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"runCommand"],[implode(" ",$args)]),($when - time())*20);
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this,"runCommand"],[implode(" ",$args)]),($when - time())*20);
 		return true;
 	}
 }

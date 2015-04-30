@@ -151,10 +151,13 @@ Will generate an explosion out of nothing.  Do not use this lightly.
 Todo
 ----
 * Shotgun : shoots multiple arrows in one go
+* Fire arrows ... incendiary arrows
 
 Changes
 -------
 
+* 1.4.1 : CallbackTask
+  Removed CallbackTask deprecation message.
 * 1.4.0 :
   * Added /akira.
   * Make it so Mine and Arrow explosions can be caught by Anti-Grief

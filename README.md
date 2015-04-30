@@ -19,11 +19,10 @@ Repository for my PocketMine plugins
   Localized chat
 * [NotSoFlat](http://forums.pocketmine.net/plugins/notsoflat.385/) -
   An altenative world generator.
-
-## Pending Moderation
-
-* ItemCasePE - A port of Bukkit ItemCase
-* KillRate - Keep track of killing
+* [ItemCasePE](http://forums.pocketmine.net/plugins/itemcase.1138/) -
+  A simplified implementation of Bukkit's ItemCase.
+* [KillRate](http://forums.pocketmine.net/plugins/killrate.1137/) -
+  Keep track of how much killing is going-on.
 
 
 Copyright
@@ -79,11 +78,3 @@ Git Recipes
     git push origin <plugin>-dev
     git push origin --tags
 
-To-do
------
-
-* ManyWorlds
-  * Add world to the pocketmine.yml - NO, there is no API for it
-* Re-factoring:
-  * WorldProtect
-  * ManyWorlds

@@ -20,7 +20,6 @@ use pocketmine\event\player\PlayerQuitEvent;
 
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\CallbackTask;
 
 
 class Main extends PluginBase implements Listener {
@@ -84,7 +83,7 @@ class Main extends PluginBase implements Listener {
 
 		if ($cfg["settings"]["dynamic-updates"]) {
 			$this->getLogger()->info("dynamic-updates: ON");
-			$tt = new CallbackTask([$this,"updateSigns"],[]);
+			$tt = new PluginCallbackTask($this,[$this,"updateSigns"],[]);
 			$this->getServer()->getScheduler()->scheduleRepeatingTask($tt,40);
 		} else {
 			$this->getLogger()->info("dynamic-updates: OFF");

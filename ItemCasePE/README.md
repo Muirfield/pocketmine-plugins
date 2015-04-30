@@ -60,8 +60,9 @@ wave** mode is experimental and has not been fully tested.
 Changes
 -------
 
-* 1.0.3 : new wave vs classic
+* 1.0.4 : new wave vs classic
   - Added new wave mode that allows you to place itemcases everywhere.
+  - Removed callbacktask deprecation warning
 * 1.0.2 : Bugfix
   - Fixed bugs and improved permissions.
 * 1.0.1 : Bugfix
