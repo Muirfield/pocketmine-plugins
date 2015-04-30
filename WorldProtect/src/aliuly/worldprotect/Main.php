@@ -10,7 +10,6 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\CallbackTask;
 use pocketmine\item\Item;
 
 class Main extends PluginBase implements CommandExecutor {
@@ -145,7 +144,7 @@ class Main extends PluginBase implements CommandExecutor {
 		if (is_array($this->wcfg[$level]["motd"])) {
 			$ticks = 10;
 			foreach ($this->wcfg[$level]["motd"] as $ln) {
-				$this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$player,"sendMessage"],[$ln]),$ticks);
+				$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$player,"sendMessage"],[$ln]),$ticks);
 				$ticks += 10;
 			}
 		} else {

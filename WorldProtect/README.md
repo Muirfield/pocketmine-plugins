@@ -178,6 +178,8 @@ To get world details.
 Changes
 -------
 
+* 1.2.4: CallbackTask
+  * Removed CallbackTask deprecation warnings
 * 1.2.3: Suggested change
   * Simpler border setting using a single "range" number
 * 1.2.2: protection overview (un-published)

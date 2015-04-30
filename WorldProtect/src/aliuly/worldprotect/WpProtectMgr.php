@@ -9,7 +9,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\tile\Sign;
-use pocketmine\scheduler\CallbackTask;
 use pocketmine\math\Vector3;
 
 //use pocketmine\event\player\PlayerInteractEvent; // Not used for now...
@@ -70,7 +69,7 @@ class WpProtectMgr implements Listener {
 		$l->setBlockIdAt($x,$y,$z,$id);
 		$l->setBlockDataAt($x,$y,$z,$meta);
 
-		$tt = new CallbackTask([$this,"ripSign"],[$l->getName(),$x,$y,$z]);
+		$tt = new PluginCallbackTask($this->owner,[$this,"ripSign"],[$l->getName(),$x,$y,$z]);
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask($tt,10);
 	}
 

@@ -7,7 +7,6 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 
 use pocketmine\Player;
-use pocketmine\scheduler\CallbackTask;
 
 
 class WpMotdMgr implements Listener {
@@ -18,7 +17,7 @@ class WpMotdMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	private function showMotd($name,$level,$ticks=10) {
-		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this->owner,"showMotd"],[$name,$level]),$ticks);
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this->owner,"showMotd"],[$name,$level]),$ticks);
 	}
 	public function onJoin(PlayerJoinEvent $ev) {
 		$pl = $ev->getPlayer();
