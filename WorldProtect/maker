@@ -225,7 +225,7 @@ foreach ($txt as $ln) {
 					$desc = isset($pd["description"]) ? $pd["description"] : $p;
 					$out[] = "* $p : $desc";
 					if (isset($pd["default"])) {
-						if ($pd["default"] == "op") {
+						if ($pd["default"] === "op") {
 							$out[] = "  (Defaults to Op)";
 						} elseif (!$pd["default"]) {
 							$out[] = "  _(Defaults to disabled)_";

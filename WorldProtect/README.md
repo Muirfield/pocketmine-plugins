@@ -177,7 +177,6 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 ### Permission Nodes
 
 * wp.motd : Display MOTD
-  (Defaults to Op)
 * wp.cmd.all : Allow access to protect command
   (Defaults to Op)
 * wp.cmd.protect : Change protect mode
@@ -199,7 +198,6 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 * wp.cmd.unbreakable : Modify unbreakable block list
   (Defaults to Op)
 * wp.cmd.info : Show WP config info
-  (Defaults to Op)
 
 
 ## Issues
