@@ -27,21 +27,21 @@ is selected.  If in-game, the default `world` is the world the player
 is currently in.  On the console the default is the `default-world` as
 specified in the `server.properties` file.
 
-
 ### Basic Usage
 
-* /motd [level]
-* /wp unprotect|unlock [level]
-* /wp lock [level]
-* /wp protect [level]
-* /wp pvp [level] [on|off|spawn]
-* /wp noexplode [level] [off|world|spawn]
-* /wp border [level] [x1 z1 x2 z2|none]
-* /wp max [level] [count]
-* /wp add [level] *player*
-* /wp rm [level] *player*
-* /wp motd [level] [text]
-* /wp unbreakable [level] [id id id]
+* /motd : Shows the world's *motd* text
+* add : Add player to the authorized list
+* border : defines a border for a world
+* lock : Locks world, not even Op can use.
+* ls : List info on world protection.
+* max : Limits the number of players per world.
+* motd : Modifies the world's *motd* text.
+* noexplode : Stops explosions in a world
+* protect : Protects world, only certain players can build.
+* pvp : Controls PvP in a world
+* rm : Removes player from the authorized list
+* unbreakable|breakable : Control blocks that can/cannot be broken
+* unlock : Removes protection
 
 ## Documentation
 
@@ -64,121 +64,145 @@ It is able to:
   you could warn players when they are entering a PvP world.
 * Create unbreakable blocks.
 
-
 ### Command Reference
 
-Informational:
+The following commands are available:
 
-* motd [level]  
-  Show a level specific _message of the day_ type text.
-* wp motd [level] _text_  
-  Modify the motd text for the specified level (or the current level).
-  While you can only enter a single line through this command, you can
-  have a multi-line MOTD by modifying the per-world configuration file.
+* /motd  _[world]_  
+  Shows the world's *motd* text  
+  Shows the *motd* text of a _world_.  This can be used to show
+  rules around a world.
+* /wp _[world]_ **add** _&lt;player&gt;_  
+  Add player to the authorized list  
+* /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_  
+  defines a border for a world  
+  Defines a border for an otherwise infinite world.  Usage:
+  - /wp _[world]_ **border**
+    - will show the current borders for _[world]_.
+  - /wp _[world]_ **border** _x1 z1 x2 z2_
+    - define the border as the region defined by _x1,z1_ and _x2,z2_.
+  - /wp _[world]_ **border** _range_
+    - define the border as being _range_ blocks in `x` and `z` axis away
+      from the spawn point.
+  - /wp _[world]_ **border** **none**
+    - Remove borders
+* /wp _[world]_ **lock**  
+  Locks world, not even Op can use.  
+* /wp **ls** _[world]_  
+  List info on world protection.  
+  - /wp **ls**
+    - shows an overview of protections applied to all loaded worlds
+  - /wp **ls** _[world]_
+    - shows details of an specific world
+* /wp _[world]_ max _[value]_  
+  Limits the number of players per world.  
+  - /wp _[world]_ **max**
+    - shows the current limit
+  - /wp _[world]_ **max** _value_
+    - Sets limit value to _value_.
+  - /wp _[world]_ **max** **0**
+    - Removes world limits
+* /wp _[world]_ **motd** _&lt;text&gt;_  
+  Modifies the world's *motd* text.  
+  Let's you modify the world's *motd* text.  The command only
+  supports a single line, however you can modify the *motd* text
+  by editing the `wpcfg.yml` file that is stored in the `world`
+  folder.  For example:
 
-Protect:
-
-* wp lock [level]  
-  Place/destroy block is *not* allowed.  Not even for ops.  This is
-  useful for adventure style worlds.
-* wp protect [level]  
-  Place/destroy block is allowed for players that have
-  `wp.cmd.protect.auth` permission (by default *ops*) or players in
-  the `auth` list. (See add/rm sub-commands).
-* wp unlock|unprotect [level]
-  Placing/destroying blocks are allowed.
-* wp status [level]
-  Will show the lock/protect status of a world.
+      [CODE]
+      motd:
+      - line 1
+      - line 2
+      - line 3
+      - line 4... etc
+      [/CODE]
 
 
-Per-world PvP:
+* /wp  _[world]_ **noexplode** _[off|world|spawn]_  
+  Stops explosions in a world  
+  - /wp _[world]_ **noexplode** **off**
+    - no-explode feature is `off`, so explosions are allowed.
+  - /wp _[world]_ **noexplode** **world**
+    - no explosions allowed in the whole _world_.
+  - /wp _[world]_ **noexplode** **spawn**
+    - no explosions allowed in the world's spawn area.
+* /wp _[world]_ **protect**  
+  Protects world, only certain players can build.  
+  When in this mode, only players in the _authorized_ list can build.
+  If there is no authorized list, it will use `wp.cmd.protect.auth`
+  permission instead.
 
-* wp pvp [level] [on|off|spawn]  
-  If nothing is specified it will show the PvP status of the current
-  level.  Otherwise PvP will either be activated|de-activated.  If set
-  to `spawn`, PvP is turned off in the spawn area of this world.
+* /wp  _[world]_ **pvp** _[on|off|spawn-off]_  
+  Controls PvP in a world  
+  - /wp _[world]_ **pvp** **off**
+    - no PvP is allowed.
+  - /wp _[world]_ **pvp** **on**
+    - PvP is allowed
+  - /wp _[world]_ **pvp** **spawn-off**
+    - PvP is allowed except if inside the spawn area.
+* /wp _[world]_ **rm** _&lt;player&gt;_  
+  Removes player from the authorized list  
+* /wp  _[world]_ **breakable|unbreakable** _[block-ids]_  
+  Control blocks that can/cannot be broken  
+  Manages which blocks can or can not be broken in a given world.
+  You can get a list of blocks currently set to `unbreakable`
+  if you do not specify any _[block-ids]_.  Otherwise these are
+  added or removed from the list.
+* /wp _[world]_ **unlock**  
+  Removes protection  
 
-No Explode:
-
-* /wp noexplode [level] [off|world|spawn]
-  If nothing is specified it will show the NoExplode status of the current
-  level. If off, allows explosions (default).  If world, explosions are
-  prevented in the whole world.  If spawn, explosions are prevented in
-  the spawn area.
-
-World borders:
-
-* wp border [level] [x1 z1 x2 z2|none]  
-  If nothing is specified it will show the current borders.  If `none`
-  the current borders will be removed.  Otherwise a border will be set
-  by the (x1,z1) - (x2,z2) coordinates.
-
-Player Limits:
-
-* wp max [level] [count]  
-  If nothing is specified will show the current player limits.
-  Otherwise the world limit will be set by `count`.  Set to `0` for
-  limitless worlds.
-
-Auth list:
-
-* wp add [level] *player*
-* wp rm [level] *player*
-
-These commands add or remove players from the world's `auth` list.
-Access to these commands is controlled by standard PocketMine
-permission system.  When a world's `auth` list is defined, access to
-these commands are restricted to the people in the `auth` list.
-
-Unbreakable blocks:
-
-* wp unbreakable [level] [id ...]  
-  Will add the *id* to the list of unbreakable blocks for this world.
-* wp breakable [level] [id ...]  
-  Will remove the *id* from the list of unbreakable blocks for this world.
 
 ### Configuration
 
-In the plugin's config.yml file you can have:
+Configuration is throug the `config.yml` file.
+The following sections are defined:
 
-	settings:
-	  player-limits: true
-	  world-borders: true
-	  world-protect: true
-	  per-world-pvp: true
-	  motd: true
-	  no-explode: true
-	  unbreakable: true
+#### features
 
-Control what modules are active.
 
-### Permission Nodes:
+This section you can enable/disable modules.
+You do this in order to avoid conflicts between different
+PocketMine-MP plugins.  It has one line per feature:
 
-* wp.motd - Display MOTD
-* wp.cmd.all - Allow access to protect command
-* wp.cmd.protect - Change protect mode
-* wp.cmd.protect.auth - Permit place/destroy in protected worlds
-* wp.cmd.border - Allow contfol of border functionality
-* wp.cmd.pvp - Allow PvP controls
-* wp.cmd.limit - Allow control to limit functionality
-* wp.cmd.wpmotd - Allow editing the motd
-* wp.cmd.noexplode - no explode command access
-* wp.cmd.addrm - Allow modifying the auth list
-* wp.cmd.unbreakable - Allow modifying the unbreakable block list
+   feature: true|false
 
-### ManyWorlds
+If `true` the feature is enabled.  if `false` the feature is disabled.
 
-If ManyWorlds is installed, the
+#### motd
 
-    /mw ls [level]
 
-Will show additional information.  Also, you can enter:
+* `ticks` : delay before showing multi-line motd texts.
 
-    /wp ls [level]
 
-To get world details.
+### Permission Nodes
 
-### Issues
+* wp.motd : Display MOTD
+  (Defaults to Op)
+* wp.cmd.all : Allow access to protect command
+  (Defaults to Op)
+* wp.cmd.protect : Change protect mode
+  (Defaults to Op)
+* wp.cmd.protect.auth : Permit place/destroy in protected worlds
+  (Defaults to Op)
+* wp.cmd.border : Allow contfol of border functionality
+  (Defaults to Op)
+* wp.cmd.pvp : Allow PvP controls
+  (Defaults to Op)
+* wp.cmd.noexplode : Allow NoExplode controls
+  (Defaults to Op)
+* wp.cmd.limit : Allow control to limit functionality
+  (Defaults to Op)
+* wp.cmd.wpmotd : Allow editing the motd
+  (Defaults to Op)
+* wp.cmd.addrm : Allow modifying the auth list
+  (Defaults to Op)
+* wp.cmd.unbreakable : Modify unbreakable block list
+  (Defaults to Op)
+* wp.cmd.info : Show WP config info
+  (Defaults to Op)
+
+
+## Issues
 
 * World names can not contain spaces.
 
@@ -227,3 +251,4 @@ To get world details.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

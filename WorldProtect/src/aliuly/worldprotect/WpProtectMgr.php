@@ -1,5 +1,25 @@
 <?php
 namespace aliuly\worldprotect;
+/**
+ ** OVERVIEW:Basic Usage
+ **
+ ** COMMANDS
+ **
+ ** * add : Add player to the authorized list
+ **   usage: /wp _[world]_ **add** _<player>_
+ ** * rm : Removes player from the authorized list
+ **   usage: /wp _[world]_ **rm** _<player>_
+ ** * unlock : Removes protection
+ **   usage: /wp _[world]_ **unlock**
+ ** * lock : Locks world, not even Op can use.
+ **   usage: /wp _[world]_ **lock**
+ ** * protect : Protects world, only certain players can build.
+ **   usage: /wp _[world]_ **protect**
+ **   When in this mode, only players in the _authorized_ list can build.
+ **   If there is no authorized list, it will use `wp.cmd.protect.auth`
+ **   permission instead.
+ **
+ **/
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;

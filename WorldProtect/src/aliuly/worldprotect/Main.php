@@ -89,6 +89,7 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			return;
 		}
 		$this->modules[] = new WpHelp($this);
+		$this->modules[] = new WpList($this);
 		$this->wcfg = [];
 		foreach ($this->getServer()->getLevels() as $level) {
 			$this->loadCfg($level);

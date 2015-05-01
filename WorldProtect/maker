@@ -220,6 +220,7 @@ foreach ($txt as $ln) {
 	switch ($ln) {
 		case "\n<PERMS>":
 			if (isset($yaml["permissions"])) {
+				if ($out[count($out)-1] !=  "") $out[] = "";
 				foreach ($yaml["permissions"] as $p => $pd) {
 					$desc = isset($pd["description"]) ? $pd["description"] : $p;
 					$out[] = "* $p : $desc";
@@ -327,6 +328,6 @@ $out[] = "";
 $out[] = "";
 
 //print_r($db);
-//file_put_contents(SRCDIR."README.md",implode("\n",$out));
-echo implode("\n",$out);
+file_put_contents(SRCDIR."README.md",implode("\n",$out));
+//echo implode("\n",$out);
 exit("\nOK\n");
