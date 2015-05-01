@@ -400,6 +400,10 @@ This section configures the rcon client connections.  You can configure
 this section through the *rcon* command.
 
 
+### Permission Nodes
+
+* blah
+
 # Changes
 
 * 2.0.1: CallbackTasks
