@@ -36,6 +36,7 @@ class Main extends PluginBase implements Listener {
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults =
 					 [
+						 "version" => $this->getDescription()->getVersion(),
 						 "settings" => [
 							 "dynamic-updates" => true,
 							 "broadcast-tp" => true,

@@ -43,6 +43,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->dbm = new DatabaseManager($this->getDataFolder()."stats.sqlite3");
 		$defaults = [
+			"version" => $this->getDescription()->getVersion(),
 			"settings" => [
 				"points" => true,
 				"rewards" => true,

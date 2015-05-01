@@ -55,6 +55,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
+			"version" => $this->getDescription()->getVersion(),
 			"settings" => [
 				"classic" => true,
 			],

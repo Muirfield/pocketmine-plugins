@@ -33,6 +33,7 @@ class Main extends PluginBase implements Listener {
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
+			"version" => $this->getDescription()->getVersion(),
 			"settings" => [
 				"near" => 10,
 				"far" => 20,

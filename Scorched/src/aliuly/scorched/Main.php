@@ -213,6 +213,7 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$defaults = [
+			"version" => $this->getDescription()->getVersion(),
 			"presets" => [
 				"short" => [ 30, 0.5 ],
 				"long" => [ 80, 1.0 ],
