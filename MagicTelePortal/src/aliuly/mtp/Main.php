@@ -40,7 +40,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			"border" => Block::NETHER_BRICKS,
 			"center" => Block::STILL_WATER,
 			"corner" => Block::NETHER_BRICKS_STAIRS,
-			"broadcast-tp" => false,
 		];
 		$cfg = (new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
