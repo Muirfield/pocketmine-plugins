@@ -1,0 +1,22 @@
+main: aliuly\mtp\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: MagicTelePortal
+description: A simple portal plugin
+version: 1.2.0
+author: aliuly
+
+commands:
+    mtp:
+        description: Create a portal
+        usage: "/mtp [world|addr:port] [x y z]"
+        permission: mtp.cmd.mtp
+
+permissions:
+    mtp.cmd.mtp:
+        default: op
+        description: "Allow to create portal"
+    mtp.destroy:
+        default: op
+        description: Allow destruction of portals

@@ -23,7 +23,8 @@ Repository for my PocketMine plugins
   A simplified implementation of Bukkit's ItemCase.
 * [KillRate](http://forums.pocketmine.net/plugins/killrate.1137/) -
   Keep track of how much killing is going-on.
-
+* [MagicTelePorta]() -
+  Simple portal plugin
 
 Copyright
 =========
