@@ -63,8 +63,7 @@ FAQ
 ---
 
 * Q: How do I prevent people from breaking my portal?
-* A: Use an anti-grief plugin.
-
+* A: Use an anti-grief plugin or the `mtp.destroy` permission.
 
 Changes
 -------
