@@ -7,6 +7,7 @@ Repository for my *official* PocketMine plugins.
 
 <table>
 <tr><th>Plugin</th><th>Description</th></tr>
+<!---------------------------------------------------------------------->
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/manyworlds.1042/">
@@ -30,6 +31,124 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     A sign based teleport facility.
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/grabbag.1060/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      GrabBag
+    </a>
+  </th>
+  <td>
+    My personal collection of commands and listener modules.
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/scorched.1062/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/Scorched-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      Scorched
+    </a>
+  </th>
+  <td>
+    Major world destruction
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/worldprotect.1079/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/WorldProtect-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      WorldProtect
+    </a>
+  </th>
+  <td>
+    Anti-griefing and per-world PvP
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/localchat.1083/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/localchat-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      LocalChat
+    </a>
+  </th>
+  <td>
+    Localized chat
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/notsoflat.385/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/Notsoflat-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      NotSoFlat
+    </a>
+  </th>
+  <td>
+    An alternative world generator
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/itemcase.1138/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      ItemCasePE
+    </a>
+  </th>
+  <td>
+    A simplified implementation of Bukkit's ItemCase.
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/killrate.1137/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      KillRate
+    </a>
+  </th>
+  <td>
+    Keep track of how much killing is going-on.
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/magicteleportal.1146/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      MagicTelePortal
+    </a>
+  </th>
+  <td>
+    Simple portal plugin
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/simpleauthhelper.1112/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      SimpleAuthHelper
+    </a>
+  </th>
+  <td>
+    Makes SimpleAuth easier to use.
   </td>
 </tr>
 <!---------------------------------------------------------------------->
