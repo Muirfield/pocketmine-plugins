@@ -75,7 +75,7 @@ registration.  This is configured through the `nest-egg` setting.
 
 * The section `messages` can be used to configure displayed texts.
 * `nest-egg` section contains list of items that will be given to the
-player upon registration.
+  player upon registration.
 * `max-attempts` counts the number of tries to login.
 * `login-timeout` will kick the player out if not authenticated in
   that number of seconds.
@@ -85,6 +85,9 @@ player upon registration.
 Changes
 -------
 
+* 1.2.3: Security improvements
+  - prevent user from chatting away their password
+  - add option so that players can also use "/login" to login.
 * 1.2.2: Auto-Ban
   - Too many login attempts will cause the player to be banned.
 * 1.2.1: CallbackTask deprecation
