@@ -1,0 +1,27 @@
+main: aliuly\helper\Main
+api: 1.10.0
+load: POSTWORLD
+depend: [SimpleAuth]
+
+name: SimpleAuthHelper
+description: Simplifies the way people authenticate to servers
+version: 1.2.2
+author: aliuly
+
+commands:
+  chpwd:
+    description: "Change password"
+    usage: "/chpwd <old_password>"
+    permission: simpleauthhelper.command.chpwd
+  resetpwd:
+    description: "Reset password"
+    usage: "/resetpwd <player>"
+    permission: simpleauthhelper.command.resetpwd
+
+permissions:
+  simpleauthhelper.command.chpwd:
+    default: true
+    description: "Allow users to change passwords"
+  simpleauthhelper.command.resetpwd:
+    default: op
+    description: "Allow ops to reset other's passwords"
