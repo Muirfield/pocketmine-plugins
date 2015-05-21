@@ -154,29 +154,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 </table>
 
-* [ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
-  - a multiple world implementation.
-* [SignWarp](http://forums.pocketmine.net/plugins/signwarp.1043/) - A
-  sign based teleport facility.
-* [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) - My
-  personal collection of commands and listener modules.
-* [Scorched](http://forums.pocketmine.net/plugins/scorched.1062/) -
-  Major world destruction
-* [WorldProtect](http://forums.pocketmine.net/plugins/worldprotect.1079/) -
-  Anti-griefing and per world pvp.
-* [LocalChat](http://forums.pocketmine.net/plugins/localchat.1083/) -
-  Localized chat
-* [NotSoFlat](http://forums.pocketmine.net/plugins/notsoflat.385/) -
-  An altenative world generator.
-* [ItemCasePE](http://forums.pocketmine.net/plugins/itemcase.1138/) -
-  A simplified implementation of Bukkit's ItemCase.
-* [KillRate](http://forums.pocketmine.net/plugins/killrate.1137/) -
-  Keep track of how much killing is going-on.
-* [MagicTelePortal](http://forums.pocketmine.net/plugins/magicteleportal.1146/) -
-  Simple portal plugin
-* [SimpleAuthHelper](http://forums.pocketmine.net/plugins/simpleauthhelper.1112/)
-  Makes SimpleAuth easier to use.
-
 Copyright
 =========
 
