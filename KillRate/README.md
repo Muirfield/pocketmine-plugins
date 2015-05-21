@@ -75,10 +75,11 @@ money.  You can use negative values.
 Changes
 -------
 
+* ??? :
+  * Added MySQL support
 * 1.0.2 : Arrow
   * Improved scoring of Exploding arrows
   * Fixed a bug in the way we call the EconomyAPI
-  * 
 * 1.0.1 : Bugfixes
   * Removed warnings
   * Improve the scoring detection
