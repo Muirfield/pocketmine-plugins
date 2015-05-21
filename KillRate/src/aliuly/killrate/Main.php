@@ -41,7 +41,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->dbm = new DatabaseManager($this->getDataFolder()."stats.sqlite3");
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
 			"settings" => [
@@ -53,10 +52,20 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
+			"backend" => "SQLiteMgr",
+			"MySql" => [
+				"host" => "localhost",
+				"user" => "nobody",
+				"password" => "secret",
+				"database" => "KillRateDb",
+				"port" => 3306,
+			],
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-
+		$this->getLogger()->info("Using ".$this->cfg["backend"]." as backend");
+		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
+		$this->dbm = new $backend($this);
 		$pm = $this->getServer()->getPluginManager();
 		if(!($this->money = $pm->getPlugin("PocketMoney"))
 			&& !($this->money = $pm->getPlugin("GoldStd"))
@@ -80,6 +89,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 											 $this->money->getDescription()->getVersion());
 		}
 	}
+	public function getCfg($key) {
+		return $this->cfg[$key];
+	}
+
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		switch($cmd->getName()) {
 			case "killrate":
