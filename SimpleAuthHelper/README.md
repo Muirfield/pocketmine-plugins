@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 SimpleAuthHelper
 ================
@@ -10,7 +10,7 @@ SimpleAuthHelper
 * OptionalPlugins: -
 * Categories: General
 * Plugin Access: Commands
-* WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/SimpleAuthHelper)
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
 
 Overview
 --------
