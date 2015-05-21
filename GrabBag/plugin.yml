@@ -29,6 +29,9 @@ permissions:
     gb.cmd.gmc:
         default: op
         description: "Allow to switch gamemode to creative"
+    gb.cmd.gmspc:
+        default: op
+        description: "Allow to switch gamemode to spectator"
     gb.cmd.slay:
         default: op
         description: "Allow slaying players"
@@ -128,3 +131,6 @@ permissions:
     gb.cmd.rcon.config:
         default: op
         description: "Modify the RCON configuration"
+    gb.cmd.fly:
+        default: op
+        description: "Flight control"

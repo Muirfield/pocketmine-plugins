@@ -27,37 +27,39 @@ class Main extends PluginBase implements Listener {
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$mods = [
-			"players" => "CmdPlayers",
-			"ops" => "CmdOps",
-			"gm?" => "CmdGmx",
-			"as" => "CmdAs",
-			"slay" => "CmdSlay",
-			"heal" => "CmdHeal",
-			"whois" => "CmdWhois",
-			"mute-unmute" => "CmdMuteMgr",
-			"freeze-thaw" => "CmdFreezeMgr",
-			"showtimings" => "CmdTimings",
-			"seeinv-seearmor" => "CmdShowInv",
-			"clearinv" => "CmdClearInv",
-			"get" => "CmdGet",
-			"shield" => "CmdShieldMgr",
-			"srvmode" => "CmdSrvModeMgr",
-			"opms-rpt" => "CmdOpMsg",
-			"entities" => "CmdEntities",
-			"after-at" => "CmdAfterAt",
-			"summon-dismiss" => "CmdSummon",
-			"pushtp-poptp" => "CmdTpStack",
-			"prefix" => "CmdPrefixMgr",
-			"spawn" => "CmdSpawn",
-			"burn" => "CmdBurn",
-			"throw" => "CmdThrow",
-			"blowup" => "CmdBlowUp",
-			"setarmor" => "CmdSetArmor",
-			"spectator"=> "CmdSpectator",
-			"followers"=> "CmdFollowMgr",
-			"rcon-client" => "CmdRcon",
-			"join-mgr" => "JoinMgr",
-			"repeater" => "RepeatMgr",
+			"players" => [ "CmdPlayers", true ],
+			"ops" => [ "CmdOps", true ],
+			"gm?" => [ "CmdGmx", true ],
+			"as" => [ "CmdAs", true ],
+			"slay" => [ "CmdSlay", true ],
+			"heal" => [ "CmdHeal", true ],
+			"whois" => [ "CmdWhois", true ],
+			"mute-unmute" => [ "CmdMuteMgr", true ],
+			"freeze-thaw" => [ "CmdFreezeMgr", true ],
+			"showtimings" => [ "CmdTimings", true ],
+			"seeinv-seearmor" => [ "CmdShowInv", true ],
+			"clearinv" => [ "CmdClearInv", true ],
+			"get" => [ "CmdGet", true ],
+			"shield" => [ "CmdShieldMgr", true ],
+			"srvmode" => [ "CmdSrvModeMgr", true ],
+			"opms-rpt" => [ "CmdOpMsg", true ],
+			"entities" => [ "CmdEntities", true ],
+			"after-at" => [ "CmdAfterAt", true ],
+			"summon-dismiss" => [ "CmdSummon", true ],
+			"pushtp-poptp" => [ "CmdTpStack", true ],
+			"prefix" => [ "CmdPrefixMgr", true ],
+			"spawn" => [ "CmdSpawn", true ],
+			"burn" => [ "CmdBurn", true ],
+			"throw" => [ "CmdThrow", true ],
+			"blowup" => [ "CmdBlowUp", true ],
+			"setarmor" => [ "CmdSetArmor", true ],
+			"spectator"=> [ "CmdSpectator", true ],
+			"followers"=> [ "CmdFollowMgr", true ],
+			"rcon-client" => [ "CmdRcon", true ],
+			"join-mgr" => [ "JoinMgr", true ],
+			"repeater" => [ "RepeatMgr", true ],
+			"broadcast-tp" => [ "BcTpMgr", false ],
+			"fly" => [ "CmdFly", true ],
 		];
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -66,12 +68,16 @@ class Main extends PluginBase implements Listener {
 				"adminjoin" => true,
 				"servermotd" => true,
 			],
+			"broadcast-tp" => [
+				"world" => true,
+				"local" => 500,
+			],
 			"freeze-thaw" => [
 				"hard-freeze"=>false,
 			],
 		];
 		foreach ($mods as $i => $j) {
-			$defaults["features"][$i] = true;
+			$defaults["features"][$i] = $j[1];
 		}
 		$cfg=(new Config($this->getDataFolder()."config.yml",
 									  Config::YAML,$defaults))->getAll();
@@ -83,7 +89,7 @@ class Main extends PluginBase implements Listener {
 				continue;
 			}
 			if (!$j) continue;
-			$class = $mods[$i];
+			$class = $mods[$i][0];
 			if(strpos($class,"\\") === false) $class = __NAMESPACE__."\\".$class;
 			if (isset($cfg[$i]))
 				$this->modules[$i] = new $class($this,$cfg[$i]);
@@ -129,6 +135,7 @@ class Main extends PluginBase implements Listener {
 			case 0: return "Survival";
 			case 1: return "Creative";
 			case 2: return "Adventure";
+			case 3: return "Spectator";
 		}
 		return "$mode-mode";
 	}
