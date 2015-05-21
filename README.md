@@ -25,6 +25,8 @@ Repository for my PocketMine plugins
   Keep track of how much killing is going-on.
 * [MagicTelePortal](http://forums.pocketmine.net/plugins/magicteleportal.1146/) -
   Simple portal plugin
+* [SimpleAuthHelper](http://forums.pocketmine.net/plugins/simpleauthhelper.1112/)
+  Makes SimpleAuth easier to use.
 
 Copyright
 =========
