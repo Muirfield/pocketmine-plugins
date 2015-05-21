@@ -78,7 +78,7 @@ class WpList extends BaseWp {
 					 implode(",",$wcfg["border"]);
 		if (isset($wcfg["auth"]))
 			$txt[] = TextFormat::AQUA."Auth List(".count($wcfg["auth"]).
-					 ": ".TextFormat::WHITE.implode(",",$wcfg["auth"]);
+					 "): ".TextFormat::WHITE.implode(",",$wcfg["auth"]);
 		if (isset($wcfg["unbreakable"]))
 			$txt[] = TextFormat::AQUA."Unbreakable(".count($wcfg["unbreakable"]).
 					 ": ".TextFormat::WHITE.implode(",",$wcfg["unbreakable"]);
