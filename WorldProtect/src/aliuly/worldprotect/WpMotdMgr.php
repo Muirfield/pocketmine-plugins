@@ -40,6 +40,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\Player;
+use aliuly\common\PluginCallbackTask;
 
 
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {

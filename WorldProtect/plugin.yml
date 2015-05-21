@@ -1,7 +1,6 @@
 main: aliuly\worldprotect\Main
 api: [1.10.0]
 load: STARTUP
-softdepend: [ManyWorlds]
 
 name: WorldProtect
 description: protect worlds from griefers, pvp, limits and borders
@@ -52,3 +51,9 @@ permissions:
     wp.cmd.info:
         default: true
         description: "Show WP config info"
+    wp.cmd.gm:
+        default: op
+        description: "Allow setting a per-world gamemode"
+    wp.cmd.gm.exempt:
+        default: false
+        description: "Users with this permissions will ignore per world gm"

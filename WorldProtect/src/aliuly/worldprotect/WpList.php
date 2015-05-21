@@ -55,6 +55,9 @@ class WpList extends BaseWp {
 		if (isset($wcfg["max-players"]))
 			$txt[] = TextFormat::AQUA."Max Players:  ".
 					 TextFormat::WHITE.$wcfg["max-players"];
+		if (isset($wcfg["gamemode"]))
+			$txt[] = TextFormat::AQUA."Gamemode:  ".
+					 TextFormat::WHITE.$this->owner->gamemodeString($wcfg["gamemode"]);
 		if (isset($wcfg["pvp"])) {
 			if ($wcfg["pvp"] === true) {
 				$txt[] = TextFormat::AQUA."PvP: ".TextFormat::RED."on";
@@ -117,6 +120,8 @@ class WpList extends BaseWp {
 			$attr[] = "auth(".count($wcfg["auth"]).")";
 		if (isset($wcfg["max-players"]))
 			$attr[]="max:".$wcfg["max-players"];
+		if (isset($wcfg["gamemode"]))
+			$attr[]="gm:".$wcfg["gamemode"];
 		if (isset($wcfg["unbreakable"]))
 			$attr[]="ubab:".count($wcfg["unbreakable"]);
 

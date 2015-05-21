@@ -51,6 +51,7 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			"motd" => [ "WpMotdMgr", false ],
 			"no-explode" => [ "NoExplodeMgr", false ],
 			"unbreakable" => [ "Unbreakable",false ],
+			"gamemode" => [ "GmMgr", false ],
 		];
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -62,7 +63,6 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		foreach ($mods as $i => $j) {
 			$defaults["features"][$i] = $j[1];
 		}
-		$defaults["features"]["max-players"] = false;
 		$cfg=(new Config($this->getDataFolder()."config.yml",
 									  Config::YAML,$defaults))->getAll();
 
@@ -353,6 +353,15 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		}
 		$this->spam[$n] = [ time(), $txt ];
 		$pl->sendMessage($txt);
+	}
+	public function gamemodeString($mode) {
+		switch($mode) {
+			case 0: return "Survival";
+			case 1: return "Creative";
+			case 2: return "Adventure";
+			case 3: return "Spectator";
+		}
+		return "$mode-mode";
 	}
 }
 //		echo __METHOD__.",".__LINE__."\n";//##DEBUG
