@@ -1,9 +1,26 @@
 pocketmine-plugins
 ==================
 
-Repository for my PocketMine plugins
+Repository for my *official* PocketMine plugins.
 
 ## Available Plugins
+
+<table>
+<tr><th>Plugin</th><th>Description</th></tr>
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/manyworlds.1042/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ManyWorlds-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      ManyWorlds
+    </a>
+  </th>
+  <td>
+    a multiple world implementation
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+</table>
 
 * [ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
   - a multiple world implementation.
