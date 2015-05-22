@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-22 09:28+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Main.php:29
+msgid "You do not have permission to do that."
+msgstr "No tienes permiso para hacer eso"
+
+#: Main.php:34
+msgid "You can only use this command in-game"
+msgstr "Solo pueds usar este comando en el juego"
+
+#: Main.php:67
+msgid "Using %1% as backend"
+msgstr "Usando %1%"
+
+#: Main.php:77
+msgid "# MISSING MONEY API PLUGIN"
+msgstr "# FALTA API DE DINERO"
+
+#: Main.php:79
+msgid ". Please install one of the following:"
+msgstr ". Por favor instale uno de los siguientes:"
+
+#: Main.php:81
+msgid "* GoldStd"
+msgstr ""
+
+#: Main.php:83
+msgid "* PocketMoney"
+msgstr ""
+
+#: Main.php:85
+msgid "* EconomyAPI or"
+msgstr "* EconomyAPI o"
+
+#: Main.php:87
+msgid "* MassiveEconomy"
+msgstr ""
+
+#: Main.php:90
+msgid "Using money API from %1%"
+msgstr "Usando el API de dinero de %1%"
+
+#: Main.php:114
+msgid "Unknown command.  Try /killrate help"
+msgstr "Commando desconocido.  Pruebe /killrate help"
+
+#: Main.php:127
+msgid "Show player scores"
+msgstr "Mostrar los puntajes de los jugadores"
+
+#: Main.php:128
+msgid "Show top players"
+msgstr "Mostrar los mejores jugadores"
+
+#: Main.php:135
+msgid "Usage: /killrate %1% %2%"
+msgstr "Uso: /killrate %1% %2%"
+
+#: Main.php:139
+msgid "Unknown command %1%"
+msgstr "Command desconocido %1%"
+
+#: Main.php:144
+msgid "KillRate sub-commands"
+msgstr "Sub-commandos de KillRate"
+
+#: Main.php:172
+msgid "Not enough on-line players"
+msgstr "No hay nadie en linea"
+
+#: Main.php:176
+msgid ". Player Points"
+msgstr ". Jugador Puntos"
+
+#: Main.php:194
+msgid "No scores found for %1%"
+msgstr "No se encontraron puntos para %1%"
+
+#: Main.php:256
+msgid "one point awarded!"
+msgstr "Un punto ganado!"
+
+#: Main.php:257
+msgid "%1% points awarded!"
+msgstr "%1% puntos ganados!"
+
+#: Main.php:260
+msgid "one point deducted!"
+msgstr "Un punto quitado!"
+
+#: Main.php:261
+msgid "%1% points deducted!"
+msgstr "%1% puntos quitados!"
+
+#: Main.php:267
+msgid "You earn $1"
+msgstr "Gano 1 EUR"
+
+#: Main.php:268
+msgid "You earn $%1%"
+msgstr "Gano %1% EUR"
+
+#: Main.php:271
+msgid "You are fined $1"
+msgstr "Eres penalizado 1 EUR"
+
+#: Main.php:272
+msgid "You are fined $%1%"
+msgstr "Eres penalizado %1% EUR"

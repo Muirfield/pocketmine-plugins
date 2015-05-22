@@ -16,6 +16,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\entity\Projectile;
+use aliuly\common\mc;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
@@ -25,12 +26,12 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
 		if($sender->hasPermission($permission)) return true;
-		$sender->sendMessage("You do not have permission to do that.");
+		$sender->sendMessage(mc::_("You do not have permission to do that."));
 		return false;
 	}
 	private function inGame(CommandSender $sender,$msg = true) {
 		if ($sender instanceof Player) return true;
-		if ($msg) $sender->sendMessage("You can only use this command in-game");
+		if ($msg) $sender->sendMessage(mc::_("You can only use this command in-game"));
 		return false;
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -40,6 +41,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		$this->saveResource("messages.po");
+		mc::load($this->getDataFolder()."messages.po");
+
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -63,7 +67,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-		$this->getLogger()->info("Using ".$this->cfg["backend"]." as backend");
+		$this->getLogger()->info(mc::_("Using %1% as backend",
+												 $this->cfg["backend"]));
 		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
 		$this->dbm = new $backend($this);
 		$pm = $this->getServer()->getPluginManager();
@@ -72,21 +77,21 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			&& !($this->money = $pm->getPlugin("EconomyAPI"))
 			&& !($this->money = $pm->getPlugin("MassiveEconomy"))){
 			$this->getLogger()->info(TextFormat::RED.
-											 "# MISSING MONEY API PLUGIN");
+											 mc::_("# MISSING MONEY API PLUGIN"));
 			$this->getLogger()->info(TextFormat::BLUE.
-											 ". Please install one of the following:");
+											 mc::_(". Please install one of the following:"));
 			$this->getLogger()->info(TextFormat::WHITE.
-											 "* GoldStd");
+											 mc::_("* GoldStd"));
 			$this->getLogger()->info(TextFormat::WHITE.
-											 "* PocketMoney");
+											 mc::_("* PocketMoney"));
 			$this->getLogger()->info(TextFormat::WHITE.
-											 "* EconomyAPI or");
+											 mc::_("* EconomyAPI or"));
 			$this->getLogger()->info(TextFormat::WHITE.
-											 "* MassiveEconomy");
+											 mc::_("* MassiveEconomy"));
 		} else {
-			$this->getLogger()->info(TextFormat::BLUE."Using money API from ".
-											 TextFormat::WHITE.$this->money->getName()." v".
-											 $this->money->getDescription()->getVersion());
+			$this->getLogger()->info(TextFormat::BLUE.
+											 mc::_("Using money API from %1%",
+													 TextFormat::WHITE.$this->money->getName()." v".$this->money->getDescription()->getVersion()));
 		}
 	}
 	public function getCfg($key) {
@@ -109,7 +114,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 					case "help":
 						return $this->cmdHelp($sender,$args);
 					default:
-						$sender->sendMessage("Unknown command.  Try /killrate help");
+						$sender->sendMessage(mc::_("Unknown command.  Try /killrate help"));
 						return false;
 				}
 		}
@@ -122,23 +127,24 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//////////////////////////////////////////////////////////////////////
 	private function cmdHelp(CommandSender $sender,$args) {
 		$cmds = [
-			"stats" => ["[player ...]","Show player scores"],
-			"top" => ["[online]","Show top  players"],
+			"stats" => ["[player ...]",mc::_("Show player scores")],
+			"top" => ["[online]",mc::_("Show top players")],
 		];
 		if (count($args)) {
 			foreach ($args as $c) {
 				if (isset($cmds[$c])) {
 					list($a,$b) = $cmds[$c];
-					$sender->sendMessage(TextFormat::RED."Usage: /killrate $c $a"
-												.TextFormat::RESET);
+					$sender->sendMessage(TextFormat::RED.
+												mc::_("Usage: /killrate %1% %2%",$c,$a).
+												TextFormat::RESET);
 					$sender->sendMessage($b);
 				} else {
-					$sender->sendMessage("Unknown command $c");
+					$sender->sendMessage(mc::_("Unknown command %1%",$c));
 				}
 			}
 			return true;
 		}
-		$sender->sendMessage("KillRate sub-commands");
+		$sender->sendMessage(mc::_("KillRate sub-commands"));
 		foreach ($cmds as $a => $b) {
 			$sender->sendMessage("- ".TextFormat::GREEN."/killrate ".$a.
 										TextFormat::RESET." ".$b[0]);
@@ -166,11 +172,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		} else {
 			$res = $this->getRankings(5,true);
 			if ($res == null) {
-				$c->sendMessage("Not enough on-line players");
+				$c->sendMessage(mc::_("Not enough on-line players"));
 				return true;
 			}
 		}
-		$c->sendMessage(". Player Points");
+		$c->sendMessage(mc::_(". Player Points"));
 		$i = 1;
 		foreach ($res as $r) {
 			$c->sendMessage(implode(" ",[$i++,$r["player"],$r["count"]]));
@@ -188,7 +194,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			}
 			$score = $this->dbm->getScores($pl);
 			if ($score == null) {
-				$c->sendMessage("No scores found for $pl");
+				$c->sendMessage(mc::_("No scores found for %1%",$pl));
 				continue;
 			} else {
 				if (count($args) != 1) $c->sendMessage(TextFormat::BLUE.$pl);
@@ -250,16 +256,24 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function announce($pp,$points,$money) {
 		if ($points) {
 			if ($points > 0) {
-				$pp->sendMessage("$points points awarded!");
+				$pp->sendMessage(mc::n(mc::_("one point awarded!"),
+											  mc::_("%1% points awarded!",$points),
+											  $points));
 			} else {
-				$pp->sendMessage("$points points deducted!");
+				$pp->sendMessage(mc::n(mc::_("one point deducted!"),
+											  mc::_("%1% points deducted!",$points),
+											  $points));
 			}
 		}
 		if ($money) {
 			if ($money > 0) {
-				$pp->sendMessage("You earn $money!");
+				$pp->sendMessage(mc::n(mc::_("You earn \$1"),
+											  mc::_("You earn \$%1%", $money), $money));
+
 			} else {
-				$pp->sendMessage("You have been fined $money!");
+				$pp->sendMessage(mc::n(mc::_("You are fined \$1"),
+											  mc::_("You are fined \$%1%",$money),
+											  $money));
 			}
 		}
 	}
