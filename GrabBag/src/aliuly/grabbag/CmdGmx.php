@@ -10,6 +10,8 @@
  **   usage: **gms**
  ** * gma : Change your gamemode to _Adventure_.
  **   usage: **gma**
+ ** * gmspc : Change your gamemode to _Spectator_.
+ **   usage: **gmspc**
  **
  **/
 namespace aliuly\grabbag;
@@ -37,6 +39,10 @@ class CmdGmx extends BaseCommand {
 							  ["description" => "switch gamemode to adventure",
 								"usage" => "/gma",
 								"permission" => "gb.cmd.gma"]);
+		$this->enableCmd("gmspc",
+							  ["description" => "switch gamemode to spectator",
+								"usage" => "/gmspc",
+								"permission" => "gb.cmd.gmspc"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (!$this->inGame($sender)) return true;
@@ -49,6 +55,9 @@ class CmdGmx extends BaseCommand {
 				break;
 			case "gma":
 				$mode = 2;
+				break;
+			case "gmspc":
+				$mode = 3;
 				break;
 			default:
 				return false;

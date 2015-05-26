@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+
 # GrabBag
 
 * Summary: A miscellaneous colletion of commands and listener modules
@@ -402,10 +404,93 @@ this section through the *rcon* command.
 
 ### Permission Nodes
 
-* blah
+* gb.module.repeater : Access to repeater module
+  (Defaults to Op)
+* gb.cmd.players : allow players command
+  (Defaults to Op)
+* gb.cmd.ops : list server ops
+  (Defaults to Op)
+* gb.cmd.sudo : Allow to run command as another user
+  (Defaults to Op)
+* gb.cmd.gma : Allow to switch gamemode to Adventure
+  (Defaults to Op)
+* gb.cmd.gms : Allow to switch gamemode to survival
+  (Defaults to Op)
+* gb.cmd.gmc : Allow to switch gamemode to creative
+  (Defaults to Op)
+* gb.cmd.slay : Allow slaying players
+  (Defaults to Op)
+* gb.cmd.heal : Allow healing
+  (Defaults to Op)
+* gb.cmd.whois : Show player details
+  (Defaults to Op)
+* gb.cmd.whois.showip : Show player IP address
+  (Defaults to Op)
+* gb.cmd.timings : Show timings data
+  (Defaults to Op)
+* gb.cmd.seearmor : Show player's armor
+  (Defaults to Op)
+* gb.cmd.seeinv : Show player's inventory
+  (Defaults to Op)
+* gb.cmd.clearinv : Clear player's inventory
+  (Defaults to Op)
+* gb.cmd.get : Get blocks
+  (Defaults to Op)
+* gb.cmd.shield : Allow players to become invulnerable
+  (Defaults to Op)
+* gb.cmd.servicemode : Allow access to service mode command
+  (Defaults to Op)
+* gb.servicemode.allow : Allow login when in service mode.
+  (Defaults to Op)
+* gb.cmd.opms : Allow to send op only messages
+  (Defaults to Op)
+* gb.cmd.entities : Access entities command
+  (Defaults to Op)
+* gb.cmd.mute : mute/unmute
+  (Defaults to Op)
+* gb.cmd.freeze : freeze/thaw users
+  (Defaults to Op)
+* gb.cmd.after : Schedule commands
+  (Defaults to Op)
+* gb.cmd.rpt : Report issues
+  (Defaults to Op)
+* gb.cmd.rpt.read : Read reported issues
+  (Defaults to Op)
+* gb.cmd.summon : Summon|Dismiss command
+  (Defaults to Op)
+* gb.cmd.pushpoptp : push/pop teleport
+  (Defaults to Op)
+* gb.cmd.prefix : Allow the use of /prefix
+  (Defaults to Op)
+* gb.cmd.spawn : Allow to teleport to spawn
+  (Defaults to Op)
+* gb.cmd.burn : Allow the use of burn command
+  (Defaults to Op)
+* gb.cmd.throw : Allow to throw players up in the air
+  (Defaults to Op)
+* gb.cmd.blowup : Allow to blow-up players
+  (Defaults to Op)
+* gb.cmd.setarmor : Allow you to set your armor
+  (Defaults to Op)
+* gb.cmd.setarmor.others : Allow you to set others armor
+  (Defaults to Op)
+* gb.cmd.spectator : Turn players into spectators
+  (Defaults to Op)
+* gb.cmd.follow : Let players can follow others
+  (Defaults to Op)
+* gb.cmd.followme : Make players follow you
+  (Defaults to Op)
+* gb.cmd.rcon : use RCON client
+  (Defaults to Op)
+* gb.cmd.rcon.config : Modify the RCON configuration
+  (Defaults to Op)
 
 # Changes
 
+* ??? :
+  * Added gmspc command to set spectator mode.
+  * broadcast-tp
+  * fly command
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring
