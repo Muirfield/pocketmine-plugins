@@ -19,6 +19,7 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use aliuly\common\mc;
+use aliuly\common\MPMU;
 
 class WpList extends BaseWp {
 	public function __construct($owner) {
@@ -53,11 +54,12 @@ class WpList extends BaseWp {
 					 TextFormat::WHITE.$wcfg["protect"];
 
 		if (isset($wcfg["max-players"]))
-			$txt[] = TextFormat::AQUA.mx::_("Max Players:  ").
+			$txt[] = TextFormat::AQUA.mc::_("Max Players:  ").
 					 TextFormat::WHITE.$wcfg["max-players"];
 		if (isset($wcfg["gamemode"]))
 			$txt[] = TextFormat::AQUA.mc::_("Gamemode:  ").
-					 TextFormat::WHITE.$this->owner->gamemodeString($wcfg["gamemode"]);
+					 TextFormat::WHITE.MPMU::gamemodeStr($wcfg["gamemode"]);
+
 		if (isset($wcfg["pvp"])) {
 			if ($wcfg["pvp"] === true) {
 				$txt[] = TextFormat::AQUA.mc::_("PvP: ").TextFormat::RED.mc::_("on");

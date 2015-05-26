@@ -14,47 +14,34 @@
  **/
 namespace aliuly\worldprotect;
 
-use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
-use pocketmine\event\Listener;
 use pocketmine\level\Level;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
-use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use aliuly\common\mc;
 use aliuly\common\MPMU;
+use aliuly\common\BasicPlugin;
 
-class Main extends PluginBase implements Listener, CommandExecutor {
-	protected $modules;
-	protected $scmdMap;
+class Main extends BasicPlugin implements CommandExecutor {
 	protected $wcfg;
-	protected $spam;
 	const SPAM_DELAY = 5;
 
-	public function onEnable(){
-		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+	public function onEnable() {
 		if (!MPMU::version("0.0.0")) {
 			$this->getLogger()->info(TextFormat::RED."Using outdated common library");
 			$this->getLogger()->info(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
 			throw new \RuntimeException("Runtime checks failed");
 			return;
 		}
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$this->getLogger()->info(mc::_("Using common library from: %1%",MPMU::plugin()));
-		$this->scmdMap = [
-			"mgrs" => [],
-			"help" => [],
-			"usage" => [],
-			"alias" => [],
-			"permission" => [],
-		];
-
-		$mods = [
+		$cfg = $this->modConfig(__NAMESPACE__, [
 			"max-players" => [ "MaxPlayerMgr", false ],
 			"protect" => [ "WpProtectMgr", true ],
 			"border" => [ "WpBordersMgr", true ],
@@ -64,54 +51,15 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			"unbreakable" => [ "Unbreakable", false ],
 			"banitem" => [ "BanItem", true ],
 			"gamemode" => [ "GmMgr", false ],
-		];
-		$defaults = [
+		], [
 			"version" => $this->getDescription()->getVersion(),
-			"features" => [],
 			"motd" => [
 				"ticks" => 15,
 			],
-		];
-		foreach ($mods as $i => $j) {
-			$defaults["features"][$i] = $j[1];
-		}
-		$cfg=(new Config($this->getDataFolder()."config.yml",
-									  Config::YAML,$defaults))->getAll();
-
-		$this->modules = [];
-		foreach ($cfg["features"] as $i=>$j) {
-			if (!isset($mods[$i])) {
-				$this->getLogger()->info(mc::_("Unknown feature \"%1%\" ignored.",
-														 $i));
-				continue;
-			}
-			if (!$j) continue;
-			$class = $mods[$i][0];
-			if(strpos($class,"\\") === false) $class = __NAMESPACE__."\\".$class;
-			if (isset($cfg[$i]))
-				$this->modules[$i] = new $class($this,$cfg[$i]);
-			else
-				$this->modules[$i] = new $class($this);
-		}
-		if (count($this->modules)) {
-			$this->state = [];
-			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->getLogger()->info(mc::n(mc::_("Enabled one feature"),
-													 mc::_("Enable %1% features",
-															 count($this->modules)),
-													 count($this->modules)));
-		} else {
-			$this->getLogger()->info(mc::_("NO features enabled"));
-			return;
-		}
-		$this->modules[] = new WpHelp($this);
+		],mc::_("Usage: /%%s [world] %%s %%s"));
 		$this->modules[] = new WpList($this);
-		$this->wcfg = [];
-		foreach ($this->getServer()->getLevels() as $level) {
-			$this->loadCfg($level);
-		}
-		$this->spam = [];
 	}
+
 	//////////////////////////////////////////////////////////////////////
 	//
 	// Save/Load configurations
@@ -132,6 +80,7 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		if (is_file($path)) {
 			$this->wcfg[$world] = (new Config($path,Config::YAML,[]))->getAll();
 			foreach ($this->modules as $i=>$mod) {
+				if (!($mod instanceof BaseWp)) continue;
 				if (isset($this->wcfg[$world][$i])) {
 					$mod->setCfg($world,$this->wcfg[$world][$i]);
 				} else {
@@ -234,10 +183,6 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 	// Event handlers
 	//
 	//////////////////////////////////////////////////////////////////////
-	public function onPlayerQuit(PlayerQuitEvent $e) {
-		$n = strtolower($e->getPlayer()->getName());
-		if (isset($this->spam[$n])) unset($this->spam[$n]);
-	}
 	public function onLevelLoad(LevelLoadEvent $e) {
 		$this->loadCfg($e->getLevel());
 	}
@@ -269,50 +214,8 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			$sender->sendMessage(mc::_("[WP] Must specify a world"));
 			return false;
 		}
-		if (count($args) == 0) {
-			$sender->sendMessage(mc::_("[WP] No subcommand specified"));
-			return false;
-		}
-		$scmd = strtolower(array_shift($args));
-		if (isset($this->scmdMap["alias"][$scmd])) {
-			$scmd = $this->scmdMap["alias"][$scmd];
-		}
-		if (!isset($this->scmdMap["mgrs"][$scmd])) {
-			$sender->sendMessage(mc::_("[WP] Unknown sub-command (try /wp help)"));
-			return false;
-		}
-		if (isset($this->scmdMapd["permission"][$scmd])) {
-			if (!$sender->hasPermission($this->scmdMapd["permission"][$scmd])) {
-				$sender->sendMessage(mc::_("You are not allowed to do this"));
-				return true;
-			}
-		}
 		if (!$this->isAuth($sender,$world)) return true;
-		$callback = $this->scmdMap["mgrs"][$scmd];
-		if ($callback($sender,$cmd,$scmd,$world,$args)) return true;
-		if (isset($this->scmdMap["mgrs"]["help"])) {
-			$callback = $this->scmdMap["mgrs"]["help"];
-			return $callback($sender,$cmd,$scmd,$world,["usage"]);
-		}
-		return false;
-	}
-	public function getScmdMap() {
-		return $this->scmdMap;
-	}
-	public function registerScmd($cmd,$callable,$opts) {
-		$cmd = strtolower($cmd);
-		$this->scmdMap["mgrs"][$cmd] = $callable;
-
-		foreach (["help","usage","permission"] as $p) {
-			if(isset($opts[$p])) {
-				$this->scmdMap[$p][$cmd] = $opts[$p];
-			}
-		}
-		if (isset($opts["aliases"])) {
-			foreach ($opts["aliases"] as $alias) {
-				$this->scmdMap["alias"][$alias] = $cmd;
-			}
-		}
+		return $this->dispatchSCmd($sender,$cmd,$args,$world);
 	}
 	public function canPlaceBreakBlock(Player $c,$world) {
 		$pname = strtolower($c->getName());
@@ -356,16 +259,10 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			$this->unsetCfg($world,"auth");
 		}
 	}
-
 	public function msg($pl,$txt) {
-		$n = strtolower($pl->getName());
-		if (isset($this->spam[$n])) {
-			// Check if we are spamming...
-			if (time() - $this->spam[$n][0] < self::SPAM_DELAY
-				 && $this->spam[$n][1] == $txt) return;
-		}
-		$this->spam[$n] = [ time(), $txt ];
+		list($time,$otxt)= $this->getState("spam",$pl,[0,""]);
+		if (time() - $time < self::SPAM_DELAY && $otxt == $txt) return;
+		$this->setState("spam",$pl,[time(),$txt]);
 		$pl->sendMessage($txt);
 	}
 }
-//		echo __METHOD__.",".__LINE__."\n";//##DEBUG
