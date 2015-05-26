@@ -33,6 +33,7 @@ specified in the `server.properties` file.
 
 * /motd : Shows the world's *motd* text
 * add : Add player to the authorized list
+* banitem|unbanitem : Control items that can/cannot be used
 * border : defines a border for a world
 * gm : Configures a world's gamemode
 * lock : Locks world, not even Op can use.
@@ -77,6 +78,12 @@ The following commands are available:
   rules around a world.
 * /wp _[world]_ **add** _&lt;player&gt;_  
   Add player to the authorized list  
+* /wp  _[world]_ **banitem|unbanitem** _[Item-ids]_  
+  Control items that can/cannot be used  
+  Manages which Items can or can not be used in a given world.
+  You can get a list of items currently banned
+  if you do not specify any _[item-ids]_.  Otherwise these are
+  added or removed from the list.
 * /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_  
   defines a border for a world  
   Defines a border for an otherwise infinite world.  Usage:
@@ -208,6 +215,8 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
   (Defaults to Op)
 * wp.cmd.unbreakable : Modify unbreakable block list
   (Defaults to Op)
+* wp.cmd.banitem : Ban/unban items
+  (Defaults to Op)
 * wp.cmd.info : Show WP config info
 * wp.cmd.gm : Allow setting a per-world gamemode
   (Defaults to Op)
@@ -219,11 +228,26 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
 * World names can not contain spaces.
 
+## Translations
+
+This plugin will honour the server language configuration.  The
+current languages are available:
+
+* English
+* Spanish
+
+You can provide your own message file by creating a file called
+`messages.ini` in the plugin directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
+for sample files.
+
 # Changes
 
 * 2.0.0: Complete re-write
   * Refactor so it is now more modular
   * Added per world gamemode
+  * Added banitem functionality
+  * Added translation: Spanish
 * 1.2.4: CallbackTask
   * Removed CallbackTask deprecation warnings
 * 1.2.3: Suggested change

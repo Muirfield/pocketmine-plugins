@@ -48,6 +48,9 @@ permissions:
     wp.cmd.unbreakable:
         default: op
         description: "Modify unbreakable block list"
+    wp.cmd.banitem:
+        default: op
+        description: "Ban/unban items"
     wp.cmd.info:
         default: true
         description: "Show WP config info"

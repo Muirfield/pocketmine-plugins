@@ -4,6 +4,9 @@ echo "RUNNING MAKER SCRIPT...";
 error_reporting(E_ALL);
 define('SRCDIR',dirname(realpath(__FILE__))."/");
 require_once(SRCDIR."../lib/Spyc.php");
+require_once(SRCDIR."../lib/common/mcutils.php");
+use aliuly\common\mcutils;
+
 if (!is_file(SRCDIR."README.md")) die("Missing README.md");
 if (!is_file(SRCDIR."plugin.yml")) die("Missing plugin.yml");
 
@@ -172,10 +175,14 @@ $db = [
 ];
 $yaml = Spyc::YAMLLoad(SRCDIR."plugin.yml");
 
+$src = [];
+
+
 foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SRCDIR)) as $s){
 	if (!is_file($s)) continue;
 	$d = substr($s,strlen(SRCDIR));
 	if (!preg_match('/\.php$/',$d)) continue;
+	$src[] = $s;
 	$doc = analyze_src($s);
 	if (isset($doc["config"])) {
 		$cfgname = array_shift($doc["config"]);
@@ -212,8 +219,6 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SRCDIR)) as
 		}
 	}
 }
-
-
 
 $out = [""];
 foreach ($txt as $ln) {
@@ -330,4 +335,43 @@ $out[] = "";
 //print_r($db);
 file_put_contents(SRCDIR."README.md",implode("\n",$out));
 //echo implode("\n",$out);
+$mcdir = SRCDIR."resources/messages";
+//echo "is_dir: ".is_dir($mcdir)."\n";
+//echo "count src: ".count($src)."\n";
+//echo "mcdir=$mcdir\n";
+//echo "glob: ".count(glob("$mcdir/*.ini"))."\n";
+if (count($src) && is_dir($mcdir)) {
+	$f = "$mcdir/messages.ini";
+	$g = "$mcdir/messages.po";
+	if (file_exists($f)) unlink($f);
+	system("xgettext --no-wrap -o $g ".implode(" ",$src));
+	mcutils::po2ini($g,$f);
+	unlink($g);
+
+	if (count(glob("$mcdir/*.ini"))+count(glob("$mcdir/*.po")) > 0) {
+		foreach (["*.ini","*.po"] as $tt) {
+			foreach (glob("$mcdir/$tt") as $mc) {
+				//echo "Updating ".basename($mc)."\n";
+				$po = $mc;
+				if (preg_match('/\.ini$/',$mc)) {
+					$po = preg_replace('/\.ini$/','.po',$mc);
+					//echo "WRITTING $po\n";
+					mcutils::ini2po($mc,$po);
+				}
+				$cmd = 'xgettext --no-wrap -o '.$po;
+				if (file_exists($po)) $cmd.=' -j';
+				$cmd .= ' '.implode(' ',$src);
+				//echo ("cmd=$cmd\n");
+				system($cmd);
+				if ($po != $mc) {
+					mcutils::po2ini($po,$mc);
+					unlink($po);
+				}
+			}
+		}
+	}
+}
+
+
+
 exit("\nOK\n");
