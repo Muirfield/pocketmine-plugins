@@ -18,17 +18,17 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
+use aliuly\common\mc;
 
 class WpList extends BaseWp {
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->enableSCmd("ls",["usage" => "[world]",
-										"help" => "Show protections on worlds",
+		$this->enableSCmd("ls",["usage" => mc::_("[world]"),
+										"help" => mc::_("Show protections on worlds"),
 										"permission" => "wm.cmd.info",
 										"aliases" => ["info"]]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$cm = $this->owner->getScmdMap();
 		$pageNumber = $this->getPageNumber($args);
 
@@ -38,56 +38,60 @@ class WpList extends BaseWp {
 	}
 	private function wpDetails(CommandSender $c,$world,$pageNumber) {
 		if (!$this->owner->getServer()->isLevelGenerated($world)) {
-			$c->sendMessage("World $world does not exist");
+			$c->sendMessage(mc::_("World %1% does not exist",$world));
 			return;
 		}
 		$f = $this->owner->getServer()->getDataPath(). "worlds/$world/wpcfg.yml";
 		if (!is_file($f)) {
-			$c->sendMessage("World $world is not protected");
+			$c->sendMessage(mc::_("World %1% is not protected",$world));
 			return;
 		}
 		$wcfg=(new Config($f,Config::YAML))->getAll();
-		$txt = ["Details for $world"];
+		$txt = [mc::_("Details for %1%",$world)];
 		if (isset($wcfg["protect"]))
-			$txt[] = TextFormat::AQUA."Protect:  ".
+			$txt[] = TextFormat::AQUA.mc::_("Protect:  ").
 					 TextFormat::WHITE.$wcfg["protect"];
 
 		if (isset($wcfg["max-players"]))
-			$txt[] = TextFormat::AQUA."Max Players:  ".
+			$txt[] = TextFormat::AQUA.mx::_("Max Players:  ").
 					 TextFormat::WHITE.$wcfg["max-players"];
 		if (isset($wcfg["gamemode"]))
-			$txt[] = TextFormat::AQUA."Gamemode:  ".
+			$txt[] = TextFormat::AQUA.mc::_("Gamemode:  ").
 					 TextFormat::WHITE.$this->owner->gamemodeString($wcfg["gamemode"]);
 		if (isset($wcfg["pvp"])) {
 			if ($wcfg["pvp"] === true) {
-				$txt[] = TextFormat::AQUA."PvP: ".TextFormat::RED."on";
+				$txt[] = TextFormat::AQUA.mc::_("PvP: ").TextFormat::RED.mc::_("on");
 			} elseif ($wcfg["pvp"] === false) {
-				$txt[] = TextFormat::AQUA."PvP: ".TextFormat::GREEN."off";
+				$txt[] = TextFormat::AQUA.mc::_("PvP: ").TextFormat::GREEN.mc::_("off");
 			} else {
-				$txt[] = TextFormat::AQUA."PvP: ".TextFormat::YELLOW."spawn-off";
+				$txt[] = TextFormat::AQUA.mc::_("PvP: ").TextFormat::YELLOW.mc::_("spawn-off");
 			}
 		}
 		if (isset($wcfg["no-explode"])) {
 			if ($wcfg["no-explode"] === "off") {
-				$txt[] = TextFormat::AQUA."NoExplode: ".TextFormat::RED."off";
+				$txt[] = TextFormat::AQUA.mc::_("NoExplode: ").TextFormat::RED.mc::_("off");
 			} elseif ($wcfg["no-explode"] === "world") {
-				$txt[] = TextFormat::AQUA."NoExplode: ".TextFormat::GREEN."world";
+				$txt[] = TextFormat::AQUA.mc::_("NoExplode: ").TextFormat::GREEN.mc::_("world");
 			} else {
-				$txt[] = TextFormat::AQUA."NoExplode: ".TextFormat::YELLOW."spawn";
+				$txt[] = TextFormat::AQUA.mc::_("NoExplode: ").TextFormat::YELLOW.mc::_("spawn");
 			}
 		}
 		if (isset($wcfg["border"]))
-			$txt[] = TextFormat::AQUA."Border: ".TextFormat::WHITE.
+			$txt[] = TextFormat::AQUA.mc::_("Border: ").TextFormat::WHITE.
 					 implode(",",$wcfg["border"]);
 		if (isset($wcfg["auth"]))
-			$txt[] = TextFormat::AQUA."Auth List(".count($wcfg["auth"]).
-					 "): ".TextFormat::WHITE.implode(",",$wcfg["auth"]);
+			$txt[] = TextFormat::AQUA.mc::_("Auth List(%1%): ",count($wcfg["auth"])).
+					 TextFormat::WHITE.implode(",",$wcfg["auth"]);
+
 		if (isset($wcfg["unbreakable"]))
-			$txt[] = TextFormat::AQUA."Unbreakable(".count($wcfg["unbreakable"]).
-					 ": ".TextFormat::WHITE.implode(",",$wcfg["unbreakable"]);
+			$txt[] = TextFormat::AQUA.mc::_("Unbreakable(%1%): ",count($wcfg["unbreakable"])).
+					 TextFormat::WHITE.implode(",",$wcfg["unbreakable"]);
+		if (isset($wcfg["banitem"]))
+			$txt[] = TextFormat::AQUA.mc::_("Banned(%1%): ",count($wcfg["banitem"])).
+					 TextFormat::WHITE.implode(",",$wcfg["banitem"]);
 
 		if (isset($wcfg["motd"])) {
-			$txt[] = "MOTD:";
+			$txt[] = mc::_("MOTD:");
 			if (is_array($wcfg["motd"])) {
 				foreach ($wcfg["motd"] as $ln) {
 					$txt[] = TextFormat::BLUE."  ".$ln.TextFormat::RESET;
@@ -101,37 +105,38 @@ class WpList extends BaseWp {
 	private function attrList($wcfg) {
 		$attr = [];
 		if (isset($wcfg["motd"])) {
-			$attr[] = "motd";
+			$attr[] = mc::_("motd");
 		}
 		if (isset($wcfg["protect"])) $attr[] = $wcfg["protect"];
 		if (isset($wcfg["pvp"])) {
 			if ($wcfg["pvp"] === true) {
-				$attr[] = "pvp:on";
+				$attr[] = mc::_("pvp:on");
 			} elseif ($wcfg["pvp"] === false) {
-				$attr[] = "pvp:off";
+				$attr[] = mc::_("pvp:off");
 			} else {
-				$attr[] = "pvp:spawn-off";
+				$attr[] = mc::_("pvp:spawn-off");
 			}
 		}
 		if (isset($wcfg["no-explode"]))
-			$attr[] = "notnt:".$wcfg["no-explode"];
-		if (isset($wcfg["border"])) $attr[] = "border";
+			$attr[] = mc::_("notnt:").$wcfg["no-explode"];
+		if (isset($wcfg["border"])) $attr[] = mc::_("border");
 		if (isset($wcfg["auth"]))
-			$attr[] = "auth(".count($wcfg["auth"]).")";
+			$attr[] = mc::_("auth(%1%)",count($wcfg["auth"]));
 		if (isset($wcfg["max-players"]))
-			$attr[]="max:".$wcfg["max-players"];
+			$attr[]=mc::_("max:").$wcfg["max-players"];
 		if (isset($wcfg["gamemode"]))
-			$attr[]="gm:".$wcfg["gamemode"];
+			$attr[]=mc::_("gm:").$wcfg["gamemode"];
 		if (isset($wcfg["unbreakable"]))
-			$attr[]="ubab:".count($wcfg["unbreakable"]);
-
+			$attr[]=mc::_("ubab:").count($wcfg["unbreakable"]);
+		if (isset($wcfg["banitem"]))
+			$attr[]=mc::_("bi:").count($wcfg["banitem"]);
 		return $attr;
 	}
 
 	private function wpList(CommandSender $c,$pageNumber) {
 		$dir = $this->owner->getServer()->getDataPath(). "worlds/";
 		if (!is_dir($dir)) {
-			$c->sendMessage("[WP] Missing path $dir");
+			$c->sendMessage(mc::_("[WP] Missing path %1%",$dir));
 			return true;
 		}
 		$txt = [];
@@ -153,10 +158,10 @@ class WpList extends BaseWp {
 			++$cnt;
 		}
 		if (!count($ln)) {
-			$c->sendMessage("Nothing to report");
+			$c->sendMessage(mc::_("Nothing to report"));
 			return true;
 		}
-		array_unshift($txt,"Worlds: $cnt");
+		array_unshift($txt,mc::_("Worlds: %1%",$cnt));
 		return $this->paginateText($c,$pageNumber,$txt);
 	}
 

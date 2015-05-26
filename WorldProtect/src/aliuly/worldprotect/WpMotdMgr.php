@@ -41,7 +41,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\Player;
 use aliuly\common\PluginCallbackTask;
-
+use aliuly\common\mc;
 
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 	protected $ticks;
@@ -50,12 +50,12 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->ticks = $cfg["ticks"];
-		$this->enableSCmd("motd",["usage" => "[text]",
-										  "help" => "Edits world motd text",
+		$this->enableSCmd("motd",["usage" => mc::_("[text]"),
+										  "help" => mc::_("Edits world motd text"),
 										  "permission" => "wp.cmd.wpmotd"]);
 
 		$this->enableCmd("motd",
-							  ["description"=>"Shows world motd text",
+							  ["description"=>mc::_("Shows world motd text"),
 								"usage" => "/motd [world]",
 								"permission" => "wp.motd" ]);
 	}
@@ -77,7 +77,7 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 			$world = array_shift($args);
 		}
 		if ($world === null) {
-			$sender->sendMessage("[WP] Must specify a world");
+			$sender->sendMessage(mc::_("[WP] Must specify a world"));
 			return false;
 		}
 		if (count($args) != 0) return false;
@@ -89,11 +89,11 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 		if ($scmd != "motd") return false;
 		if (count($args) == 0) {
 			$this->owner->unsetCfg($world,"motd");
-			$c->sendMessage("[WP] motd for $world removed");
+			$c->sendMessage(mc::_("[WP] motd for %1% removed",$world));
 			return true;
 		}
 		$this->owner->setCfg($world,"motd",implode(" ",$args));
-		$c->sendMessage("[WP] motd for $world updated");
+		$c->sendMessage(mc::_("[WP] motd for %1% updated",$world));
 		return true;
 	}
 
@@ -124,7 +124,6 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 		$this->showMotd($pl,$pl->getLevel()->getName());
 	}
 	public function onLevelChange(EntityLevelChangeEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
 		$level = $ev->getTarget()->getName();

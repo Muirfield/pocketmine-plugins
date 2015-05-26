@@ -21,13 +21,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
+use aliuly\common\mc;
 
 class MaxPlayerMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("max",["usage" => "[value]",
-										 "help" => "Limits number of players\n\tin a world to [value]\n\tuse 0 or -1 to remove limits",
+		$this->enableSCmd("max",["usage" => mc::_("[value]"),
+										 "help" => mc::_("Limits number of players\n\tin a world to [value]\n\tuse 0 or -1 to remove limits"),
 										 "permission" => "wp.cmd.limit",
 										 "aliases" => ["limit"]]);
 	}
@@ -37,9 +38,9 @@ class MaxPlayerMgr extends BaseWp implements Listener {
 		if (count($args) == 0) {
 			$count = $this->owner->getCfg($world, "max-players", null);
 			if ($count == null) {
-				$c->sendMessage("[WP] Max players in $world is un-limited");
+				$c->sendMessage(mc::_("[WP] Max players in %1% is un-limited",$world));
 			} else {
-				$c->sendMessage("[WP] Players allowed in $world: $count");
+				$c->sendMessage(mc::_("[WP] Players allowed in %1%: %2%", $world, $count));
 			}
 			return true;
 		}
@@ -47,10 +48,10 @@ class MaxPlayerMgr extends BaseWp implements Listener {
 		$count = intval($args[0]);
 		if ($count <= 0) {
 			$this->owner->unsetCfg($world,"max-players");
-			$this->owner->getServer()->broadcastMessage("[WP] Player limit in $world removed");
+			$this->owner->getServer()->broadcastMessage(mc::_("[WP] Player limit in %1% removed",$world));
 		} else {
 			$this->owner->setCfg($world,"max-players",$count);
-			$this->owner->getServer()->broadcastMessage("[WP] Player limit for $world set to $count");
+			$this->owner->getServer()->broadcastMessage(mc::_("[WP] Player limit for %1% set to %2%",$world, $count));
 		}
 		return true;
 	}
@@ -83,8 +84,8 @@ class MaxPlayerMgr extends BaseWp implements Listener {
 		$np = count($this->owner->getServer()->getLevelByName($to)->getPlayers());
 		if($np >= $max) {
 			$ev->setCancelled();
-			$et->sendMessage("Unable to teleport to $to\nWorld is full");
-			$this->owner->getLogger()->info("$to is FULL");
+			$et->sendMessage(mc::_("Unable to teleport to %1%\nWorld is full",$to));
+			$this->owner->getLogger()->info(mc::_("%1% is FULL",$to));
 		}
 	}
 }

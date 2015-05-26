@@ -21,17 +21,19 @@ use pocketmine\command\Command;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
 class Unbreakable extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("unbreakable",["usage" => "[id] [id]",
-													"help" => "Set block to unbreakable status",
+		$this->enableSCmd("unbreakable",["usage" => mc::_("[id] [id]"),
+													"help" => mc::_("Set block to unbreakable status"),
 													"permission" => "wp.cmd.unbreakable",
 													"aliases" => ["ubab"]]);
-		$this->enableSCmd("breakable",["usage" => "[id] [id]",
-												 "help" => "Remove unbreakable status from block",
+		$this->enableSCmd("breakable",["usage" => mc::_("[id] [id]"),
+												 "help" => mc::_("Remove unbreakable status from block"),
 												 "permission" => "wp.cmd.unbreakable",
 												 "aliases" => ["bab"]]);
 	}
@@ -41,9 +43,9 @@ class Unbreakable extends BaseWp implements Listener {
 		if (count($args) == 0) {
 			$ids = $this->owner->getCfg($world, "unbreakable", []);
 			if (count($ids) == 0) {
-				$c->sendMessage("[WP] No unbreakable blocks in $world");
+				$c->sendMessage(mc::_("[WP] No unbreakable blocks in %1%",$world));
 			} else {
-				$ln  = "[WP] Blocks(".count($ids)."):";
+				$ln  = mc::_("[WP] Blocks(%1%):",count($ids));
 				$q = "";
 				foreach ($ids as $id=>$n) {
 					$ln .= "$q $n($id)";
@@ -67,14 +69,14 @@ class Unbreakable extends BaseWp implements Listener {
 			foreach ($args as $i) {
 				$item = Item::fromString($i);
 				if (isset($ids[$item->getId()])) continue;
-				$ids[$item->getId()] = $this->itemName($item);
+				$ids[$item->getId()] = MPMU::itemName($item);
 				++$cc;
 			}
 		} else {
 			return false;
 		}
 		if (!$cc) {
-			$c->sendMessage("No blocks updated");
+			$c->sendMessage(mc::_("No blocks updated"));
 			return true;
 		}
 		if (count($ids)) {
@@ -82,7 +84,7 @@ class Unbreakable extends BaseWp implements Listener {
 		} else {
 			$this->owner->unsetCfg($world,"unbreakable");
 		}
-		$c->sendMessage("Blocks changed: $cc");
+		$c->sendMessage(mc::_("Blocks changed: %1%",$cc));
 		return true;
 	}
 	public function onBlockBreak(BlockBreakEvent $ev){
@@ -92,7 +94,7 @@ class Unbreakable extends BaseWp implements Listener {
 		if (!isset($this->wcfg[$world])) return;
 		if (!isset($this->wcfg[$world][$bl->getId()])) return;
 		$pl = $ev->getPlayer();
-		$pl->sendMessage("It can not be broken!");
+		$pl->sendMessage(mc::_("It can not be broken!"));
 		$ev->setCancelled();
 	}
 }

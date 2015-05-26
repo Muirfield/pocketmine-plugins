@@ -19,12 +19,15 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat;
 use pocketmine\event\Listener;
 use pocketmine\level\Level;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
 class Main extends PluginBase implements Listener, CommandExecutor {
 	protected $modules;
@@ -35,6 +38,14 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		if (!MPMU::version("0.0.0")) {
+			$this->getLogger()->info(TextFormat::RED."Using outdated common library");
+			$this->getLogger()->info(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
+			throw new \RuntimeException("Runtime checks failed");
+			return;
+		}
+		mc::plugin_init($this,$this->getFile());
+		$this->getLogger()->info(mc::_("Using common library from: %1%",MPMU::plugin()));
 		$this->scmdMap = [
 			"mgrs" => [],
 			"help" => [],
@@ -50,7 +61,8 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			"pvp" => [ "WpPvpMgr", true ],
 			"motd" => [ "WpMotdMgr", false ],
 			"no-explode" => [ "NoExplodeMgr", false ],
-			"unbreakable" => [ "Unbreakable",false ],
+			"unbreakable" => [ "Unbreakable", false ],
+			"banitem" => [ "BanItem", true ],
 			"gamemode" => [ "GmMgr", false ],
 		];
 		$defaults = [
@@ -69,7 +81,8 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		$this->modules = [];
 		foreach ($cfg["features"] as $i=>$j) {
 			if (!isset($mods[$i])) {
-				$this->getLogger()->info("Unknown feature \"$i\" ignored.");
+				$this->getLogger()->info(mc::_("Unknown feature \"%1%\" ignored.",
+														 $i));
 				continue;
 			}
 			if (!$j) continue;
@@ -83,9 +96,12 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		if (count($this->modules)) {
 			$this->state = [];
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->getLogger()->info("enabled ".count($this->modules)." features");
+			$this->getLogger()->info(mc::n(mc::_("Enabled one feature"),
+													 mc::_("Enable %1% features",
+															 count($this->modules)),
+													 count($this->modules)));
 		} else {
-			$this->getLogger()->info("NO features enabled");
+			$this->getLogger()->info(mc::_("NO features enabled"));
 			return;
 		}
 		$this->modules[] = new WpHelp($this);
@@ -116,7 +132,6 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		if (is_file($path)) {
 			$this->wcfg[$world] = (new Config($path,Config::YAML,[]))->getAll();
 			foreach ($this->modules as $i=>$mod) {
-				echo "i=$i - ".get_class($mod)."\n";//##DEBUG
 				if (isset($this->wcfg[$world][$i])) {
 					$mod->setCfg($world,$this->wcfg[$world][$i]);
 				} else {
@@ -251,11 +266,11 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			$world = array_shift($args);
 		}
 		if ($world === null) {
-			$sender->sendMessage("[WP] Must specify a world");
+			$sender->sendMessage(mc::_("[WP] Must specify a world"));
 			return false;
 		}
 		if (count($args) == 0) {
-			$sender->sendMessage("[WP] No subcommand specified");
+			$sender->sendMessage(mc::_("[WP] No subcommand specified"));
 			return false;
 		}
 		$scmd = strtolower(array_shift($args));
@@ -263,21 +278,19 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 			$scmd = $this->scmdMap["alias"][$scmd];
 		}
 		if (!isset($this->scmdMap["mgrs"][$scmd])) {
-			$sender->sendMessage("[WP] Unknown sub-command (try /wp help)");
+			$sender->sendMessage(mc::_("[WP] Unknown sub-command (try /wp help)"));
 			return false;
 		}
 		if (isset($this->scmdMapd["permission"][$scmd])) {
 			if (!$sender->hasPermission($this->scmdMapd["permission"][$scmd])) {
-				$sender->sendMessage("You are not allowed to do this");
+				$sender->sendMessage(mc::_("You are not allowed to do this"));
 				return true;
 			}
 		}
 		if (!$this->isAuth($sender,$world)) return true;
 		$callback = $this->scmdMap["mgrs"][$scmd];
 		if ($callback($sender,$cmd,$scmd,$world,$args)) return true;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (isset($this->scmdMap["mgrs"]["help"])) {
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$callback = $this->scmdMap["mgrs"]["help"];
 			return $callback($sender,$cmd,$scmd,$world,["usage"]);
 		}
@@ -320,7 +333,7 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		if (!count($this->wcfg[$world]["auth"])) return true;
 		$iusr = strtolower($c->getName());
 		if (isset($this->wcfg[$world][$iusr])) return true;
-		$c->sendMessage("[WP] You are not allowed to do this");
+		$c->sendMessage(mc::_("[WP] You are not allowed to do this"));
 		return false;
 	}
 	public function authAdd($world,$usr) {
@@ -353,15 +366,6 @@ class Main extends PluginBase implements Listener, CommandExecutor {
 		}
 		$this->spam[$n] = [ time(), $txt ];
 		$pl->sendMessage($txt);
-	}
-	public function gamemodeString($mode) {
-		switch($mode) {
-			case 0: return "Survival";
-			case 1: return "Creative";
-			case 2: return "Adventure";
-			case 3: return "Spectator";
-		}
-		return "$mode-mode";
 	}
 }
 //		echo __METHOD__.",".__LINE__."\n";//##DEBUG

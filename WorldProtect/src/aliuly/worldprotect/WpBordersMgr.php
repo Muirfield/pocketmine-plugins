@@ -26,6 +26,7 @@ use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
+use aliuly\common\mc;
 
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
@@ -34,8 +35,8 @@ class WpBordersMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("border",["usage" => "[range|none|x1 z1 x2 z2]",
-											 "help" => "Creates a border defined\n\tby x1,z1 to x2,z2\n\tUse [none] to remove\n\tIf [range] is specified the border is\n\t-range,-range to range,range\n\taround the spawn point",
+		$this->enableSCmd("border",["usage" => mc::_("[range|none|x1 z1 x2 z2]"),
+											 "help" => mc::_("Creates a border defined\n\tby x1,z1 to x2,z2\n\tUse [none] to remove\n\tIf [range] is specified the border is\n\t-range,-range to range,range\n\taround the spawn point"),
 											 "permission" => "wp.cmd.border"]);
 
 	}
@@ -45,10 +46,11 @@ class WpBordersMgr extends BaseWp implements Listener {
 		if (count($args) == 0) {
 			$limits = $this->owner->getCfg($world,"border",null);
 			if ($limits == null) {
-				$c->sendMessage("[WP] $world has no borders");
+				$c->sendMessage(mc::_("[WP] %1% has no borders",$world));
 			} else {
 				list($x1,$z1,$x2,$z2) = $limits;
-				$c->sendMessage("[WP] Border for $world is ($x1,$z1)-($x2,$z2)");
+				$c->sendMessage(mc::_("[WP] Border for %1% is (%2%,%3%)-(%4%,%5%)",
+											 $world,$x1,$z1,$x2,$z2));
 			}
 			return true;
 		}
@@ -56,12 +58,12 @@ class WpBordersMgr extends BaseWp implements Listener {
 			$range = intval($args[0]);
 			if ($range == 0) {
 				$this->owner->unsetCfg($world,"border");
-				$this->owner->getServer()->broadcastMessage("[WP] Border for $world removed");
+				$this->owner->getServer()->broadcastMessage(mc::_("[WP] Border for %1% removed",$world));
 				return true;
 			}
 			if (!$this->owner->getServer()->isLevelLoaded($world)) {
 				if (!$this->owner->getServer()->loadLevel($world)) {
-					$c->sendMessage("Error loading level $world");
+					$c->sendMessage(mc::_("Error loading level %1%",$world));
 					return true;
 				}
 				$unload = true;
@@ -69,7 +71,7 @@ class WpBordersMgr extends BaseWp implements Listener {
 				$unload = false;
 			$l = $this->owner->getServer()->getLevelByName($world);
 			if (!$l) {
-				$c->sendMessage("Unable to find level $world");
+				$c->sendMessage(mc::_("Unable to find level %1%",$world));
 				return true;
 			}
 			$pos = $l->getSpawnLocation();
@@ -82,13 +84,13 @@ class WpBordersMgr extends BaseWp implements Listener {
 			list($x1,$z1,$x2,$z2) = $args;
 			if (!is_numeric($x1) || !is_numeric($z1)
 				 || !is_numeric($x2) || !is_numeric($z2)) {
-				$c->sendMessage("[WP] Invalid border specification");
+				$c->sendMessage(mc::_("[WP] Invalid border specification"));
 				return false;
 			}
 			if ($x1 > $x2) list($x1,$x2) = [$x2,$x1];
 			if ($z1 > $z2) list($z1,$z2) = [$z2,$z1];
 			$this->owner->setCfg($world,"border",[$x1,$z1,$x2,$z2]);
-			$this->owner->getServer()->broadcastMessage("[WP] Border for $world set to ($x1,$z1)-($x2,$z2)");
+			$this->owner->getServer()->broadcastMessage(mc::_("[WP] Border for %1% set to (%2%,%3%)-(%4%,%5%)", $world, $x1,$z1, $x2, $z2));
 			return true;
 		}
 		return false;
@@ -107,7 +109,7 @@ class WpBordersMgr extends BaseWp implements Listener {
 		$pos = $ev->getTo();
 		if ($this->checkMove($pl->getLevel()->getName(),
 									$pos->getX(),$pos->getZ())) return;
-		$this->owner->msg($pl,"You have reached the end of the world");
+		$this->owner->msg($pl,mc::_("You have reached the end of the world"));
 		$ev->setCancelled();
 	}
 
@@ -127,7 +129,7 @@ class WpBordersMgr extends BaseWp implements Listener {
 		}
 		//echo __METHOD__.",".__LINE__."world=$world\n"; //##DEBUG
 		if ($this->checkMove($world,$to->getX(),$to->getZ())) return;
-		$this->owner->msg($pl,"You are teleporting outside the world");
+		$this->owner->msg($pl,mc::_("You are teleporting outside the world"));
 		$ev->setCancelled();
 	}
 

@@ -21,13 +21,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityExplodeEvent;
+use aliuly\common\mc;
 
 class NoExplodeMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("noexplode",["usage" => "[off|world|spawn]",
-												 "help" => "Disable explosions in world or spawn area",
+		$this->enableSCmd("noexplode",["usage" => mc::_("[off|world|spawn]"),
+												 "help" => mc::_("Disable explosions in world or spawn area"),
 												 "permission" => "wp.cmd.noexplode",
 												 "aliases" => ["notnt"]]);
 	}
@@ -36,11 +37,11 @@ class NoExplodeMgr extends BaseWp implements Listener {
 		if (count($args) == 0) {
 			$notnt = $this->owner->getCfg($world, "no-explode", false);
 			if ($notnt == "world") {
-				$c->sendMessage(TextFormat::GREEN."[WP] Explosions stopped in $world");
+				$c->sendMessage(TextFormat::GREEN.mc::_("[WP] Explosions stopped in %1%",$world));
 			} elseif ($notnt == "spawn") {
-				$c->sendMessage(TextFormat::YELLOW."[WP] Explosions off in $world's spawn");
+				$c->sendMessage(TextFormat::YELLOW.mc::_("[WP] Explosions off in %1%'s spawn",$world));
 			} else {
-				$c->sendMessage(TextFormat::RED."[WP] Explosions allowed in $world");
+				$c->sendMessage(TextFormat::RED.mc::_("[WP] Explosions allowed in %1%",$world));
 			}
 			return true;
 		}
@@ -48,15 +49,15 @@ class NoExplodeMgr extends BaseWp implements Listener {
 		switch (substr(strtolower($args[0]),0,2)) {
 			case "sp":
 				$this->owner->setCfg($world,"no-explode","spawn");
-				$this->owner->getServer()->broadcastMessage(TextFormat::YELLOW."[WP] NO Explosions in $world's spawn");
+				$this->owner->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("[WP] NO Explosions in %1%'s spawn",$world));
 				break;
 			case "wo":
 				$this->owner->setCfg($world,"no-explode","world");
-				$this->owner->getServer()->broadcastMessage(TextFormat::GREEN."[WP] NO Explosions in $world");
+				$this->owner->getServer()->broadcastMessage(TextFormat::GREEN.mc::_("[WP] NO Explosions in %1%",$world));
 				break;
 			case "off":
 				$this->owner->unsetCfg($world,"no-explode");
-				$this->owner->getServer()->broadcastMessage(TextFormat::RED."[WP] Explosions Allowed in $world");
+				$this->owner->getServer()->broadcastMessage(TextFormat::RED.mc::_("[WP] Explosions Allowed in %1%",$world));
 				break;
 			default:
 				return false;
@@ -64,7 +65,7 @@ class NoExplodeMgr extends BaseWp implements Listener {
 		return true;
 	}
 	public function onExplode(EntityExplodeEvent $ev){
-		echo __METHOD__.",".__LINE__."\n";
+		//echo __METHOD__.",".__LINE__."\n";
 		if ($ev->isCancelled()) return;
 		$et = $ev->getEntity();
 		$world = $et->getLevel()->getName();
@@ -76,6 +77,6 @@ class NoExplodeMgr extends BaseWp implements Listener {
 		}
 		$ev->setCancelled();
 		$this->owner->getLogger()->info(TextFormat::RED.
-												  "Explosion was stopped in $world");
+												  mc::_("Explosion was stopped in %1%",$world));
 	}
 }

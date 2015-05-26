@@ -30,29 +30,27 @@ use pocketmine\Player;
 use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-
-//use pocketmine\event\player\PlayerInteractEvent; // Not used for now...
-//use pocketmine\event\entity\EntityExplodeEvent; // Also not used...
+use aliuly\common\mc;
 
 class WpProtectMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("add",["usage" => "<user>",
-										 "help" => "Add <user> to authorized list",
+		$this->enableSCmd("add",["usage" => mc::_("<user>"),
+										 "help" => mc::_("Add <user> to authorized list"),
 										 "permission" => "wp.cmd.addrm"]);
-		$this->enableSCmd("rm",["usage" => "<user>",
-										"help" => "Remove <user> from authorized list",
+		$this->enableSCmd("rm",["usage" => mc::_("<user>"),
+										"help" => mc::_("Remove <user> from authorized list"),
 										"permission" => "wp.cmd.addrm"]);
 		$this->enableSCmd("unlock",["usage" => "",
-											 "help" => "Unprotects world",
+											 "help" => mc::_("Unprotects world"),
 											 "permission" => "wp.cmd.protect",
 											 "aliases" => ["unprotect","open"]]);
 		$this->enableSCmd("lock",["usage" => "",
-										  "help" => "Locked\n\tNobody (including op) can build",
+										  "help" => mc::_("Locked\n\tNobody (including op) can build"),
 										  "permission" => "wp.cmd.protect"]);
 		$this->enableSCmd("protect",["usage" => "",
-											  "help" => "Only authorized (or op) can build",
+											  "help" => mc::_("Only authorized (or op) can build"),
 											  "permission" => "wp.cmd.protect"]);
 	}
 
@@ -63,14 +61,13 @@ class WpProtectMgr extends BaseWp implements Listener {
 				foreach ($args as $i) {
 					$player = $this->owner->getServer()->getPlayer($i);
 					if (!$player) {
-						$c->sendMessage("[WP] $i: not found");
+						$c->sendMessage(mc::_("[WP] %1%: not found",$i));
 						continue;
 					}
 					$iusr = strtolower($player->getName());
 					$this->owner->authAdd($world,$iusr);
-					$c->sendMessage("[WP] $i added to $world's auth list");
-					$player->sendMessage("[WP] You have been added to");
-					$player->sendMessage("[WP] $world's auth list");
+					$c->sendMessage(mc::_("[WP] %1% added to %2%'s auth list",$i,$world));
+					$player->sendMessage(mc::_("[WP] You have been added to\n[WP] %1%'s auth list",$world));
 				}
 				return true;
 			case "rm":
@@ -79,31 +76,30 @@ class WpProtectMgr extends BaseWp implements Listener {
 					$iusr = strtolower($i);
 					if ($this->owner->authCheck($world,$iusr)) {
 						$this->owner->authRm($world,$iusr);
-						$c->sendMessage("[WP] $i removed from $world's auth list");
+						$c->sendMessage(mc::_("[WP] %1% removed from %2%'s auth list",$i,$world));
 						$player = $this->owner->getServer()->getPlayer($i);
 						if ($player) {
-							$player->sendMessage("[WP] You have been removed from");
-							$player->sendMessage("[WP] $world's auth list");
+							$player->sendMessage(mc::_("[WP] You have been removed from\n[WP] %1%'s auth list", $world));
 						}
 					} else {
-						$c->sendMessage("[WP] $i not known");
+						$c->sendMessage(mc::_("[WP] %1% not known",$i));
 					}
 				}
 				return true;
 			case "unlock":
 				if (count($args)) return false;
 				$this->owner->unsetCfg($world,"protect");
-				$this->owner->getServer()->broadcastMessage("[WP] $world is now OPEN");
+				$this->owner->getServer()->broadcastMessage(mc::_("[WP] %1% is now OPEN",$world));
 				return true;
 			case "lock":
 				if (count($args)) return false;
 				$this->owner->setCfg($world,"protect",$scmd);
-				$this->owner->getServer()->broadcastMessage("[WP] $world is now LOCKED");
+				$this->owner->getServer()->broadcastMessage(mc::_("[WP] %1% is now LOCKED",$world));
 				return true;
 			case "protect":
 				if (count($args)) return false;
 				$this->owner->setCfg($world,"protect",$scmd);
-				$this->owner->getServer()->broadcastMessage("[WP] $world is now PROTECTED");
+				$this->owner->getServer()->broadcastMessage(mc::_("[WP] %1% is now PROTECTED",$world));
 				return true;
 		}
 		return false;
@@ -120,7 +116,7 @@ class WpProtectMgr extends BaseWp implements Listener {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->checkBlockPlaceBreak($pl)) return;
-		$this->owner->msg($pl,"You are not allowed to do that here");
+		$this->owner->msg($pl,mc::_("You are not allowed to do that here"));
 		$ev->setCancelled();
 	}
 
@@ -128,7 +124,7 @@ class WpProtectMgr extends BaseWp implements Listener {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->checkBlockPlaceBreak($pl)) return;
-		$this->owner->msg($pl,"You are not allowed to do that here");
+		$this->owner->msg($pl,mc::_("You are not allowed to do that here"));
 		$ev->setCancelled();
 	}
 }

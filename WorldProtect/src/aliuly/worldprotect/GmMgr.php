@@ -21,24 +21,27 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
+use aliuly\common\MPMU;
+use aliuly\common\mc;
 
 class GmMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		$this->enableSCmd("gm",["usage" => "[value]",
-										 "help" => "Sets the world game mode",
-										 "permission" => "wp.cmd.gm",
-										 "aliases" => ["gamemode"]]);
+		$this->enableSCmd("gm",["usage" => mc::_("[value]"),
+										"help" => mc::_("Sets the world game mode"),
+										"permission" => "wp.cmd.gm",
+										"aliases" => ["gamemode"]]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
 		if ($scmd != "gm") return false;
 		if (count($args) == 0) {
 			$gm = $this->owner->getCfg($world, "gamemode", null);
 			if ($gm === null) {
-				$c->sendMessage("[WP] No gamemode for $world");
+				$c->sendMessage(mc::_("[WP] No gamemode for %1%",$world));
 			} else {
-				$c->sendMessage("[WP] $world Gamemode: ".$this->owner->gamemodeString($gm));
+				$c->sendMessage(mc::_("[WP] %1% Gamemode: %2%",$world,
+											 MPMU::gamemodeStr($gm)));
 			}
 			return true;
 		}
@@ -46,11 +49,12 @@ class GmMgr extends BaseWp implements Listener {
 		$newmode = $this->owner->getServer()->getGamemodeFromString($args[0]);
 		if ($newmode === -1) {
 			$this->owner->unsetCfg($world,"gamemode");
-			$this->owner->getServer()->broadcastMessage("[WP] $world gamemode removed");
+			$this->owner->getServer()->broadcastMessage(mc::_("[WP] %1% gamemode removed", $world));
 		} else {
 			$this->owner->setCfg($world,"gamemode",$newmode);
-			$this->owner->getServer()->broadcastMessage("[WP] $world gamemode set to ".
-																	  $this->owner->gamemodeString($newmode));
+			$this->owner->getServer()->broadcastMessage(mc::_("[WP] %1% gamemode set to %2%",
+																			  $world,
+																			  MPMU::gamemodeStr($newmode)));
 		}
 		return true;
 	}
@@ -62,18 +66,21 @@ class GmMgr extends BaseWp implements Listener {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
-		echo __METHOD__.",".__LINE__."\n"; //##DEBUG
+		if ($pl->hasPermission("wp.cmd.gm.exempt")) return;
+
+		//echo __METHOD__.",".__LINE__."\n"; //##DEBUG
 		$world = $ev->getTo()->getLevel();
 		if (!$world) {
 			$world = $pl->getLevel();
 		}
 		$world = $world->getName();
 		$gm = $this->owner->getCfg($world,"gamemode",null);
-		if ($gm === null) return;
-		if ($pl->hasPermission("wp.cmd.gm.exempt")) return;
+		if ($gm === null) {
+			$gm = $this->owner->getServer()->getGamemode();
+		}
 		if ($pl->getGamemode() == $gm) return;
-		$pl->sendMessage("Changing gamemode to ".
-							  $this->owner->gamemodeString($gm));
+		$pl->sendMessage(mc::_("Changing gamemode to %1%",
+									  MPMU::gamemodeStr($gm)));
 		$pl->setGamemode($gm);
 	}
 }

@@ -18,28 +18,10 @@ abstract class BaseWp {
 		$this->wcfg = [];
 	}
 
-	static $items = [];
-	public function itemName(Item $item) {
-		if (count(self::$items) == 0) {
-			$constants = array_keys((new \ReflectionClass("pocketmine\\item\\Item"))->getConstants());
-			foreach ($constants as $constant) {
-				$id = constant("pocketmine\\item\\Item::$constant");
-				$constant = str_replace("_", " ", $constant);
-				self::$items[$id] = $constant;
-			}
-		}
-		$n = $item->getName();
-		if ($n != "Unknown") return $n;
-		if (isset(self::$items[$item->getId()]))
-			return self::$items[$item->getId()];
-		return $n;
-	}
-
 	public function enableSCmd($cmd,$opts) {
 		$this->owner->registerScmd($cmd,[$this,"onSCommand"],$opts);
 	}
 	public function enableCmd($cmd,$yaml) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$newCmd = new PluginCommand($cmd,$this->owner);
 		if (isset($yaml["description"]))
 			$newCmd->setDescription($yaml["description"]);
