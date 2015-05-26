@@ -99,7 +99,7 @@ class Main extends PluginBase implements CommandExecutor {
 			$this->canUnload = false;
 			$this->is15 = false;
 		} else {
-			$this->getLogger()->info("Runniong on PocketMine-MP v1.5 or better");
+			$this->getLogger()->info("Running on PocketMine-MP v1.5 or better");
 			$this->getLogger()->info(TextFormat::RED.
 											 "This version is still under development");
 			$this->getLogger()->info(TextFormat::RED.
