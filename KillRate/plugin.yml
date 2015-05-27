@@ -10,22 +10,28 @@ description: Keep track of the number of kills
 author: aliuly
 
 commands:
-    killrate:
-        description: Show kill rate stats
-        usage: "/killrate [stats|top]"
-        aliases: [kr]
-        permission: killrate.cmd
+  killrate:
+    description: Show kill rate stats
+    usage: "/killrate [stats|top]"
+    aliases: [kr]
+    permission: killrate.cmd
 
 permissions:
-    killrate.cmd:
-        default: true
-        description: "Give players access to KillRate command"
-    killrate.cmd.stats:
-        default: true
-        description: "Access to stats command"
-    killrate.cmd.stats.other:
-        default: op
-        description: "View other's stats"
-    killrate.cmd.rank:
-        default: true
-        description: "View top players"
+  killrate.cmd:
+    default: true
+    description: "Give players access to KillRate command"
+  killrate.cmd.stats:
+    default: true
+    description: "Access to stats command"
+  killrate.cmd.stats.other:
+    default: op
+    description: "View other's stats"
+  killrate.cmd.rank:
+    default: true
+    description: "View top players"
+  killrate.signs.place:
+    default: op
+    description: "Allow to place KillRate signs"
+  killrate.signs.use:
+    default: true
+    description: "Allow to use KillRate signs"

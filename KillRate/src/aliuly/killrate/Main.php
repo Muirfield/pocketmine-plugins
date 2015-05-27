@@ -16,12 +16,26 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\entity\Projectile;
+
+use aliuly\common\PluginCallbackTask;
+use pocketmine\event\block\SignChangeEvent;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\block\Block;
+use pocketmine\tile\Sign;
+use pocketmine\network\protocol\EntityDataPacket;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\String;
+
 use aliuly\common\mc;
+use aliuly\common\MPMU;
+
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
 	protected $cfg;
 	protected $money;
+	protected $stats;
 
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
@@ -40,9 +54,15 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
+		if (!MPMU::version("0.0.0")) {
+			$this->getLogger()->info(TextFormat::RED."Using outdated common library");
+			$this->getLogger()->info(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
+			throw new \RuntimeException("Runtime checks failed");
+			return;
+		}
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-		$this->saveResource("messages.po");
-		mc::load($this->getDataFolder()."messages.po");
+		mc::plugin_init($this,$this->getFile());
+		$this->getLogger()->info(mc::_("Using common library from: %1%",MPMU::plugin()));
 
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
@@ -51,6 +71,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"points" => true,
 				"rewards" => true,
 				"creative" => false,
+				"dynamic-updates" => 80,
 			],
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
@@ -58,19 +79,30 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			],
 			"backend" => "SQLiteMgr",
 			"MySql" => [
+				"comment" => "Only used if backend = MySqlMgr",
 				"host" => "localhost",
 				"user" => "nobody",
 				"password" => "secret",
 				"database" => "KillRateDb",
 				"port" => 3306,
 			],
+			"signs" => [
+				"[STATS]" => "stats",
+				"[RANKINGS]" => "rankings",
+				"[ONLINE TOPS]" => "online-ranks",
+			],
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-		$this->getLogger()->info(mc::_("Using %1% as backend",
-												 $this->cfg["backend"]));
 		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
 		$this->dbm = new $backend($this);
+		if ($this->cfg["backend"] != "SQLiteMgr") {
+			$this->getLogger()->info(TextFormat::RED.mc::_("Using %1% backend is untested",$this->cfg["backend"]));
+			$this->getLogger()->info(TextFormat::RED.mc::_("Please report bugs"));
+		} else {
+			$this->getLogger()->info(mc::_("Using %1% as backend",
+													 $this->cfg["backend"]));
+		}
 		$pm = $this->getServer()->getPluginManager();
 		if(!($this->money = $pm->getPlugin("PocketMoney"))
 			&& !($this->money = $pm->getPlugin("GoldStd"))
@@ -93,6 +125,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 											 mc::_("Using money API from %1%",
 													 TextFormat::WHITE.$this->money->getName()." v".$this->money->getDescription()->getVersion()));
 		}
+		if ($this->cfg["settings"]["dynamic-updates"]
+			 && $this->cfg["settings"]["dynamic-updates"] > 0) {
+			$this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),$this->cfg["settings"]["dynamic-updates"]);
+		}
+		$this->stats = [];
 	}
 	public function getCfg($key) {
 		return $this->cfg[$key];
@@ -372,5 +409,118 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		list ($points,$money) = $this->updateScores($perp,$vic);
 		$this->announce($pp,$points,$money);
 	}
+	//////////////////////////////////////////////////////////////////////
+	//
+	// Sign related functionality
+	//
+	//////////////////////////////////////////////////////////////////////
+	public function playerTouchSign(PlayerInteractEvent $ev){
+		if($ev->getBlock()->getId() != Block::SIGN_POST &&
+			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
+		$tile = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
+		if(!($tile instanceof Sign)) return;
+		$sign = $tile->getText();
+		if (!isset($this->cfg["signs"][$sign[0]])) return;
+		$pl = $ev->getPlayer();
+		if (!$this->access($pl,"killrate.signs.use")) return;
+		$this->stats = [];
+		$this->activateSign($pl,$tile);
+	}
+	public function placeSign(SignChangeEvent $ev){
+		if($ev->getBlock()->getId() != Block::SIGN_POST &&
+			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
+		$tile = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
+		if(!($tile instanceof Sign)) return;
+		$sign = $ev->getLines();
+		if (!isset($this->cfg["signs"][$sign[0]])) return;
+		$pl = $ev->getPlayer();
+		if (!$this->access($pl,"killrate.signs.place")) {
+			$l = $pl->getLevel();
+			$l->setBlockIdAt($tile->getX(),$tile->getY(),$tile->getZ(),Block::AIR);
+			$l->setBlockDataAt($tile->getX(),$tile->getY(),$tile->getZ(),0);
+			$tile->close();
+			return;
+		}
+		$pl->sendMessage(mc::_("Placed [KillRate] sign"));
+		$this->stats = [];
+		$this->activateSign($pl,$tile);
+	}
+	public function updateTimer() {
+		$this->stats = [];
 
+		foreach ($this->getServer()->getLevels() as $lv) {
+			if (count($lv->getPlayers()) == 0) continue;
+			foreach ($lv->getTiles() as $tile) {
+				if (!($tile instanceof Sign)) continue;
+				$sign = $tile->getText();
+				if (!isset($this->cfg["signs"][$sign[0]])) return;
+				foreach ($lv->getPlayer() as $pl) {
+					$this->activateSign($pl,$tile);
+				}
+			}
+		}
+	}
+	private function updateSign($pl,$tile,$text) {
+		$data = $tile->getSpawnCompound();
+		$data->Text1 = new String("Text1",$text[0]);
+		$data->Text2 = new String("Text2",$text[1]);
+		$data->Text3 = new String("Text3",$text[2]);
+		$data->Text4 = new String("Text4",$text[3]);
+		$nbt = new NBT(NBT::LITTLE_ENDIAN);
+		$nbt->setData($data);
+		$pk = new EntityDataPacket();
+		$pk->x = $tile->getX();
+		$pk->y = $tile->getY();
+		$pk->z = $tile->getZ();
+		$pk->namedtag = $nbt->write();
+		$pl->dataPacket($pk);
+	}
+	public function activateSign($pl,$tile) {
+		$sign = $tile->getText();
+		$mode = $this->cfg["signs"][$sign[0]];
+		switch ($mode) {
+			case "stats":
+				$name = $pl->getName();
+				$text = ["","","",""];
+				$text[0] = mc::_("Stats: %1%",$name);
+
+				$i = 1;
+				foreach (["Player"=>mc::_("Kills: "),
+							 "points"=>mc::_("Points: ")] as $i=>$j) {
+					$score = $this->dbm->getScore($name,$i);
+					if (!$score) $score = "N/A";
+					$text[$i++] = $j.$score;
+				}
+				$text[$i++] = mc::_("Money: ").$this->getMoney($name);
+				break;
+			case "rankings":
+			case "online-ranks":
+				if (!isset($this->stats[$mode])) {
+					$text = ["","","",""];
+
+					if ($mode == "online-ranks") {
+						$text[0] = mc::_("Top On-Line");
+						$res = $this->getRankings(3, true);
+					} else {
+						$text[0] = mc::_("Top Players");
+						$res = $this->getRankings(3);
+					}
+					if ($res == null) {
+						$text[2] = mc::_("NO STATS FOUND!");
+					} else {
+						$i = 1;
+						foreach ($res as $r) {
+							$text[$i++] = $r["player"]." ".$r["count"];
+						}
+					}
+					$this->stats[$mode] = $text;
+				} else {
+					$text = $this->stats[$mode];
+				}
+				break;
+			default:
+				return;
+		}
+		$this->updateSign($pl,$tile,$text);
+	}
 }

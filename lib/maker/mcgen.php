@@ -21,7 +21,7 @@ function xgettext_r($po,$srcdir) {
 		//echo ($cmd."\n");
 		system($cmd);
 		// Make sure the CHARSET is defined properly...
-		if ($new) {
+		if ($new && file_exists($po)) {
 			$potxt = file_get_contents($po);
 			if (preg_match('/Content-Type:\s+text\/plain;\s+charset=CHARSET/',
 								$potxt)) {

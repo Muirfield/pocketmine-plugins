@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+echo "RUNNING MAKER SCRIPT...\n";
+error_reporting(E_ALL);
+define('SRCDIR',dirname(realpath(__FILE__))."/");
+require_once(SRCDIR."../lib/include.php");
+require_once(LIBDIR."maker/mcgen.php");
+
+mcgen(SRCDIR."resources/messages",SRCDIR."src");
+
+/*
+ * TODO:
+ * - copy lib/common/{}.php to <namespace>/common/{}.php
+ */
+exit("OK\n");
