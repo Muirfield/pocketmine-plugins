@@ -174,36 +174,3 @@ Copyright
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Git Recipes
-===========
-
-## Keep Dev in sync with master
-
-    git checkout <plugin>-dev
-    git merge --no-ff master
-
-## Release
-
-    git checkout dev
-    git push ; git pull
-    git checkout master
-    git push ; git pull
-    git merge dev
-    # ... Check version number ...
-    # ... Test phar ...
-    git commit -a -m'preparing <plugin> release X.Y'
-    git tag -a <plugin>-X.Yrel -m'Release X.Y'
-    git push origin --tags
-    git push
-    git checkout dev
-    git merge master
-    # ... bump version number ...
-    git commit -a -m"Bump version number"
-    git push origin
-
-## Set-up
-
-    git checkout -b <plugin>-dev master
-    git push origin <plugin>-dev
-    git push origin --tags
-
