@@ -11,8 +11,8 @@ use pocketmine\block\Gravel;
 use pocketmine\block\IronOre;
 use pocketmine\block\LapisOre;
 use pocketmine\block\RedstoneOre;
-use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\Generator;
+use pocketmine\level\generator\GenerationChunkManager;
 use pocketmine\level\generator\noise\Simplex;
 use pocketmine\level\generator\object\OreType;
 use pocketmine\level\generator\populator\Ore;
@@ -22,7 +22,7 @@ use pocketmine\level\generator\populator\Tree;
 use pocketmine\math\Vector3 as Vector3;
 use pocketmine\utils\Random;
 
-class NotSoFlat extends Generator{
+class NotSoFlatOld extends Generator{
 
 	/** @var Populator[] */
 	private $populators = [];
@@ -177,12 +177,12 @@ class NotSoFlat extends Generator{
 		}
 	}
 
-	public function init(ChunkManager $level, Random $random){
+	public function init(GenerationChunkManager $level, Random $random){
 		$this->level = $level;
 		$this->random = $random;
 		$this->random->setSeed($this->level->getSeed());
-		$this->noiseHills = new Simplex($this->random, 3, 0.1, 0.5, 12);
-		$this->noiseBase = new Simplex($this->random, 16, 0.6, 1.0, 16);
+		$this->noiseHills = new Simplex($this->random, 3, 0.1, 12);
+		$this->noiseBase = new Simplex($this->random, 16, 0.6, 16);
 
 		$this->parsePreset($this->preset);
 
