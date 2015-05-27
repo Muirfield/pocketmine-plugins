@@ -35,7 +35,7 @@ specified in the `server.properties` file.
 * add : Add player to the authorized list
 * banitem|unbanitem : Control items that can/cannot be used
 * border : defines a border for a world
-* gm : Configures a world's gamemode
+* gm : Configures a world's gamemode.
 * lock : Locks world, not even Op can use.
 * ls : List info on world protection.
 * max : Limits the number of players per world.
@@ -97,9 +97,9 @@ The following commands are available:
   - /wp _[world]_ **border** **none**
     - Remove borders
 * /wp _[world]_ gm _[value]_  
-  Configures a world's gamemode  
+  Configures a world's gamemode.  
   - /wp _[world]_ **gm**
-    - shows the current game mode
+    - Shows the current game mode
   - /wp _[world]_ **gm** _mode_
     - Sets world game mode
   - /wp _[world]_ **gm** **none**

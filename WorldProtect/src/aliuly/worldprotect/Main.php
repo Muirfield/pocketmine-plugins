@@ -90,6 +90,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		} else {
 			$this->wcfg[$world] = [];
 			foreach ($this->modules as $i=>$mod) {
+				if (!($mod instanceof BaseWp)) continue;
 				$mod->unsetCfg($world);
 			}
 		}
@@ -120,6 +121,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if ($world instanceof Level) $world = $world->getName();
 		if (isset($this->wcfg[$world])) unset($this->wcfg[$world]);
 		foreach ($this->modules as $i=>$mod) {
+			if (!($mod instanceof BaseWp)) continue;
 			$mod->unsetCfg($world);
 		}
 	}
@@ -153,9 +155,9 @@ class Main extends BasicPlugin implements CommandExecutor {
 			$this->wcfg[$world][$key] = $value;
 			$this->saveCfg($world);
 		}
-		if (isset($this->modules[$key]))
+		if (isset($this->modules[$key])
+			 && ($this->modules[$key] instanceof BaseWp))
 			$this->modules[$key]->setCfg($world,$value);
-
 		if ($unload) $this->unloadCfg($world);
 		return true;
 	}
@@ -173,7 +175,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 				$this->saveCfg($world);
 			}
 		}
-		if (isset($this->modules[$key]))
+		if (isset($this->modules[$key])
+			 && ($this->modules[$key] instanceof BaseWp))
 			$this->modules[$key]->unsetCfg($world);
 		if ($unload) $this->unloadCfg($world);
 	}

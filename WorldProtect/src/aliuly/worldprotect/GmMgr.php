@@ -4,10 +4,10 @@
  **
  ** COMMANDS
  **
- ** * gm : Configures a world's gamemode
+ ** * gm : Configures a world's gamemode.
  **   usage : /wp _[world]_ gm _[value]_
  **   - /wp _[world]_ **gm**
- **     - shows the current game mode
+ **     - Shows the current game mode
  **   - /wp _[world]_ **gm** _mode_
  **     - Sets world game mode
  **   - /wp _[world]_ **gm** **none**
