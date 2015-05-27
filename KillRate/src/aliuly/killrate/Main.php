@@ -72,6 +72,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"rewards" => true,
 				"creative" => false,
 				"dynamic-updates" => 80,
+				"reset-on-death" => false,
+				"kill-streak" => false,
 			],
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
@@ -131,6 +133,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$this->stats = [];
 	}
+	public function onDisable() {
+		$this->dbm->close();
+		$this->dbm = null;
+	}
+
 	public function getCfg($key) {
 		return $this->cfg[$key];
 	}
@@ -319,9 +326,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$score = $this->dbm->getScore($perp,$vic);
 		if ($score) {
 			$this->dbm->updateScore($perp,$vic,$score["count"]+$incr);
-		} else {
-			$this->dbm->insertScore($perp,$vic,$incr);
+			return $score["count"]+$incr;
 		}
+		$this->dbm->insertScore($perp,$vic,$incr);
+		return $incr;
+
 	}
 	public function getPrizes($vic) {
 		if (isset($this->cfg["values"][$vic])) {
@@ -369,7 +378,17 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($pv instanceof Player) {
 			// Score that this player died!
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
-			$this->updateDb($pv->getName(),"deaths");
+			$deaths = $this->updateDb($pv->getName(),"deaths");
+			if ($this->cfg["settings"]["reset-on-death"]
+				 && $this->cfg["settings"]["reset-on-death"] > 0) {
+				if ($deaths >= $this->cfg["settings"]["reset-on-death"]) {
+					// We died too many times... reset scores...
+					$this->dbm->delScore($pv->getName());
+				}
+			}
+			if ($this->cfg["kill-streak"]) {
+				$this->dbm->delScore($pv->getName(),"streak");
+			}
 		}
 		$cause = $pv->getLastDamageCause();
 		// If we don't know the real cause, we can score it!
@@ -404,6 +423,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$vic = $pv->getName();
 		if ($pv instanceof Player) {
 			$vic = "Player";
+			// OK killed a player... check for a kill streak...
+			if ($this->cfg["kill-streak"]) {
+				$streak = $this->updateDb($perp,"streak");
+				if ($streak > $this->cfg["kill-streak"]) {
+					$pp->sendMessage(mc::_("You have a %1% kill streak.",$streak));
+				}
+			}
 		}
 		$perp = $pp->getName();
 		list ($points,$money) = $this->updateScores($perp,$vic);
@@ -459,6 +485,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				}
 			}
 		}
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	private function updateSign($pl,$tile,$text) {
 		$data = $tile->getSpawnCompound();

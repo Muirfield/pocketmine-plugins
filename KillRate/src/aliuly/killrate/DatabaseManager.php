@@ -9,5 +9,6 @@ interface DatabaseManager {
 	public function getScore($player,$type);
 	public function insertScore($player,$type,$cnt);
 	public function updateScore($player,$type,$cnt);
-	public function delScore($player);
+	public function delScore($player,$type = null);
+	public function close();
 }

@@ -9,6 +9,10 @@ class MySqlMgr implements DatabaseManager {
 	static function prepare($player) {
 		return "'".\mysqli::real_escape_string(strtolower($player))."'";
 	}
+	public function close() {
+		$this->database->close();
+		unset($this->databse);
+	}
 	public function __construct(PluginBase $owner){
 		$cf = $owner->getCfg("MySql");
 		$this->database = new \mysqli($cf["host"],$cf["user"],$cf["password"],
@@ -86,11 +90,14 @@ class MySqlMgr implements DatabaseManager {
 		return $this->database->query($sql);
 	}
 
-	public function delScore($player) {
+	public function delScore($player,$type = null) {
 		$sql ="DELETE FROM Scores WHERE player=".self::prepare($player);
+		if ($type !== null) {
+			$sql .= " AND type = ".self::prepare($type);
+		}
 		return $this->database->query($sql);
 	}
 	public function pingMySql() {
-		$this->database->ping();
+		if (isset($this->database)) $this->database->ping();
 	}
 }

@@ -9,6 +9,10 @@ class SQLiteMgr implements DatabaseManager {
 	static function prepare($player) {
 		return "'".\SQLite3::escapeString(strtolower($player))."'";
 	}
+	public function close() {
+		$this->database->close();
+		unset($this->database);
+	}
 
 	public function __construct(PluginBase $owner){
 		$path = $owner->getDataFolder()."stats.sqlite3";
@@ -75,8 +79,11 @@ class SQLiteMgr implements DatabaseManager {
 		return $this->database->exec($sql);
 	}
 
-	public function delScore($player) {
+	public function delScore($player,$type = null) {
 		$sql ="DELETE FROM Scores WHERE player=".self::prepare($player);
+		if ($type !== null) {
+			$sql .= " AND type = ".self::prepare($type);
+		}
 		return $this->database->exec($sql);
 	}
 }
