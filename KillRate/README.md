@@ -1,5 +1,6 @@
-KillRate
-=======
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
+
+# KillRate
 
 * Summary: Keep track of how much killing is going-on
 * Dependency Plugins: N/A
@@ -10,8 +11,7 @@ KillRate
 * Plugin Access: Commands, Entity
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 
-Overview
---------
+## Overview
 
 Keep track on how much killing is going-on on a server.
 
@@ -24,8 +24,15 @@ Basic Usage:
 * killrate stats [player] - Show the KillRate stats for [player]
 * killrate top [online] - Show top players.
 
-Documentation
--------------
+You can also place signs with the following text:
+
+* [STATS]
+* [RANKINGS]
+* [ONLINE TOPS]
+
+These signs will then display current statistics.
+
+## Documentation
 
 This plugin supports PocketMoney and GoldStd and has experimental
 support for MassiveEconomy and EconomyAPI.
@@ -38,10 +45,22 @@ These can be configured from `config.yml`:
 	points: true
 	rewards: true
 	creative: false
+	dynamic-updates: 80
     values:
 	zombie: [10,100]
 	Player: [100, 100]
 	'*': [0, -10]
+    backend: SQLiteMgr
+    MySQL:
+	host: localhost
+	user: nobody
+	password: secret
+	database: KillRateDb
+	port: 3306
+    signs:
+	"[STATS]": stats
+	"[RANKINGS]": rankings
+	"[ONLINE TOPS]": online-ranks
 
 If `creative` is set to true, kills done when the player is in
 `creative` will be counted.  The default is false, *NOT* to count
@@ -53,11 +72,13 @@ enable `points` for the rankings to work.
 If `rewards` is true, money is awarded.  You need an economy plugin
 for this to work.
 
+`dynamic-updates` show in tick intervals how often signs are updated.
+
 `values` are used to configure how many points or how much money is
 awarded per kill type.  The first number is points, the second is
 money.  You can use negative values.
 
-### Permission Nodes:
+### Permission Nodes
 
 * killrate.cmd:
   * default: true
@@ -72,11 +93,25 @@ money.  You can use negative values.
   * default: true
   * description: "View top players"
 
-Changes
--------
+## Translations
 
-* ??? :
-  * Added MySQL support
+This plugin will honour the server language configuration.  The
+current languages are available:
+
+* English
+* Spanish
+
+You can provide your own message file by creating a file called
+`messages.ini` in the plugin directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
+for sample files.
+
+# Changes
+
+* 1.1.0: General improvements
+  * Added experimental MySQL support
+  * Translations: spanish
+  * Dynamic signs
 * 1.0.2 : Arrow
   * Improved scoring of Exploding arrows
   * Fixed a bug in the way we call the EconomyAPI
@@ -87,8 +122,7 @@ Changes
   * Added support for GoldStd
 * 1.0.0 : First submission
 
-Copyright
----------
+# Copyright
 
     KillRate
     Copyright (C) 2015 Alejandro Liu
