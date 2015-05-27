@@ -37,7 +37,19 @@ These signs will then display current statistics.
 This plugin supports PocketMoney and GoldStd and has experimental
 support for MassiveEconomy and EconomyAPI.
 
-### Configuration
+### Permission Nodes
+
+* killrate.cmd : Give players access to KillRate command
+* killrate.cmd.stats : Access to stats command
+* killrate.cmd.stats.other : View other's stats
+  (Defaults to Op)
+* killrate.cmd.rank : View top players
+* killrate.signs.place : Allow to place KillRate signs
+  (Defaults to Op)
+* killrate.signs.use : Allow to use KillRate signs
+
+
+## Configuration
 
 These can be configured from `config.yml`:
 
@@ -77,21 +89,6 @@ for this to work.
 `values` are used to configure how many points or how much money is
 awarded per kill type.  The first number is points, the second is
 money.  You can use negative values.
-
-### Permission Nodes
-
-* killrate.cmd:
-  * default: true
-  * description: "Give players access to KillRate command"
-* killrate.cmd.stats:
-  * default: true
-  * description: "Access to stats command"
-* killrate.cmd.stats.other:
-  * default: op
-  * description: "View other's stats"
-* killrate.cmd.rank:
-  * default: true
-  * description: "View top players"
 
 ## Translations
 
@@ -140,3 +137,4 @@ for sample files.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

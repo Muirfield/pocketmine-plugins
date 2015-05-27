@@ -5,7 +5,9 @@ error_reporting(E_ALL);
 define('SRCDIR',dirname(realpath(__FILE__))."/");
 require_once(SRCDIR."../lib/include.php");
 require_once(LIBDIR."maker/mcgen.php");
+require_once(LIBDIR."maker/gendoc.php");
 
+gendoc(SRCDIR."README.md",$plugin);
 mcgen(SRCDIR."resources/messages",SRCDIR."src");
 
 /*
