@@ -93,14 +93,14 @@ money.  You can use negative values.
 ## Translations
 
 This plugin will honour the server language configuration.  The
-current languages are available:
+languages currently available are:
 
 * English
 * Spanish
 
 You can provide your own message file by creating a file called
-`messages.ini` in the plugin directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
+`messages.ini` in the plugin config directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
 for sample files.
 
 # Changes

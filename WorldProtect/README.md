@@ -231,13 +231,13 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 ## Translations
 
 This plugin will honour the server language configuration.  The
-current languages are available:
+languages currently available are:
 
 * English
 * Spanish
 
 You can provide your own message file by creating a file called
-`messages.ini` in the plugin directory.  Check
+`messages.ini` in the pluginc config directory.  Check
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
 for sample files.
 
