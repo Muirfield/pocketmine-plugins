@@ -58,6 +58,7 @@ These can be configured from `config.yml`:
 	rewards: true
 	creative: false
 	dynamic-updates: 80
+	pop-up: false
     values:
 	zombie: [10,100]
 	Player: [100, 100]
@@ -86,6 +87,8 @@ for this to work.
 
 `dynamic-updates` show in tick intervals how often signs are updated.
 
+`pop-up` will use the _pop up_ message to show the player's score.
+
 `values` are used to configure how many points or how much money is
 awarded per kill type.  The first number is points, the second is
 money.  You can use negative values.
@@ -107,7 +110,7 @@ for sample files.
 
 * 1.1.0: General improvements
   * Added experimental MySQL support
-  * Translations: spanish
+  * Messages file and translations: spanish
   * Dynamic signs
 * 1.0.2 : Arrow
   * Improved scoring of Exploding arrows

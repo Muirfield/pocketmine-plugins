@@ -23,6 +23,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\block\Block;
 use pocketmine\tile\Sign;
 use pocketmine\network\protocol\EntityDataPacket;
+use pocketmine\network\protocol\TileEntityDataPacket;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\String;
@@ -74,6 +75,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"dynamic-updates" => 80,
 				"reset-on-death" => false,
 				"kill-streak" => false,
+				"pop-up" => false,
 			],
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
@@ -132,6 +134,15 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			$this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),$this->cfg["settings"]["dynamic-updates"]);
 		}
 		$this->stats = [];
+		if ($this->cfg["settings"]["pop-up"]) {
+			if (MPMU::pmCheck($this->getServer(),"1.12.0")) {
+				$this->getServer()->getScheduler()->scheduleRepeatingTask(new ShowMessageTask($this), 15);
+			} else {
+				$this->getLogger()->info(TextFormat::RED.
+												 mc::_("Pop-up scores feature only supported on\nPocketMine v1.5 or better"));
+				$this->getLogger()->info(TextFormat::RED.mc::_("Feature DISABLED"));
+			}
+		}
 	}
 	public function onDisable() {
 		$this->dbm->close();
@@ -363,14 +374,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	 * @priority MONITOR
 	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
-		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	/**
 	 * @priority MONITOR
 	 */
 	public function onDeath(EntityDeathEvent $e) {
-		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	public function deadDealer($pv) {
@@ -386,7 +397,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 					$this->dbm->delScore($pv->getName());
 				}
 			}
-			if ($this->cfg["kill-streak"]) {
+			if ($this->cfg["settings"]["kill-streak"]) {
 				$this->dbm->delScore($pv->getName(),"streak");
 			}
 		}
@@ -424,9 +435,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($pv instanceof Player) {
 			$vic = "Player";
 			// OK killed a player... check for a kill streak...
-			if ($this->cfg["kill-streak"]) {
+			if ($this->cfg["settings"]["kill-streak"]) {
 				$streak = $this->updateDb($perp,"streak");
-				if ($streak > $this->cfg["kill-streak"]) {
+				if ($streak > $this->cfg["settings"]["kill-streak"]) {
 					$pp->sendMessage(mc::_("You have a %1% kill streak.",$streak));
 				}
 			}
@@ -453,23 +464,29 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->activateSign($pl,$tile);
 	}
 	public function placeSign(SignChangeEvent $ev){
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if($ev->getBlock()->getId() != Block::SIGN_POST &&
 			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
 		$tile = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
 		if(!($tile instanceof Sign)) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$sign = $ev->getLines();
 		if (!isset($this->cfg["signs"][$sign[0]])) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl = $ev->getPlayer();
 		if (!$this->access($pl,"killrate.signs.place")) {
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$l = $pl->getLevel();
 			$l->setBlockIdAt($tile->getX(),$tile->getY(),$tile->getZ(),Block::AIR);
 			$l->setBlockDataAt($tile->getX(),$tile->getY(),$tile->getZ(),0);
 			$tile->close();
 			return;
 		}
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl->sendMessage(mc::_("Placed [KillRate] sign"));
 		$this->stats = [];
-		$this->activateSign($pl,$tile);
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),10);
 	}
 	public function updateTimer() {
 		$this->stats = [];
@@ -480,7 +497,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				if (!($tile instanceof Sign)) continue;
 				$sign = $tile->getText();
 				if (!isset($this->cfg["signs"][$sign[0]])) return;
-				foreach ($lv->getPlayer() as $pl) {
+				foreach ($lv->getPlayers() as $pl) {
 					$this->activateSign($pl,$tile);
 				}
 			}
@@ -495,7 +512,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$data->Text4 = new String("Text4",$text[3]);
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
 		$nbt->setData($data);
-		$pk = new EntityDataPacket();
+		if (MPMU::pmCheck($this->getServer(),"1.12.0")) {
+			$pk = new TileEntityDataPacket();
+		} else {
+			$pk = new EntityDataPacket();
+		}
 		$pk->x = $tile->getX();
 		$pk->y = $tile->getY();
 		$pk->z = $tile->getZ();
@@ -511,14 +532,18 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				$text = ["","","",""];
 				$text[0] = mc::_("Stats: %1%",$name);
 
-				$i = 1;
+				$l = 1;
 				foreach (["Player"=>mc::_("Kills: "),
 							 "points"=>mc::_("Points: ")] as $i=>$j) {
 					$score = $this->dbm->getScore($name,$i);
-					if (!$score) $score = "N/A";
-					$text[$i++] = $j.$score;
+					if ($score) {
+						$score = $score["count"];
+					} else {
+						$score = "N/A";
+					}
+					$text[$l++] = $j.$score;
 				}
-				$text[$i++] = mc::_("Money: ").$this->getMoney($name);
+				$text[$l++] = mc::_("Money: ").$this->getMoney($name);
 				break;
 			case "rankings":
 			case "online-ranks":
@@ -549,5 +574,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				return;
 		}
 		$this->updateSign($pl,$tile,$text);
+	}
+	public function getScore($pl) {
+		$score = $this->dbm->getScore($pl->getName(),"points");
+		if ($score) return $score["count"];
+		return 0;
 	}
 }
