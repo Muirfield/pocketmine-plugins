@@ -8,55 +8,55 @@ version: 2.0.0
 author: aliuly
 
 commands:
-    worldprotect:
-        description: Manage worlds
-        usage: "/wp <help|sub-cmd> [options]"
-        permission: wp.cmd.all
-        aliases: [wp]
+  worldprotect:
+    description: Manage worlds
+    usage: "/wp <help|sub-cmd> [options]"
+    permission: wp.cmd.all
+    aliases: [wp]
 
 permissions:
-    wp.motd:
-        default: true
-        description: "Display MOTD"
-    wp.cmd.all:
-        default: op
-        description: "Allow access to protect command"
-    wp.cmd.protect:
-        default: op
-        description: "Change protect mode"
-    wp.cmd.protect.auth:
-        default: op
-        description: "Permit place/destroy in protected worlds"
-    wp.cmd.border:
-        default: op
-        description: "Allow contfol of border functionality"
-    wp.cmd.pvp:
-        default: op
-        description: "Allow PvP controls"
-    wp.cmd.noexplode:
-        default: op
-        description: "Allow NoExplode controls"
-    wp.cmd.limit:
-        default: op
-        description: "Allow control to limit functionality"
-    wp.cmd.wpmotd:
-        default: op
-        description: "Allow editing the motd"
-    wp.cmd.addrm:
-        default: op
-        description: "Allow modifying the auth list"
-    wp.cmd.unbreakable:
-        default: op
-        description: "Modify unbreakable block list"
-    wp.cmd.banitem:
-        default: op
-        description: "Ban/unban items"
-    wp.cmd.info:
-        default: true
-        description: "Show WP config info"
-    wp.cmd.gm:
-        default: op
-        description: "Allow setting a per-world gamemode"
-    wp.cmd.gm.exempt:
-        default: false
-        description: "Users with this permissions will ignore per world gm"
+  wp.motd:
+    default: true
+    description: "Display MOTD"
+  wp.cmd.all:
+    default: op
+    description: "Allow access to protect command"
+  wp.cmd.protect:
+    default: op
+    description: "Change protect mode"
+  wp.cmd.protect.auth:
+    default: op
+    description: "Permit place/destroy in protected worlds"
+  wp.cmd.border:
+    default: op
+    description: "Allow contfol of border functionality"
+  wp.cmd.pvp:
+    default: op
+    description: "Allow PvP controls"
+  wp.cmd.noexplode:
+    default: op
+    description: "Allow NoExplode controls"
+  wp.cmd.limit:
+    default: op
+    description: "Allow control to limit functionality"
+  wp.cmd.wpmotd:
+    default: op
+    description: "Allow editing the motd"
+  wp.cmd.addrm:
+    default: op
+    description: "Allow modifying the auth list"
+  wp.cmd.unbreakable:
+    default: op
+    description: "Modify unbreakable block list"
+  wp.cmd.banitem:
+    default: op
+    description: "Ban/unban items"
+  wp.cmd.info:
+    default: true
+    description: "Show WP config info"
+  wp.cmd.gm:
+    default: op
+    description: "Allow setting a per-world gamemode"
+  wp.cmd.gm.exempt:
+    default: false
+    description: "Users with this permissions will ignore per world gm"
