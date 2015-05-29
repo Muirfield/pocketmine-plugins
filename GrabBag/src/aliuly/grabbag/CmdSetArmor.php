@@ -102,6 +102,8 @@ class CmdSetArmor extends BaseCommand {
 			$sender->sendMessage("Amouring down ".$pl->getName());
 		else
 			$sender->sendMessage("Amouring up ".$pl->getName());
+		// Make sure inventory is updated...
+		$pl->getInventory()->sendArmorContents($pl);
 		return true;
 	}
 }
