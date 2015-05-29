@@ -37,6 +37,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $cfg;
 	protected $money;
 	protected $stats;
+	protected $api;
 
 	// Access and other permission related checks
 	private function access(CommandSender $sender, $permission) {
@@ -133,13 +134,23 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			 && $this->cfg["settings"]["dynamic-updates"] > 0) {
 			$this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),$this->cfg["settings"]["dynamic-updates"]);
 		}
+		if (MPMU::apiVersion("1.12.0")) {
+			if (MPMU::apiVersion(">1.12.0")) {
+				$this->getLogger()->info(TextFormat::YELLOW.
+												 mc::_("This plugin has not been tested to run on %1%", MPMU::apiVersion()));
+			}
+			$this->api = 12;
+		} else {
+			$this->api = 10;
+		}
+
 		$this->stats = [];
 		if ($this->cfg["settings"]["pop-up"]) {
-			if (MPMU::pmCheck($this->getServer(),"1.12.0")) {
+			if ($this->api >= 12) {
 				$this->getServer()->getScheduler()->scheduleRepeatingTask(new ShowMessageTask($this), 15);
 			} else {
 				$this->getLogger()->info(TextFormat::RED.
-												 mc::_("Pop-up scores feature only supported on\nPocketMine v1.5 or better"));
+												 mc::_("Pop-ups only available on PMv1.5+"));
 				$this->getLogger()->info(TextFormat::RED.mc::_("Feature DISABLED"));
 			}
 		}
@@ -505,6 +516,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	private function updateSign($pl,$tile,$text) {
+		switch($this->api) {
+			case 10:
+				$pk = new EntityDataPacket();
+				break;
+			case 12:
+				$pk = new TileEntityDataPacket();
+				break;
+			default:
+				return;
+		}
 		$data = $tile->getSpawnCompound();
 		$data->Text1 = new String("Text1",$text[0]);
 		$data->Text2 = new String("Text2",$text[1]);
@@ -512,11 +533,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$data->Text4 = new String("Text4",$text[3]);
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
 		$nbt->setData($data);
-		if (MPMU::pmCheck($this->getServer(),"1.12.0")) {
-			$pk = new TileEntityDataPacket();
-		} else {
-			$pk = new EntityDataPacket();
-		}
+
 		$pk->x = $tile->getX();
 		$pk->y = $tile->getY();
 		$pk->z = $tile->getZ();

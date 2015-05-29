@@ -58,6 +58,8 @@ These can be configured from `config.yml`:
 	rewards: true
 	creative: false
 	dynamic-updates: 80
+	kill-streak: false or value
+	reset-on-death: false or value
 	pop-up: false
     values:
 	zombie: [10,100]
@@ -89,6 +91,12 @@ for this to work.
 
 `pop-up` will use the _pop up_ message to show the player's score.
 
+`kill-streak`: Set to `false` or to a number.  Will show the kill
+streak of a player.
+
+`reset-on-death`: Set to `false` or to a number.  When the player dies
+that number of times, scores will reset. (It is GAME OVER).
+
 `values` are used to configure how many points or how much money is
 awarded per kill type.  The first number is points, the second is
 money.  You can use negative values.
@@ -112,6 +120,9 @@ for sample files.
   * Added experimental MySQL support
   * Messages file and translations: spanish
   * Dynamic signs
+  * Pop-up scores
+  * Kill Streak
+  * Reset scores on deaths
 * 1.0.2 : Arrow
   * Improved scoring of Exploding arrows
   * Fixed a bug in the way we call the EconomyAPI
