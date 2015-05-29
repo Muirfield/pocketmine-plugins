@@ -232,7 +232,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				// If it is not a position
 				$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 				if (!$ft) {
-					$this->getLogger()->info(TextFormat::RED."FAST TRANSFER NOT INSTALLED");
+					$this->getLogger()->error(TextFormat::RED."FAST TRANSFER NOT INSTALLED");
 					$pl->sendMessage("Nothing happens!");
 					$pl->sendMessage(TextFormat::RED."Somebody removed FastTransfer!");
 					return;

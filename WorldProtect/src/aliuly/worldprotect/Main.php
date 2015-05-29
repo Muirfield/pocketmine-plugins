@@ -33,8 +33,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 
 	public function onEnable() {
 		if (!MPMU::version("0.0.0")) {
-			$this->getLogger()->info(TextFormat::RED."Using outdated common library");
-			$this->getLogger()->info(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
+			$this->getLogger()->error(TextFormat::RED."Using outdated common library");
+			$this->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
 			throw new \RuntimeException("Runtime checks failed");
 			return;
 		}

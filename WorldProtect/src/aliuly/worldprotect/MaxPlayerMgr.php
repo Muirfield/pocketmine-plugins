@@ -85,7 +85,7 @@ class MaxPlayerMgr extends BaseWp implements Listener {
 		if($np >= $max) {
 			$ev->setCancelled();
 			$et->sendMessage(mc::_("Unable to teleport to %1%\nWorld is full",$to));
-			$this->owner->getLogger()->info(mc::_("%1% is FULL",$to));
+			$this->owner->getLogger()->notice(mc::_("%1% is FULL",$to));
 		}
 	}
 }

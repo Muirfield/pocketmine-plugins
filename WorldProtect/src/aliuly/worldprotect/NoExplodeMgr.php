@@ -76,7 +76,7 @@ class NoExplodeMgr extends BaseWp implements Listener {
 			if ($dist > $this->owner->getServer()->getSpawnRadius()) return;
 		}
 		$ev->setCancelled();
-		$this->owner->getLogger()->info(TextFormat::RED.
+		$this->owner->getLogger()->notice(TextFormat::RED.
 												  mc::_("Explosion was stopped in %1%",$world));
 	}
 }

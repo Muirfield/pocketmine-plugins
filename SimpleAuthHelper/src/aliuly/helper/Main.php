@@ -24,7 +24,8 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	public function onEnable(){
 		$this->auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
 		if (!$this->auth) {
-			$this->getLogger()->info(TextFormat::RED."Unable to find SimpleAuth");
+			$this->getLogger()->error(TextFormat::RED."Unable to find SimpleAuth");
+			throw new \RuntimeException("Missinge Dependancy");
 			return;
 		}
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
