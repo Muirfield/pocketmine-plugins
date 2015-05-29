@@ -57,8 +57,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
 		if (!MPMU::version("0.0.0")) {
-			$this->getLogger()->info(TextFormat::RED."Using outdated common library");
-			$this->getLogger()->info(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
+			$this->getLogger()->error(TextFormat::RED."Using outdated common library");
+			$this->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
 			throw new \RuntimeException("Runtime checks failed");
 			return;
 		}
@@ -102,8 +102,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
 		$this->dbm = new $backend($this);
 		if ($this->cfg["backend"] != "SQLiteMgr") {
-			$this->getLogger()->info(TextFormat::RED.mc::_("Using %1% backend is untested",$this->cfg["backend"]));
-			$this->getLogger()->info(TextFormat::RED.mc::_("Please report bugs"));
+			$this->getLogger()->warning(TextFormat::RED.mc::_("Using %1% backend is untested",$this->cfg["backend"]));
+			$this->getLogger()->warning(TextFormat::RED.mc::_("Please report bugs"));
 		} else {
 			$this->getLogger()->info(mc::_("Using %1% as backend",
 													 $this->cfg["backend"]));
@@ -113,17 +113,17 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			&& !($this->money = $pm->getPlugin("GoldStd"))
 			&& !($this->money = $pm->getPlugin("EconomyAPI"))
 			&& !($this->money = $pm->getPlugin("MassiveEconomy"))){
-			$this->getLogger()->info(TextFormat::RED.
+			$this->getLogger()->error(TextFormat::RED.
 											 mc::_("# MISSING MONEY API PLUGIN"));
-			$this->getLogger()->info(TextFormat::BLUE.
+			$this->getLogger()->error(TextFormat::BLUE.
 											 mc::_(". Please install one of the following:"));
-			$this->getLogger()->info(TextFormat::WHITE.
+			$this->getLogger()->error(TextFormat::WHITE.
 											 mc::_("* GoldStd"));
-			$this->getLogger()->info(TextFormat::WHITE.
+			$this->getLogger()->error(TextFormat::WHITE.
 											 mc::_("* PocketMoney"));
-			$this->getLogger()->info(TextFormat::WHITE.
+			$this->getLogger()->error(TextFormat::WHITE.
 											 mc::_("* EconomyAPI or"));
-			$this->getLogger()->info(TextFormat::WHITE.
+			$this->getLogger()->error(TextFormat::WHITE.
 											 mc::_("* MassiveEconomy"));
 		} else {
 			$this->getLogger()->info(TextFormat::BLUE.
@@ -136,8 +136,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		if (MPMU::apiVersion("1.12.0")) {
 			if (MPMU::apiVersion(">1.12.0")) {
-				$this->getLogger()->info(TextFormat::YELLOW.
-												 mc::_("This plugin has not been tested to run on %1%", MPMU::apiVersion()));
+				$this->getLogger()->warning(TextFormat::YELLOW.
+													 mc::_("This plugin has not been tested to run on %1%", MPMU::apiVersion()));
 			}
 			$this->api = 12;
 		} else {
@@ -149,9 +149,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			if ($this->api >= 12) {
 				$this->getServer()->getScheduler()->scheduleRepeatingTask(new ShowMessageTask($this), 15);
 			} else {
-				$this->getLogger()->info(TextFormat::RED.
+				$this->getLogger()->warning(TextFormat::RED.
 												 mc::_("Pop-ups only available on PMv1.5+"));
-				$this->getLogger()->info(TextFormat::RED.mc::_("Feature DISABLED"));
+				$this->getLogger()->warning(TextFormat::RED.mc::_("Feature DISABLED"));
 			}
 		}
 	}
@@ -302,7 +302,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if(!$this->money) return false;
 		switch($this->money->getName()){
 			case "GoldStd":
-				$this->money->getMoney($p, $money);
+				return $this->money->getMoney($player);
 				break;
 			case "PocketMoney":
 			case "MassiveEconomy":
