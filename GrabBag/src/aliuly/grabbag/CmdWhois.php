@@ -60,6 +60,41 @@ class CmdWhois extends BaseCommand {
 				 . $target->getDisplayName().TextFormat::RESET;
 		$txt[] = TextFormat::GREEN."Flying: ".TextFormat::WHITE
 				 . ($target->isOnGround() ? "NO" : "YES").TextFormat::RESET;
+
+		$pm = $this->owner->getServer()->getPluginManager();
+		if (($kr = $pm->getPlugin("KillRate")) !== null) {
+			if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0) {
+				$score = $kr->getScore($target);
+				if ($score)
+					$txt[] = TextFormat::GREEN."KillRate Score: ".TextFormat::WHITE.$score;
+			} else {
+				$txt[] = TextFormat::RED."KillRate version is too old (".
+						 $kr->getDescription()->getVersion().")";
+			}
+		}
+
+		if(($money = $pm->getPlugin("PocketMoney"))
+			|| ($money = $pm->getPlugin("GoldStd"))
+			|| ($money = $pm->getPlugin("EconomyAPI"))
+			|| ($money = $pm->getPlugin("MassiveEconomy"))){
+			switch($money->getName()){
+				case "GoldStd":
+					$money = $money->getMoney($target->getName());
+					break;
+				case "PocketMoney":
+				case "MassiveEconomy":
+					$money = $money->getMoney($target->getName());
+					break;
+				case "EconomyAPI":
+					$money = $money->mymoney($target->getName());
+					break;
+				default:
+					$money = false;
+					break;
+			}
+			if ($money)
+				$txt[] = TextFormat::GREEN."Money: ".TextFormat::WHITE.$money;
+		}
 		return $this->paginateText($sender,$pageNumber,$txt);
 
 	}

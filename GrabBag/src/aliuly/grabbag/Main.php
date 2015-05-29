@@ -85,7 +85,7 @@ class Main extends PluginBase implements Listener {
 		$this->modules = [];
 		foreach ($cfg["features"] as $i=>$j) {
 			if (!isset($mods[$i])) {
-				$this->getLogger()->info("Unknown feature \"$i\" ignored.");
+				$this->getLogger()->notice("Unknown feature \"$i\" ignored.");
 				continue;
 			}
 			if (!$j) continue;
@@ -101,7 +101,7 @@ class Main extends PluginBase implements Listener {
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
 			$this->getLogger()->info("enabled ".count($this->modules)." features");
 		} else {
-			$this->getLogger()->info("NO features enabled");
+			$this->getLogger()->notice("NO features enabled");
 		}
 	}
 

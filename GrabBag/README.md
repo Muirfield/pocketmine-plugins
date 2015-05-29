@@ -492,6 +492,7 @@ this section through the *rcon* command.
   * broadcast-tp
   * fly command
   * Clear hotbar command, and clearinv allows you to clear your own.
+  * Whois also checks some plugins
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring
