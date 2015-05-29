@@ -17,9 +17,9 @@ abstract class MPMU {
 		if ($version == "") return self::VERSION;
 		return self::apiCheck(self::VERSION,$version);
 	}
-	static public function pmCheck($server,$version = "") {
-		if ($version == "") return $server->getApiVersion();
-		return self::apiCheck($server->getApiVersion(),$version);
+	static public function apiVersion($version = "") {
+		if ($version == "") return \pocketmine\API_VERSION;
+		return self::apiCheck(\pocketmine\API_VERSION,$version);
 	}
 	static public function apiCheck($api,$version) {
 		switch (substr($version,0,2)) {
@@ -42,6 +42,7 @@ abstract class MPMU {
 			case ">":
 				return version_compare($api,trim(substr($version,1))) > 0;
 		}
+		if (intval($api) != intval($version)) return 0;
 		return version_compare($api,$version) >= 0;
 	}
 	static public function itemName(Item $item) {
