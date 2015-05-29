@@ -72,6 +72,8 @@ You can overhear players that are up to `far` blocks away.
 Changes
 -------
 
+* 1.2.1 :
+  * Improved reporting
 * 1.2.0 : Minor fixes + spying
   * Fixed mkdir warning
   * Added spying permission

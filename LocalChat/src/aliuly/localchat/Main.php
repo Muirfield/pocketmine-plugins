@@ -45,12 +45,12 @@ class Main extends PluginBase implements Listener {
 		$this->near = (float)$cfg["settings"]["near"];
 		$this->far = (float)$cfg["settings"]["far"];
 		if ($this->near < 3) {
-			$this->getLogger()->info(TextFormat::RED.
+			$this->getLogger()->warning(TextFormat::RED.
 											 "Configured value for \"near\" is too small");
 			$this->near = 3.0;
 		}
 		if ($this->far <= $this->near) {
-			$this->getLogger()->info(TextFormat::RED.
+			$this->getLogger()->warning(TextFormat::RED.
 											 "\"far\" value must be greater than \"near\" value");
 			$this->far = $this->near * 2.0;
 		}

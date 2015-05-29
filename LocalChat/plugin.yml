@@ -1,5 +1,5 @@
 name: LocalChat
-version: 1.2.0
+version: 1.2.1
 main: aliuly\localchat\Main
 api: 1.10.0
 load: POSTWORLD
@@ -8,15 +8,15 @@ description: Chatting is localized to a certain area
 author: aliuly
 
 permissions:
-    localchat.broadcast:
-        default: true
-        description: "Give players the ability to broadcast messages"
-    localchat.broadcast.server:
-        default: op
-        description: "Broadcast to the server"
-    localchat.broadcast.level:
-        default: true
-        description: "Broadcast to the level"
-    localchat.spy:
-        default: true
-        description: "Grant players the ability to spy on players"
+  localchat.broadcast:
+    default: true
+    description: "Give players the ability to broadcast messages"
+  localchat.broadcast.server:
+    default: op
+    description: "Broadcast to the server"
+  localchat.broadcast.level:
+    default: true
+    description: "Broadcast to the level"
+  localchat.spy:
+    default: true
+    description: "Grant players the ability to spy on players"
