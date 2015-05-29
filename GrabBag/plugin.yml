@@ -8,129 +8,138 @@ version: 2.0.1
 author: aliuly
 
 permissions:
-    gb.module.repeater:
-        default: true
-        description: "Access to repeater module"
-    gb.cmd.players:
-        default: true
-        description: "allow players command"
-    gb.cmd.ops:
-        default: true
-        description: "list server ops"
-    gb.cmd.sudo:
-        default: op
-        description: "Allow to run command as another user"
-    gb.cmd.gma:
-        default: op
-        description: "Allow to switch gamemode to Adventure"
-    gb.cmd.gms:
-        default: op
-        description: "Allow to switch gamemode to survival"
-    gb.cmd.gmc:
-        default: op
-        description: "Allow to switch gamemode to creative"
-    gb.cmd.gmspc:
-        default: op
-        description: "Allow to switch gamemode to spectator"
-    gb.cmd.slay:
-        default: op
-        description: "Allow slaying players"
-    gb.cmd.heal:
-        default: op
-        description: "Allow healing"
-    gb.cmd.whois:
-        default: op
-        description: "Show player details"
-    gb.cmd.whois.showip:
-        default: op
-        description: "Show player IP address"
-    gb.cmd.timings:
-        default: op
-        description: "Show timings data"
-    gb.cmd.seearmor:
-        default: op
-        description: "Show player's armor"
-    gb.cmd.seeinv:
-        default: op
-        description: "Show player's inventory"
-    gb.cmd.clearinv:
-        default: op
-        description: "Clear player's inventory"
-    gb.cmd.get:
-        default: op
-        description: "Get blocks"
-    gb.cmd.shield:
-        default: op
-        description: "Allow players to become invulnerable"
-    gb.cmd.servicemode:
-        default: op
-        description: "Allow access to service mode command"
-    gb.servicemode.allow:
-        default: op
-        description: "Allow login when in service mode."
-    gb.cmd.opms:
-        default: true
-        description: "Allow to send op only messages"
-    gb.cmd.entities:
-        default: op
-        description: "Access entities command"
-    gb.cmd.mute:
-        default: op
-        description: "mute/unmute"
-    gb.cmd.freeze:
-        default: op
-        description: "freeze/thaw users"
-    gb.cmd.after:
-        default: op
-        description: "Schedule commands"
-    gb.cmd.rpt:
-        default: true
-        description: "Report issues"
-    gb.cmd.rpt.read:
-        default: op
-        description: "Read reported issues"
-    gb.cmd.summon:
-        default: op
-        description: "Summon|Dismiss command"
-    gb.cmd.pushpoptp:
-        default: op
-        description: "push/pop teleport"
-    gb.cmd.prefix:
-        default: true
-        description: "Allow the use of /prefix"
-    gb.cmd.spawn:
-        default: op
-        description: "Allow to teleport to spawn"
-    gb.cmd.burn:
-        default: op
-        description: "Allow the use of burn command"
-    gb.cmd.throw:
-        default: op
-        description: "Allow to throw players up in the air"
-    gb.cmd.blowup:
-        default: op
-        description: "Allow to blow-up players"
-    gb.cmd.setarmor:
-        default: op
-        description: "Allow you to set your armor"
-    gb.cmd.setarmor.others:
-        default: op
-        description: "Allow you to set others armor"
-    gb.cmd.spectator:
-        default: op
-        description: "Turn players into spectators"
-    gb.cmd.follow:
-        default: op
-        description: "Let players can follow others"
-    gb.cmd.followme:
-        default: op
-        description: "Make players follow you"
-    gb.cmd.rcon:
-        default: op
-        description: "use RCON client"
-    gb.cmd.rcon.config:
-        default: op
-        description: "Modify the RCON configuration"
-    gb.cmd.fly:
-        default: op
-        description: "Flight control"
+  gb.module.repeater:
+    default: true
+    description: "Access to repeater module"
+  gb.cmd.players:
+    default: true
+    description: "allow players command"
+  gb.cmd.ops:
+    default: true
+    description: "list server ops"
+  gb.cmd.sudo:
+    default: op
+    description: "Allow to run command as another user"
+  gb.cmd.gma:
+    default: op
+    description: "Allow to switch gamemode to Adventure"
+  gb.cmd.gms:
+    default: op
+    description: "Allow to switch gamemode to survival"
+  gb.cmd.gmc:
+    default: op
+    description: "Allow to switch gamemode to creative"
+  gb.cmd.gmspc:
+    default: op
+    description: "Allow to switch gamemode to spectator"
+  gb.cmd.slay:
+    default: op
+    description: "Allow slaying players"
+  gb.cmd.heal:
+    default: op
+    description: "Allow healing"
+  gb.cmd.whois:
+    default: op
+    description: "Show player details"
+  gb.cmd.whois.showip:
+    default: op
+    description: "Show player IP address"
+  gb.cmd.timings:
+    default: op
+    description: "Show timings data"
+  gb.cmd.seearmor:
+    default: op
+    description: "Show player's armor"
+  gb.cmd.seeinv:
+    default: op
+    description: "Show player's inventory"
+  gb.cmd.clearinv:
+    default: true
+    description: "Clear player's inventory"
+  gb.cmd.clearinv.others:
+    default: op
+    description: "Clear other's inventory"
+  gb.cmd.clearhotbar:
+    default: true
+    description: "Clear player's hotbar"
+  gb.cmd.clearhotbar.others:
+    default: op
+    description: "Clear other's hotbar"
+  gb.cmd.get:
+    default: op
+    description: "Get blocks"
+  gb.cmd.shield:
+    default: op
+    description: "Allow players to become invulnerable"
+  gb.cmd.servicemode:
+    default: op
+    description: "Allow access to service mode command"
+  gb.servicemode.allow:
+    default: op
+    description: "Allow login when in service mode."
+  gb.cmd.opms:
+    default: true
+    description: "Allow to send op only messages"
+  gb.cmd.entities:
+    default: op
+    description: "Access entities command"
+  gb.cmd.mute:
+    default: op
+    description: "mute/unmute"
+  gb.cmd.freeze:
+    default: op
+    description: "freeze/thaw users"
+  gb.cmd.after:
+    default: op
+    description: "Schedule commands"
+  gb.cmd.rpt:
+    default: true
+    description: "Report issues"
+  gb.cmd.rpt.read:
+    default: op
+    description: "Read reported issues"
+  gb.cmd.summon:
+    default: op
+    description: "Summon|Dismiss command"
+  gb.cmd.pushpoptp:
+    default: op
+    description: "push/pop teleport"
+  gb.cmd.prefix:
+    default: true
+    description: "Allow the use of /prefix"
+  gb.cmd.spawn:
+    default: op
+    description: "Allow to teleport to spawn"
+  gb.cmd.burn:
+    default: op
+    description: "Allow the use of burn command"
+  gb.cmd.throw:
+    default: op
+    description: "Allow to throw players up in the air"
+  gb.cmd.blowup:
+    default: op
+    description: "Allow to blow-up players"
+  gb.cmd.setarmor:
+    default: op
+    description: "Allow you to set your armor"
+  gb.cmd.setarmor.others:
+    default: op
+    description: "Allow you to set others armor"
+  gb.cmd.spectator:
+    default: op
+    description: "Turn players into spectators"
+  gb.cmd.follow:
+    default: op
+    description: "Let players can follow others"
+  gb.cmd.followme:
+    default: op
+    description: "Make players follow you"
+  gb.cmd.rcon:
+    default: op
+    description: "use RCON client"
+  gb.cmd.rcon.config:
+    default: op
+    description: "Modify the RCON configuration"
+  gb.cmd.fly:
+    default: op
+    description: "Flight control"
