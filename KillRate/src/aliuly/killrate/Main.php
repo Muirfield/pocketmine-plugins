@@ -592,8 +592,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$this->updateSign($pl,$tile,$text);
 	}
-	public function getScore($pl) {
-		$score = $this->dbm->getScore($pl->getName(),"points");
+	public function getScore($pl,$type = "points") {
+		$score = $this->dbm->getScore($pl->getName(),$type);
 		if ($score) return $score["count"];
 		return 0;
 	}
