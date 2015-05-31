@@ -68,7 +68,6 @@ function parse_readme($otxt) {
 		if (in_array($state,["ovw-sections","perms","cmdref","config","mgrs"]))
 			continue;
 		if ($ln == "" && $txt[count($txt)-1] ==  "") continue;
-
 		$txt[] = $ln;
 	}
 	return $txt;
@@ -77,6 +76,7 @@ function parse_readme($otxt) {
 function analyze_src($src) {
 	$doc = [];
 	$state = "start";
+	$cfg_indent = false;
 	foreach(file($src,FILE_IGNORE_NEW_LINES) as $ln) {
 		if($state == "start"){
 			if (preg_match('/^\s*\/\*\*\s*$/',$ln)) {
@@ -86,7 +86,8 @@ function analyze_src($src) {
 		}
 		if($state == "doc" || substr($state,0,4) == "doc:") {
 			if (preg_match('/^\s*\*\*\/\s*$/',$ln)) {
-				break;
+				$state = "src";
+				continue;
 			}
 			$ln  = preg_replace('/^\s*\*\* ?/',"",$ln,-1,$cnt);
 			if ($cnt == 0) continue;
@@ -151,6 +152,29 @@ function analyze_src($src) {
 			if ($state == "doc:mgr") {
 				$doc["mgr"][] = $ln;
 				continue;
+			}
+		}
+		if ($state == "src") {
+			if (preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,*\s*$/',$ln,$mv)) {
+				// Probably a config doc line...
+				list(,$indent,$setting,$descr) = $mv;
+				if (!isset($doc["config"])) {
+					$doc["config"] = [ "config" ];
+				} else {
+					while (count($doc["config"])>1 && $doc["config"][count($doc["config"])-1] == "") array_pop($doc["config"]);
+				}
+				switch (substr($setting,0,1)) {
+					case "|":
+						$doc["config"][] = substr($setting,1).": ".$descr;
+					default:
+						if ($cfg_indent === false) {
+							$cfg_indent = strlen($indent);
+							$indent = "";
+						} else {
+							$indent = substr($indent,$cfg_indent);
+						}
+						$doc["config"][] = $indent."* ".$setting.": ".$descr;
+				}
 			}
 		}
 	}
