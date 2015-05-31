@@ -32,15 +32,9 @@ class Main extends BasicPlugin implements CommandExecutor {
 	const SPAM_DELAY = 5;
 
 	public function onEnable() {
-		if (!MPMU::version("0.0.0")) {
-			$this->getLogger()->error(TextFormat::RED."Using outdated common library");
-			$this->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
-			throw new \RuntimeException("Runtime checks failed");
-			return;
-		}
+		if (!MPMU::assert_version($this,"0.0.1")) return;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
-		$this->getLogger()->info(mc::_("Using common library from: %1%",MPMU::plugin()));
 		$cfg = $this->modConfig(__NAMESPACE__, [
 			"max-players" => [ "MaxPlayerMgr", false ],
 			"protect" => [ "WpProtectMgr", true ],
@@ -261,6 +255,10 @@ class Main extends BasicPlugin implements CommandExecutor {
 		}
 	}
 	public function msg($pl,$txt) {
+		if (MPMU::apiVersion("1.12.0")) {
+			$pl->sendTip($txt);
+			return;
+		}
 		list($time,$otxt)= $this->getState("spam",$pl,[0,""]);
 		if (time() - $time < self::SPAM_DELAY && $otxt == $txt) return;
 		$this->setState("spam",$pl,[time(),$txt]);
