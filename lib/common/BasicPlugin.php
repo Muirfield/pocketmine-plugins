@@ -55,6 +55,14 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		return $cfg;
 	}
 
+	public function cfgSave($key,$settings) {
+		$cfg=new Config($this->getDataFolder()."config.yml",Config::YAML);
+		$dat = $cfg->getAll();
+		$dat[$key] = $settings;
+		$cfg->setAll($dat);
+		$cfg->save();
+	}
+
 	protected function initSCmdMap() {
 		$this->scmdMap = [
 			"mgrs" => [],

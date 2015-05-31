@@ -1,11 +1,13 @@
 <?php
 namespace aliuly\common;
 use pocketmine\item\Item;
+use pocketmine\utils\TextFormat;
+use pocketmine\utils\MainLogger;
 
 abstract class MPMU {
 	// My PocketMine Utils
 	static protected $items = [];
-	const VERSION = "0.0.0";
+	const VERSION = "0.0.1";
 
 	static public function plugin() {
 		for ($x = __DIR__; $x != "." && $x != "/" ; $x = dirname($x)) {
@@ -13,6 +15,17 @@ abstract class MPMU {
 		}
 		return __DIR__;
 	}
+	static public function assert_version($plugin,$version) {
+		if (!self::version($version)) {
+			$plugin->getLogger()->error(TextFormat::RED."Using outdated common library");
+			$plugin->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. self::plugin());
+			throw new \RuntimeException("Runtime checks failed");
+			return false;
+		}
+		$plugin->getLogger()->info("MPMU-library:".MPMU::plugin());
+		return true;
+	}
+
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
 		return self::apiCheck(self::VERSION,$version);

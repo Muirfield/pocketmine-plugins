@@ -5,6 +5,7 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
+use pocketmine\Player;
 
 use pocketmine\utils\TextFormat;
 
@@ -13,6 +14,27 @@ abstract class BasicCli {
 	public function __construct($owner) {
 		$this->owner = $owner;
 	}
+
+	// Access and other permission related checks
+	public function access(CommandSender $sender, $permission) {
+		if($sender->hasPermission($permission)) return true;
+		$sender->sendMessage(mc::_("You do not have permission to do that."));
+		return false;
+	}
+	public function inGame(CommandSender $sender,$msg = true) {
+		if (!($sender instanceof Player)) {
+			if ($msg) $sender->sendMessage(mc::_("You can only do this in-game"));
+			return false;
+		}
+		return true;
+	}
+	public function iName($player) {
+		if ($player instanceof Player) {
+			$player = strtolower($player->getName());
+		}
+		return $player;
+	}
+
 	public function enableSCmd($cmd,$opts) {
 		$this->owner->registerScmd($cmd,[$this,"onSCommand"],$opts);
 	}
