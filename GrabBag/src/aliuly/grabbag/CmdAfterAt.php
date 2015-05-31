@@ -32,17 +32,19 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-class CmdAfterAt extends BaseCommand {
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
 
+class CmdAfterAt extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("after",
-							  ["description" => "schedule to run a command after x seconds",
-								"usage" => "/after <seconds> <command>",
+							  ["description" => mc::_("schedule to run a command after x seconds"),
+								"usage" => mc::_("/after <seconds> <command>"),
 								"permission" => "gb.cmd.after"]);
 		$this->enableCmd("at",
-							  ["description" => "schedule to run a command at a certain time",
-								"usage" => "/at <time> <command>",
+							  ["description" => mc::_("schedule to run a command at a certain time"),
+								"usage" => mc::_("/at <time> <command>"),
 								"permission" => "gb.cmd.after"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -61,17 +63,17 @@ class CmdAfterAt extends BaseCommand {
 	private function cmdAfter(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		if (!is_numeric($args[0])) {
-			$c->sendMessage("Unable to specify delay $args[0]");
+			$c->sendMessage(mc::_("Unable to specify delay %1%",$args[0]));
 			return false;
 		}
 		$secs = intval(array_shift($args));
-		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,time()+$secs));
+		$c->sendMessage(mc::_("Scheduled for %1%",date(DATE_RFC2822,time()+$secs)));
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this,"runCommand"],[implode(" ",$args)]),$secs * 20);
 		return true;
 	}
 	private function cmdAt(CommandSender $c,$args) {
 		if (count($args) < 2) {
-			$c->sendMessage("Time now is: ".date(DATE_RFC2822));
+			$c->sendMessage(mc::_("Time now is: %1%",date(DATE_RFC2822)));
 			return false;
 		}
 		if (($pos = array_search(":",$args)) != false) {
@@ -90,13 +92,13 @@ class CmdAfterAt extends BaseCommand {
 				  $ts .= ' '.array_shift($args)) ;
 		}
 		if ($when == false) {
-			$c->sendMessage("Unable to parse time specification $ts");
+			$c->sendMessage(mc::_("Unable to parse time specification %1%",$ts));
 			return false;
 		}
 		while ($when < time()) {
 			$when += 86400; // We can not travel back in time...
 		}
-		$c->sendMessage("Scheduled for ".date(DATE_RFC2822,$when));
+		$c->sendMessage(mc::_("Scheduled for %1%",date(DATE_RFC2822,$when)));
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this,"runCommand"],[implode(" ",$args)]),($when - time())*20);
 		return true;
 	}

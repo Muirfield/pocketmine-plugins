@@ -22,26 +22,29 @@ use pocketmine\command\Command;
 
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
-class CmdGmx extends BaseCommand {
+class CmdGmx extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("gmc",
-							  ["description" => "switch gamemode to creative",
-								"usage" => "/gmc",
+							  ["description" => mc::_("switch gamemode to creative"),
+								"usage" => mc::_("/gmc"),
 								"permission" => "gb.cmd.gmc"]);
 		$this->enableCmd("gms",
-							  ["description" => "switch gamemode to survival",
-								"usage" => "/gms",
+							  ["description" => mc::_("switch gamemode to survival"),
+								"usage" => mc::_("/gms"),
 								"permission" => "gb.cmd.gms"]);
 		$this->enableCmd("gma",
-							  ["description" => "switch gamemode to adventure",
-								"usage" => "/gma",
+							  ["description" => mc::_("switch gamemode to adventure"),
+								"usage" => mc::_("/gma"),
 								"permission" => "gb.cmd.gma"]);
 		$this->enableCmd("gmspc",
-							  ["description" => "switch gamemode to spectator",
-								"usage" => "/gmspc",
+							  ["description" => mc::_("switch gamemode to spectator"),
+								"usage" => mc::_("/gmspc"),
 								"permission" => "gb.cmd.gmspc"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -65,17 +68,15 @@ class CmdGmx extends BaseCommand {
 		if ($mode !== $sender->getGamemode()) {
 			$sender->setGamemode($mode);
 			if ($mode !== $sender->getGamemode()) {
-				$sender->sendMessage(TextFormat::RED."Unable to change gamemode");
+				$sender->sendMessage(TextFormat::RED.mc::_("Unable to change gamemode"));
 			} else {
-				$this->owner->getServer()->broadcastMessage($sender->getName().
-																		  " changed gamemode to ".
-																		  $this->owner->gamemodeString($mode).
-																		  " mode");
+				$this->owner->getServer()->broadcastMessage(
+					mc::_("%1% changed gamemode to %2% mode",
+							$sender->getName(), MPMU::gamemodeStr($mode)));
 			}
 		} else {
-			$sender->sendMessage("You are alredy in ".
-								 $this->owner->gamemodeString($mode).
-								 " mode");
+			$sender->sendMessage(
+				mc::_("You are already in %1% mode",MPMU::gamemodeStr($mode)));
 		}
 		return true;
 	}

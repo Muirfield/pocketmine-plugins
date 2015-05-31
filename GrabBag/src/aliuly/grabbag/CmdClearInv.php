@@ -15,17 +15,19 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
 
-class CmdClearInv extends BaseCommand {
+class CmdClearInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("clearinv",
-							  ["description" => "Clear player's inventory",
-								"usage" => "/clearinv [player]",
+							  ["description" => mc::_("Clear player's inventory"),
+								"usage" => mc::_("/clearinv [player]"),
 								"permission" => "gb.cmd.clearinv"]);
 		$this->enableCmd("clearhotbar",
-							  ["description" => "Clear player's hotbar",
-								"usage" => "/clearhotbar [player]",
+							  ["description" => mc::_("Clear player's hotbar"),
+								"usage" => mc::_("/clearhotbar [player]"),
 								"aliases" => ["chb"],
 								"permission" => "gb.cmd.clearhotbar"]);
 	}
@@ -39,7 +41,7 @@ class CmdClearInv extends BaseCommand {
 			if (!$this->access($sender,"gb.cmd.".$cmd->getName())) return true;
 			$target = $this->owner->getServer()->getPlayer($args[0]);
 			if ($target === null) {
-				$sender->sendMessage($args[0]." can not be found.");
+				$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));
 				return true;
 			}
 			$other = true;
@@ -47,16 +49,16 @@ class CmdClearInv extends BaseCommand {
 		switch ($cmd->getName()) {
 			case "clearinv":
 				$target->getInventory()->clearAll();
-				if ($other) $target->sendMessage("Your inventory has been cleared by ". $sender->getName());
-				$sender->sendMessage($target->getName()."'s inventory cleared");
+				if ($other) $target->sendMessage(mc::_("Your inventory has been cleared by %1%", $sender->getName()));
+				$sender->sendMessage(mc::_("%1%'s inventory cleared",$target->getName()));
 				return true;
 			case "clearhotbar":
 				$inv = $target->getInventory();
 				for ($i=0;$i < $inv->getHotbarSize(); $i++) {
 					$inv->setHotbarSlotIndex($i,-1);
 				}
-				if ($other) $target->sendMessage("Your hotbar has been cleared by ". $sender->getName());
-				$sender->sendMessage($target->getName()."'s hotbar cleared");
+				if ($other) $target->sendMessage(mc::_("Your hotbar has been cleared by %1%", $sender->getName()));
+				$sender->sendMessage(mc::_("%1%'s hotbar cleared",$target->getName()));
 				// Make sure inventory is updated...
 				$inv->sendContents($target);
 				return true;

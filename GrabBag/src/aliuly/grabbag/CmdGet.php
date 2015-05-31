@@ -19,8 +19,11 @@ use pocketmine\command\Command;
 
 use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
-class CmdGet extends BaseCommand {
+class CmdGet extends BasicCli implements CommandExecutor {
 	// Override the MaxStacks counter...
 	static $stacks = [ Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
 							 Item::CLOCK => 1 ];
@@ -28,21 +31,21 @@ class CmdGet extends BaseCommand {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("get",
-							  ["description" => "Shortcut to /give me",
-								"usage" => "/get <item[:damage]> [amount]",
+							  ["description" => mc::_("Shortcut to /give me"),
+								"usage" => mc::_("/get <item[:damage]> [amount]"),
 								"permission" => "gb.cmd.get"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (!isset($args[0])) return false;
 		if ($cmd->getName() != "get") return false;
 		if ($sender->isCreative()) {
-			$sender->sendMessage("You are in creative mode");
+			$sender->sendMessage(mc::_("You are in creative mode"));
 			return true;
 		}
 		$item = Item::fromString($args[0]);
 		if ($item->getId() == 0) {
-			$sender->sendMessage(TextFormat::RED."There is no item called ".
-										$args[0]);
+			$sender->sendMessage(TextFormat::RED.
+										mc::_("There is no item called %1%",$args[0]));
 			return true;
 		}
 
@@ -56,11 +59,11 @@ class CmdGet extends BaseCommand {
 			}
 		}
 		$sender->getInventory()->addItem(clone $item);
-		$this->owner->getServer()->broadcastMessage($sender->getName()." got ".
-																  $item->getCount()." of ".
-																  $this->itemName($item).
-																  " (" . $item->getId() . ":" .
-																  $item->getDamage() . ")");
+		$this->owner->getServer()->broadcastMessage(
+			mc::_("%1% got %2% of %3% (%4%:%5%)",
+					$sender->getName(),
+					$item->getCount(),MPMU::itemName($item),
+					$item->getId(),$item->getDamage()));
 		return true;
 	}
 }

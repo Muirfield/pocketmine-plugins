@@ -37,13 +37,17 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Creature;
 use pocketmine\tile\Sign;
 
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
-class CmdEntities extends BaseCommand {
+
+class CmdEntities extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("entities",
-							  ["description" => "Manage entities",
-								"usage" => "/entities [tile|info|rm|sign#|count|nuke] [args]",
+							  ["description" => mc::_("Manage entities"),
+								"usage" => mc::_("/entities [tile|info|rm|sign#|count|nuke] [args]"),
 								"aliases" => ["et"],
 								"permission" => "gb.cmd.entities"]);
 	}
@@ -142,13 +146,13 @@ class CmdEntities extends BaseCommand {
 	private function cmdEtList(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) > 1) {
-			$c->sendMessage("Usage: /et ls [world]");
+			$c->sendMessage(mc::_("Usage: /et ls [world]"));
 			return false;
 		}
 		if (count($args)) {
 			$level = $this->owner->getServer()->getLevelByName($args[0]);
 			if (!$level) {
-				$c->sendMessage("$args[0]: World not found");
+				$c->sendMessage(mc::_("%1%: World not found",$args[0]));
 				return true;
 			}
 		} else {
@@ -161,7 +165,7 @@ class CmdEntities extends BaseCommand {
 
 		$cnt=0;
 		$tab = [];
-		$tab[] = ["-","Name","Position","Health"];
+		$tab[] = ["-",mc::_("Name"),mc::_("Position"),mc::_("Health")];
 		foreach ($level->getEntities() as $e) {
 			if ($e instanceof Player) continue;
 			$id = $e->getId();
@@ -169,7 +173,7 @@ class CmdEntities extends BaseCommand {
 			if ($e instanceof Living) {
 				$name = $e->getName();
 			} elseif ($e instanceof \pocketmine\entity\Item) {
-				$name = "Item:".$this->itemName($e->getItem());
+				$name = mc::_("Item:%1%",MPMU::itemName($e->getItem()));
 			} else {
 				$name = basename(strtr(get_class($e),"\\","/"));
 			}
@@ -178,19 +182,19 @@ class CmdEntities extends BaseCommand {
 		}
 		$tab[0][0] = "#:$cnt";
 		if ($cnt) return $this->paginateTable($c,$pageNumber,$tab);
-		$c->sendMessage("No entities found");
+		$c->sendMessage(mc::_("No entities found"));
 		return true;
 	}
 	private function cmdTileList(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) > 1) {
-			$c->sendMessage("Usage: /et tiles [world]");
+			$c->sendMessage(mc::_("Usage: /et tiles [world]"));
 			return false;
 		}
 		if (count($args)) {
 			$level = $this->owner->getServer()->getLevelByName($args[0]);
 			if (!$level) {
-				$c->sendMessage("$args[0]: World not found");
+				$c->sendMessage(mc::_("%1%: World not found",$args[0]));
 				return true;
 			}
 		} else {
@@ -202,7 +206,7 @@ class CmdEntities extends BaseCommand {
 		}
 		$cnt = 0;
 		$tab = [];
-		$tab[] = ["-","Name","Position"];
+		$tab[] = ["-",mc::_("Name"),mc::_("Position")];
 		foreach ($level->getTiles() as $t) {
 			$id = $t->getId();
 			$pos = implode(",",[floor($t->getX()),floor($t->getY()),floor($t->getZ())]);
@@ -212,7 +216,7 @@ class CmdEntities extends BaseCommand {
 		}
 		$tab[0][0] = "#:$cnt";
 		if ($cnt) return $this->paginateTable($c,$pageNumber,$tab);
-		$c->sendMessage("No tiles found");
+		$c->sendMessage(mc::_("No tiles found"));
 		return true;
 	}
 	private function cmdNuke(CommandSender $c,$args) {
@@ -233,11 +237,11 @@ class CmdEntities extends BaseCommand {
 					$ents = true;
 					break;
 				default:
-					$c->sendMessage("Invalid option");
+					$c->sendMessage(mc::_("Invalid option"));
 					return false;
 			}
 		} elseif (count($args) != 0) {
-			$c->sendMessage("NUKE Options: all, mobs, others");
+			$c->sendMessage(mc::_("NUKE Options: all, mobs, others"));
 			return false;
 		}
 		$mcnt = $ecnt = 0;
@@ -255,9 +259,9 @@ class CmdEntities extends BaseCommand {
 				}
 			}
 		}
-		if ($mcnt) $c->sendMessage("Removed $mcnt mobs");
-		if ($ecnt) $c->sendMessage("Removed $ecnt entities");
-		if ($mcnt == 0 && $ecnt == 0) $c->sendMessage("Nothing was deleted");
+		if ($mcnt) $c->sendMessage(mc::_("Removed %1% mobs",$mcnt));
+		if ($ecnt) $c->sendMessage(mc::_("Removed %1% entities",$ecnt));
+		if ($mcnt == 0 && $ecnt == 0) $c->sendMessage(mc::_("Nothing was deleted"));
 		return true;
 	}
 	private function cmdCount(CommandSender $c) {
@@ -276,16 +280,16 @@ class CmdEntities extends BaseCommand {
 			}
 			$tiles += count($l->getTiles());
 		}
-		$c->sendMessage("Players: $humans");
-		$c->sendMessage("Mobs:    $mobs");
-		$c->sendMessage("Others:  $others");
-		$c->sendMessage("Tiles:   $tiles");
+		$c->sendMessage(mc::_("Players: %1%",$humans));
+		$c->sendMessage(mc::_("Mobs:    %1%",$mobs));
+		$c->sendMessage(mc::_("Others:  %1%",$others));
+		$c->sendMessage(mc::_("Tiles:   %1%",$tiles));
 		return true;
 	}
 	private function cmdEtInfo(CommandSender $c,$args) {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) == 0) {
-			$c->sendMessage("Usage: /et info [ids]");
+			$c->sendMessage(mc::_("Usage: /et info [ids]"));
 			return false;
 		}
 		$cnt = 0;
@@ -296,7 +300,7 @@ class CmdEntities extends BaseCommand {
 		foreach ($args as $i) {
 			$et = $this->getEntity($i);
 			if ($et !== null) {
-				$txt[] = "Entity: $i";
+				$txt[] = mc::_("Entity: %1%",$i);
 				foreach ($this->dumpNbt($et->namedtag) as $ln) {
 					$txt[] = $ln;
 				}
@@ -305,22 +309,22 @@ class CmdEntities extends BaseCommand {
 			$tile = $this->getTile($i);
 			if ($tile !== null) {
 				++$cnt;
-				$txt[] = "Tile: $i";
+				$txt[] = mc::_("Tile: %1%",$i);
 				foreach ($this->dumpNbt($tile->namedtag) as $ln) {
 					$txt[] = $ln;
 				}
 				continue;
 			}
-			$c->sendMessage("Id:$i not found");
+			$c->sendMessage(mc::_("Id:%1% not found",$i));
 		}
 		if (count($args) > 1) {
-			$txt[0] = "$cnt Entities";
+			$txt[0] = mc::_("%1% Entities",$cnt);
 		}
 		return $this->paginateText($c,$pageNumber,$txt);
 	}
 	private function cmdEtRm(CommandSender $c,$args) {
 		if (count($args) == 0) {
-			$c->sendMessage("Usage: /et rm [ids]");
+			$c->sendMessage(mc::_("Usage: /et rm [ids]"));
 			return false;
 		}
 		$lst = [];
@@ -335,49 +339,49 @@ class CmdEntities extends BaseCommand {
 			$tile = $this->getTile($i);
 			if ($tile !== null) {
 				$lst[] = $i;
-				$et->close();
+				$tile->close();
 				continue;
 			}
-			$c->sendMessage("Id:$i not found");
+			$c->sendMessage(mc::_("Id:%1% not found",$i));
 		}
 		if (count($lst)) {
-			$c->sendMessage("Removed ".count($lst)." items: ".
-								 implode(", ",$lst));
+			$c->sendMessage(mc::_("Removed %1% items: %2%",count($lst),
+										 implode(", ",$lst)));
 		} else {
-			$c->sendMessage("No items removed");
+			$c->sendMessage(mc::_("No items removed"));
 		}
 		return true;
 	}
 
 	private function cmdEtSign(CommandSender $c,$opt,$args) {
 		if (count($args) < 1) {
-			$c->sendMessage("Usage: /et sign[1-4] <id> <text>\n");
+			$c->sendMessage(mc::_("Usage: /et sign[1-4] <id> <text>\n"));
 			return false;
 		}
 		$i = array_shift($args);
 		$tile = $this->getTile($i);
 		if ($tile == null) {
-			$c->sendMessage("Tile $i not found");
+			$c->sendMessage(mc::_("Tile %1% not found",$i));
 			return true;
 		}
 		if (strtolower(substr($i,0,1)) != "t") {
-			$c->sendMessage("Only applies to tile ids");
+			$c->sendMessage(mc::_("Only applies to tile ids"));
 			return false;
 		}
 		if (!($tile instanceof Sign)) {
-			$c->sendMessage("Tile $i is not a sign");
+			$c->sendMessage(mc::_("Tile %1% is not a sign",$i));
 			return false;
 		}
 		$sign = $tile->getText();
 		$txt = implode(" ",$args);
-		$sub = intval(substr($sub,-1)) - 1;
+		$sub = intval(substr($opt,-1)) - 1;
 		if ($sign[$sub] == $txt) {
-			$c->sendMessage("Text unchanged");
+			$c->sendMessage(mc::_("Text unchanged"));
 			return true;
 		}
 		$sign[$sub] = $txt;
 		$tile->setText($sign[0],$sign[1],$sign[2],$sign[3]);
-		$c->sendMessage("Changed to \"$txt\"");
+		$c->sendMessage(mc::_("Changed to \"%1%\"",$txt));
 		return true;
 	}
 

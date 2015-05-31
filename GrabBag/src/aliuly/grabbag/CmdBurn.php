@@ -13,15 +13,18 @@
  **/
 namespace aliuly\grabbag;
 
+use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
 
-class CmdBurn extends BaseCommand {
+class CmdBurn extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("burn",
-							  ["description" => "Set player on fire",
-								"usage" => "/burn <player> [secs]",
+							  ["description" => mc::_("Set player on fire"),
+								"usage" => mc::_("/burn <player> [secs]"),
 								"permission" => "gb.cmd.burn"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -29,7 +32,7 @@ class CmdBurn extends BaseCommand {
 		if (count($args) > 2 || count($args) == 0) return false;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
 		if (!$pl) {
-			$sender->sendMessage("$args[0] not found");
+			$sender->sendMessage(mc::_("%1% not found",$args[0]));
 			return true;
 		}
 		$secs = 15;

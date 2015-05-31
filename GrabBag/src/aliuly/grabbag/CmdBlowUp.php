@@ -18,16 +18,19 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;
 
 
-class CmdBlowUp extends BaseCommand {
+class CmdBlowUp extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("blowup",
-							  ["description" => "Explode a player",
-								"usage" => "/blowup <player> [yield|magic|normal]",
+							  ["description" => mc::_("Explode a player"),
+								"usage" => mc::_("/blowup <player> [yield|magic|normal]"),
 								"permission" => "gb.cmd.blowup"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -35,7 +38,7 @@ class CmdBlowUp extends BaseCommand {
 		if (count($args) == 0) return false;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
 		if (!$pl) {
-			$sender->sendMessage("$args[0] not found");
+			$sender->sendMessage(mc::_("%1% not found",$args[0]));
 			return true;
 		}
 		array_shift($args);

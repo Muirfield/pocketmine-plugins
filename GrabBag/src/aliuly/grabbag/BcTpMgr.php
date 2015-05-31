@@ -7,9 +7,6 @@
  ** another location.
  **
  ** CONFIG:broadcast-tp
- **
- ** * world - when true, it will broadcast when player teleport to other worlds
- ** * local - for local teleports, the minimum distance to broadcast
  **/
 namespace aliuly\grabbag;
 
@@ -19,10 +16,21 @@ use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
 use pocketmine\level\Position;
 
+use aliuly\common\mc;
+
 class BcTpMgr implements Listener {
 	public $owner;
 	protected $world;
 	protected $local;
+
+	static public function defaults() {
+		return [
+			"# world" => "if true, will broadcast teleports accross worlds",
+			"world" => true,
+			"# local" => "will broadcast teleports that go beyond this number",
+			"local" => 500,
+		];
+	}
 
 	public function __construct(Plugin $plugin,$cfg) {
 		$this->owner = $plugin;
@@ -46,17 +54,18 @@ class BcTpMgr implements Listener {
 
 		if ($from->getLevel()->getName() != $to->getLevel()->getName()) {
 			if ($this->world) {
-				$this->owner->getServer()->broadcastMessage($pl->getName().
-																		  " teleported to ".
-																		  $to->getLevel()->getName());
+				$this->owner->getServer()->broadcastMessage(
+					mc::_("%1% teleported to %2%",
+							$pl->getName(),
+							$to->getLevel()->getName()));
 			}
 			return;
 		}
 		if (!$this->local) return;
 		$dist = $from->distance($to);
 		if ($dist > $this->local) {
-			$this->owner->getServer()->broadcastMessage($pl->getName().
-																	  " teleported away!");
+			$this->owner->getServer()->broadcastMessage(
+				mc::_("%1% teleported away!",$pl->getName()));
 		}
 	}
 }

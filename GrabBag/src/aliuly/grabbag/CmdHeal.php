@@ -16,13 +16,15 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
 
-class CmdHeal extends BaseCommand {
+class CmdHeal extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("heal",
-							  ["description" => "heal player",
-								"usage" => "/heal [player] [amount]",
+							  ["description" => mc::_("heal player"),
+								"usage" => mc::_("/heal [player] [amount]"),
 								"aliases" => ["cure"],
 								"permission" => "gb.cmd.heal"]);
 	}
@@ -31,12 +33,12 @@ class CmdHeal extends BaseCommand {
 		if (count($args) == 0) {
 			if (!$this->inGame($sender)) return true;
 			$sender->setHealth($sender->getMaxHealth());
-			$sender->sendMessage("You have been healed");
+			$sender->sendMessage(mc::_("You have been healed"));
 			return true;
 		}
 		$patient = $this->owner->getServer()->getPlayer($args[0]);
 		if ($patient == null) {
-			$sender->sendMessage("$args[0] was not found");
+			$sender->sendMessage(mc::_("%1% was not found",$args[0]));
 			return true;
 		}
 		if (isset($args[1]) && is_numeric($args[1])) {
@@ -46,7 +48,7 @@ class CmdHeal extends BaseCommand {
 			$health = $patient->getMaxHealth();
 		}
 		$patient->setHealth($health);
-		$sender->sendMessage("$args[0] was healed.");
+		$sender->sendMessage(mc::_("%1% was healed.",$args[0]));
 		return true;
 	}
 }

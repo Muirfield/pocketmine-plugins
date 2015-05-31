@@ -33,6 +33,7 @@ administration.
 
 ### Inventory Management
 
+* clearhotbar : Clear player's hotbar
 * clearinv : Clear player's inventory
 * get : obtain an item
 * seearmor : Show player's armor
@@ -42,9 +43,11 @@ administration.
 ### Player Management
 
 * as : run command as somebody else
+* fly : Toggle flying
 * gma : Change your gamemode to _Adventure_.
 * gmc : Change your gamemode to _Creative_.
 * gms : Change your gamemode to _Survival_.
+* gmspc : Change your gamemode to _Spectator_.
 * prefix : prepend prefix to chat lines
 * shield : player is protected from taking damage
 
@@ -52,6 +55,7 @@ administration.
 
 * after : schedule command after a number of seconds
 * at : schedule command at an appointed date/time
+* crash : manage crash dumps
 * opms : sends a message to ops only
 * rcon : rcon client
 * rpt : report an issue to ops
@@ -83,6 +87,7 @@ administration.
 
 ### Modules
 
+* broadcast-tp : Broadcast player's teleports
 * join-mgr : Announce joining ops, and show server motd
 * repeater : Uses `!!` to repeat command with changes
 
@@ -129,8 +134,22 @@ The following commands are available:
   Sets `player` on fire for the specified number of seconds.
   Default is 15 seconds.
 
-* **clearinv** _&lt;player&gt;_  
+* **clearhotbar** _[player]_  
+  Clear player's hotbar  
+
+* **clearinv** _[player]_  
   Clear player's inventory  
+* **crash** _[ls|clean|show]_  
+  manage crash dumps  
+
+  Will show the number of `crash` files in the server.
+  The following optional sub-commands are available:
+  - **crash** **ls**
+    - List crash files
+  - **crash** **clean**
+    - Delete all crash files
+  - **show** ##
+    - Shows the crash file ##
 
 * **dismiss** _&lt;player&gt;_ _[message]_  
   Dismiss a previously summoned player  
@@ -154,6 +173,9 @@ The following commands are available:
     - Show a count of the number of entities on the server.
   - **entities** **nuke** _[all|mobs|others]_
     -Clear entities from the server.
+
+* **fly**  
+  Toggle flying  
 
 * **follow** _&lt;player&gt;_  
   Follow a player  
@@ -183,11 +205,13 @@ The following commands are available:
 
 * **gma**  
   Change your gamemode to _Adventure_.  
-
 * **gmc**  
   Change your gamemode to _Creative_.  
 * **gms**  
   Change your gamemode to _Survival_.  
+* **gmspc**  
+  Change your gamemode to _Spectator_.  
+
 * **heal** _[player]_ _[ammount]_  
   Restore health to a player  
 
@@ -322,6 +346,13 @@ survive server reloads or reboots.
 
 ### Module reference
 
+#### broadcast-tp
+
+Broadcast player's teleports
+
+This listener module will broadcast when a player teleports to
+another location.
+
 #### join-mgr
 
 Announce joining ops, and show server motd
@@ -372,6 +403,11 @@ things:
 Configuration is throug the `config.yml` file.
 The following sections are defined:
 
+#### broadcast-tp
+
+*  world: if true, will broadcast teleports accross worlds
+*  local: will broadcast teleports that go beyond this number
+
 #### features
 
 
@@ -385,9 +421,7 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
 #### freeze-thaw
 
-
-* hard-freeze (false): if `true` no movement is allowed.  If `false`,
-  turning is allowed but not walking/running/flying, etc.
+*  hard-freeze: if `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
 
 #### join-mgr
 
@@ -405,11 +439,8 @@ this section through the *rcon* command.
 ### Permission Nodes
 
 * gb.module.repeater : Access to repeater module
-  (Defaults to Op)
 * gb.cmd.players : allow players command
-  (Defaults to Op)
 * gb.cmd.ops : list server ops
-  (Defaults to Op)
 * gb.cmd.sudo : Allow to run command as another user
   (Defaults to Op)
 * gb.cmd.gma : Allow to switch gamemode to Adventure
@@ -417,6 +448,8 @@ this section through the *rcon* command.
 * gb.cmd.gms : Allow to switch gamemode to survival
   (Defaults to Op)
 * gb.cmd.gmc : Allow to switch gamemode to creative
+  (Defaults to Op)
+* gb.cmd.gmspc : Allow to switch gamemode to spectator
   (Defaults to Op)
 * gb.cmd.slay : Allow slaying players
   (Defaults to Op)
@@ -433,6 +466,10 @@ this section through the *rcon* command.
 * gb.cmd.seeinv : Show player's inventory
   (Defaults to Op)
 * gb.cmd.clearinv : Clear player's inventory
+* gb.cmd.clearinv.others : Clear other's inventory
+  (Defaults to Op)
+* gb.cmd.clearhotbar : Clear player's hotbar
+* gb.cmd.clearhotbar.others : Clear other's hotbar
   (Defaults to Op)
 * gb.cmd.get : Get blocks
   (Defaults to Op)
@@ -443,7 +480,6 @@ this section through the *rcon* command.
 * gb.servicemode.allow : Allow login when in service mode.
   (Defaults to Op)
 * gb.cmd.opms : Allow to send op only messages
-  (Defaults to Op)
 * gb.cmd.entities : Access entities command
   (Defaults to Op)
 * gb.cmd.mute : mute/unmute
@@ -453,7 +489,6 @@ this section through the *rcon* command.
 * gb.cmd.after : Schedule commands
   (Defaults to Op)
 * gb.cmd.rpt : Report issues
-  (Defaults to Op)
 * gb.cmd.rpt.read : Read reported issues
   (Defaults to Op)
 * gb.cmd.summon : Summon|Dismiss command
@@ -461,7 +496,6 @@ this section through the *rcon* command.
 * gb.cmd.pushpoptp : push/pop teleport
   (Defaults to Op)
 * gb.cmd.prefix : Allow the use of /prefix
-  (Defaults to Op)
 * gb.cmd.spawn : Allow to teleport to spawn
   (Defaults to Op)
 * gb.cmd.burn : Allow the use of burn command
@@ -484,6 +518,9 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.rcon.config : Modify the RCON configuration
   (Defaults to Op)
+* gb.cmd.fly : Flight control
+  (Defaults to Op)
+
 
 # Changes
 

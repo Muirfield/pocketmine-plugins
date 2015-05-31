@@ -14,10 +14,6 @@
  **   will change the freeze mode.
  **
  ** CONFIG:freeze-thaw
- **
- ** * hard-freeze (false): if `true` no movement is allowed.  If `false`,
- **   turning is allowed but not walking/running/flying, etc.
- **
  **/
 
 namespace aliuly\grabbag;
@@ -28,20 +24,31 @@ use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 
-class CmdFreezeMgr extends BaseCommand implements Listener {
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+
+class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;
 	protected $hard;
+
+	static public function defaults() {
+		return [
+			"# hard-freeze" => "if `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.",
+			"hard-freeze"=>false,
+		];
+	}
 
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->hard = $cfg["hard-freeze"];
 		$this->enableCmd("freeze",
-							  ["description" => "freeze player",
-								"usage" => "/freeze [player]",
+							  ["description" => mc::_("freeze player"),
+								"usage" => mc::_("/freeze [--hard|--soft] [player]"),
 								"permission" => "gb.cmd.freeze"]);
 		$this->enableCmd("thaw",
-							  ["description" => "thaw player",
-								"usage" => "/thaw [player]",
+							  ["description" => mc::_("thaw player"),
+								"usage" => mc::_("/thaw [player]"),
 								"aliases" => ["unfreeze"],
 								"permission" => "gb.cmd.freeze"]);
 		$this->frosties = [];
@@ -49,7 +56,7 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) {
-			$sender->sendMessage("Frozen: ".count($this->frosties));
+			$sender->sendMessage(mc::_("Frozen: %1%",count($this->frosties)));
 			if (count($this->frosties))
 				$sender->sendMessage(implode(", ",$this->frosties));
 			return true;
@@ -58,13 +65,13 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 			case "freeze":
 				if ($args[0] == "--hard") {
 					$this->hard = true;
-					$sender->sendMessage("Now doing hard freeze");
-					$this->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$sender->sendMessage(mc::_("Now doing hard freeze"));
+					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
 					return true;
 				} elseif ($args[0] == "--soft") {
 					$this->hard = false;
-					$sender->sendMessage("Now doing soft freeze");
-					$this->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$sender->sendMessage(mc::_("Now doing soft freeze"));
+					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
 					return true;
 				}
 
@@ -72,11 +79,11 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 					$player = $this->owner->getServer()->getPlayer($n);
 					if ($player) {
 						$this->frosties[strtolower($player->getName())] = $player->getName();
-						$player->sendMessage("You have been frozen by ".
-													$sender->getName());
-						$sender->sendMessage("$n is frozen.");
+						$player->sendMessage(mc::_("You have been frozen by %1%",
+															$sender->getName()));
+						$sender->sendMessage(mc::_("%1% is frozen.",$n));
 					} else {
-						$sender->sendMessage("$n not found.");
+						$sender->sendMessage(mc::_("%1% not found.",$n));
 					}
 				}
 				return true;
@@ -86,12 +93,12 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 						unset($this->frosties[strtolower($n)]);
 						$player = $this->owner->getServer()->getPlayer($n);
 						if ($player) {
-							$player->sendMessage("You have been thawed by ".
-														$sender->getName());
+							$player->sendMessage(mc::_("You have been thawed by %1%",
+																$sender->getName()));
 						}
-						$sender->sendMessage("$n is thawed");
+						$sender->sendMessage(mc::_("%1% is thawed",$n));
 					} else {
-						$sender->sendMessage("$n not found or not thawed");
+						$sender->sendMessage(mc::_("%1% not found or not thawed",$n));
 					}
 				}
 				return true;
@@ -105,12 +112,16 @@ class CmdFreezeMgr extends BaseCommand implements Listener {
 		if (isset($this->frosties[strtolower($p->getName())])) {
 			if ($this->hard) {
 				$ev->setCancelled();
+				if (MPMU::apiVersion("1.12.0"))
+					$p->sendTip(mc::_("You are frozen"));
 			} else {
 				// Lock position but still allow to turn around
 				$to = clone $ev->getFrom();
 				$to->yaw = $ev->getTo()->yaw;
 				$to->pitch = $ev->getTo()->pitch;
 				$ev->setTo($to);
+				if (MPMU::apiVersion("1.12.0"))
+					$p->sendTip(mc::_("You are frozen in place"));
 			}
 		}
 	}
