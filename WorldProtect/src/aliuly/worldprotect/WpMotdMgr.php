@@ -26,8 +26,6 @@
  **
  ** CONFIG:motd
  **
- ** * `ticks` : delay before showing multi-line motd texts.
- **
  **/
 namespace aliuly\worldprotect;
 
@@ -46,6 +44,12 @@ use aliuly\common\mc;
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 	protected $ticks;
 
+	static public function defaults() {
+		return [
+			"# ticks" => "line delay when showing multi-line motd texts.",
+			"ticks" => 15,
+		];
+	}
 	public function __construct(Plugin $plugin,$cfg) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);

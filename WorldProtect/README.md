@@ -188,8 +188,7 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
 #### motd
 
-
-* `ticks` : delay before showing multi-line motd texts.
+*  ticks: line delay when showing multi-line motd texts.
 
 
 ### Permission Nodes

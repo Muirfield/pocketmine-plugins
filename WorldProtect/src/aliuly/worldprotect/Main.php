@@ -53,9 +53,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 			"gamemode" => [ "GmMgr", false ],
 		], [
 			"version" => $this->getDescription()->getVersion(),
-			"motd" => [
-				"ticks" => 15,
-			],
+			"motd" => WpMotdMgr::defaults(),
 		],mc::_("Usage: /%%s [world] %%s %%s"));
 		$this->modules[] = new WpList($this);
 	}
