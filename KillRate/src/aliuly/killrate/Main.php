@@ -56,15 +56,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
-		if (!MPMU::version("0.0.0")) {
-			$this->getLogger()->error(TextFormat::RED."Using outdated common library");
-			$this->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. MPMU::plugin());
-			throw new \RuntimeException("Runtime checks failed");
-			return;
-		}
+		if (!MPMU::assert_version($this,"0.0.1")) return;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
-		$this->getLogger()->info(mc::_("Using common library from: %1%",MPMU::plugin()));
 
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
