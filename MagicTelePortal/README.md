@@ -68,6 +68,9 @@ FAQ
 Changes
 -------
 
+* 1.2.1 :
+  * Removed the `ManyWorld` dependancy
+
 * 1.2.0 : Simple update
   * Renamed to MagicTelePortal.  
     **YOU MUST UPDATE CONFIG FILES**
