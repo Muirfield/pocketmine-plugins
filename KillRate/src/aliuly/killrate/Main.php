@@ -56,7 +56,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
-		if (!MPMU::assert_version($this,"0.0.1")) return;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 
