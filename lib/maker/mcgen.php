@@ -2,7 +2,7 @@
 //
 // Generate message catalogues
 //
-require_once(LIBDIR."common/mcutils.php");
+require_once(LIBDIR."maker/mcutils.php");
 use aliuly\common\mcutils;
 
 function xgettext_r($po,$srcdir) {
@@ -43,22 +43,16 @@ function mcgen($mcdir,$srcdir) {
 	foreach (glob("$mcdir/*.ini") as $mc) {
 		$po = preg_replace('/\.ini$/','.po',$mc);
 		$intxt = file_get_contents($mc);
-		if ($mc == $templ) {
-			if (file_exists($po)) unlink($po);
-		} else {
-			$potxt = mcutils::ini2po($intxt);
-			if ($potxt === null) {
-				if (file_exists($po)) unlink($po);
-			} else {
-				file_put_contents($po,$potxt);
-			}
-		}
+
+		if (file_exists($po)) unlink($po);
 
 		xgettext_r($po,$srcdir);
 		if (!file_exists($po)) {
 			echo ("xgettext_r error\n");
 			return;
 		}
+
+
 		$potxt = file_get_contents($po);
 		$outtxt = mcutils::po2ini($potxt);
 		if ($outtxt === null) {
