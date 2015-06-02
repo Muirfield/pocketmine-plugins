@@ -8,7 +8,7 @@
 * DependencyPlugins: -
 * OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI,GoldStd
 * Categories: Informational
-* Plugin Access: Commands, Entity
+* Plugin Access: Commands, Databases, Entities, Tile Entities
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 
 ## Overview

@@ -8,7 +8,8 @@
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: General
-* Plugin Access: Commands
+* Plugin Access: Commands, Data Saving, Entities, Tile Entities,
+  Manages plugins
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 
 ## Overview
