@@ -26,7 +26,7 @@ class WpList extends BaseWp {
 		parent::__construct($owner);
 		$this->enableSCmd("ls",["usage" => mc::_("[world]"),
 										"help" => mc::_("Show protections on worlds"),
-										"permission" => "wm.cmd.info",
+										"permission" => "wp.cmd.info",
 										"aliases" => ["info"]]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
