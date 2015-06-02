@@ -1,7 +1,7 @@
 <?php
 namespace aliuly\killrate;
 use pocketmine\plugin\PluginBase;
-use aliuly\common\PluginCallbackTask;
+use aliuly\killrate\common\PluginCallbackTask;
 
 class MySqlMgr implements DatabaseManager {
 	private $database;

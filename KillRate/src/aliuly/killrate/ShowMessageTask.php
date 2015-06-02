@@ -5,7 +5,7 @@ use pocketmine\Player;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\utils\TextFormat;
 use aliuly\killrate\Main;
-use aliuly\common\mc;
+use aliuly\killrate\common\mc;
 
 class ShowMessageTask extends PluginTask{
 	public function __construct(Main $plugin){

@@ -17,7 +17,7 @@ use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\entity\Projectile;
 
-use aliuly\common\PluginCallbackTask;
+use aliuly\killrate\common\PluginCallbackTask;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\block\Block;
@@ -28,8 +28,8 @@ use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\String;
 
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\killrate\common\mc;
+use aliuly\killrate\common\MPMU;
 
 
 class Main extends PluginBase implements CommandExecutor,Listener {
