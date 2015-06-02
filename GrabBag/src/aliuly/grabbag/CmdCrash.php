@@ -40,7 +40,7 @@ class CmdCrash extends BasicCli implements CommandExecutor {
 								"permission" => "gb.cmd.crash"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-		if ($cmd->getName() != "crash") return;
+		if ($cmd->getName() != "crash") return false;
 		if (count($args) == 0) $args = [ "count" ];
 		$scmd = strtolower(array_shift($args));
 

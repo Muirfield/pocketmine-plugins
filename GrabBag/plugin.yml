@@ -146,3 +146,6 @@ permissions:
   gb.cmd.crash:
     default: op
     description: "Crash dump management"
+  gb.cmd.pluginmgr:
+    default: op
+    description: Manage plugins

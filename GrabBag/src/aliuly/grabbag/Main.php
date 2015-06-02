@@ -60,6 +60,7 @@ class Main extends BasicPlugin {
 			"repeater" => [ "RepeatMgr", true ],
 			"broadcast-tp" => [ "BcTpMgr", false ],
 			"crash" => ["CmdCrash", true],
+			"pluginmgr" => ["CmdPluginMgr", true],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];

@@ -547,6 +547,7 @@ for sample files.
   * Disabled Throw command (for 1.5)
   * Changed to my MPMU library.
   * Added Translation capability
+  * New PluginMgr command
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring

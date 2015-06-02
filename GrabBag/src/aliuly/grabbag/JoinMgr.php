@@ -31,7 +31,7 @@ class JoinMgr implements Listener {
 		return [
 			"# adminjoin" => "broadcast whenever an op joins",
 			"adminjoin" => true,
-			"# servermotd" => "show the server's motd when joining"
+			"# servermotd" => "show the server's motd when joining",
 			"servermotd" => true,
 		];
 	}
