@@ -53,29 +53,31 @@ support for MassiveEconomy and EconomyAPI.
 
 These can be configured from `config.yml`:
 
-    settings:
-	points: true
-	rewards: true
-	creative: false
-	dynamic-updates: 80
-	kill-streak: false or value
-	reset-on-death: false or value
-	pop-up: false
-    values:
-	zombie: [10,100]
-	Player: [100, 100]
-	'*': [0, -10]
-    backend: SQLiteMgr
-    MySQL:
-	host: localhost
-	user: nobody
-	password: secret
-	database: KillRateDb
-	port: 3306
-    signs:
-	"[STATS]": stats
-	"[RANKINGS]": rankings
-	"[ONLINE TOPS]": online-ranks
+```
+settings:
+    points: true
+    rewards: true
+    creative: false
+    dynamic-updates: 80
+    kill-streak: false or value
+    reset-on-death: false or value
+    pop-up: false
+values:
+    zombie: [10,100]
+    Player: [100, 100]
+    '*': [0, -10]
+backend: SQLiteMgr
+MySQL:
+    host: localhost
+    user: nobody
+    password: secret
+    database: KillRateDb
+    port: 3306
+signs:
+    "[STATS]": stats
+    "[RANKINGS]": rankings
+    "[ONLINE TOPS]": online-ranks
+```
 
 If `creative` is set to true, kills done when the player is in
 `creative` will be counted.  The default is false, *NOT* to count
