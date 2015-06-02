@@ -13,9 +13,7 @@ class TeleportManager implements Listener {
 
 	public function __construct(PluginBase $plugin) {
 		$this->owner = $plugin;
-		if (!$this->owner->is15) {
-			$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		}
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	/**
 	 * @priority LOWEST

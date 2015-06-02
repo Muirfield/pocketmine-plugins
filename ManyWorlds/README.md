@@ -24,57 +24,94 @@ Features:
 
 ### Basic Usage
 
-* /mw tp *level* [player]
-* /mw create *level* [seed [flat|normal [preset]]]
-* /mw load *level*
-* /mw unload [-f] *level*
-* /mw ls [level]
-* /mw lvdat [level] [attr=value]
-* /mw fixname [level]
+* create : Creates a new world
+* default : Sets the default world
+* fixname : fixes name mismatches
+* generators : List available world generators
+* load : Loads a world
+* ls : Provide world information
+* lvdat : Show/Modify level.dat variables
+* tp : Teleport to another world
+* unload : Unloads world
 
 ## Documentation
 
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
 
-### Commands Reference
+### Command Reference
 
 The following commands are available:
 
-Teleporting:
+* /mw **create** _&lt;world&gt;_ _[seed]_ _[generator]_ _[preset]_  
+  Creates a new world  
 
-* mw tp *level* [player]  
-  Teleports `player` to `level`.  If no `player` is specified, it
-  teleports the current user.
-* mw ls [level]  
-  If `level` is not specified, it will list all available worlds.  If
-  `level` is specified, it will provide details on that `level`.
+ Creates a world named _world_.  You can optionally specify a _seed_
+ as number, the generator (_flat_ or _normal_) and a _preset_ string.
 
-World management:
+* /mw **default** _&lt;world&gt;_  
+  Sets the default world  
 
-* mw create *level* [seed] [flat|normal] [preset]  
-  Creates a world named `level`.  You can optionally specify a `seed`
-  as number, the generator (`flat` or `normal`) and a `preset` string.
-* mw load *level*  
-  Loads `level` directly.  If you use `--all` for the `level` name, it
-  will load all worlds.
-* mw unload *level*  
-  Unloads `level`.
+  Teleports you to another world.  If _player_ is specified, that
+  player will be teleported.
+* /mw **fixname** _&lt;world&gt;_  
+  fixes name mismatches  
 
-Format hacking:
+  Fixes a world's **level.dat** file so that the name matches the
+  folder name.
+* /mw **generators**  
+  List available world generators  
 
-* mw fixname *level*  
-  Fixes `level.dat` files so that the name matches the folder name.
-* mw lvdat *attr=value* *attr=value*  
-  Change directly some `level.dat` values/attributes.  Supported
+  List registered world generators.
+* /mw **load** _&lt;world&gt;_  
+  Loads a world  
+
+  Loads _world_ directly.  Use _--all_ to load **all** worlds.
+
+* /mw **ls** _[world]_  
+  Provide world information  
+
+  If _world_ is not specified, it will list available worlds.
+  Otherwise, details for _world_ will be provided.
+* /mw **lvdat** _&lt;world&gt;_ _[attr=value]_  
+  Show/Modify level.dat variables  
+
+  Change directly some **level.dat** values/attributes.  Supported
   attributes:
-  * spawn=x,y,z : Sets spawn point
-  * seed=randomseed : seed used for terrain generation
-  * name=string : Level name
-  * generator=flat|normal : Terrain generator
-  * preset=string : Presets string.
+  - spawn=x,y,z : Sets spawn point
+  - seed=randomseed : seed used for terrain generation
+  - name=string : Level name
+  - generator=flat|normal : Terrain generator
+  - preset=string : Presets string.
+
+* /mw **tp** _[player]_ _&lt;world&gt;_  
+  Teleport to another world  
+
+  Teleports you to another world.  If _player_ is specified, that
+  player will be teleported.
+* /mw **unload** _[-f]_  _&lt;world&gt;_  
+  Unloads world  
+
+  Unloads _world_.  Use _-f_ to force unloads.
+
 
 ### Permission Nodes
+
+* mw.cmds : Allow all the ManyWorlds functionality
+* mw.cmd.tp : Allows users to travel to other worlds
+  (Defaults to Op)
+* mw.cmd.tp.others : Allows users to make others travel to other worlds
+  (Defaults to Op)
+* mw.cmd.ls : Allows users to list worlds
+  (Defaults to Op)
+* mw.cmd.world.create : Allows users to create worlds
+  (Defaults to Op)
+* mw.cmd.world.load : Allows users to load worlds
+  (Defaults to Op)
+* mw.cmd.lvdat : Manipulate level.dat
+  (Defaults to Op)
+* mw.cmd.default : Changes default world
+  (Defaults to Op)
 
 
 ## Examples
@@ -94,7 +131,6 @@ Teleport to this newly created world:
 Teleport a player to another world:
 
     /mw tp joshua flatland
-
 
 ## Translations
 
@@ -189,3 +225,4 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

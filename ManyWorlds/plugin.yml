@@ -8,30 +8,33 @@ version: 1.3.4
 author: aliuly
 
 commands:
-    mw:
-        description: Manage worlds
-        usage: "/mw <help|sub-cmd> [options]"
-        permission: mw.cmds
+  mw:
+    description: Manage worlds
+    usage: "/mw <help|sub-cmd> [options]"
+    permission: mw.cmds
 
 permissions:
-    mw.cmds:
-        default: true
-        description: "Allow all the ManyWorlds functionality"
-    mw.cmd.tp:
-        default: op
-        description: "Allows users to travel to other worlds"
-    mw.cmd.tp.others:
-        default: op
-        description: "Allows users to make others travel to other worlds"
-    mw.cmd.ls:
-        default: op
-        description: "Allows users to list worlds"
-    mw.cmd.world.create:
-        default: op
-        description: "Allows users to create worlds"
-    mw.cmd.world.load:
-        default: op
-        description: "Allows users to load worlds"
-    mw.cmd.lvdat:
-        default: op
-        description: "Manipulate level.dat"
+  mw.cmds:
+    default: true
+    description: "Allow all the ManyWorlds functionality"
+  mw.cmd.tp:
+    default: op
+    description: "Allows users to travel to other worlds"
+  mw.cmd.tp.others:
+    default: op
+    description: "Allows users to make others travel to other worlds"
+  mw.cmd.ls:
+    default: op
+    description: "Allows users to list worlds"
+  mw.cmd.world.create:
+    default: op
+    description: "Allows users to create worlds"
+  mw.cmd.world.load:
+    default: op
+    description: "Allows users to load worlds"
+  mw.cmd.lvdat:
+    default: op
+    description: "Manipulate level.dat"
+  mw.cmd.default:
+    default: op
+    description: "Changes default world"
