@@ -38,17 +38,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $stats;
 	protected $api;
 
-	// Access and other permission related checks
-	private function access(CommandSender $sender, $permission) {
-		if($sender->hasPermission($permission)) return true;
-		$sender->sendMessage(mc::_("You do not have permission to do that."));
-		return false;
-	}
-	private function inGame(CommandSender $sender,$msg = true) {
-		if ($sender instanceof Player) return true;
-		if ($msg) $sender->sendMessage(mc::_("You can only use this command in-game"));
-		return false;
-	}
 	//////////////////////////////////////////////////////////////////////
 	//
 	// Standard call-backs
@@ -163,11 +152,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				$scmd = strtolower(array_shift($args));
 				switch ($scmd) {
 					case "stats":
-						if (!$this->access($sender,"killrate.cmd.stats")) return true;
+						if (!MPMU::access($sender,"killrate.cmd.stats")) return true;
 						return $this->cmdStats($sender,$args);
 					case "top":
 					case "ranking":
-						if (!$this->access($sender,"killrate.cmd.rank")) return true;
+						if (!MPMU::access($sender,"killrate.cmd.rank")) return true;
 						return $this->cmdTops($sender,$args);
 					case "help":
 						return $this->cmdHelp($sender,$args);
@@ -243,12 +232,12 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	}
 	private function cmdStats(CommandSender $c,$args) {
 		if (count($args) == 0) {
-			if (!$this->inGame($c)) return true;
+			if (!MPMU::inGame($c)) return true;
 			$args = [ $c->getName() ];
 		}
 		foreach ($args as $pl) {
-			if ($this->inGame($c,false) && $pl != $c->getName()) {
-				if (!$this->access($c,"killrate.cmd.stats.other")) return true;
+			if (MPMU::inGame($c,false) && $pl != $c->getName()) {
+				if (!MPMU::access($c,"killrate.cmd.stats.other")) return true;
 			}
 			$score = $this->dbm->getScores($pl);
 			if ($score == null) {
@@ -377,14 +366,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	 * @priority MONITOR
 	 */
 	public function onPlayerDeath(PlayerDeathEvent $e) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	/**
 	 * @priority MONITOR
 	 */
 	public function onDeath(EntityDeathEvent $e) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->deadDealer($e->getEntity());
 	}
 	public function deadDealer($pv) {
@@ -406,14 +395,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$cause = $pv->getLastDamageCause();
 		// If we don't know the real cause, we can score it!
-		echo __METHOD__.",".__LINE__."-".get_class($cause)."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."-".get_class($cause)."\n";//##DEBUG
 		if (!($cause instanceof EntityDamageEvent)) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 
 		switch ($cause->getCause()) {
 			case EntityDamageEvent::CAUSE_PROJECTILE:
 				$pp = $cause->getDamager();
-				echo get_class($pp)." PROJECTILE\n";//##DEBUG
+				//echo get_class($pp)." PROJECTILE\n";//##DEBUG
 				break;
 			case EntityDamageEvent::CAUSE_ENTITY_ATTACK:
 				$pp = $cause->getDamager();
@@ -423,10 +412,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				if ($pp instanceof Projectile) {
 					$pp = $pp->shootingEntity;
 				}
-				echo get_class($pp)." EXPLOSION\n";//##DEBUG
+				//echo get_class($pp)." EXPLOSION\n";//##DEBUG
 				break;
 			default:
-				echo "Cause: ".$cause->getCause()."\n";//##DEBUG
+				//echo "Cause: ".$cause->getCause()."\n";//##DEBUG
 				return;
 		}
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
@@ -462,33 +451,33 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$sign = $tile->getText();
 		if (!isset($this->cfg["signs"][$sign[0]])) return;
 		$pl = $ev->getPlayer();
-		if (!$this->access($pl,"killrate.signs.use")) return;
+		if (!MPMU::access($pl,"killrate.signs.use")) return;
 		$this->stats = [];
 		$this->activateSign($pl,$tile);
 	}
 	public function placeSign(SignChangeEvent $ev){
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if($ev->getBlock()->getId() != Block::SIGN_POST &&
 			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
 		$tile = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
 		if(!($tile instanceof Sign)) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$sign = $ev->getLines();
 		if (!isset($this->cfg["signs"][$sign[0]])) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl = $ev->getPlayer();
-		if (!$this->access($pl,"killrate.signs.place")) {
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if (!MPMU::access($pl,"killrate.signs.place")) {
+			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$l = $pl->getLevel();
 			$l->setBlockIdAt($tile->getX(),$tile->getY(),$tile->getZ(),Block::AIR);
 			$l->setBlockDataAt($tile->getX(),$tile->getY(),$tile->getZ(),0);
 			$tile->close();
 			return;
 		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl->sendMessage(mc::_("Placed [KillRate] sign"));
 		$this->stats = [];
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),10);
 	}
 	public function updateTimer() {
