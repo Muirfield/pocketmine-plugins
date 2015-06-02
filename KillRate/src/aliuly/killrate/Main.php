@@ -17,7 +17,6 @@ use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\entity\Projectile;
 
-use aliuly\killrate\common\PluginCallbackTask;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\block\Block;
@@ -30,7 +29,7 @@ use pocketmine\nbt\tag\String;
 
 use aliuly\killrate\common\mc;
 use aliuly\killrate\common\MPMU;
-
+use aliuly\killrate\common\PluginCallbackTask;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
@@ -500,7 +499,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			foreach ($lv->getTiles() as $tile) {
 				if (!($tile instanceof Sign)) continue;
 				$sign = $tile->getText();
-				if (!isset($this->cfg["signs"][$sign[0]])) return;
+				if (!isset($this->cfg["signs"][$sign[0]])) continue;
 				foreach ($lv->getPlayers() as $pl) {
 					$this->activateSign($pl,$tile);
 				}
