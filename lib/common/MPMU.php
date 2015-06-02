@@ -9,23 +9,6 @@ abstract class MPMU {
 	static protected $items = [];
 	const VERSION = "0.0.1";
 
-	static public function plugin() {
-		for ($x = __DIR__; $x != "." && $x != "/" ; $x = dirname($x)) {
-			if (file_exists($x."/plugin.yml")) return basename($x);
-		}
-		return __DIR__;
-	}
-	static public function assert_version($plugin,$version) {
-		if (!self::version($version)) {
-			$plugin->getLogger()->error(TextFormat::RED."Using outdated common library");
-			$plugin->getLogger()->error(TextFormat::RED."Please update ".TextFormat::WHITE. self::plugin());
-			throw new \RuntimeException("Runtime checks failed");
-			return false;
-		}
-		$plugin->getLogger()->info("MPMU-library:".MPMU::plugin());
-		return true;
-	}
-
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
 		return self::apiCheck(self::VERSION,$version);
