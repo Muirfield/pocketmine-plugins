@@ -42,26 +42,36 @@ function mcgen($mcdir,$srcdir) {
 
 	foreach (glob("$mcdir/*.ini") as $mc) {
 		$po = preg_replace('/\.ini$/','.po',$mc);
-		$intxt = file_get_contents($mc);
 
 		if (file_exists($po)) unlink($po);
-
 		xgettext_r($po,$srcdir);
 		if (!file_exists($po)) {
 			echo ("xgettext_r error\n");
 			return;
 		}
 
-
-		$potxt = file_get_contents($po);
-		$outtxt = mcutils::po2ini($potxt);
-		if ($outtxt === null) {
-			echo ("Error updating ".basename($mc)."\n");
-			return;
-		}
+		$nmsgs = mcutils::po_get(file_get_contents($po));
 		unlink($po);
-		if ($intxt != $outtxt) {
-			file_put_contents($mc,$outtxt);
+		if ($nmsgs === null) {
+			echo("Error reading $po\n");
+			continue;
+		}
+		$in_ini = file_get_contents($mc);
+		$omsgs = mcutils::ini_get($in_ini);
+		if ($omsgs !== null) {
+			// merge old messages -- tagging un-used translations
+			foreach ($omsgs as $k=>$v) {
+				if (substr($k,0,1) == "#" && !isset($nmsgs[$k])) $k = substr($k,1);
+				if (isset($nmsgs[$k]))
+					$nmsgs[$k] = $v;
+				else
+					$nmsgs["#$k"] = $v;
+			}
+		}
+		$out_ini = "; ".basename($mc)."\n".mcutils::ini_set($nmsgs);
+
+		if ($in_ini != $out_ini) {
+			file_put_contents($mc,$out_ini);
 			echo "Updated ".basename($mc)."\n";
 		}
 	}

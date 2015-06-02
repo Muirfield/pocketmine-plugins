@@ -8,6 +8,36 @@ abstract class mcutils {
 								  preg_replace('/\s+""\s*\n\s*"/'," \"",
 													$txt));
 	}
+	public static function po_get($potxt) {
+		$c = preg_match_all('/\nmsgid "(.+)"\nmsgstr "(.*)"\n/',
+								  self::pofix($potxt),$mm);
+		if ($c == 0) return null;
+		$dat = [];
+		for($i=0;$i<$c;++$i) {
+			$dat[$mm[1][$i]] = $mm[2][$i];
+		}
+		ksort($dat, SORT_NATURAL);
+		return $dat;
+	}
+	public static function ini_get($itxt) {
+		$c = preg_match_all('/^\s*"(.+)"\s*=\s*"(.*)"\s*$/m',
+								  "\n".$itxt."\n",$mm);
+		if ($c == 0) return null;
+		$dat = [];
+		for($i=0;$i<$c;++$i) {
+			$dat[$mm[1][$i]] = $mm[2][$i];
+		}
+		ksort($dat, SORT_NATURAL);
+		return $dat;
+	}
+	public static function ini_set($dat) {
+		$initxt = "";
+		foreach ($dat as $a => $b) {
+			$initxt .= "\"$a\"=\"$b\"\n";
+		}
+		return $initxt;
+	}
+
 	public static function po2ini($src, $dst = null) {
 		if ($dst != null) {
 			$potxt = file_get_contents($src);
