@@ -22,8 +22,8 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\worldprotect\common\mc;
+use aliuly\worldprotect\common\MPMU;
 
 class BanItem extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {

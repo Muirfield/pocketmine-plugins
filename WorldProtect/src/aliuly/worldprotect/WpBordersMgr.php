@@ -26,7 +26,7 @@ use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\mc;
 
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\entity\EntityTeleportEvent;

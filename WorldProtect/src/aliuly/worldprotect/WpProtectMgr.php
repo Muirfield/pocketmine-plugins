@@ -30,7 +30,7 @@ use pocketmine\Player;
 use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\mc;
 
 class WpProtectMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {

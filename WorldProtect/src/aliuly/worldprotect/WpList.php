@@ -18,8 +18,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\worldprotect\common\mc;
+use aliuly\worldprotect\common\MPMU;
 
 class WpList extends BaseWp {
 	public function __construct($owner) {

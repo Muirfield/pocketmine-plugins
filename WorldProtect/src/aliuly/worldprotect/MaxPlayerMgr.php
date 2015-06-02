@@ -21,7 +21,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\mc;
 
 class MaxPlayerMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {

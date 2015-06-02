@@ -24,7 +24,7 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\mc;
 
 class WpPvpMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {

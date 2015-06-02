@@ -7,7 +7,7 @@ use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
 
 use pocketmine\utils\TextFormat;
-use aliuly\common\BasicCli;
+use aliuly\worldprotect\common\BasicCli;
 
 abstract class BaseWp extends BasicCli {
 	protected $wcfg;

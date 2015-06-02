@@ -23,16 +23,15 @@ use pocketmine\level\Level;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\Player;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
-use aliuly\common\BasicPlugin;
+use aliuly\worldprotect\common\mc;
+use aliuly\worldprotect\common\MPMU;
+use aliuly\worldprotect\common\BasicPlugin;
 
 class Main extends BasicPlugin implements CommandExecutor {
 	protected $wcfg;
 	const SPAM_DELAY = 5;
 
 	public function onEnable() {
-		if (!MPMU::assert_version($this,"0.0.1")) return;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$cfg = $this->modConfig(__NAMESPACE__, [

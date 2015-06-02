@@ -38,8 +38,8 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\Player;
-use aliuly\common\PluginCallbackTask;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\PluginCallbackTask;
+use aliuly\worldprotect\common\mc;
 
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 	protected $ticks;

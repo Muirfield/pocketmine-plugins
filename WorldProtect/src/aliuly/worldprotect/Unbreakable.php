@@ -21,8 +21,8 @@ use pocketmine\command\Command;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\worldprotect\common\mc;
+use aliuly\worldprotect\common\MPMU;
 
 class Unbreakable extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {

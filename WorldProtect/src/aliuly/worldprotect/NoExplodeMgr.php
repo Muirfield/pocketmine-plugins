@@ -21,7 +21,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityExplodeEvent;
-use aliuly\common\mc;
+use aliuly\worldprotect\common\mc;
 
 class NoExplodeMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
