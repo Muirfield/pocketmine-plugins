@@ -39,34 +39,39 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 
-class CmdOpMsg extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	protected $rpt;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("opms",
-							  ["description" => "Send message to ops",
-								"usage" => "/opms <message>",
+							  ["description" => mc::_("Send message to ops"),
+								"usage" => mc::_("/opms <message>"),
 								"permission" => "gb.cmd.opms"]);
 		$this->enableCmd("rpt",
-							  ["description" => "Report issues ops",
-								"usage" => "/rpt [message|read|clear <all|##>]",
+							  ["description" => mc::_("Report issues ops"),
+								"usage" => mc::_("/rpt [message|read|clear <all|##>]"),
 								"permission" => "gb.cmd.rpt"]);
 		$this->rpt = new Config($this->owner->getDataFolder()."reports.yml",
 										Config::YAML,[0,[]]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		list($id,$rpt) = $this->rpt->getAll();
 		if (count($rpt))
-			$this->owner->getLogger()->info(TextFormat::RED.
-													  count($rpt)." reports on file");
+			$this->owner->getLogger()->info(
+				TextFormat::RED.
+				mc::n(mc::_("One report on file"),
+						mc::_("%1% reports on file",count($rpt)),
+						count($rpt)));
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		switch($cmd->getName()) {
 			case "opms":
 				if (count($args) == 0) return false;
-				$ms = TextFormat::BLUE.
-					 "OpMsg [".$sender->getName()."] ".TextFormat::YELLOW.
-					 implode(" ",$args);
+				$ms = TextFormat::BLUE.mc::_("OpMsg [%1%] ",$sender->getName()).
+					 TextFormat::YELLOW.implode(" ",$args);
 				$this->owner->getLogger()->info($ms);
 				$count = 0;
 				foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
@@ -76,11 +81,11 @@ class CmdOpMsg extends BaseCommand implements Listener {
 				}
 				if (($sender instanceof Player) && !$sender->isOp()) {
 					if($count){
-						$sender->sendMessage("(ops:$count) ".implode(" ",$args));
+						$sender->sendMessage(mc::_("(ops:%1%) ",$count).implode(" ",$args));
 					}else{
-						$sender->sendMessage("Message sent to console only");
+						$sender->sendMessage(mc::_("Message sent to console only"));
 						if ($sender->hasPermission("gb.cmd.rpt")) {
-							$sender->sendMessage("Try /rpt instead");
+							$sender->sendMessage(mc::_("Try /rpt instead"));
 						}
 					}
 				}
@@ -92,14 +97,15 @@ class CmdOpMsg extends BaseCommand implements Listener {
 													(count($args) == 2 && is_numeric($args[1])))) {
 					if (!$this->access($sender,"gb.cmd.rpt.read")) return false;
 					if (count($rpt) == 0) {
-						$sender->sendMessage(TextFormat::RED."No reports on file!");
+						$sender->sendMessage(TextFormat::RED.mc::_("No reports on file!"));
 						return true;
 					}
 					$pageNumber = $this->getPageNumber($args);
-					$tab = [[ "ID","Date","Name","Reports: ".count($rpt) ]];
+					$tab = [[ mc::_("ID"),mc::_("Date"),mc::_("Name"),
+								 mc::_("Reports: %1%",count($rpt)) ]];
 					foreach ($rpt as $i=>$ln) {
 						list($tm,$name,$ms) = $ln;
-						$tm = date("d-M H:i",$tm);
+						$tm = date(mc::_("d-M H:i"),$tm);
 						$tab[] = [ $i,$tm,$name,$ms ];
 					}
 					$this->paginateTable($sender,$pageNumber,$tab);
@@ -109,21 +115,21 @@ class CmdOpMsg extends BaseCommand implements Listener {
 					if (!$this->access($sender,"gb.cmd.rpt.read")) return false;
 					if ($args[1] == "all") {
 						$rpt = [];
-						$sender->sendMessage(TextFormat::RED."All reports deleted");
+						$sender->sendMessage(TextFormat::RED.mc::_("All reports deleted"));
 					} else {
 						$i = intval($args[1]);
 						if (!isset($rpt[$i])) {
-							$sender->sendMessage("Unknown report #$i");
+							$sender->sendMessage(mc::_("Unknown report #%1%",$i));
 							return true;
 						}
 						unset($rpt[$i]);
-						$sender->sendMessage("Deleting report #$i");
+						$sender->sendMessage(mc::_("Deleting report #%1%",$i));
 					}
 				} else {
 					$rpt[++$id] = [time(),$sender->getName(),implode(" ",$args)];
-					$sender->sendMessage("Report filed as #".$id);
+					$sender->sendMessage(mc::_("Report filed as #%1%",$id));
 					$ms = TextFormat::BLUE.
-						 "Rpt[#$id from ".$sender->getName()."] ".
+						 mc::_("Rpt[#%1% from %2%] ",$id,$sender->getName()).
 						 TextFormat::YELLOW.implode(" ",$args);
 					$this->owner->getLogger()->info($ms);
 					foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
@@ -142,6 +148,9 @@ class CmdOpMsg extends BaseCommand implements Listener {
 		if ($pl == null) return;
 		if (!$pl->hasPermission("gb.cmd.rpt.read")) return;
 		list($id,$rpt) = $this->rpt->getAll();
-		if (count($rpt)) $pl->sendMessage(count($rpt)." reports on file");
+		if (count($rpt)) $pl->sendMessage(
+			mc::n(mc::_("One report on file"),
+					mc::_("%1% reports on file",count($rpt)),
+					count($rpt)));
 	}
 }

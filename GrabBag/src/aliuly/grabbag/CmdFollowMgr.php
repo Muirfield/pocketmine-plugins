@@ -28,8 +28,8 @@ use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
 class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $leaders;

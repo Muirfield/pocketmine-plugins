@@ -20,12 +20,15 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\Player;
 
-class CmdShieldMgr extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("shield",
-							  ["description" => "makes player invulnerable",
-								"usage" => "/shield",
+							  ["description" => mc::_("makes player invulnerable"),
+								"usage" => mc::_("/shield"),
 								"permission" => "gb.cmd.shield"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
@@ -35,10 +38,10 @@ class CmdShieldMgr extends BaseCommand implements Listener {
 		if (!$this->inGame($sender)) return true;
 		$state = $this->getState($sender,false);
 		if ($state) {
-			$sender->sendMessage("Shields DOWN");
+			$sender->sendMessage(mc::_("Shields DOWN"));
 			$this->setState($sender,false);
 		} else {
-			$sender->sendMessage("Shields UP");
+			$sender->sendMessage(mc::_("Shields UP"));
 			$this->setState($sender,true);
 		}
 		return true;

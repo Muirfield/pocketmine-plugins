@@ -16,8 +16,8 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
 class CmdBurn extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

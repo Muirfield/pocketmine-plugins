@@ -37,9 +37,9 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Creature;
 use pocketmine\tile\Sign;
 
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 
 class CmdEntities extends BasicCli implements CommandExecutor {

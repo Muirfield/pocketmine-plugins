@@ -43,7 +43,7 @@ administration.
 ### Player Management
 
 * as : run command as somebody else
-* fly : Toggle flying
+* fly : Toggle flying **ONLY FOR PM1.5**
 * gma : Change your gamemode to _Adventure_.
 * gmc : Change your gamemode to _Creative_.
 * gms : Change your gamemode to _Survival_.
@@ -83,7 +83,7 @@ administration.
 * mute|unmute : mutes/unmutes a player so they can not use chat
 * slay : Kills the specified player
 * spectator|unspectator : toggle a player's spectator mode
-* throw : Throw a player in the air
+* throw : Throw a player in the air -- **ONLY FOR PM1.4**
 
 ### Modules
 
@@ -144,11 +144,13 @@ The following commands are available:
 
   Will show the number of `crash` files in the server.
   The following optional sub-commands are available:
-  - **crash** **ls**
+  - **crash** **count**
+    - Count the number of crash files
+  - **crash** **ls** _[patthern]_
     - List crash files
-  - **crash** **clean**
-    - Delete all crash files
-  - **show** ##
+  - **crash** **clean** _[pattern]_
+    - Delete crash files
+  - **show** _[pattern]_
     - Shows the crash file ##
 
 * **dismiss** _&lt;player&gt;_ _[message]_  
@@ -175,7 +177,7 @@ The following commands are available:
     -Clear entities from the server.
 
 * **fly**  
-  Toggle flying  
+  Toggle flying **ONLY FOR PM1.5**  
 
 * **follow** _&lt;player&gt;_  
   Follow a player  
@@ -264,7 +266,6 @@ The following commands are available:
     - List configured rcon connections.
   - **rcon** _<id>_ _<command>_
     - Sends the `command` to the connection `id`.
-  should use the `rpt` command.
 
 * **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
@@ -334,7 +335,7 @@ The following commands are available:
 * **summon** _&lt;player&gt;_ _[message]_  
   Summons a player to your location  
 * **throw** _&lt;player&gt;_ _[force]_  
-  Throw a player in the air  
+  Throw a player in the air -- **ONLY FOR PM1.4**  
 * **whois** _&lt;player&gt;_  
   Gives detail information on players  
 
@@ -425,9 +426,8 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
 #### join-mgr
 
-
-* adminjoin - broadcast whenever an op joins
-* servermotd - show the server's motd when joining
+*  adminjoin: broadcast whenever an op joins
+*  servermotd: show the server's motd when joining
 
 #### rcon-client
 
@@ -520,16 +520,33 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.fly : Flight control
   (Defaults to Op)
+* gb.cmd.crash : Crash dump management
+  (Defaults to Op)
 
+
+## Translations
+
+This plugin will honour the server language configuration.  The
+languages currently available are:
+
+* English
+
+You can provide your own message file by creating a file called
+`messages.ini` in the pluginc config directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag/resources/messages/)
+for sample files.
 
 # Changes
 
-* ??? :
+* 2.1.0 :
   * Added gmspc command to set spectator mode.
-  * broadcast-tp
-  * fly command
-  * Clear hotbar command, and clearinv allows you to clear your own.
-  * Whois also checks some plugins
+  * New broadcast-tp module
+  * New fly command (for 1.5 only)
+  * New Clear hotbar command, and clearinv allows you to clear your own.
+  * New Whois also checks some plugins
+  * Disabled Throw command (for 1.5)
+  * Changed to my MPMU library.
+  * Added Translation capability
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring

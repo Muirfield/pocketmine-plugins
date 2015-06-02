@@ -18,17 +18,20 @@ use pocketmine\command\Command;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 
-class CmdSummon extends BaseCommand {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdSummon extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("summon",
-							  ["description" => "Teleports players to your location",
-								"usage" => "/summon <player> [message]",
+							  ["description" => mc::_("Teleports players to your location"),
+								"usage" => mc::_("/summon <player> [message]"),
 								"permission" => "gb.cmd.summon"]);
 		$this->enableCmd("dismiss",
-							  ["description" => "Dismisses summoned players",
-								"usage" => "/dismiss <player|--all>",
+							  ["description" => mc::_("Dismisses summoned players"),
+								"usage" => mc::_("/dismiss <player|--all>"),
 								"permission" => "gb.cmd.summon"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -46,14 +49,14 @@ class CmdSummon extends BaseCommand {
 		if (!$this->inGame($c)) return true;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
 		if (!$pl) {
-			$c->sendMessage("$args[0] can not be found");
+			$c->sendMessage(mc::_("%1% can not be found",$args[0]));
 			return true;
 		}
 		array_shift($args);
 		if (count($args)) {
 			$pl->sendMessage(implode(" ",$args));
 		} else {
-			$pl->sendMessage("You have been summoned by ".$c->getName());
+			$pl->sendMessage(mc::_("You have been summoned by %1%",$c->getName()));
 		}
 
 		// Do we need to save current location?
@@ -66,9 +69,9 @@ class CmdSummon extends BaseCommand {
 		$this->setState($c,$state);
 		$mv = new Vector3($c->getX()+mt_rand(-3,3),$c->getY(),
 								$c->getZ()+mt_rand(-3,3));
-		$c->sendMessage("Summoning $pn....");
+		$c->sendMessage(mc::_("Summoning %1%....",$pn));
 
-		$this->mwteleport($pl,$c->getLevel()->getSafeSpawn($mv));
+		$pl->teleport($c->getLevel()->getSafeSpawn($mv));
 		return true;
 	}
 	private function cmdDismiss(CommandSender $c,$args) {
@@ -77,8 +80,8 @@ class CmdSummon extends BaseCommand {
 
 		$state = $this->getState($c,[]);
 		if (count($state) == 0) {
-			$c->sendMessage("There is nobody to dismiss");
-			$c->sendMessage("You need to summon people first");
+			$c->sendMessage(mc::_("There is nobody to dismiss"));
+			$c->sendMessage(mc::_("You need to summon people first"));
 			return true;
 		}
 
@@ -87,19 +90,19 @@ class CmdSummon extends BaseCommand {
 		foreach ($args as $i) {
 			$pl = $this->owner->getServer()->getPlayer($i);
 			if (!$pl) {
-				$c->sendMessage("$i can not be found");
+				$c->sendMessage(mc::_("%1% can not be found",$i));
 				$i = strtolower($i);
 				if (isset($state[$i])) unset($state[$i]);
 				continue;
 			}
 			$pn = strtolower($pl->getName());
 			if (!isset($state[$pn])) {
-				$c->sendMessage("$i was never summoned");
+				$c->sendMessage(mc::_("%1% was never summoned",$i));
 				continue;
 			}
-			$pl->sendMessage("You have been dismissed by ".$c->getName());
-			$c->sendMessage("Dismissing $i");
-			$this->mwteleport($pl,$state[$pn]);
+			$pl->sendMessage(mc::_("You have been dismissed by %1%",$c->getName()));
+			$c->sendMessage(mc::_("Dismissing %1%",$i));
+			$pl->teleport($state[$pn]);
 			unset($state[$pn]);
 		}
 		$this->setState($c,$state);

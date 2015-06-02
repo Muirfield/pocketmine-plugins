@@ -29,13 +29,16 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 
-class CmdPrefixMgr extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdPrefixMgr extends BasicCli implements CommandExecutor,Listener {
 	static $delay = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("prefix",
-							  ["description" => "Execute commands with prefix inserted",
-								"usage" => "/prefix [-n] <text>",
+							  ["description" => mc::_("Execute commands with prefix inserted"),
+								"usage" => mc::_("/prefix [-n] <text>"),
 								"permission" => "gb.cmd.prefix"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
@@ -43,7 +46,7 @@ class CmdPrefixMgr extends BaseCommand implements Listener {
 		if ($cmd->getName() != "prefix") return false;
 		if (count($args) == 0 || (count($args) == 1 && $args[0] == "-n")) {
 			$this->unsetState($sender);
-			$sender->sendMessage("prefix turned off");
+			$sender->sendMessage(mc::_("prefix turned off"));
 			return true;
 		}
 		$sep = " ";
@@ -52,7 +55,7 @@ class CmdPrefixMgr extends BaseCommand implements Listener {
 			array_shift($args);
 		}
 		$this->setState($sender,$n = implode(" ",$args).$sep);
-		$sender->sendMessage("Prefix set to \"$n\"");
+		$sender->sendMessage(mc::_("Prefix set to \"%1%\"",$n));
 		return true;
 	}
 	private function processCmd($msg,$sender) {

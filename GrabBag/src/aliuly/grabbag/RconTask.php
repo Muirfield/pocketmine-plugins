@@ -3,7 +3,9 @@ namespace aliuly\grabbag;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\command\ConsoleCommandSender;
-
+//
+// We can not localize this as it is running on a different thread...
+//
 
 class RconTask extends AsyncTask {
 	const RCTYPE_COMMAND = 2;

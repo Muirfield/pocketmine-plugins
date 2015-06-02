@@ -19,48 +19,52 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
 
-class CmdShowInv extends BaseCommand {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
+
+class CmdShowInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("seeinv",
-							  ["description" => "show player's inventory",
-								"usage" => "/seeinv <player>",
+							  ["description" => mc::_("show player's inventory"),
+								"usage" => mc::_("/seeinv <player>"),
 								"permission" => "gb.cmd.seeinv"]);
 		$this->enableCmd("seearmor",
-							  ["description" => "show player's armor",
-								"usage" => "/seearmor <player>",
+							  ["description" => mc::_("show player's armor"),
+								"usage" => mc::_("/seearmor <player>"),
 								"permission" => "gb.cmd.seearmor"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) != 1) {
-			$sender->sendMessage("You must specify a player's name");
+			$sender->sendMessage(mc::_("You must specify a player's name"));
 			return false;
 		}
 		$target = $this->owner->getServer()->getPlayer($args[0]);
 		if($target == null) {
-			$sender->sendMessage($args[0]." can not be found.");
+			$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));
 			return true;
 		}
 		if ($cmd->getName() == "seeinv") {
-			$tab= [[$args[0],"Count","Damage"]];
+			$tab= [[$args[0],mc::_("Count"),mc::_("Damage")]];
 			$max = $target->getInventory()->getSize();
 			foreach ($target->getInventory()->getContents() as $slot => &$item) {
 				if ($slot >= $max) continue;
-				$tab[] = [$this->itemName($item)." (".$item->getId().")",
+				$tab[] = [MPMU::itemName($item)." (".$item->getId().")",
 							 $item->getCount(),$item->getDamage() ];
 			}
 			if (count($tab) == 1) {
-				$sender->sendMessage("The inventory for $args[0] is EMPTY");
+				$sender->sendMessage(mc::_("The inventory for %1% is EMPTY",$args[0]));
 				return true;
 			}
 		}elseif ($cmd->getName() == "seearmor") {
-			$tab= [["Armor for",TextFormat::RED.$args[0]]];
+			$tab= [[mc::_("Armor for"),TextFormat::RED.$args[0]]];
 			foreach ([0=>"head",1=>"body",2=>"legs",3=>"boots"] as $slot=>$attr) {
 				$item = $target->getInventory()->getArmorItem($slot);
 				if ($item->getID() == 0) continue;
 				$tab[]=[$attr.TextFormat::BLUE,
-						  $this->itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
+						  MPMU::itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
 			}
 		}
 		return $this->paginateTable($sender,$pageNumber,$tab);

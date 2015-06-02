@@ -14,12 +14,15 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-class CmdSpawn extends BaseCommand {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdSpawn extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("spawn",
-							  ["description" => "Teleport to spawn location",
-								"usage" => "/spawn",
+							  ["description" => mc::_("Teleport to spawn location"),
+								"usage" => mc::_("/spawn"),
 								"permission" => "gb.cmd.spawn"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -28,7 +31,7 @@ class CmdSpawn extends BaseCommand {
 		if (!$this->inGame($sender)) return true;
 		$pos = $sender->getLevel()->getSafeSpawn();
 		$sender->sendMessage("Teleporting to spawn...");
-		$this->mwteleport($sender,$pos);
+		$sender->teleport($pos);
 		return true;
 	}
 }

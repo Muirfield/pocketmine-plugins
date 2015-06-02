@@ -23,14 +23,18 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-class CmdSrvModeMgr extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PluginCallbackTask;
+
+class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {
 	protected $mode;
 	static $delay = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("servicemode",
-							  ["description" => "Enter/Exit servicemode",
-								"usage" => "/servicemode [on|off [message]]",
+							  ["description" => mc::_("Enter/Exit servicemode"),
+								"usage" => mc::_("/servicemode [on|off [message]]"),
 								"aliases" => ["srvmode","srmode"],
 								"permission" => "gb.cmd.servicemode"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
@@ -40,20 +44,20 @@ class CmdSrvModeMgr extends BaseCommand implements Listener {
 		if ($cmd->getName() != "servicemode") return false;
 		if (count($args) == 0) {
 			if ($this->mode !== false) {
-				$sender->sendMessage(TextFormat::RED."In Service Mode: $mode");
+				$sender->sendMessage(TextFormat::RED.mc::_("In Service Mode: %1%",$this->mode));
 			} else {
-				$sender->sendMessage(TextFormat::GREEN."In Normal operating mode");
+				$sender->sendMessage(TextFormat::GREEN.mc::_("In Normal operating mode"));
 			}
 			return true;
 		}
 		if (in_array(strtolower(array_shift($args)),["on","up","true",1])) {
 			$msg = implode(" ",$args);
-			if (!$msg) $msg = "Scheduled maintenance";
-			$this->owner->getServer()->broadcastMessage("ATTENTION: Entering service mode");
-			$this->owner->getServer()->broadcastMessage(" - ".$msg);
+			if (!$msg) $msg = mc::_("Scheduled maintenance");
+			$this->owner->getServer()->broadcastMessage(TextFormat::RED.mc::_("ATTENTION: Entering service mode"));
+			$this->owner->getServer()->broadcastMessage(TextFormat::YELLOW." - ".$msg);
 		} else {
 			$msg = false;
-			$this->owner->getServer()->broadcastMessage("ATTENTION: Leaving service mode");
+			$this->owner->getServer()->broadcastMessage(TextFormat::GREEN.mc::_("ATTENTION: Leaving service mode"));
 		}
 		$this->mode = $msg;
 		return true;
@@ -75,13 +79,13 @@ class CmdSrvModeMgr extends BaseCommand implements Listener {
 	public function announce($pn) {
 		$player = $this->owner->getServer()->getPlayer($pn);
 		if (!($player instanceof Player)) return;
-		$player->sendMessage("NOTE: currently in service mode");
-		$player->sendMessage("- ".$this->mode);
+		$player->sendMessage(TextFormat::RED.mc::_("NOTE: currently in service mode"));
+		$player->sendMessage(TextFormat::YELLOW."- ".$this->mode);
 	}
 	public function kickuser($pn) {
 		$player = $this->owner->getServer()->getPlayer($pn);
 		if (!($player instanceof Player)) return;
-		$this->owner->getServer()->broadcastMessage("$pn attempted to join");
+		$this->owner->getServer()->broadcastMessage(TextFormat::RED.mc::_("%1% attempted to join",$pn));
 		$player->kick($this->mode);
 	}
 }

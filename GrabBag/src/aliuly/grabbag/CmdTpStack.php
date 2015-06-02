@@ -18,17 +18,20 @@ use pocketmine\command\Command;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 
-class CmdTpStack extends BaseCommand {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdTpStack extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("pushtp",
-							  ["description" => "Save your current position when teleporting",
-								"usage" => "/pushtp [player|position|world]",
+							  ["description" => mc::_("Save your current position when teleporting"),
+								"usage" => mc::_("/pushtp [player|position|world]"),
 								"permission" => "gb.cmd.pushpoptp"]);
 		$this->enableCmd("poptp",
-							  ["description" => "Returns to previously saved coordinates",
-								"usage" => "/poptp",
+							  ["description" => mc::_("Returns to previously saved coordinates"),
+								"usage" => mc::_("/poptp"),
 								"permission" => "gb.cmd.pushpoptp"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -57,7 +60,7 @@ class CmdTpStack extends BaseCommand {
 				$level = array_shift($args);
 				if (count($args) == 3) {
 					if (!(is_numeric($args[0]) && is_numeric($args[1]) && is_numeric($args[2]))) {
-						$c->sendMessage("Invalid coordinate set");
+						$c->sendMessage(mc::_("Invalid coordinate set"));
 						return true;
 					}
 					$cc = new Vector3($args[0],$args[1],$args[2]);
@@ -66,13 +69,13 @@ class CmdTpStack extends BaseCommand {
 				}
 				if (!$this->owner->getServer()->isLevelLoaded($level)) {
 					if (!$this->owner->getServer()->loadLevel($level)) {
-						$c->sendMessage("Level not found $level");
+						$c->sendMessage(mc::_("Level not found %1%",$level));
 						return true;
 					}
 				}
 				$level = $this->owner->getServer()->getLevelByName($level);
 				if (!$level) {
-					$c->sendMesage("$level not found");
+					$c->sendMesage(mc::_("%1% not found",$level));
 					return treu;
 				}
 				$target = $level->getSafeSpawn($cc);
@@ -89,10 +92,10 @@ class CmdTpStack extends BaseCommand {
 												 $c->getLevel()));
 		$this->setState($c,$stack);
 
-		$c->sendMessage("Position saved!");
+		$c->sendMessage(mc::_("Position saved!"));
 		if ($target) {
-			$c->sendMessage("Teleporting...");
-			$this->mwteleport($c,$target);
+			$c->sendMessage(mc::_("Teleporting..."));
+			$c->teleport($target);
 		}
 		return true;
 	}
@@ -102,12 +105,12 @@ class CmdTpStack extends BaseCommand {
 
 		$stack = $this->getState($c,[]);
 		if (count($stack) == 0) {
-			$c->sendMessage("TpStack is empty");
+			$c->sendMessage(mc::_("TpStack is empty"));
 			return true;
 		}
 		$pos = array_pop($stack);
-		$c->sendMessage("Teleporting...");
-		$this->mwteleport($c,$pos);
+		$c->sendMessage(mc::_("Teleporting..."));
+		$c->teleport($pos);
 		$this->setState($c,$stack);
 		return true;
 	}

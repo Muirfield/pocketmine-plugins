@@ -16,7 +16,7 @@ use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
 use pocketmine\level\Position;
 
-use aliuly\common\mc;
+use aliuly\grabbag\common\mc;
 
 class BcTpMgr implements Listener {
 	public $owner;

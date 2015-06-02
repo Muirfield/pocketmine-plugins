@@ -46,6 +46,7 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 
+use aliuly\grabbag\common\mc;
 
 class RepeatMgr implements Listener {
 	public $owner;
@@ -61,7 +62,7 @@ class RepeatMgr implements Listener {
 			$last = $this->owner->getState("RepeatMgr",$sender,false);
 
 			if ($last === false) {
-				$sender->sendMessage("You do not have any recorded previous command");
+				$sender->sendMessage(mc::_("You do not have any recorded previous command"));
 				return false;
 			}
 			// Just the previous command...

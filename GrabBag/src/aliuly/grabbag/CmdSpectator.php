@@ -28,19 +28,22 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
-class CmdSpectator extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 	protected $watchers;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("spectator",
-							  ["description" => "Make player an spectator",
-								"usage" => "/spectator [player]",
+							  ["description" => mc::_("Make player an spectator"),
+								"usage" => mc::_("/spectator [player]"),
 								"aliases"=> ["spc"],
 								"permission" => "gb.cmd.spectator"]);
 		$this->enableCmd("unspectator",
-							  ["description" => "Reverses the effects of /spectator",
-								"usage" => "/unspectator [player]",
+							  ["description" => mc::_("Reverses the effects of /spectator"),
+								"usage" => mc::_("/unspectator [player]"),
 								"aliases" => ["unspc"],
 								"permission" => "gb.cmd.spectator"]);
 		$this->watchers = [];
@@ -48,7 +51,7 @@ class CmdSpectator extends BaseCommand implements Listener {
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) {
-			$sender->sendMessage("Spectators: ".count($this->watchers));
+			$sender->sendMessage(mc::_("Spectators: %1%",count($this->watchers)));
 			if (count($this->watchers))
 				$sender->sendMessage(implode(", ",$this->watchers));
 			return true;
@@ -59,10 +62,10 @@ class CmdSpectator extends BaseCommand implements Listener {
 					$player = $this->owner->getServer()->getPlayer($n);
 					if ($player) {
 						$this->watchers[strtolower($player->getName())] = $player->getName();
-						$player->sendMessage("You are now an spectator");
-						$sender->sendMessage("$n is now an spectator");
+						$player->sendMessage(mc::_("You are now an spectator"));
+						$sender->sendMessage(mc::_("%1% is now an spectator",$n));
 					} else {
-						$sender->sendMessage("$n not found.");
+						$sender->sendMessage(mc::_("%1% not found.",$n));
 					}
 				}
 				return true;
@@ -72,11 +75,11 @@ class CmdSpectator extends BaseCommand implements Listener {
 						unset($this->watchers[strtolower($n)]);
 						$player = $this->owner->getServer()->getPlayer($n);
 						if ($player) {
-							$player->sendMessage("You are no longer an spectator");
+							$player->sendMessage(mc::_("You are no longer an spectator"));
 						}
-						$sender->sendMessage("$n is not an spectator");
+						$sender->sendMessage(mc::_("%1% is not an spectator",$n));
 					} else {
-						$sender->sendMessage("$n not found");
+						$sender->sendMessage(mc::_("%1% not found",$n));
 					}
 				}
 				return true;

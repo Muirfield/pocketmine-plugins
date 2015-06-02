@@ -24,9 +24,9 @@ use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;

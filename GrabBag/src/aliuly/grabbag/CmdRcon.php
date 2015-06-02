@@ -17,15 +17,6 @@
  **     - List configured rcon connections.
  **   - **rcon** _<id>_ _<command>_
  **     - Sends the `command` to the connection `id`.
- **   should use the `rpt` command.
- **
- ** * rpt : report an issue to ops
- **   usage: **rpt** [_message_|**read|clear** _<all|##>_]
- **
- **   Logs/reports an issue to server ops.  These issues are stored in a
- **   a file which can be later read by the server operators.  Use this
- **   when there are **no** ops on-line.  If there are ops on-line you
- **   should use the `opms` command.
  **
  ** CONFIG:rcon-client
  **
@@ -39,16 +30,18 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
-class CmdRcon extends BaseCommand {
+class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
 
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->servers = $cfg;
 		$this->enableCmd("rcon",
-							  ["description" => "RCON client",
-								"usage" => "/rcon [--add|--rm|--ls|id] <command>",
+							  ["description" => mc::_("RCON client"),
+								"usage" => mc::_("/rcon [--add|--rm|--ls|id] <command>"),
 								"permission" => "gb.cmd.rcon"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -75,38 +68,38 @@ class CmdRcon extends BaseCommand {
 		if (!$this->access($c,"gb.cmd.rcon.config")) return true;
 
 		if (count($args) < 4) {
-			$c->sendMessage("Usage: --add <id> <host> <port> <auth> [comments]");
+			$c->sendMessage(mc::_("Usage: --add <id> <host> <port> <auth> [comments]"));
 			return false;
 		}
 		$id = array_shift($args);
 		if (substr($id,0,1) == "-") {
-			$c->sendMessage("RCON id can not start with a dash (-)");
+			$c->sendMessage(mc::_("RCON id can not start with a dash (-)"));
 			return false;
 		}
 		if (isset($this->servers[$id])) {
-			$c->sendMessage("$id is an id that is already in use.");
-			$c->sendMessage("Use --rm first");
+			$c->sendMessage(mc::_("%1% is an id that is already in use.",$id));
+			$c->sendMessage(mc::_("Use --rm first"));
 			return false;
 		}
 		$this->servers[$id] = implode(" ",$args);
-		$this->cfgSave("rcon-client",$this->servers);
-		$c->sendMessage("Rcon id $id configured");
+		$this->owner->cfgSave("rcon-client",$this->servers);
+		$c->sendMessage(mc::_("Rcon id %1% configured",$id));
 		return true;
 	}
 	private function cmdRm(CommandSender $c,$args) {
 		if (!$this->access($c,"gb.cmd.rcon.config")) return true;
 		if (count($args) != 1) {
-			$c->sendMessage("Usage: --rm [id]");
+			$c->sendMessage(mc::_("Usage: --rm [id]"));
 			return false;
 		}
 		$id = array_shift($args);
 		if (!isset($this->servers[$id])) {
-			$c->sendMessage("$id does not exist");
+			$c->sendMessage(mc::_("%1% does not exist",$id));
 			return false;
 		}
 		unset($this->servers[$id]);
-		$this->cfgSave("rcon-client",$this->servers);
-		$c->sendMessage("Rcon id $id deleted");
+		$this->owner->cfgSave("rcon-client",$this->servers);
+		$c->sendMessage(mc::_("Rcon id %1% deleted",$id));
 		return true;
 	}
 	private function cmdList(CommandSender $c,$args) {
@@ -124,7 +117,7 @@ class CmdRcon extends BaseCommand {
 		if (count($args) < 2) return false;
 		$id = array_shift($args);
 		if (!isset($this->servers[$id])) {
-			$c->sendMessage("$id does not exist");
+			$c->sendMessage(mc::_("%1% does not exist",$id));
 			return false;
 		}
 		$cmd = implode(" ",$args);

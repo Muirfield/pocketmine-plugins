@@ -20,25 +20,28 @@ use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 
-class CmdMuteMgr extends BaseCommand implements Listener {
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
+
+class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $mutes;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("mute",
-							  ["description" => "mute player",
-								"usage" => "/mute [player]",
+							  ["description" => mc::_("mute player"),
+								"usage" => mc::_("/mute [player]"),
 								"permission" => "gb.cmd.mute"]);
 		$this->enableCmd("unmute",
-							  ["description" => "unmute player",
-								"usage" => "/unmute [player]",
+							  ["description" => mc::_("unmute player"),
+								"usage" => mc::_("/unmute [player]"),
 								"permission" => "gb.cmd.mute"]);
 		$this->mutes = [];
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) {
-			$sender->sendMessage("Mutes: ".count($this->mutes));
+			$sender->sendMessage(mc::_("Mutes: %1%",count($this->mutes)));
 			if (count($this->mutes))
 				$sender->sendMessage(implode(", ",$this->mutes));
 			return true;
@@ -49,11 +52,11 @@ class CmdMuteMgr extends BaseCommand implements Listener {
 					$player = $this->owner->getServer()->getPlayer($n);
 					if ($player) {
 						$this->mutes[strtolower($player->getName())] = $player->getName();
-						$player->sendMessage("You have been muted by ".
-													$sender->getName());
-						$sender->sendMessage("$n is muted.");
+						$player->sendMessage(mc::_("You have been muted by %1%",
+															$sender->getName()));
+						$sender->sendMessage(mc::_("%1% is muted.",$n));
 					} else {
-						$sender->sendMessage("$n not found.");
+						$sender->sendMessage(mc::_("%1% not found.",$n));
 					}
 				}
 				return true;
@@ -63,12 +66,12 @@ class CmdMuteMgr extends BaseCommand implements Listener {
 						unset($this->mutes[strtolower($n)]);
 						$player = $this->owner->getServer()->getPlayer($n);
 						if ($player) {
-							$player->sendMessage("You have been unmuted by ".
-														$sender->getName());
+							$player->sendMessage(mc::_("You have been unmuted by %1%",
+																$sender->getName()));
 						}
-						$sender->sendMessage("$n is un-muted");
+						$sender->sendMessage(mc::_("%1% is un-muted",$n));
 					} else {
-						$sender->sendMessage("$n not found or not muted");
+						$sender->sendMessage(mc::_("%1% not found or not muted",$n));
 					}
 				}
 				return true;
@@ -81,7 +84,7 @@ class CmdMuteMgr extends BaseCommand implements Listener {
 		if ($ev->isCancelled()) return;
 		$p = $ev->getPlayer();
 		if (isset($this->mutes[strtolower($p->getName())])) {
-			$p->sendMessage("You have been muted!");
+			$p->sendMessage(mc::_("You have been muted!"));
 			$ev->setCancelled();
 		}
 	}

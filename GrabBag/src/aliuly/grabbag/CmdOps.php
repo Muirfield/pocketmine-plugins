@@ -15,14 +15,15 @@ use pocketmine\command\Command;
 
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
-class CmdOps extends BaseCommand {
-
+class CmdOps extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("ops",
-							  ["description" => "show ops and their on-line status",
-								"usage" => "/ops",
+							  ["description" => mc::_("show ops and their on-line status"),
+								"usage" => mc::_("/ops"),
 								"permission" => "gb.cmd.ops"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -35,12 +36,12 @@ class CmdOps extends BaseCommand {
 			$p = $this->owner->getServer()->getPlayer($opname);
 			if($p && ($p->isOnline() && (!($sender instanceof Player) || $sender->canSee($p)))){
 				++$cnt;
-				$txt[] = TextFormat::BLUE."$opname (online)";
+				$txt[] = TextFormat::BLUE.mc::_("%1% (online)",$opname);
 			}else{
 				$txt[] = TextFormat::RED."$opname";
 			}
 		}
-		$txt[0] = "Server Ops (Online:$cnt)";
+		$txt[0] = mc::_("Server Ops (Online:%1%)",$cnt);
 		return $this->paginateText($sender,$pageNumber,$txt);
 	}
 }

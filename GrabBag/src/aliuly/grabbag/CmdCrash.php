@@ -28,8 +28,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
 class CmdCrash extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -37,7 +37,7 @@ class CmdCrash extends BasicCli implements CommandExecutor {
 		$this->enableCmd("crash",
 							  ["description" => mc::_("manage crash files"),
 								"usage" => mc::_("/crash [count|clean|show|ls]"),
-								"permission" => "gb.cmd.after"]);
+								"permission" => "gb.cmd.crash"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "crash") return;

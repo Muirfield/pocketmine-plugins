@@ -4,7 +4,7 @@
  **
  ** COMMANDS
  **
- ** * fly : Toggle flying
+ ** * fly : Toggle flying **ONLY FOR PM1.5**
  **   usage: **fly**
  **
  **/
@@ -15,8 +15,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
 use pocketmine\utils\TextFormat;
-use aliuly\common\BasicCli;
-use aliuly\common\mc;
+use aliuly\grabbag\common\BasicCli;
+use aliuly\grabbag\common\mc;
 
 class CmdFly extends BasicCli implements CommandExecutor {
 

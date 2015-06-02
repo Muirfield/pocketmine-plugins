@@ -19,13 +19,12 @@ use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use pocketmine\event\player\PlayerQuitEvent;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
-use aliuly\common\BasicPlugin;
+use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\BasicPlugin;
 
 class Main extends BasicPlugin {
 	public function onEnable(){
-		if (!MPMU::assert_version($this,"0.0.1")) return;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$features = [
@@ -52,10 +51,9 @@ class Main extends BasicPlugin {
 			"prefix" => [ "CmdPrefixMgr", true ],
 			"spawn" => [ "CmdSpawn", true ],
 			"burn" => [ "CmdBurn", true ],
-			"throw" => [ "CmdThrow", true ],
 			"blowup" => [ "CmdBlowUp", true ],
 			"setarmor" => [ "CmdSetArmor", true ],
-			"spectator"=> [ "CmdSpectator", true ],
+			"spectator"=> [ "CmdSpectator", false ],
 			"followers"=> [ "CmdFollowMgr", true ],
 			"rcon-client" => [ "CmdRcon", true ],
 			"join-mgr" => [ "JoinMgr", true ],
@@ -65,15 +63,14 @@ class Main extends BasicPlugin {
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
+		} else {
+			$features["throw"] = [ "CmdThrow", true ];
 		}
 
 		$cfg = $this->modConfig(__NAMESPACE__,$features, [
 			"version" => $this->getDescription()->getVersion(),
 			"rcon-client" => [],
-			"join-mgr" => [
-				"adminjoin" => true,
-				"servermotd" => true,
-			],
+			"join-mgr" => JoinMgr::defaults(),
 			"broadcast-tp" => BcTpMgr::defaults(),
 			"freeze-thaw" => CmdFreezeMgr::defaults(),
 		]);
