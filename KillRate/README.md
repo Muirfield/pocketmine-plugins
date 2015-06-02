@@ -53,7 +53,7 @@ support for MassiveEconomy and EconomyAPI.
 
 These can be configured from `config.yml`:
 
-```
+```YAML
 settings:
     points: true
     rewards: true
