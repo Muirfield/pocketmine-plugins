@@ -32,6 +32,7 @@ use pocketmine\command\Command;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
@@ -65,7 +66,7 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		return false;
 	}
 	private function cmdAdd(CommandSender $c,$args) {
-		if (!$this->access($c,"gb.cmd.rcon.config")) return true;
+		if (!MPMU::access($c,"gb.cmd.rcon.config")) return true;
 
 		if (count($args) < 4) {
 			$c->sendMessage(mc::_("Usage: --add <id> <host> <port> <auth> [comments]"));
@@ -87,7 +88,7 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		return true;
 	}
 	private function cmdRm(CommandSender $c,$args) {
-		if (!$this->access($c,"gb.cmd.rcon.config")) return true;
+		if (!MPMU::access($c,"gb.cmd.rcon.config")) return true;
 		if (count($args) != 1) {
 			$c->sendMessage(mc::_("Usage: --rm [id]"));
 			return false;

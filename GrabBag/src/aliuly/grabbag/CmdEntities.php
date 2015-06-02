@@ -156,7 +156,7 @@ class CmdEntities extends BasicCli implements CommandExecutor {
 				return true;
 			}
 		} else {
-			if ($this->inGame($c,false)) {
+			if (MPMU::inGame($c,false)) {
 				$level = $c->getLevel();
 			} else {
 				$level = $this->owner->getServer()->getDefaultLevel();
@@ -198,7 +198,7 @@ class CmdEntities extends BasicCli implements CommandExecutor {
 				return true;
 			}
 		} else {
-			if ($this->inGame($c,false)) {
+			if (MPMU::inGame($c,false)) {
 				$level = $c->getLevel();
 			} else {
 				$level = $this->owner->getServer()->getDefaultLevel();

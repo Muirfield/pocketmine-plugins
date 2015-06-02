@@ -26,6 +26,7 @@ use pocketmine\item\Item;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdSetArmor extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -90,12 +91,12 @@ class CmdSetArmor extends BasicCli implements CommandExecutor {
 			$i = $this->owner->getServer()->getPlayer($args[count($args)-1]);
 			if ($i) {
 				$pl = $i;
-				if (!$this->access($sender,"gb.cmd.setarmor.others")) return true;
+				if (!MPMU::access($sender,"gb.cmd.setarmor.others")) return true;
 				array_pop($args);
 			}
 		}
 		if (count($args)) return false;
-		if (!$this->inGame($pl)) return true;
+		if (!MPMU::inGame($pl)) return true;
 		foreach($slots as $i) {
 			$pl->getInventory()->setArmorItem($i,
 														 new Item($type == 0 ? 0 :$type+$i,

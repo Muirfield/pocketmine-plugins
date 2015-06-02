@@ -16,6 +16,7 @@ use pocketmine\command\Command;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdSpawn extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -28,7 +29,7 @@ class CmdSpawn extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "spawn") return false;
 		if (count($args) != 0) return false;
-		if (!$this->inGame($sender)) return true;
+		if (!MPMU::inGame($sender)) return true;
 		$pos = $sender->getLevel()->getSafeSpawn();
 		$sender->sendMessage("Teleporting to spawn...");
 		$sender->teleport($pos);

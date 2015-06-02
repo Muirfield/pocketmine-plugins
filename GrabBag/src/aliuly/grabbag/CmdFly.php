@@ -17,6 +17,7 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdFly extends BasicCli implements CommandExecutor {
 
@@ -28,7 +29,7 @@ class CmdFly extends BasicCli implements CommandExecutor {
 								"permission" => "gb.cmd.fly"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-		if (!$this->inGame($sender)) return true;
+		if (!MPMU::inGame($sender)) return true;
 		if ($cmd->getName() != "fly") return false;
 		if ($sender->getAllowFlight()) {
 			$sender->sendMessage(mc::_("Disabling flight mode"));

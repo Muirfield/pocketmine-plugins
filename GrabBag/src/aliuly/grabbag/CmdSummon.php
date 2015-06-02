@@ -20,6 +20,7 @@ use pocketmine\math\Vector3;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdSummon extends BasicCli implements CommandExecutor {
 
@@ -46,7 +47,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 
 	private function cmdSummon(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
-		if (!$this->inGame($c)) return true;
+		if (!MPMU::inGame($c)) return true;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
 		if (!$pl) {
 			$c->sendMessage(mc::_("%1% can not be found",$args[0]));
@@ -76,7 +77,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 	}
 	private function cmdDismiss(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
-		if (!$this->inGame($c)) return true;
+		if (!MPMU::inGame($c)) return true;
 
 		$state = $this->getState($c,[]);
 		if (count($state) == 0) {

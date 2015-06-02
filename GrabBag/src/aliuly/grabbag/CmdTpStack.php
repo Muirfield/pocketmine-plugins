@@ -20,6 +20,7 @@ use pocketmine\math\Vector3;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdTpStack extends BasicCli implements CommandExecutor {
 
@@ -45,7 +46,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 	}
 
 	private function cmdPushTp(CommandSender $c,$args) {
-		if (!$this->inGame($c)) return true;
+		if (!MPMU::inGame($c)) return true;
 
 		// Determine target...
 		if (count($args) == 3 && is_numeric($args[0]) && is_numeric($args[1]) && is_numeric($args[2])) {
@@ -100,7 +101,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 		return true;
 	}
 	private function cmdPopTp(CommandSender $c,$args) {
-		if (!$this->inGame($c)) return true;
+		if (!MPMU::inGame($c)) return true;
 		if (count($args)) return false;
 
 		$stack = $this->getState($c,[]);

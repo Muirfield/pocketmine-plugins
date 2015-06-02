@@ -22,6 +22,7 @@ use pocketmine\Player;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner) {
@@ -35,7 +36,7 @@ class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) !== 0) return false;
 		if ($cmd->getName() != "shield") return false;
-		if (!$this->inGame($sender)) return true;
+		if (!MPMU::inGame($sender)) return true;
 		$state = $this->getState($sender,false);
 		if ($state) {
 			$sender->sendMessage(mc::_("Shields DOWN"));

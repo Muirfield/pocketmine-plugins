@@ -16,8 +16,10 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdHeal extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -31,7 +33,7 @@ class CmdHeal extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "heal") return false;
 		if (count($args) == 0) {
-			if (!$this->inGame($sender)) return true;
+			if (!MPMU::inGame($sender)) return true;
 			$sender->setHealth($sender->getMaxHealth());
 			$sender->sendMessage(mc::_("You have been healed"));
 			return true;

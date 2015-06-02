@@ -15,8 +15,10 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdClearInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -34,11 +36,11 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) > 1) return false;
 		if (count($args) == 0) {
-			if (!$this->inGame($sender)) return true;
+			if (!MPMU::inGame($sender)) return true;
 			$target = $sender;
 			$other = false;
 		} else {
-			if (!$this->access($sender,"gb.cmd.".$cmd->getName())) return true;
+			if (!MPMU::access($sender,"gb.cmd.".$cmd->getName())) return true;
 			$target = $this->owner->getServer()->getPlayer($args[0]);
 			if ($target === null) {
 				$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));

@@ -41,6 +41,7 @@ use pocketmine\utils\Config;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	protected $rpt;
@@ -95,7 +96,7 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 				list($id,$rpt) = $this->rpt->getAll();
 				if ($args[0] == "read" && (count($args) == 1 ||
 													(count($args) == 2 && is_numeric($args[1])))) {
-					if (!$this->access($sender,"gb.cmd.rpt.read")) return false;
+					if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
 					if (count($rpt) == 0) {
 						$sender->sendMessage(TextFormat::RED.mc::_("No reports on file!"));
 						return true;
@@ -112,7 +113,7 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 					return true;
 				}
 				if ($args[0] == "clear" && count($args) == 2) {
-					if (!$this->access($sender,"gb.cmd.rpt.read")) return false;
+					if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
 					if ($args[1] == "all") {
 						$rpt = [];
 						$sender->sendMessage(TextFormat::RED.mc::_("All reports deleted"));

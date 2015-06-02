@@ -30,6 +30,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $leaders;
@@ -62,7 +63,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-		$s = $this->iName($sender);
+		$s = MPMU::iName($sender);
 		switch ($cmd->getName()) {
 			case "followers":
 				$pageNumber = $this->getPageNumber($args);
@@ -72,7 +73,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				}
 				return $this->paginateText($sender,$pageNumber,$txt);
 			case "follow":
-				if (!$this->inGame($sender)) return true;
+				if (!MPMU::inGame($sender)) return true;
 				if (count($args) != 1) return false;
 				$n = array_shift($args);
 				$player = $this->owner->getServer()->getPlayer($n);
@@ -89,7 +90,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				$this->follow($s,$player);
 				return true;
 			case "follow-off":
-				if (!$this->inGame($sender)) return true;
+				if (!MPMU::inGame($sender)) return true;
 				if (count($args) != 0) return false;
 				if (isset($this->followers[$s])) {
 					$sender->sendMessage(mc::_("You are no longer following %1%",
@@ -100,7 +101,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				}
 				return true;
 			case "followme":
-				if (!$this->inGame($sender)) return true;
+				if (!MPMU::inGame($sender)) return true;
 				if (count($args) == 0) return false;
 				foreach ($args as $n) {
 					$player = $this->owner->getServer()->getPlayer($n);
@@ -115,7 +116,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				}
 				return true;
 			case "followme-off":
-				if (!$this->inGame($sender)) return true;
+				if (!MPMU::inGame($sender)) return true;
 				if (count($args) != 0) return false;
 				$this->stopLeading($s);
 				$sender->sendMessage(mc::_("Nobody is following you"));
@@ -124,8 +125,8 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		return false;
 	}
 	private function follow($follower,$leader) {
-		$follower = $this->iName($follower);
-		$leader = $this->iName($leader);
+		$follower = MPMU::iName($follower);
+		$leader = MPMU::iName($leader);
 		if (isset($this->followers[$follower])) $this->followStop($follower);
 		if (!isset($this->leaders[$leader])) {
 			// First follower!
@@ -136,7 +137,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		$this->approach($follower,$leader);
 	}
 	private function stopFollowing($follower) {
-		$follower = $this->iName($follower);
+		$follower = MPMU::iName($follower);
 		if (!isset($this->followers[$follower])) return;
 		$leader = $this->followers[$follower];
 		unset($this->followers[$follower]);
@@ -147,7 +148,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 			unset($this->leaders[$leader]);
 	}
 	private function stopLeading($leader) {
-		$leader = $this->iName($leader);
+		$leader = MPMU::iName($leader);
 		if (!isset($this->leaders[$leader])) return;
 		foreach ($this->leaders[$leader] as $follower) {
 			if (isset($this->followers[$follower]))
@@ -188,7 +189,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		$this->stopLeading($ev->getPlayer());
 	}
 	public function onPlayerMoveEvent(PlayerMoveEvent $ev) {
-		$n = $this->iName($ev->getPlayer());
+		$n = MPMU::iName($ev->getPlayer());
 		if (isset($this->followers[$n]))
 			$this->approach($n,$this->followers[$n]);
 		if (isset($this->leaders[$n])) {
