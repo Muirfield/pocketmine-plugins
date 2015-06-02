@@ -242,6 +242,13 @@ You can provide your own message file by creating a file called
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
 for sample files.
 
+# FAQ
+
+* Q: How do I keep my inventory so that it does not get clear when I
+  switch gamemodes?
+* A: Use a plugin like
+  [GamemodInvSave](https://forums.pocketmine.net/plugins/gamemodeinvsave.1040/)
+
 # Changes
 
 * 2.0.0: Complete re-write
