@@ -58,6 +58,7 @@ administration.
 * at : schedule command at an appointed date/time
 * crash : manage crash dumps
 * opms : sends a message to ops only
+* pluginmgr : manage plugins
 * rcon : rcon client
 * rpt : report an issue to ops
 * servicemode : controls servicemode
@@ -238,6 +239,24 @@ The following commands are available:
   Shows who are the ops on this server.  
 * **players**  
   Shows what players are on-line  
+* **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions&gt;_ _plugin&gt;  
+  manage plugins  
+
+  Manage plugins.
+  The following sub-commands are available:
+  - **pluginmgr** **enable** _<plugin>_
+    - Enable a disabled plugin.
+  - **pluginmgr** **disable** _<plugin>_
+    - Disables an enabled plugin.
+  - **pluginmgr** **reload** _<plugin>_
+    - Disables and enables a plugin.
+  - **pluginmgr** **info** _<plugin>_
+    - Show plugin details
+  - **pluginmgr** **commands** _<plugin>_
+    - Show commands registered by plugin
+  - **pluginmgr** **permissions** _<plugin>_
+    - Show permissions registered by plugin
+
 * **poptp**  
   Returns to the previous location  
 
@@ -523,6 +542,8 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.crash : Crash dump management
   (Defaults to Op)
+* gb.cmd.pluginmgr : Manage plugins
+  (Defaults to Op)
 
 
 ## Translations
@@ -545,7 +566,6 @@ for sample files.
   * New fly command (for 1.5 only)
   * New Clear hotbar command, and clearinv allows you to clear your own.
   * New Whois also checks some plugins
-  * Disabled Throw command (for 1.5)
   * Changed to my MPMU library.
   * Added Translation capability
   * New PluginMgr command

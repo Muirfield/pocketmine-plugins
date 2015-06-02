@@ -3,6 +3,8 @@ namespace aliuly\grabbag\common;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\MainLogger;
+use pocketmine\command\CommandSender;
+use pocketmine\Player;
 
 abstract class MPMU {
 	// My PocketMine Utils
@@ -74,4 +76,25 @@ abstract class MPMU {
 		}
 		return "$mode-mode";
 	}
+
+	static public function access(CommandSender $sender, $permission,$msg=true) {
+		if($sender->hasPermission($permission)) return true;
+		if ($msg)
+			$sender->sendMessage(mc::_("You do not have permission to do that."));
+		return false;
+	}
+	static public function inGame(CommandSender $sender,$msg = true) {
+		if (!($sender instanceof Player)) {
+			if ($msg) $sender->sendMessage(mc::_("You can only do this in-game"));
+			return false;
+		}
+		return true;
+	}
+	static public function iName($player) {
+		if ($player instanceof Player) {
+			$player = strtolower($player->getName());
+		}
+		return $player;
+	}
+
 }

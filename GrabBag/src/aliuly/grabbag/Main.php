@@ -61,11 +61,10 @@ class Main extends BasicPlugin {
 			"broadcast-tp" => [ "BcTpMgr", false ],
 			"crash" => ["CmdCrash", true],
 			"pluginmgr" => ["CmdPluginMgr", true],
-		];
+			"throw" => ["CmdThrow", true],
+	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
-		} else {
-			$features["throw"] = [ "CmdThrow", true ];
 		}
 
 		$cfg = $this->modConfig(__NAMESPACE__,$features, [

@@ -16,6 +16,7 @@ use pocketmine\math\Vector3;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class CmdThrow extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -35,11 +36,7 @@ class CmdThrow extends BasicCli implements CommandExecutor {
 		}
 
 		if (MPMU::apiVersion("1.12.0")) {
-			$force = 64;
-			if (isset($args[1])) $force = intval($args[1]);
-			if ($force <= 4) $force = 64;
-
-
+			$pl->teleport(new Vector3($pl->getX(),128,$pl->getZ()));
 		} else {
 			$force = 64;
 			if (isset($args[1])) $force = intval($args[1]);
