@@ -1,9 +1,8 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ManyWorlds-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-ManyWorlds
-==========
+# ManyWorlds
 
-* Summary: Basic commands for MultiWorld functionality
+* Summary: Full Suite for MultiWorld functionality
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * OptionalPlugins: n/a
@@ -11,10 +10,9 @@ ManyWorlds
 * Plugin Access: Commands, Manages Worlds
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ManyWorlds)
 
-Overview
----------
+## Overview
 
-A very basic plugin implementing MultiWorld functionality
+Full feature set of commands to manage multiple worlds.
 
 Features:
 
@@ -22,8 +20,9 @@ Features:
 * load/unload
 * create
 * world info
+* edit level.dat
 
-Basic Usage:
+### Basic Usage
 
 * /mw tp *level* [player]
 * /mw create *level* [seed [flat|normal [preset]]]
@@ -33,16 +32,14 @@ Basic Usage:
 * /mw lvdat [level] [attr=value]
 * /mw fixname [level]
 
-Documentation
--------------
+## Documentation
 
 This plugin is a world manager that allows you to generate and load
 worlds as well as teleport between worlds.
 
-The teleport itself has a number of workarounds to deal with
-Client-Server glitches.  Essentially, it works for me.
+### Commands Reference
 
-### Commands:
+The following commands are available:
 
 Teleporting:
 
@@ -77,7 +74,10 @@ Format hacking:
   * generator=flat|normal : Terrain generator
   * preset=string : Presets string.
 
-### Examples:
+### Permission Nodes
+
+
+## Examples
 
 Create a new normal world:
 
@@ -93,39 +93,23 @@ Teleport to this newly created world:
 
 Teleport a player to another world:
 
-    /mw tp flatland joshua
+    /mw tp joshua flatland
 
-### Configuration
 
-In the plugin's config.yml file you can have:
+## Translations
 
-	settings:
-	  broadcast-tp: true
+This plugin will honour the server language configuration.  The
+languages currently available are:
 
-* `broadcast-tp`: Controls broadcast message that somebody teleported.
+* English
+* Spanish
 
-### API
+You can provide your own message file by creating a file called
+`messages.ini` in the pluginc config directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ManyWorlds/resources/messages/)
+for sample files.
 
-To use the teleport provided by ManyWorlds, you can use this code:
-
-	if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
-	    $mw->mwtp($player,$pos);
-	} else {
-	    $player->teleport($pos);
-	}
-
-You need to do this in order for WorldProtect limits to work.
-
-### Permission Nodes:
-
-* mw.cmd.tp - Allows users to travel to other worlds
-* mw.cmd.tp.others - Allows users to make others travel to other worlds
-* mw.cmd.world.create - Allows users to create worlds
-* mw.cmd.world.load - Allows users to load worlds
-* mw.cmd.lvdat - Manipulate level data
-
-FAQ
----
+## FAQ
 
 * Q: How do I create a `FLAT` world?
 * A: You must be using PocketMine-MP v1.4.1.  Set the `generator` to
@@ -135,14 +119,18 @@ FAQ
   In the `pocketmine.yml` file there is a `worlds` section where you
   can define which worlds to load on start-up.
 
-Issues
-------
+## Issues
 
 * World names can not contain spaces.
 
-Changes
--------
+# Changes
 
+* 2.0.0: Modularization
+  * Re-written for modularity
+  * teleport manager API deprecated
+  * Added `default` command to change the default level.
+  * New `genlist` for list of generators
+  * tp command changed to more natural English.
 * 1.3.4: Updates for PM1.5
   * Removed CallbackTask deprecation warnings
 * 1.3.3: Updates for PM1.5
