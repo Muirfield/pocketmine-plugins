@@ -2,7 +2,7 @@
 //
 // Make common library local to the namespace...
 //
-function fix_common($srcdir,$libdir,$plugin) {
+function fix_common($srcdir,$libdir,$plugin,$fix = true) {
 	if (!isset($plugin["main"]))
 		die("Missing \"main\" declaration in plugin.yml\n");
 	$path = explode("/",strtr($plugin["main"],"\\","/")); array_pop($path);
@@ -28,19 +28,21 @@ function fix_common($srcdir,$libdir,$plugin) {
 		$php_old = file_get_contents($phpd);
 		$php_new = strtr(file_get_contents($phps),$tr);
 		if ($php_old != $php_new) {
-			echo("Updating $phpd\n");
+			echo("Updating ".substr($phpd,strlen($srcdir."src/"))."\n");
 			file_put_contents($phpd,$php_new);
 		}
 	}
-	$tr = [
-		"use aliuly\\common\\" => "use ".$nspath."\\common\\",
-	];
-	foreach (glob($srcdir."src/".$fpath."/*.php") as $php) {
-		$php_old = file_get_contents($php);
-		$php_new = strtr($php_old,$tr);
-		if ($php_old != $php_new) {
-			echo("Fixing $php\n");
-			file_put_contents($php,$php_new);
+	if ($fix) {
+		$tr = [
+			"use aliuly\\common\\" => "use ".$nspath."\\common\\",
+		];
+		foreach (glob($srcdir."src/".$fpath."/*.php") as $php) {
+			$php_old = file_get_contents($php);
+			$php_new = strtr($php_old,$tr);
+			if ($php_old != $php_new) {
+				echo("Fixing ".substr($php,strlen($srcdir."src/"))."\n");
+				file_put_contents($php,$php_new);
+			}
 		}
 	}
 }
