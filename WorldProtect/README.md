@@ -226,6 +226,8 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 ## Issues
 
 * World names can not contain spaces.
+* When going from survival to creative then back to survival inventory
+  contents get lost.
 
 ## Translations
 
