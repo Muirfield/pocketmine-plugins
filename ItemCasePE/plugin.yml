@@ -4,24 +4,24 @@ load: POSTWORLD
 
 name: ItemCasePE
 description: An implementation of Bukkit's ItemCase
-version: 1.0.4
+version: 1.0.5
 author: aliuly
 
 commands:
-    itemcase:
-        description: ItemCase management command
-        usage: "/itemcase [add|cancel|respawn]"
-        aliases: [ic]
-        permission: itemcase.cmd
+  itemcase:
+    description: ItemCase management command
+    usage: "/itemcase [add|cancel|respawn]"
+    aliases: [ic]
+    permission: itemcase.cmd
 
 permissions:
-    itemcase:
-        default: false
-        description: "allow players access to all itemcase feature"
-        children:
-            itemcase.cmd:
-                default: op
-                description: "allow players access to the itemcase command"
-            itemcase.destroy:
-                default: op
-                description: "allow players to destroy cases"
+ itemcase:
+  default: false
+  description: "allow players access to all itemcase features"
+  children:
+   itemcase.cmd:
+    default: op
+    description: "allow players access to the itemcase command"
+   itemcase.destroy:
+    default: op
+    description: "allow players to destroy cases"

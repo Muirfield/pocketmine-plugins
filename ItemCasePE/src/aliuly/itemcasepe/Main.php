@@ -23,7 +23,6 @@ use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\utils\Config;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\network\protocol\Info as ProtocolInfo;
@@ -321,39 +320,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$pl = $ev->getPlayer();
 		if (!isset($this->places[$pl->getName()])) return;
 		$id = $ev->getBlock()->getId();
-		if ($id == Block::SIGN_POST) {
-			// Oh no.. placing a SignPost!
-			$this->places[$pl->getName()] = [ $ev->getBlockReplaced()->getId(),
-														 $ev->getBlockReplaced()->getDamage(),
-														 0 ];
-			return;
-		}
 		$ev->setCancelled();
 		unset($this->places[$pl->getName()]);
-	}
-	public function onSignChanged(SignChangeEvent $ev){
-		$pl = $ev->getPlayer();
-		if (!isset($this->places[$pl->getName()])) return;
-		if (!is_array($this->places[$pl->getName()])) return;
-		list($id,$meta,$cnt) = $this->places[$pl->getName()];
-		if ($cnt == 0) {
-			$this->places[$pl->getName()][2] = 1;
-			return;
-		}
-		unset($this->places[$pl->getName()]);
-		$block =$ev->getBlock();
-		$l = $block->getLevel();
-		$x = $block->getX();
-		$y = $block->getY();
-		$z = $block->getZ();
-		$l->setBlockIdAt($x,$y,$z,$id);
-		$l->setBlockDataAt($x,$y,$z,$meta);
 	}
 	public function onBlockBreak(BlockBreakEvent $ev){
 		$pl = $ev->getPlayer();
 		$bl = $ev->getBlock();
 		$lv = $bl->getLevel();
-		$yoff = $bl->getId() == Block::SLAB ? 1 : 0;
+		$yoff = $bl->getId() != Block::GLASS ? 1 : 0;
 		$cid = implode(":",[$bl->getX(),$bl->getY()+$yoff,$bl->getZ()]);
 
 		//echo "Block break at/near $cid\n";

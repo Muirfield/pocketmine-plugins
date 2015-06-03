@@ -1,5 +1,7 @@
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+
 ItemCasePE
-========
+=========
 
 * Summary: An implementation of Bukkit's ItemCase
 * Dependency Plugins: n/a
@@ -60,6 +62,8 @@ wave** mode is experimental and has not been fully tested.
 Changes
 -------
 
+* 1.0.5 : BugFix
+  - Fixed a small bug related to new wave mode.
 * 1.0.4 : new wave vs classic
   - Added new wave mode that allows you to place itemcases everywhere.
   - Removed callbacktask deprecation warning
@@ -89,5 +93,3 @@ Copyright
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-128 70 128
-X:-100 Y:69 Z:1072
