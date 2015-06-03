@@ -58,13 +58,14 @@ class Main extends BasicPlugin {
 			"rcon-client" => [ "CmdRcon", true ],
 			"join-mgr" => [ "JoinMgr", true ],
 			"repeater" => [ "RepeatMgr", true ],
-			"broadcast-tp" => [ "BcTpMgr", false ],
+			"broadcast-tp" => [ "BcTpMgr", true ],
 			"crash" => ["CmdCrash", true],
 			"pluginmgr" => ["CmdPluginMgr", true],
 			"throw" => ["CmdThrow", true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
+			$features["blood-particles"] = [ "BloodMgr", true ];
 		}
 
 		$cfg = $this->modConfig(__NAMESPACE__,$features, [

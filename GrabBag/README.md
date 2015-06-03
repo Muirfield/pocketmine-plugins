@@ -89,6 +89,7 @@ administration.
 
 ### Modules
 
+* blood-particles : Display particles when a player gets hit
 * broadcast-tp : Broadcast player's teleports
 * join-mgr : Announce joining ops, and show server motd
 * repeater : Uses `!!` to repeat command with changes
@@ -369,6 +370,10 @@ survive server reloads or reboots.
 
 ### Module reference
 
+#### blood-particles
+
+Display particles when a player gets hit
+
 #### broadcast-tp
 
 Broadcast player's teleports
@@ -572,6 +577,7 @@ for sample files.
   * Changed to my MPMU library.
   * Added Translation: Spanish
   * New PluginMgr command
+  * New BloodMgr - Redstone particles on every hit
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring
