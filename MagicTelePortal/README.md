@@ -8,7 +8,7 @@
 * DependencyPlugins: -
 * OptionalPlugins: FastTransfer
 * Categories: Fun
-* Plugin Access: Blocks, Commands
+* Plugin Access: Commands, Data Saving, World Editing
 * WebSite: [github](https://github.com/alejandroliu/pocket-plugins/tree/master/MagicTelePortal)
 
 Overview
@@ -40,7 +40,7 @@ Examples:
 
 ### Configuration
 
-~~~~
+```YAML
 [CODE]
 # How far can the portals be created
 max-dist: 8
@@ -51,7 +51,7 @@ center: 9
 # Block-id of the corners (defaults to Nether Brick Stairs)
 corner: 114
 [/CODE]
-~~~~
+```
 
 
 ### Permission Nodes:
@@ -68,9 +68,10 @@ FAQ
 Changes
 -------
 
-* 1.2.1 :
+* 1.3.0 :
   * Rewrote `manyworld` dependancy
-
+  * Added a base to the portal (so water won't leak)
+  * Translations
 * 1.2.0 : Simple update
   * Renamed to MagicTelePortal.  
     **YOU MUST UPDATE CONFIG FILES**
