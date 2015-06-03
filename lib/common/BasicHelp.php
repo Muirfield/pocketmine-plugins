@@ -46,6 +46,7 @@ class BasicHelp extends BasicCli {
 					$txt[] = TextFormat::YELLOW.mc::_("Usage: ").
 							 TextFormat::WHITE.
 							 sprintf($this->fmt,$cc->getName(),$i,$cm["usage"][$i]);
+				//echo ">>> ".$this->fmt."\n";//##DEBUG
 			}
 			return $this->paginateText($c,$pageNumber,$txt);
 		}
