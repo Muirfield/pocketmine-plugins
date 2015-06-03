@@ -32,7 +32,7 @@ class CmdSpawn extends BasicCli implements CommandExecutor {
 		if (!MPMU::inGame($sender)) return true;
 		$pos = $sender->getLevel()->getSafeSpawn();
 		$sender->sendMessage("Teleporting to spawn...");
-		$sender->teleport($pos);
+		MPMU::teleport($sender,$pos);
 		return true;
 	}
 }

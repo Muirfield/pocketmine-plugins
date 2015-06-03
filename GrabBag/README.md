@@ -570,7 +570,7 @@ for sample files.
   * New Clear hotbar command, and clearinv allows you to clear your own.
   * New Whois also checks some plugins
   * Changed to my MPMU library.
-  * Added Translation capability
+  * Added Translation: Spanish
   * New PluginMgr command
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings

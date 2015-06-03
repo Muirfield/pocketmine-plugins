@@ -97,4 +97,11 @@ abstract class MPMU {
 		return $player;
 	}
 
+	static public function teleport($player, $pos) {
+		if (!self::apiVersion("1.12.0")) {
+			$mw = $player->getServer()->getPluginManager()->getPlugin("ManyWorlds");
+			if ($mw !== null) return $mw->mwtp($player,$pos);
+		}
+		$player->teleport($pos);
+	}
 }

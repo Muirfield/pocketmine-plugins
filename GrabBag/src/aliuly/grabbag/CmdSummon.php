@@ -72,7 +72,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 								$c->getZ()+mt_rand(-3,3));
 		$c->sendMessage(mc::_("Summoning %1%....",$pn));
 
-		$pl->teleport($c->getLevel()->getSafeSpawn($mv));
+		MPMU::teleport($pl,$c->getLevel()->getSafeSpawn($mv));
 		return true;
 	}
 	private function cmdDismiss(CommandSender $c,$args) {
@@ -103,7 +103,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 			}
 			$pl->sendMessage(mc::_("You have been dismissed by %1%",$c->getName()));
 			$c->sendMessage(mc::_("Dismissing %1%",$i));
-			$pl->teleport($state[$pn]);
+			MPMU::teleport($pl,$state[$pn]);
 			unset($state[$pn]);
 		}
 		$this->setState($c,$state);

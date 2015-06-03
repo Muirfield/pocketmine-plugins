@@ -96,7 +96,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 		$c->sendMessage(mc::_("Position saved!"));
 		if ($target) {
 			$c->sendMessage(mc::_("Teleporting..."));
-			$c->teleport($target);
+			MPMU::teleport($c,$target);
 		}
 		return true;
 	}
@@ -111,7 +111,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 		}
 		$pos = array_pop($stack);
 		$c->sendMessage(mc::_("Teleporting..."));
-		$c->teleport($pos);
+		MPMU::teleport($c,$pos);
 		$this->setState($c,$stack);
 		return true;
 	}
