@@ -24,13 +24,22 @@ Basic Usage:
 * killrate stats [player] - Show the KillRate stats for [player]
 * killrate top [online] - Show top players.
 
-You can also place signs with the following text:
+You can also place signs with the following text in the first line:
 
-* [STATS]
-* [RANKINGS]
-* [ONLINE TOPS]
+* [STATS] - Current player statistics
+* [RANKINGS] - Top 3 players + scores
+* [ONLINE TOPS] - Top 3 on-line players + scores
+* [RANKNAMES] - Top 3 player names
+* [RANKPOINTS] - Top 3 player scores
+* [TOPNAMES] - Top 3 on-line player names
+* [TOPPOINTS] - Top 3 on-line player scores
 
-These signs will then display current statistics.
+These signs will then display current statistics.  These signs can be
+further customized by adding the following:
+
+* LINE2 - Title, first line of the sign.
+* LINE3 - What statistic to count (i.e. deaths, points, player), etc.
+* LINE4 - format line, selects a format from the config.yml formats section.
 
 ## Documentation
 
@@ -74,9 +83,17 @@ MySQL:
     database: KillRateDb
     port: 3306
 signs:
-    "[STATS]": stats
-    "[RANKINGS]": rankings
-    "[ONLINE TOPS]": online-ranks
+  '[STATS]': stats
+  '[RANKINGS]': rankings
+  '[ONLINE TOPS]': online-ranks
+  '[RANKNAMES]': rankings-names
+  '[RANKPOINTS]': rankings-points
+  '[TOPNAMES]': online-top-names
+  '[TOPPOINTS]': online-top-points
+formats:
+  default: '{sname} {count}'
+  names: '{n}.{player}'
+  scores: '{count}'
 ```
 
 If `creative` is set to true, kills done when the player is in
@@ -103,6 +120,17 @@ that number of times, scores will reset. (It is GAME OVER).
 awarded per kill type.  The first number is points, the second is
 money.  You can use negative values.
 
+`signs` are used to configure sign texts.  These texts will be used to
+identify which signs should show player stats.
+
+`formats` are used to show what data are shown in the different
+signs.  The following variables are available in these formats:
+
+* {player} - player's name
+* {n} - rank number
+* {count} - score
+* {sname} - only the first 8 characters of a name
+
 ## Translations
 
 This plugin will honour the server language configuration.  The
@@ -116,8 +144,15 @@ You can provide your own message file by creating a file called
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
 for sample files.
 
+The contents of these "ini" files are key-value pairs:
+
+	"Base text"="Translated Text"
+
 # Changes
 
+* 1.1.1:
+  * Minor tweaks
+  * Signs are more configurable
 * 1.1.0: General improvements
   * Added experimental MySQL support
   * Messages file and translations: spanish

@@ -63,6 +63,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
+			"formats" => [
+				"default" => "{sname} {count}",
+				"names" => "{n}.{player}",
+				"scores" => "{count}",
+			],
 			"backend" => "SQLiteMgr",
 			"MySql" => [
 				"comment" => "Only used if backend = MySqlMgr",
@@ -74,8 +79,12 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			],
 			"signs" => [
 				"[STATS]" => "stats",
+				"[ONLINE TOPS]" => "online-tops",
 				"[RANKINGS]" => "rankings",
-				"[ONLINE TOPS]" => "online-ranks",
+				"[RANKNAMES]" => "rankings-names",
+				"[RANKPOINTS]" => "rankings-points",
+				"[TOPNAMES]" => "online-top-names",
+				"[TOPPOINTS]" => "online-top-points",
 			],
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
@@ -127,6 +136,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 
 		$this->stats = [];
 		if ($this->cfg["settings"]["pop-up"]) {
+			$this->getLogger()->warning(TextFormat::YELLOW.mc::_("Using deprecated pop-up feature"));
 			if ($this->api >= 12) {
 				$this->getServer()->getScheduler()->scheduleRepeatingTask(new ShowMessageTask($this), 15);
 			} else {
@@ -303,22 +313,22 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function announce($pp,$points,$money) {
 		if ($points) {
 			if ($points > 0) {
-				$pp->sendMessage(mc::n(mc::_("one point awarded!"),
+				$pp->sendMessage(TextFormat::BLUE.mc::n(mc::_("one point awarded!"),
 											  mc::_("%1% points awarded!",$points),
 											  $points));
 			} else {
-				$pp->sendMessage(mc::n(mc::_("one point deducted!"),
+				$pp->sendMessage(TextFormat::RED.mc::n(mc::_("one point deducted!"),
 											  mc::_("%1% points deducted!",$points),
 											  $points));
 			}
 		}
 		if ($money) {
 			if ($money > 0) {
-				$pp->sendMessage(mc::n(mc::_("You earn \$1"),
+				$pp->sendMessage(TextFormat::GREEN.mc::n(mc::_("You earn \$1"),
 											  mc::_("You earn \$%1%", $money), $money));
 
 			} else {
-				$pp->sendMessage(mc::n(mc::_("You are fined \$1"),
+				$pp->sendMessage(TextFormat::YELLOW.mc::n(mc::_("You are fined \$1"),
 											  mc::_("You are fined \$%1%",$money),
 											  $money));
 			}
@@ -427,10 +437,12 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($pv instanceof Player) {
 			$vic = "Player";
 			// OK killed a player... check for a kill streak...
+			$pv->sendMessage(TextFormat::RED.mc::_("You were killed by %1%!",
+																$pp->getName()));
 			if ($this->cfg["settings"]["kill-streak"]) {
 				$streak = $this->updateDb($perp,"streak");
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
-					$pp->sendMessage(mc::_("You have a %1% kill streak.",$streak));
+					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
 				}
 			}
 		}
@@ -543,33 +555,27 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				}
 				$text[$l++] = mc::_("Money: ").$this->getMoney($name);
 				break;
+			case "online-tops":
+				$text = $this->topSign(true,"default",mc::_("Top Online"),$sign);
+				break;
 			case "rankings":
-			case "online-ranks":
-				if (!isset($this->stats[$mode])) {
-					$text = ["","","",""];
-
-					if ($mode == "online-ranks") {
-						$text[0] = mc::_("Top On-Line");
-						$res = $this->getRankings(3, true);
-					} else {
-						$text[0] = mc::_("Top Players");
-						$res = $this->getRankings(3);
-					}
-					if ($res == null) {
-						$text[2] = mc::_("NO STATS FOUND!");
-					} else {
-						$i = 1;
-						foreach ($res as $r) {
-							$text[$i++] = $r["player"]." ".$r["count"];
-						}
-					}
-					$this->stats[$mode] = $text;
-				} else {
-					$text = $this->stats[$mode];
-				}
+				$text = $this->topSign(false,"default",mc::_("Top Players"),$sign);
+				break;
+			case "rankings-names":
+				$text = $this->topSign(false,"names",mc::_("Top Names"),$sign);
+				break;
+			case "rankings-points":
+				$text = $this->topSign(false,"scores",mc::_("Top Scores"),$sign);
+				break;
+			case "online-top-names":
+				$text = $this->topSign(true,"names",mc::_("On-line Names"),$sign);
+				break;
+			case "online-top-points":
+				$text = $this->topSign(true,"scores",mc::_("On-line Scores"),$sign);
 				break;
 			default:
 				return;
+
 		}
 		$this->updateSign($pl,$tile,$text);
 	}
@@ -577,5 +583,36 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$score = $this->dbm->getScore($pl->getName(),$type);
 		if ($score) return $score["count"];
 		return 0;
+	}
+
+	protected function topSign($mode,$fmt,$title,$sign) {
+		$col = "points";
+		if ($sign[1] != "") $title = $sign[1];
+		if ($sign[2] != "") $col = $sign[2];
+		if ($sign[3] != "" && isset($this->cfg["formats"][$sign[3]])) {
+			$fmt = $this->cfg["formats"][$sign[3]];
+		} else {
+			$fmt = $this->cfg["formats"][$fmt];
+		}
+
+		$text = ["","","",""];
+		$text[0] = $title;
+		$res = $this->getRankings(3,$mode,$col);
+		if ($res == null) {
+			$text[2] = mc::_("NO STATS FOUND!");
+		} else {
+			$i = 1;
+			foreach ($res as $r) {
+				$tr = [
+					"{player}" => $r["player"],
+					"{count}" => $r["count"],
+					"{sname}" => substr($r["player"],0,8),
+					"{n}" => $i,
+				];
+				$text[$i] = strtr($fmt,$tr);
+				++$i;
+			}
+		}
+		return $text;
 	}
 }
