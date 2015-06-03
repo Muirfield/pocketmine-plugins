@@ -184,7 +184,6 @@ Repository for my *official* PocketMine plugins.
 * Manages worlds: Load/unload/create worlds
 * Manages plugins: Load/unload/enable/disable plugins
 
-
 Copyright
 =========
 
