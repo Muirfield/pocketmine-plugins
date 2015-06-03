@@ -47,7 +47,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		], [
 			"version" => $this->getDescription()->getVersion(),
 			"motd" => WpMotdMgr::defaults(),
-		],mc::_("Usage: /%%s [world] %%s %%s"));
+		],mc::_("/%s [world] %s %s"));
 		$this->modules[] = new WpList($this);
 	}
 

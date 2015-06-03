@@ -151,6 +151,8 @@ class WpList extends BaseWp {
 			$f = "$dir$world/wpcfg.yml";
 			if (is_file($f)) {
 				$attrs=$this->attrList((new Config($f,Config::YAML))->getAll());
+			} else {
+				$attrs = [];
 			}
 			$ln = "- ".TextFormat::YELLOW.$world;
 			if (count($attrs)) {
