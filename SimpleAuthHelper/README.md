@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-SimpleAuthHelper
-================
+# SimpleAuthHelper
+
 
 * Summary: Simplifies the SimpleAuth login process
 * Dependency Plugins: n/a
@@ -12,8 +12,8 @@ SimpleAuthHelper
 * Plugin Access: Commands
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
 
-Overview
---------
+## Overview
+
 
 Very simple plugin that simplifies the login process... Instead of
 asking for commands, users simply chat away...
@@ -33,36 +33,23 @@ Player connects again.  They are prompted to enter their login
 password.  They type their login password directly (without
 */login*).  And they are in.
 
-Documentation
--------------
+## Documentation
 
 As a bonus, it can start a player with initial inventory upon
-registration.  This is configured through the `nest-egg` setting.
+registration.  This is configured through the **nest-egg** setting.
 
 ### Commands
 
-* *chpwd* _<old-pwd>_  
-  Used by players to change their passwords.
-* *resetpwd* _<player>_  
-  Used by ops to reset a players password.  This actually unregisters
-  the password.
+* *chpwd* _<old-pwd>_
+  * Used by players to change their passwords.
+* *resetpwd* _<player>_
+  * Used by ops to reset a players password.  This actually unregisters
+    the password.
 
 ### Configuration
 
-	---
-	messages:
-	  re-enter pwd: 'Please re-enter password to confirm:'
-	  passwords dont match: |-
-	    Passwords do not match.
-	    Please try again!
-	    Enter a new password:
-	  register ok: You have been registered!
-	  no spaces: |-
-	    Password should not contain spaces
-	    or tabs
-	  not name: Password should not be your name
-	  too many login: You have attempted to login too many times.
-	  login timeout: Login timer expired!
+	```YAML
+	[CODE]
 	nest-egg:
 	- "272:0:1"
 	- "17:0:16"
@@ -71,9 +58,8 @@ registration.  This is configured through the `nest-egg` setting.
 	max-attempts: 5
 	login-timeout: 60
 	auto-ban: false
-	...
+	[/CODE]
 
-* The section `messages` can be used to configure displayed texts.
 * `nest-egg` section contains list of items that will be given to the
   player upon registration.
 * `max-attempts` counts the number of tries to login.
@@ -82,9 +68,16 @@ registration.  This is configured through the `nest-egg` setting.
 * `auto-ban`: If set to true it will automatically ban the IP of a
   player that does too many login attempts.
 
-Changes
--------
+### Permissions
 
+* simpleauthhelper.command.chpwd: User can change password
+* simpleauthhelper.command.resetpwd: Ops can reset a user's password
+
+# Changes
+
+* 1.3.0: Modularization
+  - uses now a common translation library
+  - some minor tweaks
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.
@@ -103,8 +96,7 @@ Changes
   * Messages can be configured.
 * 1.0.0: First release
 
-Copyright
----------
+# Copyright
 
     SimpleAuthHelper
     Copyright (C) 2015 Alejandro Liu  

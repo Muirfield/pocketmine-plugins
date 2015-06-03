@@ -13,10 +13,12 @@ commands:
     description: "Change password"
     usage: "/chpwd <old_password>"
     permission: simpleauthhelper.command.chpwd
+    aliases: [passwd]
   resetpwd:
     description: "Reset password"
     usage: "/resetpwd <player>"
     permission: simpleauthhelper.command.resetpwd
+    aliases: [resetpw]
 
 permissions:
   simpleauthhelper.command.chpwd:
