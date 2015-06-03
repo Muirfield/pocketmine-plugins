@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+
 # MagicTelePortal
 
 * Summary: Easy to use Portal plugin
@@ -48,8 +50,6 @@ border: 112
 center: 9
 # Block-id of the corners (defaults to Nether Brick Stairs)
 corner: 114
-# Broadcast teleports (UNIMPLEMENTED)
-broadcast-tp: true
 [/CODE]
 ~~~~
 
@@ -69,7 +69,7 @@ Changes
 -------
 
 * 1.2.1 :
-  * Removed the `ManyWorld` dependancy
+  * Rewrote `manyworld` dependancy
 
 * 1.2.0 : Simple update
   * Renamed to MagicTelePortal.  
