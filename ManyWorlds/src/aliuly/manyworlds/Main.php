@@ -7,6 +7,7 @@ namespace aliuly\manyworlds;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\level\Position;
 
 use pocketmine\utils\TextFormat;
 

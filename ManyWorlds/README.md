@@ -167,6 +167,7 @@ for sample files.
   * Added `default` command to change the default level.
   * New `genlist` for list of generators
   * tp command changed to more natural English.
+  * Translation: Spanish
 * 1.3.4: Updates for PM1.5
   * Removed CallbackTask deprecation warnings
 * 1.3.3: Updates for PM1.5
