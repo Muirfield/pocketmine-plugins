@@ -92,7 +92,7 @@ class CmdCrash extends BasicCli implements CommandExecutor {
 		$i = 1;
 		$txt = [ mc::_("Crash Dumps: %1%",count($dumps)) ];
 		foreach ($dumps as $dump) {
-			$txt[] = mc::_("%1%) %2%", $i++,
+			$txt[] = mc::_("%1%: %2%", $i++,
 								preg_replace('/^CrashDump_/','',basename($dump)));
 		}
 		return $this->paginateText($c,$pageNumber,$txt);

@@ -51,7 +51,7 @@ class CmdPlayers extends BasicCli implements CommandExecutor {
 			$sender->sendMessage(TextFormat::RED.mc::_("Nobody is on-line at the moment"));
 			return true;
 		}
-		$tab[0][0] = mc::_("Players:%1%",$cnt);
+		$tab[0][0] = mc::_("Players: %1%",$cnt);
 		$pageNumber = $this->getPageNumber($args);
 		return $this->paginateTable($sender,$pageNumber,$tab);
 	}

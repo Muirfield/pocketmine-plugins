@@ -79,7 +79,7 @@ class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 						}
 						$sender->sendMessage(mc::_("%1% is not an spectator",$n));
 					} else {
-						$sender->sendMessage(mc::_("%1% not found",$n));
+						$sender->sendMessage(mc::_("%1% not found.",$n));
 					}
 				}
 				return true;

@@ -50,7 +50,7 @@ class CmdTimings extends BasicCli implements CommandExecutor {
 			$rpt = preg_replace('/[^0-9]+/i','',$rpt);
 			$f = $this->owner->getServer()->getDataPath()."timings/timings$rpt.txt";
 			if (!file_exists($f)) {
-				$sender->sendMessage(mc::_("Report %1% can not be found",$rpt));
+				$sender->sendMessage(mc::_("Report %1% can not be found.",$rpt));
 				return true;
 			}
 			$txt = file($f);

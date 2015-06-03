@@ -40,7 +40,7 @@ class CmdHeal extends BasicCli implements CommandExecutor {
 		}
 		$patient = $this->owner->getServer()->getPlayer($args[0]);
 		if ($patient == null) {
-			$sender->sendMessage(mc::_("%1% was not found",$args[0]));
+			$sender->sendMessage(mc::_("%1% not found.",$args[0]));
 			return true;
 		}
 		if (isset($args[1]) && is_numeric($args[1])) {

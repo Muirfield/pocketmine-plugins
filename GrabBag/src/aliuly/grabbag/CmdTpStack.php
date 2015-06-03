@@ -76,7 +76,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 				}
 				$level = $this->owner->getServer()->getLevelByName($level);
 				if (!$level) {
-					$c->sendMesage(mc::_("%1% not found",$level));
+					$c->sendMesage(mc::_("%1% not found.",$level));
 					return treu;
 				}
 				$target = $level->getSafeSpawn($cc);

@@ -5,7 +5,7 @@
  ** COMMANDS
  **
  ** * pluginmgr : manage plugins
- **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions>_ _plugin>
+ **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _plugin>
  **
  **   Manage plugins.
  **   The following sub-commands are available:
@@ -21,6 +21,8 @@
  **     - Show commands registered by plugin
  **   - **pluginmgr** **permissions** _<plugin>_
  **     - Show permissions registered by plugin
+ **   - **pluginmgr** **load** _<path>_
+ **     - Load a plugin from file path (presumably outside the **plugin** folder.)
  **
  **/
 
@@ -42,18 +44,34 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		parent::__construct($owner);
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permission> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permission|load> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-		if ($cmd->getName() != "pluginmgr") return false;;
+		if ($cmd->getName() != "pluginmgr") return false;
 		$pageNumber = $this->getPageNumber($args);
-		if (count($args) != 2) return false;
+		if (count($args) < 2) return false;
+
 		$scmd = strtolower(array_shift($args));
+		$pname = array_shift($args);
 
 		$mgr = $this->owner->getServer()->getPluginManager();
-		$pname = array_shift($args);
+		if ($scmd == "load" || $scmd == "ld") {
+			if (!file_exists($pname)) {
+				$sender->sendMessage(TextFormat::RED.mc::_("%1%: Not found",$pname));
+				return true;
+			}
+			$plugin = $mgr->loadPlugin($pname);
+			if ($plugin === null) {
+				$sender->sendMessage(TextFormat::RED.mc::_("Unable to load plugin from %1%",$pname));
+				return true;
+			}
+			$sender->sendMessage(TextFormat::BLUE.mc::_("Loaded plugin %1%", $plugin->getDescription()->getFullName()));
+			$mgr->enablePlugin($plugin);
+			return true;
+		}
+
 		$plugin = $mgr->getPlugin($pname);
 		if ($plugin === null) {
 			$sender->sendMessage(TextFormat::RED.mc::_("Plugin %1% not found",

@@ -239,7 +239,7 @@ The following commands are available:
   Shows who are the ops on this server.  
 * **players**  
   Shows what players are on-line  
-* **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions&gt;_ _plugin&gt;  
+* **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _plugin&gt;  
   manage plugins  
 
   Manage plugins.
@@ -256,6 +256,8 @@ The following commands are available:
     - Show commands registered by plugin
   - **pluginmgr** **permissions** _<plugin>_
     - Show permissions registered by plugin
+  - **pluginmgr** **load** _<path>_
+    - Load a plugin from file path (presumably outside the **plugin** folder.)
 
 * **poptp**  
   Returns to the previous location  
@@ -552,6 +554,7 @@ This plugin will honour the server language configuration.  The
 languages currently available are:
 
 * English
+* Spanish
 
 You can provide your own message file by creating a file called
 `messages.ini` in the pluginc config directory.  Check

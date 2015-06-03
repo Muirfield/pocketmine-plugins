@@ -41,7 +41,7 @@ class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 		}
 		$victim = $this->owner->getServer()->getPlayer($n = array_shift($args));
 		if ($victim == null) {
-			$sender->sendMessage(mc::_("Player %1% was not found!",$n));
+			$sender->sendMessage(mc::_("Player %1% not found",$n));
 			return true;
 		}
 		if (count($args)) {

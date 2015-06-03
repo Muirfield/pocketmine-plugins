@@ -58,7 +58,7 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 				 . ($target->isWhitelisted() ? "YES" : "NO");
 		$txt[] = TextFormat::GREEN.mc::_("Opped: ").TextFormat::WHITE
 				 . ($target->isOp() ? "YES" : "NO");
-		$txt[] = TextFormat::GREEN.mc::_("Dislay Name: ").TextFormat::WHITE
+		$txt[] = TextFormat::GREEN.mc::_("Display Name: ").TextFormat::WHITE
 				 . $target->getDisplayName();
 		$txt[] = TextFormat::GREEN.mc::_("Flying: ").TextFormat::WHITE
 				 . ($target->isOnGround() ? "NO" : "YES");

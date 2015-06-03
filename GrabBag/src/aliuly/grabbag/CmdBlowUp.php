@@ -38,7 +38,7 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 		if (count($args) == 0) return false;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
 		if (!$pl) {
-			$sender->sendMessage(mc::_("%1% not found",$args[0]));
+			$sender->sendMessage(mc::_("%1% not found.",$args[0]));
 			return true;
 		}
 		array_shift($args);

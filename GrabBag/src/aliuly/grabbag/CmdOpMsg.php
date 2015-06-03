@@ -53,7 +53,7 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 								"usage" => mc::_("/opms <message>"),
 								"permission" => "gb.cmd.opms"]);
 		$this->enableCmd("rpt",
-							  ["description" => mc::_("Report issues ops"),
+							  ["description" => mc::_("Report issues to ops"),
 								"usage" => mc::_("/rpt [message|read|clear <all|##>]"),
 								"permission" => "gb.cmd.rpt"]);
 		$this->rpt = new Config($this->owner->getDataFolder()."reports.yml",
