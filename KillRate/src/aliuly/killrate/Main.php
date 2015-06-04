@@ -104,7 +104,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-		if (version_compare($this->cfg["version"],"1.1.1") < 0) {
+		if (version_compare($this->cfg["version"],"1.2.0") < 0) {
 			$this->getLogger()->warning(TextFormat::RED.mc::_("Configuration has been changed"));
 			$this->getLogger()->warning(mc::_("It is recommended to delete old config.yml"));
 		}

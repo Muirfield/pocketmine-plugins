@@ -13,7 +13,17 @@
 
 ## Overview
 
-Keep track on how much killing is going-on on a server.
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/killrate.8060/) for
+that.  You are more likely to get a response and help that way.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+for the most up-to-date documentation.
+
+This plugin keeps track on how much killing is going-on on a server.
 
 It may optionally use an economy plugin like for example, PocketMoney,
 to reward killing.
@@ -26,7 +36,16 @@ Basic Usage:
 
 You can also place signs to show game statistics.
 
-with the following text in the first line:
+## Documentation
+
+This plugin supports PocketMoney and GoldStd and has experimental
+support for MassiveEconomy and EconomyAPI.
+
+### Signs
+
+You can place signs showing current game statistics.  The following
+sign types are available by default, by entering the keyword
+([KEYWORD]) in **LINE1** of the sign:
 
 * [STATS] - Current player statistics
 * [RANKINGS] - Top 3 players + scores
@@ -36,28 +55,34 @@ with the following text in the first line:
 * [TOPNAMES] - Top 3 on-line player names
 * [TOPPOINTS] - Top 3 on-line player scores
 
-These signs will then display current statistics.  These signs can be
-further customized by adding the following:
+Signs showing top players can be further customized by adding
+additional entries in the sign text:
 
-* LINE2 - Title, first line of the sign.
-* LINE3 - What statistic to count (i.e. deaths, points, player), etc.
-* LINE4 - format line, selects a format from the config.yml formats section.
+* LINE2 - Title, this will be the first line of the sign.  If,
+  however, you set it to **"^^^"** (Three consecutive **^** signs),
+  the title will be omitted (and the sign will show a top 4).
+* LINE3 - What statistic to count.  It defaults to _points_, but it
+  can be changed to anything (for example, _deaths_, _player_, etc).
+  Essentially the value here is the word on the left when you enter
+  the command _killrate stats_.
+* LINE4 - format line, select a format out of the **config.yml**
+  file's **formats** section.
 
-Also, if you set LINE2 (title) to **"^^^"**, the title will not be
-shown, but instead 4 lines of rankings will be displayed.
+In the **formats** section you have:
 
-`formats` are used to show what data are shown in the different
-signs.  The following variables are available in these formats:
+```
+  selector: format
+```
+
+The **selector** is a word that matches the text in **LINE4** of the
+sign.  The format can contain any text and the following variable
+substitutions:
 
 * {player} - player's name
 * {n} - rank number
 * {count} - score
-* {sname} - only the first 8 characters of a name
+* {sname} - only the first 8 characters of the player's name
 
-## Documentation
-
-This plugin supports PocketMoney and GoldStd and has experimental
-support for MassiveEconomy and EconomyAPI.
 
 ### Permission Nodes
 
@@ -110,13 +135,21 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
+## FAQ
+
+* Q: Can you score when you push people to lava (or other indirect kills)?
+* A: Only direct kills are scored.  All indirect kills (pushing people
+  to lava, causing explosions, etc) can not be scored.
+
 # Changes
 
-* 1.1.2:
+* 1.2.0: Bumped the version number to reflect config changes.
   * Added the "^^^" hack.
+  * Improved documentation
 * 1.1.1:
   * Minor tweaks
   * Signs are more configurable
+  * **PLEASE DELETE OLD CONFIG.YML FILE**
 * 1.1.0: General improvements
   * Added experimental MySQL support
   * Messages file and translations: spanish
@@ -152,4 +185,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
