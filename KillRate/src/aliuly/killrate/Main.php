@@ -55,27 +55,27 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			"version" => $this->getDescription()->getVersion(),
 			"# settings" => "Configuration settings",
 			"settings" => [
-				"# points" => "if true points are awarded and tracked.",
+				"# points" => "award points.", // if true points are awarded and tracked.
 				"points" => true,
-				"# rewards" => "if true, money is awarded.  Requires an economy plugin",
+				"# rewards" => "award money.", // if true, money is awarded.  Requires an economy plugin
 				"rewards" => true,
-				"# creative" => "if true, kills done by players in creative are scored",
+				"# creative" => "track creative kills.", // if true, kills done by players in creative are scored
 				"creative" => false,
-				"# dynamic-updates" => "Set to 0 or false to disable, otherwise sign update frequence in ticks",
+				"# dynamic-updates" => "Update signs.", // Set to 0 or false to disable, otherwise sign update frequence in ticks
 				"dynamic-updates" => 80,
-				"# reset-on-death" => "set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)",
+				"# reset-on-death" => "Reset counters on death.", // set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
 				"reset-on-death" => false,
-				"# kill-streak" => "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number",
+				"# kill-streak" => "Enable kill-streak tracking.", // "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
 				"kill-streak" => false,
 				"# pop-up" => "This is DEPRECATED",
 				"pop-up" => false,
 			],
-			"# values" => "configure how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.",
+			"# values" => "configure awards.", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
-			"# formats" => "formats used to show sign data",
+			"# formats" => "Sign formats.", // Used to show sign data
 			"formats" => [
 				"default" => "{sname} {count}",
 				"names" => "{n}.{player}",
@@ -83,7 +83,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			],
 			"# backend" => "Use SQLiteMgr or MySqlMgr",
 			"backend" => "SQLiteMgr",
-			"# MySql" => "Only used if backend is MySqlMgr to configure MySql settings",
+			"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
 			"MySql" => [
 				"host" => "localhost",
 				"user" => "nobody",
@@ -91,7 +91,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"database" => "KillRateDb",
 				"port" => 3306,
 			],
-			"# signs" => "are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created",
+			"# signs" => "placed signs text.", // These are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
 			"signs" => [
 				"[STATS]" => "stats",
 				"[ONLINE TOPS]" => "online-tops",

@@ -83,7 +83,6 @@ substitutions:
 * {count} - score
 * {sname} - only the first 8 characters of the player's name
 
-
 ### Permission Nodes
 
 * killrate.cmd : Give players access to KillRate command
@@ -104,18 +103,18 @@ The following sections are defined:
 #### config.yml
 
 *  settings: Configuration settings
-	*  points: if true points are awarded and tracked.
-	*  rewards: if true, money is awarded.  Requires an economy plugin
-	*  creative: if true, kills done by players in creative are scored
-	*  dynamic-updates: Set to 0 or false to disable, otherwise sign update frequence in ticks
-	*  reset-on-death: set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
-	*  kill-streak: set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
+	*  points: award points. if true points are awarded and tracked.
+	*  rewards: award money. if true, money is awarded.  Requires an economy plugin
+	*  creative: track creative kills. if true, kills done by players in creative are scored
+	*  dynamic-updates: Update signs. Set to 0 or false to disable, otherwise sign update frequence in ticks
+	*  reset-on-death: Reset counters on death. set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
+	*  kill-streak: Enable kill-streak tracking. "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
 	*  pop-up: This is DEPRECATED
-*  values: configure how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
-*  formats: formats used to show sign data
+*  values: configure awards. Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
+*  formats: Sign formats. Used to show sign data
 *  backend: Use SQLiteMgr or MySqlMgr
-*  MySql: Only used if backend is MySqlMgr to configure MySql settings
-*  signs: are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
+*  MySql: MySQL settings. Only used if backend is MySqlMgr to configure MySql settings
+*  signs: placed signs text. These are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
 
 
 ## Translations
@@ -185,3 +184,4 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
