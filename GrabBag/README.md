@@ -433,8 +433,8 @@ The following sections are defined:
 
 #### broadcast-tp
 
-*  world: if true, will broadcast teleports accross worlds
-*  local: will broadcast teleports that go beyond this number
+*  world: world broadcast setting. If true, will broadcast teleports accross worlds.
+*  local: local broadcast setting. This will broadcast teleports that go beyond this number.
 
 #### features
 
@@ -449,7 +449,7 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
 #### freeze-thaw
 
-*  hard-freeze: if `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
+*  hard-freeze: how hard to freeze players. If `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
 
 #### join-mgr
 

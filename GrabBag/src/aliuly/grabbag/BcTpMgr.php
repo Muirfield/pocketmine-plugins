@@ -25,9 +25,9 @@ class BcTpMgr implements Listener {
 
 	static public function defaults() {
 		return [
-			"# world" => "if true, will broadcast teleports accross worlds",
+			"# world" => "world broadcast setting.", // If true, will broadcast teleports accross worlds.
 			"world" => true,
-			"# local" => "will broadcast teleports that go beyond this number",
+			"# local" => "local broadcast setting.", // This will broadcast teleports that go beyond this number.
 			"local" => 500,
 		];
 	}

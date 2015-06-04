@@ -34,7 +34,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 
 	static public function defaults() {
 		return [
-			"# hard-freeze" => "if `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.",
+			"# hard-freeze" => "how hard to freeze players.", // If `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
 			"hard-freeze"=>false,
 		];
 	}

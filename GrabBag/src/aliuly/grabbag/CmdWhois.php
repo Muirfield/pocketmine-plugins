@@ -55,13 +55,25 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 		$txt[] = TextFormat::GREEN.mc::_("Gamemode: ").TextFormat::WHITE
 				 .MPMU::gamemodeStr($target->getGamemode());
 		$txt[] = TextFormat::GREEN.mc::_("Whitelisted: ").TextFormat::WHITE
-				 . ($target->isWhitelisted() ? "YES" : "NO");
+				 . ($target->isWhitelisted() ? mc::_("YES") : mc::_("NO"));
 		$txt[] = TextFormat::GREEN.mc::_("Opped: ").TextFormat::WHITE
-				 . ($target->isOp() ? "YES" : "NO");
+				 . ($target->isOp() ? mc::_("YES") : mc::_("NO"));
 		$txt[] = TextFormat::GREEN.mc::_("Display Name: ").TextFormat::WHITE
 				 . $target->getDisplayName();
 		$txt[] = TextFormat::GREEN.mc::_("Flying: ").TextFormat::WHITE
-				 . ($target->isOnGround() ? "NO" : "YES");
+				 . ($target->isOnGround() ? mc::_("NO") : mc::_("YES"));
+
+		$txt[] = TextFormat::GREEN.mc::_("First Played: ").TextFormat::WHITE
+				 . date(mc::_("d-M-Y H:i"),$target->getFirstPlayed()/1000);
+
+		//1.5
+		if (MPMU::apiVersion("1.12.0")) {
+			$txt[] = TextFormat::GREEN.mc::_("UUID: ").TextFormat::WHITE
+					 . $target->getUniqueId();
+			$txt[] = TextFormat::GREEN.mc::_("Can Fly: ").TextFormat::WHITE
+					 . ($target->getAllowFlight() ? mc::_("YES") : mc::_("NO") );
+
+		}
 
 		$pm = $this->owner->getServer()->getPluginManager();
 		if (($kr = $pm->getPlugin("KillRate")) !== null) {
