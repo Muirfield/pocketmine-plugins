@@ -35,14 +35,22 @@ class MwTp extends BasicCli {
 		if (count($args) > 1) {
 			$player = $this->owner->getServer()->getPlayer($args[0]);
 			if ($player !== null) {
-				if (MPMU::access($c,"mw.cmd.tp.others")) return true;
-				array_shift($args[0]);
-			} else
-				$player = $c;
+				if (!MPMU::access($c,"mw.cmd.tp.others")) return true;
+				array_shift($args);
+			} else {
+				// Compatibility with old versions...
+				$player = $this->owner->getServer()->getPlayer($args[count($args)-1]);
+				if ($player !== null) {
+					if (!MPMU::access($c,"mw.cmd.tp.others")) return true;
+					array_pop($args);
+				} else {
+					$player = $c;
+				}
+			}
 		}
 		if (!MPMU::inGame($player)) return true;
 		$wname = implode(" ",$args);
-		if ($player->getLevel() == $this->getServer()->getLevelByName($wname)) {
+		if ($player->getLevel() == $this->owner->getServer()->getLevelByName($wname)) {
 			$c->sendMessage(
 				$c == $player ?
 				mc::_("You are already in %1%",$wname) :
@@ -53,7 +61,7 @@ class MwTp extends BasicCli {
 			$c->sendMessage(TextFormat::RED.mc::_("Teleport failed"));
 			return true;
 		}
-		$level = $this->getServer()->getLevelByName($wname);
+		$level = $this->owner->getServer()->getLevelByName($wname);
 		if ($level === null) {
 			$c->sendMessage(TextFormat::RED.mc::_("Error GetLevelByName %1%"));
 			return true;
@@ -64,5 +72,6 @@ class MwTp extends BasicCli {
 			$c->sendMessage(TextFormat::GREEN.mc::_("Teleporting to %1%",$wname));
 		}
 		$player->teleport($level->getSafeSpawn());
+		return true;
 	}
 }

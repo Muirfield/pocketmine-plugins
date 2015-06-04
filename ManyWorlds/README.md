@@ -12,6 +12,16 @@
 
 ## Overview
 
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/manyworlds.7277/) for
+that.  You are more likely to get a response and help that way.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ManyWorlds)
+for the most up-to-date documentation.
+
 Full feature set of commands to manage multiple worlds.
 
 Features:

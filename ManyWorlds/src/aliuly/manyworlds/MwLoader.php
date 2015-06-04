@@ -55,7 +55,7 @@ class MwLoader extends BasicCli {
 	private function mwWorldLoadCmd(CommandSender $sender,$wname) {
 		if ($wname == "--all") {
 			$wlst = [];
-			foreach (glob($this->getServer()->getDataPath(). "worlds/*") as $f) {
+			foreach (glob($this->owner->getServer()->getDataPath(). "worlds/*") as $f) {
 				$world = basename($f);
 				if ($this->owner->getServer()->isLevelLoaded($world)) continue;
 				if (!$this->owner->getServer()->isLevelGenerated($world)) continue;

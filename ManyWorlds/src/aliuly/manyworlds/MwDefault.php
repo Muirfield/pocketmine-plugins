@@ -41,9 +41,14 @@ class MwDefault extends BasicCli {
 			$c->sendMessage(TextFormat::RED.mc::_("Change failed!"));
 			return true;
 		}
-		$this->owner->getServer()->getConfigString("level-name",$wname);
+		$level = $this->owner->getServer()->getLevelByName($wname);
+		if ($level === null) {
+			$c->sendMessage(TextFormat::RED.mc::_("Error GetLevelByName %1%"));
+			return true;
+		}
+		$this->owner->getServer()->setConfigString("level-name",$wname);
+		$this->owner->getServer()->setDefaultLevel($level);
 		$c->sendMessage(TextFormat::BLUE.mc::_("Default world changed to %1%",$wname));
-		$c->sendMessage(TextFormat::BLUE.mc::_("Restart server for changes to take effect!"));
 		return true;
 	}
 }

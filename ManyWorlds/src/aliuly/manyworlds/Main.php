@@ -26,7 +26,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 	private $tpMgr = null;
 
 	public function onEnable() {
-		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		// We don't really need this...
+		//if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 
 		if (MPMU::apiVersion("1.12.0")) {

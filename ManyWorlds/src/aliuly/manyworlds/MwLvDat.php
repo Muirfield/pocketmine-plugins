@@ -96,7 +96,7 @@ class MwLvDat extends BasicCli {
 					$provider->setSpawn(new Vector3($x,$y,$z));
 					break;
 				case "seed":
-					if ($provider->getSeed() != intval($v)) {
+					if ($provider->getSeed() == intval($v)) {
 						$c->sendMessage(mc::_("Seed unchanged"));
 						continue;
 					}
