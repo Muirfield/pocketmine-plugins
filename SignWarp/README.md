@@ -1,20 +1,28 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/SignWarp-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-SignWarp
-========
+# SignWarp
 
 * Summary: Warp between places using signs
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
-* OptionalPlugins: ManyWorlds, FastTransfer
+* OptionalPlugins: FastTransfer
 * Categories: Teleportation
-* Plugin Access: Commands, Tile Entities, Items/Blocks
+* Plugin Access: Other Plugins, Commands, Tile Entities, Manages worlds
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
 
-Overview
---------
+## Overview
 
-A very basic Plugin implementing simple _Sign_ based warps.
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/signwarp.7276/) for
+that.  You are more likely to get a response and help that way.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
+for the most up-to-date documentation.
+
+A Plugin implementing simple _Sign_ based warps.
 
 Basic Usage:
 
@@ -43,9 +51,7 @@ For Warp between servers use:
 
 You need the **FastTransfer** plugin for this to work.
 
-
-Documentation
--------------
+## Documentation
 
 This plugin implements _warps_ through the placement of _signs_.  You
 need to create a sign with the text:
@@ -75,7 +81,7 @@ target location.  If not specified it defaults to the `spawn` world.
 
 If dynamic updates are enabled, the fourth line can contain the text
 `Players:`, which will get updated dynamically with the number of
-players on that world.  Otherwise the ine is  ignored and can be
+players on that world.  Otherwise the ine is  ignored and can
 contain any descriptive text.
 
 To help identify potential _warp_ targets, the command `xyz` is
@@ -95,57 +101,39 @@ can be used for description.
 
 You need the **FastTransfer** plugin for this to work.
 
-### config.yml
+### Configuration
 
-	---
-	# Example config.yml
-	settings:
-	  dynamic-updates: true
-	  broadcast-tp: true
-	  xyz.cmd: true
-	text:
-	  world:
-	  - '[WORLD]'
-	  - '[MUNDO]'
-	  warp:
-	  - '[WARP]'
-	  - '[SWARP]'
-	  - '[TELEPORT]'
-	  transfer:
-	  - '[TRANSFER]'
-	  players:
-	  - 'Players:'
-	  - 'Jugadores:'
-	...
+Configuration is throug the `config.yml` file.
+The following sections are defined:
 
-* dynamic-updates: 1 or 0, true or false  
-  If enabled, signs will be updated with the number of players in a
-  particular world.
-* broadcast-tp: 1 or 0, true or false  
-  If enabled, teleports will be broadcast to all players.
-* xyz.cmd: 1 or 0, true or false  
-  If enabled, the `xyz` command will be available.
-* world:  
-  List of texts to use for `[WORLD]` teleport signs.
-* warp:  
-  List of texts to use for `[SWARP]` teleport signs.
-* transfer:  
-  List of texts to use for Transfer signs.
-* players:  
-  List of texts to use for the `Players:` counters.
+#### config.yml
 
-### Permission Nodes:
-
-* signwarp.cmd.xyz - Allows the user to show current x,y,z coordinates
-* signwarp.place.sign - Allow user to create warp signs
-* signwarp.place.transfer.sign - Allow user to create transfer signs
-* signwarp.touch.sign - Allow user to use warp signs
-* signwarp.touch.transfer.sign - Allow user to use transfer signs
+*  settings: configurable variables
+ *  dynamic updates: Signs will be udpated with the number of players in a world
+ *  xyz.cmd: If true, the **xyz** command will be available
+*  text: Text displayed on the different signs
+ *  transfer: Fast transfer signs
+ *  world: World teleport signs
+ *  warp: Local world teleport signs
+ *  players: Text to use when displaying player counts
 
 
-Changes
--------
+### Permission Nodes
 
+* signwarp.place.sign : Allow user to create warp
+  (Defaults to Op)
+* signwarp.touch.sign : Allow user to use warp
+* signwarp.place.transfer.sign : Allow user to create transfer signs
+  (Defaults to Op)
+* signwarp.touch.transfer.sign : Allow user to use transfer signs
+* signwarp.cmd.xyz : Shows current x,y,z coordinates
+
+
+# Changes
+
+* 1.4.0:
+  * Clean-up and use library stuff
+  * Removed broadcast setting
 * 1.3.2: CallbackTask
   * Removed CallbackTask deprecation warnings
 * 1.3.1: FastTransfer
@@ -177,7 +165,6 @@ FAQ
 * You can use a plugin like `ManyWorlds` or modify the `worlds` secion
   in your `pocketmine.yml` file.
 
-
 Copyright
 =========
 
@@ -200,3 +187,4 @@ Copyright
 
 128 70 128
 X:-100 Y:69 Z:1072
+

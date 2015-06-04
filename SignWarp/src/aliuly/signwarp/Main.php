@@ -1,5 +1,7 @@
 <?php
-
+/**
+ ** CONFIG:config.yml
+ **/
 namespace aliuly\signwarp;
 
 use pocketmine\plugin\PluginBase;
@@ -13,6 +15,7 @@ use pocketmine\item\Item;
 use pocketmine\tile\Sign;
 use pocketmine\utils\Config;
 
+use pocketmine\utils\TextFormat;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -20,7 +23,9 @@ use pocketmine\event\player\PlayerQuitEvent;
 
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
-
+use aliuly\signwarp\common\PluginCallbackTask;
+use aliuly\signwarp\common\mc;
+use aliuly\signwarp\common\MPMU;
 
 class Main extends PluginBase implements Listener {
 	const MAX_COORD = 30000000;
@@ -29,23 +34,30 @@ class Main extends PluginBase implements Listener {
 	const MIN_HEIGHT = 0;
 
 	protected $teleporters;
-	protected $broadcast;
 	protected $text;
 
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		mc::plugin_init($this,$this->getFile());
 		$defaults =
 					 [
 						 "version" => $this->getDescription()->getVersion(),
+						 "# settings" => "configurable variables",
 						 "settings" => [
+							 "# dynamic updates" => "Signs will be udpated with the number of players in a world",
 							 "dynamic-updates" => true,
-							 "broadcast-tp" => true,
+							 "# xyz.cmd" => "If true, the **xyz** command will be available",
 							 "xyz.cmd" => true,
 						 ],
+						 "# text" => "Text displayed on the different signs",
 						 "text" => [
+							 "# transfer" => "Fast transfer signs",
 							 "transfer" => [ "[TRANSFER]" ],
+							 "# world" => "World teleport signs",
 							 "world" => [ "[WORLD]" ],
+							 "# warp" => "Local world teleport signs",
 							 "warp" => [ "[WARP]", "[SWARP]" ],
+							 "# players" => "Text to use when displaying player counts",
 							 "players" => [ "Players:" ],
 						 ]
 					 ];
@@ -54,13 +66,12 @@ class Main extends PluginBase implements Listener {
 								 Config::YAML,$defaults))->getAll();
 
 		if ($this->getServer()->getPluginManager()->getPlugin("FastTransfer")){
-			$this->getLogger()->info("Enabling FastTransfer support");
+			$this->getLogger()->info(TextFormat::GREEN.mc::_("Enabling FastTransfer support"));
 		}else{
-			$this->getLogger()->info("Disabling FastTransfer support");
+			$this->getLogger()->warning(TextFormat::BLUE.mc::_("Disabling FastTransfer support"));
 			$cfg["text"]["transfer"] = [];
 		}
 
-		$this->broadcast = $cfg["settings"]["broadcast-tp"];
 		$this->text = [ "sign" => [] ];
 		foreach (["world","warp","transfer"] as $n) {
 			$thist->text[$n] = [];
@@ -73,21 +84,21 @@ class Main extends PluginBase implements Listener {
 
 		if ($cfg["settings"]["xyz.cmd"]) {
 			$newCmd = new PluginCommand("xyz",$this);
-			$newCmd->setDescription("Returns x,y,z coordinates");
-			$newCmd->setUsage("/xyz");
+			$newCmd->setDescription(mc::_("Returns x,y,z coordinates"));
+			$newCmd->setUsage(mc::_("/xyz"));
 			$newCmd->setPermission("signwarp.cmd.xyz");
 			$cmdMap = $this->getServer()->getCommandMap();
 			$cmdMap->registerAll($this->getDescription()->getName(),
 										[$newCmd]);
-			$this->getLogger()->info("enabled /xyz command");
+			$this->getLogger()->info(TextFormat::GREEN.mc::_("enabled /xyz command"));
 		}
 
 		if ($cfg["settings"]["dynamic-updates"]) {
-			$this->getLogger()->info("dynamic-updates: ON");
+			$this->getLogger()->info(TextFormat::GREEN.mc::_("dynamic-updates: ON"));
 			$tt = new PluginCallbackTask($this,[$this,"updateSigns"],[]);
 			$this->getServer()->getScheduler()->scheduleRepeatingTask($tt,40);
 		} else {
-			$this->getLogger()->info("dynamic-updates: OFF");
+			$this->getLogger()->info(TextFormat::YELLOW.mc::_("dynamic-updates: OFF"));
 		}
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
@@ -101,12 +112,12 @@ class Main extends PluginBase implements Listener {
 		if (isset($this->text["warp"][$sign[0]])) {
 			// Short warp...
 			if (empty($sign[1])) {
-				$pl->sendMessage("[SignWarp] No coordinates specified");
+				$pl->sendMessage(mc::_("[SignWarp] No coordinates specified"));
 				return null;
 			}
 			$mv = [];
 			if ($this->check_coords($sign[1],$mv) !== true) {
-				$pl->sendMessage("[SignWarp] Invalid coordinates ".$sign[1]);
+				$pl->sendMessage(mc::_("[SignWarp] Invalid coordinates %1%",$sign[1]));
 				return null;
 			}
 			return new Position($mv[0],$mv[1],$mv[2],$pl->getLevel());
@@ -114,27 +125,26 @@ class Main extends PluginBase implements Listener {
 		// Long warp!
 		if (isset($this->text["world"][$sign[0]])) {
 			if (empty($sign[1])) {
-				$pl->sendMessage("[SignWarp] No World specified");
+				$pl->sendMessage(mc::_("[SignWarp] No World specified"));
 				return null;
 			}
 			// Check level...
 			if (!$this->getServer()->isLevelGenerated($sign[1])) {
-				$pl->sendMessage("[SignWarp] World \"".$sign[1]
-									  ."\" does not exist!");
+				$pl->sendMessage(mc::_("[SignWarp] World \"%1%\" does not exist!",$sign[1]));
+
 				return null;
 			}
 			if (!$this->getServer()->isLevelLoaded($sign[1])) {
-				$pl->sendMessage("[SignWarp] Loading \"".$sign[1]."\"");
+				$pl->sendMessage(mc::_("[SignWarp] Loading \"%1%\"",$sign[1]));
 				if (!$this->getServer()->loadLevel($sign[1])) {
-					$pl->sendMessage("[SignWarp] Unable to load world \"".
-										  $sign[1]."\"");
+					$pl->sendMessage(mc::_("[SignWarp] Unable to load world \"%1%\"",$sign[1]));
 					return null;
 				}
 			}
 			$l = $this->getServer()->getLevelByName($sign[1]);
 			if ($l == null) {
-				$pl->sendMessage("[SignWarp] Error loading \"".
-									  $sign[1]."\"");
+				$pl->sendMessage(mc::_("[SignWarp] Error loading \"%1%\"",
+											  $sign[1]));
 				return null;
 			}
 
@@ -154,7 +164,7 @@ class Main extends PluginBase implements Listener {
 			if ($port == 0) $port = 19132; // Default for Minecraft PE
 			return [$address,$port];
 		}
-		$pl->sendMessage("[SignWarp] INTERNAL ERROR");
+		$pl->sendMessage(mc::_("[SignWarp] INTERNAL ERROR"));
 		return null;
 	}
 	private function breakSign(Player $pl,Sign $tile,$msg = "") {
@@ -192,12 +202,12 @@ class Main extends PluginBase implements Listener {
 			case "xyz":
 				if ($sender instanceof Player) {
 					$pos = $sender->getPosition();
-					$sender->sendMessage("You are at ".
-												intval($pos->getX()).",".
-												intval($pos->getY()).",".
-												intval($pos->getZ()));
+					$sender->sendMessage(mc::_("You are at %1%,%2%,%3%",
+														intval($pos->getX()),
+														intval($pos->getY()),
+														intval($pos->getZ())));
 				} else {
-					$sender->sendMessage("[SignWarp] This command may only be used in-game");
+					$sender->sendMessage(TextFormat::RED.mc::_("[SignWarp] This command may only be used in-game"));
 				}
 				return true;
 		}
@@ -232,14 +242,14 @@ class Main extends PluginBase implements Listener {
 
 		if (!isset($this->text["sign"][$sign[0]])) return;
 		if(!$pl->hasPermission("signwarp.place.sign")) {
-			$this->breakSign($pl,$tile,"You are not allowed to make Warp signs");
+			$this->breakSign($pl,$tile,mc::_("You are not allowed to make Warp signs"));
 			return;
 		}
 		// FastTransfer!
 		if (isset($this->text["transfer"][$sign[0]])) {
 			// Fast transfer!
 			if(!$pl->hasPermission("signwarp.place.transfer.sign")) {
-				$this->breakSign($pl,$tile,"You are not allowed to make\nTransfer Warp signs");
+				$this->breakSign($pl,$tile,mc::_("You are not allowed to make\nTransfer Warp signs"));
 				return;
 			}
 		}
@@ -249,25 +259,18 @@ class Main extends PluginBase implements Listener {
 			$this->breakSign($pl,$tile);
 			return;
 		}
-		if ($this->broadcast) {
-			if ($pos instanceof Position) {
-				$this->getServer()->broadcastMessage(isset($this->text["world"][$sign[0]]) ?
-																 "[SignWarp] Portal to ".
-																 $pos->getLevel()->getName().
-																 " created by ".
-																 $pl->getName() :
-																 "[SignWarp] Warp to ".
-																 $pos->getX().",".
-																 $pos->getY().",".
-																 $pos->getZ()." created by ".
-																 $pl->getName());
-			} else {
-				$this->getServer()->broadcastMessage("[SignWarp] Transfer portal ".
-																 " created by ".
-																 $pl->getName());
-			}
+		if ($pos instanceof Position) {
+			$this->getServer()->broadcastMessage(
+				isset($this->text["world"][$sign[0]]) ?
+				mc::_("[SignWarp] Portal to %1% created by %2%",
+						$pos->getLevel()->getName(),$pl->getName()) :
+				mc::_("[SignWarp] Warp to %1%,%2%,%3% created by %4%",
+						$pos->getX(),$pos->getY(),$pos->getZ(),
+						$pl->getName()));
 		} else {
-			$pl->sendMessage("SignWarp created...");
+			$this->getServer()->broadcastMessage(
+				mc::_("[SignWarp] Transfer portal %1% created by %2%",
+						implode(":",$pos), $pl->getName()));
 		}
 	}
 	public function playerTouchIt(PlayerInteractEvent $event){
@@ -280,12 +283,12 @@ class Main extends PluginBase implements Listener {
 		if (!isset($this->text["sign"][$sign[0]])) return;
 
 		if(!$pl->hasPermission("signwarp.touch.sign")) {
-			$pl->sendMessage("Nothing happens...");
+			$pl->sendMessage(mc::_("Nothing happens..."));
 			return;
 		}
 		if ($event->getItem()->getId() == Item::SIGN) {
 			// Check if the user is holding a sign this stops teleports
-			$pl->sendMessage("Can not teleport while holding sign!");
+			$pl->sendMessage(mc::_("Can not teleport while holding sign!"));
 			return;
 		}
 		$pos = $this->checkSign($pl,$sign);
@@ -294,37 +297,28 @@ class Main extends PluginBase implements Listener {
 		if ($pos instanceof Position) {
 			$this->teleporters[$pl->getName()] = time();
 
-			$pl->sendMessage("Teleporting...");
-			if (($mw = $this->getServer()->getPluginManager()->getPlugin("ManyWorlds")) != null) {
-				$mw->mwtp($pl,$pos);
-			} else {
-				$pl->teleport($pos);
-			}
-			if ($this->broadcast)
-				$this->getServer()->broadcastMessage($pl->getName()." teleported to ".
-																 $pos->getLevel()->getName());
+			$pl->sendMessage(mc::_("Teleporting..."));
+			MPMU::teleport($pl,$pos);
 			return;
 		}
 		// FastTransfer
 		if(!$pl->hasPermission("signwarp.touch.transfer.sign")) {
-			$pl->sendMessage("Did you expect something to happen?");
+			$pl->sendMessage(mc::_("Did you expect something to happen?"));
 			return;
 		}
 		$this->teleporters[$pl->getName()] = time();
 		$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 		if (!$ft) {
-			$this->getLogger()->info("FAST TRANSFER NOT INSTALLED");
-			$pl->sendMessage("Nothing happens!");
-			$pl->sendMessage("Somebody removed FastTransfer!");
+			$this->getLogger()->error(mc::_("FAST TRANSFER NOT INSTALLED"));
+			$pl->sendMessage(TextFormat::RED.mc::_("Nothing happens!"));
+			$pl->sendMessage(TextFormat::RED.mc::_("Somebody removed FastTransfer!"));
 			return;
 		}
 		list($addr,$port) = $pos;
-		$this->getLogger()->info("FastTransfer being used hope it works!");
-		$this->getLogger()->info("- Player:  ".$pl->getName()." => ".
-										 $addr.":".$port);
+		$this->getLogger()->info(mc::_("FastTransfer being used hope it works!"));
+		$this->getLogger()->info(mc::_("- Player: %1% => %2%:%3%",
+												 $pl->getName(),$addr,$port));
 		$ft->transferPlayer($pl,$addr,$port);
-		if ($this->broadcast)
-			$this->getServer()->broadcastMessage($pl->getName()." transferred servers...");
 	}
 	//////////////////////////////////////////////////////////////////////
 	//
@@ -343,7 +337,7 @@ class Main extends PluginBase implements Listener {
 					$cnt = count($this->getServer()->getLevelByName($sign[1])->getPlayers());
 					$upd = $t.$cnt;
 				} else {
-					$upd = $t."N/A";
+					$upd = $t.mc::_("N/A");
 				}
 				if ($upd == $sign[3]) continue;
 				$tile->setText($sign[0],$sign[1],$sign[2],$upd);

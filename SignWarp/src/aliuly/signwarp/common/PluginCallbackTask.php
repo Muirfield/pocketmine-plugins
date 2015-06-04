@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____
@@ -18,7 +17,7 @@
  *
  *
 */
-namespace aliuly\signwarp;
+namespace aliuly\signwarp\common;
 
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
