@@ -14,6 +14,17 @@
 
 ## Overview
 
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/grabbag.7524/) for
+that.  You are more likely to get a response and help that way.
+
+**Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
+for the most up-to-date documentation.**
+
 A miscellaneous collection of commands and listener modules.  Features
 can be configured to be disable|enable so as to co-exists with other
 plugins.
@@ -569,15 +580,20 @@ for sample files.
 # Changes
 
 * 2.1.0 :
-  * Added gmspc command to set spectator mode.
-  * New broadcast-tp module
-  * New fly command (for 1.5 only)
-  * New Clear hotbar command, and clearinv allows you to clear your own.
-  * New Whois also checks some plugins
-  * Changed to my MPMU library.
-  * Added Translation: Spanish
-  * New PluginMgr command
-  * New BloodMgr - Redstone particles on every hit
+  * New commands:
+    * gmspc - spectator mode
+    * fly - enables flying for players in survival
+    * clearhotbar - clear your hotbar
+    * PluginMgr - manage plugins
+  * New modules:
+    * broadcast-tp : Broadcast when a player teleports
+    * blood-particles : blood particles (actually redstone) when
+      players get hit.
+  * Command updates:
+    * clearinv - can clear your own inventory
+    * whois - returns more information
+  * Switched to my common library.
+  * Added translation, Spanish.
 * 2.0.1: CallbackTasks
   * Removed CallbackTask deprecation warnings
 * 2.0.0: Re-factoring
