@@ -144,7 +144,7 @@ Teleport a player to another world:
 
 ## Translations
 
-This plugin will honour the server language configuration.  The
+This plugin will follow the server language configuration.  The
 languages currently available are:
 
 * English
