@@ -43,7 +43,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 			"no-explode" => [ "NoExplodeMgr", false ],
 			"unbreakable" => [ "Unbreakable", false ],
 			"banitem" => [ "BanItem", true ],
-			"gamemode" => [ "GmMgr", false ],
+			"gamemode" => [ "GmMgr", true ],
+			"gm-save-inv" => [ "GmSaveInv", true ],
 		], [
 			"version" => $this->getDescription()->getVersion(),
 			"motd" => WpMotdMgr::defaults(),

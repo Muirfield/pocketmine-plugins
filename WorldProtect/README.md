@@ -47,6 +47,10 @@ specified in the `server.properties` file.
 * unbreakable|breakable : Control blocks that can/cannot be broken
 * unlock : Removes protection
 
+### Modules
+
+* gm-save-inv : Will save inventory contents when switching gamemodes.
+
 ## Documentation
 
 **NOTE: v2.0.0 is a complete rewrite.  Please test your settings
@@ -168,6 +172,18 @@ The following commands are available:
   added or removed from the list.
 * /wp _[world]_ **unlock**  
   Removes protection  
+
+
+### Module reference
+
+#### gm-save-inv
+
+Will save inventory contents when switching gamemodes.
+
+This is useful
+for when you have per world game modes so that players going from a
+survival world to a creative world and back do not loose their
+inventory.
 
 
 ### Configuration
