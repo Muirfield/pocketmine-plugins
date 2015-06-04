@@ -67,8 +67,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"reset-on-death" => false,
 				"# kill-streak" => "Enable kill-streak tracking.", // "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
 				"kill-streak" => false,
-				"# pop-up" => "This is DEPRECATED",
-				"pop-up" => false,
 			],
 			"# values" => "configure awards.", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 			"values" => [
@@ -155,16 +153,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 
 		$this->stats = [];
-		if ($this->cfg["settings"]["pop-up"]) {
-			$this->getLogger()->warning(TextFormat::YELLOW.mc::_("Using deprecated pop-up feature"));
-			if ($this->api >= 12) {
-				$this->getServer()->getScheduler()->scheduleRepeatingTask(new ShowMessageTask($this), 15);
-			} else {
-				$this->getLogger()->warning(TextFormat::RED.
-												 mc::_("Pop-ups only available on PMv1.5+"));
-				$this->getLogger()->warning(TextFormat::RED.mc::_("Feature DISABLED"));
-			}
-		}
 	}
 	public function onDisable() {
 		$this->dbm->close();

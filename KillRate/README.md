@@ -36,6 +36,8 @@ Basic Usage:
 
 You can also place signs to show game statistics.
 
+Thanks to @Daniel123 and @CaptainKenji17 for suggestions and feedback.
+
 ## Documentation
 
 This plugin supports PocketMoney and GoldStd and has experimental
@@ -109,7 +111,6 @@ The following sections are defined:
 	*  dynamic-updates: Update signs. Set to 0 or false to disable, otherwise sign update frequence in ticks
 	*  reset-on-death: Reset counters on death. set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
 	*  kill-streak: Enable kill-streak tracking. "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
-	*  pop-up: This is DEPRECATED
 *  values: configure awards. Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 *  formats: Sign formats. Used to show sign data
 *  backend: Use SQLiteMgr or MySqlMgr
@@ -144,6 +145,7 @@ The contents of these "ini" files are key-value pairs:
 
 * 1.2.0: Bumped the version number to reflect config changes.
   * Added the "^^^" hack.
+  * Removed pop-up scores.
   * Improved documentation
 * 1.1.1:
   * Minor tweaks
