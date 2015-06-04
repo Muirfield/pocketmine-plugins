@@ -6,11 +6,22 @@
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * OptionalPlugins: n/a
-* Categories: World Editing and Management, Admin Tools, Anti-Griefing Tools
-* Plugin Access: Commands, Manages Permission, Data Saving, World Editing
+* Categories: World Editing and Management, Admin Tools
+* Plugin Access: Commands, Data Saving, World Editing, Manages Worlds
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 
 ## Overview
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/worldprotect.7517/) for
+that.  You are more likely to get a response and help that way.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
+for the most up-to-date documentation.
 
 A full featured World protection plugin.
 
@@ -23,6 +34,8 @@ Features:
 * Show a text file when players enter a world
 * Stops explosions from happening in a world
 * Unbreakable blocks
+* Banned Items
+* Per world gamemode with inventory saving
 
 All commands require a `world` name to be given, otherwise a default
 is selected.  If in-game, the default `world` is the world the player
