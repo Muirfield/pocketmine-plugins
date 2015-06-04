@@ -585,6 +585,7 @@ for sample files.
     * fly - enables flying for players in survival
     * clearhotbar - clear your hotbar
     * PluginMgr - manage plugins
+    * Crash - manage crash dumps
   * New modules:
     * broadcast-tp : Broadcast when a player teleports
     * blood-particles : blood particles (actually redstone) when
