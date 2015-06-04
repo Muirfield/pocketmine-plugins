@@ -167,7 +167,7 @@ for sample files.
 
 ## Issues
 
-* World names can not contain spaces.
+* New world names can not contain spaces.
 
 # Changes
 
