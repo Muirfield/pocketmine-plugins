@@ -155,9 +155,17 @@ function analyze_src($src) {
 			}
 		}
 		if ($state == "src") {
-			if (preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,*\s*$/',$ln,$mv)) {
+			if (preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*$/',$ln,$mv) ||
+				 preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*\/\/\s*(.*)$/',$ln,$mv)) {
+
 				// Probably a config doc line...
-				list(,$indent,$setting,$descr) = $mv;
+				if (count($mv) == 4) {
+					list(,$indent,$setting,$descr) = $mv;
+				}
+				else {
+					list(,$indent,$setting,$descr,$more) = $mv;
+					$descr .= " ".$more;
+				}
 				if (!isset($doc["config"])) {
 					$doc["config"] = [ "config" ];
 				} else {
