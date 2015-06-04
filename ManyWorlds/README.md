@@ -13,6 +13,7 @@
 ## Overview
 
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
 It is difficult to carry a conversation in the reviews.  If you have a
 question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/manyworlds.7277/) for
@@ -155,6 +156,10 @@ You can provide your own message file by creating a file called
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ManyWorlds/resources/messages/)
 for sample files.
 
+## Issues
+
+* New world names can not contain spaces.
+
 ## FAQ
 
 * Q: How do I create a `FLAT` world?
@@ -164,10 +169,6 @@ for sample files.
   A: That functionality is provided by PocketMine-MP core by default.
   In the `pocketmine.yml` file there is a `worlds` section where you
   can define which worlds to load on start-up.
-
-## Issues
-
-* New world names can not contain spaces.
 
 # Changes
 
