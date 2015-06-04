@@ -24,7 +24,9 @@ Basic Usage:
 * killrate stats [player] - Show the KillRate stats for [player]
 * killrate top [online] - Show top players.
 
-You can also place signs with the following text in the first line:
+You can also place signs to show game statistics.
+
+with the following text in the first line:
 
 * [STATS] - Current player statistics
 * [RANKINGS] - Top 3 players + scores
@@ -44,6 +46,14 @@ further customized by adding the following:
 Also, if you set LINE2 (title) to **"^^^"**, the title will not be
 shown, but instead 4 lines of rankings will be displayed.
 
+`formats` are used to show what data are shown in the different
+signs.  The following variables are available in these formats:
+
+* {player} - player's name
+* {n} - rank number
+* {count} - score
+* {sname} - only the first 8 characters of a name
+
 ## Documentation
 
 This plugin supports PocketMoney and GoldStd and has experimental
@@ -61,78 +71,27 @@ support for MassiveEconomy and EconomyAPI.
 * killrate.signs.use : Allow to use KillRate signs
 
 
-## Configuration
+### Configuration
 
-These can be configured from `config.yml`:
+Configuration is throug the `config.yml` file.
+The following sections are defined:
 
-```YAML
-settings:
-    points: true
-    rewards: true
-    creative: false
-    dynamic-updates: 80
-    kill-streak: false or value
-    reset-on-death: false or value
-    pop-up: false
-values:
-    zombie: [10,100]
-    Player: [100, 100]
-    '*': [0, -10]
-backend: SQLiteMgr
-MySQL:
-    host: localhost
-    user: nobody
-    password: secret
-    database: KillRateDb
-    port: 3306
-signs:
-  '[STATS]': stats
-  '[RANKINGS]': rankings
-  '[ONLINE TOPS]': online-ranks
-  '[RANKNAMES]': rankings-names
-  '[RANKPOINTS]': rankings-points
-  '[TOPNAMES]': online-top-names
-  '[TOPPOINTS]': online-top-points
-formats:
-  default: '{sname} {count}'
-  names: '{n}.{player}'
-  scores: '{count}'
-```
+#### config.yml
 
-If `creative` is set to true, kills done when the player is in
-`creative` will be counted.  The default is false, *NOT* to count
-them.
+*  settings: Configuration settings
+	*  points: if true points are awarded and tracked.
+	*  rewards: if true, money is awarded.  Requires an economy plugin
+	*  creative: if true, kills done by players in creative are scored
+	*  dynamic-updates: Set to 0 or false to disable, otherwise sign update frequence in ticks
+	*  reset-on-death: set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
+	*  kill-streak: set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
+	*  pop-up: This is DEPRECATED
+*  values: configure how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
+*  formats: formats used to show sign data
+*  backend: Use SQLiteMgr or MySqlMgr
+*  MySql: Only used if backend is MySqlMgr to configure MySql settings
+*  signs: are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
 
-If `points` is true, points are awarded and tracked.  You need to
-enable `points` for the rankings to work.
-
-If `rewards` is true, money is awarded.  You need an economy plugin
-for this to work.
-
-`dynamic-updates` show in tick intervals how often signs are updated.
-
-`pop-up` will use the _pop up_ message to show the player's score.
-
-`kill-streak`: Set to `false` or to a number.  Will show the kill
-streak of a player.
-
-`reset-on-death`: Set to `false` or to a number.  When the player dies
-that number of times, scores will reset. (It is GAME OVER).
-
-`values` are used to configure how many points or how much money is
-awarded per kill type.  The first number is points, the second is
-money.  You can use negative values.
-
-`signs` are used to configure sign texts.  These texts will be used to
-identify which signs should show player stats.
-
-`formats` are used to show what data are shown in the different
-signs.  The following variables are available in these formats:
-
-* {player} - player's name
-* {n} - rank number
-* {count} - score
-* {sname} - only the first 8 characters of a name
 
 ## Translations
 

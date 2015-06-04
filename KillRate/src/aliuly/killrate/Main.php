@@ -1,4 +1,7 @@
 <?php
+/**
+ ** CONFIG:config.yml
+ **/
 namespace aliuly\killrate;
 
 use pocketmine\plugin\PluginBase;
@@ -50,33 +53,45 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
+			"# settings" => "Configuration settings",
 			"settings" => [
+				"# points" => "if true points are awarded and tracked.",
 				"points" => true,
+				"# rewards" => "if true, money is awarded.  Requires an economy plugin",
 				"rewards" => true,
+				"# creative" => "if true, kills done by players in creative are scored",
 				"creative" => false,
+				"# dynamic-updates" => "Set to 0 or false to disable, otherwise sign update frequence in ticks",
 				"dynamic-updates" => 80,
+				"# reset-on-death" => "set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)",
 				"reset-on-death" => false,
+				"# kill-streak" => "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number",
 				"kill-streak" => false,
+				"# pop-up" => "This is DEPRECATED",
 				"pop-up" => false,
 			],
+			"# values" => "configure how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.",
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
+			"# formats" => "formats used to show sign data",
 			"formats" => [
 				"default" => "{sname} {count}",
 				"names" => "{n}.{player}",
 				"scores" => "{count}",
 			],
+			"# backend" => "Use SQLiteMgr or MySqlMgr",
 			"backend" => "SQLiteMgr",
+			"# MySql" => "Only used if backend is MySqlMgr to configure MySql settings",
 			"MySql" => [
-				"comment" => "Only used if backend = MySqlMgr",
 				"host" => "localhost",
 				"user" => "nobody",
 				"password" => "secret",
 				"database" => "KillRateDb",
 				"port" => 3306,
 			],
+			"# signs" => "are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created",
 			"signs" => [
 				"[STATS]" => "stats",
 				"[ONLINE TOPS]" => "online-tops",
@@ -89,6 +104,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
+		if (version_compare($this->cfg["version"],"1.1.1") < 0) {
+			$this->getLogger()->warning(TextFormat::RED.mc::_("Configuration has been changed"));
+			$this->getLogger()->warning(mc::_("It is recommended to delete old config.yml"));
+		}
+
 		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
 		$this->dbm = new $backend($this);
 		if ($this->cfg["backend"] != "SQLiteMgr") {
