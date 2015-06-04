@@ -41,6 +41,9 @@ further customized by adding the following:
 * LINE3 - What statistic to count (i.e. deaths, points, player), etc.
 * LINE4 - format line, selects a format from the config.yml formats section.
 
+Also, if you set LINE2 (title) to **"^^^"**, the title will not be
+shown, but instead 4 lines of rankings will be displayed.
+
 ## Documentation
 
 This plugin supports PocketMoney and GoldStd and has experimental
@@ -150,6 +153,8 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* 1.1.2:
+  * Added the "^^^" hack.
 * 1.1.1:
   * Minor tweaks
   * Signs are more configurable

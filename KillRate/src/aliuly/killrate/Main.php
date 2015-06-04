@@ -594,23 +594,28 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		} else {
 			$fmt = $this->cfg["formats"][$fmt];
 		}
-
 		$text = ["","","",""];
-		$text[0] = $title;
-		$res = $this->getRankings(3,$mode,$col);
+		if ($title == "^^^") {
+			$cnt = 4;
+			$start = 0;
+		} else {
+			$text[0] = $title;
+			$cnt = 3;
+			$start = 1;
+		}
+		$res = $this->getRankings($cnt,$mode,$col);
 		if ($res == null) {
 			$text[2] = mc::_("NO STATS FOUND!");
 		} else {
-			$i = 1;
+			$i = 1; $j = $start;
 			foreach ($res as $r) {
 				$tr = [
 					"{player}" => $r["player"],
 					"{count}" => $r["count"],
 					"{sname}" => substr($r["player"],0,8),
-					"{n}" => $i,
+					"{n}" => $i++,
 				];
-				$text[$i] = strtr($fmt,$tr);
-				++$i;
+				$text[$j++] = strtr($fmt,$tr);
 			}
 		}
 		return $text;
