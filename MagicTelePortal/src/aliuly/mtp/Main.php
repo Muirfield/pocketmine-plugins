@@ -230,7 +230,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				}
 				if ($dest instanceof Vector3) {
 					$pl->sendMessage("Teleporting...");
-					MPMU::teleport($pl,$dest);
+					$pl->teleport($dest);
 					return;
 				}
 				// If it is not a position

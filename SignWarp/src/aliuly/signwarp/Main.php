@@ -298,7 +298,7 @@ class Main extends PluginBase implements Listener {
 			$this->teleporters[$pl->getName()] = time();
 
 			$pl->sendMessage(mc::_("Teleporting..."));
-			MPMU::teleport($pl,$pos);
+			$pl->teleport($pos);
 			return;
 		}
 		// FastTransfer

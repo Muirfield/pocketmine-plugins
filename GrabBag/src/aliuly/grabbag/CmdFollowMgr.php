@@ -180,7 +180,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 								 $l->getY(),
 								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist));
 
-		MPMU::teleport($f,$l->getLevel()->getSafeSpawn($pos));
+		$f->teleport($l->getLevel()->getSafeSpawn($pos));
 	}
 	//
 	// Event handlers
