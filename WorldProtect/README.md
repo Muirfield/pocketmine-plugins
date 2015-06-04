@@ -275,14 +275,13 @@ for sample files.
 
 * Q: How do I keep my inventory so that it does not get clear when I
   switch gamemodes?
-* A: Use a plugin like
-  [GamemodInvSave](https://forums.pocketmine.net/plugins/gamemodeinvsave.1040/)
+* A: Enable gm-save-inv module.
 
 # Changes
 
 * 2.0.0: Complete re-write
   * Refactor so it is now more modular
-  * Added per world gamemode
+  * Added per world gamemode and gamemode inventory save
   * Added banitem functionality
   * Added translation: Spanish
 * 1.2.4: CallbackTask
