@@ -579,7 +579,15 @@ for sample files.
 
 # Changes
 
-* 2.1.0 :
+* 2.1.1: ????
+  * CmdWhois : Works with off-line players and also returns SimpleAuth
+    details.
+  * Translation fixes
+  * TODO: count registered players
+  * TODO: broadcast-tp: particles
+  * TODO: FastTransfer-tp + particles
+  * TODO: Basic permissions utility
+* 2.1.0 : Regular update
   * New commands:
     * gmspc - spectator mode
     * fly - enables flying for players in survival
