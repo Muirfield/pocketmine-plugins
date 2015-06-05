@@ -2,7 +2,7 @@
 
 # GrabBag
 
-* Summary: A miscellaneous colletion of commands and listener modules
+* Summary: A large colletion of commands and listener modules
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
@@ -38,8 +38,10 @@ administration.
 
 ### Informational
 
+* listreg : Shows registered players.
 * ops : Shows who are the ops on this server.
 * players : Shows what players are on-line
+* regcount : Shows how many players are registered.
 * showtimings : Shows timing repots as reported by `/timings`
 * whois : Gives detail information on players
 
@@ -60,6 +62,7 @@ administration.
 * gmc : Change your gamemode to _Creative_.
 * gms : Change your gamemode to _Survival_.
 * gmspc : Change your gamemode to _Spectator_.
+* perm : temporarily change player's permissions
 * prefix : prepend prefix to chat lines
 * shield : player is protected from taking damage
 
@@ -234,6 +237,8 @@ The following commands are available:
   Heals a player.  If the amount is positive it will heal, if negative
   the player will be hurt.  The units are in 1/2 hearts.
 
+* **listreg** _[pattern]_  
+  Shows registered players.  
 * **mute|unmute** _[player]_  
   mutes/unmutes a player so they can not use chat  
 
@@ -249,8 +254,20 @@ The following commands are available:
 
 * **ops**  
   Shows who are the ops on this server.  
+* **perm** _&lt;player&gt;_ _&lt;dump|permission&gt; _[true|false]_  
+  temporarily change player's permissions  
+
+  This can be used to temporarily change player's permissions.
+  Changes are only done in-memory, so these will revert if the
+  disconnects or the server reloads.
+  You can specify a _permission_ and it will show it's valueor
+  if true|false is specified it will be changed.
+  If you specify **dump**, it will show all permissions
+  associated to a player.
+
 * **players**  
   Shows what players are on-line  
+
 * **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _plugin&gt;  
   manage plugins  
 
@@ -300,6 +317,9 @@ The following commands are available:
     - List configured rcon connections.
   - **rcon** _<id>_ _<command>_
     - Sends the `command` to the connection `id`.
+
+* **regcount**  
+  Shows how many players are registered.  
 
 * **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
@@ -562,6 +582,8 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.pluginmgr : Manage plugins
   (Defaults to Op)
+* gb.cmd.permmgr : Change permissions
+  (Defaults to Op)
 
 
 ## Translations
@@ -582,11 +604,12 @@ for sample files.
 * 2.1.1: ????
   * CmdWhois : Works with off-line players and also returns SimpleAuth
     details.
+  * New Commands:
+    * perm : temporarily change permissions
+    * regcount, listreg: display registered player information
   * Translation fixes
-  * TODO: count registered players
   * TODO: broadcast-tp: particles
   * TODO: FastTransfer-tp + particles
-  * TODO: Basic permissions utility
 * 2.1.0 : Regular update
   * New commands:
     * gmspc - spectator mode

@@ -61,6 +61,7 @@ class Main extends BasicPlugin {
 			"broadcast-tp" => [ "BcTpMgr", true ],
 			"crash" => ["CmdCrash", true],
 			"pluginmgr" => ["CmdPluginMgr", true],
+			"permmgr" => ["CmdPermMgr", true],
 			"throw" => ["CmdThrow", true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {

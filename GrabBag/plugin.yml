@@ -149,3 +149,6 @@ permissions:
   gb.cmd.pluginmgr:
     default: op
     description: Manage plugins
+  gb.cmd.permmgr:
+    default: op
+    description: Change permissions
