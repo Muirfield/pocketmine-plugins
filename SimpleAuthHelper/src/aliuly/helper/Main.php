@@ -19,6 +19,9 @@ use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
 
 class Main extends PluginBase implements Listener,CommandExecutor {
+	const RE_REGISTER = '/^\s*\/register\s+/';
+	const RE_LOGIN = '/^\s*\/login\s+/';
+
 	protected $auth;
 	protected $pwds;
 	protected $chpwd;
@@ -38,21 +41,11 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
-			"nest-egg" => [
-				"STONE_SWORD:0:1",
-				"WOOD:0:16",
-				"COOKED_BEEF:0:5",
-				"GOLD_INGOT:0:10",
-			],
 			"max-attempts" => 5,
 			"login-timeout" => 60,
-			"auto-ban" => false,
 			"leet-mode" => true,
 			"chat-protect" => true,
 		];
-		if (file_exists($this->getDataFolder()."config.yml")) {
-			unset($defaults["nest-egg"]);
-		}
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
 
@@ -95,6 +88,10 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 
 		if (!$this->auth->isPlayerRegistered($pl) || isset($this->chpwd[$n])) {
 			if (!isset($this->pwds[$n])) {
+				if ($this->cfg["leet-mode"] && preg_match(self::RE_REGISTER,$ev->getMessage())) {
+					$pl->sendMessage(TextFormat::YELLOW.mc::_("snob register"));
+					$ev->setMessage(preg_replace(self::RE_REGISTER,'',$ev->getMessage()));
+				}
 				if (!$this->checkPwd($pl,$ev->getMessage())) {
 					$ev->setCancelled();
 					$ev->setMessage("~");
@@ -145,21 +142,11 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			$ev->setMessage("~");
 			$ev->setCancelled();
 			$pl->sendMessage(TextFormat::GREEN.mc::_("register ok"));
-			if (isset($this->cfg["nest-egg"]) && !$pl->isCreative()) {
-				// Award a nest egg to player...
-				foreach ($this->cfg["nest-egg"] as $i) {
-					$r = explode(":",$i);
-					if (count($r) != 3) continue;
-					$item = Item::fromString($r[0].":".$r[1]);
-					$item->setCount(intval($r[2]));
-					$pl->getInventory()->addItem($item);
-				}
-			}
 			return;
 		}
 		if ($this->cfg["leet-mode"]) {
 			$msg = $ev->getMessage();
-			if (preg_match('/^\s*\/login\s+/',$msg)) {
+			if (preg_match(self::RE_LOGIN,$msg)) {
 				$pl->sendMessage(TextFormat::YELLOW.mc::_("snob login"));
 			} else {
 				$ev->setMessage("/login $msg");
@@ -190,14 +177,6 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		$pl = $this->getServer()->getPlayer($n);
 		if ($pl && !$this->auth->isPlayerAuthenticated($pl)) {
 			if ($this->pwds[$n] >= $this->cfg["max-attempts"]) {
-				if ($this->cfg["auto-ban"]) {
-					// OK banning use for trying to hack...
-					$ip = $pl->getAddress();
-					$this->getServer()->getIPBans()->addBan($ip,"Too many login attempts",null,"SimpleAuthHelper");
-					$this->getServer()->blockAddress($ip,-1);
-					$this->getServer()->broadcastMessage(TextFormat::RED.mc::_("[Helper] Banned IP Address $ip"));
-				}
-
 				$pl->kick(mc::_("too many logins"));
 				unset($this->pwds[$n]);
 			}

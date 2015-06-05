@@ -50,23 +50,19 @@ registration.  This is configured through the **nest-egg** setting.
 
 	```YAML
 	[CODE]
-	nest-egg:
-	- "272:0:1"
-	- "17:0:16"
-	- "364:0:5"
-	- "266:0:10"
 	max-attempts: 5
 	login-timeout: 60
-	auto-ban: false
+	leet-mode: true
+	chat-protect: true
 	[/CODE]
 
-* `nest-egg` section contains list of items that will be given to the
-  player upon registration.
-* `max-attempts` counts the number of tries to login.
-* `login-timeout` will kick the player out if not authenticated in
+* **max-attempts** counts the number of tries to login.
+* **login-timeout** will kick the player out if not authenticated in
   that number of seconds.
-* `auto-ban`: If set to true it will automatically ban the IP of a
-  player that does too many login attempts.
+* **leet-mode**: If enabled, will allow user to still use **/login** when
+  authenticating.
+* **chat-protect**: Monitors chat lines and if it notices a user
+  entering their password it will stop that.
 
 ### Permissions
 
@@ -78,6 +74,9 @@ registration.  This is configured through the **nest-egg** setting.
 * 1.3.0: Modularization
   - uses now a common translation library
   - some minor tweaks
+  - Removed little use feature: nest-egg
+  - leet-mode also works for /register.
+  - Removed auto-ban.  It is now done in SimpleAuth.
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.
