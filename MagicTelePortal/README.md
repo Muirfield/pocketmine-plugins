@@ -53,7 +53,6 @@ corner: 114
 [/CODE]
 ```
 
-
 ### Permission Nodes:
 
 * mtp.cmd.mtp: Permission to create portals
@@ -68,10 +67,12 @@ FAQ
 Changes
 -------
 
-* 1.3.0 :
+* 1.3.0 : Bug-fix
   * Rewrote `manyworld` dependancy
   * Added a base to the portal (so water won't leak)
-  * Translations
+  * Translations: Spanish
+  * Fixed so that when people Transfer, they do not enter in the
+    location of the portal.
 * 1.2.0 : Simple update
   * Renamed to MagicTelePortal.  
     **YOU MUST UPDATE CONFIG FILES**

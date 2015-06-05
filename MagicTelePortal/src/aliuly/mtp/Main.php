@@ -245,7 +245,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				$this->getLogger()->info(TextFormat::RED.mc::_("FastTransfer being used hope it works!"));
 				$this->getLogger()->info(mc::_("- Player: %1% => %2%:%3%",
 														 $pl->getName(),$addr,$port));
+				$spawn = $pl->getLevel()->getSafeSpawn();
+
 				$ft->transferPlayer($pl,$addr,$port);
+
+				$pl->x = $spawn->x;
+				$pl->y = $spawn->y;
+				$pl->z = $spawn->z;
+
 				return;
 			}
 		}
