@@ -9,7 +9,7 @@
 * OptionalPlugins: FastTransfer
 * Categories: Fun
 * Plugin Access: Commands, Data Saving, World Editing
-* WebSite: [github](https://github.com/alejandroliu/pocket-plugins/tree/master/MagicTelePortal)
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/MagicTelePortal)
 
 Overview
 --------
@@ -79,7 +79,7 @@ Changes
 -------
 
 * 1.3.0 : Bug-fix
-  * Rewrote `manyworld` dependancy
+  * Removed `manyworld` dependancy
   * Added a base to the portal (so water won't leak)
   * Translations: Spanish
   * Fixed so that when people Transfer, they do not enter in the
