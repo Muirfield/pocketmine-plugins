@@ -279,6 +279,8 @@ for sample files.
 
 # Changes
 
+* ???
+  * Can now add to auth list when players are off-line
 * 2.0.0: Complete re-write
   * Refactor so it is now more modular
   * Added per world gamemode and gamemode inventory save

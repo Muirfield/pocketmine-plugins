@@ -61,13 +61,17 @@ class WpProtectMgr extends BaseWp implements Listener {
 				foreach ($args as $i) {
 					$player = $this->owner->getServer()->getPlayer($i);
 					if (!$player) {
-						$c->sendMessage(mc::_("[WP] %1%: not found",$i));
-						continue;
+						$player = $this->owner->getServer()->getOfflinePlayer($i);
+						if ($player == null || !$player->hasPlayedBefore()) {
+							$c->sendMessage(mc::_("[WP] %1%: not found",$i));
+							continue;
+						}
 					}
 					$iusr = strtolower($player->getName());
 					$this->owner->authAdd($world,$iusr);
 					$c->sendMessage(mc::_("[WP] %1% added to %2%'s auth list",$i,$world));
-					$player->sendMessage(mc::_("[WP] You have been added to\n[WP] %1%'s auth list",$world));
+					if ($player instanceof Player)
+						$player->sendMessage(mc::_("[WP] You have been added to\n[WP] %1%'s auth list",$world));
 				}
 				return true;
 			case "rm":

@@ -40,7 +40,7 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 		$target = $this->owner->getServer()->getPlayer($args[0]);
 		if($target == null) {
 			$target = $this->owner->getServer()->getOfflinePlayer($args[0]);
-			if ($target == null) {
+			if ($target == null || !$target->hasPlayedBefore()) {
 				$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));
 				return true;
 			}
