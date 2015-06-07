@@ -14,6 +14,17 @@
 Overview
 --------
 
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you have a
+question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/magicteleportal.8053/) for
+that.  You are more likely to get a response and help that way.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/MagicTelePortal)
+for the most up-to-date documentation.
+
 Simple plugin to make creation of portals easy.
 
 Documentation
