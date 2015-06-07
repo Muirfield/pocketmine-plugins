@@ -11,8 +11,7 @@
 * Plugin Access: Commands, Data Saving, World Editing
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/MagicTelePortal)
 
-Overview
---------
+## Overview
 
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
@@ -64,20 +63,21 @@ corner: 114
 [/CODE]
 ```
 
-### Permission Nodes:
+### Permission Nodes
 
 * mtp.cmd.mtp: Permission to create portals
 * mtp.destroy: Permission to destroy portals
 
-FAQ
----
+## FAQ
+
 
 * Q: How do I prevent people from breaking my portal?
 * A: Use an anti-grief plugin or the `mtp.destroy` permission.
 
-Changes
--------
+## Changes
 
+* 1.3.1 : More fixes
+  * Fixed the double teleport issue.
 * 1.3.0 : Bug-fix
   * Removed `manyworld` dependancy
   * Added a base to the portal (so water won't leak)
@@ -93,8 +93,7 @@ Changes
   * Some configuration options
 * 1.0.0 : First submission
 
-Copyright
----------
+## Copyright
 
     MagicTelePortal
     Copyright (C) 2015 Alejandro Liu

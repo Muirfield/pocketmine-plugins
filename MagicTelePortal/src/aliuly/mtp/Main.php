@@ -14,11 +14,13 @@ use pocketmine\block\Block;
 use pocketmine\level\Position;
 use pocketmine\utils\Config;
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 
 use aliuly\worldprotect\common\mc;
 use aliuly\worldprotect\common\MPMU;
+use aliuly\worldprotect\common\PluginCallbackTask;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $portals;
@@ -26,8 +28,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $border;
 	protected $center;
 	protected $corner;
+	protected $tweak;
 
 	public function onEnable(){
+		$this->tweak = [];
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -205,6 +209,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return false;
 	}
+	public function onQuit(PlayerQuitEvent $ev) {
+		$n = strtolower($ev->getPlayer()->getName());
+		if (isset($this->tweak[$n])) unset($this->tweak[$n]);
+	}
 
 	public function onMove(PlayerMoveEvent $ev) {
 		if ($ev->isCancelled()) return;
@@ -228,34 +236,51 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 					$pl->sendMessage(mc::_("Nothing happens!"));
 					return;
 				}
-				if ($dest instanceof Vector3) {
-					$pl->sendMessage("Teleporting...");
-					$pl->teleport($dest);
-					return;
+				$n = strtolower($pl->getName());
+				$now = time();
+				if (isset($this->tweak[$n])) {
+					// Already in here...
+					if ($this->tweak[$n][0] > $now) return;
 				}
-				// If it is not a position
-				$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
-				if (!$ft) {
-					$this->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER NOT INSTALLED"));
-					$pl->sendMessage(mc::_("Nothing happens!"));
-					$pl->sendMessage(TextFormat::RED.mc::_("Somebody removed FastTransfer!"));
-					return;
-				}
-				list($addr,$port) = $dest;
-				$this->getLogger()->info(TextFormat::RED.mc::_("FastTransfer being used hope it works!"));
-				$this->getLogger()->info(mc::_("- Player: %1% => %2%:%3%",
-														 $pl->getName(),$addr,$port));
-				$spawn = $pl->getLevel()->getSafeSpawn();
-
-				$ft->transferPlayer($pl,$addr,$port);
-
-				$pl->x = $spawn->x;
-				$pl->y = $spawn->y;
-				$pl->z = $spawn->z;
-
+				$this->tweak[$n] = [ $now + 3, $dest ];
+				$this->getServer()->getScheduler()->scheduleDelayedTask(
+					new PluginCallbackTask($this,[$this,"portalActiveSg1"],[$n]),
+					1);
 				return;
 			}
 		}
+	}
+	public function portalActiveSg1($n) {
+		if (!isset($this->tweak[$n])) return;
+		$pl = $this->getServer()->getPlayer($n);
+		if ($pl === null) return;
+		list(,$dest) = $this->tweak[$n];
+		unset($this->tweak[$n]);
+		if ($dest instanceof Vector3) {
+			$pl->sendMessage(mc::_("Teleporting..."));
+			$pl->teleport($dest);
+			return;
+		}
+		// If it is not a position... It is a FAST TRANSFER!
+
+		$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
+		if (!$ft) {
+			$this->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER NOT INSTALLED"));
+			$pl->sendMessage(mc::_("Nothing happens!"));
+			$pl->sendMessage(TextFormat::RED.mc::_("Somebody removed FastTransfer!"));
+			return;
+		}
+		// First we teleport to spawn to make sure that we do not enter
+		// this server in the portal location!
+		$spawn = $pl->getLevel()->getSafeSpawn();
+		$pl->teleport($spawn);
+
+		list($addr,$port) = $dest;
+		$this->getLogger()->info(TextFormat::RED.mc::_("FastTransfer being used hope it works!"));
+		$this->getLogger()->info(mc::_("- Player: %1% => %2%:%3%",
+												 $pl->getName(),$addr,$port));
+
+		$ft->transferPlayer($pl,$addr,$port);
 	}
 
 	/**
