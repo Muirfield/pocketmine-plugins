@@ -7,9 +7,9 @@ SpawnMgr
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.4 - API 1.10.0
 * DependencyPlugins: -
-* OptionalPlugins: -
+* OptionalPlugins: SimpleAuth
 * Categories: Admin Tools
-* Plugin Access: Commands
+* Plugin Access: Other Plugins, Items
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SpawnMgr)
 
 Overview
@@ -50,7 +50,7 @@ Control spawn settings in your server.
 
 Configuration is through the `config.yml` file:
 
-~~~
+~~~YAML
 [CODE]
 ---
 settings:
