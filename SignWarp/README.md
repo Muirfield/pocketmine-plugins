@@ -134,6 +134,7 @@ The following sections are defined:
 * 1.4.0:
   * Clean-up and use library stuff
   * Removed broadcast setting
+  * Translations: Spanish
 * 1.3.2: CallbackTask
   * Removed CallbackTask deprecation warnings
 * 1.3.1: FastTransfer
