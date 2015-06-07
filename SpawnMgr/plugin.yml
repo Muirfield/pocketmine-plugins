@@ -1,0 +1,32 @@
+main: aliuly\spawnmgr\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: SpawnMgr
+description: More spawn related settings
+version: 1.2.0
+author: aliuly
+softdepend: [SimpleAuth]
+
+permissions:
+  spawnmgr.receive.armor:
+    default: true
+    description: "allows to receive armor when you spawn"
+  spawnmgr.receive.items:
+    default: true
+    description: "allows to receive items when you spawn"
+  spawnmgr.receive.nestegg:
+    default: true
+    description: "allows to receive items when you register to SimpleAuth"
+  spawnmgr.keepinv:
+    default: true
+    description: "allow player to keep inventory"
+  spawnmgr.nodrops:
+    default: true
+    description: "player will not drop inventory on death"
+  spawnmgr.spawnmode:
+    default: true
+    description: "player will follow spawn-control setting"
+  spawnmgr.reserved:
+    default: op
+    description: "Players is allowed to join full servers"
