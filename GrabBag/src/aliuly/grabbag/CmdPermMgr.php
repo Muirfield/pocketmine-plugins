@@ -24,18 +24,33 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerQuitEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 
-class CmdPermMgr extends BasicCli implements CommandExecutor {
+class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
+	protected $perms;
+
 	public function __construct($owner) {
 		parent::__construct($owner);
+		$this->perms = [];
 		$this->enableCmd("perm",
 							  ["description" => mc::_("change permissions"),
 								"usage" => mc::_("/perm <player> <dump|permission> [true|false]"),
 								"permission" => "gb.cmd.permmgr"]);
 	}
+	public function onQuit(PlayerQuitEvent $ev) {
+		$pl = $ev->getPlayer();
+		$n = strtolower($pl->getName());
+		if (isset($this->perms[$n])) {
+			$attach = $this->perms[$n];
+			unset($this->perms[$n]);
+			$pl->removeAttachment($attach);
+		}
+	}
+
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "perm") return false;
 		$pageNumber = $this->getPageNumber($args);
@@ -50,6 +65,7 @@ class CmdPermMgr extends BasicCli implements CommandExecutor {
 		if (strtolower($args[0]) == "dump") {
 			if (count($args) != 1) return false;
 			$txt = [ TextFormat::YELLOW.mc::_("Permissions for %1%", $target->getName()) ];
+			$target->recalculatePermissions();
 			foreach ($target->getEffectivePermissions() as $pp) {
 
 				$txt[] = TextFormat::GREEN.$pp->getPermission() .": ".
@@ -62,7 +78,13 @@ class CmdPermMgr extends BasicCli implements CommandExecutor {
 		if (count($args) > 1) return false;
 		if (count($args) == 1) {
 			$bool = filter_var(array_shift($args), FILTER_VALIDATE_BOOLEAN);
-			$target->addAttachment($this->owner,$perm,$bool);
+
+			$n = strtolower($target->getName());
+			if (!isset($this->perms[$n])) {
+				$this->perms[$n] = $target->addAttachment($this->owner);
+			}
+			$at = $this->perms[$n];
+			$at->setPermission($perm,$bool);
 		}
 		$sender->sendMessage(TextFormat::YELLOW.$target->getName().",".
 									TextFormat::GREEN.$perm.": ".
