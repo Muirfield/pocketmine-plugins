@@ -608,8 +608,10 @@ for sample files.
     * perm : temporarily change permissions
     * regcount, listreg: display registered player information
   * Translation fixes
+  * TODO: blood-particle: 
   * TODO: broadcast-tp: particles
   * TODO: FastTransfer-tp + particles
+  * TODO: rmreg
 * 2.1.0 : Regular update
   * New commands:
     * gmspc - spectator mode
