@@ -14,7 +14,9 @@ class KickListener implements Listener {
 		$this->reserved = $cfg;
 	}
 	public function onPlayerKick(PlayerKickEvent $event){
-		if ($event->getReason() == "server full" &&
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//print_r($event->getReason());//##DEBUG
+		if ($event->getReason() == "server full" ||
 			 $event->getReason() == "disconnectionScreen.serverFull") {
 			if (!$event->getPlayer()->hasPermission("spawnmgr.reserved"))
 				return;
@@ -23,7 +25,7 @@ class KickListener implements Listener {
 				if(count($this->owner->getServer()->getOnlinePlayers()) >
 					$this->owner->getServer()->getMaxPlayers() + $this->reserved) return;
 			}
-			$ev->setCancelled();
+			$event->setCancelled();
 			return;
 		}
 		// Not server full message...
