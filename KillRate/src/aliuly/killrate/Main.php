@@ -451,6 +451,12 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				$streak = $this->updateDb($perp,"streak");
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
 					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
+					if (isset($this->cfg["settings"]["rewards"])) {
+						list($points,$money) = $this->getPrizes($vic);
+						$pp->sendMessage(TextFormat::GREEN.
+											  mc::_("You earn an additional $%1% for being in kill-streak!",$money));
+						$this->grantMoney($perp,$money);
+					}
 				}
 			}
 		}
