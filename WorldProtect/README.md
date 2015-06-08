@@ -279,7 +279,8 @@ for sample files.
 
 # Changes
 
-* ???
+* 2.0.1: critical bug fix
+  * Fixed a crash
   * Can now add to auth list when players are off-line
 * 2.0.0: Complete re-write
   * Refactor so it is now more modular
