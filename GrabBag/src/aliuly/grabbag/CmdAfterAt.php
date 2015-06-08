@@ -67,7 +67,7 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 			$c->sendMessage(mc::_("Unable to specify delay %1%",$args[0]));
 			return false;
 		}
-		$secs = intval(array_shift($args));
+		$secs = array_shift($args);
 		$c->sendMessage(mc::_("Scheduled for %1%",date(DATE_RFC2822,time()+$secs)));
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this->owner,[$this,"runCommand"],[implode(" ",$args)]),$secs * 20);
 		return true;

@@ -10,9 +10,11 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\Player;
 use pocketmine\level\Position;
 use pocketmine\level\particle\RedstoneParticle;
+use pocketmine\level\particle\DustParticle;
 use pocketmine\math\Vector3;
 
 use aliuly\grabbag\common\mc;
@@ -43,6 +45,17 @@ class BloodMgr implements Listener {
 
 		for ($i=0;$i<$damage;$i++) {
 			$player->getLevel()->addParticle(new RedstoneParticle(self::randVector($player),(mt_rand()/mt_getrandmax())*2));
+		}
+	}
+	/**
+	 * @priority MONITOR
+	 */
+	public function onDeath(PlayerDeathEvent $ev) {
+		$player = $ev->getEntity();
+		if (!($player instanceof Player)) return;
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		for ($i=0;$i<20;$i++) {
+			$player->getLevel()->addParticle(new DustParticle(self::randVector($player),(mt_rand()/mt_getrandmax())*2,0,64,0));
 		}
 	}
 

@@ -38,10 +38,8 @@ administration.
 
 ### Informational
 
-* listreg : Shows registered players.
 * ops : Shows who are the ops on this server.
 * players : Shows what players are on-line
-* regcount : Shows how many players are registered.
 * showtimings : Shows timing repots as reported by `/timings`
 * whois : Gives detail information on players
 
@@ -64,6 +62,7 @@ administration.
 * gmspc : Change your gamemode to _Spectator_.
 * perm : temporarily change player's permissions
 * prefix : prepend prefix to chat lines
+* reg : Manage player registrations
 * shield : player is protected from taking damage
 
 ### Server Management
@@ -104,6 +103,7 @@ administration.
 ### Modules
 
 * blood-particles : Display particles when a player gets hit
+* broadcast-ft : Broadcast player's using FastTransfer
 * broadcast-tp : Broadcast player's teleports
 * join-mgr : Announce joining ops, and show server motd
 * repeater : Uses `!!` to repeat command with changes
@@ -173,7 +173,7 @@ The following commands are available:
 * **dismiss** _&lt;player&gt;_ _[message]_  
   Dismiss a previously summoned player  
 
-* **entities** _[subcommand_ _[options]_  
+* **entities** _[subcommand]_ _[options]_  
   entity management  
 
   By default it will show the current entities.  The following
@@ -237,8 +237,6 @@ The following commands are available:
   Heals a player.  If the amount is positive it will heal, if negative
   the player will be hurt.  The units are in 1/2 hearts.
 
-* **listreg** _[pattern]_  
-  Shows registered players.  
 * **mute|unmute** _[player]_  
   mutes/unmutes a player so they can not use chat  
 
@@ -267,7 +265,6 @@ The following commands are available:
 
 * **players**  
   Shows what players are on-line  
-
 * **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _plugin&gt;  
   manage plugins  
 
@@ -318,9 +315,18 @@ The following commands are available:
   - **rcon** _<id>_ _<command>_
     - Sends the `command` to the connection `id`.
 
-* **regcount**  
-  Shows how many players are registered.  
+* **reg** _[subcommand]_ _[options]_  
+  Manage player registrations  
 
+  By default it will show the number of registered players.  The following
+  sub-commands are available:
+  - **count**
+    - default sub-command.  Counts the number of registered players.
+  - **list** _[pattern]_
+    - Display a list of registered players or those that match the
+      wildcard _pattern_.
+  - **rm** _<player>_
+    - Removes _<player>_ registration.
 * **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
 
@@ -404,6 +410,12 @@ survive server reloads or reboots.
 #### blood-particles
 
 Display particles when a player gets hit
+
+#### broadcast-ft
+
+Broadcast player's using FastTransfer
+
+This listener module will broadcast when a player uses FastTransfer
 
 #### broadcast-tp
 
@@ -584,6 +596,8 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.permmgr : Change permissions
   (Defaults to Op)
+* gb.cmd.regs : Manage player registrations
+  (Defaults to Op)
 
 
 ## Translations
@@ -601,17 +615,18 @@ for sample files.
 
 # Changes
 
-* 2.1.1: ????
+* 2.2.0: Another update
   * CmdWhois : Works with off-line players and also returns SimpleAuth
     details.
+  * CmdAfterAt : It nows work with fractional seconds
   * New Commands:
     * perm : temporarily change permissions
-    * regcount, listreg: display registered player information
-  * Translation fixes
-  * TODO: blood-particle: 
-  * TODO: broadcast-tp: particles
-  * TODO: FastTransfer-tp + particles
-  * TODO: rmreg
+    * reg : Manage player registration
+  * New module:
+    * broadcast-ft: Like broacast-tp but for fast transfers
+  * Translation fixes, and other typos
+  * blood-particle: it also shows dust when the player dies
+  * broadcast-tp: show particles
 * 2.1.0 : Regular update
   * New commands:
     * gmspc - spectator mode

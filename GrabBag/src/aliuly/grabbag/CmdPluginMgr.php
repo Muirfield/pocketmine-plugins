@@ -44,7 +44,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		parent::__construct($owner);
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permission|load> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -123,9 +123,11 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 				return $this->cmdInfo($sender,$plugin,$pageNumber);
 			case "cmds":
 			case "com":
+			case "command":
 			case "commands":
 				return $this->cmdCmds($sender,$plugin,$pageNumber);
 			case "perms":
+			case "permission":
 			case "permissions":
 				return $this->cmdPerms($sender,$plugin,$pageNumber);
 			default:

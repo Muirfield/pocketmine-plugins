@@ -15,8 +15,11 @@ use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
 use pocketmine\level\Position;
+use pocketmine\math\Vector3;
+use pocketmine\level\particle\DustParticle;
 
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 class BcTpMgr implements Listener {
 	public $owner;
@@ -30,6 +33,14 @@ class BcTpMgr implements Listener {
 			"# local" => "local broadcast setting.", // This will broadcast teleports that go beyond this number.
 			"local" => 500,
 		];
+	}
+	protected static function randy($p,$r,$o) {
+		return $p+(mt_rand()/mt_getrandmax())*$r-$o;
+	}
+	protected static function randVector(Vector3 $center) {
+		return new Vector3(self::randy($center->getX(),0.5,-0.25),
+								 self::randy($center->getY(),2,0),
+								 self::randy($center->getZ(),0.5,-0.25));
 	}
 
 	public function __construct(Plugin $plugin,$cfg) {
@@ -51,6 +62,14 @@ class BcTpMgr implements Listener {
 		if (!$from->getLevel()) $from->setLevel($pl->getLevel());
 		$to = $ev->getTo();
 		if (!$to->getLevel()) $to->setLevel($pl->getLevel());
+
+		if (MPMU::apiVersion("1.12.0")) {
+			foreach ([$to,$from] as $pos) {
+				for ($i=0;$i<20;$i++) {
+					$pos->getLevel()->addParticle(new DustParticle(self::randVector($pos),(mt_rand()/mt_getrandmax())*2,255,255,255));
+				}
+			}
+		}
 
 		if ($from->getLevel()->getName() != $to->getLevel()->getName()) {
 			if ($this->world) {

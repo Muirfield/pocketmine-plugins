@@ -5,7 +5,7 @@
  ** COMMANDS
  **
  ** * entities : entity management
- **   usage: **entities** _[subcommand_ _[options]_
+ **   usage: **entities** _[subcommand]_ _[options]_
  **
  **   By default it will show the current entities.  The following
  **   sub-commands are available:

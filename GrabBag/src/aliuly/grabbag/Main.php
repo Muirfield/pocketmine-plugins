@@ -63,10 +63,15 @@ class Main extends BasicPlugin {
 			"pluginmgr" => ["CmdPluginMgr", true],
 			"permmgr" => ["CmdPermMgr", true],
 			"throw" => ["CmdThrow", true],
+			"regmgr" => ["CmdRegMgr",true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
 			$features["blood-particles"] = [ "BloodMgr", true ];
+			$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
+			if ($ft) {
+				$features["broadcast-ft"] = [ "TransferMgr", true ];
+			}
 		}
 
 		$cfg = $this->modConfig(__NAMESPACE__,$features, [

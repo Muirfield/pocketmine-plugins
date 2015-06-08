@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.1.1dev
+version: 2.2.0
 author: aliuly
 
 permissions:
@@ -152,3 +152,6 @@ permissions:
   gb.cmd.permmgr:
     default: op
     description: Change permissions
+  gb.cmd.regs:
+    default: op
+    description: Manage player registrations
