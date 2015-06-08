@@ -1,0 +1,44 @@
+name: GoldStd
+version: 1.0.1
+main: aliuly\goldstd\Main
+api: 1.10.0
+load: POSTWORLD
+
+description: Gold based economy plugin
+author: aliuly
+
+commands:
+  pay:
+    description: Will change the pay rate once
+    usage: "/pay [qty]"
+    permission: goldstd.cmd.pay
+  balance:
+    description: Display the amount of money you have
+    usage: "/balance"
+    permission: goldstd.cmd.balance
+
+permissions:
+  goldstd.cmd.pay:
+    default: true
+    description: "Access to pay command"
+  goldstd.cmd.balance:
+    default: true
+    description: "Show your current balance"
+  goldstd.signs.use:
+    default: true
+    description: "Allow access to signs"
+  goldstd.signs.use.casino:
+    default: true
+    description: "Allow access to casino signs"
+  goldstd.signs.use.shop:
+    default: true
+    description: "Allow access to shopping signs"
+  goldstd.signs.place:
+    default: op
+    description: "Allow placing signs"
+  goldstd.signs.place.casino:
+    default: op
+    description: "Allow placing casino signs"
+  goldstd.signs.place.shop:
+    default: op
+    description: "Allow placing shopping signs"
