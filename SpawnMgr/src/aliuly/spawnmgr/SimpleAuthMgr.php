@@ -13,6 +13,7 @@ class SimpleAuthMgr implements Listener {
 	public function __construct(Plugin $plugin,$ne) {
 		$this->owner = $plugin;
 		$this->nest_egg = $ne;
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onRegister(PlayerRegisterEvent $ev) {
 		$pl = $ev->getPlayer();

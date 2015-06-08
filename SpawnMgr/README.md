@@ -114,6 +114,9 @@ when the player joins.
 
 Changes
 -------
+* 1.3.0: ????
+  * added /back command
+  * added translation: spanish
 * 1.2.0:
   * Additional inventory on death options
   * Added Nest-Egg feature

@@ -4,11 +4,20 @@ load: POSTWORLD
 
 name: SpawnMgr
 description: More spawn related settings
-version: 1.2.0
+version: 1.3.0
 author: aliuly
 softdepend: [SimpleAuth]
 
+commands:
+  back:
+    description: teleport to the death location
+    usage: "/back"
+    permission: spawnmgr.back
+
 permissions:
+  spawnmgr.back:
+    default: true
+    description: "allows to return to death location"
   spawnmgr.receive.armor:
     default: true
     description: "allows to receive armor when you spawn"
