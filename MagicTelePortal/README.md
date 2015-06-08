@@ -76,6 +76,8 @@ corner: 114
 
 ## Changes
 
+* 1.3.2 : Bug-fix
+  * Fixed a very DUMB bug!
 * 1.3.1 : More fixes
   * Fixed the double teleport issue.
 * 1.3.0 : Bug-fix

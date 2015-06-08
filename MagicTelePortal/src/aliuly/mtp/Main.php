@@ -18,9 +18,9 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 
-use aliuly\worldprotect\common\mc;
-use aliuly\worldprotect\common\MPMU;
-use aliuly\worldprotect\common\PluginCallbackTask;
+use aliuly\mtp\common\mc;
+use aliuly\mtp\common\MPMU;
+use aliuly\mtp\common\PluginCallbackTask;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $portals;
