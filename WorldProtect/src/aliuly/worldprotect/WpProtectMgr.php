@@ -112,7 +112,7 @@ class WpProtectMgr extends BaseWp implements Listener {
 	protected function checkBlockPlaceBreak(Player $p) {
 		$world = $p->getLevel()->getName();
 		if (!isset($this->wcfg[$world])) return true;
-		if ($this->wcfg["world"] != "protect") return false; // LOCKED!
+		if ($this->wcfg[$world] != "protect") return false; // LOCKED!
 		return $this->owner->canPlaceBreakBlock($p,$world);
 	}
 
