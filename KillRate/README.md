@@ -144,6 +144,9 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* 1.2.1:
+  * CptKenji's features:
+    * Double money and Best streak tracking.
 * 1.2.0: Bumped the version number to reflect config changes.
   * Added the "^^^" hack.
   * Removed pop-up scores.
