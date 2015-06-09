@@ -408,6 +408,23 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				}
 			}
 			if ($this->cfg["settings"]["kill-streak"]) {
+				$n = $pv->getName();
+				$newstreak = $this->dbm->getScore($n,"streak");
+				// Keep track of the best streak ever...
+				if ($newstreak) {
+					$newstreak = $newstreak["count"];
+					$oldstreak = $this->dbm->getScore($n,"best-streak");
+					if ($oldstreak) {
+						$oldstreak = $oldstreak["count"];
+						if ($newstreak > $oldstreak) {
+							$this->dbm->updateScore($n,"best-streak",$newstreak);
+							$this->getServer()->broadcastMessage(mc::_("%1% beat previous streak record of %2% at %3% kills", $n, $oldstreak, $newstreak));
+						}
+					} else {
+						$this->dbm->insertScore($n,"best-streak",$newstreak);
+						$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
+					}
+				}
 				$this->dbm->delScore($pv->getName(),"streak");
 			}
 		}
