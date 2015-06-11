@@ -67,6 +67,7 @@ class Main extends BasicPlugin {
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
+			$features["skinner"] = [ "CmdSkinner", true ];
 			$features["blood-particles"] = [ "BloodMgr", true ];
 			$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 			if ($ft) {

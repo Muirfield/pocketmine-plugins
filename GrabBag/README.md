@@ -64,6 +64,7 @@ administration.
 * prefix : prepend prefix to chat lines
 * reg : Manage player registrations
 * shield : player is protected from taking damage
+* skin : manage player's skins
 
 ### Server Management
 
@@ -376,6 +377,17 @@ The following commands are available:
 
   To specify a report enter `t` for `timings.txt` or `t1` for
   `timings1.txt`.
+* **skin** _[player]_ _[save|load|ls]_ _[name]_  
+  manage player's skins  
+
+  Manipulate player's skins on the server.
+  Sub-commands:
+  - **skin** **ls**
+    - List all available skins on the server.  Default command.
+  - **skin** _[player]_ **save** _<name>_
+    - Saves _player_'s skin to _name_.
+  - **skin** _[player]_ **load** _<name>_
+    - Loads _player_'s skin from _name_.
 * **slay** _&lt;player&gt;_ _[msg]_  
   Kills the specified player  
 
@@ -598,6 +610,10 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.regs : Manage player registrations
   (Defaults to Op)
+* gb.cmd.skin : Manage skins
+  (Defaults to Op)
+* gb.cmd.skin.other : Manage other's skins skins
+  (Defaults to Op)
 
 
 ## Translations
@@ -615,6 +631,12 @@ for sample files.
 
 # Changes
 
+* 2.2.1: 
+  * New Command:
+    * skin : manipulate skins
+  * Fixes:
+    * CmdAs : Fixed chat
+    * CmdPlayers : Show name instead of displayname
 * 2.2.0: Another update
   * CmdWhois : Works with off-line players and also returns SimpleAuth
     details.

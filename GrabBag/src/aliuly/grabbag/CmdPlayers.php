@@ -41,7 +41,7 @@ class CmdPlayers extends BasicCli implements CommandExecutor {
 			$pos = $player->getPosition();
 			$j = count($tab);
 			$mode = substr(MPMU::gamemodeStr($player->getGamemode()),0,4);
-			$tab[]=[$player->getDisplayName(),$player->getLevel()->getName(),
+			$tab[]=[$player->getName(),$player->getLevel()->getName(),
 					  $pos->getFloorX().",".$pos->getFloorY().",".$pos->getFloorZ(),
 					  intval($player->getHealth()).'/'.intval($player->getMaxHealth()),
 					  $mode];

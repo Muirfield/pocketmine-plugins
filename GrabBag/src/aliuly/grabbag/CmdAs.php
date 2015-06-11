@@ -16,6 +16,7 @@ use pocketmine\command\Command;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\MPMU;
 
 use pocketmine\Player;
 use pocketmine\event\player\PlayerChatEvent;
@@ -46,7 +47,18 @@ class CmdAs extends BasicCli implements CommandExecutor {
 			$chat = implode(" ",$args);
 			$this->owner->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($player,$chat));
 			if (!$ev->isCancelled()) {
-				$this->owner->getServer()->broadcastMessage(sprintf($ev->getFormat(),$ev->getPlayer()->getDisplayName(),$ev->getMessage()),$ev->getRecipients());
+				if (MPMU::apiVersion("1.12.0")) {
+					$s = $this->owner->getServer();
+					$s->broadcastMessage($s->getLanguage()->translateString(
+						$ev->getFormat(),
+						[$ev->getPlayer()->getDisplayName(), $ev->getMessage()]),
+												$ev->getRecipients());
+				} else {
+					$this->owner->getServer()->broadcastMessage(sprintf(
+						$ev->getFormat(),
+						$ev->getPlayer()->getDisplayName(),
+						$ev->getMessage()),$ev->getRecipients());
+				}
 			}
 		} else {
 			$cmdline = implode(' ',$args);
