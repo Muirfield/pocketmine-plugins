@@ -1,4 +1,4 @@
-name: acl
+name: libcommon
 version: 0.0.2
 main: aliuly\loader\Main
 api: 1.10.0
