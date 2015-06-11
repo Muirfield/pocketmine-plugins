@@ -47,6 +47,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onEnable(){
+		$this->dbm = null;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 
@@ -155,7 +156,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->stats = [];
 	}
 	public function onDisable() {
-		$this->dbm->close();
+		if ($this->dbm !== null) $this->dbm->close();
 		$this->dbm = null;
 	}
 

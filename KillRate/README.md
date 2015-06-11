@@ -147,6 +147,7 @@ The contents of these "ini" files are key-value pairs:
 * 1.2.1:
   * CptKenji's features:
     * Double money and Best streak tracking.
+  * Fixed MySql support.  It should work now.
 * 1.2.0: Bumped the version number to reflect config changes.
   * Added the "^^^" hack.
   * Removed pop-up scores.

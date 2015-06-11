@@ -6,8 +6,8 @@ use aliuly\killrate\common\PluginCallbackTask;
 class MySqlMgr implements DatabaseManager {
 	private $database;
 
-	static function prepare($player) {
-		return "'".\mysqli::real_escape_string(strtolower($player))."'";
+	protected function prepare($player) {
+		return "'".$this->database->real_escape_string(strtolower($player))."'";
 	}
 	public function close() {
 		$this->database->close();
@@ -34,12 +34,12 @@ class MySqlMgr implements DatabaseManager {
 
 	public function getTops($limit,$players,$scores) {
 		$sql = "SELECT * FROM Scores";
-		$sql .= " WHERE type = ".self::prepare($scores);
+		$sql .= " WHERE type = ".$this->prepare($scores);
 		if ($players != null) {
 			$sql .= " AND player IN (";
 			$q = "";
 			foreach ($players as $p) {
-				$sql .= $q.self::prepare($p);
+				$sql .= $q.$this->prepare($p);
 				$q = ",";
 			}
 			$sql .=")";
@@ -58,7 +58,7 @@ class MySqlMgr implements DatabaseManager {
 	}
 
 	public function getScores($player) {
-		$sql = "SELECT * FROM Scores WHERE player = ".self::prepare($player);
+		$sql = "SELECT * FROM Scores WHERE player = ".$this->prepare($player);
 		$res = $this->database->query($sql);
 		if ($res === false) return null;
 		$tab = [];
@@ -69,8 +69,8 @@ class MySqlMgr implements DatabaseManager {
 		return $tab;
 	}
 	public function getScore($player,$type) {
-		$sql = "SELECT * FROM Scores WHERE player = ".self::prepare($player).
-			  " AND type = ".self::prepare($type);
+		$sql = "SELECT * FROM Scores WHERE player = ".$this->prepare($player).
+			  " AND type = ".$this->prepare($type);
 		$res = $this->database->query($sql);
 		$ret = $res->fetch_assoc();
 		$res->free();
@@ -78,22 +78,22 @@ class MySqlMgr implements DatabaseManager {
 	}
 	public function insertScore($player,$type,$cnt) {
 		$sql = "INSERT INTO Scores (player,type,count) VALUES (".
-			  self::prepare($player).", ".self::prepare($type).", ".intval($cnt).
+			  $this->prepare($player).", ".$this->prepare($type).", ".intval($cnt).
 			  ")";
 		return $this->database->query($sql);
 	}
 
 	public function updateScore($player,$type,$cnt) {
 		$sql ="UPDATE Scores SET count=".intval($cnt).
-			  " WHERE (player = ".self::prepare($player)." AND type = ".
-			  self::prepare($type).")";
+			  " WHERE (player = ".$this->prepare($player)." AND type = ".
+			  $this->prepare($type).")";
 		return $this->database->query($sql);
 	}
 
 	public function delScore($player,$type = null) {
-		$sql ="DELETE FROM Scores WHERE player=".self::prepare($player);
+		$sql ="DELETE FROM Scores WHERE player=".$this->prepare($player);
 		if ($type !== null) {
-			$sql .= " AND type = ".self::prepare($type);
+			$sql .= " AND type = ".$this->prepare($type);
 		}
 		return $this->database->query($sql);
 	}
