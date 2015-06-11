@@ -9,7 +9,7 @@ use pocketmine\Player;
 abstract class MPMU {
 	// My PocketMine Utils
 	static protected $items = [];
-	const VERSION = "0.0.1";
+	const VERSION = "0.0.2";
 
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;

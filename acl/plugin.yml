@@ -1,9 +1,8 @@
 name: acl
-version: 0.0.0
+version: 0.0.2
 main: aliuly\loader\Main
 api: 1.10.0
 load: POSTWORLD
 
 description: aliuly's common library
 author: aliuly
-
