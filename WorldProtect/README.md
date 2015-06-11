@@ -279,6 +279,9 @@ for sample files.
 
 # Changes
 
+* ????: 
+  * Feature Request(@Nifo2000): Option to control if MOTD is shown
+    automatically
 * 2.0.1: critical bug fix
   * Fixed a crash
   * Can now add to auth list when players are off-line

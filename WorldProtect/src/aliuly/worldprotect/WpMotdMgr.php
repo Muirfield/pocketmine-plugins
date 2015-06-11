@@ -43,17 +43,21 @@ use aliuly\worldprotect\common\mc;
 
 class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 	protected $ticks;
+	protected $auto;
 
 	static public function defaults() {
 		return [
 			"# ticks" => "line delay when showing multi-line motd texts.",
 			"ticks" => 15,
+			"# auto-motd" => "Automatically shows motd when entering world",
+			"auto-motd" => true,
 		];
 	}
 	public function __construct(Plugin $plugin,$cfg) {
 		parent::__construct($plugin);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->ticks = $cfg["ticks"];
+		$this->auto  = $cfg["auto-motd"];
 		$this->enableSCmd("motd",["usage" => mc::_("[text]"),
 										  "help" => mc::_("Edits world motd text"),
 										  "permission" => "wp.cmd.wpmotd"]);
@@ -124,10 +128,12 @@ class WpMotdMgr extends BaseWp implements Listener, CommandExecutor {
 	}
 
 	public function onJoin(PlayerJoinEvent $ev) {
+		if (!$this->auto) return;
 		$pl = $ev->getPlayer();
 		$this->showMotd($pl,$pl->getLevel()->getName());
 	}
 	public function onLevelChange(EntityLevelChangeEvent $ev) {
+		if (!$this->auto) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
 		$level = $ev->getTarget()->getName();
