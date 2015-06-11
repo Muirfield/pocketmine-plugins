@@ -25,7 +25,7 @@ class SignMgr implements Listener {
 	public function __construct(Plugin $plugin,$cfg) {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		print_r($cfg);//##DEBUG
+		//print_r($cfg);//##DEBUG
 		// Configure texts
 		$this->texts = [];
 		foreach ($cfg as $sn => $tab) {
