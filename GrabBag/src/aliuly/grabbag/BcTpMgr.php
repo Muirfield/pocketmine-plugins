@@ -48,7 +48,7 @@ class BcTpMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->world = $cfg["world"];
 		$this->local = $cfg["local"];
-		echo __METHOD__.",".__LINE__."\n"; //##DEBUG
+		//echo __METHOD__.",".__LINE__."\n"; //##DEBUG
 	}
 	/**
 	 * @priority MONITOR
