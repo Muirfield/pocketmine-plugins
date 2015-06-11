@@ -172,6 +172,9 @@ for sample files.
 
 # Changes
 
+* ?
+  * Changed command to manyworlds and mw is an alias.  This is to
+    prevent possible name collisions.
 * 2.0.0: Modularization
   * Re-written for modularity
   * teleport manager API deprecated

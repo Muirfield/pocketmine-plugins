@@ -73,7 +73,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
-		if ($cmd->getName() != "mw") return false;
+		if ($cmd->getName() != "manyworlds") return false;
 		return $this->dispatchSCmd($sender,$cmd,$args);
 	}
 	//
