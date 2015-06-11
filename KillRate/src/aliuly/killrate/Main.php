@@ -217,6 +217,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return true;
 	}
+	/**
+	 * @API
+	 */
 	public function getRankings($limit=10,$online=false,$col = "points") {
 	  if ($online) {
 		  // Online players only...
@@ -344,6 +347,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 	}
 
+	/**
+	 * @API
+	 */
 	public function updateDb($perp,$vic,$incr = 1) {
 		$score = $this->dbm->getScore($perp,$vic);
 		if ($score) {
@@ -611,6 +617,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$this->updateSign($pl,$tile,$text);
 	}
+	/**
+	 * @API
+	 */
 	public function getScore($pl,$type = "points") {
 		$score = $this->dbm->getScore($pl->getName(),$type);
 		if ($score) return $score["count"];
