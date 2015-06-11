@@ -136,6 +136,32 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
+## API
+
+The following functions are available to get information from this
+plugin:
+
+* getRankings($limit=10,$online=false,$stat = "points")
+  * $limit - the number of rows to return
+  * $online - false, all players, true, only on-line players are
+    returned
+  * $stat - the statistic you want to display
+* updateDb($player,$stat,$incr = 1)
+  * $player - the player you want to score
+  * $stat - type of statistic to update
+  * $incr - how many units to increase
+* getScore($player,$stat = "points")
+  * $player - player to look-up
+  * $stat - statistic to return
+
+To use the api:
+
+```php
+[PHP]
+$server->getPluginManager()->getPlugin("KillRate")->function()
+[/PHP]
+```
+
 ## FAQ
 
 * Q: Can you score when you push people to lava (or other indirect kills)?

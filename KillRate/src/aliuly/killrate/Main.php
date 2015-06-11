@@ -217,24 +217,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return true;
 	}
-	/**
-	 * @API
-	 */
-	public function getRankings($limit=10,$online=false,$col = "points") {
-	  if ($online) {
-		  // Online players only...
-		  $plist = [];
-		  foreach ($this->getServer()->getOnlinePlayers() as $p) {
-			  $plist[] = $p->getName();
-		  }
-		  if (count($plist) < 2) return null;
-	  } else {
-		  $plist = null;
-	  }
-	  //print_r([$limit,$plist]);
-	  return $this->dbm->getTops($limit,$plist,$col);
-  }
-
 	private function cmdTops(CommandSender $c,$args) {
 		if (count($args) == 0) {
 			$res = $this->getRankings(5);
@@ -347,19 +329,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 	}
 
-	/**
-	 * @API
-	 */
-	public function updateDb($perp,$vic,$incr = 1) {
-		$score = $this->dbm->getScore($perp,$vic);
-		if ($score) {
-			$this->dbm->updateScore($perp,$vic,$score["count"]+$incr);
-			return $score["count"]+$incr;
-		}
-		$this->dbm->insertScore($perp,$vic,$incr);
-		return $incr;
-
-	}
 	public function getPrizes($vic) {
 		if (isset($this->cfg["values"][$vic])) {
 			return $this->cfg["values"][$vic];
@@ -617,14 +586,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$this->updateSign($pl,$tile,$text);
 	}
-	/**
-	 * @API
-	 */
-	public function getScore($pl,$type = "points") {
-		$score = $this->dbm->getScore($pl->getName(),$type);
-		if ($score) return $score["count"];
-		return 0;
-	}
 
 	protected function topSign($mode,$fmt,$title,$sign) {
 		$col = "points";
@@ -661,4 +622,37 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return $text;
 	}
+	//////////////////////////////////////////////////////////////////////
+	// API functions
+	//////////////////////////////////////////////////////////////////////
+	public function getRankings($limit=10,$online=false,$col = "points") {
+	  if ($online) {
+		  // Online players only...
+		  $plist = [];
+		  foreach ($this->getServer()->getOnlinePlayers() as $p) {
+			  $plist[] = $p->getName();
+		  }
+		  if (count($plist) < 2) return null;
+	  } else {
+		  $plist = null;
+	  }
+	  //print_r([$limit,$plist]);
+	  return $this->dbm->getTops($limit,$plist,$col);
+  }
+	public function updateDb($perp,$vic,$incr = 1) {
+		$score = $this->dbm->getScore($perp,$vic);
+		if ($score) {
+			$this->dbm->updateScore($perp,$vic,$score["count"]+$incr);
+			return $score["count"]+$incr;
+		}
+		$this->dbm->insertScore($perp,$vic,$incr);
+		return $incr;
+
+	}
+	public function getScore($pl,$type = "points") {
+		$score = $this->dbm->getScore($pl->getName(),$type);
+		if ($score) return $score["count"];
+		return 0;
+	}
+
 }
