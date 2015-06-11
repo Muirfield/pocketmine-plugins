@@ -136,7 +136,6 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 
 		$this->deathpos = $cfg["settings"]["death-pos"] ? [] : null;
-		print_r($this->deathpos);
 	}
 
 	public function onDeath(PlayerDeathEvent $e) {
