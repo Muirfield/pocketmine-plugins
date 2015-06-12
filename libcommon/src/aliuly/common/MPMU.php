@@ -106,6 +106,40 @@ abstract class MPMU {
 		return $contents;
 	}
 
+	static public function callPlugin($server,$plug,$method,$args,$default = null) {
+		if (($plugin = $server->getPluginManager()->getPlugin($plug)) !== null
+			 && $plugin->isEnabled()) {
+			$fn = [ $plugin, $method ];
+			return $fn(...$args);
+		}
+		return $default;
+	}
+	static public function addCommand($plugin, $executor, $cmd, $yaml) {
+		$newCmd = new PluginCommand($cmd,$plugin);
+		if (isset($yaml["description"]))
+			$newCmd->setDescription($yaml["description"]);
+		if (isset($yaml["usage"]))
+			$newCmd->setUsage($yaml["usage"]);
+		if(isset($yaml["aliases"]) and is_array($yaml["aliases"])) {
+			$aliasList = [];
+			foreach($yaml["aliases"] as $alias) {
+				if(strpos($alias,":")!== false) {
+					$this->owner->getLogger()->info("Unable to load alias $alias");
+					continue;
+				}
+				$aliasList[] = $alias;
+			}
+			$newCmd->setAliases($aliasList);
+		}
+		if(isset($yaml["permission"]))
+			$newCmd->setPermission($yaml["permission"]);
+		if(isset($yaml["permission-message"]))
+			$newCmd->setPermissionMessage($yaml["permission-message"]);
+		$newCmd->setExecutor($executor);
+		$cmdMap = $plugin->getServer()->getCommandMap();
+		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
+	}
+
 	static public function sendPopup($player,$msg) {
 		$pm = $player->getServer()->getPluginManager();
 		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
@@ -119,4 +153,6 @@ abstract class MPMU {
 		}
 		$player->sendPopup($msg);
 	}
+
+
 }
