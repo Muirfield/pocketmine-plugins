@@ -9,7 +9,7 @@ use pocketmine\Player;
 abstract class MPMU {
 	// My PocketMine Utils
 	static protected $items = [];
-	const VERSION = "0.0.1";
+	const VERSION = "0.0.2";
 
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
@@ -95,5 +95,28 @@ abstract class MPMU {
 			$player = strtolower($player->getName());
 		}
 		return $player;
+	}
+	static public function getResourceContents($plugin,$filename) {
+		$fp = $plugin->getResource($filename);
+		if($fp === null){
+			return null;
+		}
+		$contents = stream_get_contents($fp);
+		fclose($fp);
+		return $contents;
+	}
+
+	static public function sendPopup($player,$msg) {
+		$pm = $player->getServer()->getPluginManager();
+		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
+			// SimpleAuth also has a HUD when not logged in...
+			if ($sa->isEnabled() && !$sa->isPlayerAuthenticated($player)) return;
+		}
+		if (($hud = $pm->getPlugin("BasicHUD")) !== null) {
+			// Send pop-ups through BasicHUD
+			$hud->sendPopup($player,$msg);
+			return;
+		}
+		$player->sendPopup($msg);
 	}
 }
