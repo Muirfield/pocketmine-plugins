@@ -1,5 +1,4 @@
-pocketmine-plugins
-==================
+# pocketmine-plugins
 
 Repository for my *official* PocketMine plugins.
 
@@ -178,12 +177,24 @@ Repository for my *official* PocketMine plugins.
   </td>
 </tr>
 <!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/chatscribe.1217/">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ChatScribe-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      ChatScribe
+    </a>
+  </th>
+  <td>
+    Logs chat and commands
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
 </table>
 
 
 
-Copyright
-=========
+# Copyright
 
     pocketmine-plugins
     Copyright (C) 2013 Alejandro Liu
