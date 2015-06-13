@@ -88,19 +88,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="http://forums.pocketmine.net/plugins/notsoflat.385/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/Notsoflat-icon.png" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      NotSoFlat
-    </a>
-  </th>
-  <td>
-    An alternative world generator
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="http://forums.pocketmine.net/plugins/itemcase.1138/">
       <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
@@ -191,8 +178,6 @@ Repository for my *official* PocketMine plugins.
 </tr>
 <!---------------------------------------------------------------------->
 </table>
-
-
 
 # Copyright
 
