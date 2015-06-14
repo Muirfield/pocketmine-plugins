@@ -65,7 +65,7 @@ class SpySession implements Listener {
 						$sender->sendMessage(mc::_("%1% has privacy, cannot be spied",$n));
 						continue;
 					}
-					$pl->sendMessage(mc::_("$n is now tapping you"));
+					$pl->sendMessage(mc::_("%1% is now tapping you",$n));
 					$n = strtolower($pl->getName());
 					if (!isset($this->sessions[$n])) $this->sessions[$n] = [];
 					$this->sessions[$n][$m] = $sender;
