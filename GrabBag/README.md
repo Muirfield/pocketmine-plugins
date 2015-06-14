@@ -614,6 +614,10 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.skin.other : Manage other's skins skins
   (Defaults to Op)
+* gb.cmd.invisible : make player invisible
+  (Defaults to Op)
+* gb.cmd.invisible.inmune : make player inmune to invisibility tricks
+  _(Defaults to disabled)_
 
 
 ## Translations
@@ -634,8 +638,9 @@ for sample files.
 * 2.2.1: 
   * New Command:
     * skin : manipulate skins
+    * invis : make player invisible
   * Fixes:
-    * CmdAs : Fixed chat
+    * CmdAs : Fixed chat (for PM1.5)
     * CmdPlayers : Show name instead of displayname
 * 2.2.0: Another update
   * CmdWhois : Works with off-line players and also returns SimpleAuth

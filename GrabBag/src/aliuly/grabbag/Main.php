@@ -64,6 +64,7 @@ class Main extends BasicPlugin {
 			"permmgr" => ["CmdPermMgr", true],
 			"throw" => ["CmdThrow", true],
 			"regmgr" => ["CmdRegMgr",true],
+			"invisible" => ["CmdInvisible",true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
