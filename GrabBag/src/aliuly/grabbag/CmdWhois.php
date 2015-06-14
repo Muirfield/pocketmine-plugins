@@ -86,9 +86,11 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 
 		$txt[] = TextFormat::GREEN.mc::_("First Played: ").TextFormat::WHITE
 				 . date(mc::_("d-M-Y H:i"),$target->getFirstPlayed()/1000);
-		$txt[] = TextFormat::GREEN.mc::_("Last Played: ").TextFormat::WHITE
-				 . date(mc::_("d-M-Y H:i"),$target->getLastPlayed()/1000);
-
+		echo $target->getLastPlayed()."\n";//##DEBUG
+		if ($target->getLastPlayed()) {
+			$txt[] = TextFormat::GREEN.mc::_("Last Played: ").TextFormat::WHITE
+					 . date(mc::_("d-M-Y H:i"),$target->getLastPlayed()/1000);
+		}
 
 		$pm = $this->owner->getServer()->getPluginManager();
 		if (($kr = $pm->getPlugin("KillRate")) !== null) {
