@@ -23,6 +23,8 @@ class Main extends PluginBase implements CommandExecutor{
 
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		mc::plugin_init($this,$this->getFile());
+
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
 			"settings" => [
