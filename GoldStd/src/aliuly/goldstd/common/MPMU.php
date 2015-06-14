@@ -9,7 +9,7 @@ use pocketmine\Player;
 abstract class MPMU {
 	// My PocketMine Utils
 	static protected $items = [];
-	const VERSION = "0.0.1";
+	const VERSION = "0.0.2";
 
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
@@ -96,4 +96,63 @@ abstract class MPMU {
 		}
 		return $player;
 	}
+	static public function getResourceContents($plugin,$filename) {
+		$fp = $plugin->getResource($filename);
+		if($fp === null){
+			return null;
+		}
+		$contents = stream_get_contents($fp);
+		fclose($fp);
+		return $contents;
+	}
+
+	static public function callPlugin($server,$plug,$method,$args,$default = null) {
+		if (($plugin = $server->getPluginManager()->getPlugin($plug)) !== null
+			 && $plugin->isEnabled()) {
+			$fn = [ $plugin, $method ];
+			return $fn(...$args);
+		}
+		return $default;
+	}
+	static public function addCommand($plugin, $executor, $cmd, $yaml) {
+		$newCmd = new PluginCommand($cmd,$plugin);
+		if (isset($yaml["description"]))
+			$newCmd->setDescription($yaml["description"]);
+		if (isset($yaml["usage"]))
+			$newCmd->setUsage($yaml["usage"]);
+		if(isset($yaml["aliases"]) and is_array($yaml["aliases"])) {
+			$aliasList = [];
+			foreach($yaml["aliases"] as $alias) {
+				if(strpos($alias,":")!== false) {
+					$this->owner->getLogger()->info("Unable to load alias $alias");
+					continue;
+				}
+				$aliasList[] = $alias;
+			}
+			$newCmd->setAliases($aliasList);
+		}
+		if(isset($yaml["permission"]))
+			$newCmd->setPermission($yaml["permission"]);
+		if(isset($yaml["permission-message"]))
+			$newCmd->setPermissionMessage($yaml["permission-message"]);
+		$newCmd->setExecutor($executor);
+		$cmdMap = $plugin->getServer()->getCommandMap();
+		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
+	}
+
+	static public function sendPopup($player,$msg) {
+		$pm = $player->getServer()->getPluginManager();
+		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
+			// SimpleAuth also has a HUD when not logged in...
+			if ($sa->isEnabled() && !$sa->isPlayerAuthenticated($player)) return;
+		}
+		if (($hud = $pm->getPlugin("BasicHUD")) !== null) {
+			// Send pop-ups through BasicHUD
+			$hud->sendPopup($player,$msg);
+			return;
+		}
+		$player->sendPopup($msg);
+	}
+
+
 }

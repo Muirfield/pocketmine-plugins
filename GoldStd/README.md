@@ -142,11 +142,7 @@ The following sections are defined:
 *  defaults: Default values for payments
 	*  payment: default payment when tapping on a player
 	*  timeout: how long a transaction may last
-
-#### signs
-
-*  shop: Texts used to identify shop signs
-*  casino: Texts used to identify casino signs
+*  signs: Text used to identify GoldStd signs
 
 
 ### Permission Nodes
