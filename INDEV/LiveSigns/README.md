@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/rss.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/RSS-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # LiveSigns
 
@@ -9,7 +9,7 @@
 * OptionalPlugins: N/A
 * Categories: Informational
 * Plugin Access: Tiles, Internet Services, Commands
-* WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/RssSigns)
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
 
 ## Overview
 
@@ -111,6 +111,7 @@ message made of 2 signs accross, you would have:
 Whereas if you wanted to have a message of 3 signs accross, 2 signs
 up you would use:
 
+|      |      |      |
 |------|------|------|
 | 0:3  | 1:3  | 2:3  |
 | 12:3 | 13:3 | 14:3 |
