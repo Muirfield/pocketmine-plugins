@@ -13,7 +13,6 @@
 
 ## Overview
 
-
 LiveSings is a plugin to display texts in signs from a number of
 sources and can change automatically as the sources change.
 
@@ -29,7 +28,6 @@ A sample configuration files are provided to get you started.  Basic
 usage is that you create a LiveSign source, and assign it an id.  Then
 in the game you place a sign with that id, and it will start
 displaying it.
-
 
 Sign Format:
 
@@ -106,14 +104,16 @@ Then, for the second line in the sign, we would add _step_ and pick
 the corresponding line of the message.  So if you want to make a
 message made of 2 signs accross, you would have:
 
+|     |     |
+|-----|-----|
 | 0:2 | 1:2 |
 
 Whereas if you wanted to have a message of 3 signs accross, 2 signs
 up you would use:
 
-| 0:3 | 1:3 | 2:3 |
+|------|------|------|
+| 0:3  | 1:3  | 2:3  |
 | 12:3 | 13:3 | 14:3 |
-
 
 ### Additional Libraries
 
