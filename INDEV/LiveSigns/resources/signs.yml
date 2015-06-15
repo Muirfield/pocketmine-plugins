@@ -1,0 +1,30 @@
+#
+# LiveSigns examples
+#
+basic1:
+  type: text
+  content:
+  - Welcome to
+  - LiveSigns
+basic2:
+  type: text
+  content: You can use LiveSigns to have dynamic signs in Minecraft
+file:
+  type: file
+  no-fill: true
+  content: welcome.txt
+web1:
+  type: url
+  content: http://www.randomtext.me/download/txt/
+web2:
+  type: urrl
+  content:  http://tonycode.com/service/fortune-0.1/fortune.php
+rss:
+  type: rss
+  content: http://forums.pocketmine.net/forums/-/index.rss
+#
+# You need to configure your twitter account before using this
+# 
+#twitter:
+#  type: twitter
+#  content: PocketMine

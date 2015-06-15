@@ -1,0 +1,31 @@
+main: aliuly\livesigns\Main
+api: 1.12.0
+load: POSTWORLD
+name: LiveSigns
+description: Sings that change contents
+version: 1.0.0
+author: aliuly
+
+commands:
+  livesigns:
+    description: "Access to LiveSigns functionality"
+    usage: "/livesigns <subcmd> [options]"
+    permission: livesigns.cmd
+    aliases: ["livesign","ls"]
+
+permissions:
+  livesigns.cmd:
+    default: op
+    description: Main livesign command
+  livesings.cmd.addrm:
+    default: op
+    description: Update livesign
+  livesings.cmd.info:
+    default: true
+    description: Show status of livesigns
+  livesings.cmd.update:
+    default: op
+    description: Refresh livesigns
+  livesings.cmd.broadcast:
+    default: op
+    description: Broadcast livesigns in chat
