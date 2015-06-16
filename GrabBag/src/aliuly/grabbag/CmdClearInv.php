@@ -40,7 +40,7 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 			$target = $sender;
 			$other = false;
 		} else {
-			if (!MPMU::access($sender,"gb.cmd.".$cmd->getName())) return true;
+			if (!MPMU::access($sender,"gb.cmd.".$cmd->getName().".others")) return true;
 			$target = $this->owner->getServer()->getPlayer($args[0]);
 			if ($target === null) {
 				$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));
