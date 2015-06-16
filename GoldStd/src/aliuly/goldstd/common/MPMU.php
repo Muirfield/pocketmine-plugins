@@ -6,19 +6,47 @@ use pocketmine\utils\MainLogger;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
+/**
+ * My PocketMine Utils class
+ */
 abstract class MPMU {
-	// My PocketMine Utils
 	static protected $items = [];
 	const VERSION = "0.0.2";
 
+	/**
+	 * libcommon library version.  If a version is provided it will check
+	 * the version using apiCheck.
+	 *
+	 * @param str version Version to check
+	 *
+	 * @return str|bool
+	 */
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
 		return self::apiCheck(self::VERSION,$version);
 	}
+	/**
+	 * Used to check the PocketMine API version
+	 *
+	 * @param str version Version to check
+	 *
+	 * @return str|bool
+	 */
 	static public function apiVersion($version = "") {
 		if ($version == "") return \pocketmine\API_VERSION;
 		return self::apiCheck(\pocketmine\API_VERSION,$version);
 	}
+	/**
+	 * Checks API compatibility from $api against $version.  $version is a
+	 * string containing the version.  It can contain the following operators:
+	 *
+	 * >=, <=, <> or !=, =, !|~, <, >
+	 *
+	 * @param str api Installed API version
+	 * @param str version API version to compare against
+	 *
+	 * @return bool
+	 */
 	static public function apiCheck($api,$version) {
 		switch (substr($version,0,2)) {
 			case ">=":
@@ -43,6 +71,13 @@ abstract class MPMU {
 		if (intval($api) != intval($version)) return 0;
 		return version_compare($api,$version) >= 0;
 	}
+	/**
+	 * Given an pocketmine\item\Item object, it returns a friendly name
+	 * for it.
+	 *
+	 * @param Item item
+	 * @return str
+	 */
 	static public function itemName(Item $item) {
 		$n = $item->getName();
 		if ($n != "Unknown") return $n;
@@ -58,6 +93,12 @@ abstract class MPMU {
 			return self::$items[$item->getId()];
 		return $n;
 	}
+	/**
+	 * Returns a localized string for the gamemode
+	 *
+	 * @param int mode
+	 * @return str
+	 */
 	static public function gamemodeStr($mode) {
 		if (class_exists(__NAMESPACE__."\\mc",false)) {
 			switch ($mode) {
@@ -76,13 +117,27 @@ abstract class MPMU {
 		}
 		return "$mode-mode";
 	}
-
+	/**
+	 * Check's player or sender's permissions and shows a message if appropriate
+	 *
+	 * @param CommandSender $sender
+	 * @param str $permission
+	 * @param bool $msg If false, no message is shown
+	 * @return bool
+	 */
 	static public function access(CommandSender $sender, $permission,$msg=true) {
 		if($sender->hasPermission($permission)) return true;
 		if ($msg)
 			$sender->sendMessage(mc::_("You do not have permission to do that."));
 		return false;
 	}
+	/**
+	 * Check's if $sender is a player in game
+	 *
+	 * @param CommandSender $sender
+	 * @param bool $msg If false, no message is shown
+	 * @return bool
+	 */
 	static public function inGame(CommandSender $sender,$msg = true) {
 		if (!($sender instanceof Player)) {
 			if ($msg) $sender->sendMessage(mc::_("You can only do this in-game"));

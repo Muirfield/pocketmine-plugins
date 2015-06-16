@@ -1,7 +1,6 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GoldStd2-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-GoldStd
-=======
+# GoldStd
 
 * Summary: A different economy plugin
 * Dependency Plugins: N/A
@@ -12,7 +11,7 @@ GoldStd
 * Plugin Access: Commands, Entities, Items
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 
-# Overview
+## Overview
 
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
@@ -39,7 +38,7 @@ To pay people you tap on them while holding a gold ingot.
 
 GoldStd implements an economy plugin based on Gold Ingots (by default)
 as the currency.  This allows to add game mechanics to the game
-without artificial commands or other artificial constructs. 
+without artificial commands or other artificial constructs.
 
 You can then pay people without using the chat console.  Also, you may
 lose all your money if you get killed.  Players can stash their gold
@@ -67,9 +66,9 @@ RunePvP supports three types of signs.
 
 1. Shop signs
 2. Gambling signs
-3. Informational signs
+3. Trading signs
 
-### Shop Signs
+#### Shop Signs
 
 Place a sign with the following text:
 
@@ -103,7 +102,7 @@ Examples from RuinPvP:
   * Apples x10
   * 200p
 
-### Gambling Signs
+#### Gambling Signs
 
 Tap a sign and you place a bet.  Place a sign with the following text:
 
@@ -122,6 +121,27 @@ Examples:
   * 5:300
   * 100p
 
+#### Trading Sings
+
+Tap a sign and you can trade items. 
+Place a sign with the following text:
+
+    [CODE]
+    [TRADE]
+    <item-you-get>
+    <item-you-give>
+    [/CODE]
+
+Examples:
+
+* [TRADE]
+  * Diamond Sword
+  * Wood x5
+* [TRADE]
+  * Spawn Egg:32
+  * Emerald x2
+  * Zombie Spawn egg
+
 ### API
 
 * API
@@ -134,14 +154,19 @@ Examples:
 Configuration is throug the `config.yml` file.
 The following sections are defined:
 
+#### defaults
+
+
+Default values for paying players by tapping
+*  payment: default payment when tapping on a player
+*  timeout: how long a transaction may last
+
 #### main
 
 *  settings: features
 	*  currency: Item to use for currency
 	*  signs: set to true to enable shops|casino signs
-*  defaults: Default values for payments
-	*  payment: default payment when tapping on a player
-	*  timeout: how long a transaction may last
+*  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
 
 
@@ -180,8 +205,11 @@ The contents of these "ini" files are key-value pairs:
 # Changes
 
 * 1.1.0 :
-  * Added casino and shop signs
+  * @Achak request
+    * Added goods trading
+  * Added casino, shop and trading signs
   * Configuration uses strings instead of codes
+  * EXPERIMENTAL: Compatible with other economy plugins
 * 1.0.0 : First submission
 
 # Copyright

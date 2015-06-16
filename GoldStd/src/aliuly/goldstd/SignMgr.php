@@ -20,6 +20,7 @@ class SignMgr implements Listener {
 		return [
 			"shop" => ["[SHOP]"],
 			"casino" => ["[CASINO]"],
+			"trade" => ["[TRADE]"],
 		];
 	}
 	public function __construct(Plugin $plugin,$cfg) {
@@ -77,12 +78,12 @@ class SignMgr implements Listener {
 				$item = $this->parseItemLine($sign[1]);
 				if ($item === null) {
 					$pl->sendMessage(mc::_("Invalid item line"));
-					return false;
+					return;
 				}
 				$price = $this->parsePriceLine($sign[2]);
 				if ($price === null) {
 					$pl->sendMessage(mc::_("Invalid price line"));
-					return false;
+					return;
 				}
 				$money = $this->owner->getMoney($pl->getName());
 				if ($money < $price) {
@@ -93,16 +94,82 @@ class SignMgr implements Listener {
 					$pl->sendMessage(mc::_("[GoldStd] Item purchased"));
 				}
 				break;
+			case "trade":
+				// This is what you get...
+				$item1 = $this->parseItemLine($sign[1]);
+				if ($item1 === null) {
+					$pl->sendMessage(mc::_("Invalid item1 line"));
+					return;
+				}
+				// This is what you pay...
+				$item2 = $this->parseItemLine($sign[2]);
+				if ($item2 === null) {
+					$pl->sendMessage(mc::_("Invalid item2 line"));
+					return;
+				}
+				/*** Check if the player has item2 in stock ***/
+				$inv = $pl->getInventory();
+				$cnt = 0;
+				$slots = [];
+				foreach ($pl->getInventory()->getContents() as $slot=>&$item) {
+					if ($item2->getId() != $item->getId()) continue;
+					if ($item2->getDamage() &&
+						 ($item2->getDamage() != $item->getDamage())) continue;
+					// OK, he got it...
+					$cnt += $item->getCount();
+					$slots[] = [$slot,$item->getCount()];
+				}
+				if ($cnt == 0) {
+					$pl->sendMessage(mc::_("You do not have any %1%",
+												  MPMU::itemName($item2)));
+					return;
+				}
+				if ($cnt < $item2->getCount()) {
+					$pl->sendMessage(mc::_("You do not have enough %1%",
+												  MPMU::itemName($item2)));
+					$pl->sendMessage(mc::_("You have %1%, you need %2%",
+												 $cnt, $item2->getCount()));
+					return;
+				}
+				$cnt = $item2->getCount(); // Take away stock...
+				while ($cnt >= 0) {
+					list($slot,$qty) = array_pop($slots);
+					if ($qty > $cnt) {
+						// More than enough...
+						$newitem = clone $item2;
+						$newitem->setCount($qty - $cnt);
+						$cnt = 0;
+						$pl->getInventory()->setItem($slot,$newitem);
+						break;
+					}
+					if ($qty <= $cnt) {
+						// Not enough, consume that slot completely...
+						$cnt -= $qty;
+						$pl->getInventory()->clear($slot);
+					}
+				}
+				$pl->sendMessage(mc::n(
+					mc::_("Gave away one %1%",MPMU::itemName($item2)),
+					mc::_("Gave away %2% %1%s",
+							MPMU::itemName($item2),$item2->getCount()),
+					$item2->getCount()));
+				// Give new stock...
+				$pl->getInventory()->addItem(clone $item1);
+				$pl->sendMessage(mc::n(
+					mc::_("Got one %1%", MPMU::itemName($item1)),
+					mc::_("Got %2% %1%s", MPMU::itemName($item1),$item1->getCount()),
+					$item1->getCount()));
+				break;
 			case "casino":
 				list($odds,$payout) = $this->parseCasinoLine($sign[1]);
 				if ($odds === null) {
 					$pl->sendMessage(mc::_("Invalid odds line"));
-					return false;
+					return;
 				}
 				$price = $this->parsePriceLine($sign[2]);
 				if ($price === null) {
 					$pl->sendMessage(mc::_("Invalid price line"));
-					return false;
+					return;
 				}
 				$money = $this->owner->getMoney($pl->getName());
 				if ($money < $price) {
@@ -121,7 +188,6 @@ class SignMgr implements Listener {
 				}
 				break;
 		}
-		return true;
 	}
 
 	private function validateSign($pl,$sign) {
@@ -141,6 +207,16 @@ class SignMgr implements Listener {
 					return false;
 				}
 				break;
+			case "trade":
+				$ret = true;
+				foreach ([1,2] as $i) {
+					$item = $this->parseItemLine($sign[$i]);
+					if ($item === null) {
+						$pl->sendMessage(mc::_("Invalid item%1% line",$i));
+						$ret = false;
+					}
+				}
+				return $ret;
 			case "casino":
 				list($odds,$payout) = $this->parseCasinoLine($sign[1]);
 				if ($odds === null) {
@@ -194,36 +270,3 @@ class SignMgr implements Listener {
 	}
 
 }
-
-/*
-use pocketmine\Player;
-use pocketmine\utils\TextFormat;
-use pocketmine\event\Listener;
-use pocketmine\utils\Config;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-
-use pocketmine\network\protocol\EntityDataPacket;
-use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\String;
-use pocketmine\scheduler\CallbackTask;
-
-
-
-
-
-	public function updateTimer() {
-		foreach ($this->getServer()->getLevels() as $lv) {
-			if (count($lv->getPlayers()) == 0) continue;
-			foreach ($lv->getTiles() as $tile) {
-				if (!($tile instanceof Sign)) continue;
-				$sign = $tile->getText();
-				if (!isset($this->texts[$sign[0]])) continue;
-				$this->updateTile($tile);
-			}
-		}
-	}
-}
-*/
