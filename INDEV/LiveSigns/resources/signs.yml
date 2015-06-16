@@ -17,7 +17,7 @@ web1:
   type: url
   content: http://www.randomtext.me/download/txt/
 web2:
-  type: urrl
+  type: url
   content:  http://tonycode.com/service/fortune-0.1/fortune.php
 rss:
   type: rss
