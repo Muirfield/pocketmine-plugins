@@ -33,6 +33,7 @@ use pocketmine\nbt\tag\String;
 use aliuly\killrate\common\mc;
 use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
+use aliuly\killrate\common\MoneyAPI;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
@@ -117,27 +118,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			$this->getLogger()->info(mc::_("Using %1% as backend",
 													 $this->cfg["backend"]));
 		}
-		$pm = $this->getServer()->getPluginManager();
-		if(!($this->money = $pm->getPlugin("PocketMoney"))
-			&& !($this->money = $pm->getPlugin("GoldStd"))
-			&& !($this->money = $pm->getPlugin("EconomyAPI"))
-			&& !($this->money = $pm->getPlugin("MassiveEconomy"))){
-			$this->getLogger()->error(TextFormat::RED.
-											 mc::_("# MISSING MONEY API PLUGIN"));
-			$this->getLogger()->error(TextFormat::BLUE.
-											 mc::_(". Please install one of the following:"));
-			$this->getLogger()->error(TextFormat::WHITE.
-											 mc::_("* GoldStd"));
-			$this->getLogger()->error(TextFormat::WHITE.
-											 mc::_("* PocketMoney"));
-			$this->getLogger()->error(TextFormat::WHITE.
-											 mc::_("* EconomyAPI or"));
-			$this->getLogger()->error(TextFormat::WHITE.
-											 mc::_("* MassiveEconomy"));
-		} else {
-			$this->getLogger()->info(TextFormat::BLUE.
-											 mc::_("Using money API from %1%",
-													 TextFormat::WHITE.$this->money->getName()." v".$this->money->getDescription()->getVersion()));
+		if (isset($this->cfg["settings"]["rewards"])) {
+			$this->money = MoneyAPI::moneyPlugin($this);
+			if ($this->money) {
+				MoneyAPI::foundMoney($this,$this->money);
+			} else {
+				MoneyAPI::noMoney($this);
+			}
 		}
 		if ($this->cfg["settings"]["dynamic-updates"]
 			 && $this->cfg["settings"]["dynamic-updates"] > 0) {
@@ -260,47 +247,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 
 	//////////////////////////////////////////////////////////////////////
 	//
-	// Economy/Money handlers
-	//
-	//////////////////////////////////////////////////////////////////////
-	public function grantMoney($p,$money) {
-		if(!$this->money) return false;
-		switch($this->money->getName()){
-			case "GoldStd":
-				$this->money->grantMoney($p, $money);
-				break;
-			case "PocketMoney":
-				$this->money->grantMoney($p, $money);
-				break;
-			case "EconomyAPI":
-				$this->money->setMoney($p,$this->money->mymoney($p)+$money);
-				break;
-			case "MassiveEconomy":
-				$this->money->payPlayer($p,$money);
-				break;
-			default:
-				return false;
-		}
-		return true;
-	}
-	public function getMoney($player) {
-		if(!$this->money) return false;
-		switch($this->money->getName()){
-			case "GoldStd":
-				return $this->money->getMoney($player);
-				break;
-			case "PocketMoney":
-			case "MassiveEconomy":
-				return $this->money->getMoney($player);
-			case "EconomyAPI":
-				return $this->money->mymoney($player);
-			default:
-				return false;
-				break;
-		}
-	}
-	//////////////////////////////////////////////////////////////////////
-	//
 	// Event handlers
 	//
 	//////////////////////////////////////////////////////////////////////
@@ -351,7 +297,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if (isset($this->cfg["settings"]["rewards"])) {
 			// Add money...
 			list($points,$money) = $this->getPrizes($vic);
-			$this->grantMoney($perp,$money);
+			MoneyAPI::grantMoney($this->money,$perp,$money);
 			$awards[1] = $money;
 		}
 		return $awards;
@@ -448,7 +394,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						list($points,$money) = $this->getPrizes($vic);
 						$pp->sendMessage(TextFormat::GREEN.
 											  mc::_("You earn an additional $%1% for being in kill-streak!",$money));
-						$this->grantMoney($perp,$money);
+						MoneyAPI::grantMoney($this->money,$perp,$money);
 					}
 				}
 			}
@@ -560,7 +506,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 					}
 					$text[$l++] = $j.$score;
 				}
-				$text[$l++] = mc::_("Money: ").$this->getMoney($name);
+				$text[$l++] = mc::_("Money: ").
+					MoneyAPI::getMoney($this->money,$name);
 				break;
 			case "online-tops":
 				$text = $this->topSign(true,"default",mc::_("Top Online"),$sign);
