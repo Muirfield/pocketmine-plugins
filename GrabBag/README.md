@@ -642,6 +642,7 @@ for sample files.
   * Fixes:
     * CmdAs : Fixed chat (for PM1.5)
     * CmdPlayers : Show name instead of displayname
+    * CmdClearInv : Fixed checking permissions for others
 * 2.2.0: Another update
   * CmdWhois : Works with off-line players and also returns SimpleAuth
     details.
