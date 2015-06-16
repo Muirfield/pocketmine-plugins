@@ -1,5 +1,5 @@
 <?php
-namespace aliuly\common;
+namespace aliuly\grabbag\common;
 use pocketmine\Server;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
@@ -116,8 +116,8 @@ abstract class MoneyAPI {
 	/**
 	 * Gets player balance
 	 *
-	 * @param Plugin $api Economy plugin (from moneyPlugin)
-	 * @param Player $player Player to lookup
+	 * @param Plugin api Economy plugin (from moneyPlugin)
+	 * @param Player p Player to lookup
 	 *
 	 * @return int
 	 */

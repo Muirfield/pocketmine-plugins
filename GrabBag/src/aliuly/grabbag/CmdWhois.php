@@ -20,6 +20,7 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\MoneyAPI;
 
 class CmdWhois extends BasicCli implements CommandExecutor {
 
@@ -111,28 +112,11 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 			$txt[] = TextFormat::GREEN.mc::_("Registered: ").TextFormat::WHITE
 					 . ($sa->isPlayerRegistered($target) ? mc::_("YES") : mc::_("NO"));
 		}
-
-		if(($money = $pm->getPlugin("PocketMoney"))
-			|| ($money = $pm->getPlugin("GoldStd"))
-			|| ($money = $pm->getPlugin("EconomyAPI"))
-			|| ($money = $pm->getPlugin("MassiveEconomy"))){
-			switch($money->getName()){
-				case "GoldStd":
-					$money = $money->getMoney($target->getName());
-					break;
-				case "PocketMoney":
-				case "MassiveEconomy":
-					$money = $money->getMoney($target->getName());
-					break;
-				case "EconomyAPI":
-					$money = $money->mymoney($target->getName());
-					break;
-				default:
-					$money = false;
-					break;
-			}
-			if ($money)
-				$txt[]=TextFormat::GREEN.mc::_("Money: ").TextFormat::WHITE.$money;
+		$money = MoneyAPI::moneyPlugin($this->owner);
+		if ($money !== null) {
+			$txt[]=TextFormat::GREEN.mc::_("Money: ").TextFormat::WHITE.
+				MoneyAPI::getMoney($money,$target->getName()).
+				TextFormat::AQUA.mc::_(" (from %1%)",$money->getFullName());
 		}
 		return $this->paginateText($sender,$pageNumber,$txt);
 	}
