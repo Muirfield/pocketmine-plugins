@@ -1,5 +1,5 @@
 name: GoldStd
-version: 1.1.1pre2
+version: 1.1.1pre3
 main: aliuly\goldstd\Main
 api: 1.10.0
 load: POSTWORLD
@@ -16,6 +16,10 @@ commands:
     description: Display the amount of money you have
     usage: "/balance"
     permission: goldstd.cmd.balance
+  shopkeep:
+    description: Manage shop keepers in-game
+    usage: "/shopkeep [subcmd] [options]"
+    permission: goldstd.cmd.shopkeep
 
 permissions:
   goldstd.cmd.pay:
@@ -24,6 +28,9 @@ permissions:
   goldstd.cmd.balance:
     default: true
     description: "Show your current balance"
+  goldstd.cmd.shopkeep:
+    default: op
+    description: "ShopKeepr management"
   goldstd.signs.use:
     default: true
     description: "Allow access to signs"
@@ -33,6 +40,9 @@ permissions:
   goldstd.signs.use.shop:
     default: true
     description: "Allow access to shopping signs"
+  goldstd.signs.use.trade:
+    default: true
+    description: "Allow access to trading signs"
   goldstd.signs.place:
     default: op
     description: "Allow placing signs"
@@ -42,3 +52,6 @@ permissions:
   goldstd.signs.place.shop:
     default: op
     description: "Allow placing shopping signs"
+  goldstd.signs.place.trade:
+    default: op
+    description: "Allow placing trading signs"

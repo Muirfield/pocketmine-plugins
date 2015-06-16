@@ -22,7 +22,10 @@ use aliuly\goldstd\common\MoneyAPI;
 class Main extends PluginBase implements CommandExecutor {
 	protected $currency;
 	protected $trading;
+	protected $keepers;
 	protected $api;
+
+	public function getCurrency() { return $this->currency; }
 
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
@@ -42,6 +45,7 @@ class Main extends PluginBase implements CommandExecutor {
 			"defaults" => TradingMgr::defaults(),
 			"# signs" => "Text used to identify GoldStd signs",
 			"signs" => SignMgr::defaults(),
+			"shop-keepers" => ShopKeep::defaults(),
 		];
 		$cf = (new Config($this->getDataFolder()."config.yml",
 								Config::YAML,$defaults))->getAll();
@@ -74,8 +78,9 @@ class Main extends PluginBase implements CommandExecutor {
 			}
 		}
 		if ($this->currency || $cf["trade-goods"]) {
-			$this->trading = new TradingMgr($this,$this->currency,
-													  $cf["trade-goods"],$cf["defaults"]);
+			$this->trading = new TradingMgr($this,
+													  $cf["trade-goods"],
+													  $cf["defaults"]);
 		} else {
 			$this->trading = null;
 			$this->getLogger()->warning(TextFormat::RED.
@@ -86,6 +91,17 @@ class Main extends PluginBase implements CommandExecutor {
 		} else {
 			$this->getLogger()->warning(TextFormat::RED.
 											 mc::_("SignShops disabled"));
+		}
+		if ($cf["shop-keepers"]) {
+			$this->saveResource("default.skin");
+			$this->keepers = new ShopKeep($this,$cf["shop-keepers"]);
+			if (!$this->keepers->isEnabled()) {
+				$this->keepers = null;
+			}
+		} else {
+			$this->keepers = null;
+			$this->getLogger()->warning(TextFormat::RED.
+											 mc::_("Shop-Keepers disabled"));
 		}
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -130,6 +146,10 @@ class Main extends PluginBase implements CommandExecutor {
 					return true;
 				}
 				$sender->sendMessage(mc::_("You have %1%G",$this->getMoney($sender->getName())));
+				return true;
+			case "shopkeep":
+				if ($this->keepers) return $this->keepers->subCmd($sender,$args);
+				$sender->sendMessage(mc::_("shopkeep command disabled"));
 				return true;
 		}
 		return false;

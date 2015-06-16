@@ -59,6 +59,11 @@ for regular gameplay:
 * balance  
   If you are rich enough, your money will be in multiple stacks.  This
   commands will add the stacks for you.
+* shopkeep  
+  This command is used to manage shop keepers.  Sub-commands:
+  - /shopkeep spawn [player] [shop]
+    - player - Shop keepr will be spawn where this player is located.
+    - shop - shop definition from configuration file.
 
 ### Signs
 
@@ -169,19 +174,26 @@ Default values for paying players by tapping
 *  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
 
+#### shop-keepers
+
 
 ### Permission Nodes
 
 * goldstd.cmd.pay : Access to pay command
 * goldstd.cmd.balance : Show your current balance
+* goldstd.cmd.shopkeep : ShopKeepr management
+  (Defaults to Op)
 * goldstd.signs.use : Allow access to signs
 * goldstd.signs.use.casino : Allow access to casino signs
 * goldstd.signs.use.shop : Allow access to shopping signs
+* goldstd.signs.use.trade : Allow access to trading signs
 * goldstd.signs.place : Allow placing signs
   (Defaults to Op)
 * goldstd.signs.place.casino : Allow placing casino signs
   (Defaults to Op)
 * goldstd.signs.place.shop : Allow placing shopping signs
+  (Defaults to Op)
+* goldstd.signs.place.trade : Allow placing trading signs
   (Defaults to Op)
 
 
@@ -202,14 +214,26 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
+# TODO
+
+- shopkeep
+  - on scheduled basis says to people near by (send message)
+    "blah bla.. tap on me to buy"
+  - resets when they are out of range.
+  - when tapping with gold ... trade
+  - when tapping with weapon ... yell don't rob me and blast the
+    player...
+  - when tapping with something else (not gold, not weapon) show prices
+
 # Changes
 
-* 1.1.0 :
+* 1.1.1 :
   * @Achak request
     * Added goods trading
   * Added casino, shop and trading signs
   * Configuration uses strings instead of codes
   * EXPERIMENTAL: Compatible with other economy plugins
+  * First draft of ShopKeep functionality
 * 1.0.0 : First submission
 
 # Copyright

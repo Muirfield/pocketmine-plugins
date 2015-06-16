@@ -14,6 +14,7 @@ use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
 
 class SignMgr implements Listener {
+	protected $owner;
 	protected $texts;
 
 	static public function defaults() {

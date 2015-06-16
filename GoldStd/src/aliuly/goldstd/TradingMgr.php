@@ -23,7 +23,6 @@ class TradingMgr implements Listener {
 	protected $state;
 	protected $owner;
 	protected $goods;
-	protected $currency;
 	static public function defaults() {
 		return [
 			"# payment" => "default payment when tapping on a player",
@@ -33,7 +32,7 @@ class TradingMgr implements Listener {
 		];
 	}
 
-	public function __construct(Plugin $plugin,$currency,$goods,$dfts) {
+	public function __construct(Plugin $plugin,$goods,$dfts) {
 		$this->owner = $plugin;
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->goods = [];
@@ -46,7 +45,6 @@ class TradingMgr implements Listener {
 			$this->goods[$item] = $item;
 		}
 		$this->defaults = $dfts;
-		$this->currency = $currency;
 		$this->state = [];
 	}
 
@@ -95,7 +93,8 @@ class TradingMgr implements Listener {
 		if ($giver->isCreative() || $giver->isSpectator()) return;
 
 		$hand = $giver->getInventory()->getItemInHand();
-		if ($hand->getId() == $this->currency) {
+		if ($hand->getId() == $this->owner->getCurrency()
+			 && $this->owner->getCurrency()) {
 			if ($taker instanceof Player) {
 				if ($taker->isCreative() || $taker->isSpectator()) {
 					$giver->sendMessage(mc::_("No trading possible, %1% is in %2% mode",
