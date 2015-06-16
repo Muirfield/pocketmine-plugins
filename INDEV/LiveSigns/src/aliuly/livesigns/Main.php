@@ -13,7 +13,7 @@ use pocketmine\event\Listener;
 use pocketmine\utils\Config;
 
 use aliuly\livesigns\common\PluginCallbackTask;
-use aliuly\manyworlds\common\BasicPlugin;
+use aliuly\livesigns\common\BasicPlugin;
 use aliuly\livesigns\common\BasicHelp;
 use aliuly\livesigns\common\mc;
 

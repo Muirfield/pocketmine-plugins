@@ -3,7 +3,7 @@ api: 1.12.0
 load: POSTWORLD
 name: LiveSigns
 description: Sings that change contents
-version: 0.1.0
+version: 0.1.1
 author: aliuly
 
 commands:
