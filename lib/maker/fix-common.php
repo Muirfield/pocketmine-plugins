@@ -36,9 +36,20 @@ function fix_common($srcdir,$libdir,$plugin,$fix = true) {
 		$tr = [
 			"use aliuly\\common\\" => "use ".$nspath."\\common\\",
 		];
+
 		foreach (glob($srcdir."src/".$fpath."/*.php") as $php) {
 			$php_old = file_get_contents($php);
-			$php_new = strtr($php_old,$tr);
+			if (preg_match_all('/use\s+aliuly\\\.*\\\common\\\/',$php_old,$mv)) {
+				$tr2 = $tr;
+				foreach ($mv as $n) {
+					foreach ($n as $p) {
+						$tr2[$p] = "use ".$nspath."\\common\\";
+					}
+				}
+				$php_new = strtr($php_old,$tr2);
+			} else {
+				$php_new = strtr($php_old,$tr);
+			}
 			if ($php_old != $php_new) {
 				echo("Fixing ".substr($php,strlen($srcdir."src/"))."\n");
 				file_put_contents($php,$php_new);
