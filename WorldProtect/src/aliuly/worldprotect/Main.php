@@ -50,6 +50,10 @@ class Main extends BasicPlugin implements CommandExecutor {
 			"motd" => WpMotdMgr::defaults(),
 		],mc::_("/%s [world] %s %s"));
 		$this->modules[] = new WpList($this);
+		// Make sure that loaded worlds are inded loaded...
+		foreach ($this->getServer()->getLevels() as $lv) {
+			$this->loadCfg($lv);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////

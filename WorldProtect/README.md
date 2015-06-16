@@ -280,6 +280,8 @@ for sample files.
 
 # Changes
 
+* 2.0.3: Minor bug fix
+  * Fixed bug: Configuration is not applied when reloading
 * 2.0.2: Feature request
   * Feature Request(@Nifo2000): Option to control if MOTD is shown
     automatically
