@@ -74,9 +74,8 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				"COOKED_BEEF,5",
 			],
 			"# nest-egg" => "List for nest-egg",
-			"nest-egg"=>[
-				"GOLD_INGOT,64",
-			],
+			"nest-egg"=>[],
+			//"GOLD_INGOT,64",
 		];
 		if (file_exists($this->getDataFolder()."config.yml")) {
 			unset($defaults["items"]);
@@ -85,17 +84,14 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 		$cfg=(new Config($this->getDataFolder()."config.yml",
 							  Config::YAML,$defaults))->getAll();
-		if (version_compare($cfg["version"],"1.1.0") <= 0) {
+		if (version_compare($cfg["version"],"1.3.0") < 0) {
 			$this->getLogger()->warning(TextFormat::RED.mc::_("CONFIG FILE FORMAT CHANGED"));
 			$this->getLogger()->warning(TextFormat::RED.mc::_("Please review your settings"));
 		}
 		$this->tnt = $cfg["settings"]["tnt"] ? null : new TntListener($this);
 		$this->pvp = $cfg["settings"]["pvp"] ? null : new PvpListener($this);
-		$this->reserved = $cfg["settings"]["reserved"] ?
-							 new KickListener($this,$cfg["settings"]["reserved"]) :
-							 null;
-
 		$this->reserved = $cfg["settings"]["reserved"];
+
 		switch(strtolower($cfg["settings"]["spawn-mode"])) {
 			case "home":
 			case "default":
@@ -170,20 +166,15 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	}
 	public function onJoinLater($pn,$mode) {
 		$pl = $this->getServer()->getPlayer($pn);
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($pl == null) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		switch($this->spawnmode) {
 			case "world":
-				echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				$pl->teleport($pl->getLevel()->getSafeSpawn());
 				break;
 			case "always":
-				echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				$pl->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
 				break;
 			case "home":
-				echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				$this->getServer()->dispatchCommand($pl,$this->cmd);
 				break;
 		}
@@ -195,7 +186,18 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	}
 	public function onJoin(PlayerJoinEvent $e) {
 		$pl = $e->getPlayer();
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if ($this->reserved) {
+			// Reserved slots!
+			if (!$pl->hasPermission("spawnmgr.reserved")) {
+				// Check if we have exceed non-reserved slots...
+				$cnt = count($this->getServer()->getOnlinePlayers());
+				if ($cnt > ($this->getServer()->getMaxPlayers() - $this->reserved)){
+					$pl->kick("disconnectionScreen.serverFull", false);
+					return;
+				}
+			}
+		}
+
 		if (!$pl->hasPermission("spawnmgr.spawnmode")) return;
 		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"onJoinLater"],[$pl->getName()]), 10);
 	}

@@ -27,3 +27,45 @@
 * World Editing: Changes things in loaded worlds
 * Manages worlds: Load/unload/create worlds
 * Manages plugins: Load/unload/enable/disable plugins
+
+# Pending Updates
+
+- GrabBag
+- ChatScribe
+
+# Pending Submissions
+
+- LiveSigns
+
+# INDEV
+
+- GoldStd
+  - finish shopkeep
+  - testing
+- SpanwMgr
+  - finalize it
+  - testing
+- libcommon
+  - documentation
+  - versioning
+
+# Pending
+
+- FireBlade
+
+# Move
+
+- ZipPluginLoader
+- ToyBox (and pending dev)
+
+# Pending Approval
+
+- BasicHUD
+- NetherChests
+
+# Discontinue
+
+- AutoHeal
+- LocalChat (to bad) and delete posting
+- LIAB
+- NotSoFlat - move to bad

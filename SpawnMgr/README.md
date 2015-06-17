@@ -25,7 +25,7 @@ question/bug-report/request please use the
 for that.  You are more likely to get a response and help that way.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SpawnMgr)
 for the most up-to-date documentation.
 
 Let's you control how your players spawn on your server.
@@ -59,7 +59,7 @@ settings:
   # PvP allowed in spawn area, set false to disallow
   pvp: true
   # If true, allows Ops to join full servers, set to a number to allow
-  # only the specified number of extra slots (above max slots)
+  # only the specified number of slots reserved for VIPs
   reserved: false
   # spawn-mode: can be one of the following:
   # - *default* : when joining will start at the last location.
@@ -114,9 +114,10 @@ when the player joins.
 
 Changes
 -------
-* 1.3.0: ????
+* 1.3.0: maintenance update
   * added /back command
   * added translation: spanish
+  * fixed the reserved slots (similar to VIPslots, but different code...)
 * 1.2.0:
   * Additional inventory on death options
   * Added Nest-Egg feature
