@@ -2,12 +2,12 @@
 namespace aliuly\common;
 
 /**
- * Simple translation class in the style of "gettext".
+ * Simple translation class in the style of **gettext**.
  *
- * You can actually use "gettext" tools to process these files.
+ * You can actually use **gettext** tools to process these files.
  * For example, to create/update a message catalogue use:
  *
- * xgettext --no-wrap [-j] [-o file]
+ * `xgettext --no-wrap [-j] [-o file]`
  *
  * Where -j is used to join an existing catalague.
  * -o file is the output file.
