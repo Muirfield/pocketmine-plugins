@@ -27,6 +27,10 @@
 * Manages worlds: Load/unload/create worlds
 * Manages plugins: Load/unload/enable/disable plugins
 
+# GitHub pages
+
+* Checkout gh-pages
+
 # Pending Updates
 
 - GrabBag
