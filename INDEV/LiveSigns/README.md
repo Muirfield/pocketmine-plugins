@@ -141,12 +141,15 @@ The following sections are defined:
 
 * livesigns.cmd : Main livesign command
   (Defaults to Op)
-* livesings.cmd.addrm : Update livesign
+* livesigns.cmd.addrm : Update livesign
   (Defaults to Op)
-* livesings.cmd.info : Show status of livesigns
-* livesings.cmd.update : Refresh livesigns
+* livesigns.cmd.info : Show status of livesigns
+* livesigns.cmd.update : Refresh livesigns
   (Defaults to Op)
-* livesings.cmd.broadcast : Broadcast livesigns in chat
+* livesigns.cmd.broadcast : Broadcast livesigns in chat
+  (Defaults to Op)
+* floatsigns.cmd.ftls : Show floating signs
+* floatsigns.cmd.addrm : Show floating signs
   (Defaults to Op)
 
 

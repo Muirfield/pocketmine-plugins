@@ -7,7 +7,7 @@ use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 
 use aliuly\livesigns\common\mc;
-use aliuly\common\MPMU;
+use aliuly\livesigns\common\MPMU;
 use aliuly\livesigns\common\BasicCli;
 
 
