@@ -31,11 +31,15 @@
 
 * Checkout gh-pages
 
-# Pending Updates
+# Pending Approval
 
 - GrabBag
 - ChatScribe
 - SpanwMgr
+- ZipPluginLoader
+
+- BasicHUD
+- NetherChests
 
 # INDEV
 
@@ -50,21 +54,14 @@
 
 # Pending
 
-- FireBlade
 
 # Move
 
-- ZipPluginLoader
 - ToyBox (and pending dev)
-
-# Pending Approval
-
-- BasicHUD
-- NetherChests
+- FireBlade (and pendinv dev)
 
 # Discontinue
 
 - AutoHeal
 - LocalChat (to bad) and delete posting
 - LIAB
-- NotSoFlat - move to bad

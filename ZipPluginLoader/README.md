@@ -9,7 +9,7 @@
 * OptionalPlugins: -
 * Categories: Developer Tools
 * Plugin Access: Manages plugins
-* WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/ZipPluginLoader)
+* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
 
 ## Overview
 
