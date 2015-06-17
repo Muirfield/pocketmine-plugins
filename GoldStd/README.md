@@ -67,7 +67,7 @@ for regular gameplay:
 
 ### Signs
 
-RunePvP supports three types of signs.
+GoldStd supports three types of signs.
 
 1. Shop signs
 2. Gambling signs
@@ -128,7 +128,7 @@ Examples:
 
 #### Trading Sings
 
-Tap a sign and you can trade items. 
+Tap a sign and you can trade items.
 Place a sign with the following text:
 
     [CODE]

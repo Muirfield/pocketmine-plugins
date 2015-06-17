@@ -1,4 +1,3 @@
-
 # Plugin Access
 
 * Internet Services: Any access to internet that is not done as the
@@ -32,18 +31,15 @@
 
 - GrabBag
 - ChatScribe
-
-# Pending Submissions
-
-- LiveSigns
+- SpanwMgr
 
 # INDEV
 
+- LiveSigns
+  - Add floating text
 - GoldStd
   - finish shopkeep
-  - testing
-- SpanwMgr
-  - finalize it
+  - shopkeep settings in config.yml, shopkeep defintions in shops.yml
   - testing
 - libcommon
   - documentation

@@ -24,7 +24,7 @@ use pocketmine\plugin\Plugin;
 
 /**
  * Allows the creation of simple callbacks with extra data
- * The last parameter in the callback will be this object
+ * The last parameter in the callback will be the "currentTicks"
  *
  */
 class PluginCallbackTask extends PluginTask{
