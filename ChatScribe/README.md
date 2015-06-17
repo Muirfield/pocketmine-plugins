@@ -79,7 +79,7 @@ The following sections are defined:
 
 ## Changes
 
-* 1.2.0:
+* 1.2.0: in-game logging and fixes
   * Added in-game logging (remote helpdesk support)
   * Added a warning that logging is available
 * 1.0.1:
