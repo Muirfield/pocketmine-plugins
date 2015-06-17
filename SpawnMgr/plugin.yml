@@ -28,10 +28,10 @@ permissions:
     default: true
     description: "allows to receive items when you register to SimpleAuth"
   spawnmgr.keepinv:
-    default: true
+    default: false
     description: "allow player to keep inventory"
   spawnmgr.nodrops:
-    default: true
+    default: false
     description: "player will not drop inventory on death"
   spawnmgr.spawnmode:
     default: true

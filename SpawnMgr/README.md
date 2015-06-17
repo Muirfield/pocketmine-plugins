@@ -1,7 +1,6 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/spawnicon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-SpawnMgr
-=======
+# SpawnMgr
 
 * Summary: Better control of how players spawn
 * Dependency Plugins: n/a
@@ -12,8 +11,7 @@ SpawnMgr
 * Plugin Access: Other Plugins, Items
 * WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SpawnMgr)
 
-Overview
---------
+## Overview
 
 **PLEASE DELETE YOUR OLD CONFIGURATION FILE AS THE FORMAT HAS BEEN CHANGED**
 
@@ -41,79 +39,67 @@ Supports:
 * spawn with items
 * SimpleAuth nest-egg's
 
-Documentation
--------------
+## Documentation
 
 Control spawn settings in your server.
 
-### Configuration
+## Config notes
 
-Configuration is through the `config.yml` file:
-
-~~~YAML
-[CODE]
----
-settings:
-  # Explosions allowed in spawn area, set false to disallow
-  tnt: true
-  # PvP allowed in spawn area, set false to disallow
-  pvp: true
-  # If true, allows Ops to join full servers, set to a number to allow
-  # only the specified number of slots reserved for VIPs
-  reserved: false
-  # spawn-mode: can be one of the following:
-  # - *default* : when joining will start at the last location.
-  # - *world* : when joining will always start at the last world
-  #    spawn point.
-  # - *always* : when joining will always start at the default world
-  #     spawn point.
-  # - *home* : when joining will start at your home location.
-  spawn-mode: default
-  # on-death-inv allows the following values:
-  # - false : player drops all items on the spot (default)
-  # - keep : player keeps inventory
-  # - clear : player loses all inventory but nothing gets dropped
-  # - perms : Will use spawnmgr.keepinv and spawnmgr.nodrops to
-  #    determine results
-  on-death-inv: false
-  # If spawn-mode is *home*, this is the command to use to teleport
-  # player to their home.  Requires an plugin that implements /home
-  # functionality
-  home-cmd: /home
-# List of armor elements
-armor:
-- chain_chestplate
-- leather_pants
-- leather_boots
-# List of initial inventory
-items:
-- STONE_SWORD,1
-- WOOD,16
-- COOKED_BEEF,5
-# Nest Egg, granted to the player when they register through SimpleAuth
-nest-egg:
-- GOLD_INGOT,10
-...
-[/CODE]
-~~~
+* **spawn-mode**: Spawn mode settings can be one of the following:
+  - *default* : when joining will start at the last location.
+  - *world* : when joining will always start at the last world
+    spawn point.
+  - *always* : when joining will always start at the default world
+    spawn point.
+  - *home* : when joining will start at your home location.
+* **on-death-inv** allows the following values:
+ - *false* : player drops all items on the spot (default)
+ - *keep* : player keeps inventory
+ - *clear* : player loses all inventory but nothing gets dropped
+ - *perms* : Will use spawnmgr.keepinv and spawnmgr.nodrops to
+   determine results
 
 **NOTE**: The *home* *spawn-mode* requires you to have a */home*
 plugin that provides with a `/home` command.  This command is executed
 when the player joins.
 
-### Permission Nodes:
+### Configuration
 
-* spawnmgr.receive.armor: allows to receive armor when you spawn
-* spawnmgr.receive.items: allows to receive items when you spawn
-* spawnmgr.receive.nestegg: allows to receive items when you register
-  to SimpleAuth
-* spawnmgr.keepinv: allows player to keep inventory
-* spawnmgr.nodrops: players with this permission do not drop items on death
-* spawnmgr.spawnmode: player will follow spawn-control setting
-* spawnmgr.reserved: Players is allowed to join full servers
+Configuration is throug the `config.yml` file.
+The following sections are defined:
 
-Changes
--------
+#### main
+
+*  settings: Tunable parameters
+	*  tnt: true, allows explosion in spawn, false disallows it
+	*  pvp: true, allows pvp in spawn, false disallows it
+	*  reserved: number of reserved vip slots, false to disable
+	*  spawn-mode: default|world|always|home
+	*  on-death-inv: false|keep|clear|perms
+	*  home-cmd: command to use when spawn-mode is home
+	*  death-pos: Save death location
+*  armor: List of armor elements
+*  items: List of initial inventory
+*  nest-egg: List for nest-egg
+
+
+### Permission Nodes
+
+* spawnmgr.back : allows to return to death location
+* spawnmgr.receive.armor : allows to receive armor when you spawn
+* spawnmgr.receive.items : allows to receive items when you spawn
+* spawnmgr.receive.nestegg : allows to receive items when you register to SimpleAuth
+* spawnmgr.keepinv : allow player to keep inventory
+  _(Defaults to disabled)_
+* spawnmgr.nodrops : player will not drop inventory on death
+  _(Defaults to disabled)_
+* spawnmgr.spawnmode : player will follow spawn-control setting
+* spawnmgr.reserved : Players is allowed to join full servers
+  (Defaults to Op)
+
+
+# Changes
+
 * 1.3.0: maintenance update
   * added /back command
   * added translation: spanish
@@ -126,8 +112,7 @@ Changes
   * rewrite to remove offending code.
 * 1.0.0 : First public release
 
-Copyright
----------
+# Copyright
 
     SpawnMgr
     Copyright (C) 2015 Alejandro Liu
@@ -147,3 +132,4 @@ Copyright
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+
