@@ -11,20 +11,17 @@ basic2:
   content: You can use LiveSigns to have dynamic signs in Minecraft
 file:
   type: file
-  no-fill: true
   content: welcome.txt
-web1:
-  type: url
-  content: http://www.randomtext.me/download/txt/
-web2:
+fortune:
   type: url
   content:  http://tonycode.com/service/fortune-0.1/fortune.php
 rss:
   type: rss
-  content: http://forums.pocketmine.net/forums/-/index.rss
+  content:
+  - http://forums.pocketmine.net/forums/-/index.rss
 #
 # You need to configure your twitter account before using this
-# 
+#
 #twitter:
 #  type: twitter
 #  content: PocketMine

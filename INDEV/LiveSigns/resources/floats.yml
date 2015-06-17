@@ -1,0 +1,8 @@
+#
+# Floating Text examples
+#
+world:
+- pos: "128:-2:128"
+  text: fortune
+- pos: "100:100:100"
+  text: file
