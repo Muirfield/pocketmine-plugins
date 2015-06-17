@@ -635,7 +635,7 @@ for sample files.
 
 # Changes
 
-* 2.2.1: Misc fixes and new fetures
+* 2.2.1: Misc fixes and new features
   * New Command:
     * skin : manipulate skins
     * invis : make player invisible
