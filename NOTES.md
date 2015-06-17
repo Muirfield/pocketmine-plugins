@@ -47,7 +47,6 @@
   - testing
 - libcommon
   - documentation
-  - versioning
 
 # Pending
 
