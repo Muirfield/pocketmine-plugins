@@ -21,7 +21,7 @@ question/bug-report/request please use the
 that.  You are more likely to get a response and help that way.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe)
 for the most up-to-date documentation.
 
 Let's you log all commands and chat's to files.
