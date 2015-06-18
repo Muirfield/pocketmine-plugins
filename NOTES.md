@@ -35,7 +35,7 @@
 
 - GrabBag
 - ChatScribe
-- SpanwMgr
+- SpawnMgr
 - ZipPluginLoader
 
 - BasicHUD
@@ -44,7 +44,6 @@
 # INDEV
 
 - LiveSigns
-  - Add floating text
 - GoldStd
   - finish shopkeep
   - shopkeep settings in config.yml, shopkeep defintions in shops.yml

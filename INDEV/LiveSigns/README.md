@@ -215,9 +215,10 @@ The following sections are defined:
   (Defaults to Op)
 * livesigns.cmd.broadcast : Broadcast livesigns in chat
   (Defaults to Op)
-* floatsigns.cmd.show : Show floating signs
+* floatsigns.cmd.ls : Show floating signs
 * floatsigns.cmd.addrm : Show floating signs
   (Defaults to Op)
+
 
 # Changes
 
