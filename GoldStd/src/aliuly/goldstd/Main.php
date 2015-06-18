@@ -35,7 +35,7 @@ class Main extends PluginBase implements CommandExecutor {
 			"version" => $this->getDescription()->getVersion(),
 			"# settings" => "features",
 			"settings" => [
-				"# currency" => "Item to use for currency",
+				"# currency" => "Item to use for currency",// false or zero disables currency exchange.
 				"currency" => "GOLD_INGOT",
 				"# signs" => "set to true to enable shops|casino signs",
 				"signs" => true,

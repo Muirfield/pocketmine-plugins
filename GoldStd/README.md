@@ -169,7 +169,7 @@ Default values for paying players by tapping
 #### main
 
 *  settings: features
-	*  currency: Item to use for currency
+	*  currency: Item to use for currency false or zero disables currency exchange.
 	*  signs: set to true to enable shops|casino signs
 *  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
