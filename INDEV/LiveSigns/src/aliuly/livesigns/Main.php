@@ -42,6 +42,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->saveResource("signs.yml");
 		$this->saveResource("welcome.txt");
 		$this->saveResource("floats.yml");
+		$this->saveResource("tops.php");
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -139,11 +140,27 @@ class Main extends BasicPlugin implements CommandExecutor {
 		}
 		$this->scheduleRetrieve();
 	}
+	private function getText($id) {
+		if (isset($this->signsCfg[$id]) && isset($this->signsCfg[$id]["type"]) &&
+			 strtolower($this->signsCfg[$id]["type"]) == "php") {
+			// It is PHP script!
+			$plugin = $this;
+			$server = $this->getServer();
+			$logger = $this->getLogger();
+			ob_start();
+			eval("?>".implode("\n",$this->signsTxt[$id]["text"]));
+			//$t = ob_get_clean();
+			//echo $t;//##DEBUG
+			//return explode("\n",$t);
+			return  explode("\n",ob_get_clean());
+		}
+		return $this->signsTxt[$id]["text"];
+	}
 	public function getLiveText($id,$opts) {
 		if (!isset($this->signsTxt[$id])) return null;
 		if ($opts == null) {
 			// Default is to do nothing,
-			return $this->signsTxt[$id]["text"];
+			return $this->getText($id);
 		}
 		$opts = ",$opts,";
 		$width = 75; $wrapper = "wwrap";
@@ -154,7 +171,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 					 '/,char,/i' => "wrap"] as $re=>$mode) {
 			if (preg_match($re,$opts)) $wrapper = $mode;
 		}
-		$stx = $this->signsTxt[$id]["text"];
+		$stx = $this->getText($id);
 		$stx  = explode("\n",TextWrapper::$wrapper(implode("\n",$stx),$width));
 		return $stx;
 	}
@@ -169,12 +186,13 @@ class Main extends BasicPlugin implements CommandExecutor {
 		switch (strtolower($sign[3])) {
 			case "raw":
 			case "none":
-				$stx = $this->signsTxt[$i]["text"];
+				$stx = $this->getText($id);
 				break;
 			case "word":
-				$stx = explode("\n",TextWrapper::wwrap(implode("\n",$this->signsTxt[$i]["text"])));
+				$stx = explode("\n",TextWrapper::wwrap(implode("\n",$this->getText($id))));
+				break;
 			default:
-				$stx = explode("\n",TextWrapper::wrap(implode("\n",$this->signsTxt[$i]["text"])));
+				$stx = explode("\n",TextWrapper::wrap(implode("\n",$this->getText($id))));
 				break;
 		}
 

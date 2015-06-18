@@ -52,7 +52,7 @@ class ParticleTxt implements Listener{
 						if (!$level) continue;
 						$y = $level->getHighestBlockAt($x,$z) - $y;
 					}
-					$pp = new FloatingTextParticle(new Vector3($x,$y,$z),$text);
+					$pp = new FloatingTextParticle(new Vector3($x,$y,$z),"",$text);
 					if($level) $level->addParticle($pp);
 					$this->particles[$world][$id] = [
 						"particle" => $pp,

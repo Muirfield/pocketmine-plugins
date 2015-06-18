@@ -4,6 +4,7 @@ use \pocketmine\scheduler\AsyncTask;
 use \pocketmine\Server;
 use aliuly\livesigns\fetcher\Text;
 use aliuly\livesigns\fetcher\File;
+use aliuly\livesigns\fetcher\Scriptlet;
 use aliuly\livesigns\fetcher\Url;
 use aliuly\livesigns\fetcher\Rss;
 use aliuly\livesigns\fetcher\Tweet;
@@ -31,6 +32,9 @@ class FetchTask extends AsyncTask {
 				break;
 			case "file":
 				$fetcher = File::class;
+				break;
+			case "php":
+				$fetcher = Scriptlet::class;
 				break;
 			case "url":
 				$fetcher = Url::class;

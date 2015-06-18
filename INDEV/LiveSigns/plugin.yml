@@ -3,7 +3,7 @@ api: 1.12.0
 load: POSTWORLD
 name: LiveSigns
 description: Signs that change contents
-version: 0.1.1
+version: 0.1.2
 author: aliuly
 
 commands:
@@ -34,7 +34,7 @@ permissions:
   livesigns.cmd.broadcast:
     default: op
     description: Broadcast livesigns in chat
-  floatsigns.cmd.ftls:
+  floatsigns.cmd.ls:
     default: true
     description: Show floating signs
   floatsigns.cmd.addrm:

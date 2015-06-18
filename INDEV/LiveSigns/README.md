@@ -13,8 +13,9 @@
 
 ## Overview
 
-LiveSings is a plugin to display texts in signs from a number of
-sources and can change automatically as the sources change.
+LiveSings is a plugin to display texts in signs or as floating text
+from a number of sources and can change automatically as the sources
+change.
 
 Currently available sources:
 
@@ -23,8 +24,9 @@ Currently available sources:
 * web url
 * RSS feed
 * Twitter feed
+* php scripts
 
-A sample configuration files are provided to get you started.  Basic
+Sample configuration files are provided to get you started.  Basic
 usage is that you create a LiveSign source, and assign it an id.  Then
 in the game you place a sign with that id, and it will start
 displaying it.
@@ -34,13 +36,44 @@ Sign Format:
 * **[livesign]**
 * _id_
 * _line:step_
+* _options_
 
 The entry _line:step_ is optional and is used to have multi-sign
 messages.
 
+Also _options_ can be omitted, but can be one of the following:
+
+* **raw** or **none** : Will **not** do any wrapping of long lines.
+  Signs can use colors.
+* **word** : Will wrap long lines at word boundaries.  No colours are
+  allowed.
+
+If omitted, long lines will be wrapped, with colours stripped.
+
+You can cleat floating text signs.  To do this use:
+
+* /fs add [x,y,z[:world]|player] idtxt
+
+Where:
+
+* x,y,z - are position coordinates
+* world - is the target world
+* player - is a player where to spawn the text
+* idtxt - is the configured LiveSign to span.
+
+Examples:
+
+* /fs add 128,-2,128 basic1
+  - creates FloatingText for LiveSign basic1 2 blocks above ground
+* /fs add 128,100,128:world basic2
+  - creates FloatingText for LiveSign basic1 in world, at that position
+* /fs add myname file
+  - creates FloatingText at the position of player.
+
 ## Documentation
 
-Use the **/livesign** command to access the plugin functionality.  The following sub-commands are available:
+Use the **/livesign** command to access the plugin functionality.  The
+following sub-commands are available:
 
 * **cfg** _[id]_
    * show the configured sources
@@ -59,24 +92,58 @@ Use the **/livesign** command to access the plugin functionality.  The following
 * **announce** _<id>_
    * broadcast the livesign on the chat
 
+The command **/floatsign** is used to manage floating text.  The
+following sub-commands are available:
+
+* **ls** _[world]_
+  * Show the signs in the given _world_.
+* **add** _[x,y,z[:world]|player]_ _<idtxt>_
+  * Creates a sign
+* **rm** _<x,y,z[:world]|player|[world] idtxt>_
+  * Remove sign
+
 ### LiveSign sources
+
+LiveSign sources can be created using the **/livesign** command or by
+modifying **signs.yml**.  The following sources are possible:
 
 * text
   * This is text embedded in the signs.yml file.  Can be
-     a single line, or if multiple lines are needed, then
-    you can provide them as a list.
+    a single line, or if multiple lines are needed, then
+   you can provide them as a list.
 * file
   * Points to a file in the plugin directory.
 * url
   * points to a URL that will be fetched.
 * rss
   * points to an URL to an RSS feed.  The content
-     must contain the URL.  You can optionally provide
-     additional settings to select an item from a feed or
-     the atom to display
+    must contain the URL.  You can optionally provide
+    additional settings to select an item from a feed or
+    the atom to display
 * twitter
   * points to a twitter feed.  You can optional provide
-     a number which picks the update.
+    a number which picks the update.
+* php
+  * points to a file in the plugin directory that will be executed as
+    a php script.
+
+### Floating text
+
+Floating text can be created using **/floatsign** or by editing
+**floats.yml**.
+
+This file contains entries as follows:
+
+* pos: x:y:z
+  * position where to place the text
+* text: idtxt
+  * id as defined in **signs.yml**.
+* opts: _options_
+  * Optional, can be omitted.  Contains comma separated options.  The
+    following options are possible:
+    * width=nn : Sets the word wrap width to _nn_.  Defaults to 75.
+    * word : wrap at word boundaries
+    * char : wrap per character
 
 ### Enabling Twitter feeds
 
@@ -148,10 +215,9 @@ The following sections are defined:
   (Defaults to Op)
 * livesigns.cmd.broadcast : Broadcast livesigns in chat
   (Defaults to Op)
-* floatsigns.cmd.ftls : Show floating signs
+* floatsigns.cmd.show : Show floating signs
 * floatsigns.cmd.addrm : Show floating signs
   (Defaults to Op)
-
 
 # Changes
 

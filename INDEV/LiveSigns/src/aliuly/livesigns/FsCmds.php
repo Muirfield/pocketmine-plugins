@@ -14,23 +14,13 @@ use aliuly\livesigns\common\BasicCli;
 class FsCmds extends BasicCli {
 	public function __construct($owner) {
 		parent::__construct($owner);
-		/*
-		$this->enableSCmd("ftls",["usage"=> mc::_("[world]"),
-										  "help" => mc::_("List floating signs"),
-										  "permssion" => "livesigns.cmd.ftls"]);
-		$this->enableSCmd("ftadd",["usage"=> mc::_("[x,y,z[:world]|player] <idtxt>"),
-											"help" => mc::_("Add Floating Sign"),
-											"permission" => "livesigns.cmd.addrm"]);
-		$this->enableSCmd("ftrm",["usage"=> mc::_("[x,y,z[:world]|player [radius]|[world] id"),
-											"help" => mc::_("Remove Floating Sign"),
-											"permission" => "livesigns.cmd.addrm"]);
-		*/
 	}
 	public function onSCmd(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		$scmd = strtolower(array_shift($args));
 		switch($scmd) {
 			case "ls":
+				if (!MPMU::access($c,"floatsigns.cmd.ls")) return true;
 				$pageNumber = $this->getPageNumber($args);
 				$cfg = $this->owner->getFloats()->getCfg();
 				$pps = $this->owner->getFloats()->getParticles();
@@ -64,6 +54,7 @@ class FsCmds extends BasicCli {
 				}
 				return $this->paginateText($c,$pageNumber,$txt);
 			case "add":
+				if (!MPMU::access($c,"floatsigns.cmd.addrm")) return true;
 				if (count($args) == 0) return false;
 				if (($pl=$this->owner->getServer()->getPlayer($args[0])) !== null){
 					$pos = $pl;
@@ -102,6 +93,7 @@ class FsCmds extends BasicCli {
 				$this->owner->getFloats()->addFloat($pos,$text,null);
 				return true;
 			case "rm":
+				if (!MPMU::access($c,"floatsigns.cmd.addrm")) return true;
 				if (count($args) == 0) return false;
 				$cfg = $this->owner->getFloats()->getCfg();
 				$signs = $this->owner->getSignCfg();
