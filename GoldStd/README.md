@@ -2,9 +2,9 @@
 
 # GoldStd
 
-* Summary: A different economy plugin
+* Summary: Gold based economy plugin
 * Dependency Plugins: N/A
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Economy
