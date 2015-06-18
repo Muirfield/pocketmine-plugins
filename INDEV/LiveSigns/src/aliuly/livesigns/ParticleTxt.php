@@ -138,7 +138,7 @@ class ParticleTxt implements Listener{
 		$to = $ev->getTo();
 		if (!$to->getLevel()) return;
 		$level = $to->getLevel();
-		if (!$this->particles[$level->getName()]) return;
+		if (!isset($this->particles[$level->getName()])) return;
 		foreach ($this->particles[$level->getName()] as $id=>$ppt) {
 			$level->addParticle($ppt["particle"]);
 		}
