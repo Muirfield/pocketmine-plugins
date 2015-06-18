@@ -2,9 +2,9 @@
 
 # LiveSigns
 
-* Summary: Display updating messages on signs
+* Summary: Signs that change contents
 * Dependency Plugins: N/A
-* PocketMine-MP version: 1.5 - API 1.12.0
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Informational
@@ -14,7 +14,7 @@
 ## Overview
 
 **NOTE:**
-This documentation was last updated for version *0.0.0*.
+This documentation was last updated for version *0.1.2*.
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/************)
 for the most up-to-date documentation.

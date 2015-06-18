@@ -129,18 +129,49 @@ class ParticleTxt implements Listener{
 	}
 	public function updateTimer() {
 		$this->factory();
+		// respawn floating signs
+		/*
+		  // Not sure if this is needed.
+		foreach ($this->owner->getServer()->getLevels() as $lv) {
+			$w = $lv->getName();
+			if (!isset($this->particles[$w])) continue;
+			if (count($lv->getPlayers()) == 0) continue;
+			foreach ($this->particles[$w] as $id=>$ppt) {
+				$lv->addParticle($ppt["particle"]);
+			}
+			}*/
 	}
 
 	public function onTeleport(EntityTeleportEvent $ev) {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
-		$to = $ev->getTo();
-		if (!$to->getLevel()) return;
-		$level = $to->getLevel();
-		if (!isset($this->particles[$level->getName()])) return;
-		foreach ($this->particles[$level->getName()] as $id=>$ppt) {
-			$level->addParticle($ppt["particle"]);
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		if ($ev->getTo()->getLevel() == null) return;
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
+			new PluginCallbackTask($this->owner,[$this,"afterTeleport"],
+										  [$pl,
+											$ev->getFrom()->getLevel(),
+											$ev->getTo()->getLevel()]),
+			10
+		);
+	}
+	public function afterTeleport($pl,$from,$to) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		foreach ([[$from,true],[$to,false]] as $j) {
+			list($level,$invis) = $j;
+			if ($level == null) continue;
+			if ($invis && $from == $to) continue;
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			if ($invis) echo "DESPAWNING\n";//##DEBUG
+			if (!isset($this->particles[$level->getName()])) continue;
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			foreach ($this->particles[$level->getName()] as $ppt) {
+				echo __METHOD__.",".__LINE__."\n";//##DEBUG
+				if ($invis) $ppt["particle"]->setInvisible();
+				$level->addParticle($ppt["particle"],[$pl]);
+				if ($invis) $ppt["particle"]->setInvisible(false);
+			}
 		}
 	}
 
