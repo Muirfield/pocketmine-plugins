@@ -79,17 +79,17 @@ following sub-commands are available:
    * show the configured sources
 * **show** _[id]_
    * show the retrieved texts
-* **set** _<id>_ _<type>_ _<content>_
+* **set** _&lt;id&gt;_ _&lt;type&gt;_ _&lt;content&gt;_
    * create a new source with _id_.  See source types for the _type_.
-* **rm** _<id>_
+* **rm** _&lt;id&gt;_
    * remove a livesign source
-* **update** _<id>_
+* **update** _&lt;id&gt;_
    * retrieve again the text for the specified source.
-* **reload** _<id>_
+* **reload** _&lt;id&gt;_
    * reload signs configuration.
 * **status**
    * show status of async task
-* **announce** _<id>_
+* **announce** _&lt;id&gt;_
    * broadcast the livesign on the chat
 
 The command **/floatsign** is used to manage floating text.  The
@@ -97,9 +97,9 @@ following sub-commands are available:
 
 * **ls** _[world]_
   * Show the signs in the given _world_.
-* **add** _[x,y,z[:world]|player]_ _<idtxt>_
+* **add** _[x,y,z[:world]|player]_ _&lt;idtxt&gt;_
   * Creates a sign
-* **rm** _<x,y,z[:world]|player|[world] idtxt>_
+* **rm** _&lt;x,y,z[:world]|player|[world] idtxt&gt;_
   * Remove sign
 
 ### LiveSign sources
