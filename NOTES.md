@@ -27,41 +27,39 @@
 * Manages worlds: Load/unload/create worlds
 * Manages plugins: Load/unload/enable/disable plugins
 
-# Pending Updates
+# GitHub pages
+
+* Checkout gh-pages
+
+# Pending Approval
 
 - GrabBag
 - ChatScribe
-- SpanwMgr
+- SpawnMgr
+- ZipPluginLoader
+
+- BasicHUD
+- NetherChests
 
 # INDEV
 
-- LiveSigns
-  - Add floating text
+- LiveSigns - testing
 - GoldStd
   - finish shopkeep
   - shopkeep settings in config.yml, shopkeep defintions in shops.yml
   - testing
 - libcommon
   - documentation
-  - versioning
 
 # Pending
 
-- FireBlade
-
 # Move
 
-- ZipPluginLoader
 - ToyBox (and pending dev)
-
-# Pending Approval
-
-- BasicHUD
-- NetherChests
+- FireBlade (and pendinv dev)
 
 # Discontinue
 
 - AutoHeal
 - LocalChat (to bad) and delete posting
 - LIAB
-- NotSoFlat - move to bad

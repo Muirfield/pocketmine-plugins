@@ -1,5 +1,5 @@
 <?php
-namespace aliuly\spawnmgr\common;
+namespace aliuly\livesigns\common;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\MainLogger;

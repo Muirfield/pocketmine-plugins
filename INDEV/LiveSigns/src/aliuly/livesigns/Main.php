@@ -25,6 +25,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 	protected $signsTxt;		// preprocessed sign text
 	protected $cmds;			// Contains command implementations
 	protected $fetchcfg;		// Fetcher Configuration
+	protected $floats;		// Floating text handler
 
 	public function onDisable() {
 		if ($this->fetcher !== null && !$this->fetcher->isFinished()) {
@@ -40,6 +41,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 
 		$this->saveResource("signs.yml");
 		$this->saveResource("welcome.txt");
+		$this->saveResource("floats.yml");
+		$this->saveResource("tops.php");
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -89,8 +92,11 @@ class Main extends BasicPlugin implements CommandExecutor {
 			new PluginCallbackTask($this,[$this,"expireCache"],[$cf["settings"]["cache-signs"]]),$cf["settings"]["expire-cache"]
 		);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new TileUpdTask($this),$cf["settings"]["tile-updates"]);
+
+		$this->floats = new ParticleTxt($this,$cf["settings"]["tile-updates"]);
 		$this->cmds = [
 			new LsCmds($this),
+			"fs"=>new FsCmds($this),
 			new BasicHelp($this),
 		];
 	}
@@ -134,10 +140,62 @@ class Main extends BasicPlugin implements CommandExecutor {
 		}
 		$this->scheduleRetrieve();
 	}
+	private function getText($id) {
+		if (isset($this->signsCfg[$id]) && isset($this->signsCfg[$id]["type"]) &&
+			 strtolower($this->signsCfg[$id]["type"]) == "php") {
+			// It is PHP script!
+			$plugin = $this;
+			$server = $this->getServer();
+			$logger = $this->getLogger();
+			ob_start();
+			eval("?>".implode("\n",$this->signsTxt[$id]["text"]));
+			//$t = ob_get_clean();
+			//echo $t;//##DEBUG
+			//return explode("\n",$t);
+			return  explode("\n",ob_get_clean());
+		}
+		return $this->signsTxt[$id]["text"];
+	}
+	public function getLiveText($id,$opts) {
+		if (!isset($this->signsTxt[$id])) return null;
+		if ($opts == null) {
+			// Default is to do nothing,
+			return $this->getText($id);
+		}
+		$opts = ",$opts,";
+		$width = 75; $wrapper = "wwrap";
+		if (preg_match('/,width=(\d+),/',$opts,$mv)) {
+			$width = $mv[1];
+		}
+		foreach (['/,word,/i' => "wwrap",
+					 '/,char,/i' => "wrap"] as $re=>$mode) {
+			if (preg_match($re,$opts)) $wrapper = $mode;
+		}
+		$stx = $this->getText($id);
+		$stx  = explode("\n",TextWrapper::$wrapper(implode("\n",$stx),$width));
+		return $stx;
+	}
 	public function getLiveSign($sign) {
 		if (!isset($this->texts[$sign[0]])) return null;
 		$id = trim($sign[1]);
 		if (!isset($this->signsTxt[$id])) return null;
+
+		// We fold lines by default, unless
+		// line4 has - raw or word
+
+		switch (strtolower($sign[3])) {
+			case "raw":
+			case "none":
+				$stx = $this->getText($id);
+				break;
+			case "word":
+				$stx = explode("\n",TextWrapper::wwrap(implode("\n",$this->getText($id))));
+				break;
+			default:
+				$stx = explode("\n",TextWrapper::wrap(implode("\n",$this->getText($id))));
+				break;
+		}
+
 		$text = [ "","","","" ];
 		$i = 0; $s = 1; $j = 0;
 		if (preg_match('/^\s*(\d+):(\d+)\s*$/',$sign[2],$mv)) {
@@ -145,8 +203,8 @@ class Main extends BasicPlugin implements CommandExecutor {
 			$s = $mv[2];
 			if ($s < 1) $s = 1;
 		}
-		while ($i < count($this->signsTxt[$id]["text"]) && $j < 4) {
-			$text[$j++] = $this->signsTxt[$id]["text"][$i];
+		while ($i < count($stx) && $j < 4) {
+			$text[$j++] = $stx[$i];
 			$i += $s;
 		}
 		return $text;
@@ -174,6 +232,9 @@ class Main extends BasicPlugin implements CommandExecutor {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+		if ($cmd->getName() == "floatsigns") {
+			return $this->cmds["fs"]->onSCmd($sender,$args);
+		}
 		if ($cmd->getName() != "livesigns") return false;
 		if (count($args) == 0) return false;
 		return $this->dispatchSCmd($sender,$cmd,$args);
@@ -215,4 +276,6 @@ class Main extends BasicPlugin implements CommandExecutor {
 		}
 		return $txt;
 	}
+	public function getFloats() { return $this->floats; }
+
 }

@@ -1,5 +1,5 @@
 name: ChatScribe
-version: 1.2.0pre1
+version: 1.2.0
 main: aliuly\chatscribe\Main
 api: 1.10.0
 load: POSTWORLD

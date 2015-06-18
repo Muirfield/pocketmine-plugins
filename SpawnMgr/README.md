@@ -13,8 +13,6 @@
 
 ## Overview
 
-**PLEASE DELETE YOUR OLD CONFIGURATION FILE AS THE FORMAT HAS BEEN CHANGED**
-
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you have a

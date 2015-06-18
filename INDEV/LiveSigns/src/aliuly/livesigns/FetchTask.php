@@ -4,10 +4,10 @@ use \pocketmine\scheduler\AsyncTask;
 use \pocketmine\Server;
 use aliuly\livesigns\fetcher\Text;
 use aliuly\livesigns\fetcher\File;
+use aliuly\livesigns\fetcher\Scriptlet;
 use aliuly\livesigns\fetcher\Url;
 use aliuly\livesigns\fetcher\Rss;
 use aliuly\livesigns\fetcher\Tweet;
-use aliuly\livesigns\TextWrapper;
 
 class FetchTask extends AsyncTask {
 	public $started;
@@ -19,6 +19,7 @@ class FetchTask extends AsyncTask {
 		$this->started = time();
 		$this->pkgs = $pkgs;
 		$this->cf = $cfg;
+		$plugin->getLogger()->debug("FetchTask started.");
 	}
 
 	private function fetchJob($dat) {
@@ -31,6 +32,9 @@ class FetchTask extends AsyncTask {
 				break;
 			case "file":
 				$fetcher = File::class;
+				break;
+			case "php":
+				$fetcher = Scriptlet::class;
 				break;
 			case "url":
 				$fetcher = Url::class;
@@ -45,14 +49,6 @@ class FetchTask extends AsyncTask {
 				return "Invalid type: ". $dat["type"];
 		}
 		$content = $fetcher::fetch($dat,$this->cf);
-		if (!is_array($content)) return $content;
-
-		// Should do wordwrap here...
-		if (!isset($dat["no-fill"]) || !$dat["no-fill"]) {
-			$txt = implode("\n",$content);
-			$txt = TextWrapper::wrap($txt);
-			$content = explode("\n",$txt);
-		}
 		return $content;
 	}
 
@@ -92,6 +88,6 @@ class FetchTask extends AsyncTask {
 			}
 		}
 		$plugin->retrieveDone($done);
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$plugin->getLogger()->debug("FetchTask completed.");
 	}
 }

@@ -76,4 +76,61 @@ abstract class TextWrapper{
 
 		return $result;
 	}
+	/**
+	 * @param $text
+	 * @return string
+	 */
+	public static function wwrap($text,$maxWidth=75){
+		if (count(self::$allowedCharsArray) == 0) self::init();
+
+		$result = "";
+		$len = strlen($text);
+		$lineWidth = 0;
+		$wordWidth = 0;
+		$wordLen = 0;
+		for($i = 0; $i < $len; ++$i){
+			$char = $text{$i};
+
+			if($char === "\n"){
+				$lineWidth = 0;
+				$wordWidth = 0;
+				$wordLen = 0;
+			}elseif(ctype_space($char) && isset(self::$allowedCharsArray[$char])){
+				$wordWidth = 0;
+				$wordLen = 0;
+				$width = self::$allowedCharsArray[$char];
+				if($lineWidth + $width > $maxWidth){
+					$result .= "\n";
+					$lineWidth = 0;
+					continue;
+				} else {
+					if ($lineWidth == 0) continue;
+					$lineWidth += $width;
+				}
+			}elseif(isset(self::$allowedCharsArray[$char])){
+				$width = self::$allowedCharsArray[$char];
+
+				if($lineWidth + $width > $maxWidth){
+					if ($wordWidth >= $maxWidth || $wordWidth == 0) {
+						$result .= "\n";
+						$lineWidth = 0;
+					} else {
+						$pword = substr($result,-$wordLen);
+						$result = substr($result,0,strlen($result)-$wordLen)."\n".
+							$pword;
+						$lineWidth = $wordWidth;
+					}
+				}
+				$lineWidth += $width;
+				$wordWidth += $width;
+				$wordLen++;
+			}else{
+				continue;
+			}
+
+			$result .= $char;
+		}
+
+		return $result;
+	}
 }

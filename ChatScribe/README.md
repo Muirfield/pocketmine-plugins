@@ -21,7 +21,7 @@ question/bug-report/request please use the
 that.  You are more likely to get a response and help that way.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe)
 for the most up-to-date documentation.
 
 Let's you log all commands and chat's to files.
@@ -79,7 +79,7 @@ The following sections are defined:
 
 ## Changes
 
-* 1.2.0:
+* 1.2.0: in-game logging and fixes
   * Added in-game logging (remote helpdesk support)
   * Added a warning that logging is available
 * 1.0.1:

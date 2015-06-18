@@ -116,8 +116,8 @@ abstract class MoneyAPI {
 	/**
 	 * Gets player balance
 	 *
-	 * @param Plugin api Economy plugin (from moneyPlugin)
-	 * @param Player p Player to lookup
+	 * @param Plugin $api Economy plugin (from moneyPlugin)
+	 * @param Player $player Player to lookup
 	 *
 	 * @return int
 	 */
