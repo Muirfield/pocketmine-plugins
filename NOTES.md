@@ -43,7 +43,7 @@
 
 # INDEV
 
-- LiveSigns
+- LiveSigns - testing
 - GoldStd
   - finish shopkeep
   - shopkeep settings in config.yml, shopkeep defintions in shops.yml
@@ -52,7 +52,6 @@
   - documentation
 
 # Pending
-
 
 # Move
 

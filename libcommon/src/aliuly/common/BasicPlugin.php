@@ -13,11 +13,23 @@ use aliuly\common\BasicHelp;
 
 use pocketmine\event\player\PlayerQuitEvent;
 
+/**
+ * Simple extension to the PocketMine PluginBase class
+ */
 abstract class BasicPlugin extends PluginBase implements Listener {
 	protected $modules = [];
 	protected $scmdMap = [];
 	protected $state = [];
 
+	/**
+	 * Given some defaults, this will load optional features
+	 *
+	 * @param str $ns - namespace used to search for classes to load
+	 * @param array $mods - optional module definition
+	 * @param array $defaults - default options to use for config.yml
+	 * @param str $xhlp - optional help format.
+	 * @return array
+	 */
 	protected function modConfig($ns,$mods,$defaults,$xhlp="") {
 		if (!isset($defaults["features"])) $defaults["features"] = [];
 		foreach ($mods as $i => $j) {
@@ -47,7 +59,7 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		$this->state = [];
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getLogger()->info(mc::n(mc::_("Enabled one feature"),
-													 mc::_("Enable %1% features",$c),
+													 mc::_("Enabled %1% features",$c),
 													 $c));
 		if (count($this->scmdMap) && count($this->scmdMap["mgrs"])) {
 			$this->modules[] = new BasicHelp($this,$xhlp);
@@ -55,6 +67,12 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		return $cfg;
 	}
 
+	/**
+	 * Save a config section to the plugins' config.yml
+	 *
+	 * @param str $key - section to save
+	 * @param mixed $settings - settings to save
+	 */
 	public function cfgSave($key,$settings) {
 		$cfg=new Config($this->getDataFolder()."config.yml",Config::YAML);
 		$dat = $cfg->getAll();
@@ -62,7 +80,9 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		$cfg->setAll($dat);
 		$cfg->save();
 	}
-
+	/**
+	 * Used to initialize sub-command table
+	 */
 	protected function initSCmdMap() {
 		$this->scmdMap = [
 			"mgrs" => [],
@@ -72,6 +92,9 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 			"permission" => [],
 		];
 	}
+	/**
+	 * Dispatch commands using sub command table
+	 */
 	protected function dispatchSCmd(CommandSender $sender,Command $cmd,array $args,$data=null) {
 		if (count($args) == 0) {
 			$sender->sendMessage(mc::_("No sub-command specified"));
@@ -99,10 +122,18 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		}
 		return false;
 	}
-
+	/** Look-up sub command map
+	 * @return array
+	 */
 	public function getSCmdMap() {
 		return $this->scmdMap;
 	}
+	/**
+	 * Register a sub command
+	 * @param str $cmd - sub command
+	 * @param callable $callable - callable to execute
+	 * @param array $opts - additional options
+	 */
 	public function registerSCmd($cmd,$callable,$opts) {
 		$cmd = strtolower($cmd);
 		$this->scmdMap["mgrs"][$cmd] = $callable;
@@ -118,12 +149,22 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 			}
 		}
 	}
-
+	/**
+	 * Handle player quit events.  Free's data used by the state tracking
+	 * code.
+	 */
 	public function onPlayerQuit(PlayerQuitEvent $ev) {
 		$n = strtolower($ev->getPlayer()->getName());
 		if (isset($this->state[$n])) unset($this->state[$n]);
 	}
-
+	/**
+	 * Get a player state for the desired module/$label.
+	 *
+	 * @param str $label - state variable to get
+	 * @param Player|str $player - Player instance or name
+	 * @param mixed $default - default value to return is no state found
+	 * @return mixed
+	 */
 	public function getState($label,$player,$default) {
 		if ($player instanceof CommandSender) $player = $player->getName();
 		$player = strtolower($player);
@@ -131,14 +172,27 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		if (!isset($this->state[$player][$label])) return $default;
 		return $this->state[$player][$label];
 	}
-
+	/**
+	 * Set a player related state
+	 *
+	 * @param str $label - state variable to set
+	 * @param Player|str $player - player instance or their name
+	 * @param mixed $val - value to set
+	 * @return mixed
+	 */
 	public function setState($label,$player,$val) {
 		if ($player instanceof CommandSender) $player = $player->getName();
 		$player = strtolower($player);
 		if (!isset($this->state[$player])) $this->state[$player] = [];
 		$this->state[$player][$label] = $val;
+		return $val;
 	}
-
+	/**
+	 * Clears a player related state
+	 *
+	 * @param str $label - state variable to clear
+	 * @param Player|str $player - intance of Player or their name
+	 */
 	public function unsetState($label,$player) {
 		if ($player instanceof CommandSender) $player = $player->getName();
 		$player = strtolower($player);
@@ -151,8 +205,7 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 	 * Gets the contents of an embedded resource on the plugin file.
 	 *
 	 * @param string $filename
-	 *
-	 * @return string, or null
+	 * @return string|null
 	 */
 	public function getResourceContents($filename){
 		$fp = $this->getResource($filename);
