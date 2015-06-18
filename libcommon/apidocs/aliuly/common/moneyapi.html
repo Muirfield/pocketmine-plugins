@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 17 Jun 2015 07:42:03 +0000">
+<meta name="when" content="Thu, 18 Jun 2015 06:58:31 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -23,36 +23,43 @@
 </header><p class="signature">public abstract  class <strong>MoneyAPI</strong></p>
 
 <div class="comment"><p>This class allows you to use a number of miscellaneous Economy
-plugins.</p></div>
+ plugins.</p>
+</div>
 
 <h3>Methods</h3>
 <table>
 <tr>
 <td class="type">static  void</td>
-<td class="description"><p class="name"><a href="#foundMoney()">foundMoney</a>(PluginBase plugin, PluginBase api, LogLevel level)</p><p class="description">Show a notice when the money API is found</p></td>
+<td class="description"><p class="name"><a href="#foundMoney()">foundMoney</a>(PluginBase plugin, PluginBase api, LogLevel level)</p><p class="description">Show a notice when the money API is found
+</p></td>
 </tr>
 <tr>
 <td class="type">static  int</td>
-<td class="description"><p class="name"><a href="#getMoney()">getMoney</a>(Plugin api, Player player)</p><p class="description">Gets player balance</p></td>
+<td class="description"><p class="name"><a href="#getMoney()">getMoney</a>(Plugin api, Player player)</p><p class="description">Gets player balance
+</p></td>
 </tr>
 <tr>
 <td class="type">static  bool</td>
-<td class="description"><p class="name"><a href="#grantMoney()">grantMoney</a>(Plugin api, Player p, int money)</p><p class="description">Gives money to a player.</p></td>
+<td class="description"><p class="name"><a href="#grantMoney()">grantMoney</a>(Plugin api, Player p, int money)</p><p class="description">Gives money to a player.
+</p></td>
 </tr>
 <tr>
 <td class="type">static  null|Plugin</td>
-<td class="description"><p class="name"><a href="#moneyPlugin()">moneyPlugin</a>(var obj)</p><p class="description">Find a supported *money* plugin</p></td>
+<td class="description"><p class="name"><a href="#moneyPlugin()">moneyPlugin</a>(var obj)</p><p class="description">Find a supported <em>money</em> plugin
+</p></td>
 </tr>
 <tr>
 <td class="type">static  void</td>
-<td class="description"><p class="name"><a href="#noMoney()">noMoney</a>(PluginBase plugin, LogLevel level)</p><p class="description">Show a warning when the money API is missing</p></td>
+<td class="description"><p class="name"><a href="#noMoney()">noMoney</a>(PluginBase plugin, LogLevel level)</p><p class="description">Show a warning when the money API is missing
+</p></td>
 </tr>
 </table>
 
 <h3>Details</h3>
 <code class="signature" id="foundMoney">public static  void <strong>foundMoney</strong>(PluginBase plugin, PluginBase api, LogLevel level)</code>
 <div class="details">
-<p>Show a notice when the money API is found</p><table>
+<p>Show a notice when the money API is found</p>
+<table>
 <tr><th>Parameters</th>
 <td>plugin - - current plugin</td>
 <td>api - - found plugin</td>
@@ -62,7 +69,8 @@ plugins.</p></div>
 
 <code class="signature" id="getMoney">public static  int <strong>getMoney</strong>(Plugin api, Player player)</code>
 <div class="details">
-<p>Gets player balance</p><table>
+<p>Gets player balance</p>
+<table>
 <tr><th>Parameters</th>
 <td>api - Economy plugin (from moneyPlugin)</td>
 <td>player - Player to lookup</td>
@@ -71,7 +79,8 @@ plugins.</p></div>
 
 <code class="signature" id="grantMoney">public static  bool <strong>grantMoney</strong>(Plugin api, Player p, int money)</code>
 <div class="details">
-<p>Gives money to a player.</p><table>
+<p>Gives money to a player.</p>
+<table>
 <tr><th>Parameters</th>
 <td>api - Economy plugin (from moneyPlugin)</td>
 <td>p - Player to pay</td>
@@ -81,7 +90,8 @@ plugins.</p></div>
 
 <code class="signature" id="moneyPlugin">public static  null|Plugin <strong>moneyPlugin</strong>(var obj)</code>
 <div class="details">
-<p>Find a supported *money* plugin</p><table>
+<p>Find a supported <em>money</em> plugin</p>
+<table>
 <tr><th>Parameters</th>
 <td>obj - - Server or Plugin object</td>
 </tr></table>
@@ -89,7 +99,8 @@ plugins.</p></div>
 
 <code class="signature" id="noMoney">public static  void <strong>noMoney</strong>(PluginBase plugin, LogLevel level)</code>
 <div class="details">
-<p>Show a warning when the money API is missing</p><table>
+<p>Show a warning when the money API is missing</p>
+<table>
 <tr><th>Parameters</th>
 <td>plugin - - current plugin</td>
 <td>level - - optional log level</td>

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 17 Jun 2015 07:42:03 +0000">
+<meta name="when" content="Thu, 18 Jun 2015 06:58:31 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -25,17 +25,27 @@
 </p>
 
 <div class="comment"><p>Allows the creation of simple callbacks with extra data
-The last parameter in the callback will be the "currentTicks"</p></div>
+ The last parameter in the callback will be the "currentTicks"</p>
+
+<p>Simply put, just do:</p>
+
+<pre><code>new PluginCallbackTask($plugin,[$obj,"method"],[$args])
+</code></pre>
+
+<p>Pass it to the scheduler and off you go...</p>
+</div>
 
 <h3>Methods</h3>
 <table>
 <tr>
 <td class="type"> void</td>
-<td class="description"><p class="name"><a href="#__construct()">__construct</a>(Plugin owner, callable callable, array args)</p><p class="description"></p></td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(Plugin owner, callable callable, array args)</p><p class="description">
+</p></td>
 </tr>
 <tr>
 <td class="type"> callable</td>
-<td class="description"><p class="name"><a href="#getCallable()">getCallable</a>()</p><p class="description"></p></td>
+<td class="description"><p class="name"><a href="#getCallable()">getCallable</a>()</p><p class="description">
+</p></td>
 </tr>
 <tr>
 <td class="type"> void</td>
@@ -46,11 +56,13 @@ The last parameter in the callback will be the "currentTicks"</p></div>
 <h3>Details</h3>
 <code class="signature" id="__construct">public  void <strong>__construct</strong>(Plugin owner, callable callable, array args)</code>
 <div class="details">
-<p></p></div>
+
+</div>
 
 <code class="signature" id="getCallable">public  callable <strong>getCallable</strong>()</code>
 <div class="details">
-<p></p></div>
+
+</div>
 
 <code class="signature" id="onRun">public  void <strong>onRun</strong>(mixed currentTicks)</code>
 <div class="details">

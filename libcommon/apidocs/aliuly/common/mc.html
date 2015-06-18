@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 17 Jun 2015 07:42:03 +0000">
+<meta name="when" content="Thu, 18 Jun 2015 06:58:31 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -22,15 +22,23 @@
 
 </header><p class="signature">public abstract  class <strong>mc</strong></p>
 
-<div class="comment"><p>Simple translation class in the style of "gettext".</p><p>You can actually use "gettext" tools to process these files.
-For example, to create/update a message catalogue use:</p><p>xgettext --no-wrap [-j] [-o file]</p><p>Where -j is used to join an existing catalague.
--o file is the output file.</p></div>
+<div class="comment"><p>Simple translation class in the style of <strong>gettext</strong>.</p>
+
+<p>You can actually use <strong>gettext</strong> tools to process these files.
+ For example, to create/update a message catalogue use:</p>
+
+<p><code>xgettext --no-wrap [-j] [-o file]</code></p>
+
+<p>Where -j is used to join an existing catalague.
+ -o file is the output file.</p>
+</div>
 
 <h3>Fields</h3>
 <table>
 <tr>
 <td class="type">static  str[] $txt Message translations</td>
-<td class="description"><p class="name"><a href="#txt">$txt</a></p><p class="description"></p></td>
+<td class="description"><p class="name"><a href="#txt">$txt</a></p><p class="description">
+</p></td>
 </tr>
 </table>
 
@@ -43,23 +51,27 @@ For example, to create/update a message catalogue use:</p><p>xgettext --no-wrap 
 </tr>
 <tr>
 <td class="type">static  str</td>
-<td class="description"><p class="name"><a href="#n()">n</a>(str a, str b, int c)</p><p class="description">Plural and singular forms.</p></td>
+<td class="description"><p class="name"><a href="#n()">n</a>(str a, str b, int c)</p><p class="description">Plural and singular forms.
+</p></td>
 </tr>
 <tr>
 <td class="type">static  void</td>
-<td class="description"><p class="name"><a href="#plugin_init()">plugin_init</a>(Plugin plugin, str path)</p><p class="description">Load a message file for a PocketMine plugin. </p></td>
+<td class="description"><p class="name"><a href="#plugin_init()">plugin_init</a>(Plugin plugin, str path)</p><p class="description">Load a message file for a PocketMine plugin.
+</p></td>
 </tr>
 </table>
 
 <h3>Details</h3>
 <code class="signature" id="txt">public static  str[] $txt Message translations <strong>$txt</strong> = []</code>
 <div class="details">
-<p></p></div>
+
+</div>
 
 <code class="signature" id="load">public static  void <strong>load</strong>(str f)</code>
 <div class="details">
 <p>Load the specified message catalogue.
-Can read .ini or .po files.</p><table>
+ Can read .ini or .po files.</p>
+<table>
 <tr><th>Parameters</th>
 <td>f - - Filename to load</td>
 </tr></table>
@@ -67,7 +79,8 @@ Can read .ini or .po files.</p><table>
 
 <code class="signature" id="n">public static  str <strong>n</strong>(str a, str b, int c)</code>
 <div class="details">
-<p>Plural and singular forms.</p><table>
+<p>Plural and singular forms.</p>
+<table>
 <tr><th>Parameters</th>
 <td>a - - Singular form</td>
 <td>b - - Plural form</td>
@@ -79,7 +92,8 @@ Can read .ini or .po files.</p><table>
 
 <code class="signature" id="plugin_init">public static  void <strong>plugin_init</strong>(Plugin plugin, str path)</code>
 <div class="details">
-<p>Load a message file for a PocketMine plugin.  Only uses .ini files.</p><table>
+<p>Load a message file for a PocketMine plugin.  Only uses .ini files.</p>
+<table>
 <tr><th>Parameters</th>
 <td>plugin - - owning plugin</td>
 <td>path - - output of $plugin->getFile()</td>
