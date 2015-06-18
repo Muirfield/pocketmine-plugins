@@ -13,7 +13,13 @@
 
 ## Overview
 
-LiveSings is a plugin to display texts in signs or as floating text
+**NOTE:**
+This documentation was last updated for version *0.0.0*.
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/************)
+for the most up-to-date documentation.
+
+LiveSigns is a plugin to display texts in signs or as floating text
 from a number of sources and can change automatically as the sources
 change.
 
