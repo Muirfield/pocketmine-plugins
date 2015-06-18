@@ -11,13 +11,18 @@ namespace aliuly\common;
  *
  * Where -j is used to join an existing catalague.
  * -o file is the output file.
+ *
+ * Basic usage:
+ *
+ * * mc::load("messages.po|messages.ini");
+ * * mc::plugin_init($plugin,$plugin->getFile());
+ * * mc::_("string to translate\n")
+ * * mc::_("string to translate %1% %2%\n",$arg1,$arg2)
+ * * mc::n(mc::_("singular form"),mc::_("Plural form"),$count)
+ */
+ *
  */
 abstract class mc {
-	/*
-	 * mc::load("messages.po|messages.ini");
-	 * mc::_("string to translate\n")
-	 * mc::n(mc::_("Plural for one"),mc::_("Plural for not one"),$count)
-	 */
 	/** @var str[] $txt Message translations */
 	public static $txt = [];
 	/** Main translation function
