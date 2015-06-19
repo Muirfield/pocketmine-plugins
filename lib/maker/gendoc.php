@@ -410,6 +410,12 @@ function gendoc($readme,$yaml) {
 			$ntxt = preg_replace($re,$item,$ntxt);
 		}
 	}
+	if (isset($yaml["website"])) {
+		$re = '/\[github\]\([^\)]+\)/';
+		if (preg_match($re,$ntxt,$mv)) {
+			$ntxt = preg_replace($re,'[github]('.$yaml["website"].')',$ntxt);
+		}
+	}
 
 	if ($otxt != $ntxt) {
 		file_put_contents($readme,$ntxt);

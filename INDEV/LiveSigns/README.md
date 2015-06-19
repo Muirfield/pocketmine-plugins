@@ -2,22 +2,25 @@
 
 # LiveSigns
 
-* Summary: Signs that change contents
+* Summary: Signs and floating text that change contents (e.g. twitter?)
 * Dependency Plugins: N/A
 * PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Informational
 * Plugin Access: Tiles, Internet Services, Commands
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns
 
 ## Overview
+
+<!-- TEMPLATE=prologue.md -->
 
 **NOTE:**
 This documentation was last updated for version *0.1.2*.
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/************)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
 for the most up-to-date documentation.
+<!-- ENDTEMPLATE -->
 
 LiveSigns is a plugin to display texts in signs or as floating text
 from a number of sources and can change automatically as the sources
@@ -193,6 +196,23 @@ up you would use:
 
 * RSS support: [lastRSS](http://lastrss.webdot.cz/)
 * Twitter Support: [Twitter-API-PHP](http://github.com/j7mbo/twitter-api-php)
+
+### Configuration files
+
+In addition to the standard **config.yml** file, the additional files
+are read:
+
+* **signs.yml**
+  - this file contains definitions of sign sources.  And this may
+    refer to additional files containing text or PHP code.
+* **floats.yml**
+  - this file contains definitions of floating texts.  For the actual
+    floating text contents look in **signs.yml**.
+
+**signs.yml** can refer to additional files or URLs to provide live
+content.  Please look at the provided examples on how these need to be
+set-up.  If you deleted your examples, you can always refer to them
+back going back to [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
 
 ### Configuration
 
