@@ -20,8 +20,6 @@ namespace aliuly\common;
  * * mc::_("string to translate %1% %2%\n",$arg1,$arg2)
  * * mc::n(mc::_("singular form"),mc::_("Plural form"),$count)
  */
- *
- */
 abstract class mc {
 	/** @var str[] $txt Message translations */
 	public static $txt = [];

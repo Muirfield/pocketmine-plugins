@@ -20,7 +20,9 @@ question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/************) for
 that.  You are more likely to get a response and help that way.
 
-This documentation was last updated for *******.  Please go to
+**NOTE:**
+This documentation was last updated for version *0.0.0*.
+Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/************)
 for the most up-to-date documentation.
 
