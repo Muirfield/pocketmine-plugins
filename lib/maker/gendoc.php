@@ -5,12 +5,28 @@ $apitable = [
 	"1.12.0" => "1.5 (API:1.12.0)",
 ];
 
-
 function parse_readme($otxt) {
 	$txt = [""];
 	$state = "top";
+	$old_state = "top";
+
 	foreach($otxt as $ln) {
 		$x = strtolower(trim($ln));
+    if (preg_match('/<!--\s*template:\s*(\S+)\s*-->/',$x,$mv)) {
+			$old_state = $state;
+			$state = "find-eot";
+			$txt[] = $ln;
+			$txt[] = "\n<TEMPLATE>\n".$mv[1];
+			continue;
+		}
+		if ($state == "find-eot") {
+			if (preg_match('/<!--\s*template-end\s*-->/',$x)) {
+				$txt[] = $ln;
+				$state = $old_state;
+				$old_state = "top";
+			}
+			continue;
+		}
 		if ($x == "## overview") {
 			// Doing overview...
 			$state = "overview";
@@ -284,7 +300,6 @@ function expand_tags($txt,$db,$yaml) {
 					}
 				}
 				break;
-				break;
 			case "\n<CMDREF>":
 				if ($out[count($out)-1] !=  "") $out[] = "";
 				$out[] = "The following commands are available:";
@@ -354,6 +369,19 @@ function expand_tags($txt,$db,$yaml) {
 				}
 				break;
 			default:
+			  if (substr($ln,0,strlen("\n<TEMPLATE>\n")) == "\n<TEMPLATE>\n") {
+					// Insert a template...
+					$templ = substr($ln,strlen("\n<TEMPLATE>\n"));
+					ob_start();
+					include(LIBDIR."templ/".$templ);
+					foreach (explode("\n",ob_get_clean()) as $i) {
+						$out[] = $i;
+					}
+					break;
+				}
+				if (preg_match('/<!--\s*php:(.*)\s*-->/',$ln,$mv)) {
+					eval($mv[1]);
+				}
 				$out[] = $ln;
 		}
 	}
@@ -373,12 +401,8 @@ function gendoc($readme,$yaml) {
 	$db = analyze_tree(dirname($readme));
 	$out = expand_tags($txt,$db,$yaml);
 	$ntxt = implode("\n",$out);
-	$re='/This documentation was last updated for version \*[\d\.]+\*\./';
-	if (preg_match($re,$ntxt)) {
-		$ntxt = preg_replace($re,'This documentation was last updated for version *'.
-										 $yaml["version"]."*.",$ntxt);
-	}
-	/** Fix certain things */
+
+	/** Fix header entries */
 	foreach ([
 		'/(\* Summary:\s)\s*.*\n/' => "description",
 		'/(\* Dependency Plugins:\s)\s*.*\n/' => "depend",
