@@ -635,6 +635,9 @@ for sample files.
 
 # Changes
 
+* ?????
+  * Default permission for /spawn changed from op to everyone.
+  * Whois shows clientId
 * 2.2.1: Misc fixes and new features
   * New Command:
     * skin : manipulate skins
@@ -740,4 +743,3 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-

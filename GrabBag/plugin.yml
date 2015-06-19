@@ -108,7 +108,7 @@ permissions:
     default: true
     description: "Allow the use of /prefix"
   gb.cmd.spawn:
-    default: op
+    default: true
     description: "Allow to teleport to spawn"
   gb.cmd.burn:
     default: op
