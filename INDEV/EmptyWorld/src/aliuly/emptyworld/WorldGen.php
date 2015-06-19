@@ -71,29 +71,21 @@ class WorldGen extends Generator {
 		$inSpawn = (-$this->radius <= $spawn->x && $spawn->x < 16 + $this->radius  &&
 				-$this->radius <= $spawn->z && $spawn->z < 16 + $this->radius);
 
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		echo "INSPAWN:".($inSpawn ? "YES" : "NO")."\n";//##DEBUG
-		echo "CHUNK:".implode(",",[$chunkX<<4,$chunkZ<<4])."\n";//##DEBUG
 		if ($inSpawn || $this->chunk === null) {
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$chunk = $this->level->getChunk($chunkX,$chunkZ);
 			$chunk->setGenerated();
 
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$c = Biome::getBiome($this->biome)->getColor();
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
-			//$R = $c >> 16;
-			//$G = ($c >> 8) & 0xff;
-			//$B = $c & 0xff;
+			$R = $c >> 16;
+			$G = ($c >> 8) & 0xff;
+			$B = $c & 0xff;
 
 			$rad2 = $this->radius * $this->radius;
 
 			for($Z = 0; $Z < 16; ++$Z){
 				for($X = 0; $X < 16; ++$X){
-					echo "<";//##DEBUG
-					//$chunk->setBiomeId($X, $Z, $biome);
-					//$chunk->setBiomeColor($X, $Z, $R, $G, $B);
-					echo ">";//##DEBUG
+					$chunk->setBiomeId($X, $Z, $biome);
+					$chunk->setBiomeColor($X, $Z, $R, $G, $B);
 					$chunk->setBlock($X, 0, $Z, $this->baseFloor, 0);
 					for($y = 1; $y < 128; ++$y){
 						$chunk->setBlock($X, $y, $Z, Block::AIR, 0);
@@ -103,13 +95,10 @@ class WorldGen extends Generator {
 					}
 				}
 			}
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			if (!$inSpawn) {
-				echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				$this->chunk = clone $chunk;
 			}
 		} else {
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$chunk = clone $this->chunk;
 		}
 		$chunk->setX($chunkX);

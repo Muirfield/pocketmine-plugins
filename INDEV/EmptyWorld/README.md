@@ -7,8 +7,8 @@
 * PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
-* Categories: -
-* Plugin Access: -
+* Categories: World Generator
+* Plugin Access: World Editing
 * WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/EmptyWorld
 
 ## Overview
@@ -76,4 +76,3 @@ The following preset strings are recognized:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
