@@ -13,14 +13,23 @@
 
 ## Overview
 
-<!-- TEMPLATE=prologue.md -->
+<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/MIMI"; -->
+<!-- template: prologue.md -->
+<!-- Add the line: -->
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
+
 
 **NOTE:**
-This documentation was last updated for version *0.1.2*.
+
+This documentation was last updated for version **1.0.0**.
+
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
 for the most up-to-date documentation.
-<!-- ENDTEMPLATE -->
+
+You can download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//LiveSigns-1.0.0).
+
+<!-- template-end -->
 
 LiveSigns is a plugin to display texts in signs or as floating text
 from a number of sources and can change automatically as the sources
@@ -59,9 +68,9 @@ Also _options_ can be omitted, but can be one of the following:
 
 If omitted, long lines will be wrapped, with colours stripped.
 
-You can cleat floating text signs.  To do this use:
+You can create floating text signs.  To do this use:
 
-* /fs add [x,y,z[:world]|player] idtxt
+* /fs add [x,y,z[:world]|player] &lt;idtxt&gt;
 
 Where:
 

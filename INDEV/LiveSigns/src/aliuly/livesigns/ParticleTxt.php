@@ -146,7 +146,6 @@ class ParticleTxt implements Listener{
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->getTo()->getLevel() == null) return;
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
 			new PluginCallbackTask($this->owner,[$this,"afterTeleport"],
@@ -157,17 +156,12 @@ class ParticleTxt implements Listener{
 		);
 	}
 	public function afterTeleport($pl,$from,$to) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([[$from,true],[$to,false]] as $j) {
 			list($level,$invis) = $j;
 			if ($level == null) continue;
 			if ($invis && $from == $to) continue;
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
-			if ($invis) echo "DESPAWNING\n";//##DEBUG
 			if (!isset($this->particles[$level->getName()])) continue;
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			foreach ($this->particles[$level->getName()] as $ppt) {
-				echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				if ($invis) $ppt["particle"]->setInvisible();
 				$level->addParticle($ppt["particle"],[$pl]);
 				if ($invis) $ppt["particle"]->setInvisible(false);
