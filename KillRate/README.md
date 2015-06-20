@@ -170,6 +170,8 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 # Changes
 
+* ???
+  * small tweaks on the comments of the config file...
 * 1.2.1:
   * CptKenji's features:
     * Double money and Best streak tracking.
@@ -217,4 +219,3 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
