@@ -2,27 +2,38 @@
 
 # ChatScribe
 
-* Summary: Logs chat and commands to file
+* Summary: Logs chats and commands
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.5 - API 1.12.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: Admin
 * Plugin Access: Commands, Data Saving
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/chatscribe.8922/"; -->
+<!-- template: prologue.md -->
+
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/chatscribe.8922/) for
 that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe)
 for the most up-to-date documentation.
+
+You can download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//ChatScribe-1.2.0).
+
+<!-- template-end -->
 
 Let's you log all commands and chat's to files.
 
