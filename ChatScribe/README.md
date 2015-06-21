@@ -88,6 +88,30 @@ The following sections are defined:
   _(Defaults to disabled)_
 
 
+## Output Destinations
+
+The **dest** setting in the **config.yml** file depends on the **log**
+log type.
+
+If **log** set to **server** **dest** can  be one of the following:
+
+* emergency
+* alert
+* critical
+* error
+* warning
+* notice
+* info
+* debug
+
+Essentially this is included in the **server.log** and the lines will
+be tagged with that prefix.  Whereas on the console, these different levels are color coded differently.  The only special tag is **debug**.
+These are not show unless you enable debug logs in **pocketmine.yml**.
+
+If **log** is set to **file** **dest** is set to a filename that will be
+created in the default PocketMine location (usually the same folder as
+**server.log**) but you can specify a full path if needed.
+
 ## Changes
 
 * 1.2.0: in-game logging and fixes
