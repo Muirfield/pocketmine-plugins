@@ -12,7 +12,7 @@ if (($kr = $pm->getPlugin("KillRate")) !== null) {
 			$i = 1;
 			echo "KillRate rankings\n";
 			foreach ($ranks as $r) {
-				echo TextFormat::AQUA.$i++.". ".$r["player"]."\n";
+				echo TextFormat::AQUA.$i++.". ".$r["player"]." ".$r["count"]."\n";
 			}
 		}
 	} else {

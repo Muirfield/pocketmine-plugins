@@ -32,6 +32,7 @@ class ParticleTxt implements Listener{
 
 			if (!isset($this->particles[$world])) $this->particles[$world] = [];
 			$level = $this->owner->getServer()->getLevelByName($world);
+			if ($level === null) continue; // Skipp all if level is not loaded
 
 			foreach($plst as $id=>$item) {
 				if (isset($this->particles[$world][$id])) {
@@ -41,24 +42,38 @@ class ParticleTxt implements Listener{
 					$text = implode("\n",$text);
 					if ($text == $this->particles[$world][$id]["text"]) continue;
 					$pp = $this->particles[$world][$id]["particle"];
+					// Delete this particle...
+					// Tried just changing text but that seems to append
+					// text rather than replace it...
+					/*
+					echo "text=$text\n";//##DEBUG
+					echo "oldtxt=".$this->particles[$world][$id]["text"]."\n";//##DEBUG
+
+					$pp->setText("");
+
 					$pp->setText($text);
-					if ($level) $level->addParticle($pp);
+					$pp->setInvisible(false);
+					$level->addParticle($pp);
+					*/
+					$pp->setInvisible();
+					$level->addParticle($pp);
+					// We drop so we continue...
 				} else {
 					$text = $this->owner->getLiveText($item["text"],$item["opts"]);
 					if ($text === null) continue;
 					$text = implode("\n",$text);
-					list($x,$y,$z) = $item["pos"];
-					if ($y < 0) { // Use height map...
-						if (!$level) continue;
-						$y = $level->getHighestBlockAt($x,$z) - $y;
-					}
-					$pp = new FloatingTextParticle(new Vector3($x,$y,$z),"",$text);
-					if($level) $level->addParticle($pp);
-					$this->particles[$world][$id] = [
-						"particle" => $pp,
-						"text" => $text,
-					];
 				}
+				list($x,$y,$z) = $item["pos"];
+				if ($y < 0) { // Use height map...
+					if (!$level) continue;
+					$y = $level->getHighestBlockAt($x,$z) - $y;
+				}
+				$pp = new FloatingTextParticle(new Vector3($x,$y,$z),"",$text);
+				$level->addParticle($pp);
+				$this->particles[$world][$id] = [
+					"particle" => $pp,
+					"text" => $text,
+				];
 			}
 		}
 		// Remove outdated particles

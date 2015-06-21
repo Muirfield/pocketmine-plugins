@@ -257,6 +257,9 @@ The following sections are defined:
 
 # Changes
 
+* ???? : First update
+  * Fixed FloatingTextParticle not updating text properly...
+
 * 1.0.0 : First submission
 
 # Copyright
@@ -277,4 +280,3 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
