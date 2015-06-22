@@ -2,9 +2,9 @@
 
 # GrabBag
 
-* Summary: A large colletion of commands and listener modules
+* Summary: Collection of miscellaneous commands and listener modules
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: General
@@ -579,7 +579,6 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.prefix : Allow the use of /prefix
 * gb.cmd.spawn : Allow to teleport to spawn
-  (Defaults to Op)
 * gb.cmd.burn : Allow the use of burn command
   (Defaults to Op)
 * gb.cmd.throw : Allow to throw players up in the air
@@ -743,3 +742,4 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+
