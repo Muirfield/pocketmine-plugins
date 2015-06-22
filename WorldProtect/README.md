@@ -4,7 +4,7 @@
 
 * Summary: protect worlds from griefers, pvp, limits and borders
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * OptionalPlugins: n/a
 * Categories: World Editing and Management, Admin Tools
 * Plugin Access: Commands, Data Saving, World Editing, Manages Worlds
