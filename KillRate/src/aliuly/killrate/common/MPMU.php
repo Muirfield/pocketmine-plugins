@@ -10,8 +10,10 @@ use pocketmine\Player;
  * My PocketMine Utils class
  */
 abstract class MPMU {
+	/** @var str[] $items Nice names for items */
 	static protected $items = [];
-	const VERSION = "0.0.2";
+	/** @const str VERSION plugin version string */
+	const VERSION = "0.1.0";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -145,12 +147,25 @@ abstract class MPMU {
 		}
 		return true;
 	}
+	/**
+	 * Takes a player and creates a string suitable for indexing
+	 *
+	 * @param Player|str $player - Player to index
+	 * @return str
+	 */
 	static public function iName($player) {
 		if ($player instanceof Player) {
 			$player = strtolower($player->getName());
 		}
 		return $player;
 	}
+	/**
+	 * Lile file_get_contents but for a Plugin resource
+	 *
+	 * @param Plugin $plugin
+	 * @param str $filename
+	 * @return str|null
+	 */
 	static public function getResourceContents($plugin,$filename) {
 		$fp = $plugin->getResource($filename);
 		if($fp === null){
@@ -160,7 +175,15 @@ abstract class MPMU {
 		fclose($fp);
 		return $contents;
 	}
-
+	/**
+	 * Call a plugin's function
+	 *
+	 * @param Server $server - pocketmine server instance
+	 * @param str $plug - plugin to call
+	 * @param str $method - method to call
+	 * @param mixed $default - If the plugin does not exist or it is not enable, this value uis returned
+	 * @return mixed
+	 */
 	static public function callPlugin($server,$plug,$method,$args,$default = null) {
 		if (($plugin = $server->getPluginManager()->getPlugin($plug)) !== null
 			 && $plugin->isEnabled()) {
@@ -169,6 +192,14 @@ abstract class MPMU {
 		}
 		return $default;
 	}
+	/**
+	 * Register a command
+	 *
+	 * @param Plugin $plugin - plugin that "owns" the command
+	 * @param CommandExecutor $executor - object that will be called onCommand
+	 * @param str $cmd - Command name
+	 * @param array $yaml - Additional settings for this command.
+	 */
 	static public function addCommand($plugin, $executor, $cmd, $yaml) {
 		$newCmd = new PluginCommand($cmd,$plugin);
 		if (isset($yaml["description"]))
@@ -194,7 +225,15 @@ abstract class MPMU {
 		$cmdMap = $plugin->getServer()->getCommandMap();
 		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
 	}
-
+	/**
+	 * Send a PopUp, but takes care of checking if there are some
+	 * plugins that might cause issues.
+	 *
+	 * Currently only supports SimpleAuth and BasicHUD.
+	 *
+	 * @param Player $player
+	 * @param str $msg
+	 */
 	static public function sendPopup($player,$msg) {
 		$pm = $player->getServer()->getPluginManager();
 		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
