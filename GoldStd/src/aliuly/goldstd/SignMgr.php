@@ -259,6 +259,12 @@ class SignMgr implements Listener {
 		if($ev->getBlock()->getId() != Block::SIGN_POST &&
 			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
 		//echo "TOUCHED\n";
+		if ($ev->getPlayer()>isCreative() || $ev->getPlayer()->isSpectator()) {
+			$ev->getPlayer()->sendMessage(mc::_("No trading possible, while in %1% mode",
+												MPMU::gamemodeStr($ev->getPlayer()->getGamemode())));
+			return;
+		}
+
 		$sign = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
 		if(!($sign instanceof Sign)) return;
 		//echo __METHOD__.",".__LINE__."\n";

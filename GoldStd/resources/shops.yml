@@ -1,0 +1,35 @@
+---
+default:
+  skin: default.skin
+  slim: false
+  items:
+  - WOOD,10,1
+  - DIAMOND_SWORD,20
+  - IRON_SWORD,10
+  - STONE_SWORD,5
+  - APPLE,10,1
+  - COOKED_BEEF,5,1
+  display: Albert
+  attack: 8
+  messages:
+    inventory-error: "Sorry we are out of stock!"
+    not-enough-g: "Your shopping cart value is %1%G, you only have %2%G"
+    next-time:
+    - "Maybe next time..."
+    - "Are you sure you don't want to buy anything?"
+    bought-items1: "Spent %1%G to buy %2% good"
+    bought-itemsX: "Spent %1%G to buy %2% goods"
+    thank-you: Thank you for your business.  Come back again soon!"
+    no-money: "Insufficient funds to complete purchase!"
+    help-info: "You should tap me with a Gold INGOT.  Don't even think about using a weapon!"
+    under-attack: "Aaahh!  Heeelp!  Thieves!!!!"
+    leaving: "Have a nice day"
+    buystuff:
+    - "Welcome, please tap me with a Gold INGOT"
+    - "I have lots of stuff for sale"
+    - "My stuff is best quality"
+    - "NO LOITERING!"
+    welcome:
+    - "Welcome to Albert Heijn, tap me with a Gold Ingot to trade"
+    - "Hello, how is it? Tap me with a gold ingot to buy things"
+...

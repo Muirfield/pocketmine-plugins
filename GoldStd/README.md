@@ -9,20 +9,31 @@
 * OptionalPlugins: N/A
 * Categories: Economy
 * Plugin Access: Commands, Entities, Items
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/goldstd.8071/"; -->
+<!-- template: prologue.md -->
+
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/goldstd.8071/) for
 that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.1.1pre4**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//GoldStd-1.1.1pre4).
+
+<!-- template-end -->
 
 Implements an economy plugin based on Gold Ingots (by default) as the
 currency.
@@ -173,8 +184,14 @@ Default values for paying players by tapping
 	*  signs: set to true to enable shops|casino signs
 *  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
+*  weapons: List of offensive weapons
 
 #### shop-keepers
+
+*  enable: enable/disable shopkeep functionality
+*  range: How far away to engage players in chat
+*  ticks: How often to check player positions
+*  freq: How often to  spam players (in seconds)
 
 
 ### Permission Nodes
@@ -207,23 +224,21 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd/resources/messages/)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for sample files.
 
 The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
-# TODO
+## FAQ
 
-- shopkeep
-  - on scheduled basis says to people near by (send message)
-    "blah bla.. tap on me to buy"
-  - resets when they are out of range.
-  - when tapping with gold ... trade
-  - when tapping with weapon ... yell don't rob me and blast the
-    player...
-  - when tapping with something else (not gold, not weapon) show prices
+* Q: What do I do if the item name does not fit in the sign?
+* A: For those case you should use the Item ID and if you need more descrption add it to line 4, or on a different sign.
+* Q: Where do I find a list of the proper item names?
+* A: This uses PocketMine definitions (like the /give command).  You can find the list here:
+  * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/item/Item.php#L39)
+  * Note that item names are case insensitive.
 
 # Changes
 
@@ -232,8 +247,8 @@ The contents of these "ini" files are key-value pairs:
     * Added goods trading
   * Added casino, shop and trading signs
   * Configuration uses strings instead of codes
-  * EXPERIMENTAL: Compatible with other economy plugins
-  * First draft of ShopKeep functionality
+  * Compatible with other economy plugins
+  * ShopKeep functionality
 * 1.0.0 : First submission
 
 # Copyright
