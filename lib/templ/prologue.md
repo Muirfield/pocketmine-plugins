@@ -25,4 +25,4 @@ Please go to
 for the most up-to-date documentation.
 <?php } ?>
 
-You can download this plugin from this [page](<?=$v_tag_url?>/<?=$yaml["name"].'-'.$yaml["version"]?>).
+You can also download this plugin from this [page](<?=$v_tag_url?>/<?=$yaml["name"].'-'.$yaml["version"]?>).
