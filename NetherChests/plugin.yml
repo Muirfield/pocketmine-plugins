@@ -1,0 +1,10 @@
+main: aliuly\nechest\Main
+api: 1.12.0
+load: POSTWORLD
+
+name: NetherChests
+description: An Ender Chest type plugin
+version: 1.0.0
+author: aliuly
+
+permissions:
