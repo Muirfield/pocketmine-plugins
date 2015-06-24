@@ -187,12 +187,6 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     A flaming sword
-    <ul>
-      <li>
-	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/FireBlade-1.0.0" title="Downloads">v1.0.0
-	  <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
-      </li>
-    </ul>
   </td>
 </tr>
 <!---------------------------------------------------------------------->
@@ -206,12 +200,6 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     A collection of toys and useful tool items
-    <ul>
-      <li>
-	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/ToyBox-1.0.0" title="Downloads">v1.0.0
-	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
-      </li>
-    </ul>
   </td>
 </tr>
 
@@ -226,12 +214,6 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     Leave it all behind
-    <ul>
-      <li>
-	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/LIAB-1.0.0" title="Downloads">v1.0.0
-	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
-      </li>
-    </ul>
   </td>
 </tr>
 <!---------------------------------------------------------------------->
@@ -245,12 +227,6 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     Heads Up Display
-    <ul>
-      <li>
-	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/BasicHUD-1.0.4" title="Downloads">v1.0.4
-	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
-      </li>
-    </ul>
   </td>
 </tr>
 <!---------------------------------------------------------------------->
@@ -264,12 +240,6 @@ Repository for my *official* PocketMine plugins.
   </th>
   <td>
     An EnderChest implementation
-    <ul>
-      <li>
-	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/NetherChests-0.1.0" title="Downloads">v0.1.0
-	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
-      </li>
-    </ul>
   </td>
 </tr>
 <!---------------------------------------------------------------------->
