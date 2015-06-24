@@ -5,17 +5,21 @@
  ** COMMANDS
  **
  ** * after : schedule command after a number of seconds
- **   usage: **after** _<seconds>_ _<command>_
+ **   usage: **after** _<seconds>_ _<command>_|list|cancel _<id>_
  **
- **   Will schedule to run *command* after *seconds*
+ **   Will schedule to run *command* after *seconds*.
+ **   The **list** sub command will show all the queued commands.
+ **   The **cancel** sub command allows you to cancel queued commands.
  **
  ** * at : schedule command at an appointed date/time
- **   usage: **at** _<time>_ _[:]_ _command_
+ **   usage: **at** _<time>_ _[:]_ _command_|list|cancel _<id>_
  **
  **   Will schedule to run *command* at the given date/time.  This uses
  **   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
  **   function so _times_ must follow the format described in
  **   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
+ **   The **list** sub command will show all the queued commands.
+ **   The **cancel** sub command allows you to cancel queued commands.
  **
  ** DOCS
  **
@@ -43,11 +47,11 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 		$this->tasks = [];
 		$this->enableCmd("after",
 							  ["description" => mc::_("schedule to run a command after x seconds"),
-								"usage" => mc::_("/after <seconds> <command>"),
+								"usage" => mc::_("/after <seconds> <command>|list|cancel <id>"),
 								"permission" => "gb.cmd.after"]);
 		$this->enableCmd("at",
 							  ["description" => mc::_("schedule to run a command at a certain time"),
-								"usage" => mc::_("/at <time> <command>"),
+								"usage" => mc::_("/at <time> <command>|list|cancel <id>"),
 								"permission" => "gb.cmd.after"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -86,7 +90,7 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 											count($this->tasks)) ] ];
 				foreach ($this->tasks as $tid => $cmd) {
 					list($when,$line) = $cmd;
-					$tab[] = [ $tid, date(DATE_RFC2822,$when), $line ];
+					$tab[] = [ $tid, date(mc::_("d-M-Y H:i:s"),$when), $line ];
 				}
 				return $this->paginateTable($sender,$pageNumber,$tab);
 			case "cancel":
