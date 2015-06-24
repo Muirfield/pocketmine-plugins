@@ -13,16 +13,11 @@
 
 ## Overview
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/zippluginloader.8924"; -->
+<!-- template: prologue.md -->
+INSERTED BY TEMPLATE
+<!-- template-end -->
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/zippluginloader.8924/) for
-that.  You are more likely to get a response and help that way.
-
-Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
-for the most up-to-date documentation.
 
 
 **NOTE: This is unlike _DevTools_, as it is focus on only loading Zip files
@@ -54,6 +49,8 @@ loaded.
 
 ## Changes
 
+* ???
+  * Displays a warning whenever a PHAR file is found.
 * 1.1.1: Bug-fix
   - Fixed some reload related bugs.
 * 1.1.0: Multiple plugins

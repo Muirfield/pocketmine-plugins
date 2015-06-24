@@ -65,20 +65,20 @@ class ZipPluginLoader implements PluginLoader{
 			}
 			$desc = $this->myGetPluginDesc($file);
 			$dataFolder=$this->zipdir($file).DIRECTORY_SEPARATOR.$desc->getName();
-			$this->server->getLogger()->info(TextFormat::AQUA."Loading zip NESTED plugin " . $desc->getFullName());
+			$this->server->getLogger()->info(TextFormat::AQUA."[ZipPluginLoader] Loading zip NESTED plugin " . $desc->getFullName());
 			return $this->initPlugin($desc,$dataFolder,$file);
 		}
-		$ymls = $this->findFiles($file,"plugin.yml");
+		$ymls = $this->findFiles($file,"plugin.yml", true);
 		if ($ymls === null) {
-			$this->server->getLogger()->error(TextFormat::RED."Unable to load zip $file");
-			$this->server->getLogger()->error(TextFormat::RED."plugin.yml not found");
-			throw new PluginException("Couldn't load plugin");
+			$this->server->getLogger()->error(TextFormat::RED."[ZipPluginLoader] Unable to load zip $file");
+			$this->server->getLogger()->error(TextFormat::RED."[ZipPluginLoader] plugin.yml not found");
+			throw new PluginException("[ZipPluginLoader] Couldn't load plugin");
 			return null;
 		}
 		if (count($ymls) > 1) {
 			// Load all the internal plugins
 			$plugins = $this->check_plugins($file,$ymls);
-			$this->server->getLogger()->info(TextFormat::AQUA."Loading ".
+			$this->server->getLogger()->info(TextFormat::AQUA."[ZipPluginLoader] Loading ".
 														count($plugins)." plugin(s) from ".
 														basename($file));
 			// Check if we need to do a loadbefore...
@@ -112,7 +112,7 @@ class ZipPluginLoader implements PluginLoader{
 
 							$found = $this->server->getPluginManager()->getPlugin($d);
 							if ($found === null) {
-								throw new PluginException("Missing dependancy: $d");
+								throw new PluginException("[ZipPluginLoader] Missing dependancy: $d");
 								return null;
 							}
 						}
@@ -136,12 +136,12 @@ class ZipPluginLoader implements PluginLoader{
 					++$cnt;
 				}
 				if ($cnt == 0) {
-					throw new PluginException("Error loading plugins");
+					throw new PluginException("[ZipPluginLoader] Error loading plugins");
 					break;
 				}
 			}
 			if (count($plugins)) {
-				$this->server->getLogger()->error(TextFormat::RED."Failed to load plugins ".implode(", ",array_keys($plugins)));
+				$this->server->getLogger()->error(TextFormat::RED."[ZipPluginLoader] Failed to load plugins ".implode(", ",array_keys($plugins)));
 				return null;
 			}
 
@@ -157,7 +157,7 @@ class ZipPluginLoader implements PluginLoader{
 					 self::PREFIX.$file."#" :
 					 self::PREFIX.$file."#".dirname($ymls[0])."/";
 
-		$this->server->getLogger()->info(TextFormat::AQUA."Loading zip plugin " . $desc->getFullName());
+		$this->server->getLogger()->info(TextFormat::AQUA."[ZipPluginLoader] Loading zip plugin " . $desc->getFullName());
 		return $this->initPlugin($desc,$dataFolder,$basepath);
 	}
 	/**
@@ -173,7 +173,7 @@ class ZipPluginLoader implements PluginLoader{
 	 */
 	public function enablePlugin(Plugin $plugin){//@API
 		if($plugin instanceof PluginBase and !$plugin->isEnabled()){
-			$this->server->getLogger()->info("Enabling " . $plugin->getDescription()->getFullName());
+			$this->server->getLogger()->info("[ZipPluginLoader] Enabling " . $plugin->getDescription()->getFullName());
 
 			$plugin->setEnabled(true);
 
@@ -186,7 +186,7 @@ class ZipPluginLoader implements PluginLoader{
 	 */
 	public function disablePlugin(Plugin $plugin){//@API
 		if($plugin instanceof PluginBase and $plugin->isEnabled()){
-			$this->server->getLogger()->info("Disabling " . $plugin->getDescription()->getFullName());
+			$this->server->getLogger()->info("[ZipPluginLoader] Disabling " . $plugin->getDescription()->getFullName());
 
 			Server::getInstance()->getPluginManager()->callEvent(new PluginDisableEvent($plugin));
 
@@ -284,7 +284,7 @@ class ZipPluginLoader implements PluginLoader{
 				if (!isset($ok[$dat["name"]])) continue;
 			}
 			if (!isset($dat["api"])) {
-				throw new PluginException("No API defined in $plugin_yml");
+				throw new PluginException("[ZipPluginLoader] No API defined in $plugin_yml");
 				return null;
 			}
 			$plugin["api"] = is_array($dat["api"]) ? $dat["api"] : [$dat["api"]];
@@ -313,7 +313,7 @@ class ZipPluginLoader implements PluginLoader{
 		}
 		return $plugins;
 	}
-	protected function findFiles($zip,$file) {
+	protected function findFiles($zip,$file,$warnphar = false) {
 		$files = [];
 		$za = new \ZipArchive();
 		if($za->open($zip) !== true) return null;
@@ -325,6 +325,10 @@ class ZipPluginLoader implements PluginLoader{
 			if (!isset($st["name"])) continue;
 			if (basename($st["name"]) == $file) {
 				$files[] = $st["name"];
+				continue;
+			}
+			if (preg_match('/\.phar$/i',$st["name"])) {
+				$this->server->getLogger()->warning("[ZipPluginLoader] Skipping PHAR file: ".$st["name"]);
 			}
 		}
 		$za->close();
@@ -335,18 +339,18 @@ class ZipPluginLoader implements PluginLoader{
 
 	protected function initPlugin($desc,$dataFolder,$path) {
 		if (!($desc instanceof PluginDescription)) {
-			throw new PluginException("Couldn't load plugin");
+			throw new PluginException("[ZipPluginLoader] Couldn't load plugin");
 			return null;
 		}
 		if(file_exists($dataFolder) and !is_dir($dataFolder)){
-			throw new PluginException("Projected dataFolder '" . $dataFolder . "' for " . $descr->getName() . " exists and is not a directory");
+			throw new PluginException("[ZipPluginLoader] Projected dataFolder '" . $dataFolder . "' for " . $descr->getName() . " exists and is not a directory");
 			return null;
 		}
 		$className = $desc->getMain();
 
 		$this->server->getLoader()->addPath($path . "src");
 		if(!class_exists($className, true)){
-			throw new PluginException("Couldn't load zip plugin " . $descr->getName() . ": main class not found");
+			throw new PluginException("[ZipPluginLoader] Couldn't load zip plugin " . $descr->getName() . ": main class not found");
 			return null;
 		}
 		$plugin = new $className();

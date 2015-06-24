@@ -14,16 +14,10 @@
 
 ## Overview
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
-
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/grabbag.7524/) for
-that.  You are more likely to get a response and help that way.
-
-**Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
-for the most up-to-date documentation.**
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/grabbag.7524/"; -->
+<!-- template: prologue.md -->
+INSERTED BY TEMPLATE
+<!-- template-end -->
 
 A miscellaneous collection of commands and listener modules.  Features
 can be configured to be disable|enable so as to co-exists with other
@@ -742,4 +736,3 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
