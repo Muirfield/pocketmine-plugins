@@ -177,6 +177,103 @@ Repository for my *official* PocketMine plugins.
   </td>
 </tr>
 <!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/FireBlade">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      FireBlade
+    </a>
+  </th>
+  <td>
+    A flaming sword
+    <ul>
+      <li>
+	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/FireBlade-1.0.0" title="Downloads">v1.0.0
+	  <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
+      </li>
+    </ul>
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/ToyBox">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      ToyBox
+    </a>
+  </th>
+  <td>
+    A collection of toys and useful tool items
+    <ul>
+      <li>
+	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/ToyBox-1.0.0" title="Downloads">v1.0.0
+	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
+      </li>
+    </ul>
+  </td>
+</tr>
+
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/LIAB">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/LIAB-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      LIAB
+    </a>
+  </th>
+  <td>
+    Leave it all behind
+    <ul>
+      <li>
+	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/LIAB-1.0.0" title="Downloads">v1.0.0
+	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
+      </li>
+    </ul>
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD">
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      BasicHUD
+    </a>
+  </th>
+  <td>
+    Heads Up Display
+    <ul>
+      <li>
+	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/BasicHUD-1.0.4" title="Downloads">v1.0.4
+	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
+      </li>
+    </ul>
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests">
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      NetherChests
+    </a>
+  </th>
+  <td>
+    An EnderChest implementation
+    <ul>
+      <li>
+	<a href="https://github.com/alejandroliu/bad-plugins/releases/tag/NetherChests-0.1.0" title="Downloads">v0.1.0
+	  <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/></a>
+      </li>
+    </ul>
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+
 </table>
 
 Other stuff:
