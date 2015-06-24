@@ -75,19 +75,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="http://forums.pocketmine.net/plugins/localchat.1083/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/localchat-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      LocalChat
-    </a>
-  </th>
-  <td>
-    Localized chat
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="http://forums.pocketmine.net/plugins/itemcase.1138/">
       <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
@@ -214,4 +201,3 @@ Other stuff:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
