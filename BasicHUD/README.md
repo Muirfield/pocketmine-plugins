@@ -155,7 +155,7 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 * 1.0.4: Performance tweaks
   * Cache permissions for selecting formats
-  * An empty vars.php yields an empty functin (saving a comparison)
+  * An empty vars.php yields an empty function (saving a comparison)
   * Constant vars are calculated once.
 * 1.0.3: First public release
   * Added a "use" permission.
