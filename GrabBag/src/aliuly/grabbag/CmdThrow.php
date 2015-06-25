@@ -4,7 +4,7 @@
  **
  ** COMMANDS
  **
- ** * throw : Throw a player in the air -- **ONLY FOR PM1.4**
+ ** * throw : Throw a player in the air
  **   usage: **throw** _<player>_ _[force]_
  **/
 namespace aliuly\grabbag;

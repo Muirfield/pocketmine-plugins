@@ -1,0 +1,31 @@
+main: aliuly\toybox\Main
+api: 1.10.0
+load: POSTWORLD
+
+name: ToyBox
+description: A box full of fun toys and tools
+version: 1.1.0
+author: aliuly
+
+permissions:
+    toybox.treecapitator:
+        default: op
+        description: "Use treecapitator"
+    toybox.magiccarpet:
+        default: op
+        description: "MagicCarpet command"
+    toybox.compasstp:
+        default: op
+        description: "Teleport with compass"
+    toybox.powertool:
+        default: op
+        description: "Allow the use of powertool"
+    toybox.cloakclock.use:
+        default: op
+        description: "Can use cloakclock"
+    toybox.cloakclock.inmune:
+        default: op
+        description: "Can see players using cloakclock"
+    toybox.torch:
+        default: op
+        description: "Can use floating torch"

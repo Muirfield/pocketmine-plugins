@@ -8,13 +8,28 @@ use aliuly\common\mc;
 use aliuly\common\Cli;
 use aliuly\common\BasicCli;
 
+/**
+ * Implements simple help functionality for sub-commands
+ */
 class BasicHelp extends BasicCli {
 	protected $fmt;
+	/**
+	 * @param PluginBase $owner - plugin that owns this command
+	 */
 	public function __construct($owner,$fmt = "/%s %s %s") {
 		parent::__construct($owner);
 		$this->enableSCmd("help",["aliases"=>["?"]]);
 		$this->fmt = $fmt;
 	}
+	/**
+	 * Entry point for sub-commands.  Will show the help or usage messages
+	 *
+	 * @param CommandSender $c - Entity issuing the command
+	 * @param Command $cc - actual command that was issued
+	 * @param str $scmd - sub-command being executed
+	 * @param mixed $data - Additional data passed to sub-command (global options)
+	 * @param str[] $args - arguments for sub-command
+	 */
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
 		$cm = $this->owner->getSCmdMap();
 		$pageNumber = $this->getPageNumber($args);

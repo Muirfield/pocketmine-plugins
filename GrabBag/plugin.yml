@@ -1,11 +1,12 @@
 main: aliuly\grabbag\Main
-api: 1.10.0
+api: [1.10.0,1.11.0,1.12.0]
 load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
 version: 2.2.1
 author: aliuly
+website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
 permissions:
   gb.module.repeater:

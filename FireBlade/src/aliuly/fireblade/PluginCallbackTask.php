@@ -1,18 +1,32 @@
 <?php
-namespace aliuly\common;
+
+/*
+ *
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author PocketMine Team
+
+ *
+ *
+*/
+namespace aliuly\fireblade;
 
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 
 /**
  * Allows the creation of simple callbacks with extra data
- * The last parameter in the callback will be the "currentTicks"
+ * The last parameter in the callback will be this object
  *
- * Simply put, just do:
- *
- *    new PluginCallbackTask($plugin,[$obj,"method"],[$args])
- *
- * Pass it to the scheduler and off you go...
  */
 class PluginCallbackTask extends PluginTask{
 

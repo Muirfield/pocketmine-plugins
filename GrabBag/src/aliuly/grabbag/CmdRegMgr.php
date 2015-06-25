@@ -16,6 +16,8 @@
  **       wildcard _pattern_.
  **   - **rm** _<player>_
  **     - Removes _<player>_ registration.
+ **   - **since** _<when>_
+ **			- Display list of players registered since a date/time.
  **/
 
 namespace aliuly\grabbag;
@@ -36,7 +38,7 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 		parent::__construct($owner);
 		$this->enableCmd("reg",
 							  ["description" => mc::_("manage player registrations"),
-								"usage" => mc::_("/reg [count|list [pattern]|rm [player]]"),
+								"usage" => mc::_("/reg [count|list [pattern]|rm [player]|since <when>]"),
 								"permission" => "gb.cmd.regs"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -97,6 +99,31 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 				unlink($f);
 				$sender->sendMessage(TextFormat::RED.mc::_("%1% was deleted.",$victim));
 				return true;
+			case "since":
+				$pageNumber = $this->getPageNumber($args);
+				if (count($args) == 0) return false;
+				if (($when = strtotime(implode(" ",$args))) === false) return false;
+				$f = glob($this->owner->getServer()->getDataPath()."players/".
+							$pattern.".dat");
+				$tab = [ [ mc::_("Date/Time"), "x" ] ];
+				foreach ($f as $n) {
+					$n = basename($n,".dat");
+					$target = $this->owner->getServer()->getOfflinePlayer($n);
+					if ($target == null || !$target->hasPlayedBefore()) continue;
+					if (($regdate = $target->getFirstPlayed()/1000) > $when) {
+						$tab[] = [ date(mc::_("d-M-Y H:i"),$regdate), $n ];
+					}
+				}
+				$cnt = count($tab)-1;
+				if ($cnt == 0) {
+					$sender->sendMessage(mc::_("No players found"));
+					return true;
+				}
+				$tab[0][1] = mc::n(mc::_("One player found"),
+														mc::_("%1% players found",$cnt),
+														$cnt);
+				return $this->paginateText($sender,$pageNumber,$txt);
+
 		}
 		return false;
 	}
