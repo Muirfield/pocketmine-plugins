@@ -631,6 +631,9 @@ for sample files.
 * ?????
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
+  * CmdAfterAt: list tasks and cancel them
+  * Sounds on teleport
+  * CmdRegMgr : show players registering since certain date
 * 2.2.1: Misc fixes and new features
   * New Command:
     * skin : manipulate skins
