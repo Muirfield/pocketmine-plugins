@@ -6,6 +6,8 @@ use pocketmine\utils\MainLogger;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
+use aliuly\common\mc;
+
 /**
  * My PocketMine Utils class
  */
