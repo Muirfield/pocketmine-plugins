@@ -103,8 +103,7 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 				$pageNumber = $this->getPageNumber($args);
 				if (count($args) == 0) return false;
 				if (($when = strtotime(implode(" ",$args))) === false) return false;
-				$f = glob($this->owner->getServer()->getDataPath()."players/".
-							$pattern.".dat");
+				$f = glob($this->owner->getServer()->getDataPath()."players/*.dat");
 				$tab = [ [ mc::_("Date/Time"), "x" ] ];
 				foreach ($f as $n) {
 					$n = basename($n,".dat");
@@ -122,7 +121,7 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 				$tab[0][1] = mc::n(mc::_("One player found"),
 														mc::_("%1% players found",$cnt),
 														$cnt);
-				return $this->paginateText($sender,$pageNumber,$txt);
+				return $this->paginateTable($sender,$pageNumber,$tab);
 
 		}
 		return false;

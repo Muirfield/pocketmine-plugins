@@ -628,7 +628,7 @@ for sample files.
 
 # Changes
 
-* ?????
+* 2.2.2
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
   * CmdAfterAt: list tasks and cancel them

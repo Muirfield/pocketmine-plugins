@@ -58,7 +58,7 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 		// Collect expired tasks out of the tasks table...
 		foreach (array_keys($this->tasks) as $tid) {
 			if (!$this->owner->getServer()->getScheduler()->isQueued($tid)) {
-				unset($this->tasks[$tid])
+				unset($this->tasks[$tid]);
 			}
 		}
 		switch($cmd->getName()) {
@@ -80,7 +80,7 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 			case "list":
 			case "ls":
 				if (count($this->tasks) == 0) {
-					$c->sendMessage(mc::_("No tasks currently scheduled"))
+					$c->sendMessage(mc::_("No tasks currently scheduled"));
 					return true;
 				}
 				$pageNumber = $this->getPageNumber($args);
@@ -92,15 +92,15 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 					list($when,$line) = $cmd;
 					$tab[] = [ $tid, date(mc::_("d-M-Y H:i:s"),$when), $line ];
 				}
-				return $this->paginateTable($sender,$pageNumber,$tab);
+				return $this->paginateTable($c,$pageNumber,$tab);
 			case "cancel":
 				if (count($args) != 2) return false;
 				if (!isset($this->tasks[$args[1]])){
-					$this->sendMessage(mc::_("Task %1% not found!",$args[1]));
+					$c->sendMessage(mc::_("Task %1% not found!",$args[1]));
 					return true;
 				}
 				$this->owner->getServer()->getScheduler()->cancelTask($args[1]);
-				$this->sendMessage(mc::_("Cancelling Task %1%",$args[1]));
+				$c->sendMessage(mc::_("Cancelling Task %1%",$args[1]));
 				return true;
 		}
 		return false;
