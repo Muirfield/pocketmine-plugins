@@ -70,7 +70,7 @@ The following sections are defined:
 
 ## Configured Formats
 
-IThe displayed text can be:
+The displayed text can be:
 
 * A fixed string.
 * A string containing {variables}
@@ -187,7 +187,11 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
   * An empty vars.php yields an empty function (saving a comparison)
   * Constant vars are calculated once.
   * Fixed bug around permissions (to change formats)
-  * Added translation (but not for bearing to avoid the translation  overhead)
+  * Added translation (but not for bearing to avoid the translation overhead)
+  * New {vars}:
+    * {tps}
+    * {NL}
+    * {10SPACE}, {20SPACE}, {30SPACE}, {40SPACE}, {50SPACE}
 * 1.0.3: First public release
   * Added a "use" permission.
   * More correct use of permission

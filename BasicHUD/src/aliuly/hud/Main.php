@@ -17,8 +17,8 @@ use pocketmine\permission\Permission;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
-use aliuly\common\mc;
-use aliuly\common\MPMU;
+use aliuly\hud\common\mc;
+use aliuly\hud\common\MPMU;
 
 interface Formatter {
 	static public function formatString(Main $plugin,$format,Player $player);
