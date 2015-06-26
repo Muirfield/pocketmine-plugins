@@ -10,7 +10,7 @@ BasicHUD
 * OptionalPlugins: -
 * Categories: Informational
 * Plugin Access: Other Plugins
-* WebSite: https://github.com/alejandroliu/bad-plugins/tree/master/BasicHUD
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD
 
 ## Overview
 
@@ -29,7 +29,7 @@ that.  You are more likely to get a response and help that way.
 This documentation was last updated for version **1.0.5**.
 
 Please go to
-[github](https://github.com/alejandroliu/bad-plugins/tree/master/BasicHUD)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD)
 for the most up-to-date documentation.
 
 You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//BasicHUD-1.0.5).
