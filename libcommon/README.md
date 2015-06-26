@@ -2,20 +2,33 @@
 
 # NAME
 
-* Summary: short description (from plugin.yml)
+* Summary: aliuly's common library
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.5 - API 1.12.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: DevTools
 * Plugin Access: -
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/*****************
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 ## Overview
 
 <!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/xxxxxxxxxxxxxxxx"; -->
 <!-- template: prologue.md -->
-INSERTED BY TEMPLATE
+<!-- Add the line: -->
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
+
+
+**NOTE:**
+
+This documentation was last updated for version **0.1.0**.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
+for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//libcommon-0.1.0).
+
 <!-- template-end -->
 
 This plugin contains my standard library that I personally use when
@@ -72,3 +85,4 @@ For the full API documentation go to: [GitHub pages](http://alejandroliu.github.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
