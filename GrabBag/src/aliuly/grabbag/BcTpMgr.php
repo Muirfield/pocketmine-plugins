@@ -17,6 +17,7 @@ use pocketmine\Player;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 use pocketmine\level\particle\DustParticle;
+use pocketmine\level\sound\FizzSound;
 
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
@@ -68,6 +69,7 @@ class BcTpMgr implements Listener {
 				for ($i=0;$i<20;$i++) {
 					$pos->getLevel()->addParticle(new DustParticle(self::randVector($pos),(mt_rand()/mt_getrandmax())*2,255,255,255));
 				}
+				$pos->getLevel()->addSound(new FizzSound($pos));
 			}
 		}
 

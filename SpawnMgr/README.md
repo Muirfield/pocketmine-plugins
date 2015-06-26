@@ -2,9 +2,9 @@
 
 # SpawnMgr
 
-* Summary: Better control of how players spawn
+* Summary: More spawn related settings
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: SimpleAuth
 * Categories: Admin Tools

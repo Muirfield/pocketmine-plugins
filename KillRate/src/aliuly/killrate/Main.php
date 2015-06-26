@@ -70,7 +70,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"# kill-streak" => "Enable kill-streak tracking.", // "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
 				"kill-streak" => false,
 			],
-			"# values" => "configure awards.", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
+			"# values" => "configure awards. (1st.money, 2nd.points)", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 			"values" => [
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],

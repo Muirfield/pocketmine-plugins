@@ -2,9 +2,9 @@
 
 # GrabBag
 
-* Summary: A large colletion of commands and listener modules
+* Summary: Collection of miscellaneous commands and listener modules
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: General
@@ -14,16 +14,10 @@
 
 ## Overview
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
-
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/grabbag.7524/) for
-that.  You are more likely to get a response and help that way.
-
-**Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
-for the most up-to-date documentation.**
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/grabbag.7524/"; -->
+<!-- template: prologue.md -->
+INSERTED BY TEMPLATE
+<!-- template-end -->
 
 A miscellaneous collection of commands and listener modules.  Features
 can be configured to be disable|enable so as to co-exists with other
@@ -579,7 +573,6 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.prefix : Allow the use of /prefix
 * gb.cmd.spawn : Allow to teleport to spawn
-  (Defaults to Op)
 * gb.cmd.burn : Allow the use of burn command
   (Defaults to Op)
 * gb.cmd.throw : Allow to throw players up in the air
@@ -635,6 +628,12 @@ for sample files.
 
 # Changes
 
+* 2.2.2
+  * Default permission for /spawn changed from op to everyone.
+  * Whois shows clientId
+  * CmdAfterAt: list tasks and cancel them
+  * Sounds on teleport
+  * CmdRegMgr : show players registering since certain date
 * 2.2.1: Misc fixes and new features
   * New Command:
     * skin : manipulate skins
@@ -740,4 +739,3 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-

@@ -10,10 +10,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use pocketmine\Player;
+use pocketmine\item\Item;
 
 use pocketmine\utils\Config;
-
-use pocketmine\item\Item;
 
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
@@ -24,6 +23,7 @@ class Main extends PluginBase implements CommandExecutor {
 	protected $trading;
 	protected $keepers;
 	protected $api;
+	protected $weapons;
 
 	public function getCurrency() { return $this->currency; }
 
@@ -35,7 +35,7 @@ class Main extends PluginBase implements CommandExecutor {
 			"version" => $this->getDescription()->getVersion(),
 			"# settings" => "features",
 			"settings" => [
-				"# currency" => "Item to use for currency",
+				"# currency" => "Item to use for currency",// false or zero disables currency exchange.
 				"currency" => "GOLD_INGOT",
 				"# signs" => "set to true to enable shops|casino signs",
 				"signs" => true,
@@ -46,7 +46,10 @@ class Main extends PluginBase implements CommandExecutor {
 			"# signs" => "Text used to identify GoldStd signs",
 			"signs" => SignMgr::defaults(),
 			"shop-keepers" => ShopKeep::defaults(),
+			"# weapons" => "List of offensive weapons",
+			"weapons" => [],
 		];
+		$this->saveResource("shops.yml");
 		$cf = (new Config($this->getDataFolder()."config.yml",
 								Config::YAML,$defaults))->getAll();
 		if ($cf["settings"]["currency"]) {
@@ -92,7 +95,7 @@ class Main extends PluginBase implements CommandExecutor {
 			$this->getLogger()->warning(TextFormat::RED.
 											 mc::_("SignShops disabled"));
 		}
-		if ($cf["shop-keepers"]) {
+		if (ShopKeep::cfEnabled($cf["shop-keepers"])) {
 			$this->saveResource("default.skin");
 			$this->keepers = new ShopKeep($this,$cf["shop-keepers"]);
 			if (!$this->keepers->isEnabled()) {
@@ -103,6 +106,24 @@ class Main extends PluginBase implements CommandExecutor {
 			$this->getLogger()->warning(TextFormat::RED.
 											 mc::_("Shop-Keepers disabled"));
 		}
+		$this->weapons = [];
+		if ($cf["weapons"]) {
+			foreach ($cf["weapons"] as $cf) {
+				$item = Item::fromString($cf);
+				if (($item = $item->getId()) == Item::AIR) {
+					$plugin->getLogger()->error(mc::_("Invalid weapon item: %1%",$cf));
+					continue;
+				}
+				$this->weapons[$item] = $item;
+			}
+		}
+
+	}
+	public function isWeapon($item) {
+		if ($item instanceof Item) {
+			$item = $item->getId();
+		}
+		return (isset($this->weapons[$item]));
 	}
 	//////////////////////////////////////////////////////////////////////
 	//

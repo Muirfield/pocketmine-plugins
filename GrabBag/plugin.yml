@@ -1,11 +1,12 @@
 main: aliuly\grabbag\Main
-api: 1.10.0
+api: [1.10.0,1.11.0,1.12.0]
 load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.1
+version: 2.2.2dev
 author: aliuly
+website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
 permissions:
   gb.module.repeater:
@@ -108,7 +109,7 @@ permissions:
     default: true
     description: "Allow the use of /prefix"
   gb.cmd.spawn:
-    default: op
+    default: true
     description: "Allow to teleport to spawn"
   gb.cmd.burn:
     default: op

@@ -33,19 +33,16 @@
 
 # Pending Approval
 
-- GrabBag
-- ChatScribe
-- SpawnMgr
-- ZipPluginLoader
-
 - BasicHUD
 - NetherChests
 
 # INDEV
 
 - LiveSigns - testing
+
 - GoldStd
   - finish shopkeep
+  - ignore creative
   - shopkeep settings in config.yml, shopkeep defintions in shops.yml
   - testing
 - libcommon

@@ -1,9 +1,32 @@
 <?php
+$apitable = [
+	"1.10.0" => "1.4 (API:1.10.0)",
+	"1.11.0" => "1.4.1 (API:1.11.0)",
+	"1.12.0" => "1.5 (API:1.12.0)",
+];
+
 function parse_readme($otxt) {
 	$txt = [""];
 	$state = "top";
+	$old_state = "top";
+
 	foreach($otxt as $ln) {
 		$x = strtolower(trim($ln));
+    if (preg_match('/<!--\s*template:\s*(\S+)\s*-->/',$x,$mv)) {
+			$old_state = $state;
+			$state = "find-eot";
+			$txt[] = $ln;
+			$txt[] = "\n<TEMPLATE>\n".$mv[1];
+			continue;
+		}
+		if ($state == "find-eot") {
+			if (preg_match('/<!--\s*template-end\s*-->/',$x)) {
+				$txt[] = $ln;
+				$state = $old_state;
+				$old_state = "top";
+			}
+			continue;
+		}
 		if ($x == "## overview") {
 			// Doing overview...
 			$state = "overview";
@@ -277,7 +300,6 @@ function expand_tags($txt,$db,$yaml) {
 					}
 				}
 				break;
-				break;
 			case "\n<CMDREF>":
 				if ($out[count($out)-1] !=  "") $out[] = "";
 				$out[] = "The following commands are available:";
@@ -347,6 +369,19 @@ function expand_tags($txt,$db,$yaml) {
 				}
 				break;
 			default:
+			  if (substr($ln,0,strlen("\n<TEMPLATE>\n")) == "\n<TEMPLATE>\n") {
+					// Insert a template...
+					$templ = substr($ln,strlen("\n<TEMPLATE>\n"));
+					ob_start();
+					include(LIBDIR."templ/".$templ);
+					foreach (explode("\n",ob_get_clean()) as $i) {
+						$out[] = $i;
+					}
+					break;
+				}
+				if (preg_match('/<!--\s*php:(.*)\s*-->/',$ln,$mv)) {
+					eval($mv[1]);
+				}
 				$out[] = $ln;
 		}
 	}
@@ -358,14 +393,56 @@ function expand_tags($txt,$db,$yaml) {
 }
 
 function gendoc($readme,$yaml) {
+	global $apitable;
+
 	if (!file_exists($readme)) die("$readme: file not found\n");
 	$otxt = file_get_contents($readme);
 	$txt = parse_readme(explode("\n",$otxt));
 	$db = analyze_tree(dirname($readme));
 	$out = expand_tags($txt,$db,$yaml);
 	$ntxt = implode("\n",$out);
+
+	/** Fix header entries */
+	foreach ([
+		'/(\* Summary:\s)\s*.*\n/' => "description",
+		'/(\* Dependency Plugins:\s)\s*.*\n/' => "depend",
+		'/(\* Optional Plugins:\s)\s*.*\n/' => "softdepend",
+		'/(\* PocketMine-MP version:\s)\s*.*\n/' => "api",
+		'/(\* WebSite:\s)\s*.*\n/' => "website",
+	] as $re => $attr) {
+		if (!isset($yaml[$attr])) continue;
+		if (preg_match($re,$ntxt,$mv)) {
+			if ($attr == "api") {
+				// API is a special case...
+				$items = [];
+				$api = is_array($yaml[$attr]) ? $yaml[$attr] : [$yaml[$attr]];
+				foreach ($api as $j) {
+					if (isset($apitable[$j]))
+						$items[] = $apitable[$j];
+					else
+						$items[] = $j;
+				}
+				$ntxt = preg_replace($re,$mv[1].implode(", ",$items)."\n",$ntxt);
+				continue;
+			}
+			$item = $mv[1];
+			if (is_array($yaml[$attr]))
+				$item .= implode(", ",$yaml[$attr]);
+			else
+				$item .= $yaml[$attr];
+			$item .= "\n";
+			$ntxt = preg_replace($re,$item,$ntxt);
+		}
+	}
+	if (isset($yaml["website"])) {
+		$re = '/\[github\]\([^\)]+\)/';
+		if (preg_match($re,$ntxt,$mv)) {
+			$ntxt = preg_replace($re,'[github]('.$yaml["website"].')',$ntxt);
+		}
+	}
+
 	if ($otxt != $ntxt) {
-		file_put_contents($readme,implode("\n",$out));
+		file_put_contents($readme,$ntxt);
 		echo "Updated ".basename($readme)."\n";
 	}
 }

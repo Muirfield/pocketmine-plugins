@@ -24,8 +24,13 @@ use pocketmine\plugin\Plugin;
 
 /**
  * Allows the creation of simple callbacks with extra data
- * The last parameter in the callback will be this object
+ * The last parameter in the callback will be the "currentTicks"
  *
+ * Simply put, just do:
+ *
+ *    new PluginCallbackTask($plugin,[$obj,"method"],[$args])
+ *
+ * Pass it to the scheduler and off you go...
  */
 class PluginCallbackTask extends PluginTask{
 

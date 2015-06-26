@@ -75,19 +75,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="http://forums.pocketmine.net/plugins/localchat.1083/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/localchat-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      LocalChat
-    </a>
-  </th>
-  <td>
-    Localized chat
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="http://forums.pocketmine.net/plugins/itemcase.1138/">
       <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
@@ -190,6 +177,73 @@ Repository for my *official* PocketMine plugins.
   </td>
 </tr>
 <!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/FireBlade">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      FireBlade
+    </a>
+  </th>
+  <td>
+    A flaming sword
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/ToyBox">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      ToyBox
+    </a>
+  </th>
+  <td>
+    A collection of toys and useful tool items
+  </td>
+</tr>
+
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/LIAB">
+      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/LIAB-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      LIAB
+    </a>
+  </th>
+  <td>
+    Leave it all behind
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD">
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      BasicHUD
+    </a>
+  </th>
+  <td>
+    Heads Up Display
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests">
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      NetherChests
+    </a>
+  </th>
+  <td>
+    An EnderChest implementation
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
+
 </table>
 
 Other stuff:
@@ -214,4 +268,3 @@ Other stuff:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

@@ -9,15 +9,33 @@ use pocketmine\Player;
 
 use pocketmine\utils\TextFormat;
 
+/**
+ * Implements Basic CLI common functionality.  It is useful for plugins
+ * that implement multiple commands or sub-commands
+ */
 abstract class BasicCli {
 	protected $owner;
+	/**
+	 * @param BasicPlugin @owner - Plugin that owns this module
+	 */
 	public function __construct($owner) {
 		$this->owner = $owner;
 	}
-
+  /**
+	 * Register this class as a sub-command.  See BasicPlugin for details.
+	 *
+	 * @param str $cmd - sub-command to register
+	 * @param mixed[] $opts - additional options for registering sub-command
+	 */
 	public function enableSCmd($cmd,$opts) {
 		$this->owner->registerScmd($cmd,[$this,"onSCommand"],$opts);
 	}
+	/**
+	 * Register this class as a command.
+	 *
+	 * @param str $cmd - command to register
+	 * @param mixed[] $yaml - options for command
+	 */
 	public function enableCmd($cmd,$yaml) {
 		$newCmd = new PluginCommand($cmd,$this->owner);
 		if (isset($yaml["description"]))
@@ -43,8 +61,13 @@ abstract class BasicCli {
 		$cmdMap = $this->owner->getServer()->getCommandMap();
 		$cmdMap->register($this->owner->getDescription()->getName(),$newCmd);
 	}
-
-	// Paginate output
+	/**
+	 * Use for paginaged output implementation.
+	 * This gets the player specified page number that we want to Display
+	 *
+	 * @param str[] $args - Passed arguments
+	 * @return int page number
+	 */
 	protected function getPageNumber(array &$args) {
 		$pageNumber = 1;
 		if (count($args) && is_numeric($args[count($args)-1])) {
@@ -53,6 +76,15 @@ abstract class BasicCli {
 		}
 		return $pageNumber;
 	}
+	/**
+	 * Use for paginaged output implementation.
+	 * Shows a bunch of line in paginated output.
+	 *
+	 * @param CommandSender $sender - entity that we need to display text to
+	 * @param int $pageNumber - page that we need to display
+	 * @param str[] $txt - Array containing one element per output line
+	 * @return bool true
+	 */
 	protected function paginateText(CommandSender $sender,$pageNumber,array $txt) {
 		$hdr = array_shift($txt);
 		if($sender instanceof ConsoleCommandSender){
@@ -76,6 +108,15 @@ abstract class BasicCli {
 		}
 		return true;
 	}
+	/**
+	 * Use for paginaged output implementation.
+	 * Formats and paginates a table
+	 *
+	 * @param CommandSender $sender - entity that we need to display text to
+	 * @param int $pageNumber - page that we need to display
+	 * @param str[][] $txt - Array containing one element per cell
+	 * @return bool true
+	 */
 	protected function paginateTable(CommandSender $sender,$pageNumber,array $tab) {
 		$cols = [];
 		for($i=0;$i < count($tab[0]);$i++) $cols[$i] = strlen($tab[0][$i]);
@@ -97,14 +138,38 @@ abstract class BasicCli {
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	/**
+   * Entry point for BasicPlugin state functionality.  This makes it module
+	 * specific.
+	 * Retrieves the state.
+	 *
+	 * @param CommandSender $player - entity that we need state from
+	 * @param mixed $default - Default value to return if no state found
+	 * @return mixed $state
+	 */
 	public function getState(CommandSender $player,$default) {
 		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		return $this->owner->getState(get_class($this),$player,$default);
 	}
+	/**
+   * Entry point for BasicPlugin state functionality.  This makes it module
+	 * specific.
+	 * Sets the state.
+	 *
+	 * @param CommandSender $player - entity that we need to set state
+	 * @param mixed $val - Value to use for the state
+	 */
 	public function setState(CommandSender $player,$val) {
 		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		$this->owner->setState(get_class($this),$player,$val);
 	}
+	/**
+   * Entry point for BasicPlugin state functionality.  This makes it module
+	 * specific.
+	 * UnSets the state.
+	 *
+	 * @param CommandSender $player - entity that we need to unset state
+	 */
 	public function unsetState(CommandSender $player) {
 		//echo __METHOD__.",".__LINE__." - ".get_class($this)."\n";//##DEBUG
 		$this->owner->unsetState(get_class($this),$player);

@@ -36,8 +36,12 @@ use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
 use aliuly\goldstd\common\PluginCallbackTask;
 
+use pocketmine\utils\Config;
+
+
 class TraderNpc extends Npc {
 }
+
 class TraderInventory extends CustomInventory {
 	protected $client;
 	public function __construct($holder,$client) {
@@ -56,26 +60,34 @@ class ShopKeep implements Listener {
 
 	static public function defaults() {
 		return [
-			"default" => [
-				"skin" => "default.skin",
-				"display" => "Albert",
-				"slim" => false,
-				"items" => [],
-			]
+			"# enable" => "enable/disable shopkeep functionality",
+			"enable" => true,
+			"# range" => "How far away to engage players in chat",
+			"range" => 4,
+			"# ticks" => "How often to check player positions",
+			"ticks" => 20,
+			"# freq" => "How often to  spam players (in seconds)",
+			"freq" => 60,
 		];
 	}
-	public function __construct(Plugin $plugin,$cfg) {
+	static public function cfEnabled($cf){
+		return $cf["enable"];
+	}
+	public function __construct(Plugin $plugin,$xfg) {
 		$this->owner = $plugin;
 		$this->keepers = [];
-		/*
-		$this->spam = [
-			"range" => 4,
-			"ticks" => 20,
-			"freq" => 60,
-			];*/
+		$cfg = (new Config($plugin->getDataFolder()."shops.yml",
+								Config::YAML))->getAll();
+
 		$this->state = [];
 		foreach ($cfg as $i=>$j) {
 			$this->keepers[$i] = [];
+			if (isset($j["messages"])) {
+				$this->keepers[$i]["messages"] = $j["messages"];
+			} else {
+				$this->keepers[$i]["messages"] = [];
+			}
+			$this->keepers[$i]["attack"] = isset($j["attack"]) ? $j["attack"] : 5;
 			$this->keepers[$i]["slim"] = isset($j["slim"]) ? $j["slim"] : false;
 			$this->keepers[$i]["displayName"] = isset($j["display"]) ? $j["display"] : "default";
 			// Load the skin in memory
@@ -130,7 +142,11 @@ class ShopKeep implements Listener {
 		}
 		Entity::registerEntity(TraderNpc::class,true);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+
+		$this->owner->getServer()->getScheduler()->scheduleRepeatingTask(
+			new PluginCallbackTask($this->owner,[$this,"spamPlayers"],[$xfg["range"],$xfg["freq"]]),$xfg["ticks"]
+		);
+
 	}
 
 	public function isEnabled() {
@@ -236,9 +252,22 @@ class ShopKeep implements Listener {
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		echo get_class($taker)."\n";//##DEBUG
 		if (!($taker instanceof TraderNpc)) return;
-
 		$ev->setCancelled(); // OK, now what...
+		if ($giver->isCreative() || $giver->isSpectator()) {
+			$giver->sendMessage(mc::_("No purchases while in %1% mode.",
+																MPMU::gamemodeStr($giver->getGamemode())));
+			return;
+		}
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$shop = $taker->namedtag->shop->getValue();
+		if (!isset($this->keepers[$shop])) {
+			$this->owner->getLogger()->error(
+				mc::_("Invalid shop %5% for NPC at %1%,%2%,%3% (%4%)",
+						$taker->floorX(),$taker->floorY(),$taker->floorZ(),
+						$taker->getLevel()->getName(),$shop));
+			$giver->sendMessage(mc::_("Sorry, shop is closed!"));
+			return;
+		}
 
 		$hand = $giver->getInventory()->getItemInHand();
 		if ($this->owner->getCurrency() !== false ?
@@ -247,13 +276,22 @@ class ShopKeep implements Listener {
 			// OK, we want to buy stuff...
 			$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
 				new PluginCallbackTask($this->owner,[$this,"startTrade"],
-											  [$giver,$taker]),10);
+											  [$giver,$taker,$shop]),10);
 		} else {
-			echo "SHOW INVENTORY\n"; //##DEBUG
+			if ($this->owner->isWeapon($hand)) {
+				$this->shopMsg($giver,$shop,"under-attack");
+				$giver->attack($this->keepers[$shop]["attack"],
+										new  EntityDamageByEntityEvent(
+												$taker,$giver,
+												EntityDamageEvent::CAUSE_ENTITY_ATTACK,
+												$this->keepers[$shop]["attack"],1.0));
+			} else {
+				$this->shopMsg($giver,$shop,"help-info");
+			}
 		}
 	}
 	/* Buy stuf...*/
-	public function startTrade($buyer,$seller) {
+	public function startTrade($buyer,$seller,$shop) {
 		$l = $seller->getLevel();
 		$tile = null;
 		for($i=-2;$i<=0 && $tile == null;$i--) {
@@ -271,15 +309,6 @@ class ShopKeep implements Listener {
 						$seller->floorX(),$seller->floorY(),$seller->floorZ(),
 						$seller->getLevel()->getName()));
 			$buyer->sendMessage(mc::_("Sorry, nothing happens..."));
-			return;
-		}
-		$shop = $seller->namedtag->shop->getValue();
-		if (!isset($this->keepers[$shop])) {
-			$this->owner->getLogger()->error(
-				mc::_("Invalid shop %5% for NPC at %1%,%2%,%3% (%4%)",
-						$seller->floorX(),$seller->floorY(),$seller->floorZ(),
-						$seller->getLevel()->getName(),$shop));
-			$buyer->sendMessage(mc::_("Sorry, shop is closed!"));
 			return;
 		}
 		$inv = [ "player" => [], "chest" => null ];
@@ -388,7 +417,7 @@ class ShopKeep implements Listener {
 			list($idmeta,$cnt) = $item;
 			echo "slot=$slot idmeta=$idmeta cnt=$cnt\n";//##DEBUG
 			if (!isset($this->keepers[$xx["shop"]]["items"][$idmeta])) {
-				$pl->sendMessage(mc::_("Inventory error"));
+				$this->shopMsg($pl,$xx["shop"],"inventory-error");
 				$ev->setCancelled();
 				return;
 			}
@@ -398,7 +427,7 @@ class ShopKeep implements Listener {
 		}
 		echo "TOTAL=$total\n";//##DEBUG
 		if ($total > $xx["money"]) {
-			$pl->sendMessage(mc::_("Your shopping cart value is %1%G, you only have %2%G", $total, $xx["money"]));
+			$this->shopMsg($pl,$xx["shop"],"not-enough-g",$total, $xx["money"]);
 			$ev->setCancelled();
 			return;
 		}
@@ -437,23 +466,22 @@ class ShopKeep implements Listener {
 		$this->restoreInv($pl);
 		// Check-out
 		if (count($basket) == 0) {
-			$pl->sendMessage(mc::_("Maybe next time..."));
+			$this->shopMsg($pl,$xx["shop"],"next-time");
 			return;
 		}
 		if ($total < $this->owner->getMoney($pl)) {
 			$this->owner->grantMoney($pl,-$total);
-			$pl->sendMessage(mc::n(mc::_("Spent %1%G to buy %2% good",
-												  $total,count($basket)),
-										  mc::_("Spent %1%G to buy %2% goods",
-												  $total,count($basket)),
-										  count($basket)));
+			if (count($basket) == 1)
+				$this->shopMsg($pl,$xx["shop"],"bought-items1",$total,count($basket));
+			else
+				$this->shopMsg($pl,$xx["shop"],"bought-itemsX",$total,count($basket));
 			foreach ($basket as $ck) {
 				list($id,$meta,$cnt) = $ck;
 				$pl->getInventory()->addItem(Item::get($id,$meta,$cnt));
 			}
-			$pl->sendMessage(mc::_("Thank you for your business\nCome back again soon!"));
+			$this->shopMsg($pl,$xx["shop"],"thank-you",$total,count($basket));
 		} else {
-			$pl->sendMessage(mc::_("Insufficient funds to complete purchase!"));
+			$this->shopMsg($pl,$xx["shop"],"no-money",$total,count($basket));
 		}
 	}
 	public function playerInvTransaction($t) {
@@ -497,6 +525,31 @@ class ShopKeep implements Listener {
 											  $t->getSlot(),
 											  clone $t->getTargetItem(),
 											  clone $dst) ];
+	}
+	protected function getShopMsg($pl,$shop,$msg,$args) {
+		echo __METHOD__.",".__LINE__."  shop=$shop\n";//##DEBUG
+		if (!isset($this->keepers[$shop]["messages"][$msg])) return $msg;
+
+		$fmt = $this->keepers[$shop]["messages"][$msg];
+		$msg = is_array($fmt) ? $fmt[array_rand($fmt)] : $fmt;
+		echo __METHOD__.",".__LINE__." fmt=$msg\n";//##DEBUG
+
+		if (count($args)) {
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			$vars = [ "%%" => "%" ];
+			$i = 1;
+			foreach ($args as $j) {
+				$vars["%$i%"] = $j;
+				++$i;
+			}
+			$msg = strtr($msg,$vars);
+		}
+		echo __METHOD__.",".__LINE__." msg = $msg\n";//##DEBUG
+		return $msg;
+	}
+	protected function shopMsg($pl,$shop,...$args) {
+		$msg = array_shift($args);
+		$pl->sendMessage($this->getShopMsg($pl,$shop,$msg,$args));
 	}
 	public function traderInvTransaction($t) {
 		// Moving stock to buyer
@@ -542,5 +595,37 @@ class ShopKeep implements Listener {
 		$this->unsetState("trade-inv",$pl);
 	}
 
+	public function spamPlayers($range,$freq) {
+		$now = time();
+		foreach ($this->owner->getServer()->getLevels() as $lv) {
+			if (count($lv->getPlayers()) == 0) continue;
+			foreach ($lv->getEntities() as $et) {
+				if (!($et instanceof TraderNpc)) continue;
+				// OK, this could be a shop...
+				$shop = $et->namedtag->shop->getValue();
+				if (!isset($this->keepers[$shop])) continue;
+				foreach ($lv->getPlayers() as $pl) {
+					if ($et->distanceSquared($pl) > $range*$range) {
+						if ($this->getState("spam-$shop",$pl,null) === null) continue;
+						$this->unsetState("spam-$shop",$pl);
+						$this->shopMsg($pl,$shop,"leaving");
+						continue;
+					}
+					// In range check state
+					if ($this->getState("trade-inv",$pl,null) !== null) continue;
+					$spam = $this->getState("spam-$shop",$pl,null);
+					if ($spam === null) {
+						$this->shopMsg($pl,$shop,"welcome");
+						$this->setState("spam-$shop",$pl,$now);
+						continue;
+					}
 
+					if ($now < $spam+$freq) continue;
+					$this->shopMsg($pl,$shop,"buystuff");
+					$this->setState("spam-$shop",$pl,$now);
+				}
+
+			}
+		}
+	}
 }

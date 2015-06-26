@@ -32,6 +32,7 @@ class ParticleTxt implements Listener{
 
 			if (!isset($this->particles[$world])) $this->particles[$world] = [];
 			$level = $this->owner->getServer()->getLevelByName($world);
+			if ($level === null) continue; // Skipp all if level is not loaded
 
 			foreach($plst as $id=>$item) {
 				if (isset($this->particles[$world][$id])) {
@@ -41,24 +42,38 @@ class ParticleTxt implements Listener{
 					$text = implode("\n",$text);
 					if ($text == $this->particles[$world][$id]["text"]) continue;
 					$pp = $this->particles[$world][$id]["particle"];
+					// Delete this particle...
+					// Tried just changing text but that seems to append
+					// text rather than replace it...
+					/*
+					echo "text=$text\n";//##DEBUG
+					echo "oldtxt=".$this->particles[$world][$id]["text"]."\n";//##DEBUG
+
+					$pp->setText("");
+
 					$pp->setText($text);
-					if ($level) $level->addParticle($pp);
+					$pp->setInvisible(false);
+					$level->addParticle($pp);
+					*/
+					$pp->setInvisible();
+					$level->addParticle($pp);
+					// We drop so we continue...
 				} else {
 					$text = $this->owner->getLiveText($item["text"],$item["opts"]);
 					if ($text === null) continue;
 					$text = implode("\n",$text);
-					list($x,$y,$z) = $item["pos"];
-					if ($y < 0) { // Use height map...
-						if (!$level) continue;
-						$y = $level->getHighestBlockAt($x,$z) - $y;
-					}
-					$pp = new FloatingTextParticle(new Vector3($x,$y,$z),"",$text);
-					if($level) $level->addParticle($pp);
-					$this->particles[$world][$id] = [
-						"particle" => $pp,
-						"text" => $text,
-					];
 				}
+				list($x,$y,$z) = $item["pos"];
+				if ($y < 0) { // Use height map...
+					if (!$level) continue;
+					$y = $level->getHighestBlockAt($x,$z) - $y;
+				}
+				$pp = new FloatingTextParticle(new Vector3($x,$y,$z),"",$text);
+				$level->addParticle($pp);
+				$this->particles[$world][$id] = [
+					"particle" => $pp,
+					"text" => $text,
+				];
 			}
 		}
 		// Remove outdated particles
@@ -129,18 +144,43 @@ class ParticleTxt implements Listener{
 	}
 	public function updateTimer() {
 		$this->factory();
+		// respawn floating signs
+		/*
+		  // Not sure if this is needed.
+		foreach ($this->owner->getServer()->getLevels() as $lv) {
+			$w = $lv->getName();
+			if (!isset($this->particles[$w])) continue;
+			if (count($lv->getPlayers()) == 0) continue;
+			foreach ($this->particles[$w] as $id=>$ppt) {
+				$lv->addParticle($ppt["particle"]);
+			}
+			}*/
 	}
 
 	public function onTeleport(EntityTeleportEvent $ev) {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;
-		$to = $ev->getTo();
-		if (!$to->getLevel()) return;
-		$level = $to->getLevel();
-		if (!$this->particles[$level->getName()]) return;
-		foreach ($this->particles[$level->getName()] as $id=>$ppt) {
-			$level->addParticle($ppt["particle"]);
+		if ($ev->getTo()->getLevel() == null) return;
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
+			new PluginCallbackTask($this->owner,[$this,"afterTeleport"],
+										  [$pl,
+											$ev->getFrom()->getLevel(),
+											$ev->getTo()->getLevel()]),
+			10
+		);
+	}
+	public function afterTeleport($pl,$from,$to) {
+		foreach ([[$from,true],[$to,false]] as $j) {
+			list($level,$invis) = $j;
+			if ($level == null) continue;
+			if ($invis && $from == $to) continue;
+			if (!isset($this->particles[$level->getName()])) continue;
+			foreach ($this->particles[$level->getName()] as $ppt) {
+				if ($invis) $ppt["particle"]->setInvisible();
+				$level->addParticle($ppt["particle"],[$pl]);
+				if ($invis) $ppt["particle"]->setInvisible(false);
+			}
 		}
 	}
 

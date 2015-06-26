@@ -4,7 +4,7 @@
 
 * Summary: Warp between places using signs
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * OptionalPlugins: FastTransfer
 * Categories: Teleportation
 * Plugin Access: Other Plugins, Commands, Tile Entities, Manages worlds

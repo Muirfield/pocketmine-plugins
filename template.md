@@ -2,29 +2,24 @@
 
 # NAME
 
-* Summary: short description
+* Summary: short description (from plugin.yml)
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.5 - API 1.12.0
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: -
 * Plugin Access: -
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/*****************)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/*****************
 
 ## Overview
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/xxxxxxxxxxxxxxxx"; -->
+<!-- template: prologue.md -->
+INSERTED BY TEMPLATE
+<!-- template-end -->
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/************) for
-that.  You are more likely to get a response and help that way.
+DOCUMENTATION GOES HERE
 
-This documentation was last updated for *******.  Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/************)
-for the most up-to-date documentation.
-
-...................
 
 ### Configuration
 
@@ -36,7 +31,7 @@ for the most up-to-date documentation.
 
 ## Copyright
 
-    ************************
+    xxxxxxxxxxxxxxxxxxxxxxxxx
     Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
@@ -52,5 +47,3 @@ for the most up-to-date documentation.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-

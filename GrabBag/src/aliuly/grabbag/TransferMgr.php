@@ -15,6 +15,7 @@ use pocketmine\level\Position;
 use shoghicp\FastTransfer\PlayerTransferEvent;
 use pocketmine\math\Vector3;
 use pocketmine\level\particle\DustParticle;
+use pocketmine\level\sound\FizzSound;
 use aliuly\grabbag\common\mc;
 
 class TransferMgr implements Listener {
@@ -45,6 +46,7 @@ class TransferMgr implements Listener {
 		for ($i=0;$i<20;$i++) {
 			$pl->getLevel()->addParticle(new DustParticle(self::randVector($pl),(mt_rand()/mt_getrandmax())*2,255,255,255));
 		}
+		$pos->getLevel()->addSound(new FizzSound($pos));
 
 		$this->owner->getServer()->broadcastMessage(
 					mc::_("%1% is transferring to %2%:%3%",
