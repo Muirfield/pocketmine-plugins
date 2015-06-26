@@ -1,4 +1,7 @@
 <?php
+/**
+ ** CONFIG:main
+ **/
 namespace aliuly\hud;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
@@ -14,7 +17,8 @@ use pocketmine\permission\Permission;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
-
+use aliuly\common\mc;
+use aliuly\common\MPMU;
 
 interface Formatter {
 	static public function formatString(Main $plugin,$format,Player $player);
@@ -123,7 +127,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	private function changePermission($player,$perm,$bool) {
 		$n = strtolower($player->getName());
 		if (!isset($this->perms[$n])) {
-			$this->perms[$n] = $player->addAttachment($this->owner);
+			$this->perms[$n] = $player->addAttachment($this);
 		}
 		$attach = $this->perms[$n];
 		$attach->setPermission($perm,$bool);
@@ -196,6 +200,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		/* Save default resources */
 		$this->saveResource("message-example.php",true);
 		$this->saveResource("vars-example.php",true);
+		mc::plugin_init($this,$this->getFile());
 
 		// These are constants that should be pre calculated
 		$this->consts = [
@@ -234,7 +239,9 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
+			"# ticks" => "How often to refresh the popup",
 			"ticks" => 10,
+			"# format" => "Display format",
 			"format" => "{GREEN}{BasicHUD} {WHITE}{world} ({x},{y},{z}) {bearing}",
 		];
 
@@ -306,14 +313,11 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		if ($cmd->getName() != "hud") return false;
-		if (!($sender instanceof Player)) {
-			$sender->sendMessage("This command can only be used in-game");
-			return true;
-		}
+		if (!MPMU::inGame($sender)) return true;
 		$n = strtolower($sender->getName());
 		if (count($args) == 0) {
 			if (isset($this->disabled[$n])) {
-				$sender->sendMessage("HUD is OFF");
+				$sender->sendMessage(mc::_("HUD is OFF"));
 				return true;
 			}
 			if (is_array($this->format[0])) {
@@ -321,19 +325,19 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 					list($rank,,) = $rr;
 					if ($sender->hasPermission("basichud.rank.".$rank)) break;
 				}
-				$sender->sendMessage("HUD using format $rank");
+				$sender->sendMessage(mc::_("HUD using format %1%",$rank));
 				$fl = [];
 				foreach ($this->format as $rr) {
 					list($rank,,) = $rr;
 					$fl[] = $rank;
 				}
 				if ($sender->hasPermission("basichud.cmd.switch")) {
-					$sender->sendMessage("Available formats: ".
-												implode(", ",$fl));
+					$sender->sendMessage(mc::_("Available formats: %1%",
+												implode(", ",$fl)));
 				}
 				return true;
 			}
-			$sender->sendMessage("HUD is ON");
+			$sender->sendMessage(mc::_("HUD is ON"));
 			return true;
 		}
 		if (count($args) != 1) return false;
@@ -344,10 +348,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				list($rank,,) = $rr1;
 				if (strtolower($rank) == $mode) {
 					// OK, user wants to switch to this format...
-					if (!$sender->hasPermission("basichud.cmd.switch")) {
-						$sender->sendMessage("You are not allowed to do that");
-						return true;
-					}
+					if (!MPMU::access($sender,"basichud.cmd.switch")) return true;
 					foreach ($this->format as $rr2) {
 						list($rn,,) = $rr2;
 						if ($rank == $rn) {
@@ -356,23 +357,20 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 							$this->changePermission($sender,"basichud.rank.".$rn,false);
 						}
 					}
-					$sender->sendMessage("Switching to format $rank");
+					$sender->sendMessage(mc::_("Switching to format %1%",$rank));
 					return true;
 				}
 			}
 		}
-		if (!$sender->hasPermission("basichud.cmd.toggle")) {
-			$sender->sendMessage("You are not allowed to do that");
-			return true;
-		}
+		if (!MPMU::access($sender,"basichud.cmd.toggle")) return true;
 		$mode = filter_var($mode,FILTER_VALIDATE_BOOLEAN);
 		if ($mode) {
 			if (isset($this->disabled[$n])) unset($this->disabled[$n]);
-			$sender->sendMessage("Turning on HUD");
+			$sender->sendMessage(mc::_("Turning on HUD"));
 			return true;
 		}
 		$this->disabled[$n] = $n;
-		$sender->sendMessage("Turning off HUD");
+		$sender->sendMessage(mc::_("Turning off HUD"));
 		return true;
 	}
 

@@ -1,23 +1,45 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
 
 BasicHUD
 ========
 
 * Summary: A configurable heads up display
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.5 - API 1.12.0
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: Informational
 * Plugin Access: Other Plugins
-* WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/BasicHUD)
+* WebSite: https://github.com/alejandroliu/bad-plugins/tree/master/BasicHUD
 
 ## Overview
+
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/basichud.1222/"; -->
+<!-- template: prologue.md -->
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/basichud.1222/) for
+that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.0.5**.
+
+Please go to
+[github](https://github.com/alejandroliu/bad-plugins/tree/master/BasicHUD)
+for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//BasicHUD-1.0.5).
+
+<!-- template-end -->
 
 This plugin lets you configure a basic Heads-Up Display (HUD) for
 players.
 
-### Basic Usage
+## Basic Usage
 
 * **/hud** _[on|off|format]_
   * If none specified, will show the current mode info.
@@ -28,13 +50,27 @@ players.
 
 ### Configuration
 
-In the `config.yml` you can configure the following:
+Configuration is throug the `config.yml` file.
+The following sections are defined:
 
-* ticks: how quickly to show the pop-up.  Lower the number updates
-  faster but introduces lags.
-* format: Text to display
+#### main
 
-The displayed text can be:
+*  ticks: How often to refresh the popup
+*  format: Display format
+
+
+### Permission Nodes
+
+* basichud.user : Allow players to have an HUD
+* basichud.cmd : Allow players to access HUD command
+* basichud.cmd.toggle : Allow players to toggle HUD on/off
+* basichud.cmd.switch : Allow players to switch formats
+  (Defaults to Op)
+
+
+## Configured Formats
+
+IThe displayed text can be:
 
 * A fixed string.
 * A string containing {variables}
@@ -97,7 +133,7 @@ inactive until you log-in.  If you are using something other than
 `SimpleAuth` you can copy the `message-example.php` to `message.php`
 and do whatever checks you need to do.
 
-### Multi-Format options
+## Multi-Format options
 
 BasicHUD supports multiple formats.  These can be configured through
 the `config.yml`.  So instead of **format** only having **one** format
@@ -127,13 +163,6 @@ Switching formats is not saved.  So on join the player always gets the
 default format.  If you want HUD format choices to be saved you need a
 permissions plugin.
 
-### Permission Nodes
-
-* basichud.cmd: Allow players to access HUD command
-* basichud.cmd.toggle: Allow players to toggle HUD on/off
-* basichud.cmd.switch: Allow players to switch formats
-* basichud.rank.*: If multiple formats, these selects them.
-
 # API
 
 Since **BasicHUD** takes over the built-in _sendPopup_ functionality,
@@ -153,10 +182,12 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 # Changes
 
-* 1.0.4: Performance tweaks
+* 1.0.5: Performance tweaks
   * Cache permissions for selecting formats
   * An empty vars.php yields an empty function (saving a comparison)
   * Constant vars are calculated once.
+  * Fixed bug around permissions (to change formats)
+  * Added translation (but not for bearing to avoid the translation  overhead)
 * 1.0.3: First public release
   * Added a "use" permission.
   * More correct use of permission
@@ -171,8 +202,7 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
   * Added API
 * 1.0.0: First release
 
-Copyright
----------
+# Copyright
 
     BasicHUD
     Copyright (C) 2015 Alejandro Liu
@@ -190,3 +220,4 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
