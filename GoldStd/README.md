@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.1pre4**.
+This documentation was last updated for version **1.1.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//GoldStd-1.1.1pre4).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.1.2).
 
 <!-- template-end -->
 
@@ -42,6 +42,7 @@ Basic Usage:
 
 * pay $$
 * balance
+* shopkeep spawn [player] [shop]
 
 To pay people you tap on them while holding a gold ingot.
 
@@ -240,9 +241,14 @@ The contents of these "ini" files are key-value pairs:
   * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/item/Item.php#L39)
   * Note that item names are case insensitive.
 
+# TODO
+
+* Effects shop
+* spawning shopkeep should take x,y,z[,yaw,pitch] too.
+
 # Changes
 
-* 1.1.1 :
+* 1.1.2 :
   * @Achak request
     * Added goods trading
   * Added casino, shop and trading signs

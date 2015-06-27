@@ -1,5 +1,5 @@
 name: GoldStd
-version: 1.1.1pre4
+version: 1.1.2
 main: aliuly\goldstd\Main
 api: 1.10.0
 load: POSTWORLD
