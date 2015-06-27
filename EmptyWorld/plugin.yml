@@ -5,4 +5,4 @@ api: 1.12.0
 description: An empty world generator
 author: aliuly
 load: STARTUP
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/EmptyWorld
+website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld

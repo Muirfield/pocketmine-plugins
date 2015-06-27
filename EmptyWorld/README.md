@@ -9,21 +9,29 @@
 * OptionalPlugins: -
 * Categories: World Generator
 * Plugin Access: World Editing
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/EmptyWorld
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld
 
 ## Overview
 
-<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/xxxxxxxxxxxxxxxx"; -->
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/emptyworld.1248/"; -->
 <!-- template: prologue.md -->
-<!-- Add the line: -->
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
 
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/plugins/emptyworld.1248/) for
+that.  You are more likely to get a response and help that way.
 
 **NOTE:**
+
 This documentation was last updated for version **1.0.0**.
+
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/EmptyWorld)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld)
 for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/EmptyWorld-1.0.0).
 
 <!-- template-end -->
 
@@ -54,6 +62,17 @@ The following preset strings are recognized:
     bottom of the world.  It defaults to 0 (Air) which means that you
     fall to the void.
 
+## FAQ
+
+* Q: Where do you configure the preset line?
+* A: This can be done either through [ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
+  or through **pocketmine.yml**
+  * If using [ManyWorlds](http://forums.pocketmine.net/plugins/manyworlds.1042/)
+    use the command:
+    * /mw create <world> [seed] [generator] **[preset]**
+  * If using **pocketmine.yml**, find the _worlds:_ section, use:
+    * generator: emptyworld:[preset]
+
 ## Changes
 
 * 1.0.0: First release
@@ -76,3 +95,4 @@ The following preset strings are recognized:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
