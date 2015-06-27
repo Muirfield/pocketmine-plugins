@@ -9,25 +9,29 @@
 * OptionalPlugins: N/A
 * Categories: Informational
 * Plugin Access: Tiles, Internet Services, Commands
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns
 
 ## Overview
 
-<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/MIMI"; -->
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/livesigns.1249/"; -->
 <!-- template: prologue.md -->
-<!-- Add the line: -->
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
 
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/plugins/livesigns.1249/) for
+that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
 This documentation was last updated for version **1.0.0**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//LiveSigns-1.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.0.0).
 
 <!-- template-end -->
 
@@ -221,7 +225,7 @@ are read:
 **signs.yml** can refer to additional files or URLs to provide live
 content.  Please look at the provided examples on how these need to be
 set-up.  If you deleted your examples, you can always refer to them
-back going back to [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/INDEV/LiveSigns)
+back going back to [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 
 ### Configuration
 
