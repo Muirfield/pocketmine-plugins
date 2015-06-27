@@ -4,19 +4,36 @@
 
 * Summary: Collection of miscellaneous commands and listener modules
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.4 (API:1.10.0), 1.4.1 (API:1.11.0), 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: General
 * Plugin Access: Commands, Data Saving, Entities, Tile Entities,
   Manages plugins
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
 ## Overview
 
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/grabbag.7524/"; -->
 <!-- template: prologue.md -->
-INSERTED BY TEMPLATE
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/grabbag.7524/) for
+that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **2.2.2dev**.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
+for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//GrabBag-2.2.2dev).
+
 <!-- template-end -->
 
 A miscellaneous collection of commands and listener modules.  Features
@@ -93,7 +110,7 @@ administration.
 * mute|unmute : mutes/unmutes a player so they can not use chat
 * slay : Kills the specified player
 * spectator|unspectator : toggle a player's spectator mode
-* throw : Throw a player in the air -- **ONLY FOR PM1.4**
+* throw : Throw a player in the air
 
 ### Modules
 
@@ -117,21 +134,25 @@ plugins.
 
 The following commands are available:
 
-* **after** _&lt;seconds&gt;_ _&lt;command&gt;_  
+* **after** _&lt;seconds&gt;_ _&lt;command&gt;_|list|cancel _&lt;id&gt;_  
   schedule command after a number of seconds  
 
-  Will schedule to run *command* after *seconds*
+  Will schedule to run *command* after *seconds*.
+  The **list** sub command will show all the queued commands.
+  The **cancel** sub command allows you to cancel queued commands.
 
 * **as** _&lt;player&gt;_ _&lt;command&gt;_  
   run command as somebody else  
 
-* **at** _&lt;time&gt;_ _[:]_ _command_  
+* **at** _&lt;time&gt;_ _[:]_ _command_|list|cancel _&lt;id&gt;_  
   schedule command at an appointed date/time  
 
   Will schedule to run *command* at the given date/time.  This uses
   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
   function so _times_ must follow the format described in
   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
+  The **list** sub command will show all the queued commands.
+  The **cancel** sub command allows you to cancel queued commands.
 
 * **blowup** _&lt;player&gt;_ _[yield]_ **[magic]** **[normal]**  
   explode a player  
@@ -322,6 +343,8 @@ The following commands are available:
       wildcard _pattern_.
   - **rm** _<player>_
     - Removes _<player>_ registration.
+  - **since** _<when>_
+			- Display list of players registered since a date/time.
 * **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
 
@@ -401,7 +424,7 @@ The following commands are available:
 * **summon** _&lt;player&gt;_ _[message]_  
   Summons a player to your location  
 * **throw** _&lt;player&gt;_ _[force]_  
-  Throw a player in the air -- **ONLY FOR PM1.4**  
+  Throw a player in the air  
 * **whois** _&lt;player&gt;_  
   Gives detail information on players  
 
@@ -623,7 +646,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the pluginc config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag/resources/messages/)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for sample files.
 
 # Changes
@@ -739,3 +762,4 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+
