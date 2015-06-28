@@ -168,7 +168,7 @@ Examples:
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### defaults
@@ -240,6 +240,8 @@ The contents of these "ini" files are key-value pairs:
 * A: This uses PocketMine definitions (like the /give command).  You can find the list here:
   * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/item/Item.php#L39)
   * Note that item names are case insensitive.
+* Q: How do I set a staring amount of money for players?
+* A: Use SpawnMgr or ItemSpawn to define an initial inventory which should include gold ingots.
 
 # TODO
 
@@ -275,4 +277,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
