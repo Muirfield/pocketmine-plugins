@@ -8,6 +8,7 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\item\Item;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
+use pocketmine\level\Location;
 
 use pocketmine\tile\Chest;
 use pocketmine\block\Block;
@@ -159,8 +160,23 @@ class ShopKeep implements Listener {
 		switch ($cmd) {
 			case "spawn":
 				if (count($args) > 0) {
-					$pos = $this->owner->getServer()->getPlayer($args[0]);
-					if ($pos == null) {
+					if (preg_match('/^(\d+),(\d+),(\d+),(\d+),(\d+)$/',$args[0])){
+						$level = MPMU::inGame($c,false) ? $c->getLevel() : $this->owner->getServer()->getDefaultLevel();
+						$pos = new Location($mv[1],$mv[2],$mv[3],$mv[4],$mv[5],$level);
+						array_shift($args);
+					} elseif (preg_match('/^(\d+),(\d+),(\d+),(\d+),(\d+),(\S+)$/',$args[0])){
+						$level = $this->owner->getServer()->getLevelByName($mv[6]);
+						if ($level === null) {
+							$c->sendMessage(mc::_("World %1% not found",$mv[6]));
+							return true;
+						}
+						$pos = new Location($mv[1],$mv[2],$mv[3],$mv[4],$mv[5],$level);
+						array_shift($args);
+					} elseif (preg_match('/^(\d+),(\d+),(\d+)$/',$args[0])){
+						$level = MPMU::inGame($c,false) ? $c->getLevel() : $this->owner->getServer()->getDefaultLevel();
+						$pos = new Location($mv[1],$mv[2],$mv[3],0.0,0.0,$level);
+						array_shift($args);
+					} elseif (($pos = $this->owner->getServer()->getPlayer($args[0])) == null) {
 						if (!MPMU::inGame($c)) return true;
 						$pos = $c;
 					} else {

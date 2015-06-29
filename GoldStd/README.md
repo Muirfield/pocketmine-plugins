@@ -42,7 +42,7 @@ Basic Usage:
 
 * pay $$
 * balance
-* shopkeep spawn [player] [shop]
+* shopkeep spawn [player|location] [shop]
 
 To pay people you tap on them while holding a gold ingot.
 
@@ -73,8 +73,9 @@ for regular gameplay:
   commands will add the stacks for you.
 * shopkeep  
   This command is used to manage shop keepers.  Sub-commands:
-  - /shopkeep spawn [player] [shop]
+  - /shopkeep spawn [player|location] [shop]
     - player - Shop keepr will be spawn where this player is located.
+    - location: x,y,z or x,y,z,yaw,pitch or x,y,z,yaw,pitch,world
     - shop - shop definition from configuration file.
 
 ### Signs
@@ -159,6 +160,35 @@ Examples:
   * Emerald x2
   * Zombie Spawn egg
 
+
+#### Potions Shop
+
+Tap a sign and you get a potions effect.
+Place a sign with the following text:
+
+    [CODE]
+    [POTIONS]
+    <effect[:duration:amplifier]>
+    <price>
+    [/CODE]
+
+Duration is a value in seconds.
+
+Effects:
+
+* [POTIONS]
+  * 1:120:1
+  * 10p
+  * Speed
+* [POTIONS]
+  * STREGTH
+  * 1p
+* [POTIONS]
+  * 8::2
+  * 2p
+  * Jump
+
+
 ### API
 
 * API
@@ -239,17 +269,23 @@ The contents of these "ini" files are key-value pairs:
 * Q: Where do I find a list of the proper item names?
 * A: This uses PocketMine definitions (like the /give command).  You can find the list here:
   * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/item/Item.php#L39)
-  * Note that item names are case insensitive.
+  * Note that item names are case insensitive.  You can use the names or the ids.
+* Q: Where do I find a list of the proper effect names?
+  * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/entity/Effect.php#L32)
+  * You can use these names or the ids.
 * Q: How do I set a staring amount of money for players?
 * A: Use SpawnMgr or ItemSpawn to define an initial inventory which should include gold ingots.
 
 # TODO
 
-* Effects shop
 * spawning shopkeep should take x,y,z[,yaw,pitch] too.
 
 # Changes
 
+* ????:
+  * MoneyAPI fixes
+  * Effects Show
+  * Can specify location in spawn command
 * 1.1.2 :
   * @Achak request
     * Added goods trading
