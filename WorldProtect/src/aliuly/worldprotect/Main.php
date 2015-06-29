@@ -268,4 +268,12 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->setState("spam",$pl,[time(),$txt]);
 		$pl->sendMessage($txt);
 	}
+	/**
+	 * @API
+	 */
+	public function getMaxPlayers($world){
+		if (isset($this->modules["max-players"]))
+			return $this->modules["max-players"]->getMaxPlayers($world);
+		return null;
+	}
 }

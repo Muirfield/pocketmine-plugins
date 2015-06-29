@@ -22,6 +22,7 @@ use pocketmine\command\Command;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\Player;
 use aliuly\worldprotect\common\mc;
+use pocketmine\level\Level;
 
 class MaxPlayerMgr extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
@@ -32,7 +33,10 @@ class MaxPlayerMgr extends BaseWp implements Listener {
 										 "permission" => "wp.cmd.limit",
 										 "aliases" => ["limit"]]);
 	}
-
+  public function getMaxPlayers($world) {
+		if ($world instanceof Level) $world = $world->getName();
+	  return $this->getCfg($world,null);
+	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
 		if ($scmd != "max") return false;
 		if (count($args) == 0) {
