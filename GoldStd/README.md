@@ -283,8 +283,8 @@ The contents of these "ini" files are key-value pairs:
 # Changes
 
 * ????:
-  * MoneyAPI fixes
-  * Effects Show
+  * MoneyAPI fixes (Thanks @vertx)
+  * Effects Shop
   * Can specify location in spawn command
 * 1.1.2 :
   * @Achak request
