@@ -4,7 +4,7 @@
 
 * Summary: Gold based economy plugin
 * Dependency Plugins: N/A
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Economy
@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.2**.
+This documentation was last updated for version **1.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.1.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.0).
 
 <!-- template-end -->
 
@@ -160,7 +160,6 @@ Examples:
   * Emerald x2
   * Zombie Spawn egg
 
-
 #### Potions Shop
 
 Tap a sign and you get a potions effect.
@@ -187,7 +186,6 @@ Effects:
   * 8::2
   * 2p
   * Jump
-
 
 ### API
 
@@ -276,16 +274,13 @@ The contents of these "ini" files are key-value pairs:
 * Q: How do I set a staring amount of money for players?
 * A: Use SpawnMgr or ItemSpawn to define an initial inventory which should include gold ingots.
 
-# TODO
-
-* spawning shopkeep should take x,y,z[,yaw,pitch] too.
-
 # Changes
 
-* ????:
+* 1.2.0:
   * MoneyAPI fixes (Thanks @vertx)
   * Effects Shop
   * Can specify location in spawn command
+  * Fixed spamming with multiple shops.
 * 1.1.2 :
   * @Achak request
     * Added goods trading
@@ -313,3 +308,4 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
