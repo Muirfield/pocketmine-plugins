@@ -4,24 +4,35 @@
 
 * Summary: Warp between places using signs
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
 * OptionalPlugins: FastTransfer
 * Categories: Teleportation
 * Plugin Access: Other Plugins, Commands, Tile Entities, Manages worlds
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/signwarp.7276/"; -->
+<!-- template: prologue.md -->
+
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/signwarp.7276/) for
 that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.5.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
 for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.5.0).
+
+<!-- template-end -->
 
 A Plugin implementing simple _Sign_ based warps.
 
@@ -104,7 +115,7 @@ You need the **FastTransfer** plugin for this to work.
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### config.yml
@@ -132,6 +143,8 @@ The following sections are defined:
 
 # Changes
 
+* 1.5.0:
+  * Signs now show max players in world.
 * 1.4.0:
   * Clean-up and use library stuff
   * Removed broadcast setting

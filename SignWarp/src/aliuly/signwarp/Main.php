@@ -39,6 +39,14 @@ class Main extends PluginBase implements Listener {
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
+		$wp = $this->getServer()->getPluginManager()->getPlugin("WorldProtect");
+		if ($wp !== null && version_compare($wp->getDescription()->getVersion(),"2.1.0") < 0) {
+			$this->getLogger()->warning(TextFormat::RED.mc::_("This version of SignWarp requires"));
+			$this->getLogger()->warning(TextFormat::RED.mc::_("at least version 2.1.0 of WorldProtect"));
+			$this->getLogger()->warning(TextFormat::RED.mc::_("Only version %1% available",$wp->getDescription()->getVersion()));
+			throw new \RuntimeException("Runtime checks failed");
+			return;
+		}
 		$defaults =
 					 [
 						 "version" => $this->getDescription()->getVersion(),
@@ -326,6 +334,7 @@ class Main extends PluginBase implements Listener {
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function updateSigns() {
+		$wp = $this->getServer()->getPluginManager()->getPlugin("WorldProtect");
 		foreach ($this->getServer()->getLevels() as $lv) {
 			foreach ($lv->getTiles() as $tile) {
 				if (!($tile instanceof Sign)) continue;
@@ -333,9 +342,16 @@ class Main extends PluginBase implements Listener {
 				if(!in_array($sign[0],$this->text["world"])) continue;
 
 				if (!($t = $this->matchCounter($sign[3]))) continue;
-				if ($this->getServer()->isLevelLoaded($sign[1])) {
-					$cnt = count($this->getServer()->getLevelByName($sign[1])->getPlayers());
-					$upd = $t.$cnt;
+				if (($lv = $this->getServer()->getLevelByName($sign[1])) !== null) {
+					$cnt = count($lv->getPlayers());
+					$max = null;
+					if ($wp !== null) $max = $wp->getMaxPlayers($lv->getName());
+					if ($max == null)
+						$upd = $t. TextFormat::BLUE . $cnt;
+					else
+						$upd = $t . ($cnt>=$max ? TextFormat::RED : TextFormat::GREEN).
+									$cnt . "/" . $max;
+
 				} else {
 					$upd = $t.mc::_("N/A");
 				}
