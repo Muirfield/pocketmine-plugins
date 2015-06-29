@@ -312,7 +312,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 	}
 	public function onItemHeld(PlayerItemHeldEvent $ev){
-		//$this->sendPopup($ev->getPlayer(),null,1.5);
+		$this->sendPopup($ev->getPlayer(),MPMU::itemName($ev->getItem()),2);
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
