@@ -182,6 +182,8 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 # Changes
 
+* ????:
+  * Fixed vars-example
 * 1.0.5: Performance tweaks
   * Cache permissions for selecting formats
   * An empty vars.php yields an empty function (saving a comparison)

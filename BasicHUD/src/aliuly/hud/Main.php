@@ -11,6 +11,7 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
+use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\permission\Permission;
@@ -310,6 +311,9 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			$ev->getPlayer()->removeAttachment($attach);
 		}
 	}
+	public function onItemHeld(PlayerItemHeldEvent $ev){
+		//$this->sendPopup($ev->getPlayer(),null,1.5);
+	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		if ($cmd->getName() != "hud") return false;
@@ -385,6 +389,6 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				$msg = $this->getMessage($player);
 			}
 		}
-		$player->sendPopup($msg);
+		if ($msg !== null) $player->sendPopup($msg);
 	}
 }
