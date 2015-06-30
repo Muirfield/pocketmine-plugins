@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.0.5**.
+This documentation was last updated for version **1.0.6**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//BasicHUD-1.0.5).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/BasicHUD-1.0.6).
 
 <!-- template-end -->
 
@@ -50,7 +50,7 @@ players.
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### main
@@ -182,6 +182,9 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 # Changes
 
+* 1.0.6:
+  * Fixed vars-example (money issues thanks @vertx)
+  * Display item selected onItemHeld (incomplete)
 * 1.0.5: Performance tweaks
   * Cache permissions for selecting formats
   * An empty vars.php yields an empty function (saving a comparison)

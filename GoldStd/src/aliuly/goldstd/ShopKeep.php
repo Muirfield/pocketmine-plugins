@@ -8,6 +8,7 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\item\Item;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
+use pocketmine\level\Location;
 
 use pocketmine\tile\Chest;
 use pocketmine\block\Block;
@@ -159,8 +160,23 @@ class ShopKeep implements Listener {
 		switch ($cmd) {
 			case "spawn":
 				if (count($args) > 0) {
-					$pos = $this->owner->getServer()->getPlayer($args[0]);
-					if ($pos == null) {
+					if (preg_match('/^(\d+),(\d+),(\d+),(\d+),(\d+)$/',$args[0],$mv)){
+						$level = MPMU::inGame($c,false) ? $c->getLevel() : $this->owner->getServer()->getDefaultLevel();
+						$pos = new Location($mv[1],$mv[2],$mv[3],$mv[4],$mv[5],$level);
+						array_shift($args);
+					} elseif (preg_match('/^(\d+),(\d+),(\d+),(\d+),(\d+),(\S+)$/',$args[0],$mv)){
+						$level = $this->owner->getServer()->getLevelByName($mv[6]);
+						if ($level === null) {
+							$c->sendMessage(mc::_("World %1% not found",$mv[6]));
+							return true;
+						}
+						$pos = new Location($mv[1],$mv[2],$mv[3],$mv[4],$mv[5],$level);
+						array_shift($args);
+					} elseif (preg_match('/^(\d+),(\d+),(\d+)$/',$args[0],$mv)){
+						$level = MPMU::inGame($c,false) ? $c->getLevel() : $this->owner->getServer()->getDefaultLevel();
+						$pos = new Location($mv[1],$mv[2],$mv[3],0.0,0.0,$level);
+						array_shift($args);
+					} elseif (($pos = $this->owner->getServer()->getPlayer($args[0])) == null) {
 						if (!MPMU::inGame($c)) return true;
 						$pos = $c;
 					} else {
@@ -243,14 +259,11 @@ class ShopKeep implements Listener {
 	 * @priority LOWEST
 	 */
 	public function onEntityInteract(EntityDamageEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->isCancelled()) return;
 		if(!($ev instanceof EntityDamageByEntityEvent)) return;
 		$giver = $ev->getDamager();
 		if (!($giver instanceof Player)) return;
 		$taker = $ev->getEntity();
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		echo get_class($taker)."\n";//##DEBUG
 		if (!($taker instanceof TraderNpc)) return;
 		$ev->setCancelled(); // OK, now what...
 		if ($giver->isCreative() || $giver->isSpectator()) {
@@ -258,7 +271,6 @@ class ShopKeep implements Listener {
 																MPMU::gamemodeStr($giver->getGamemode())));
 			return;
 		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$shop = $taker->namedtag->shop->getValue();
 		if (!isset($this->keepers[$shop])) {
 			$this->owner->getLogger()->error(
@@ -527,15 +539,12 @@ class ShopKeep implements Listener {
 											  clone $dst) ];
 	}
 	protected function getShopMsg($pl,$shop,$msg,$args) {
-		echo __METHOD__.",".__LINE__."  shop=$shop\n";//##DEBUG
 		if (!isset($this->keepers[$shop]["messages"][$msg])) return $msg;
 
 		$fmt = $this->keepers[$shop]["messages"][$msg];
 		$msg = is_array($fmt) ? $fmt[array_rand($fmt)] : $fmt;
-		echo __METHOD__.",".__LINE__." fmt=$msg\n";//##DEBUG
 
 		if (count($args)) {
-			echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$vars = [ "%%" => "%" ];
 			$i = 1;
 			foreach ($args as $j) {
@@ -544,7 +553,6 @@ class ShopKeep implements Listener {
 			}
 			$msg = strtr($msg,$vars);
 		}
-		echo __METHOD__.",".__LINE__." msg = $msg\n";//##DEBUG
 		return $msg;
 	}
 	protected function shopMsg($pl,$shop,...$args) {
@@ -604,25 +612,26 @@ class ShopKeep implements Listener {
 				// OK, this could be a shop...
 				$shop = $et->namedtag->shop->getValue();
 				if (!isset($this->keepers[$shop])) continue;
+				$shopid = $shop."-".$et->getId();
 				foreach ($lv->getPlayers() as $pl) {
+					if ($pl->isCreative() || $pl->isSpectator()) continue;
 					if ($et->distanceSquared($pl) > $range*$range) {
-						if ($this->getState("spam-$shop",$pl,null) === null) continue;
-						$this->unsetState("spam-$shop",$pl);
+						if ($this->getState("spam-$shopid",$pl,null) === null) continue;
+						$this->unsetState("spam-$shopid",$pl);
 						$this->shopMsg($pl,$shop,"leaving");
 						continue;
 					}
 					// In range check state
 					if ($this->getState("trade-inv",$pl,null) !== null) continue;
-					$spam = $this->getState("spam-$shop",$pl,null);
+					$spam = $this->getState("spam-$shopid",$pl,null);
 					if ($spam === null) {
 						$this->shopMsg($pl,$shop,"welcome");
-						$this->setState("spam-$shop",$pl,$now);
+						$this->setState("spam-$shopid",$pl,$now);
 						continue;
 					}
-
 					if ($now < $spam+$freq) continue;
 					$this->shopMsg($pl,$shop,"buystuff");
-					$this->setState("spam-$shop",$pl,$now);
+					$this->setState("spam-$shopid",$pl,$now);
 				}
 
 			}

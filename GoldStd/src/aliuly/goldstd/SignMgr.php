@@ -9,6 +9,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\block\Block;
 use pocketmine\item\Item;
 use pocketmine\tile\Sign;
+use pocketmine\entity\Effect;
 
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
@@ -22,6 +23,7 @@ class SignMgr implements Listener {
 			"shop" => ["[SHOP]"],
 			"casino" => ["[CASINO]"],
 			"trade" => ["[TRADE]"],
+			"effects" => ["[POTIONS]"],
 		];
 	}
 	public function __construct(Plugin $plugin,$cfg) {
@@ -55,6 +57,23 @@ class SignMgr implements Listener {
 		$item->setCount($cnt);
 		return $item;
 	}
+	private function parseEffectLine($txt) {
+		$txt = preg_split('/\s*:\s*/',$txt);
+		if (count($txt) == 0 || count($txt) > 3) return null;
+		if (!isset($txt[1]) || empty($txt[1])) $txt[1] = 60;
+		if (!isset($txt[2]) || empty($txt[2])) $txt[2] = 1;
+    if (is_numeric($txt[0])) {
+			$effect = Effect::getEffect($txt[0]);
+		} else {
+			$effect = Effect::getEffectByName($txt[0]);
+		}
+		if ($effect === null) return null;
+		$effect->setDuration($txt[1]*20);
+		$effect->setAmplifier($txt[2]);
+		$effect->setVisible(true);
+		return $effect;
+	}
+
 	private function parsePriceLine($txt) {
 		$n = intval(preg_replace('/[^0-9]/', '', $txt));
 		if ($n == 0) return null;
@@ -86,14 +105,35 @@ class SignMgr implements Listener {
 					$pl->sendMessage(mc::_("Invalid price line"));
 					return;
 				}
-				$money = $this->owner->getMoney($pl->getName());
+				$money = $this->owner->getMoney($pl);
 				if ($money < $price) {
 					$pl->sendMessage(mc::_("[GoldStd] You do not have enough money"));
 				} else {
-					$this->owner->grantMoney($pl->getName(),-$price);
+					$this->owner->grantMoney($pl,-$price);
 					$pl->getInventory()->addItem(clone $item);
 					$pl->sendMessage(mc::_("[GoldStd] Item purchased"));
 				}
+				break;
+			case "effects":
+			  $effect = $this->parseEffectLine($sign[1]);
+				if ($effect === null) {
+					$pl->sendMessage(mc::_("Invalid effects line"));
+					return false;
+				}
+				$price = $this->parsePriceLine($sign[2]);
+				if ($price === null) {
+					$pl->sendMessage(mc::_("Invalid price line"));
+					return false;
+				}
+				$money = $this->owner->getMoney($pl);
+				if ($money < $price) {
+					$pl->sendMessage(mc::_("[GoldStd] You do not have enough money"));
+				} else {
+					$this->owner->grantMoney($pl,-$price);
+					$pl->addEffect($effect);
+					$pl->sendMessage(mc::_("[GoldStd] Potion %1% purchased",$effect->getName()));
+				}
+
 				break;
 			case "trade":
 				// This is what you get...
@@ -172,17 +212,17 @@ class SignMgr implements Listener {
 					$pl->sendMessage(mc::_("Invalid price line"));
 					return;
 				}
-				$money = $this->owner->getMoney($pl->getName());
+				$money = $this->owner->getMoney($pl);
 				if ($money < $price) {
 					$pl->sendMessage(mc::_("[GoldStd] You do not have enough moneys"));
 				} else {
 					$pl->sendMessage(mc::_("[GoldStd] Betting %1%...",$price));
-					$this->owner->grantMoney($pl->getName(),-$price);
+					$this->owner->grantMoney($pl,-$price);
 					$rand = mt_rand(0,$odds);
 					if ($rand == 1) {
 						$pl->sendMessage(mc::_("[GoldStd] You WON!!! prize...%1%G",
 													  $payout));
-						$this->owner->grantMoney($pl->getName(),$payout);
+						$this->owner->grantMoney($pl,$payout);
 					} else {
 						$pl->sendMessage(mc::_("[GoldStd] BooooM!!! You lost"));
 					}
@@ -200,6 +240,18 @@ class SignMgr implements Listener {
 				$item = $this->parseItemLine($sign[1]);
 				if ($item === null) {
 					$pl->sendMessage(mc::_("Invalid item line"));
+					return false;
+				}
+				$price = $this->parsePriceLine($sign[2]);
+				if ($price === null) {
+					$pl->sendMessage(mc::_("Invalid price line"));
+					return false;
+				}
+				break;
+			case "effects":
+			  $effect = $this->parseEffectLine($sign[1]);
+				if ($effect === null) {
+					$pl->sendMessage(mc::_("Invalid effects line"));
 					return false;
 				}
 				$price = $this->parsePriceLine($sign[2]);
@@ -259,12 +311,6 @@ class SignMgr implements Listener {
 		if($ev->getBlock()->getId() != Block::SIGN_POST &&
 			$ev->getBlock()->getId() != Block::WALL_SIGN) return;
 		//echo "TOUCHED\n";
-		if ($ev->getPlayer()->isCreative() || $ev->getPlayer()->isSpectator()) {
-			$ev->getPlayer()->sendMessage(mc::_("No trading possible, while in %1% mode",
-												MPMU::gamemodeStr($ev->getPlayer()->getGamemode())));
-			return;
-		}
-
 		$sign = $ev->getPlayer()->getLevel()->getTile($ev->getBlock());
 		if(!($sign instanceof Sign)) return;
 		//echo __METHOD__.",".__LINE__."\n";
@@ -273,6 +319,12 @@ class SignMgr implements Listener {
 		//print_r($this->texts);
 		if (!isset($this->texts[$lines[0]])) return;
 		//echo __METHOD__.",".__LINE__."\n";
+		if ($ev->getPlayer()->isCreative() || $ev->getPlayer()->isSpectator()) {
+			$ev->getPlayer()->sendMessage(mc::_("No trading possible, while in %1% mode",
+												MPMU::gamemodeStr($ev->getPlayer()->getGamemode())));
+			return;
+		}
+
 		$this->activateSign($ev->getPlayer(),$sign);
 	}
 

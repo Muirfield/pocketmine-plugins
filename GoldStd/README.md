@@ -4,7 +4,7 @@
 
 * Summary: Gold based economy plugin
 * Dependency Plugins: N/A
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Economy
@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.1pre4**.
+This documentation was last updated for version **1.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//GoldStd-1.1.1pre4).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.0).
 
 <!-- template-end -->
 
@@ -42,6 +42,7 @@ Basic Usage:
 
 * pay $$
 * balance
+* shopkeep spawn [player|location] [shop]
 
 To pay people you tap on them while holding a gold ingot.
 
@@ -72,8 +73,9 @@ for regular gameplay:
   commands will add the stacks for you.
 * shopkeep  
   This command is used to manage shop keepers.  Sub-commands:
-  - /shopkeep spawn [player] [shop]
+  - /shopkeep spawn [player|location] [shop]
     - player - Shop keepr will be spawn where this player is located.
+    - location: x,y,z or x,y,z,yaw,pitch or x,y,z,yaw,pitch,world
     - shop - shop definition from configuration file.
 
 ### Signs
@@ -158,6 +160,33 @@ Examples:
   * Emerald x2
   * Zombie Spawn egg
 
+#### Potions Shop
+
+Tap a sign and you get a potions effect.
+Place a sign with the following text:
+
+    [CODE]
+    [POTIONS]
+    <effect[:duration:amplifier]>
+    <price>
+    [/CODE]
+
+Duration is a value in seconds.
+
+Effects:
+
+* [POTIONS]
+  * 1:120:1
+  * 10p
+  * Speed
+* [POTIONS]
+  * STREGTH
+  * 1p
+* [POTIONS]
+  * 8::2
+  * 2p
+  * Jump
+
 ### API
 
 * API
@@ -167,7 +196,7 @@ Examples:
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### defaults
@@ -238,11 +267,21 @@ The contents of these "ini" files are key-value pairs:
 * Q: Where do I find a list of the proper item names?
 * A: This uses PocketMine definitions (like the /give command).  You can find the list here:
   * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/item/Item.php#L39)
-  * Note that item names are case insensitive.
+  * Note that item names are case insensitive.  You can use the names or the ids.
+* Q: Where do I find a list of the proper effect names?
+  * [PocketMine Source](https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/entity/Effect.php#L32)
+  * You can use these names or the ids.
+* Q: How do I set a staring amount of money for players?
+* A: Use SpawnMgr or ItemSpawn to define an initial inventory which should include gold ingots.
 
 # Changes
 
-* 1.1.1 :
+* 1.2.0:
+  * MoneyAPI fixes (Thanks @vertx)
+  * Effects Shop
+  * Can specify location in spawn command
+  * Fixed spamming with multiple shops.
+* 1.1.2 :
   * @Achak request
     * Added goods trading
   * Added casino, shop and trading signs

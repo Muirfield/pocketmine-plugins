@@ -330,7 +330,7 @@ function expand_tags($txt,$db,$yaml) {
 				break;
 			case "\n<CONFIG>":
 				if ($out[count($out)-1] !=  "") $out[] = "";
-				$out[] = "Configuration is throug the `config.yml` file.";
+				$out[] = "Configuration is through the `config.yml` file.";
 				$out[] = "The following sections are defined:";
 				$out[] = "";
 				ksort($db["config"],SORT_NATURAL|SORT_FLAG_CASE);

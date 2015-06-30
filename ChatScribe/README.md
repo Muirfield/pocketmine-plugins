@@ -31,7 +31,7 @@ Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ChatScribe)
 for the most up-to-date documentation.
 
-You can download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//ChatScribe-1.2.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ChatScribe-1.2.0).
 
 <!-- template-end -->
 

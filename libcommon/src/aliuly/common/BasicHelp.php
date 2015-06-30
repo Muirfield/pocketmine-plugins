@@ -5,7 +5,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 use aliuly\common\mc;
-use aliuly\common\Cli;
 use aliuly\common\BasicCli;
 
 /**

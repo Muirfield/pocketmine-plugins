@@ -243,6 +243,19 @@ Repository for my *official* PocketMine plugins.
   </td>
 </tr>
 <!---------------------------------------------------------------------->
+<tr>
+  <th>
+    <a href="http://forums.pocketmine.net/plugins/emptyworld.1248/">
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/emptyworld-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <br/>
+      EmptyWorld
+    </a>
+  </th>
+  <td>
+    A world generator that generates empty worlds
+  </td>
+</tr>
+<!---------------------------------------------------------------------->
 
 </table>
 

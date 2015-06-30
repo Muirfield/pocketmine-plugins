@@ -62,6 +62,10 @@ if (is_file($plug."ignore.txt")) {
 		$ln = trim(preg_subst('/^#.$/',"",$ln));
 		$ignore[$ln] = $ln;
 	}
+} else {
+	foreach([".gitignore"] as $i) {
+		$ignore[$i] = $i;
+	}
 }
 
 $pharname = $manifest["name"]."_v".$manifest["version"].".phar";

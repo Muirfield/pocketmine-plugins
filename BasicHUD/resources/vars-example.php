@@ -27,11 +27,11 @@ if (($kr = $pm->getPlugin("KillRate")) !== null) {
 	}
 }
 if (($mm = $pm->getPlugin("PocketMoney")) !== null) {
-	$vars["{money}"] = $mm->getMoney($player);
-} elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
-	$vars["{money}"] = $mm->getMoney($player);
-} elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
-	$vars["{money}"] = $mm->mymoney($player);
-} elseif (($mm = $pm->getPlugin("GoldStd")) !== null) {
 	$vars["{money}"] = $mm->getMoney($player->getName());
+} elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
+	$vars["{money}"] = $mm->getMoney($player->getName());
+} elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
+	$vars["{money}"] = $mm->mymoney($player->getName());
+} elseif (($mm = $pm->getPlugin("GoldStd")) !== null) {
+	$vars["{money}"] = $mm->getMoney($player);
 }

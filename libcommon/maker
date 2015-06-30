@@ -20,7 +20,7 @@ if ($inp != $new) {
 }
 
 
-//gendoc(SRCDIR."README.md",$plugin);
+gendoc(SRCDIR."README.md",$plugin);
 //fix_common(SRCDIR,LIBDIR,$plugin);
 mcgen(SRCDIR."resources/messages",SRCDIR."src");
 

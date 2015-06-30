@@ -4,24 +4,35 @@
 
 * Summary: protect worlds from griefers, pvp, limits and borders
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
 * OptionalPlugins: n/a
 * Categories: World Editing and Management, Admin Tools
 * Plugin Access: Commands, Data Saving, World Editing, Manages Worlds
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/worldprotect.7517/"; -->
+<!-- template: prologue.md -->
+
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/worldprotect.7517/) for
 that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **2.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.0).
+
+<!-- template-end -->
 
 A full featured World protection plugin.
 
@@ -201,7 +212,7 @@ inventory.
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### features
@@ -269,8 +280,23 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the pluginc config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for sample files.
+
+# API
+
+There is a minimal API to determine the max number of players per world:
+
+```PHP
+$this->getServer()->getPluginManager()->getPlugin("WorldProtect")->getMaxPlayers($world);
+```
+
+Where:
+
+* $this - plugin pointer
+* $world - either a world name or an instance of Level.
+
+Returns an integer or null.
 
 # FAQ
 
@@ -280,6 +306,8 @@ for sample files.
 
 # Changes
 
+* 2.1.0: API
+  * Added API to determine max players
 * 2.0.3: Minor bug fix
   * Fixed bug: Configuration is not applied when reloading
 * 2.0.2: Feature request
