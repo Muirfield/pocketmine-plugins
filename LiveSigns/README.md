@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.0.0**.
+This documentation was last updated for version **1.0.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.0.1).
 
 <!-- template-end -->
 
@@ -229,7 +229,7 @@ back going back to [github](https://github.com/alejandroliu/pocketmine-plugins/t
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### main
@@ -261,8 +261,9 @@ The following sections are defined:
 
 # Changes
 
-* ???? : First update
+* 1.0.1 : First update
   * Fixed FloatingTextParticle not updating text properly...
+  * Added more info on commands
 
 * 1.0.0 : First submission
 

@@ -88,9 +88,11 @@ class LsCmds extends BasicCli {
 				$this->owner->saveSigns();
 				$this->owner->expireSign($id);
 				$this->owner->scheduleRetrieve();
+				$c->sendMessage(mc::_("LiveSign: Created text %1% (%2%)",$id,$type));
 				return true;
 			case "rm":
 				if (count($args) != 1) return false;
+				$c->sendMessage(mc::_("LiveSign: Removing text %1%",$args[0]));
 				$this->owner->loadSigns();
 				$this->owner->updateSignCfg($args[0],null,null);
 				$this->owner->saveSigns();
