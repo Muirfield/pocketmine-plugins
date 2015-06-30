@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.2dev**.
+This documentation was last updated for version **2.2.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag//GrabBag-2.2.2dev).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.2).
 
 <!-- template-end -->
 
@@ -500,7 +500,7 @@ things:
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### broadcast-tp
@@ -657,6 +657,7 @@ for sample files.
   * CmdAfterAt: list tasks and cancel them
   * Sounds on teleport
   * CmdRegMgr : show players registering since certain date
+  * Transfer broadcast : fixed bug
 * 2.2.1: Misc fixes and new features
   * New Command:
     * skin : manipulate skins
