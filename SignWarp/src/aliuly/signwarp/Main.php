@@ -175,12 +175,17 @@ class Main extends PluginBase implements Listener {
 		$pl->sendMessage(mc::_("[SignWarp] INTERNAL ERROR"));
 		return null;
 	}
-	private function breakSign(Player $pl,Sign $tile,$msg = "") {
-		if ($msg != "") $pl->sendMessage($msg);
+	public function doBreakSign($tile) {
 		$l = $tile->getLevel();
 		$l->setBlockIdAt($tile->getX(),$tile->getY(),$tile->getZ(),Block::AIR);
 		$l->setBlockDataAt($tile->getX(),$tile->getY(),$tile->getZ(),0);
 		$tile->close();
+	}
+	public function breakSign(Player $pl,Sign $tile,$msg = "") {
+		if ($msg != "") $pl->sendMessage($msg);
+		$this->getServer()->getScheduler()->scheduleDelayedTask(
+				new PluginCallbackTask($this,[$this,"doBreakSign"],[$tile]),10
+		);
 	}
 	private function check_coords($line,array &$vec) {
 		$mv = array();

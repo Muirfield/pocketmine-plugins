@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.5.0**.
+This documentation was last updated for version **1.5.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.5.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.5.1).
 
 <!-- template-end -->
 
@@ -143,11 +143,15 @@ The following sections are defined:
 
 # Changes
 
+* 1.5.1: bug-fix
+  * Removed a nasty crash in BreakSign
 * 1.5.0:
   * Signs now show max players in world.
 * 1.4.0:
   * Clean-up and use library stuff
-  * Removed broadcast setting
+  * Removed broadcast setting: Use
+	  [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+		**broadcast-tp** module
   * Translations: Spanish
 * 1.3.2: CallbackTask
   * Removed CallbackTask deprecation warnings

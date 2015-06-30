@@ -1,6 +1,6 @@
 name: SignWarp
 api: [1.10.0,1.12.0]
-version: 1.5.0
+version: 1.5.1
 load: POSTWORLD
 main: aliuly\signwarp\Main
 author: aliuly
