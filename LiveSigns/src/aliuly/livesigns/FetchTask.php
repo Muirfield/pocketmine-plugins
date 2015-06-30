@@ -8,6 +8,7 @@ use aliuly\livesigns\fetcher\Scriptlet;
 use aliuly\livesigns\fetcher\Url;
 use aliuly\livesigns\fetcher\Rss;
 use aliuly\livesigns\fetcher\Tweet;
+use aliuly\livesigns\fetcher\Query;
 
 class FetchTask extends AsyncTask {
 	public $started;
@@ -45,6 +46,9 @@ class FetchTask extends AsyncTask {
 			case "twitter":
 				$fetcher = Tweet::class;
 				break;
+				case "query":
+					$fetcher = Query::class;
+					break;
 			default:
 				return "Invalid type: ". $dat["type"];
 		}

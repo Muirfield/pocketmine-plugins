@@ -4,11 +4,13 @@
 basic1:
   type: text
   content:
-  - Welcome to
-  - LiveSigns
+  - "{RED}Welcome to"
+  - "{BLUE}LiveSigns"
+  - "{GOLD}TPS: {WHITE}{tps}"
 basic2:
   type: text
   content: You can use LiveSigns to have dynamic signs in Minecraft
+  no-vars: true
 file:
   type: file
   content: welcome.txt
@@ -23,6 +25,9 @@ rss:
   content:
   - http://forums.pocketmine.net/forums/-/index.rss
   - "0:3"
+#query:
+#  type: query
+#  content: hostname,19132
 #
 # You need to configure your twitter account before using this
 #

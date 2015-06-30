@@ -17,6 +17,7 @@ class TileUpdTask extends PluginTask{
 		parent::__construct($owner);
 	}
 	public function onRun($currentTicks){
+		$this->getOwner()->updateVars();
 		foreach ($this->getOwner()->getServer()->getLevels() as $lv) {
 			if (count($lv->getPlayers()) == 0) continue;
 			foreach ($lv->getTiles() as $tile) {

@@ -11,11 +11,15 @@ use pocketmine\command\Command;
 
 use pocketmine\event\Listener;
 use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat;
 
 use aliuly\livesigns\common\PluginCallbackTask;
 use aliuly\livesigns\common\BasicPlugin;
 use aliuly\livesigns\common\BasicHelp;
 use aliuly\livesigns\common\mc;
+
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
 
 class Main extends BasicPlugin implements CommandExecutor {
 	protected $texts;			// trigger texts
@@ -26,6 +30,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 	protected $cmds;			// Contains command implementations
 	protected $fetchcfg;		// Fetcher Configuration
 	protected $floats;		// Floating text handler
+	public $vars;				// Used in variable substitutions
 
 	public function onDisable() {
 		if ($this->fetcher !== null && !$this->fetcher->isFinished()) {
@@ -46,7 +51,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
-			"# settings" => "tunnable parameters",
+			"# settings" => "tunable parameters",
 			"settings" => [
 				"# tile-updates" => "How often to update signs in game from cache",// (in-ticks)
 				"tile-updates" => 80,
@@ -99,6 +104,34 @@ class Main extends BasicPlugin implements CommandExecutor {
 			"fs"=>new FsCmds($this),
 			new BasicHelp($this),
 		];
+		// These are constants that should be pre calculated
+		$this->vars = [
+			"{LiveSigns}" => $this->getDescription()->getFullName(),
+			"{MOTD}" => $this->getServer()->getMotd(),
+			"{NL}" => "\n",
+			"{BLACK}" => TextFormat::BLACK,
+			"{DARK_BLUE}" => TextFormat::DARK_BLUE,
+			"{DARK_GREEN}" => TextFormat::DARK_GREEN,
+			"{DARK_AQUA}" => TextFormat::DARK_AQUA,
+			"{DARK_RED}" => TextFormat::DARK_RED,
+			"{DARK_PURPLE}" => TextFormat::DARK_PURPLE,
+			"{GOLD}" => TextFormat::GOLD,
+			"{GRAY}" => TextFormat::GRAY,
+			"{DARK_GRAY}" => TextFormat::DARK_GRAY,
+			"{BLUE}" => TextFormat::BLUE,
+			"{GREEN}" => TextFormat::GREEN,
+			"{AQUA}" => TextFormat::AQUA,
+			"{RED}" => TextFormat::RED,
+			"{LIGHT_PURPLE}" => TextFormat::LIGHT_PURPLE,
+			"{YELLOW}" => TextFormat::YELLOW,
+			"{WHITE}" => TextFormat::WHITE,
+			"{OBFUSCATED}" => TextFormat::OBFUSCATED,
+			"{BOLD}" => TextFormat::BOLD,
+			"{STRIKETHROUGH}" => TextFormat::STRIKETHROUGH,
+			"{UNDERLINE}" => TextFormat::UNDERLINE,
+			"{ITALIC}" => TextFormat::ITALIC,
+			"{RESET}" => TextFormat::RESET,
+		];
 	}
 	public function scheduleRetrieve() {
 		if ($this->fetcher !== null && !$this->fetcher->isFinished()) {
@@ -140,21 +173,59 @@ class Main extends BasicPlugin implements CommandExecutor {
 		}
 		$this->scheduleRetrieve();
 	}
+	public function updateVars() {
+		$this->vars["{tps}"] = $this->getServer()->getTicksPerSecond();
+		$this->vars["{players}"] = count($this->getServer()->getOnlinePlayers());
+		$this->vars["{maxplayers}"] = $this->getServer()->getMaxPlayers();
+	}
 	private function getText($id) {
-		if (isset($this->signsCfg[$id]) && isset($this->signsCfg[$id]["type"]) &&
-			 strtolower($this->signsCfg[$id]["type"]) == "php") {
-			// It is PHP script!
-			$plugin = $this;
-			$server = $this->getServer();
-			$logger = $this->getLogger();
-			ob_start();
-			eval("?>".implode("\n",$this->signsTxt[$id]["text"]));
-			//$t = ob_get_clean();
-			//echo $t;//##DEBUG
-			//return explode("\n",$t);
-			return  explode("\n",ob_get_clean());
+		if (!isset($this->signsCfg[$id])) {
+			return [TextFormat::RED.mc::_("Missing id: %1%",$id)];
 		}
-		return $this->signsTxt[$id]["text"];
+		if (!isset($this->signsCfg[$id]["type"])) {
+			return [TextFormat::RED.mc::_("Incomplete config for %1%",$id)];
+		}
+		switch (strtolower($this->signsCfg[$id]["type"])) {
+			case "php":
+				// It is PHP script!
+				$plugin = $this;
+				$server = $this->getServer();
+				$logger = $this->getLogger();
+				ob_start();
+				eval("?>".implode("\n",$this->signsTxt[$id]["text"]));
+				//$t = ob_get_clean();
+				//echo $t;//##DEBUG
+				//return explode("\n",$t);
+				return  explode("\n",ob_get_clean());
+			case "query":
+				$opts = explode(",",implode("\n",$this->signsTxt[$id]["text"]),3);
+				if (!isset($opts[0])) return TextFormat::RED.mc::_("Query missing hostname");
+				$host = $opts[0];
+				$port = isset($opts[1]) ? $opts[1] : 19132; // Default port
+				$msg = isset($opts[2]) ? $opts[2] : "{HostName}\n{Players}/{MaxPlayers}";
+				$Query = new MinecraftQuery( );
+				try {
+					//echo __METHOD__.",".__LINE__."\n";//##DEBUG
+					//echo "host=$host port=$port\n";//##DEBUG
+					$Query->Connect( $host, $port, 1 );
+				} catch (MinecraftQueryException $e) {
+					return [TextFormat::RED.mc::_("Query %1% error: %2%", $host,$e->getMessage())];
+				}
+				$vars = $this->vars;
+				if (($info = $Query->GetInfo()) !== false) {
+					foreach($info as $i=>$j) {
+						if (is_array($j)) continue;
+						$vars["{".$i."}"] = $j;
+					}
+				}
+				//echo __METHOD__.",".__LINE__."\n";//##DEBUG
+				//print_r($vars);//##DEBUG
+				return explode("\n",strtr($msg , $vars));
+			default:
+			  $text = $this->signsTxt[$id]["text"];
+		}
+		if(isset($this->signsCfg[$id]["no-vars"])) return $text;
+		return explode("\n",strtr(implode("\n",$text),$this->vars));
 	}
 	public function getLiveText($id,$opts) {
 		if (!isset($this->signsTxt[$id])) return null;
@@ -180,19 +251,21 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$id = trim($sign[1]);
 		if (!isset($this->signsTxt[$id])) return null;
 
-		// We fold lines by default, unless
-		// line4 has - raw or word
+		// We fold lines on words by default, unless
+		// line4 has - raw or char
 
 		switch (strtolower($sign[3])) {
 			case "raw":
 			case "none":
 				$stx = $this->getText($id);
 				break;
-			case "word":
-				$stx = explode("\n",TextWrapper::wwrap(implode("\n",$this->getText($id))));
-				break;
-			default:
+			case "char":
+			case "chr":
 				$stx = explode("\n",TextWrapper::wrap(implode("\n",$this->getText($id))));
+				break;
+			case "word":
+			default:
+				$stx = explode("\n",TextWrapper::wwrap(implode("\n",$this->getText($id))));
 				break;
 		}
 

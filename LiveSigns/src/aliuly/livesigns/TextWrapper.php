@@ -56,6 +56,12 @@ abstract class TextWrapper{
 		$lineWidth = 0;
 		for($i = 0; $i < $len; ++$i){
 			$char = $text{$i};
+			if (ord($char) == 194 && ord($text{$i+1}) == 167) {
+				// This is a color escape...
+				$result .= $char.$text{$i+1}.$text{$i+2};
+				$i += 2;
+				continue;
+			}
 
 			if($char === "\n"){
 				$lineWidth = 0;
@@ -90,6 +96,12 @@ abstract class TextWrapper{
 		$wordLen = 0;
 		for($i = 0; $i < $len; ++$i){
 			$char = $text{$i};
+			if (ord($char) == 194 && ord($text{$i+1}) == 167) {
+				// This is a color escape...
+				$result .= $char.$text{$i+1}.$text{$i+2};
+				$i += 2;
+				continue;
+			}
 
 			if($char === "\n"){
 				$lineWidth = 0;

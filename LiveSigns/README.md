@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.0.1**.
+This documentation was last updated for version **1.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.0.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.1.0).
 
 <!-- template-end -->
 
@@ -47,6 +47,7 @@ Currently available sources:
 * RSS feed
 * Twitter feed
 * php scripts
+* MinecraftQuery
 
 Sample configuration files are provided to get you started.  Basic
 usage is that you create a LiveSign source, and assign it an id.  Then
@@ -66,9 +67,8 @@ messages.
 Also _options_ can be omitted, but can be one of the following:
 
 * **raw** or **none** : Will **not** do any wrapping of long lines.
-  Signs can use colors.
-* **word** : Will wrap long lines at word boundaries.  No colours are
-  allowed.
+* **word** : Will wrap long lines at word boundaries.  _(this is the default)_
+* **char** or **chr**:  Will wrap long lines (independant of word boundaries).
 
 If omitted, long lines will be wrapped, with colours stripped.
 
@@ -148,6 +148,14 @@ modifying **signs.yml**.  The following sources are possible:
 * php
   * points to a file in the plugin directory that will be executed as
     a php script.
+* query
+  * Get the output of a MinecraftQuery.  You should configure it with:
+  * _server-name[,port[,message]]_
+  * The _server-name_ is the host name to query.
+  * The _port_ is optional, defaults to 19132.  Set to whatever is the port
+    your server is running on.
+  * _message_ is optional, will default to showing the MOTD, Current player
+    count and max players.
 
 ### Floating text
 
@@ -205,10 +213,59 @@ up you would use:
 | 0:3  | 1:3  | 2:3  |
 | 12:3 | 13:3 | 14:3 |
 
+### Variable substitutions
+
+The following variables are available and can be substituted (this applies
+to all sources except for **php**).
+
+* {LiveSigns}
+* {MOTD}
+* {NL}
+* {BLACK}
+* {DARK_BLUE}
+* {DARK_GREEN}
+* {DARK_AQUA}
+* {DARK_RED}
+* {DARK_PURPLE}
+* {GOLD}
+* {GRAY}
+* {DARK_GRAY}
+* {BLUE}
+* {GREEN}
+* {AQUA}
+* {RED}
+* {LIGHT_PURPLE}
+* {YELLOW}
+* {WHITE}
+* {OBFUSCATED}
+* {BOLD}
+* {STRIKETHROUGH}
+* {UNDERLINE}
+* {ITALIC}
+* {RESET}
+* {tps}
+* {players}
+* {maxplayers}
+
+Special variables for Query messages:
+
+* {HostName}
+* {GameType}
+* {GameName}
+* {Version}
+* {Map}
+* {Players}
+* {MaxPlayers}
+* {HostIp}
+* {HostPort}
+* {RawPlugins}
+* {Software}
+
 ### Additional Libraries
 
 * RSS support: [lastRSS](http://lastrss.webdot.cz/)
 * Twitter Support: [Twitter-API-PHP](http://github.com/j7mbo/twitter-api-php)
+* Query Support: [xPaw's Minecraft Query](https://github.com/xPaw/PHP-Minecraft-Query)
 
 ### Configuration files
 
@@ -234,7 +291,7 @@ The following sections are defined:
 
 #### main
 
-*  settings: tunnable parameters
+*  settings: tunable parameters
 	*  tile-updates: How often to update signs in game from cache (in-ticks)
 	*  cache-signs: How long to cache sign data (seconds)
 	*  expire-cache: How often to expire caches (ticks)
@@ -261,10 +318,13 @@ The following sections are defined:
 
 # Changes
 
+* 1.1.0: new features
+  * Added query support
+  * Added variable substitutions (for colors) (Requested by @iDirtPlayzMC)
+  * We default to word wrap now.  Wrappings supports color codes.
 * 1.0.1 : First update
   * Fixed FloatingTextParticle not updating text properly...
   * Added more info on commands
-
 * 1.0.0 : First submission
 
 # Copyright
