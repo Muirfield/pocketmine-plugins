@@ -84,4 +84,8 @@ class Main extends BasicPlugin {
 			"freeze-thaw" => CmdFreezeMgr::defaults(),
 		]);
 	}
+	public function rconDone($res,$data) {
+		if (!isset($this->modules["rcon-client"])) return;
+		$this->modules["rcon-client"]->taskDone($res,$data);
+	}
 }

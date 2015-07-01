@@ -65,7 +65,7 @@ are **NEVER** stored:
 
 ### Configuration
 
-Configuration is throug the `config.yml` file.
+Configuration is through the `config.yml` file.
 The following sections are defined:
 
 #### main

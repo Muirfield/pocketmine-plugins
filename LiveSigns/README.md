@@ -70,7 +70,7 @@ Also _options_ can be omitted, but can be one of the following:
 * **word** : Will wrap long lines at word boundaries.  _(this is the default)_
 * **char** or **chr**:  Will wrap long lines (independant of word boundaries).
 
-If omitted, long lines will be wrapped, with colours stripped.
+If omitted, long lines will be wrapped at word boundaries.
 
 You can create floating text signs.  To do this use:
 
@@ -345,4 +345,3 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
