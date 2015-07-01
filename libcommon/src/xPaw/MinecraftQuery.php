@@ -2,15 +2,30 @@
 
 namespace xPaw;
 
+/**
+ * Class written by xPaw
+ *
+ * Website: http://xpaw.me
+ * GitHub: https://github.com/xPaw/PHP-Minecraft-Query
+ *
+ * Queries remote minecraft servers
+ *
+ * Basic usage:
+ *
+ *     use xPaw\MinecraftQuery;
+ *     use xPaw\MinecraftQueryException;
+ *     $query = new MinecraftQuery;
+ *     try {
+ *        $Query->Connect($host,$port,$timeout);
+ *     } catch (MinecraftQueryException $e) {
+ *        die($e->getMessage()."\n");
+ *     }
+ *     print_r($Query->GetInfo());
+ *     print_r($Query->GetPlayers());
+ *
+ */
 class MinecraftQuery
 {
-	/*
-	 * Class written by xPaw
-	 *
-	 * Website: http://xpaw.me
-	 * GitHub: https://github.com/xPaw/PHP-Minecraft-Query
-	 */
-
 	const STATISTIC = 0x00;
 	const HANDSHAKE = 0x09;
 
@@ -18,7 +33,12 @@ class MinecraftQuery
 	private $Players;
 	private $Info;
 
-	public function Connect( $Ip, $Port = 25565, $Timeout = 3 )
+  /** Query server
+	 * @param str $Ip - IP or hostname to query
+	 * @param int $Port - Port to connect to
+	 * @param int $Timeout - Timeout in seconds
+	 */
+	public function Connect( $Ip, $Port = 19132, $Timeout = 3 )
 	{
 		if( !is_int( $Timeout ) || $Timeout < 0 )
 		{
@@ -51,11 +71,19 @@ class MinecraftQuery
 		FClose( $this->Socket );
 	}
 
+	/**
+	 * Returns the query data
+	 * @return  array|false
+	 */
 	public function GetInfo( )
 	{
 		return isset( $this->Info ) ? $this->Info : false;
 	}
 
+	/**
+	 * Returns player list
+	 * @return  array|false
+	 */
 	public function GetPlayers( )
 	{
 		return isset( $this->Players ) ? $this->Players : false;

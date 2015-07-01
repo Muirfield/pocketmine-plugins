@@ -1,92 +1,60 @@
 <?php
-namespace aliuly\grabbag;
+namespace aliuly\common;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-use pocketmine\command\ConsoleCommandSender;
+use aliuly\common\Rcon;
 //
 // We can not localize this as it is running on a different thread...
 //
 
+/**
+ * Rcon implementation as an async task...
+ */
 class RconTask extends AsyncTask {
-	const RCTYPE_COMMAND = 2;
-	const RCTYPE_AUTH = 3;
-
-	protected $sender;
 	protected $server;
 	protected $cmd;
+  protected $plugin;
+	protected $callback;
+	protected $data;
 
-	private $sock;
-	private $id;
-
-	public function __construct($sender,$server,$cmd) {
-		$this->sender =  $sender;
-		$this->server = $server;
+	/**
+	 * @param array $remote - Array containing $host,$port,$auth data
+	 * @param str $cmd - remote command to execute
+	 * @param Plugin $plugin - plugin to receive results
+	 * @param str $callback - method from plugin to callback with results
+	 * @param mixed $data - data passed to callback function
+	 */
+	public function __construct($remote,$cmd,$plugin,$callback,$data) {
+		$this->server = $remote;
 		$this->cmd = $cmd;
 		$this->sock = false;
+		$this->plugin = $plugin->getName();
+		$this->callback = $callback;
+		$this->data = $data;
 	}
-	public function close($msg = "") {
+	private function close($msg = "") {
 		$this->setResult($msg);
 		if ($this->sock) {
 			fclose($this->sock);
 			$this->sock = false;
 		}
 	}
-	private function writePkt($cmd,$payload = "") {
-		$id = ++$this->id;
-		$data = pack("VVV",strlen($payload),$id,$cmd).
-				($payload === "" ? "\x00" : $payload)."\x00";
-		fwrite($this->sock,$data);
-		return $id;
-	}
-	private function readPkt() {
-		$d = fread($this->sock, 4);
-		if ($d === false || $d === ""  || strlen($d) < 4) return NULL;
-		list($size) = array_values(unpack("V1",$d));
-		if ($size < 0 or $size > 65535) return NULL;
-		list($id) = array_values(unpack("V1", fread($this->sock, 4)));
-		list($type) = array_values(unpack("V1", fread($this->sock, 4)));
-		$payload = rtrim(fread($this->sock,$size-8));
-		return array($id,$type,$payload);
-	}
-
 	public function onRun() {
-		$srv = preg_split('/\s+/',$this->server);
-		if (!($this->sock = @fsockopen($srv[0],intval($srv[1]), $errno, $errstr, 30))) {
-			$this->close("Unable to open socket: $errstr ($errno)");
-			return;
+		list($host,$port,$auth) = $this->server;
+		$ret = Rcon::connect($host,$port,$auth);
+		if (!is_array($ret)) {
+			$this->close($ret);
+			return ;
 		}
-		stream_set_timeout($this->sock,3,0);
-		$this->id = 0;
+		list($this->sock,$id) = $ret;
 
-		$pktid = $this->writePkt(self::RCTYPE_AUTH,$srv[2]);
-		$ret = $this->readPkt();
-		if (is_null($ret)) {
-			$this->close("Protocol error");
-			return;
-		}
-		if ($ret[0] == -1) {
-			$this->close("Authentication failure");
-			return;
-		}
-		$id = $this->writePkt(self::RCTYPE_COMMAND,$this->cmd);
-		$ret = $this->readPkt();
-		if (is_null($ret)) {
-			$this->close("Protocol error");
-			return;
-		}
-		list ($rid,$type,$payload) = $ret;
-		if ($rid !== $id) {
-			$this->close("Sequencing Error");
-			return;
-		}
-		$this->close($payload);
+		$ret = Rcon::cmd($this->cmd,$this->sock,$id);
+		$this->close($ret);
 	}
-
 	public function onCompletion(Server $server) {
-		$sender = $server->getPlayer($this->sender);
-		if (!$sender) {
-			$sender = new ConsoleCommandSender();
-		}
-		$sender->sendMessage($this->getResult());
+		$plugin = $server->getPluginManager()->getPlugin($this->plugin);
+		if ($plugin === null) return;
+		$cb = [$plugin,$this->callback];
+		$cb($this->getResult(),$this->data);
 	}
 }
