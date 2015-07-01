@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # ToyBox
 
@@ -128,7 +128,7 @@ Provide additional items with special functionality to PocketMine.
 
 * 1.1.1: Maintenance release
   * Fixed magic carpet for 1.5
-  * Translations
+  * Translations: Spanish, English
 * 1.1.0 : Next release
   * Added Floating Torch
   * Added magic carpet
@@ -154,4 +154,3 @@ Provide additional items with special functionality to PocketMine.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
