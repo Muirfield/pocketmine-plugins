@@ -23,7 +23,6 @@ class Main extends PluginBase implements CommandExecutor {
 	protected $trading;
 	protected $keepers;
 	protected $api;
-	protected $weapons;
 
 	public function getCurrency() { return $this->currency; }
 
@@ -46,8 +45,6 @@ class Main extends PluginBase implements CommandExecutor {
 			"# signs" => "Text used to identify GoldStd signs",
 			"signs" => SignMgr::defaults(),
 			"shop-keepers" => ShopKeep::defaults(),
-			"# weapons" => "List of offensive weapons",
-			"weapons" => [],
 		];
 		$this->saveResource("shops.yml");
 		$cf = (new Config($this->getDataFolder()."config.yml",
@@ -106,24 +103,10 @@ class Main extends PluginBase implements CommandExecutor {
 			$this->getLogger()->warning(TextFormat::RED.
 											 mc::_("Shop-Keepers disabled"));
 		}
-		$this->weapons = [];
-		if ($cf["weapons"]) {
-			foreach ($cf["weapons"] as $cf) {
-				$item = Item::fromString($cf);
-				if (($item = $item->getId()) == Item::AIR) {
-					$plugin->getLogger()->error(mc::_("Invalid weapon item: %1%",$cf));
-					continue;
-				}
-				$this->weapons[$item] = $item;
-			}
-		}
 
 	}
 	public function isWeapon($item) {
-		if ($item instanceof Item) {
-			$item = $item->getId();
-		}
-		return (isset($this->weapons[$item]));
+		return $item->isAxe() || $item->isSword() || $item->isPickaxe();
 	}
 	//////////////////////////////////////////////////////////////////////
 	//

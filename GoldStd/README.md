@@ -213,7 +213,6 @@ Default values for paying players by tapping
 	*  signs: set to true to enable shops|casino signs
 *  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
-*  weapons: List of offensive weapons
 
 #### shop-keepers
 
@@ -273,8 +272,14 @@ The contents of these "ini" files are key-value pairs:
   * You can use these names or the ids.
 * Q: How do I set a staring amount of money for players?
 * A: Use SpawnMgr or ItemSpawn to define an initial inventory which should include gold ingots.
+* Q: How can I use a different money plugin?
+* A: Set the currency to false in config.yml.  Then GoldStd will search for an
+  alternate money plugin.
 
 # Changes
+
+* ????:
+  * Weapons' are detected using isSword, isAxe and isPickaxe.
 
 * 1.2.0:
   * MoneyAPI fixes (Thanks @vertx)
