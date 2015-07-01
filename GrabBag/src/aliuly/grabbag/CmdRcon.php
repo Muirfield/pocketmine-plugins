@@ -33,7 +33,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use aliuly\common\RconTask;
+use aliuly\grabbag\common\RconTask;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;

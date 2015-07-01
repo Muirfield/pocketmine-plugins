@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.2**.
+This documentation was last updated for version **2.2.3**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.3).
 
 <!-- template-end -->
 
@@ -105,6 +105,8 @@ administration.
 
 * blowup : explode a player
 * burn : Burns the specified player
+* chat-on|chat-off : Allow players to opt-out from chat
+* clearchat : Clears your chat window
 * freeze|thaw : freeze/unfreeze a player so they cannot move.
 * heal : Restore health to a player
 * mute|unmute : mutes/unmutes a player so they can not use chat
@@ -166,6 +168,14 @@ The following commands are available:
 
   Sets `player` on fire for the specified number of seconds.
   Default is 15 seconds.
+
+* **chat-on|chat-off** _[player|--list|--server]_  
+  Allow players to opt-out from chat  
+
+  Prevents players from receiving chat messages.
+
+* **clearchat**  
+  Clears your chat window  
 
 * **clearhotbar** _[player]_  
   Clear player's hotbar  
@@ -634,6 +644,14 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.invisible.inmune : make player inmune to invisibility tricks
   _(Defaults to disabled)_
+* gb.cmd.togglechat : lets players opt out from chat
+* gb.cmd.togglechat.others : lets you toggle chat for others
+  (Defaults to Op)
+* gb.cmd.togglechat.excempt : chat-off players will always receive chats from these
+  (Defaults to Op)
+* gb.cmd.togglechat.global : Can toggle chat for the server as a whole
+  (Defaults to Op)
+* gb.cmd.clearchat : Clear your chat window
 
 
 ## Translations
@@ -765,3 +783,4 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

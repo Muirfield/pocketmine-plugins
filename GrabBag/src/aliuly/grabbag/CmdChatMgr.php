@@ -116,7 +116,7 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 							} else {
 								$this->unsetState($player);
 								$player->sendMessage(mc::_("Chat enabled from %1%",$sender->getName()));
-								$sender->sendMessage(mc::_("Chat enaabled for %1%",$player->getDisplayName()));
+								$sender->sendMessage(mc::_("Chat enabled for %1%",$player->getDisplayName()));
 							}
 							return true;
 						}
