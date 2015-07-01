@@ -9,6 +9,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\math\Vector3;
 
+use aliuly\toybox\common\mc;
 
 class Trampoline implements Listener {
 	protected $blocks;
@@ -25,10 +26,10 @@ class Trampoline implements Listener {
 		}
 		if (count($this->blocks)) {
 			$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
-			$this->owner->getLogger()->info(TextFormat::GREEN."Trampoline blocks:".
-												  count($this->blocks));
+			$this->owner->getLogger()->info(TextFormat::GREEN.mc::_("Trampoline blocks: %1%",
+												  count($this->blocks)));
 		} else {
-			$this->getLogger()->info(TextFormat::RED."No blocks configured");
+			$this->getLogger()->warning(TextFormat::RED.mc::_("No blocks configured"));
 		}
 	}
 

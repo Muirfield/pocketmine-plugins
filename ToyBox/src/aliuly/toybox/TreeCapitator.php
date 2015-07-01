@@ -11,6 +11,7 @@ use pocketmine\item\Item;
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\event\block\BlockBreakEvent;
+use aliuly\toybox\common\mc;
 
 class TreeCapitator extends BaseCommand implements Listener {
 	protected $items;
@@ -22,8 +23,8 @@ class TreeCapitator extends BaseCommand implements Listener {
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->enableCmd("treecapitator",
-							  ["description" => "Enable/Disable treecapitator",
-								"usage" => "/treecapitator",
+							  ["description" => mc::_("Enable/Disable treecapitator"),
+								"usage" => mc::_("/treecapitator"),
 								"aliases" => ["tc"],
 								"permission" => "toybox.treecapitator"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this,$this->owner);
@@ -50,10 +51,10 @@ class TreeCapitator extends BaseCommand implements Listener {
 
 		$state = $this->getState($sender,false);
 		if ($state) {
-			$sender->sendMessage("TreeCapitator de-actived");
+			$sender->sendMessage(mc::_("TreeCapitator de-actived"));
 			$this->setState($sender,false);
 		} else {
-			$sender->sendMessage("TreeCapitator activated");
+			$sender->sendMessage(mc::_("TreeCapitator activated"));
 			$this->setState($sender,true);
 		}
 		return true;
@@ -86,10 +87,10 @@ class TreeCapitator extends BaseCommand implements Listener {
 			$hand->setDamage($hand->getDamage() + $this->itemwear * $damage);
 			$pl->getInventory()->setItemInHand($hand);
 			if ($this->broadcast)
-				$this->owner->getServer()->broadcastMessage($pl->getName().
-																		  " used TreeCapitator");
+				$this->owner->getServer()->broadcastMessage(mc::_(
+																		  "%1% used TreeCapitator",$pl->getName()));
 			else
-				$pl->sendMessage("Used TreeCapitator");
+				$pl->sendMessage(mc::_("Used TreeCapitator"));
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////

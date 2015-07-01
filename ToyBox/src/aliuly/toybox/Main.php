@@ -8,6 +8,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 
 use pocketmine\event\player\PlayerQuitEvent;
+use aliuly\toybox\common\mc;
 
 class Main extends PluginBase implements Listener {
 	protected $state;
@@ -15,6 +16,8 @@ class Main extends PluginBase implements Listener {
 
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		mc::plugin_init($this,$this->getFile());
+
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
 			"modules" => [
@@ -84,7 +87,7 @@ class Main extends PluginBase implements Listener {
 			$this->state = [];
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		}
-		$this->getLogger()->info("enabled ".count($this->modules)." modules");
+		$this->getLogger()->info(mc::_("enabled %1% modules",count($this->modules)));
 	}
 
 	public function onPlayerQuit(PlayerQuitEvent $ev) {
@@ -123,13 +126,13 @@ class Main extends PluginBase implements Listener {
 		}
 		if ($default) {
 			if ($msg != "")
-				$this->getLogger()->info("$msg: Invalid item $txt, using default");
+				$this->getLogger()->warning(mc::_("%1%: Invalid item %2%, using default",$msg,$txt));
 			$item = Item::fromString($default.":0");
 			$item->setCount(1);
 			return $item;
 		}
 		if ($msg != "")
-			$this->getLogger()->info("$msg: Invalid item $txt, ignoring");
+			$this->getLogger()->warning(mc::_("%1%: Invalid item %2%, ignoring",$msg,$txt));
 		return null;
 	}
 }

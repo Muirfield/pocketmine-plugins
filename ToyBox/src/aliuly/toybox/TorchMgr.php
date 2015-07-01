@@ -14,6 +14,7 @@ use pocketmine\level\Position;
 use pocketmine\Server;
 use pocketmine\network\protocol\UpdateBlockPacket;
 use pocketmine\item\Item;
+use aliuly\toybox\common\mc;
 
 class TorchMgr implements Listener {
 	public $owner;
@@ -91,10 +92,10 @@ class TorchMgr implements Listener {
 		$state = $this->owner->getState("Torch",$pl,null);
 		if ($state) {
 			$this->deSpawnTorch($pl);
-			$pl->sendMessage("Torch de-activated");
+			$pl->sendMessage(mc::_("Torch de-activated"));
 		} else {
 			$this->spawnTorch($pl);
-			$pl->sendMessage("Torch activated");
+			$pl->sendMessage(mc::_("Torch activated"));
 		}
 	}
 	public function onJoin(PlayerJoinEvent $e) {
