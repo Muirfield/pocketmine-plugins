@@ -651,6 +651,8 @@ for sample files.
 
 # Changes
 
+* 2.2.3:
+  * Chat manager (Requested by @CaptainKenji17)
 * 2.2.2
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
@@ -763,4 +765,3 @@ for sample files.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-

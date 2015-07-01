@@ -65,6 +65,7 @@ class Main extends BasicPlugin {
 			"throw" => ["CmdThrow", true],
 			"regmgr" => ["CmdRegMgr",true],
 			"invisible" => ["CmdInvisible",true],
+			"chat-utils" => ["CmdChatMgr",true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];

@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.2
+version: 2.2.3
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -168,3 +168,18 @@ permissions:
   gb.cmd.invisible.inmune:
     default: false
     description: make player inmune to invisibility tricks
+  gb.cmd.togglechat:
+    default: true
+    description: "lets players opt out from chat"
+  gb.cmd.togglechat.others:
+    default: op
+    description: "lets you toggle chat for others"
+  gb.cmd.togglechat.excempt:
+    default: op
+    description: "chat-off players will always receive chats from these"
+  gb.cmd.togglechat.global:
+    default: op
+    description: "Can toggle chat for the server as a whole"
+  gb.cmd.clearchat:
+    default: true
+    description: "Clear your chat window"
