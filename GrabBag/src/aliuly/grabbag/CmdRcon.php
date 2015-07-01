@@ -33,6 +33,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\common\RconTask;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
@@ -122,8 +123,23 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 			return false;
 		}
 		$cmd = implode(" ",$args);
-		$tt = new RconTask($c->getName(),$this->servers[$id],$cmd);
-		$this->owner->getServer()->getScheduler()->scheduleAsyncTask($tt);
+		$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
+			new RconTask(preg_split('/\s+/',$this->servers[$id],3),
+									implode(" ",$args),
+									$this->owner,
+									"rconDone",
+									$c->getName())
+		);
 		return true;
+	}
+	public function taskDone($res,$player) {
+		if (($player = $this->owner->getServer()->getPlayer($player)) == null) {
+			$player = new ConsoleCommandSender;
+		}
+		if (!is_array($res)) {
+			$player->sendMessage($res);
+			return;
+		}
+		$player->sendMessage($res[0]);
 	}
 }
