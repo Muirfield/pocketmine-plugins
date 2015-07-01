@@ -2,14 +2,14 @@
 
 # NAME
 
-* Summary: aliuly's common library
-* Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
-* DependencyPlugins: -
-* OptionalPlugins: -
-* Categories: DevTools
-* Plugin Access: -
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+- Summary: aliuly's common library
+- Dependency Plugins: n/a
+- PocketMine-MP version: 1.4 (API:1.10.0)
+- DependencyPlugins: -
+- OptionalPlugins: -
+- Categories: DevTools
+- Plugin Access: -
+- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 ## Overview
 
@@ -36,30 +36,35 @@ writing PocketMine-MP plugins.
 
 Contains quite a few utility functions. Available modules:
 
-* mc - translation
-* Cmd - execute PocketMine commands from a PHP module.
-* MoneyAPI - supports the following economy plugins:
-  * GoldStd
-  * PocketMoney
-  * EconomyAPI
-  * MassiveEconomy
-* MPMU - miscellaneous utilities
-* Npc - Non-player character functionality
-* PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
-* BasicPlugin - My extensions to PluginBase
-* BasicCli - My class to impelements commands and/or sub-commands
-* BasicHelp - Implements help functionality for sub-commands
+- mc - translation
+- Cmd - execute PocketMine commands from a PHP module.
+- MoneyAPI - supports the following economy plugins:
+  - GoldStd
+  - PocketMoney
+  - EconomyAPI
+  - MassiveEconomy
+- MPMU - miscellaneous utilities
+- Npc - Non-player character functionality
+- PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
+- BasicPlugin - My extensions to PluginBase
+- BasicCli - My class to impelements commands and/or sub-commands
+- BasicHelp - Implements help functionality for sub-commands
 
 Features:
 
-* Paginated output
-* Command/Sub-command registration
-* Player state management
-* Config shortcuts and multi-module|feature management
-* Translations
-* Multiple economy supports
-* API version checking
-* Plugin shortcuts, etc...
+- Paginated output
+- Command/Sub-command registration
+- Player state management
+- Config shortcuts and multi-module|feature management
+- Translations
+- Multiple economy supports
+- API version checking
+- Plugin shortcuts, etc...
+
+It also bundles useful third party libraries:
+
+- xPaw MinecraftQuery
+
 
 For the full API documentation go to: [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
 
