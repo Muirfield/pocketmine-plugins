@@ -1,7 +1,6 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
 
-ToyBox
-======
+# ToyBox
 
 * Summary: A box full of fun toys and tools
 * Dependency Plugins: N/A
@@ -12,8 +11,12 @@ ToyBox
 * Plugin Access: Blocks, Commands
 * WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox)
 
-Overview
---------
+## Overview
+
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/toybox.1135/"; -->
+<!-- template: prologue.md -->
+INSERTED BY TEMPLATE
+<!-- template-end -->
 
 Provide additional items with special functionality to PocketMine.
 
@@ -76,7 +79,7 @@ Documentation
 * *magiccarpet*  
   Toggle magic carpet
 
-### Configuration
+## Configuration
 
 	---
 	# Enable or disable specifif toys
@@ -130,7 +133,7 @@ Documentation
 	  block: GLASS
 	...
 
-### Permission Nodes:
+### Permission Nodes
 
 * toybox.treecapitator: Allow treecapitator
 * toybox.compasstp: Allow treecapitator
@@ -140,15 +143,10 @@ Documentation
 * toybox.torch: Allow use of torch
 * toybox.magiccarpet: Allow use of Magic carpet
 
-Todo
-----
 
-* Ball - ??
+## Changes
 
-Changes
--------
-
-* ???
+* 1.1.1: Maintenance release
   * Fixed magic carpet for 1.5
 * 1.1.0 : Next release
   * Added Floating Torch
@@ -157,8 +155,7 @@ Changes
   * Removed CallbackTask deprecation warnings
 * 1.0.0 : First submission
 
-Copyright
----------
+## Copyright
 
     ToyBox
     Copyright (C) 2015 Alejandro Liu
@@ -176,4 +173,3 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
