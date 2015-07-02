@@ -126,6 +126,8 @@ Provide additional items with special functionality to PocketMine.
 
 ## Changes
 
+* 1.1.2: Torch
+  * Forgot to fix the torch
 * 1.1.1: Maintenance release
   * Fixed magic carpet for 1.5
   * Translations: Spanish, English
