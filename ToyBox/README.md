@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.1**.
+This documentation was last updated for version **1.1.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ToyBox-1.1.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ToyBox-1.1.2).
 
 <!-- template-end -->
 
@@ -156,3 +156,4 @@ Provide additional items with special functionality to PocketMine.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
