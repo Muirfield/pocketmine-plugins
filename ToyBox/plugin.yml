@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: ToyBox
 description: A box full of fun toys and tools
-version: 1.1.1
+version: 1.1.2
 author: aliuly
 website: https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox
 
