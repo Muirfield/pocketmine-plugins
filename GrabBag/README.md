@@ -707,6 +707,9 @@ The following third party libraries are included:
 
 * 2.2.3:
   * Chat manager (Requested by @CaptainKenji17)
+  * Added Query functionality
+   * Query remote hosts for number of servers on-line, number of players
+   * List players in remote hosts, etc...
 * 2.2.2
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
@@ -819,4 +822,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
