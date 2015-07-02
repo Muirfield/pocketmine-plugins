@@ -112,6 +112,7 @@ The following sections are defined:
 	*  dynamic-updates: Update signs. Set to 0 or false to disable, otherwise sign update frequence in ticks
 	*  reset-on-death: Reset counters on death. set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
 	*  kill-streak: Enable kill-streak tracking. "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
+	*  achievements: Enable PocketMine achievements
 *  values: configure awards. (1st.money, 2nd.points) Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 *  formats: Sign formats. Used to show sign data
 *  backend: Use SQLiteMgr or MySqlMgr
@@ -170,7 +171,7 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 # Changes
 
-* ???
+* 1.2.2dev1
   * small tweaks on the comments of the config file...
   * Added achievements
 * 1.2.1:
@@ -220,3 +221,4 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
