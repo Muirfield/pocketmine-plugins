@@ -9,13 +9,13 @@
  **
  **   This is an rcon client that you can used to send commands to other
  **   remote servers.  Options:
- **   - **rcon --add** _<id>_ _<address>_ _<port>_ _<password>_ _[comments]_
+ **   - **rcon --add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _&lt;password&gt;_ _[comments]_
  **     - adds a `rcon` connection with `id`.
- **   - **rcon --rm** _<id>_
+ **   - **rcon --rm** _&lt;id&gt;_
  **     - Removes `rcon` connection `id`.
  **   - **rcon --ls**
  **     - List configured rcon connections.
- **   - **rcon** _<id>_ _<command>_
+ **   - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
  **     - Sends the `command` to the connection `id`.
  **
  ** CONFIG:rcon-client
@@ -91,7 +91,7 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 	private function cmdRm(CommandSender $c,$args) {
 		if (!MPMU::access($c,"gb.cmd.rcon.config")) return true;
 		if (count($args) != 1) {
-			$c->sendMessage(mc::_("Usage: --rm [id]"));
+			$c->sendMessage(mc::_("Usage: --rm <id>"));
 			return false;
 		}
 		$id = array_shift($args);
@@ -105,15 +105,17 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		return true;
 	}
 	private function cmdList(CommandSender $c,$args) {
+		$pageNumber = $this->getPageNumber($args);
+		$txt = ["Rcon connections"];
 		foreach ($this->servers as $id => $dat) {
 			$dat = preg_split('/\s+/',$dat,4);
 			$host = array_shift($dat);
 			$port = array_shift($dat);
 			array_shift($dat);
-			$txt = count($dat) ? " #".$dat[0] : "";
-			$c->sendMessage("$id: $host:$port$txt");
+			$ln = count($dat) ? " #".$dat[0] : "";
+			$txt[] = "$id: $host:$port$ln";
 		}
-		return true;
+		return $this->paginateText($c,$pageNumber,$txt);
 	}
 	private function cmdRcon(CommandSender $c,$args) {
 		if (count($args) < 2) return false;

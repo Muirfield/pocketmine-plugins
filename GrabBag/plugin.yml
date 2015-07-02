@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.3
+version: 2.2.3dev1
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -183,3 +183,9 @@ permissions:
   gb.cmd.clearchat:
     default: true
     description: "Clear your chat window"
+  gb.cmd.query:
+    default: true
+    description: "Access to query command"
+  gb.cmd.query.addrm:
+    default: op
+    description: "Modify query hosts configuration"
