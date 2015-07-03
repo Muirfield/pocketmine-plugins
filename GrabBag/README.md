@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.3dev1**.
+This documentation was last updated for version **2.2.3**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.3dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.3).
 
 <!-- template-end -->
 
@@ -354,7 +354,10 @@ The following commands are available:
   - **rcon --ls**
     - List configured rcon connections.
   - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
-    - Sends the `command` to the connection `id`.
+    - Sends the `command` to the connection `id`.  You can specify multiple
+			  by separating with commas (,).  Otherwise, you can use **--all**
+      for the _id_ if you want to send the commands to all configured
+      servers.
 
 * **reg** _[subcommand]_ _[options]_  
   Manage player registrations  
@@ -705,12 +708,16 @@ The following third party libraries are included:
 
 # Changes
 
-* 2.2.3:
+* 2.2.3: Multi-server
   * Chat manager (Requested by @CaptainKenji17)
-  * Added Query functionality
-   * Query remote hosts for number of servers on-line, number of players
-   * List players in remote hosts, etc...
-* 2.2.2
+  * Must have multi-server feactures:
+    * Query command: let's you get info from servers in your network, like
+      - # servers on-line, number of players
+      - show what players are on-line and on which servers
+    * Rcon: let's you execute commands on remote servers using Rcon.  The
+      new --all switch lets you send the same command to all the servers in
+      your network.
+* 2.2.2:
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
   * CmdAfterAt: list tasks and cancel them
@@ -822,3 +829,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

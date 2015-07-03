@@ -16,7 +16,10 @@
  **   - **rcon --ls**
  **     - List configured rcon connections.
  **   - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
- **     - Sends the `command` to the connection `id`.
+ **     - Sends the `command` to the connection `id`.  You can specify multiple
+ **			  by separating with commas (,).  Otherwise, you can use **--all**
+ **       for the _id_ if you want to send the commands to all configured
+ **       servers.
  **
  ** CONFIG:rcon-client
  **
@@ -78,6 +81,10 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 			$c->sendMessage(mc::_("RCON id can not start with a dash (-)"));
 			return false;
 		}
+		if (strpos($id,",") !== false) {
+			$c->sendMessage(mc::_("RCON id can not contain commas (,)"));
+			return false;
+		}
 		if (isset($this->servers[$id])) {
 			$c->sendMessage(mc::_("%1% is an id that is already in use.",$id));
 			$c->sendMessage(mc::_("Use --rm first"));
@@ -120,18 +127,29 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 	private function cmdRcon(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		$id = array_shift($args);
-		if (!isset($this->servers[$id])) {
-			$c->sendMessage(mc::_("%1% does not exist",$id));
-			return false;
+		if ($id == "--all") {
+			$grp = array_keys($this->servers);
+		} else {
+			$grp = [];
+			foreach (explode(",",$id) as $i) {
+		  	if (!isset($this->servers[$i])) {
+			  	$c->sendMessage(mc::_("%1% does not exist",$id));
+			  	continue;
+		  	}
+				$grp[$i] = $i;
+			}
+			if (count($grp) == 0) return false;
 		}
 		$cmd = implode(" ",$args);
-		$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
-			new RconTask(preg_split('/\s+/',$this->servers[$id],3),
+		foreach ($grp as $id) {
+			$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
+				new RconTask(preg_split('/\s+/',$this->servers[$id],3),
 									implode(" ",$args),
 									$this->owner,
 									"rconDone",
 									$c->getName())
-		);
+		  );
+		}
 		return true;
 	}
 	public function taskDone($res,$player) {
