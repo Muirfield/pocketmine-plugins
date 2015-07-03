@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.2**.
+This documentation was last updated for version **1.2.1dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ToyBox-1.1.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ToyBox-1.2.1dev1).
 
 <!-- template-end -->
 
@@ -44,6 +44,7 @@ Provide additional items with special functionality to PocketMine.
 * PowerTool - pickax that destroys blocks instantly
 * Floating Torch - Floating torch that follows you around
 * Magic Carpet - Fly with a carpet made of glass
+* VeinMiner - mine ore shortcut
 
 ## Configuration
 
@@ -58,6 +59,7 @@ Provide additional items with special functionality to PocketMine.
 	  cloakclock: true
 	  floating-torch: true
 	  magic-carpet: true
+		veinminer: true
 
 	# Configure torch data
 	floating-torch:
@@ -122,10 +124,13 @@ Provide additional items with special functionality to PocketMine.
   (Defaults to Op)
 * toybox.torch : Can use floating torch
   (Defaults to Op)
+* toybox.veinminer : Allow the use of veinminer
+  (Defaults to Op)
 
 
 ## Changes
 
+* 1.2.1: VeinMiner
 * 1.1.2: Torch
   * Forgot to fix the torch
 * 1.1.1: Maintenance release

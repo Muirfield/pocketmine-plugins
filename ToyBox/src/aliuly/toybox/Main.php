@@ -28,6 +28,7 @@ class Main extends PluginBase implements Listener {
 				"cloakclock" => true,
 				"floating-torch" => true,
 				"magic-carpet" => true,
+				"veinminer" => true,
 			],
 			"floating-torch" => [
 				"item" => "TORCH",
@@ -47,6 +48,17 @@ class Main extends PluginBase implements Listener {
 				"need-item" => true,
 				"item-wear" => 1,
 				"creative" => true,
+			],
+			"veinminer" => [
+				"ItemIDs" => [
+					"IRON_PICKAXE", "WOODEN_PICKAXE", "STONE_PICKAXE",
+					"DIAMOND_PICKAXE", "GOLD_PICKAXE"
+				],
+				"need-item" => true,
+				"item-wear" => 1,
+				"creative" => true,
+				"max-blocks" => 10,
+				"broadcast-use" => true,
 			],
 			"treecapitator" => [
 				"ItemIDs" => [
@@ -83,6 +95,8 @@ class Main extends PluginBase implements Listener {
 			$this->modules[] = new TorchMgr($this,$cfg["floating-torch"]);
 		if ($cfg["modules"]["magic-carpet"])
 			$this->modules[] = new MagicCarpet($this,$cfg["magic-carpet"]["block"]);
+		if ($cfg["modules"]["veinminer"])
+			$this->modules[]= new VeinMiner($this,$cfg["veinminer"]);
 		if (count($this->modules)) {
 			$this->state = [];
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
