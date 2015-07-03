@@ -1,5 +1,5 @@
 name: KillRate
-version: 1.2.2dev1
+version: 1.2.2
 main: aliuly\killrate\Main
 api: 1.10.0
 load: POSTWORLD
@@ -8,6 +8,7 @@ softdepend: [PocketMoney,MassiveEconomy,EconomyAPI,GoldStd]
 
 description: Keep track of the number of kills
 author: aliuly
+website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 commands:
   killrate:

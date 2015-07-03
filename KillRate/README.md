@@ -9,20 +9,31 @@
 * OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI,GoldStd
 * Categories: Informational
 * Plugin Access: Commands, Databases, Entities, Tile Entities
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/killrate.8060/"; -->
+<!-- template: prologue.md -->
+
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
-It is difficult to carry a conversation in the reviews.  If you have a
-question/bug-report/request please use the
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/killrate.8060/) for
 that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.2.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-1.2.2).
+
+<!-- template-end -->
 
 This plugin keeps track on how much killing is going-on on a server.
 
@@ -130,7 +141,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for sample files.
 
 The contents of these "ini" files are key-value pairs:
@@ -171,7 +182,7 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 # Changes
 
-* 1.2.2dev1
+* 1.2.2
   * small tweaks on the comments of the config file...
   * Added achievements
 * 1.2.1:
