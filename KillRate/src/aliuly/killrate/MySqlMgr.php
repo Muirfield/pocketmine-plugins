@@ -11,7 +11,7 @@ class MySqlMgr implements DatabaseManager {
 	}
 	public function close() {
 		$this->database->close();
-		unset($this->databse);
+		unset($this->database);
 	}
 	public function __construct(PluginBase $owner){
 		$cf = $owner->getCfg("MySql");

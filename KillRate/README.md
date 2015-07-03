@@ -3,7 +3,6 @@
 # KillRate
 
 * Summary: Keep track of the number of kills
-* Dependency Plugins: N/A
 * PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI,GoldStd
@@ -232,4 +231,3 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
