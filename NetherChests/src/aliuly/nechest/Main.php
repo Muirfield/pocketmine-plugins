@@ -99,9 +99,9 @@ class Main extends PluginBase implements Listener {
 										Config::YAML,$defaults))->getAll();
 		$backend = __NAMESPACE__."\\".$cf["backend"];
 		$this->dbm = new $backend($this,$cf);
-		$this->getLogger()->info(mc::_("Using %1% as backend",$cb["backend"]));
+		$this->getLogger()->info(mc::_("Using %1% as backend",$cf["backend"]));
 
-		$bl = Item::from_String($cf["settings"]["base-block"]);
+		$bl = Item::fromString($cf["settings"]["base-block"]);
 		if ($bl->getBlock()->getId() == Item::AIR) {
 			$this->getLogger()->warning(mc::_("Invalid base-block %1%",$cf["settings"]["base-block"]));
 			$this->base_block = Block::NETHERRACK;
