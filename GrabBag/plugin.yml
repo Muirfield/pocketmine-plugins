@@ -189,3 +189,15 @@ permissions:
   gb.cmd.query.addrm:
     default: op
     description: "Modify query hosts configuration"
+  gb.cmd.query.details:
+    default: true
+    description: "View query details (ls, info, plugins)"
+  gb.cmd.query.players:
+    default: true
+    description: "Access to query players"
+  gb.cmd.query.players.showip:
+    default: true
+    description: "Show IP/hostname in query players"
+  gb.cmd.query.list:
+    default: true
+    description: "Query list command"

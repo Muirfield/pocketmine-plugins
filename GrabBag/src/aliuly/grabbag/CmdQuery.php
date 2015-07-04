@@ -60,14 +60,23 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 						if (!MPMU::access($sender,"gb.cmd.query.addrm")) return true;
 						return $this->cmdRm($sender,$args);
 					case "ls":
+						if (!MPMU::access($sender,"gb.cmd.query.details")) return true;
 						return $this->cmdList($sender,$args);
 					case "info":
 					case "plugins":
+						if (!MPMU::access($sender,"gb.cmd.query.details")) return true;
 						return $this->cmdQuery($sender,$n,$args);
 					case "players":
+						if (!MPMU::access($sender,"gb.cmd.query.players")) return true;
 						$pageNumber = $this->getPageNumber($args);
-					  if (count($args)) return $this->cmdQuery($sender,$n,$args,$pageNumber);
+					  if (count($args) && $sender->hasPermission("gb.cmd.query.players.showip")) {
+							return $this->cmdQuery($sender,$n,$args,$pageNumber);
+						}
 						return $this->cmdPlayers($sender,$pageNumber);
+					case "list":
+							if (!MPMU::access($sender,"gb.cmd.query.list")) return true;
+							$pageNumber = $this->getPageNumber($args);
+							return $this->cmdListAll($sender,$pageNumber);
 					case "summary":
 					  return $this->cmdSummary($sender);
 				}
@@ -218,7 +227,11 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			if (($players = $Query->GetPlayers()) === false) continue;
 			if (count($players) == 0) continue;
 			foreach ($players as $p) {
-				$all[$p] = "$id ($host:$port)";
+				if ($c->hasPermission("gb.cmd.query.players.showip")) {
+					$all[$p] = "$id ($host:$port)";
+				} else {
+					$all[$p] = "$id";
+				}
 			}
 		}
 		if (count($all) == 0) {
@@ -231,6 +244,63 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		foreach ($all as $i=>$j) {
 			$txt[] = $i." @ ".$j;
 		}
+		return $this->paginateText($c,$pageNumber,$txt);
+	}
+	private function cmdListAll(CommandSender $c, $pageNumber) {
+		$all = [];
+
+		$dat = [
+			"Players" => count($this->owner->getServer()->getOnlinePlayers()),
+			"MaxPlayers" => $this->owner->getServer()->getMaxPlayers(),
+			"List" => [],
+		];
+		foreach ($this->owner->getServer()->getOnlinePlayers() as $p) {
+			$dat["List"][] = $p->getName();
+		}
+		$totals = [
+			"Players"=>$dat["Players"],
+			"MaxPlayers"=>$dat["MaxPlayers"]
+		];
+		$all[mc::_("**this-server**")] = $dat;
+		foreach ($this->servers as $id=>$ln) {
+			$dat = preg_split('/\s+/',$ln,3);
+			$host = array_shift($dat);
+			$port = array_shift($dat);
+
+			$Query = new MinecraftQuery( );
+			try {
+				$Query->Connect( $host, $port, 1 );
+			} catch (MinecraftQueryException $e) {
+				$this->owner->getLogger()->warning(mc::_("Query %1% failed: %2%",$host,$e->getMessage()));
+				continue;
+			}
+			if (($info = $Query->GetInfo()) === false) continue;
+			foreach (["Players","MaxPlayers"] as $i) {
+				if (isset($info[$i])) $totals[$i] += $totals[$i];
+			}
+			$all[$id] = [
+				"Players" => $info["Players"],
+				"MaxPlayers" => $info["MaxPlayers"],
+				"List" => $Query->getPlayers(),
+			];
+		}
+		$txt = [ mc::_("Totals: %1%/%2%", $totals["Players"], $totals["MaxPlayers"]) ];
+		foreach ($all as $id=>$dat) {
+			$txt[] = TextFormat::YELLOW.mc::_("%1% (%2%/%3%):", $id, $dat["Players"], $dat["MaxPlayers"]);
+			if (!is_array($dat["List"])) continue;
+
+			$cols = 8;
+			$i = 0;
+			foreach ($dat["List"] as $n) {
+				if (($i++ % $cols) == 0) {
+					$txt[] = $n;
+				} else {
+					$txt[count($txt)-1] .= ", ".$n;
+				}
+			}
+
+		}
+
 		return $this->paginateText($c,$pageNumber,$txt);
 	}
 	private function cmdSummary(CommandSender $c) {

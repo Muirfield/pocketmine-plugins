@@ -679,6 +679,10 @@ this section through the *rcon* command.
 * gb.cmd.query : Access to query command
 * gb.cmd.query.addrm : Modify query hosts configuration
   (Defaults to Op)
+* gb.cmd.query.details : View query details (ls, info, plugins)
+* gb.cmd.query.players : Access to query players
+* gb.cmd.query.players.showip : Show IP/hostname in query players
+* gb.cmd.query.list : Query list command
 
 
 ## Translations
