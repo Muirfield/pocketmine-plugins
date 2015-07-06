@@ -91,7 +91,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->fetchcfg = $cf["fetcher"];
 
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(
-			new PluginCallbackTask($this,[$this,"expireCache"],[$cf["settings"]["cache-signs"]]]),$cf["settings"]["expire-cache"]
+			new PluginCallbackTask($this,[$this,"expireCache"],[$cf["settings"]["cache-signs"]]),$cf["settings"]["expire-cache"]
 		);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new TileUpdTask($this),$cf["settings"]["tile-updates"]);
 
@@ -205,6 +205,18 @@ class Main extends BasicPlugin implements CommandExecutor {
 					return explode("\n",ob_get_clean());
 				}
 				return explode("\n",substr($t,2));
+			case "query":
+			  $vars = $this->vars;
+				$msg = null;
+				foreach ($this->signsTxt[$id]["text"] as $ln) {
+					if ($msg == null) {
+						$msg = $ln;
+						continue;
+					}
+					list($i,$j) = explode("\t",$ln,2);
+					$vars["{".$i."}"]= $j;
+				}
+				return explode("\n",strtr($msg,$vars));
 			default:
 			  $text = $this->signsTxt[$id]["text"];
 		}

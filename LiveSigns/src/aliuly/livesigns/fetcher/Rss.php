@@ -4,7 +4,7 @@ use pocketmine\utils\Utils;
 use aliuly\livesigns\lastRSS;
 
 abstract class Rss extends SignFetcher {
-	static public function fetch($dat) {
+	static public function fetch($dat,$cfg) {
 		$url = "";
 		$item = 0;
 		$selector = "title";

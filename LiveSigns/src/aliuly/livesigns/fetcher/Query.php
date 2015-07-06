@@ -31,16 +31,16 @@ abstract class Query extends SignFetcher {
 		} catch (MinecraftQueryException $e) {
 			return "Query ".$host." error: ".$e->getMessage();
 		}
-		$vars = $this->vars;
+		$txt = [ $msg ];
 		if (($info = $Query->GetInfo()) !== false) {
 			foreach($info as $i=>$j) {
 				if (is_array($j)) continue;
-				$vars["{".$i."}"] = $j;
+				$txt[] = $i."\t".$j;
 			}
 		}
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		//print_r($vars);//##DEBUG
-		return explode("\n",strtr($msg , $vars));
+		return $txt;
 	}
 	static public function default_age() { return 8; }
 }
