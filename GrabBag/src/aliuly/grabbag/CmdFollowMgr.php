@@ -173,11 +173,12 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 			echo $f->getName()." - ".$l->getName()." DIST:$dist\n";//##DEBUG
 			if ($dist < $this->maxdist) return; // Close enough
 		}
-		$pos = new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),
+		$pos = $l->getLevel()->getSafeSpawn(new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),
 								 $l->getY(),
-								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist));
-
-		$f->teleport($l->getLevel()->getSafeSpawn($pos));
+								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist)));
+		$newdist = $pos->distance($l);
+		if ($newdist > $this->maxdist) return;// Will not get close enough!
+		$f->teleport($pos);
 	}
 	//
 	// Event handlers

@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.3**.
+This documentation was last updated for version **2.2.4dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.3).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4dev1).
 
 <!-- template-end -->
 
@@ -713,7 +713,6 @@ The following third party libraries are included:
 * 2.2.4: ??
   * Re-formatted Queries (Requested by @Daniel123)
   * FollowMgr check if player is flying before teleporting.
-
 * 2.2.3: Multi-server
   * Chat manager (Requested by @CaptainKenji17)
   * Must have multi-server feactures:
@@ -835,3 +834,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

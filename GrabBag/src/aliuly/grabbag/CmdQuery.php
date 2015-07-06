@@ -259,7 +259,7 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		}
 		$totals = [
 			"Players"=>$dat["Players"],
-			"MaxPlayers"=>$dat["MaxPlayers"]
+			"MaxPlayers"=>$dat["MaxPlayers"],
 		];
 		$all[mc::_("**this-server**")] = $dat;
 		foreach ($this->servers as $id=>$ln) {
@@ -276,7 +276,7 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			}
 			if (($info = $Query->GetInfo()) === false) continue;
 			foreach (["Players","MaxPlayers"] as $i) {
-				if (isset($info[$i])) $totals[$i] += $totals[$i];
+				if (isset($info[$i])) $totals[$i] += $info[$i];
 			}
 			$all[$id] = [
 				"Players" => $info["Players"],
