@@ -157,6 +157,16 @@ modifying **signs.yml**.  The following sources are possible:
   * _message_ is optional, will default to showing the MOTD, Current player
     count and max players.
 
+Entries in **signs.yml** contain the following keys:
+
+* sign-id:
+  * type: type of source
+  * content: either a single entry or array entities.
+  * Optional settings:
+  * no-vars: true, disables variable substitutions
+  * max-age: seconds, overrides message cache settings
+
+
 ### Floating text
 
 Floating text can be created using **/floatsign** or by editing
@@ -318,6 +328,11 @@ The following sections are defined:
 
 # Changes
 
+* ???
+  * moved Query's to AsyncTask
+  * caching is more flexible
+  * php scripts can now be cached (note that since it runs on an asynctask
+    access to the PocketMine MP API is not possible)
 * 1.1.0: new features
   * Added query support
   * Added variable substitutions (for colors) (Requested by @iDirtPlayzMC)

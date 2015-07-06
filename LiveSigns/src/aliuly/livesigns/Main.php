@@ -18,9 +18,6 @@ use aliuly\livesigns\common\BasicPlugin;
 use aliuly\livesigns\common\BasicHelp;
 use aliuly\livesigns\common\mc;
 
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
-
 class Main extends BasicPlugin implements CommandExecutor {
 	protected $texts;			// trigger texts
 	protected $fetcher;		// async task retriever
@@ -55,10 +52,10 @@ class Main extends BasicPlugin implements CommandExecutor {
 			"settings" => [
 				"# tile-updates" => "How often to update signs in game from cache",// (in-ticks)
 				"tile-updates" => 80,
-				"# cache-signs" => "How long to cache sign data (seconds)",
-				"cache-signs" => 7200,
+       	"# cache-signs" => "Default seconds to cache sign data",
+       	"cache-signs" => 7200,
 				"# expire-cache" => "How often to expire caches (ticks)",
-				"expire-cache" => 8000,
+				"expire-cache" => 200,
 			],
 			"fetcher" => [
 				"# path" => "file path for the file fetcher",
@@ -94,7 +91,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->fetchcfg = $cf["fetcher"];
 
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(
-			new PluginCallbackTask($this,[$this,"expireCache"],[$cf["settings"]["cache-signs"]]),$cf["settings"]["expire-cache"]
+			new PluginCallbackTask($this,[$this,"expireCache"],[$cf["settings"]["cache-signs"]]]),$cf["settings"]["expire-cache"]
 		);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new TileUpdTask($this),$cf["settings"]["tile-updates"]);
 
@@ -160,7 +157,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->fetcher = null;
 		if ($this->fetch_redo) $this->scheduleRetrieve();
 	}
-	public function expireCache($maxage) {
+	public function expireCache($dmaxage) {
 		$now = time();
 		foreach (array_keys($this->signsTxt) as $id) {
 			if (!isset($this->signsCfg[$id])) {
@@ -169,6 +166,16 @@ class Main extends BasicPlugin implements CommandExecutor {
 				continue;
 			}
 			if (!isset($this->signsTxt[$id]["datetime"])) continue;
+			//*** CHECK ***
+			if (isset($this->signsCfg[$id]["max-age"])) {
+				$maxage = $this->signsCfg[$id]["max-age"];
+			} else {
+				$fetcher = FetchTask::fetchClass($this->signsCfg[$id]["type"]);
+				$maxage = $dmaxage;
+				if ($fetcher !== null && $fetcher::default_age() != -1) {
+					$maxage = $fetcher::default_age();
+				}
+			}
 			if (($this->signsTxt[$id]["datetime"] + $maxage) < $now) unset($this->signsTxt[$id]["datetime"]);
 		}
 		$this->scheduleRetrieve();
@@ -191,36 +198,13 @@ class Main extends BasicPlugin implements CommandExecutor {
 				$plugin = $this;
 				$server = $this->getServer();
 				$logger = $this->getLogger();
-				ob_start();
-				eval("?>".implode("\n",$this->signsTxt[$id]["text"]));
-				//$t = ob_get_clean();
-				//echo $t;//##DEBUG
-				//return explode("\n",$t);
-				return  explode("\n",ob_get_clean());
-			case "query":
-				$opts = explode(",",implode("\n",$this->signsTxt[$id]["text"]),3);
-				if (!isset($opts[0])) return TextFormat::RED.mc::_("Query missing hostname");
-				$host = $opts[0];
-				$port = isset($opts[1]) ? $opts[1] : 19132; // Default port
-				$msg = isset($opts[2]) ? $opts[2] : "{HostName}\n{Players}/{MaxPlayers}";
-				$Query = new MinecraftQuery( );
-				try {
-					//echo __METHOD__.",".__LINE__."\n";//##DEBUG
-					//echo "host=$host port=$port\n";//##DEBUG
-					$Query->Connect( $host, $port, 1 );
-				} catch (MinecraftQueryException $e) {
-					return [TextFormat::RED.mc::_("Query %1% error: %2%", $host,$e->getMessage())];
+				$t = implode("\n",$this->signsTxt[$id]["text"]);
+				if (substr($t,0,2) == "?>") {
+					ob_start();
+					eval($t);
+					return explode("\n",ob_get_clean());
 				}
-				$vars = $this->vars;
-				if (($info = $Query->GetInfo()) !== false) {
-					foreach($info as $i=>$j) {
-						if (is_array($j)) continue;
-						$vars["{".$i."}"] = $j;
-					}
-				}
-				//echo __METHOD__.",".__LINE__."\n";//##DEBUG
-				//print_r($vars);//##DEBUG
-				return explode("\n",strtr($msg , $vars));
+				return explode("\n",substr($t,2));
 			default:
 			  $text = $this->signsTxt[$id]["text"];
 		}
