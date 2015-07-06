@@ -174,7 +174,7 @@ class Main extends PluginBase implements Listener {
 		$inv = $ev->getInventory();
 		if (!$this->isNeChest($inv)) return;
 		if (!$this->lockChest($player,$inv)) {
-			$player->sendTip(mc::_("That Nether Chest is in use!"));
+			$player->sendTip(mc::_("That NetherChest is in use!"));
 			$ev->setCancelled();
 			return;
 		}

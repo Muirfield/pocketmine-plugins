@@ -12,25 +12,25 @@
 
 ## Overview
 
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/killrate.8060/"; -->
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/netherchests.9269/"; -->
 <!-- template: prologue.md -->
 
 **DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/killrate.8060/) for
+[Thread](http://forums.pocketmine.net/threads/netherchests.9269/) for
 that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.0**.
+This documentation was last updated for version **1.1.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0dev1).
 
 <!-- template-end -->
 
@@ -59,9 +59,9 @@ The following sections are defined:
 # Changes
 
 * 1.1.0 :
-  - more configuration
+  - more configuration, NetherChests can be global now
   - MySQL support
-  - Translation: English, Spanish
+  - Translation: English, Spanish, Dutch
 * 1.0.0 : First submission
 
 # Copyright
