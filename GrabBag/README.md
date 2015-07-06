@@ -125,8 +125,6 @@ administration.
 
 ## Documentation
 
-**NOTE: In v2.0.0 Configuration has been changed**
-
 This plugin collects a number of commands and listener plugins that I
 find useful and wanted to have in a single plugin rather through
 multiple ones.  The available commands and listener modules can be
@@ -712,6 +710,10 @@ The following third party libraries are included:
 
 # Changes
 
+* 2.2.4: ??
+  * Re-formatted Queries (Requested by @Daniel123)
+  * FollowMgr check if player is flying before teleporting.
+
 * 2.2.3: Multi-server
   * Chat manager (Requested by @CaptainKenji17)
   * Must have multi-server feactures:
@@ -833,4 +835,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-

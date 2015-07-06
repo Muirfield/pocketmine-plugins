@@ -157,19 +157,16 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		unset($this->leaders[$leader]);
 	}
 	private function approach($f,$l) {
-		echo __METHOD__.",".__LINE__."\n";
 		echo "f=$f l=$l\n";//##DEBUG
 		if (!($f instanceof Player)) {
 			$f = $this->owner->getServer()->getPlayer($f);
-			echo __METHOD__.",".__LINE__."\n";
 			if (!$f) return; // Couldn't find this guy!
 		}
 		if (!($l instanceof Player)) {
 			$l = $this->owner->getServer()->getPlayer($l);
-			echo __METHOD__.",".__LINE__."\n";
 			if (!$l) return; // Couldn't find this guy!
 		}
-		echo __METHOD__.",".__LINE__."\n";
+		if (!$l->isonGround()) return; // We don't approach if leader is flying...
 
 		if ($f->getLevel() === $l->getLevel()) {
 			$dist = $f->distance($l);
