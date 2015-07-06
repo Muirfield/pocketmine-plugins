@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.4dev1**.
+This documentation was last updated for version **2.2.4dev2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4dev2).
 
 <!-- template-end -->
 
@@ -111,6 +111,7 @@ administration.
 * freeze|thaw : freeze/unfreeze a player so they cannot move.
 * heal : Restore health to a player
 * mute|unmute : mutes/unmutes a player so they can not use chat
+* nick : Change your display name
 * slay : Kills the specified player
 * spectator|unspectator : toggle a player's spectator mode
 * throw : Throw a player in the air
@@ -268,6 +269,8 @@ The following commands are available:
   Stops players from chatting.  If no player specified it will show
   the list of muted players.
 
+* **nick** _&lt;name&gt;_  
+  Change your display name  
 * **opms** _[msg]_  
   sends a message to ops only  
 
@@ -674,6 +677,7 @@ this section through the *rcon* command.
 * gb.cmd.togglechat.global : Can toggle chat for the server as a whole
   (Defaults to Op)
 * gb.cmd.clearchat : Clear your chat window
+* gb.cmd.nick : Change display name
 * gb.cmd.query : Access to query command
 * gb.cmd.query.addrm : Modify query hosts configuration
   (Defaults to Op)
@@ -713,6 +717,7 @@ The following third party libraries are included:
 * 2.2.4: ??
   * Re-formatted Queries (Requested by @Daniel123)
   * FollowMgr check if player is flying before teleporting.
+  * Added /nick command (ChatMgr)
 * 2.2.3: Multi-server
   * Chat manager (Requested by @CaptainKenji17)
   * Must have multi-server feactures:

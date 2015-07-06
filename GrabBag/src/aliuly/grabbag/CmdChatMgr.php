@@ -12,6 +12,8 @@
  ** * clearchat : Clears your chat window
  **   usage: **clearchat**
  **
+ ** * nick : Change your display name
+ **   usage: **nick** _<name>_
  **/
 
 namespace aliuly\grabbag;
@@ -45,10 +47,25 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 										["description" => mc::_("stops chat"),
 										"usage" => mc::_("/chat-off [player|-l|-g]"),
 										"permission" => "gb.cmd.togglechat"]);
+		$this->enableCmd("nick",
+										["description" => mc::_("change displayed name"),
+										"usage" => mc::_("/nick <new-name>"),
+										"permission" => "gb.cmd.nick"]);
+
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		switch ($cmd->getName()) {
+			case "nick":
+				if (!MPMU::inGame($sender)) return true;
+				if (count($args) == 0) {
+					$sender->sendName(mc::_("Current nick is: %1%",$sender->getDisplayName()));
+					return true;
+				}
+				if (count($args) !== 1)  return false;
+				$this->owner->getServer(mc::_("%1% is now known as %2%",$sender->getDisplayName(),$args[0]));
+				$sender->setDisplayName($args[0]);
+				return true;
 			case "clearchat":
 		  	if (!MPMU::inGame($sender)) return true;
 				if (count($args) != 0) return false;
