@@ -77,6 +77,7 @@ registration.  This is configured through the **nest-egg** setting.
   - Removed little use feature: nest-egg
   - leet-mode also works for /register.
   - Removed auto-ban.  It is now done in SimpleAuth.
+  - Added support for hiding unauthenticated players (Suggested by @CaptainKenji17)
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.

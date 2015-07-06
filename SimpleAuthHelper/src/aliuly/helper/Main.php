@@ -15,6 +15,8 @@ use pocketmine\item\Item;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 
+use SimpleAuth\event\PlayerAuthenticateEvent;
+
 use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
 
@@ -45,6 +47,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			"login-timeout" => 60,
 			"leet-mode" => true,
 			"chat-protect" => true,
+			"hide-unauth" => false,
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
@@ -63,9 +66,30 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		if (isset($this->chpwd[$n])) unset($this->chpwd[$n]);
 	}
 	public function onPlayerJoin(PlayerJoinEvent $ev) {
-		if ($this->cfg["login-timeout"] == 0) return;
-		$n = $ev->getPlayer()->getName();
-		$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkTimeout"],[$n]),$this->cfg["login-timeout"]*20);
+		if ($this->cfg["login-timeout"] !== 0) {
+			$n = $ev->getPlayer()->getName();
+			$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkTimeout"],[$n]),$this->cfg["login-timeout"]*20);
+		}
+		if ($this->cfg["hide-unauth"]) {
+			$p = $ev->getPlayer();
+			foreach($this->getServer()->getOnlinePlayers() as $online){
+				$online->hidePlayer($p);
+				$p->hidePlayer($online);
+			}
+			$ev->setJoinMessage("");
+			//
+		}
+	}
+	public function onAuthenticate(PlayerAuthenticateEvent $ev) {
+		if (!$this->cfg["hide-unauth"]) return;
+		$pl = $ev->getPlayer();
+		$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has just joined", $pl->getDisplayName()));
+		foreach($this->getServer()->getOnlinePlayers() as $online){
+			$online->showPlayer($pl);
+			if ($this->auth->isPlayerAuthenticated($online)) {
+				$pl->showPlayer($online);
+			}
+		}
 	}
 	/**
 	 * @priority LOW
