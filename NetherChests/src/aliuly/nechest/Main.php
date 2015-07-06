@@ -150,7 +150,7 @@ class Main extends PluginBase implements Listener {
 		if ($ev->isCancelled()) return;
 		$bl = $ev->getBlock();
 		if ($bl->getId() != Block::CHEST || $bl->getSide(Vector3::SIDE_DOWN)->getId() != $this->base_block) return;
-		$ev->getPlayer()->sendMessage(mc::_("Placed a Nether Chest"));
+		$ev->getPlayer()->sendMessage(mc::_("Placed a NetherChest"));
 	}
 
 	public function onPlayerQuitEvent(PlayerQuitEvent $ev) {
