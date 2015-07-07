@@ -158,6 +158,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if ($this->fetch_redo) $this->scheduleRetrieve();
 	}
 	public function expireCache($dmaxage) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$now = time();
 		foreach (array_keys($this->signsTxt) as $id) {
 			if (!isset($this->signsCfg[$id])) {
@@ -175,6 +176,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 				if ($fetcher !== null && $fetcher::default_age() != -1) {
 					$maxage = $fetcher::default_age();
 				}
+				echo "FETCHER:$fetcher MAXAGE=$maxage\n";//##DEBUG
 			}
 			if (($this->signsTxt[$id]["datetime"] + $maxage) < $now) unset($this->signsTxt[$id]["datetime"]);
 		}
