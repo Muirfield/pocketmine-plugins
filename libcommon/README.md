@@ -49,6 +49,8 @@ Contains quite a few utility functions. Available modules:
 - BasicPlugin - My extensions to PluginBase
 - BasicCli - My class to impelements commands and/or sub-commands
 - BasicHelp - Implements help functionality for sub-commands
+- PluginAsyncTask - A simple wrapper around AsyncTask
+- QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery
 
 Features:
 
@@ -90,4 +92,3 @@ For the full API documentation go to: [GitHub pages](http://alejandroliu.github.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
