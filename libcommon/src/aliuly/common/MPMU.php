@@ -229,6 +229,19 @@ abstract class MPMU {
 		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
 	}
 	/**
+	 * Unregisters a command
+   * @param Server|Plugin $obj - Access path to server instance
+	 * @param str $cmd - Command name to remove
+	 */
+	static public function rmCommand($srv, $cmd) {
+		$cmdMap = $srv->getCommandMap();
+		$oldCmd = $cmdMap->getCommand($cmd);
+		if ($oldCmd === null) return false;
+		$oldCmd->setLabel($cmd."_disabled");
+		$oldCmd->unregister($cmdMap);
+		return true;
+	}
+	/**
 	 * Send a PopUp, but takes care of checking if there are some
 	 * plugins that might cause issues.
 	 *

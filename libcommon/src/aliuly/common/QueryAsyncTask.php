@@ -37,16 +37,16 @@ class QueryAsyncTask extends PluginAsyncTask{
 		try {
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			//echo "host=$host port=$port\n";//##DEBUG
-			$Query->Connect( $host, $port, 1 );
+			$Query->Connect( $this->host, $this->port, 1 );
 		} catch (MinecraftQueryException $e) {
-			$this->setResult("Query ".$host." error: ".$e->getMessage());
+			$this->setResult("Query ".$this->host." error: ".$e->getMessage());
 			return;
 		}
 		$this->setResult([
-			"host"=>$host,
-			"port" => $port,
+			"host"=>$this->host,
+			"port" => $this->port,
 			"info" => $Query->GetInfo(),
-			"players" => Query->GetPlayers()
+			"players" => $Query->GetPlayers(),
 		]);
 	}
 }

@@ -9,7 +9,7 @@ use pocketmine\Server;
  * A shortcut for AsyncTask
  *
  */
-class PluginAsyncTask extends AsyncTask{
+abstract class PluginAsyncTask extends AsyncTask{
 	/** @var Plugin */
 	public $ownerName;
 
@@ -37,6 +37,6 @@ class PluginAsyncTask extends AsyncTask{
 		}
 		if (!$plugin->isEnabled()) return;
 		$callback = [$plugin, $this->callable];
-		$callback($this->getResult(),$this->args);
+		$callback($this->getResult(),...$this->args);
 	}
 }

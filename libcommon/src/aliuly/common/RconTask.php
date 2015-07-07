@@ -1,6 +1,7 @@
 <?php
 namespace aliuly\common;
-use pocketmine\scheduler\AsyncTask;
+use aliuly\common\PluginAsyncTask;
+use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use aliuly\common\Rcon;
 //
@@ -10,27 +11,23 @@ use aliuly\common\Rcon;
 /**
  * Rcon implementation as an async task...
  */
-class RconTask extends AsyncTask {
+class RconTask extends PluginAsyncTask {
 	protected $server;
 	protected $cmd;
-  protected $plugin;
-	protected $callback;
-	protected $data;
+	protected $sock;
 
 	/**
-	 * @param array $remote - Array containing $host,$port,$auth data
+	 * @param Plugin $owner
+	 * @param str $callable - method from $owner to call
+	 * @param array	$remote - Array containing $host,$port,$auth data
 	 * @param str $cmd - remote command to execute
-	 * @param Plugin $plugin - plugin to receive results
-	 * @param str $callback - method from plugin to callback with results
-	 * @param mixed $data - data passed to callback function
+   * @param array $args	- extra arguments to pass to callback method
 	 */
-	public function __construct($remote,$cmd,$plugin,$callback,$data) {
+	public function __construct(Plugin $owner, $callable, array $remote, $cmd, array $args = []){
+		parent::__construct($owner,$callable,$args);
 		$this->server = $remote;
 		$this->cmd = $cmd;
 		$this->sock = false;
-		$this->plugin = $plugin->getName();
-		$this->callback = $callback;
-		$this->data = $data;
 	}
 	private function close($msg = "") {
 		$this->setResult($msg);
@@ -50,11 +47,5 @@ class RconTask extends AsyncTask {
 
 		$ret = Rcon::cmd($this->cmd,$this->sock,$id);
 		$this->close($ret);
-	}
-	public function onCompletion(Server $server) {
-		$plugin = $server->getPluginManager()->getPlugin($this->plugin);
-		if ($plugin === null) return;
-		$cb = [$plugin,$this->callback];
-		$cb($this->getResult(),$this->data);
 	}
 }
