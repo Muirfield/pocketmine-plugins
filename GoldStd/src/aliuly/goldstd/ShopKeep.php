@@ -128,7 +128,6 @@ class ShopKeep implements Listener {
 					}
 					$item->setCount($qty);
 				}
-				echo "Item: ".$item->getId().",".$item->getCount()."\n";//##DEBUG
 				$this->keepers[$i]["items"][implode(":",[$item->getId(),$item->getDamage()])] = [ $item,$price ];
 			}
 			if (count($this->keepers[$i]["items"])) continue;
@@ -458,7 +457,6 @@ class ShopKeep implements Listener {
 		}
 	}
 	public function onClose(InventoryCloseEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";
 		$pl = $ev->getPlayer();
 		$xx = $this->getState("trade-inv",$pl,null);
 		if ($xx == null) return;
