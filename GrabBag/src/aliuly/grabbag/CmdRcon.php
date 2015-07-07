@@ -36,7 +36,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\RconTask;
+use aliuly\common\RconTask;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
@@ -143,11 +143,10 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		$cmd = implode(" ",$args);
 		foreach ($grp as $id) {
 			$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
-				new RconTask(preg_split('/\s+/',$this->servers[$id],3),
-									implode(" ",$args),
-									$this->owner,
-									"rconDone",
-									$c->getName())
+				new RconTask($this->owner,"rconDone",
+											preg_split('/\s+/',$this->servers[$id],3),
+											implode(" ",$args),
+											[$c->getName()])
 		  );
 		}
 		return true;
