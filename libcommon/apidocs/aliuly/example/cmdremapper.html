@@ -6,38 +6,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 08 Jul 2015 07:16:32 +0000">
+<meta name="when" content="Wed, 08 Jul 2015 18:47:11 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
 
-<title>AutoCmds (libcommon)</title>
+<title>CmdReMapper (libcommon)</title>
 
 </head>
 <body id="definition">
 
 <header><h1>libcommon: My Common PocketMine plugin library</h1><span>Class</span>
 
-<h2>aliuly\auto\AutoCmds</h2>
+<h2>aliuly\example\CmdReMapper</h2>
 
-</header><p class="signature">public  class <strong>AutoCmds</strong> extends PluginBase
+</header><p class="signature">public  class <strong>CmdReMapper</strong> extends PluginBase
 
 </p>
 
-<div class="comment"><p>Execute commands</p>
+<div class="comment"><p>Override commands example</p>
 </div>
 
 <table>
 <tr><th>Name</th>
-<td>autocmds</td>
+<td>cmdmap</td>
 </tr><tr><th>Main</th>
-<td>aliuly\auto\AutoCmds</td>
+<td>aliuly\example\CmdReMapper</td>
 </tr><tr><th>Version</th>
 <td>1.0.0</td>
 </tr><tr><th>Api</th>
 <td>1.12.0</td>
 </tr><tr><th>Description</th>
-<td>Execute commands</td>
+<td>Change default command implementations</td>
 </tr><tr><th>Author</th>
 <td>aliuly</td>
 </tr><tr><th>Softdepend</th>
@@ -47,20 +47,20 @@
 <table>
 <tr>
 <td class="type"> void</td>
-<td class="description"><p class="name"><a href="#onEnable()">onEnable</a>()</p></td>
+<td class="description"><p class="name"><a href="#onCommand()">onCommand</a>(CommandSender sender, Command cmd, mixed label, mixed args)</p></td>
 </tr>
 <tr>
 <td class="type"> void</td>
-<td class="description"><p class="name"><a href="#onJoin()">onJoin</a>(PlayerJoinEvent ev)</p></td>
+<td class="description"><p class="name"><a href="#onEnable()">onEnable</a>()</p></td>
 </tr>
 </table>
 
 <h3>Details</h3>
-<code class="signature" id="onEnable">public  void <strong>onEnable</strong>()</code>
+<code class="signature" id="onCommand">public  void <strong>onCommand</strong>(CommandSender sender, Command cmd, mixed label, mixed args)</code>
 <div class="details">
 </div>
 
-<code class="signature" id="onJoin">public  void <strong>onJoin</strong>(PlayerJoinEvent ev)</code>
+<code class="signature" id="onEnable">public  void <strong>onEnable</strong>()</code>
 <div class="details">
 </div>
 
