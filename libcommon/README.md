@@ -19,7 +19,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
 
 
-**NOTE:**
+*NOTE:*
 
 This documentation was last updated for version **0.2.0**.
 
@@ -75,7 +75,9 @@ If you enable **debug** in **pocketmine.yml** the plugin will create a
 **libcommon** folder with some example scripts on how to use this library.
 
 Other wise you can follow this
-[LINK.](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples)
+<a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples" target="_new" title="_examples_" >
+Link.
+</a>
 
 
 ## Changes
@@ -84,19 +86,20 @@ Other wise you can follow this
 
 ## Copyright
 
-    libcommon
-    Copyright (C) 2015 Alejandro Liu
-    All Rights Reserved.
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+libcommon<br/>
+Copyright (C) 2015 Alejandro Liu<br/>
+All Rights Reserved.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.

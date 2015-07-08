@@ -8,7 +8,9 @@ use xPaw\MinecraftQueryException;
 
 
 /**
- * A shortcut for doing a Query in the background
+ * A shortcut for doing a Query in the background.
+ *
+ * This is a class that allows you to query one host in the background.
  *
  * Usage:
  *
