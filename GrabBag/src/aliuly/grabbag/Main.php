@@ -66,7 +66,8 @@ class Main extends BasicPlugin {
 			"regmgr" => ["CmdRegMgr",true],
 			"invisible" => ["CmdInvisible",true],
 			"chat-utils" => ["CmdChatMgr",true],
-			"query-hosts" => ["CmdQuery", true]
+			"query-hosts" => ["CmdQuery", true],
+			"cmd-selector" => ["CmdSelMgr", true],
 	];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
