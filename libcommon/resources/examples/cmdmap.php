@@ -4,7 +4,7 @@
  * Override commands example
  *
  * @name cmdmap
- * @main aliuly\script\CmdReMapper
+ * @main aliuly\example\CmdReMapper
  * @version 1.0.0
  * @api 1.12.0
  * @description Change default command implementations
@@ -13,7 +13,7 @@
  */
 
 
-namespace aliuly\script{
+namespace aliuly\example{
 	use pocketmine\plugin\PluginBase;
 	use pocketmine\command\ConsoleCommandSender;
 	use pocketmine\command\CommandExecutor;

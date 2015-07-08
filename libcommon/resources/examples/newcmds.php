@@ -4,7 +4,7 @@
  * Example for New commands
  *
  * @name NewCmds
- * @main aliuly\script\NewCmds
+ * @main aliuly\example\NewCmds
  * @version 1.0.0
  * @api 1.12.0
  * @description Simple command implementations
@@ -12,7 +12,7 @@
  * @softdepend libcommon
  */
 
-namespace aliuly\script{
+namespace aliuly\example{
 	use pocketmine\plugin\PluginBase;
 	use pocketmine\command\ConsoleCommandSender;
 	use pocketmine\command\CommandExecutor;

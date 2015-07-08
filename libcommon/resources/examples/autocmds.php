@@ -4,7 +4,7 @@
  * Execute commands
  *
  * @name autocmds
- * @main aliuly\auto\AutoCmds
+ * @main aliuly\example\AutoCmds
  * @version 1.0.0
  * @api 1.12.0
  * @description Execute commands
@@ -13,7 +13,7 @@
  */
 
 
-namespace aliuly\auto{
+namespace aliuly\example{
 	use aliuly\common\Cmd;
 	use pocketmine\plugin\PluginBase;
 	use pocketmine\event\Listener;

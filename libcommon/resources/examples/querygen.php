@@ -4,7 +4,7 @@
  * Example How to Use QueryAsyncTask
  *
  * @name querygen
- * @main aliuly\script\QueryGen
+ * @main aliuly\example\QueryGen
  * @version 1.0.0
  * @api 1.12.0
  * @description
@@ -13,7 +13,7 @@
  */
 
 
-namespace aliuly\script{
+namespace aliuly\example{
 	use pocketmine\plugin\PluginBase;
 	use pocketmine\event\Listener;
 	use pocketmine\event\server\QueryRegenerateEvent;
