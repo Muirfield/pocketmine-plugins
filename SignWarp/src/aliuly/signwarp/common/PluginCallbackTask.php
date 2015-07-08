@@ -33,7 +33,6 @@ class PluginCallbackTask extends PluginTask{
 		$this->args = $args;
 		$this->args[] = $this;
 	}
-
 	/**
 	 * @return callable
 	 */
