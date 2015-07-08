@@ -285,6 +285,7 @@ class ShopKeep implements Listener {
 			 $hand->getId() == $this->owner->getCurrency() :
 			 $hand->getId() == Item::GOLD_INGOT) {
 			// OK, we want to buy stuff...
+
 			$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
 				new PluginCallbackTask($this->owner,[$this,"startTrade"],
 											  [$giver,$taker,$shop]),10);
@@ -303,6 +304,12 @@ class ShopKeep implements Listener {
 	}
 	/* Buy stuf...*/
 	public function startTrade($buyer,$seller,$shop) {
+		if ($this->getState("trade-inv",$buyer,null) !== null) {
+			echo "Already trading\n";//##DEBUG
+			return;
+		}
+
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$l = $seller->getLevel();
 		$tile = null;
 		for($i=-2;$i<=0 && $tile == null;$i--) {

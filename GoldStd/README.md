@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.2.0**.
+This documentation was last updated for version **1.2.1dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.1dev1).
 
 <!-- template-end -->
 
@@ -278,8 +278,9 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
-* ????:
-  * Weapons' are detected using isSword, isAxe and isPickaxe.
+* 1.2.1: Bug fixes
+  * Weapons are detected using isSword, isAxe and isPickaxe.
+  * Fixed bug that caused inventory to be lost (Thanks @reidq7 for figuring it out)
 
 * 1.2.0:
   * MoneyAPI fixes (Thanks @vertx)
