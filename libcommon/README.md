@@ -21,13 +21,13 @@
 
 **NOTE:**
 
-This documentation was last updated for version **0.1.0**.
+This documentation was last updated for version **0.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-0.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-0.2.0).
 
 <!-- template-end -->
 
@@ -67,8 +67,16 @@ It also bundles useful third party libraries:
 
 - xPaw MinecraftQuery
 
-
 For the full API documentation go to: [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+
+## Examples
+
+If you enable **debug** in **pocketmine.yml** the plugin will create a
+**libcommon** folder with some example scripts on how to use this library.
+
+Other wise you can follow this
+[LINK.](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples)
+
 
 ## Changes
 

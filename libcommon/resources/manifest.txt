@@ -1,0 +1,4 @@
+autocmds.php
+cmdmap.php
+newcmds.php
+querygen.php
