@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 01 Jul 2015 09:05:42 +0000">
+<meta name="when" content="Wed, 08 Jul 2015 07:16:32 +0000">
 
 <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 <link rel="start" href="../namespaces.html">
@@ -36,6 +36,8 @@
 </td></tr>
 <tr><td><a href="../aliuly/common/npc.html">Npc</a></td><td>This class implements an NPC player
 </td></tr>
+<tr><td><a href="../aliuly/common/pluginasynctask.html">PluginAsyncTask</a></td><td>A shortcut for AsyncTask
+</td></tr>
 <tr><td><a href="../aliuly/common/plugincallbacktask.html">PluginCallbackTask</a></td><td>Allows the creation of simple callbacks with extra data
  The last parameter in the callback will be the "currentTicks"
 
@@ -45,6 +47,15 @@ new PluginCallbackTask($plugin,[$obj,"method"],[$args])
 
 
 Pass it to the scheduler and off you go...
+</td></tr>
+<tr><td><a href="../aliuly/common/queryasynctask.html">QueryAsyncTask</a></td><td>A shortcut for doing a Query in the background
+
+Usage:
+
+new QueryAsyncTask($thisPlugin,"queryResults",$host,$port)
+
+
+And the method will be called when the query finishes.
 </td></tr>
 <tr><td><a href="../aliuly/common/rcon.html">Rcon</a></td><td>This class implements a basic RCON client.
 </td></tr>

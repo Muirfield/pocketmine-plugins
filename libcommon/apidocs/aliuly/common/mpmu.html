@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Wed, 01 Jul 2015 09:05:42 +0000">
+<meta name="when" content="Wed, 08 Jul 2015 07:16:32 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -89,6 +89,11 @@
 </tr>
 <tr>
 <td class="type">static  void</td>
+<td class="description"><p class="name"><a href="#rmCommand()">rmCommand</a>(Server|Plugin obj, str cmd, mixed srv)</p><p class="description">Unregisters a command
+</p></td>
+</tr>
+<tr>
+<td class="type">static  void</td>
 <td class="description"><p class="name"><a href="#sendPopup()">sendPopup</a>(Player player, str msg)</p><p class="description">Send a PopUp, but takes care of checking if there are some
  plugins that might cause issues.
 </p></td>
@@ -101,7 +106,7 @@
 </table>
 
 <h3>Details</h3>
-<code class="signature" id="VERSION">public final static  str <strong>VERSION</strong> = &quot;0.1.0&quot;</code>
+<code class="signature" id="VERSION">public final static  str <strong>VERSION</strong> = &quot;0.2.0&quot;</code>
 <div class="details">
 
 <table>
@@ -202,6 +207,16 @@
 <div class="details">
 <p>Given an pocketmine\item\Item object, it returns a friendly name
  for it.</p>
+</div>
+
+<code class="signature" id="rmCommand">public static  void <strong>rmCommand</strong>(Server|Plugin obj, str cmd, mixed srv)</code>
+<div class="details">
+<p>Unregisters a command</p>
+<table>
+<tr><th>Parameters</th>
+<td>obj - - Access path to server instance</td>
+<td>cmd - - Command name to remove</td>
+</tr></table>
 </div>
 
 <code class="signature" id="sendPopup">public static  void <strong>sendPopup</strong>(Player player, str msg)</code>

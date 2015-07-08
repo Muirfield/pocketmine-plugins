@@ -11,20 +11,27 @@
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
 
-<title>RconTask (libcommon)</title>
+<title>QueryAsyncTask (libcommon)</title>
 
 </head>
 <body id="definition">
 
 <header><h1>libcommon: My Common PocketMine plugin library</h1><span>Class</span>
 
-<h2>aliuly\common\RconTask</h2>
+<h2>aliuly\common\QueryAsyncTask</h2>
 
-</header><p class="signature">public  class <strong>RconTask</strong> extends <a href="../../aliuly/common/pluginasynctask.html">PluginAsyncTask</a>
+</header><p class="signature">public  class <strong>QueryAsyncTask</strong> extends <a href="../../aliuly/common/pluginasynctask.html">PluginAsyncTask</a>
 
 </p>
 
-<div class="comment"><p>Rcon implementation as an async task...</p>
+<div class="comment"><p>A shortcut for doing a Query in the background</p>
+
+<p>Usage:</p>
+
+<pre><code>new QueryAsyncTask($thisPlugin,"queryResults",$host,$port)
+</code></pre>
+
+<p>And the method will be called when the query finishes.</p>
 </div>
 
 <h3>Fields inherited from aliuly\common\PluginAsyncTask</h3>
@@ -35,7 +42,7 @@
 <table>
 <tr>
 <td class="type"> void</td>
-<td class="description"><p class="name"><a href="#__construct()">__construct</a>(Plugin owner, str callable, array remote, str cmd, array args)</p><p class="description">
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(Plugin owner, str callable, str host, int port, array args)</p><p class="description">
 </p></td>
 </tr>
 <tr>
@@ -49,16 +56,16 @@
 <tr><td><a href="../../aliuly/common/pluginasynctask.html#__construct()">__construct</a>, <a href="../../aliuly/common/pluginasynctask.html#onCompletion()">onCompletion</a></td></tr></table>
 
 <h3>Details</h3>
-<code class="signature" id="__construct">public  void <strong>__construct</strong>(Plugin owner, str callable, array remote, str cmd, array args)</code>
+<code class="signature" id="__construct">public  void <strong>__construct</strong>(Plugin owner, str callable, str host, int port, array args)</code>
 <div class="details">
 
 <table>
 <tr><th>Parameters</th>
 <td></td>
-<td>callable - - method from $owner to call</td>
-<td>remote - - Array containing $host,$port,$auth data</td>
-<td>cmd - - remote command to execute</td>
-<td>args - - extra arguments to pass to callback method</td>
+<td>callable - method from $owner to call</td>
+<td>host - host to query</td>
+<td>port - port of host to query</td>
+<td>args - arguments to pass to callback method</td>
 </tr></table>
 </div>
 
