@@ -15,6 +15,7 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\permission\Permission;
+use pocketmine\item\Item;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
@@ -312,6 +313,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 	}
 	public function onItemHeld(PlayerItemHeldEvent $ev){
+		if ($ev->getItem()->getId() == Item::AIR) return;
 		$this->sendPopup($ev->getPlayer(),MPMU::itemName($ev->getItem()),2);
 	}
 
