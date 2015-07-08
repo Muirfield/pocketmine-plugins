@@ -6,6 +6,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
 use pocketmine\Player;
+use aliuly\toybox\common\mc;
 
 abstract class BaseCommand implements CommandExecutor {
 	protected $owner;
@@ -26,7 +27,7 @@ abstract class BaseCommand implements CommandExecutor {
 			$aliasList = [];
 			foreach($yaml["aliases"] as $alias) {
 				if(strpos($alias,":")!== false) {
-					$this->owner->getLogger()->info("Unable to load alias $alias");
+					$this->owner->getLogger()->warning(mc::_("Unable to load alias %1%",$alias));
 					continue;
 				}
 				$aliasList[] = $alias;
@@ -44,7 +45,7 @@ abstract class BaseCommand implements CommandExecutor {
 
 	public function inGame(CommandSender $sender,$msg = true) {
 		if (!($sender instanceof Player)) {
-			if ($msg) $sender->sendMessage("You can only do this in-game");
+			if ($msg) $sender->sendMessage(mc::_("You can only do this in-game"));
 			return false;
 		}
 		return true;

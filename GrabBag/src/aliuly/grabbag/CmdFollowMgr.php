@@ -157,30 +157,28 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		unset($this->leaders[$leader]);
 	}
 	private function approach($f,$l) {
-		echo __METHOD__.",".__LINE__."\n";
 		echo "f=$f l=$l\n";//##DEBUG
 		if (!($f instanceof Player)) {
 			$f = $this->owner->getServer()->getPlayer($f);
-			echo __METHOD__.",".__LINE__."\n";
 			if (!$f) return; // Couldn't find this guy!
 		}
 		if (!($l instanceof Player)) {
 			$l = $this->owner->getServer()->getPlayer($l);
-			echo __METHOD__.",".__LINE__."\n";
 			if (!$l) return; // Couldn't find this guy!
 		}
-		echo __METHOD__.",".__LINE__."\n";
+		if (!$l->isonGround()) return; // We don't approach if leader is flying...
 
 		if ($f->getLevel() === $l->getLevel()) {
 			$dist = $f->distance($l);
 			echo $f->getName()." - ".$l->getName()." DIST:$dist\n";//##DEBUG
 			if ($dist < $this->maxdist) return; // Close enough
 		}
-		$pos = new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),
+		$pos = $l->getLevel()->getSafeSpawn(new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),
 								 $l->getY(),
-								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist));
-
-		$f->teleport($l->getLevel()->getSafeSpawn($pos));
+								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist)));
+		$newdist = $pos->distance($l);
+		if ($newdist > $this->maxdist) return;// Will not get close enough!
+		$f->teleport($pos);
 	}
 	//
 	// Event handlers

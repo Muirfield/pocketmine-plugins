@@ -2,14 +2,14 @@
 
 # NAME
 
-* Summary: aliuly's common library
-* Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
-* DependencyPlugins: -
-* OptionalPlugins: -
-* Categories: DevTools
-* Plugin Access: -
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+- Summary: aliuly's common library
+- Dependency Plugins: n/a
+- PocketMine-MP version: 1.4 (API:1.10.0)
+- DependencyPlugins: -
+- OptionalPlugins: -
+- Categories: DevTools
+- Plugin Access: -
+- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 ## Overview
 
@@ -21,13 +21,13 @@
 
 **NOTE:**
 
-This documentation was last updated for version **0.1.0**.
+This documentation was last updated for version **0.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-0.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-0.2.0).
 
 <!-- template-end -->
 
@@ -36,32 +36,47 @@ writing PocketMine-MP plugins.
 
 Contains quite a few utility functions. Available modules:
 
-* mc - translation
-* Cmd - execute PocketMine commands from a PHP module.
-* MoneyAPI - supports the following economy plugins:
-  * GoldStd
-  * PocketMoney
-  * EconomyAPI
-  * MassiveEconomy
-* MPMU - miscellaneous utilities
-* Npc - Non-player character functionality
-* PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
-* BasicPlugin - My extensions to PluginBase
-* BasicCli - My class to impelements commands and/or sub-commands
-* BasicHelp - Implements help functionality for sub-commands
+- mc - translation
+- Cmd - execute PocketMine commands from a PHP module.
+- MoneyAPI - supports the following economy plugins:
+  - GoldStd
+  - PocketMoney
+  - EconomyAPI
+  - MassiveEconomy
+- MPMU - miscellaneous utilities
+- Npc - Non-player character functionality
+- PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
+- BasicPlugin - My extensions to PluginBase
+- BasicCli - My class to impelements commands and/or sub-commands
+- BasicHelp - Implements help functionality for sub-commands
+- PluginAsyncTask - A simple wrapper around AsyncTask
+- QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery
 
 Features:
 
-* Paginated output
-* Command/Sub-command registration
-* Player state management
-* Config shortcuts and multi-module|feature management
-* Translations
-* Multiple economy supports
-* API version checking
-* Plugin shortcuts, etc...
+- Paginated output
+- Command/Sub-command registration
+- Player state management
+- Config shortcuts and multi-module|feature management
+- Translations
+- Multiple economy supports
+- API version checking
+- Plugin shortcuts, etc...
+
+It also bundles useful third party libraries:
+
+- xPaw MinecraftQuery
 
 For the full API documentation go to: [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+
+## Examples
+
+If you enable **debug** in **pocketmine.yml** the plugin will create a
+**libcommon** folder with some example scripts on how to use this library.
+
+Other wise you can follow this
+[LINK.](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples)
+
 
 ## Changes
 
@@ -85,4 +100,3 @@ For the full API documentation go to: [GitHub pages](http://alejandroliu.github.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

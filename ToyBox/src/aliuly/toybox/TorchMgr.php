@@ -14,6 +14,8 @@ use pocketmine\level\Position;
 use pocketmine\Server;
 use pocketmine\network\protocol\UpdateBlockPacket;
 use pocketmine\item\Item;
+use pocketmine\block\Block;
+use aliuly\toybox\common\mc;
 
 class TorchMgr implements Listener {
 	public $owner;
@@ -22,14 +24,20 @@ class TorchMgr implements Listener {
 
 	private function spawn(Position $p,$id,$meta) {
 		$bl = $p->getLevel()->getBlock($p);
-		$pk = new UpdateBlockPacket();
-		$pk->x = $p->x;
-		$pk->y = $p->y;
-		$pk->z = $p->z;
-		$pk->block = $id;
-		$pk->meta = $meta;
-		Server::broadcastPacket($p->getLevel()->getUsingChunk($p->x >> 4,
-																				$p->z >> 4), $pk);
+		if (version_compare($this->owner->getServer()->getApiVersion(),"1.12.0") >= 0) {
+			$p->getLevel()->sendBlocks($p->getLevel()->getChunkPlayers($p->getX()>>4,$p->getZ()>>4),
+							[Block::get($id,$meta,$p)],
+							UpdateBlockPacket::FLAG_ALL_PRIORITY);
+		} else {
+			$pk = new UpdateBlockPacket();
+			$pk->x = $p->x;
+			$pk->y = $p->y;
+			$pk->z = $p->z;
+			$pk->block = $id;
+			$pk->meta = $meta;
+			Server::broadcastPacket($p->getLevel()->getUsingChunk($p->x >> 4,
+																					$p->z >> 4), $pk);
+		}
 		return [$bl->getId(),$bl->getDamage()];
 	}
 	private function spawnTorch(Player $pl) {
@@ -91,10 +99,10 @@ class TorchMgr implements Listener {
 		$state = $this->owner->getState("Torch",$pl,null);
 		if ($state) {
 			$this->deSpawnTorch($pl);
-			$pl->sendMessage("Torch de-activated");
+			$pl->sendMessage(mc::_("Torch de-activated"));
 		} else {
 			$this->spawnTorch($pl);
-			$pl->sendMessage("Torch activated");
+			$pl->sendMessage(mc::_("Torch activated"));
 		}
 	}
 	public function onJoin(PlayerJoinEvent $e) {

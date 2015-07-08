@@ -11,7 +11,7 @@ use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\block\BlockBreakEvent;
-
+use aliuly\toybox\common\mc;
 
 class PowerTool extends BaseCommand implements Listener {
 	protected $items;
@@ -21,12 +21,12 @@ class PowerTool extends BaseCommand implements Listener {
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->enableCmd("powertool",
-							  ["description" => "Enable/Disable PowerTool",
-								"usage" => "/powertool",
+							  ["description" => mc::_("Enable/Disable PowerTool"),
+								"usage" => mc::_("/powertool"),
 								"aliases" => ["pt"],
 								"permission" => "toybox.powertool"]);
-		$this->owner->getServer()->getPluginManager()->registerEvents($this,$this->owner);
 
+		$this->owner->getServer()->getPluginManager()->registerEvents($this,$this->owner);
 		if ($cfg["need-item"]) {
 			$this->items = [];
 			foreach ($cfg["ItemIDs"] as $i) {
@@ -47,10 +47,10 @@ class PowerTool extends BaseCommand implements Listener {
 
 		$state = $this->getState($sender,false);
 		if ($state) {
-			$sender->sendMessage("PowerTool de-actived");
+			$sender->sendMessage(mc::_("PowerTool de-actived"));
 			$this->setState($sender,false);
 		} else {
-			$sender->sendMessage("PowerTool activated");
+			$sender->sendMessage(mc::_("PowerTool activated"));
 			$this->setState($sender,true);
 		}
 		return true;

@@ -24,4 +24,15 @@ gendoc(SRCDIR."README.md",$plugin);
 //fix_common(SRCDIR,LIBDIR,$plugin);
 mcgen(SRCDIR."resources/messages",SRCDIR."src");
 
+//
+// Create a manifest for creating examples...
+//
+$mft = SRCDIR."resources/manifest.txt";
+$txt = "";
+foreach (glob(SRCDIR."resources/examples/*.php") as $php) {
+	$txt .= basename($php)."\n";
+}
+$old  = file_exists($mft) ? file_get_contents($mft) : "";
+if ($old != $txt) file_put_contents($mft,$txt);
+
 exit("OK\n");

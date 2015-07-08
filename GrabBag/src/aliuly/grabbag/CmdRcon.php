@@ -9,14 +9,17 @@
  **
  **   This is an rcon client that you can used to send commands to other
  **   remote servers.  Options:
- **   - **rcon --add** _<id>_ _<address>_ _<port>_ _<password>_ _[comments]_
+ **   - **rcon --add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _&lt;password&gt;_ _[comments]_
  **     - adds a `rcon` connection with `id`.
- **   - **rcon --rm** _<id>_
+ **   - **rcon --rm** _&lt;id&gt;_
  **     - Removes `rcon` connection `id`.
  **   - **rcon --ls**
  **     - List configured rcon connections.
- **   - **rcon** _<id>_ _<command>_
- **     - Sends the `command` to the connection `id`.
+ **   - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
+ **     - Sends the `command` to the connection `id`.  You can specify multiple
+ **			  by separating with commas (,).  Otherwise, you can use **--all**
+ **       for the _id_ if you want to send the commands to all configured
+ **       servers.
  **
  ** CONFIG:rcon-client
  **
@@ -33,7 +36,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use aliuly\common\RconTask;
+use aliuly\grabbag\common\RconTask;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
@@ -78,6 +81,10 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 			$c->sendMessage(mc::_("RCON id can not start with a dash (-)"));
 			return false;
 		}
+		if (strpos($id,",") !== false) {
+			$c->sendMessage(mc::_("RCON id can not contain commas (,)"));
+			return false;
+		}
 		if (isset($this->servers[$id])) {
 			$c->sendMessage(mc::_("%1% is an id that is already in use.",$id));
 			$c->sendMessage(mc::_("Use --rm first"));
@@ -91,7 +98,7 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 	private function cmdRm(CommandSender $c,$args) {
 		if (!MPMU::access($c,"gb.cmd.rcon.config")) return true;
 		if (count($args) != 1) {
-			$c->sendMessage(mc::_("Usage: --rm [id]"));
+			$c->sendMessage(mc::_("Usage: --rm <id>"));
 			return false;
 		}
 		$id = array_shift($args);
@@ -105,31 +112,43 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		return true;
 	}
 	private function cmdList(CommandSender $c,$args) {
+		$pageNumber = $this->getPageNumber($args);
+		$txt = ["Rcon connections"];
 		foreach ($this->servers as $id => $dat) {
 			$dat = preg_split('/\s+/',$dat,4);
 			$host = array_shift($dat);
 			$port = array_shift($dat);
 			array_shift($dat);
-			$txt = count($dat) ? " #".$dat[0] : "";
-			$c->sendMessage("$id: $host:$port$txt");
+			$ln = count($dat) ? " #".$dat[0] : "";
+			$txt[] = "$id: $host:$port$ln";
 		}
-		return true;
+		return $this->paginateText($c,$pageNumber,$txt);
 	}
 	private function cmdRcon(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		$id = array_shift($args);
-		if (!isset($this->servers[$id])) {
-			$c->sendMessage(mc::_("%1% does not exist",$id));
-			return false;
+		if ($id == "--all") {
+			$grp = array_keys($this->servers);
+		} else {
+			$grp = [];
+			foreach (explode(",",$id) as $i) {
+		  	if (!isset($this->servers[$i])) {
+			  	$c->sendMessage(mc::_("%1% does not exist",$id));
+			  	continue;
+		  	}
+				$grp[$i] = $i;
+			}
+			if (count($grp) == 0) return false;
 		}
 		$cmd = implode(" ",$args);
-		$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
-			new RconTask(preg_split('/\s+/',$this->servers[$id],3),
-									implode(" ",$args),
-									$this->owner,
-									"rconDone",
-									$c->getName())
-		);
+		foreach ($grp as $id) {
+			$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
+				new RconTask($this->owner,"rconDone",
+											preg_split('/\s+/',$this->servers[$id],3),
+											implode(" ",$args),
+											[$c->getName()])
+		  );
+		}
 		return true;
 	}
 	public function taskDone($res,$player) {

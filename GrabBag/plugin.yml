@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.2
+version: 2.2.4dev2
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -168,3 +168,39 @@ permissions:
   gb.cmd.invisible.inmune:
     default: false
     description: make player inmune to invisibility tricks
+  gb.cmd.togglechat:
+    default: true
+    description: "lets players opt out from chat"
+  gb.cmd.togglechat.others:
+    default: op
+    description: "lets you toggle chat for others"
+  gb.cmd.togglechat.excempt:
+    default: op
+    description: "chat-off players will always receive chats from these"
+  gb.cmd.togglechat.global:
+    default: op
+    description: "Can toggle chat for the server as a whole"
+  gb.cmd.clearchat:
+    default: true
+    description: "Clear your chat window"
+  gb.cmd.nick:
+    default: true
+    description: "Change display name"
+  gb.cmd.query:
+    default: true
+    description: "Access to query command"
+  gb.cmd.query.addrm:
+    default: op
+    description: "Modify query hosts configuration"
+  gb.cmd.query.details:
+    default: true
+    description: "View query details (ls, info, plugins)"
+  gb.cmd.query.players:
+    default: true
+    description: "Access to query players"
+  gb.cmd.query.players.showip:
+    default: true
+    description: "Show IP/hostname in query players"
+  gb.cmd.query.list:
+    default: true
+    description: "Query list command"

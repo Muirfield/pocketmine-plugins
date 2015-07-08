@@ -22,36 +22,32 @@ class FetchTask extends AsyncTask {
 		$this->cf = $cfg;
 		$plugin->getLogger()->debug("FetchTask started.");
 	}
+	public static function fetchClass($type) {
+		switch (strtolower($type)) {
+			case "text":
+				return Text::class;
+			case "file":
+				return File::class;
+			case "php":
+				return Scriptlet::class;
+			case "url":
+				return Url::class;
+			case "rss":
+				return Rss::class;
+			case "twitter":
+				return Tweet::class;
+			case "query":
+				return Query::class;
+		}
+		return null;
+	}
 
 	private function fetchJob($dat) {
 		foreach (["type","content"] as $tag) {
-			if (!isset($dat[$tag])) return "No \$tag\" defined";
+			if (!isset($dat[$tag])) return "No \"\$tag\" defined";
 		}
-		switch (strtolower($dat["type"])) {
-			case "text":
-				$fetcher = Text::class;
-				break;
-			case "file":
-				$fetcher = File::class;
-				break;
-			case "php":
-				$fetcher = Scriptlet::class;
-				break;
-			case "url":
-				$fetcher = Url::class;
-				break;
-			case "rss":
-				$fetcher = Rss::class;
-				break;
-			case "twitter":
-				$fetcher = Tweet::class;
-				break;
-				case "query":
-					$fetcher = Query::class;
-					break;
-			default:
-				return "Invalid type: ". $dat["type"];
-		}
+		$fetcher = self::fetchClass($dat["type"]);
+		if ($fetcher === null) return "Invalid type: ". $dat["type"];
 		$content = $fetcher::fetch($dat,$this->cf);
 		return $content;
 	}

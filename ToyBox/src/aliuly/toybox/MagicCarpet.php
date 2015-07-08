@@ -18,6 +18,7 @@ use pocketmine\event\player\PlayerKickEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\network\Network;
+use aliuly\toybox\common\mc;
 
 class MagicCarpet extends BaseCommand implements Listener {
 	protected $block;
@@ -25,8 +26,8 @@ class MagicCarpet extends BaseCommand implements Listener {
 	public function __construct($owner,$bl) {
 		parent::__construct($owner);
 		$this->enableCmd("magiccarpet",
-							  ["description" => "Fly with a magic carpet",
-								"usage" => "/magiccarpet",
+							  ["description" => mc::_("Fly with a magic carpet"),
+								"usage" => mc::_("/magiccarpet"),
 								"aliases" => ["mc"],
 								"permission" => "toybox.magiccarpet"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this,$this->owner);
@@ -54,11 +55,11 @@ class MagicCarpet extends BaseCommand implements Listener {
 		if ($state) {
 			$this->deSpawn($sender,$state[1]);
 			$this->unsetState($sender);
-			$sender->sendMessage("The magic carpet disappears");
+			$sender->sendMessage(mc::_("The magic carpet disappears"));
 		} else {
 			$state = $this->setState($sender,[ $size, []]);
 			$this->carpet($sender);
-			$sender->sendMessage("A magic carpet of size $size\nappears below your feet.");
+			$sender->sendMessage(mc::_("A magic carpet of size %1%\nappears below your feet.",$size));
 		}
 		return true;
 	}
@@ -154,7 +155,7 @@ class MagicCarpet extends BaseCommand implements Listener {
 		if ($state) {
 			$this->deSpawn($pl,$state[1]);
 			$this->unsetState($pl);
-			$pl->sendMessage("Magic carpet lost due to teleport!");
+			$pl->sendMessage(mc::_("Magic carpet lost due to teleport!"));
 		}
 
 	}

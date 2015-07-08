@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.1.0**.
+This documentation was last updated for version **1.1.1dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.1.1dev1).
 
 <!-- template-end -->
 
@@ -156,6 +156,15 @@ modifying **signs.yml**.  The following sources are possible:
     your server is running on.
   * _message_ is optional, will default to showing the MOTD, Current player
     count and max players.
+
+Entries in **signs.yml** contain the following keys:
+
+* sign-id:
+  * type: type of source
+  * content: either a single entry or array entities.
+  * Optional settings:
+  * no-vars: true, disables variable substitutions
+  * max-age: seconds, overrides message cache settings
 
 ### Floating text
 
@@ -293,7 +302,7 @@ The following sections are defined:
 
 *  settings: tunable parameters
 	*  tile-updates: How often to update signs in game from cache (in-ticks)
-	*  cache-signs: How long to cache sign data (seconds)
+    	*  cache-signs: Default seconds to cache sign data
 	*  expire-cache: How often to expire caches (ticks)
 	*  path: file path for the file fetcher
 	*  twitter: Used by the twitter feed fetcher
@@ -318,6 +327,11 @@ The following sections are defined:
 
 # Changes
 
+* 1.1.1: Async stuff
+  * moved Query's to AsyncTask
+  * caching is more flexible
+  * php scripts can now be cached (note that since it runs on an asynctask
+    access to the PocketMine MP API is not possible)
 * 1.1.0: new features
   * Added query support
   * Added variable substitutions (for colors) (Requested by @iDirtPlayzMC)
@@ -345,3 +359,4 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

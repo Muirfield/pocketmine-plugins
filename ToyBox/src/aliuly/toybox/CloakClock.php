@@ -7,7 +7,7 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\item\Item;
-
+use aliuly\toybox\common\mc;
 
 //use pocketmine\math\Vector3;
 
@@ -16,7 +16,7 @@ class CloakClock implements Listener {
 	protected $item;
 
 	private function activate(Player $pl) {
-			$pl->sendMessage("CloakClock activated");
+			$pl->sendMessage(mc::_("CloakClock activated"));
 			$this->owner->setState("CloakClock",$pl,true);
 			foreach($this->owner->getServer()->getOnlinePlayers() as $online){
 				if($online->hasPermission("toybox.cloakclock.inmune")) continue;
@@ -24,7 +24,7 @@ class CloakClock implements Listener {
 			}
 	}
 	private function deactivate(Player $pl) {
-			$pl->sendMessage("CloakClock de-actived");
+			$pl->sendMessage(mc::_("CloakClock de-actived"));
 			$this->owner->setState("CloakClock",$pl,false);
 			foreach($this->owner->getServer()->getOnlinePlayers() as $online){
 				$online->showPlayer($pl);

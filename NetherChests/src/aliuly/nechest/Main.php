@@ -1,4 +1,7 @@
 <?php
+/**
+ ** CONFIG:config.yml
+ **/
 namespace aliuly\nechest;
 
 use pocketmine\plugin\PluginBase;
@@ -20,6 +23,8 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\inventory\InventoryCloseEvent;
 use pocketmine\event\inventory\InventoryOpenEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+
+use aliuly\nechest\common\mc;
 
 // OPEN
 //- PlayerInteractEvent;
@@ -44,8 +49,8 @@ use pocketmine\event\block\BlockPlaceEvent;
 
 class Main extends PluginBase implements Listener {
 	protected $chests;	// Array with active chests
-	protected $base_block = 87;
-	protected $pp_int = 30;
+	protected $base_block;
+	protected $dbm;
 
 	protected static function iName($player) {
 		return strtolower($player->getName());
@@ -56,56 +61,66 @@ class Main extends PluginBase implements Listener {
 		return implode(":",[$obj->getLevel()->getName(),(int)$obj->getX(),(int)$obj->getY(),(int)$obj->getZ()]);
 	}
 
+	public function onDisable() {
+		if ($this->dbm !== null) $this->dbm->close();
+		$this->dbm = null;
+	}
 	public function onEnable(){
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->dbm = null;
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		mc::plugin_init($this,$this->getFile());
+		$defaults = [
+			"version" => $this->getDescription()->getVersion(),
+			"# settings" => "Configuration settings",
+			"settings" => [
+				"# global" => "If true all worlds share the same NetherChest",
+				"global" => false,
+				"# particles" => "Decorate NetherChests...",
+				"particles" => true,
+				"# p-ticks" => "Particle ticks",
+				"p-ticks" => 20,
+				"# base-block" => "Block to use for the base",
+				"base-block" => "NETHERRACK",
+			],
+			"# backend" => "Use YamlMgr or MySqlMgr",
+			"backend" => "YamlMgr",
+			"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
+			"MySql" => [
+				"host" => "localhost",
+				"user" => "nobody",
+				"password" => "secret",
+				"database" => "netherchestdb",
+				"port" => 3306,
+			],
+		];
+		$cf = (new Config($this->getDataFolder()."config.yml",
+										Config::YAML,$defaults))->getAll();
+		$backend = __NAMESPACE__."\\".$cf["backend"];
+		$this->dbm = new $backend($this,$cf);
+		$this->getLogger()->info(mc::_("Using %1% as backend",$cf["backend"]));
+
+		$bl = Item::fromString($cf["settings"]["base-block"]);
+		if ($bl->getBlock()->getId() == Item::AIR) {
+			$this->getLogger()->warning(mc::_("Invalid base-block %1%",$cf["settings"]["base-block"]));
+			$this->base_block = Block::NETHERRACK;
+		} else {
+			$this->base_block = $bl->getBlock()->getId();
+		}
+
 		$this->chests = [];
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(
-			new ParticleTask($this),$this->pp_int);
+		if ($cf["settings"]["particles"]) {
+			$this->getServer()->getScheduler()->scheduleRepeatingTask(
+					new ParticleTask($this),
+					$cf["settings"]["p-ticks"]);
+			}
 	}
 	private function saveInventory(Player $player,Inventory $inv) {
-		$n = trim(strtolower($player->getName()));
-		if ($n === "") return false;
-		$d = substr($n,0,1);
-		if (!is_dir($this->getDataFolder().$d)) mkdir($this->getDataFolder().$d);
-
-		$path =$this->getDataFolder().$d."/".$n.".yml";
-		$cfg = new Config($path,Config::YAML);
-		$yaml = $cfg->getAll();
-		$ln = trim(strtolower($player->getLevel()->getName()));
-
-		$yaml[$ln] = [];
-
-		foreach ($inv->getContents() as $slot=>&$item) {
-			$yaml[$ln][$slot] = implode(":",[ $item->getId(),
-														 $item->getDamage(),
-														 $item->getCount() ]);
-		}
-		$inv->clearAll();
-		$cfg->setAll($yaml);
-		$cfg->save();
-		return true;
+		return $this->dbm->saveInventory($player,$inv);
 	}
 	private function loadInventory(Player $player,Inventory $inv) {
-		$n = trim(strtolower($player->getName()));
-		if ($n === "") return false;
-		$d = substr($n,0,1);
-		$path =$this->getDataFolder().$d."/".$n.".yml";
-		if (!is_file($path)) return false;
-
-		$cfg = new Config($path,Config::YAML);
-		$yaml = $cfg->getAll();
-		$ln = trim(strtolower($player->getLevel()->getName()));
-
-		if (!isset($yaml[$ln])) return false;
-
-		$inv->clearAll();
-		foreach($yaml[$ln] as $slot=>$t) {
-			list($id,$dam,$cnt) = explode(":",$t);
-			$item = Item::get($id,$dam,$cnt);
-			$inv->setItem($slot,$item);
-		}
-		return true;
+		return $this->dbm->loadInventory($player,$inv);
 	}
 	private function lockChest(Player $player,$obj){
 		$cid = self::chestId($obj);
@@ -135,7 +150,7 @@ class Main extends PluginBase implements Listener {
 		if ($ev->isCancelled()) return;
 		$bl = $ev->getBlock();
 		if ($bl->getId() != Block::CHEST || $bl->getSide(Vector3::SIDE_DOWN)->getId() != $this->base_block) return;
-		$ev->getPlayer()->sendMessage("Placed a Nether Chest");
+		$ev->getPlayer()->sendMessage(mc::_("Placed a NetherChest"));
 	}
 
 	public function onPlayerQuitEvent(PlayerQuitEvent $ev) {
@@ -149,7 +164,7 @@ class Main extends PluginBase implements Listener {
 		$inv = $ev->getInventory();
 		if (!$this->isNeChest($inv)) return;
 		if ($this->unlockChest($player,$inv)) {
-			$player->sendMessage("Closing NetherChest!");
+			$player->sendMessage(mc::_("Closing NetherChest!"));
 			$this->saveInventory($player,$inv);
 		}
 	}
@@ -159,11 +174,11 @@ class Main extends PluginBase implements Listener {
 		$inv = $ev->getInventory();
 		if (!$this->isNeChest($inv)) return;
 		if (!$this->lockChest($player,$inv)) {
-			$player->sendTip("That Nether Chest is in use!");
+			$player->sendTip(mc::_("That NetherChest is in use!"));
 			$ev->setCancelled();
 			return;
 		}
-		$player->sendMessage("Opening NetherChest!");
+		$player->sendMessage(mc::_("Opening NetherChest!"));
 		$this->loadInventory($player,$inv);
 	}
 

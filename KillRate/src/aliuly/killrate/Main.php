@@ -29,6 +29,7 @@ use pocketmine\network\protocol\TileEntityDataPacket;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\String;
+use pocketmine\Achievement;
 
 use aliuly\killrate\common\mc;
 use aliuly\killrate\common\MPMU;
@@ -69,6 +70,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"reset-on-death" => false,
 				"# kill-streak" => "Enable kill-streak tracking.", // "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
 				"kill-streak" => false,
+				"# achievements" => "Enable PocketMine achievements",
+				"achievements" => true,
 			],
 			"# values" => "configure awards. (1st.money, 2nd.points)", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
 			"values" => [
@@ -141,6 +144,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 
 		$this->stats = [];
+		if ($this->cfg["settings"]["achievements"]) {
+			Achievement::add("killer","First Blood!",[]);
+			Achievement::add("serialKiller","Killer Streak!",["killer"]);
+		}
 	}
 	public function onDisable() {
 		if ($this->dbm !== null) $this->dbm->close();
@@ -379,6 +386,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if (!($pp instanceof Player)) return; // Not killed by player...
 		// No scoring for creative players...
 		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
+		if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("killer");
 		$perp = $pp->getName();
 		$vic = $pv->getName();
 		if ($pv instanceof Player) {
@@ -389,6 +397,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			if ($this->cfg["settings"]["kill-streak"]) {
 				$streak = $this->updateDb($perp,"streak");
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
+					if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("serialKiller");
 					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
 					if (isset($this->cfg["settings"]["rewards"])) {
 						list($points,$money) = $this->getPrizes($vic);

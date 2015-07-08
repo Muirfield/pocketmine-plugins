@@ -1,19 +1,39 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
 
-ToyBox
-======
+# ToyBox
 
 * Summary: A box full of fun toys and tools
 * Dependency Plugins: N/A
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: N/A
 * Categories: Fun
 * Plugin Access: Blocks, Commands
-* WebSite: [github](https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox)
+* WebSite: https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox
 
-Overview
---------
+## Overview
+
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/toybox.1135/"; -->
+<!-- template: prologue.md -->
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/plugins/toybox.1135/) for
+that.  You are more likely to get a response and help that way.
+
+**NOTE:**
+
+This documentation was last updated for version **1.2.1**.
+
+Please go to
+[github](https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox)
+for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ToyBox-1.2.1).
+
+<!-- template-end -->
 
 Provide additional items with special functionality to PocketMine.
 
@@ -24,61 +44,12 @@ Provide additional items with special functionality to PocketMine.
 * PowerTool - pickax that destroys blocks instantly
 * Floating Torch - Floating torch that follows you around
 * Magic Carpet - Fly with a carpet made of glass
+* VeinMiner - mine ore shortcut
 
-### TreeCapitator
-
-Equip an Axe.  Then enter the command `/treecapitator`.  Go to a tree
-and break the lowest block.  This will then eliminate the entire tree
-above.  If it did'nt block the first time, break the next lowest block
-(which now is floating over the air).
-
-### CompassTP
-
-Holding the compass, tap on the screen for one second.  It will
-teleport you in the direction you were looking at.
-
-### Trampoline
-
-Place some Sponge on the ground.  Jump on them.  Watch out your
-landing!
-
-### CloakClock
-
-Holding a Clock, tap on the sreen.  If it doesn't work, hold the
-screen for 1 second.  Will enable invisibility.
-
-### Power Tool
-
-Enter the command `/powertool`.  Equip a pick axe and start tapping on
-blocks.  They will be destroyed instantly.
-
-### Floating Toch
-
-Equip a torch, and tap on the screen.  This will create a torch that
-will follow you around iluminating the way you are going.
-
-### Magic Carpet
-
-Enter the command `/magiccarpet`.  Walk normally, to go up jump, to go
-down look down.  Be careful when going down as you can easily hurt
-yourself.
-
-
-Documentation
--------------
-
-### Commands
-
-* *treecapitator*  
-  Toggles treecapitator usage.
-* *powertool*  
-  Toggles powertool usage
-* *magiccarpet*  
-  Toggle magic carpet
-
-### Configuration
+## Configuration
 
 	---
+
 	# Enable or disable specifif toys
 	modules:
 	  treecapitator: true
@@ -88,16 +59,21 @@ Documentation
 	  cloakclock: true
 	  floating-torch: true
 	  magic-carpet: true
+		veinminer: true
+
 	# Configure torch data
 	floating-torch:
 	  item: TORCH
 	  block: TORCH
+
 	# Configure compass items
 	compasstp:
 	  item: COMPASS
+
 	# Configure cloaking item
 	cloakclock:
 	  item: CLOCK
+
 	# Configure power tools
 	powertool:
 	  ItemIDs:
@@ -109,6 +85,7 @@ Documentation
 	  need-item: true
 	  item-wear: 1
 	  creative: true
+
 	# Configure TeeCapitator
 	treecapitator:
 	  ItemIDs:
@@ -122,6 +99,7 @@ Documentation
 	  item-wear: 1
 	  broadcast-use: true
 	  creative: true
+
 	# Configure trampoline blocks
 	trampoline:
 	  blocks:
@@ -130,26 +108,34 @@ Documentation
 	  block: GLASS
 	...
 
-### Permission Nodes:
+### Permission Nodes
 
-* toybox.treecapitator: Allow treecapitator
-* toybox.compasstp: Allow treecapitator
-* toybox.powertool: Allow the use of powertool
-* toybox.cloakclock.use: Can use cloakclock
-* toybox.cloakclock.inmune: Can see players using cloakclock
-* toybox.torch: Allow use of torch
-* toybox.magiccarpet: Allow use of Magic carpet
+* toybox.treecapitator : Use treecapitator
+  (Defaults to Op)
+* toybox.magiccarpet : MagicCarpet command
+  (Defaults to Op)
+* toybox.compasstp : Teleport with compass
+  (Defaults to Op)
+* toybox.powertool : Allow the use of powertool
+  (Defaults to Op)
+* toybox.cloakclock.use : Can use cloakclock
+  (Defaults to Op)
+* toybox.cloakclock.inmune : Can see players using cloakclock
+  (Defaults to Op)
+* toybox.torch : Can use floating torch
+  (Defaults to Op)
+* toybox.veinminer : Allow the use of veinminer
+  (Defaults to Op)
 
-Todo
-----
 
-* Ball - ??
+## Changes
 
-Changes
--------
-
-* ???
+* 1.2.1: VeinMiner
+* 1.1.2: Torch
+  * Forgot to fix the torch
+* 1.1.1: Maintenance release
   * Fixed magic carpet for 1.5
+  * Translations: Spanish, English
 * 1.1.0 : Next release
   * Added Floating Torch
   * Added magic carpet
@@ -157,8 +143,7 @@ Changes
   * Removed CallbackTask deprecation warnings
 * 1.0.0 : First submission
 
-Copyright
----------
+## Copyright
 
     ToyBox
     Copyright (C) 2015 Alejandro Liu

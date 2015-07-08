@@ -16,7 +16,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "0.1.0";
+	const VERSION = "0.2.0";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -227,6 +227,19 @@ abstract class MPMU {
 		$newCmd->setExecutor($executor);
 		$cmdMap = $plugin->getServer()->getCommandMap();
 		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
+	}
+	/**
+	 * Unregisters a command
+   * @param Server|Plugin $obj - Access path to server instance
+	 * @param str $cmd - Command name to remove
+	 */
+	static public function rmCommand($srv, $cmd) {
+		$cmdMap = $srv->getCommandMap();
+		$oldCmd = $cmdMap->getCommand($cmd);
+		if ($oldCmd === null) return false;
+		$oldCmd->setLabel($cmd."_disabled");
+		$oldCmd->unregister($cmdMap);
+		return true;
 	}
 	/**
 	 * Send a PopUp, but takes care of checking if there are some

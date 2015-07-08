@@ -18,7 +18,7 @@ namespace aliuly\helper\common;
  * * mc::plugin_init($plugin,$plugin->getFile());
  * * mc::_("string to translate\n")
  * * mc::_("string to translate %1% %2%\n",$arg1,$arg2)
- * * mc::n(mc::_("singular form"),mc::_("Plural form"),$count)
+ * * mc::n(mc::\_("singular form"),mc::\_("Plural form"),$count)
  */
 abstract class mc {
 	/** @var str[] $txt Message translations */

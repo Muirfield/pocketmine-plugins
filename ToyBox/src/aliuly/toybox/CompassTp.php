@@ -5,6 +5,8 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\item\Item;
+use aliuly\toybox\common\mc;
+use aliuly\toybox\common\PluginCallbackTask;
 
 class CompassTp implements Listener {
 	public $owner;
@@ -40,20 +42,20 @@ class CompassTp implements Listener {
 			if ($block->getId() != 0) break;
 		}
 		if ($block->getId() == 0) {
-			$pl->sendMessage("Can not teleport to the void!");
+			$pl->sendMessage(mc::_("Can not teleport to the void!"));
 			return;
 		}
 		$pos=$pos->subtract($pl->getDirectionVector());
 		$dist = $start->distance($pos);
 		if ($dist < 2.8) {
-			$pl->sendMessage("Not teleporting...");
-			$pl->sendMessage("You could easily walk there!");
+			$pl->sendMessage(mc::_("Not teleporting..."));
+			$pl->sendMessage(mc::_("You could easily walk there!"));
 			return;
 		}
 		//echo "Block: ".$block->getName()." (".$block->getId().")\n";
 		//print_r($pos);
 		//echo "Distance: ".$start->distance($pos)."\n";
-		$pl->sendMessage("Teleporting... ".intval($dist));
+		$pl->sendMessage(mc::_("Teleporting... %1%",intval($dist)));
 		$pos = $pos->add(0,1,0);
 
 		/*$cb = new CallbackTask([$this,"delayedTP"],[$pl->getName(),

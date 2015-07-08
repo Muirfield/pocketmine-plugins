@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **2.2.2**.
+This documentation was last updated for version **2.2.4dev2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4dev2).
 
 <!-- template-end -->
 
@@ -84,6 +84,7 @@ administration.
 * crash : manage crash dumps
 * opms : sends a message to ops only
 * pluginmgr : manage plugins
+* query : query remote servers
 * rcon : rcon client
 * rpt : report an issue to ops
 * servicemode : controls servicemode
@@ -105,9 +106,12 @@ administration.
 
 * blowup : explode a player
 * burn : Burns the specified player
+* chat-on|chat-off : Allow players to opt-out from chat
+* clearchat : Clears your chat window
 * freeze|thaw : freeze/unfreeze a player so they cannot move.
 * heal : Restore health to a player
 * mute|unmute : mutes/unmutes a player so they can not use chat
+* nick : Change your display name
 * slay : Kills the specified player
 * spectator|unspectator : toggle a player's spectator mode
 * throw : Throw a player in the air
@@ -121,8 +125,6 @@ administration.
 * repeater : Uses `!!` to repeat command with changes
 
 ## Documentation
-
-**NOTE: In v2.0.0 Configuration has been changed**
 
 This plugin collects a number of commands and listener plugins that I
 find useful and wanted to have in a single plugin rather through
@@ -166,6 +168,14 @@ The following commands are available:
 
   Sets `player` on fire for the specified number of seconds.
   Default is 15 seconds.
+
+* **chat-on|chat-off** _[player|--list|--server]_  
+  Allow players to opt-out from chat  
+
+  Prevents players from receiving chat messages.
+
+* **clearchat**  
+  Clears your chat window  
 
 * **clearhotbar** _[player]_  
   Clear player's hotbar  
@@ -259,6 +269,8 @@ The following commands are available:
   Stops players from chatting.  If no player specified it will show
   the list of muted players.
 
+* **nick** _&lt;name&gt;_  
+  Change your display name  
 * **opms** _[msg]_  
   sends a message to ops only  
 
@@ -317,19 +329,36 @@ The following commands are available:
 
 * **pushtp** _&lt;player&gt;_ _[target]_  
   Saves current location and teleport  
+* **query** **[add|rm|ls|info|plugins|players|summary]** _[opts]_  
+  query remote servers  
+
+  This is a query client that you can use to query other
+  remote servers.  Options:
+  - **query add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _[comments]_
+    - adds a `query` connection with `id`.
+  - **query rm** _&lt;id&gt;_
+    - Removes `query` connection `id`.
+  - **query ls**
+    - List configured `query` connections.
+  - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
+    - Sends the `command` to the connection `id`.
+
 * **rcon** **[--add|--rm|--ls|id]** _&lt;command&gt;_  
   rcon client  
 
   This is an rcon client that you can used to send commands to other
   remote servers.  Options:
-  - **rcon --add** _<id>_ _<address>_ _<port>_ _<password>_ _[comments]_
+  - **rcon --add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _&lt;password&gt;_ _[comments]_
     - adds a `rcon` connection with `id`.
-  - **rcon --rm** _<id>_
+  - **rcon --rm** _&lt;id&gt;_
     - Removes `rcon` connection `id`.
   - **rcon --ls**
     - List configured rcon connections.
-  - **rcon** _<id>_ _<command>_
-    - Sends the `command` to the connection `id`.
+  - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
+    - Sends the `command` to the connection `id`.  You can specify multiple
+			  by separating with commas (,).  Otherwise, you can use **--all**
+      for the _id_ if you want to send the commands to all configured
+      servers.
 
 * **reg** _[subcommand]_ _[options]_  
   Manage player registrations  
@@ -528,6 +557,12 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 *  adminjoin: broadcast whenever an op joins
 *  servermotd: show the server's motd when joining
 
+#### query-hosts
+
+
+This section configures the query connections.  You can configure
+this section through the *query* command.
+
 #### rcon-client
 
 
@@ -634,6 +669,22 @@ this section through the *rcon* command.
   (Defaults to Op)
 * gb.cmd.invisible.inmune : make player inmune to invisibility tricks
   _(Defaults to disabled)_
+* gb.cmd.togglechat : lets players opt out from chat
+* gb.cmd.togglechat.others : lets you toggle chat for others
+  (Defaults to Op)
+* gb.cmd.togglechat.excempt : chat-off players will always receive chats from these
+  (Defaults to Op)
+* gb.cmd.togglechat.global : Can toggle chat for the server as a whole
+  (Defaults to Op)
+* gb.cmd.clearchat : Clear your chat window
+* gb.cmd.nick : Change display name
+* gb.cmd.query : Access to query command
+* gb.cmd.query.addrm : Modify query hosts configuration
+  (Defaults to Op)
+* gb.cmd.query.details : View query details (ls, info, plugins)
+* gb.cmd.query.players : Access to query players
+* gb.cmd.query.players.showip : Show IP/hostname in query players
+* gb.cmd.query.list : Query list command
 
 
 ## Translations
@@ -649,9 +700,34 @@ You can provide your own message file by creating a file called
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for sample files.
 
+## Additional Libraries
+
+The following third party libraries are included:
+
+* [xPaw's MinecraftQuery](http://xpaw.me GitHub: https://github.com/xPaw/PHP-Minecraft-Query)
+
+## Known issues
+
+* Query:
+  * Queries are done in the main thread.  Should be moved as an AsyncTask.
+  * Queries to the same server do not work.
+
 # Changes
 
-* 2.2.2
+* 2.2.4: ??
+  * Re-formatted Queries (Requested by @Daniel123)
+  * FollowMgr check if player is flying before teleporting.
+  * Added /nick command (ChatMgr)
+* 2.2.3: Multi-server
+  * Chat manager (Requested by @CaptainKenji17)
+  * Must have multi-server feactures:
+    * Query command: let's you get info from servers in your network, like
+      - # servers on-line, number of players
+      - show what players are on-line and on which servers
+    * Rcon: let's you execute commands on remote servers using Rcon.  The
+      new --all switch lets you send the same command to all the servers in
+      your network.
+* 2.2.2:
   * Default permission for /spawn changed from op to everyone.
   * Whois shows clientId
   * CmdAfterAt: list tasks and cancel them
