@@ -19,7 +19,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
 
 
-*NOTE:*
+**NOTE:**
 
 This documentation was last updated for version **0.2.0**.
 
@@ -79,13 +79,11 @@ Other wise you can follow this
 Link.
 </a>
 
-
 ## Changes
 
 * 1.0.0: First release
 
 ## Copyright
-
 
 libcommon<br/>
 Copyright (C) 2015 Alejandro Liu<br/>
@@ -103,3 +101,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
