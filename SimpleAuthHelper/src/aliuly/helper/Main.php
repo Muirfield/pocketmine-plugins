@@ -19,15 +19,17 @@ use SimpleAuth\event\PlayerAuthenticateEvent;
 
 use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
+use aliuly\helper\EventListener;
 
 class Main extends PluginBase implements Listener,CommandExecutor {
 	const RE_REGISTER = '/^\s*\/register\s+/';
 	const RE_LOGIN = '/^\s*\/login\s+/';
 
-	protected $auth;
+	public $auth;
 	protected $pwds;
 	protected $chpwd;
 	protected $cfg;
+	protected $listener;
 
 	public function onEnable(){
 		mc::plugin_init($this,$this->getFile());
@@ -48,11 +50,18 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			"leet-mode" => true,
 			"chat-protect" => true,
 			"hide-unauth" => false,
+			"event-fixer" => false,
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
 
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->getServer()->getPluginManager()->registerEvents($this,$this);
+		if ($this->cfg["event-fixer"]) {
+			echo  __METHOD__.",".__LINE__."\n";//##DEBUG
+			$this->listener =new EventListener($this);
+			$this->getServer()->getPluginManager()->registerEvents($this->listener,$this);
+
+		}
 		$this->pwds = [];
 	}
 	//////////////////////////////////////////////////////////////////////

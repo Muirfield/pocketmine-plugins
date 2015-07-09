@@ -5,6 +5,8 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 
 /**
+ * Simple plugin callbacks.
+ *
  * Allows the creation of simple callbacks with extra data
  * The last parameter in the callback will be the "currentTicks"
  *
@@ -33,7 +35,6 @@ class PluginCallbackTask extends PluginTask{
 		$this->args = $args;
 		$this->args[] = $this;
 	}
-
 	/**
 	 * @return callable
 	 */
