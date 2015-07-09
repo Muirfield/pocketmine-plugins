@@ -22,15 +22,15 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/netherchests.9269/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
-This documentation was last updated for version **1.1.0dev1**.
+This documentation was last updated for version **1.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0).
 
 <!-- template-end -->
 
@@ -58,7 +58,7 @@ The following sections are defined:
 
 # Changes
 
-* 1.1.0 :
+* 1.1.0 : flexibility
   - more configuration, NetherChests can be global now
   - MySQL support
   - Translation: English, Spanish, Dutch
