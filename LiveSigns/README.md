@@ -343,6 +343,7 @@ The following sections are defined:
 * floatsigns.cmd.addrm : Show floating signs
   (Defaults to Op)
 
+
 # Known Issues
 
 * Query and Motd can not query the local server.
@@ -382,3 +383,4 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

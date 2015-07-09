@@ -1,6 +1,6 @@
 <?php
 namespace aliuly\livesigns\fetcher;
-use aliuly\common\GetMotd;
+use aliuly\livesigns\common\GetMotd;
 
 
 abstract class Motd extends SignFetcher {
