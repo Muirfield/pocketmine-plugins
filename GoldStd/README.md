@@ -275,13 +275,19 @@ The contents of these "ini" files are key-value pairs:
 * Q: How can I use a different money plugin?
 * A: Set the currency to false in config.yml.  Then GoldStd will search for an
   alternate money plugin.
+* Q: Does it work with SimpleAuth?
+  A: If you are using SimpleAuth, unauthenticated players are still able to
+  interact with plugins.  If that is not desirable, you should install SimpleAuthHelper
+  and enable "event-fixer".
 
 # Changes
 
 * 1.2.1: Bug fixes
   * Weapons are detected using isSword, isAxe and isPickaxe.
   * Fixed bug that caused inventory to be lost (Thanks @reidq7 for figuring it out)
-
+  * Tweaked the priority of event listeners so that SimpleAuth unauthenticated
+    players aren't able to interact.  (Requires SimpleAuthHelper for it to work
+    properly)
 * 1.2.0:
   * MoneyAPI fixes (Thanks @vertx)
   * Effects Shop
@@ -314,4 +320,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
