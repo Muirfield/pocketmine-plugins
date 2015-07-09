@@ -1,8 +1,8 @@
 name: libcommon
 version: 1.0.0
 main: aliuly\loader\Main
-api: 1.10.0
-load: POSTWORLD
+api: 1.12.0
+load: STARTUP
 
 description: aliuly's common library
 author: aliuly
