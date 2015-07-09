@@ -186,6 +186,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		$this->vars["{tps}"] = $this->getServer()->getTicksPerSecond();
 		$this->vars["{players}"] = count($this->getServer()->getOnlinePlayers());
 		$this->vars["{maxplayers}"] = $this->getServer()->getMaxPlayers();
+		$this->vars["{network-name}"] = $this->getServer()->getNetwork()->getName();
 	}
 	private function getText($id) {
 		if (!isset($this->signsCfg[$id])) {
@@ -208,6 +209,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 				}
 				return explode("\n",substr($t,2));
 			case "query":
+			case "motd":
 			  $vars = $this->vars;
 				$msg = null;
 				foreach ($this->signsTxt[$id]["text"] as $ln) {

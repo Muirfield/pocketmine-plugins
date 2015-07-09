@@ -28,6 +28,9 @@ rss:
 #query:
 #  type: query
 #  content: hostname,19132
+#motd:
+#  type: motd
+#  content: hostname,19132
 #
 # You need to configure your twitter account before using this
 #

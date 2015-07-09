@@ -25,7 +25,7 @@ abstract class GetMotd {
 		Stream_Set_Blocking( $sock, true );
 
 		$res = self::pingServer($sock);
-		fclose($res);
+		fclose($sock);
 		return $res;
 	}
 	static protected function pingServer($sock) {
@@ -49,16 +49,21 @@ abstract class GetMotd {
 				|| $reply{0} != chr(self::PONG_OPEN_CONNECTION)
 				|| substr($reply,17,16) != self::MAGIC) return "invalid response";
 		$res = [
-			"latency" => microtime(true) - Binary::readLong(substr($reply,1,8))/1000.0,
+			"latency" => intval(microtime(true)*1000 - Binary::readLong(substr($reply,1,8))),
 			"serverId" => Binary::readLong(substr($reply,9,8)),
 		];
 		$plen = Binary::readShort(substr($reply,35,2));
 		$payload = substr($reply,37);
 		if (strlen($payload) > $plen) $payload = substr($payload,$plen);
-		$val = explode(";",$payload,3);
-		if (count($val) != 3) return "Invalid server MOTD string";
-		list($res["mccpp"],$res["minecon"],$res["motd"]) = $val;
-
+		$val = explode(";",$payload);
+    foreach (["mccpp", "motd", "protocol", "client-version", "players",
+              "max-players"] as $i) {
+      if (count($val)) {
+        $res[$i] = array_shift($val);
+      } else {
+        break;
+      }
+    }
 		return $res;
 	}
 }

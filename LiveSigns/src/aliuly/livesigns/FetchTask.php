@@ -9,6 +9,7 @@ use aliuly\livesigns\fetcher\Url;
 use aliuly\livesigns\fetcher\Rss;
 use aliuly\livesigns\fetcher\Tweet;
 use aliuly\livesigns\fetcher\Query;
+use aliuly\livesigns\fetcher\Motd;
 
 class FetchTask extends AsyncTask {
 	public $started;
@@ -38,6 +39,8 @@ class FetchTask extends AsyncTask {
 				return Tweet::class;
 			case "query":
 				return Query::class;
+			case "motd":
+			  return Motd::class;
 		}
 		return null;
 	}
