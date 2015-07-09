@@ -81,9 +81,6 @@ class TradingMgr implements Listener {
 		$pl = MPMU::iName($e->getPlayer());
 		if (isset($this->state[$pl])) unset($this->state[$pl]);
 	}
-	/**
-	 * @priority LOWEST
-	 */
 	public function onPlayerPayment(EntityDamageEvent $ev) {
 		if ($ev->isCancelled()) return;
 		if(!($ev instanceof EntityDamageByEntityEvent)) return;

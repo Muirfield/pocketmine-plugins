@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 **NOTE:**
 
-This documentation was last updated for version **1.2.1dev1**.
+This documentation was last updated for version **1.2.1dev2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.1dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.1dev2).
 
 <!-- template-end -->
 

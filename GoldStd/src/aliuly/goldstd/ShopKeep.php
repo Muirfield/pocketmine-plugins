@@ -254,24 +254,30 @@ class ShopKeep implements Listener {
 		}
 	}
 
-	/**
-	 * @priority LOWEST
-	 */
 	public function onEntityInteract(EntityDamageEvent $ev) {
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->isCancelled()) return;
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		if(!($ev instanceof EntityDamageByEntityEvent)) return;
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$giver = $ev->getDamager();
 		if (!($giver instanceof Player)) return;
 		$taker = $ev->getEntity();
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!($taker instanceof TraderNpc)) return;
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$ev->setCancelled(); // OK, now what...
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($giver->isCreative() || $giver->isSpectator()) {
+			echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 			$giver->sendMessage(mc::_("No purchases while in %1% mode.",
 																MPMU::gamemodeStr($giver->getGamemode())));
 			return;
 		}
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$shop = $taker->namedtag->shop->getValue();
 		if (!isset($this->keepers[$shop])) {
+			echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 			$this->owner->getLogger()->error(
 				mc::_("Invalid shop %5% for NPC at %1%,%2%,%3% (%4%)",
 						$taker->floorX(),$taker->floorY(),$taker->floorZ(),
@@ -280,6 +286,7 @@ class ShopKeep implements Listener {
 			return;
 		}
 
+		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$hand = $giver->getInventory()->getItemInHand();
 		if ($this->owner->getCurrency() !== false ?
 			 $hand->getId() == $this->owner->getCurrency() :
