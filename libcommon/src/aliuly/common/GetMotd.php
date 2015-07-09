@@ -7,8 +7,11 @@ use pocketmine\utils\Binary;
  * Get MOTD style data from Minecraft PE servers
  */
 abstract class GetMotd {
+  /** @const str - Magic string */
   const MAGIC = "\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78";
+  /** @const int - Ping Open connection packet id */
 	const PING_OPEN_CONNECTION = 0x01;
+  /** @const int - Pong Open connection packet id */
 	const PONG_OPEN_CONNECTION = 0x1c;
 	/** Query server
 	 * @param str $Ip - IP or hostname to query
@@ -28,6 +31,12 @@ abstract class GetMotd {
 		fclose($sock);
 		return $res;
 	}
+  /**
+   * Run protocol to get MOTD data
+   *
+   * @param resource $sock
+   * @return str|array - string with error or array with results
+   */
 	static protected function pingServer($sock) {
 		$pkt = chr(self::PING_OPEN_CONNECTION).
 					Binary::writeLong(microtime(true)*1000).
