@@ -19,15 +19,15 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
 
 
-**NOTE:**
+_NOTE:_
 
-This documentation was last updated for version **0.2.0**.
+This documentation was last updated for version **1.0.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-0.2.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-1.0.0).
 
 <!-- template-end -->
 
@@ -81,7 +81,7 @@ Link.
 
 ## Changes
 
-* 1.0.0: First release
+- 1.0.0: First release
 
 ## Copyright
 
