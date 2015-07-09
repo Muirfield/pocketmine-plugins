@@ -253,7 +253,9 @@ class ShopKeep implements Listener {
 			unset($this->state[$n]);
 		}
 	}
-
+	/**
+	 * @priority LOW
+	 */
 	public function onEntityInteract(EntityDamageEvent $ev) {
 		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		if ($ev->isCancelled()) return;
