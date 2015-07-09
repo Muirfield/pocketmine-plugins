@@ -56,6 +56,21 @@ The following sections are defined:
 
 ## Permission nodes
 
+# FAQ
+
+* Q: What happens when more than one player use the NetherChest?
+* A: when a player opens a NetherChest they see their own inventory,
+  not somebody elses.  However, only one player can use a NetherChest
+  at a time.
+* Q: It doesn't work with iProtector!
+* A: I don't use iProtector.  This plugin only listens to
+  _InventoryOpen_ and _InventoryClose_ (it also listens to
+  _BlockPlace_ and _PlayerQuit_, but that has nothing to do with
+  opening chests).  iProtector listens and **Cancels** PlayerInteract
+  events.  These are fired **before** Inventory events.  So, if you
+  are not able to get it to work with _iProtector_, your configuration
+  is **wrong**.
+
 # Changes
 
 * 1.1.0 : flexibility
