@@ -49,7 +49,7 @@ loaded.
 
 ## Changes
 
-* ???
+* 1.1.2: Minor update
   * Displays a warning whenever a PHAR file is found.
 * 1.1.1: Bug-fix
   - Fixed some reload related bugs.
