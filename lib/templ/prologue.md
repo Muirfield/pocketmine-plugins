@@ -15,7 +15,7 @@ have a question/bug-report/request please use the
 that.  You are more likely to get a response and help that way.
 <?php } ?>
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **<?=$yaml["version"]?>**.
 

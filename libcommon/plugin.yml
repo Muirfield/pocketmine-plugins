@@ -1,5 +1,5 @@
 name: libcommon
-version: 0.2.0
+version: 1.0.0
 main: aliuly\loader\Main
 api: 1.10.0
 load: POSTWORLD

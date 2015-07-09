@@ -48,6 +48,7 @@ Currently available sources:
 * Twitter feed
 * php scripts
 * MinecraftQuery
+* Server's MOTD displays
 
 Sample configuration files are provided to get you started.  Basic
 usage is that you create a LiveSign source, and assign it an id.  Then
@@ -156,6 +157,13 @@ modifying **signs.yml**.  The following sources are possible:
     your server is running on.
   * _message_ is optional, will default to showing the MOTD, Current player
     count and max players.
+* motd
+  * Get the MOTD output (from the server selection list).  You should configure it with:
+  * _server-name[,port[,message]]_
+  * The _server-name_ is the host name to query.
+  * The _port_ is optional, defaults to 19132.  Set to whatever is the port
+    your server is running on.
+  * _message_ is optional, will default to showing the MOTD text.
 
 Entries in **signs.yml** contain the following keys:
 
@@ -270,6 +278,17 @@ Special variables for Query messages:
 * {RawPlugins}
 * {Software}
 
+Special variables for MOTD queries:
+
+* {latency} in milliseconds
+* {serverId}
+* {mccpp} type of game (PE)
+* {motd}
+* {protocol}
+* {client-version}
+* {players}
+* {max-players}
+
 ### Additional Libraries
 
 * RSS support: [lastRSS](http://lastrss.webdot.cz/)
@@ -325,6 +344,10 @@ The following sections are defined:
   (Defaults to Op)
 
 
+# Known Issues
+
+* Query and Motd can not query the local server.
+
 # Changes
 
 * 1.1.1: Async stuff
@@ -332,6 +355,7 @@ The following sections are defined:
   * caching is more flexible
   * php scripts can now be cached (note that since it runs on an asynctask
     access to the PocketMine MP API is not possible)
+  * MOTD displays in signs
 * 1.1.0: new features
   * Added query support
   * Added variable substitutions (for colors) (Requested by @iDirtPlayzMC)

@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
 
-BasicHUD
-========
+# BasicHUD
+
 
 * Summary: A configurable heads up display
 * Dependency Plugins: n/a
@@ -227,4 +227,3 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

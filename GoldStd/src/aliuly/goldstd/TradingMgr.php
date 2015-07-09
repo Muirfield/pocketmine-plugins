@@ -82,7 +82,7 @@ class TradingMgr implements Listener {
 		if (isset($this->state[$pl])) unset($this->state[$pl]);
 	}
 	/**
-	 * @priority LOWEST
+	 * @priority LOW
 	 */
 	public function onPlayerPayment(EntityDamageEvent $ev) {
 		if ($ev->isCancelled()) return;
