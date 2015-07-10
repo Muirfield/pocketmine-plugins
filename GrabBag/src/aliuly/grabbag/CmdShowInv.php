@@ -21,7 +21,7 @@ use pocketmine\item\Item;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\ItemName;
 
 class CmdShowInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -51,7 +51,7 @@ class CmdShowInv extends BasicCli implements CommandExecutor {
 			$max = $target->getInventory()->getSize();
 			foreach ($target->getInventory()->getContents() as $slot => &$item) {
 				if ($slot >= $max) continue;
-				$tab[] = [MPMU::itemName($item)." (".$item->getId().")",
+				$tab[] = [ItemName::str($item)." (".$item->getId().")",
 							 $item->getCount(),$item->getDamage() ];
 			}
 			if (count($tab) == 1) {
@@ -64,7 +64,7 @@ class CmdShowInv extends BasicCli implements CommandExecutor {
 				$item = $target->getInventory()->getArmorItem($slot);
 				if ($item->getID() == 0) continue;
 				$tab[]=[$attr.TextFormat::BLUE,
-						  MPMU::itemName($item)." (" .$item->getId().":".$item->getDamage().")"];
+						  ItemName::str($item)." (" .$item->getId().":".$item->getDamage().")"];
 			}
 		}
 		return $this->paginateTable($sender,$pageNumber,$tab);

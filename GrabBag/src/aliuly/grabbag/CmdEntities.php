@@ -40,6 +40,7 @@ use pocketmine\tile\Sign;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\ItemName;
 
 
 class CmdEntities extends BasicCli implements CommandExecutor {
@@ -173,7 +174,7 @@ class CmdEntities extends BasicCli implements CommandExecutor {
 			if ($e instanceof Living) {
 				$name = $e->getName();
 			} elseif ($e instanceof \pocketmine\entity\Item) {
-				$name = mc::_("Item:%1%",MPMU::itemName($e->getItem()));
+				$name = mc::_("Item:%1%",ItemName::str($e->getItem()));
 			} else {
 				$name = basename(strtr(get_class($e),"\\","/"));
 			}
