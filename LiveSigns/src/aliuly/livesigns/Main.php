@@ -28,6 +28,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 	protected $fetchcfg;		// Fetcher Configuration
 	protected $floats;		// Floating text handler
 	public $vars;				// Used in variable substitutions
+	public $debug;			// Show debug messages
 
 	public function onDisable() {
 		if ($this->fetcher !== null && !$this->fetcher->isFinished()) {
@@ -56,6 +57,8 @@ class Main extends BasicPlugin implements CommandExecutor {
        	"cache-signs" => 7200,
 				"# expire-cache" => "How often to expire caches (ticks)",
 				"expire-cache" => 200,
+				"# debug" => "shows additional debug data",
+				"debug" => false,
 			],
 			"fetcher" => [
 				"# path" => "file path for the file fetcher",
@@ -77,6 +80,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if (!isset($cf["fetcher"]["path"])) {
 			$cf["fetcher"]["path"] = $this->getDataFolder();
 		}
+		$this->debug = $cf["settings"]["debug"];
 		$this->texts = [];
 		foreach ($cf["signs"] as $a=>&$b) {
 			foreach ($b as $c) {
@@ -158,7 +162,6 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if ($this->fetch_redo) $this->scheduleRetrieve();
 	}
 	public function expireCache($dmaxage) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$now = time();
 		foreach (array_keys($this->signsTxt) as $id) {
 			if (!isset($this->signsCfg[$id])) {
@@ -176,7 +179,6 @@ class Main extends BasicPlugin implements CommandExecutor {
 				if ($fetcher !== null && $fetcher::default_age() != -1) {
 					$maxage = $fetcher::default_age();
 				}
-				echo "FETCHER:$fetcher MAXAGE=$maxage\n";//##DEBUG
 			}
 			if (($this->signsTxt[$id]["datetime"] + $maxage) < $now) unset($this->signsTxt[$id]["datetime"]);
 		}

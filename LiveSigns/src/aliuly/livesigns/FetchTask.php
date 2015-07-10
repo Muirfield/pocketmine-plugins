@@ -21,7 +21,7 @@ class FetchTask extends AsyncTask {
 		$this->started = time();
 		$this->pkgs = $pkgs;
 		$this->cf = $cfg;
-		$plugin->getLogger()->debug("FetchTask started.");
+		if ($plugin->debug) $plugin->getLogger()->debug("FetchTask started.");
 	}
 	public static function fetchClass($type) {
 		switch (strtolower($type)) {
@@ -91,6 +91,6 @@ class FetchTask extends AsyncTask {
 			}
 		}
 		$plugin->retrieveDone($done);
-		$plugin->getLogger()->debug("FetchTask completed.");
+		if ($plugin->debug) $plugin->getLogger()->debug("FetchTask completed.");
 	}
 }
