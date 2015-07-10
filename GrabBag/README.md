@@ -719,7 +719,7 @@ languages currently available are:
 * Spanish
 
 You can provide your own message file by creating a file called
-`messages.ini` in the pluginc config directory.  Check
+`messages.ini` in the plugin config directory.  Check
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for sample files.
 
@@ -863,4 +863,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
