@@ -750,6 +750,7 @@ The following third party libraries are included:
 * 2.2.5:
   * CmdSelMgr: configure max
   * gift command / broadcast
+  * Switched MPMU::itemName for ItemName::str
 * 2.2.4:
   * Re-formatted Queries (Requested by @Daniel123)
   * FollowMgr check if player is flying before teleporting.
@@ -876,4 +877,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
