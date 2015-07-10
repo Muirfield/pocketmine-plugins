@@ -17,6 +17,7 @@ use pocketmine\item\Item;
 
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
+use aliuly\goldstd\common\ItemName;
 
 class TradingMgr implements Listener {
 	protected $defaults;
@@ -175,7 +176,7 @@ class TradingMgr implements Listener {
 		} else {
 			$giver->getInventory()->setItem($slot,$good);
 		}
-		$item = MPMU::itemName($good);
+		$item = ItemName::str($good);
 		if (MPMU::apiVersion("1.12.0")) {
 			$giver->sendTip(mc::_("Gave one %1%",$item));
 			$taker->sendTip(mc::_("Received %1%",$item));

@@ -23,7 +23,7 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/goldstd.8071/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **1.2.1dev2**.
 
@@ -288,6 +288,7 @@ The contents of these "ini" files are key-value pairs:
   * Tweaked the priority of event listeners so that SimpleAuth unauthenticated
     players aren't able to interact.  (Requires SimpleAuthHelper for it to work
     properly)
+  * Changed MPMU::itemName to ItemName::str
 * 1.2.0:
   * MoneyAPI fixes (Thanks @vertx)
   * Effects Shop
@@ -320,3 +321,4 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
