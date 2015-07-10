@@ -16,7 +16,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "1.0.0";
+	const VERSION = "1.1.0";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -80,6 +80,7 @@ abstract class MPMU {
 	 * Given an pocketmine\item\Item object, it returns a friendly name
 	 * for it.
 	 *
+	 * @deprecated
 	 * @param Item item
 	 * @return str
 	 */

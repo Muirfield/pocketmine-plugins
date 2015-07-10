@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
 
-# NAME
+# libcommon
 
 - Summary: aliuly's common library
 - Dependency Plugins: n/a
@@ -21,13 +21,13 @@
 
 _NOTE:_
 
-This documentation was last updated for version **1.0.0**.
+This documentation was last updated for version **1.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-1.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-1.1.0).
 
 <!-- template-end -->
 
@@ -81,6 +81,9 @@ Link.
 
 ## Changes
 
+- 1.1.0: Update 1
+  - Added ItemName class (with more item names)
+  - MPMU::itemName **deprecated**
 - 1.0.0: First release
 
 ## Copyright
