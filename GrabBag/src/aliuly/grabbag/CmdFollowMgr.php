@@ -157,7 +157,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		unset($this->leaders[$leader]);
 	}
 	private function approach($f,$l) {
-		echo "f=$f l=$l\n";//##DEBUG
+		// "f=$f l=$l\n";//##DEBUG
 		if (!($f instanceof Player)) {
 			$f = $this->owner->getServer()->getPlayer($f);
 			if (!$f) return; // Couldn't find this guy!
@@ -170,7 +170,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 
 		if ($f->getLevel() === $l->getLevel()) {
 			$dist = $f->distance($l);
-			echo $f->getName()." - ".$l->getName()." DIST:$dist\n";//##DEBUG
+			// $f->getName()." - ".$l->getName()." DIST:$dist\n";//##DEBUG
 			if ($dist < $this->maxdist) return; // Close enough
 		}
 		$pos = $l->getLevel()->getSafeSpawn(new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),

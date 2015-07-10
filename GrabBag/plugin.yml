@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.4dev2
+version: 2.2.4
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -12,6 +12,9 @@ permissions:
   gb.module.repeater:
     default: true
     description: "Access to repeater module"
+  gb.module.cmdsel:
+    default: true
+    description: "Access to command selectors"
   gb.cmd.players:
     default: true
     description: "allow players command"

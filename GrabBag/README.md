@@ -24,15 +24,15 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/grabbag.7524/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
-This documentation was last updated for version **2.2.4dev2**.
+This documentation was last updated for version **2.2.4**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4dev2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.4).
 
 <!-- template-end -->
 
@@ -121,6 +121,7 @@ administration.
 * blood-particles : Display particles when a player gets hit
 * broadcast-ft : Broadcast player's using FastTransfer
 * broadcast-tp : Broadcast player's teleports
+* CommandSelector : Adds "@" prefixes.
 * join-mgr : Announce joining ops, and show server motd
 * repeater : Uses `!!` to repeat command with changes
 
@@ -482,6 +483,27 @@ Broadcast player's teleports
 This listener module will broadcast when a player teleports to
 another location.
 
+#### CommandSelector
+
+Adds "@" prefixes.
+
+See
+[Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
+for an explanation on prefixes.
+
+This only implements the following prefixes:
+
+- @a - all players
+- @e - all entities (including players)
+- @r - random player/entity
+
+The following selectors are implemented:
+
+- c: (only for @r),count
+- m: game mode
+- type: entity type, use Player for player.
+- name: player's name`
+
 #### join-mgr
 
 Announce joining ops, and show server motd
@@ -573,6 +595,7 @@ this section through the *rcon* command.
 ### Permission Nodes
 
 * gb.module.repeater : Access to repeater module
+* gb.module.cmdsel : Access to command selectors
 * gb.cmd.players : allow players command
 * gb.cmd.ops : list server ops
 * gb.cmd.sudo : Allow to run command as another user
@@ -714,15 +737,16 @@ The following third party libraries are included:
 
 # Changes
 
-* 2.2.4: ??
+* 2.2.4:
   * Re-formatted Queries (Requested by @Daniel123)
   * FollowMgr check if player is flying before teleporting.
   * Added /nick command (ChatMgr)
+  * Added Command Selector.
 * 2.2.3: Multi-server
   * Chat manager (Requested by @CaptainKenji17)
   * Must have multi-server feactures:
     * Query command: let's you get info from servers in your network, like
-      - # servers on-line, number of players
+      - number of servers on-line, number of players
       - show what players are on-line and on which servers
     * Rcon: let's you execute commands on remote servers using Rcon.  The
       new --all switch lets you send the same command to all the servers in

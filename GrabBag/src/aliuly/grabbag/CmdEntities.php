@@ -300,7 +300,8 @@ class CmdEntities extends BasicCli implements CommandExecutor {
 		foreach ($args as $i) {
 			$et = $this->getEntity($i);
 			if ($et !== null) {
-				$txt[] = mc::_("Entity: %1%",$i);
+				$txt[] = mc::_("Entity: %1% (%2%)",$i,basename(strtr(get_class($et),"\\","/")));
+				$et->saveNBT();
 				foreach ($this->dumpNbt($et->namedtag) as $ln) {
 					$txt[] = $ln;
 				}

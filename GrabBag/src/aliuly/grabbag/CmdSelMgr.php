@@ -4,12 +4,31 @@
  **
  ** Adds "@" prefixes.
  **
+ ** See
+ ** [Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
+ ** for an explanation on prefixes.
+ **
+ ** This only implements the following prefixes:
+ **
+ ** - @a - all players
+ ** - @e - all entities (including players)
+ ** - @r - random player/entity
+ **
+ ** The following selectors are implemented:
+ **
+ ** - c: (only for @r),count
+ ** - m: game mode
+ ** - type: entity type, use Player for player.
+ ** - name: player's name`
+ **
  **/
 
 namespace aliuly\grabbag;
 
 use pocketmine\event\Listener;
 use pocketmine\Player;
+use pocketmine\entity\Entity;
+use pocketmine\command\CommandSender;
 
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
@@ -18,6 +37,11 @@ use pocketmine\event\Timings;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+
+use aliuly\grabbag\selectors\All;
+use aliuly\grabbag\selectors\AllEntity;
+use aliuly\grabbag\selectors\Random;
+
 
 class PlayerCommandPreprocessEvent_sub extends PlayerCommandPreprocessEvent{
 }
@@ -41,6 +65,7 @@ class CmdSelMgr extends BasicCli implements Listener {
 		if ($ev instanceof PlayerCommandPreprocessEvent_sub) return;
 		$line = $event->getMessage();
 		if(substr($line, 0, 1) !== "/") return;
+		if (!$ev->getPlayer()->hasPermission("gb.module.cmdsel")) return;
 		$res = $this->processCmd(substr($line,1),$ev->getPlayer());
 		if ($res === false) return;
 		$ev->setCancelled();
@@ -94,11 +119,17 @@ class CmdSelMgr extends BasicCli implements Listener {
 			$sargs = [];
 			if(($i = strpos($selector, "[")) !== false){
 				foreach (explode(",",substr($selector,$i+1,-1)) as $kv) {
-					$sargs = explode("=",$kv,2);
+					$kvp = explode("=",$kv,2);
+					if (count($kvp) != 2) {
+						$sender->sendMessage(mc::_("Selector: invalid argument %1%",$kv));
+						continue;
+					}
+					$sargs[$kvp[0]] = strtolower($kvp[1]);
 				}
-				$selector = substr($selector,$i-1);
+				$selector = substr($selector,0,$i);
+				print_r($sargs);//##DEBUG
 			}
-			$results = $this->dispatchSelector($sender , $selector,$sargs);
+			$results = $this->dispatchSelector($sender , $selector, $sargs);
 			if (!is_array($results)) continue;
 			$ret = true;
 			$new = [];
@@ -124,11 +155,54 @@ class CmdSelMgr extends BasicCli implements Listener {
 	protected function dispatchSelector(CommandSender $sender,$selector,array $args) {
 		switch ($selector) {
 			case "a":
-				
+			  return All::select($this, $sender , $args);
 			case "e":
+				return AllEntity::select($this, $sender, $args);
 			case "r":
-			case "e":
-
+			  return Random::select($this, $sender, $args);
+		  //case "p":
 		}
+		return null;
+	}
+	public function getServer() {
+		return $this->owner->getServer();
+	}
+	public function checkSelectors(array $args,CommandSender $sender, Entity $item) {
+		foreach($args as $name => $value){
+			switch($name){
+				case "m":
+					$mode = intval($value);
+					if($mode === -1) break;
+					// what is the point of adding this (in PC) when they can just safely leave this out?
+					if(($item instanceof Player) && ($mode !== $item->getGamemode())) return false;
+					break;
+				case "name":
+				  if ($value{0} === "!") {
+						if(substr($value,1) === strtolower($item->getName())) return false;
+					} else {
+						if($value !== strtolower($item->getName())) return false;
+					}
+					break;
+				case "type":
+					if ($item instanceof Player) {
+						$type = "player";
+					} else {
+						$type = strtolower($item->getSaveId());
+					}
+					if ($value{0} === "!") {
+						if(substr($value,1) === $type) return false;
+					} else {
+						if($value !== $type) return false;
+					}
+					break;
+					// x,y,z
+					// r,rm
+					// c
+					// dx,dy,dz
+					// rx,rxm
+					// ry,rym
+			}
+		}
+		return true;
 	}
 }
