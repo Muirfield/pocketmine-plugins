@@ -2,7 +2,6 @@
 
 # BasicHUD
 
-
 * Summary: A configurable heads up display
 * Dependency Plugins: n/a
 * PocketMine-MP version: 1.5 (API:1.12.0)
@@ -24,7 +23,7 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/basichud.1222/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **1.0.6**.
 
@@ -184,7 +183,7 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 * 1.0.6:
   * Fixed vars-example (money issues thanks @vertx)
-  * Display item selected onItemHeld (incomplete)
+  * Display item selected onItemHeld
 * 1.0.5: Performance tweaks
   * Cache permissions for selecting formats
   * An empty vars.php yields an empty function (saving a comparison)
@@ -227,3 +226,4 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
