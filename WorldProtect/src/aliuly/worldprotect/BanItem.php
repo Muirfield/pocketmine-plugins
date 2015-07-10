@@ -23,7 +23,7 @@ use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
 use aliuly\worldprotect\common\mc;
-use aliuly\worldprotect\common\MPMU;
+use aliuly\worldprotect\common\ItemName;
 
 class BanItem extends BaseWp implements Listener {
 	public function __construct(Plugin $plugin) {
@@ -70,7 +70,7 @@ class BanItem extends BaseWp implements Listener {
 			foreach ($args as $i) {
 				$item = Item::fromString($i);
 				if (isset($ids[$item->getId()])) continue;
-				$ids[$item->getId()] = MPMU::itemName($item);
+				$ids[$item->getId()] = ItemName::str($item);
 				++$cc;
 			}
 		} else {
