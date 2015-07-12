@@ -77,29 +77,6 @@ abstract class MPMU {
 		return version_compare($api,$version) >= 0;
 	}
 	/**
-	 * Given an pocketmine\item\Item object, it returns a friendly name
-	 * for it.
-	 *
-	 * @deprecated
-	 * @param Item item
-	 * @return str
-	 */
-	static public function itemName(Item $item) {
-		$n = $item->getName();
-		if ($n != "Unknown") return $n;
-		if (count(self::$items) == 0) {
-			$constants = array_keys((new \ReflectionClass("pocketmine\\item\\Item"))->getConstants());
-			foreach ($constants as $constant) {
-				$id = constant("pocketmine\\item\\Item::$constant");
-				$constant = str_replace("_", " ", $constant);
-				self::$items[$id] = $constant;
-			}
-		}
-		if (isset(self::$items[$item->getId()]))
-			return self::$items[$item->getId()];
-		return $n;
-	}
-	/**
 	 * Returns a localized string for the gamemode
 	 *
 	 * @param int mode

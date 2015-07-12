@@ -13,26 +13,17 @@
 
 ## Overview
 
-<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/xxxxxxxxxxxxxxxx"; -->
-<!-- template: prologue.md -->
-<!-- Add the line: -->
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
-
-
-_NOTE:_
-
-This documentation was last updated for version **1.1.0**.
-
-Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
-for the most up-to-date documentation.
-
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-1.1.0).
-
-<!-- template-end -->
-
 This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.
+writing PocketMine-MP plugins.  Its main value as a stand-alone **phar**
+is when writing script plugins.  As it provide useful functionality that
+can be called directly by these scripts.
+
+For the most up to date documentation visit
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon).
+
+This plugin can be downloaded from its
+[Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
+page.
 
 Contains quite a few utility functions. Available modules:
 

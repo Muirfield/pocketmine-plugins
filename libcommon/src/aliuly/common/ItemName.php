@@ -7,8 +7,10 @@ use aliuly\common\mc;
  * ItemName database
  */
 abstract class ItemName {
-	/** @var array - extended names */
+	/** @var array $xnames extended names */
 	static protected $xnames = null;
+	/** @var str[] $items Nice names for items */
+	static protected $items = [];
 
 	/**
 	 * Initialize extended names table
