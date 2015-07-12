@@ -25,6 +25,7 @@ use pocketmine\level\Position;
 use aliuly\spawnmgr\common\PluginCallbackTask;
 use aliuly\spawnmgr\common\MPMU;
 use aliuly\spawnmgr\common\mc;
+use aliuly\spawnmgr\common\ItemName;
 
 class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $items;
@@ -210,7 +211,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		$inventory = [];
 		foreach ($this->armor as $j) {
 			$item = Item::fromString($j);
-			$itemName = explode(" ",strtolower(MPMU::itemName($item)),2);
+			$itemName = explode(" ",strtolower(ItemName::str($item)),2);
 			if (count($itemName) != 2) {
 				$this->getLogger()->error(mc::_("Invalid armor item: %1%",$j));
 				continue;
