@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.2.0**.
+This documentation was last updated for version **1.2.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.2.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.2.1).
 
 <!-- template-end -->
 
@@ -277,6 +277,7 @@ Special variables for Query messages:
 * {HostPort}
 * {RawPlugins}
 * {Software}
+* {PlayerList}
 
 Special variables for MOTD queries:
 
@@ -348,9 +349,12 @@ The following sections are defined:
 # Known Issues
 
 * Query and Motd can not query the local server.
+* Document and expand API
 
 # Changes
 
+* 1.2.1:
+  * Added {PlayerList} variable to Query
 * 1.2.0: Async stuff
   * moved Query's to AsyncTask
   * caching is more flexible

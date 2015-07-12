@@ -314,6 +314,30 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if (count($args) == 0) return false;
 		return $this->dispatchSCmd($sender,$cmd,$args);
 	}
+	public function getStats() {
+		$txt = [];
+		if ($this->fetcher === null) {
+			$txt[] = mc::_("Fetcher not running");
+		} else {
+			$txt[] = mc::_("Fetcher available: %1%",$this->fetcher->getTaskId());
+			if ($this->fetcher->isFinished()) {
+				$txt[] = mc::_("- Fetcher Finished");
+			}
+		}
+		return $txt;
+	}
+	/**
+	 * @api
+	 */
+	public function getFloats() { return $this->floats; }
+	public function updateSignCfg($id,$type,$content) {
+		if ($type == null) {
+			if (!isset($this->signsCfg[$id])) return;
+			unset($this->signsCfg[$id]);
+		} else {
+			$this->signsCfg[$id] = [ "type" => $type, "content" => $content ];
+		}
+	}
 	public function getSignCfg() {
 		return $this->signsCfg;
 	}
@@ -331,26 +355,5 @@ class Main extends BasicPlugin implements CommandExecutor {
 			$this->expireSign($id);
 		}
 	}
-	public function updateSignCfg($id,$type,$content) {
-		if ($type == null) {
-			if (!isset($this->signsCfg[$id])) return;
-			unset($this->signsCfg[$id]);
-		} else {
-			$this->signsCfg[$id] = [ "type" => $type, "content" => $content ];
-		}
-	}
-	public function getStats() {
-		$txt = [];
-		if ($this->fetcher === null) {
-			$txt[] = mc::_("Fetcher not running");
-		} else {
-			$txt[] = mc::_("Fetcher available: %1%",$this->fetcher->getTaskId());
-			if ($this->fetcher->isFinished()) {
-				$txt[] = mc::_("- Fetcher Finished");
-			}
-		}
-		return $txt;
-	}
-	public function getFloats() { return $this->floats; }
 
 }

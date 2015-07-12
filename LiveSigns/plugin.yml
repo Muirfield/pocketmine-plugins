@@ -3,7 +3,7 @@ api: 1.12.0
 load: POSTWORLD
 name: LiveSigns
 description: "Signs and floating text that change contents (e.g. twitter?)"
-version: 1.2.0
+version: 1.2.1
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns
 
