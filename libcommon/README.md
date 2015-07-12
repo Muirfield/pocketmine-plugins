@@ -73,9 +73,9 @@ Link.
 
 ## Changes
 
-- 1.1.0: Update 1
-  - Added ItemName class (with more item names)
-  - MPMU::itemName **deprecated**
+- 1.1.0: Update 1<br/>
+  * Added ItemName class (with more item names)<br/>
+  * Removed MPMU::itemName<br/>
 - 1.0.0: First release
 
 ## Copyright
@@ -96,4 +96,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
