@@ -10,8 +10,8 @@ use pocketmine\Server;
  *
  */
 abstract class PluginAsyncTask extends AsyncTask{
-	/** @var Plugin */
-	public $ownerName;
+	/** @var string */
+	public $owner;
 
 	/** @var callable */
 	protected $callable;
