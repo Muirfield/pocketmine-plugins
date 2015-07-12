@@ -55,12 +55,10 @@ while (($ln = fgets($fp)) !== false) {
 	$vlst[] = $ln;
 }
 fclose($fp);
-$vlst[] = "1.1.0";
-$vlst[] = "1.2.0";
 function rversion_compare($a,$b) { return version_compare($b,$a);}
 usort($vlst,"rversion_compare");
 foreach ($vlst as $v) {
-	$url = "blah";
+	$url = "https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-$v";
 	$ntxt .= "* <a href=\"$url\">$icon $v</a>\n";
 }
 if ($ntxt != $otxt) {
