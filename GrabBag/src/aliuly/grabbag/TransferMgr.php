@@ -45,7 +45,7 @@ class TransferMgr implements Listener {
 		for ($i=0;$i<20;$i++) {
 			$pl->getLevel()->addParticle(new DustParticle(self::randVector($pl),(mt_rand()/mt_getrandmax())*2,255,255,255));
 		}
-		$pl->getLevel()->addSound(new FizzSound($pos));
+		$pl->getLevel()->addSound(new FizzSound($pl));
 
 		$this->owner->getServer()->broadcastMessage(
 					mc::_("%1% is transferring to %2%:%3%",

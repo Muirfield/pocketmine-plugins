@@ -72,7 +72,7 @@ class CmdSelMgr extends BasicCli implements Listener {
 	 */
 	public function onPlayerCmd(PlayerCommandPreprocessEvent $ev) {
 		if ($ev instanceof PlayerCommandPreprocessEvent_sub) return;
-		$line = $event->getMessage();
+		$line = $ev->getMessage();
 		if(substr($line, 0, 1) !== "/") return;
 		if (!$ev->getPlayer()->hasPermission("gb.module.cmdsel")) return;
 		$res = $this->processCmd(substr($line,1),$ev->getPlayer());
