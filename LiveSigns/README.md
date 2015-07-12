@@ -23,15 +23,15 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/plugins/livesigns.1249/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
-This documentation was last updated for version **1.1.1dev1**.
+This documentation was last updated for version **1.2.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.1.1dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.2.1).
 
 <!-- template-end -->
 
@@ -277,6 +277,7 @@ Special variables for Query messages:
 * {HostPort}
 * {RawPlugins}
 * {Software}
+* {PlayerList}
 
 Special variables for MOTD queries:
 
@@ -323,6 +324,7 @@ The following sections are defined:
 	*  tile-updates: How often to update signs in game from cache (in-ticks)
     	*  cache-signs: Default seconds to cache sign data
 	*  expire-cache: How often to expire caches (ticks)
+	*  debug: shows additional debug data
 	*  path: file path for the file fetcher
 	*  twitter: Used by the twitter feed fetcher
 *  signs: trigger text
@@ -347,15 +349,19 @@ The following sections are defined:
 # Known Issues
 
 * Query and Motd can not query the local server.
+* Document and expand API
 
 # Changes
 
-* 1.1.1: Async stuff
+* 1.2.1:
+  * Added {PlayerList} variable to Query
+* 1.2.0: Async stuff
   * moved Query's to AsyncTask
   * caching is more flexible
   * php scripts can now be cached (note that since it runs on an asynctask
     access to the PocketMine MP API is not possible)
-  * MOTD displays in signs
+  * MOTD displays in signs.  Gets MOTD using RakNet protocol (native Minecraft PE)
+    instead of Query.
 * 1.1.0: new features
   * Added query support
   * Added variable substitutions (for colors) (Requested by @iDirtPlayzMC)

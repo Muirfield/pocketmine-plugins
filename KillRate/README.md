@@ -181,6 +181,9 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 # Changes
 
+* 1.2.3:
+  * MySqlMgr: Fixed typo
+
 * 1.2.2
   * small tweaks on the comments of the config file...
   * Added achievements

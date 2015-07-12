@@ -28,6 +28,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 	protected $fetchcfg;		// Fetcher Configuration
 	protected $floats;		// Floating text handler
 	public $vars;				// Used in variable substitutions
+	public $debug;			// Show debug messages
 
 	public function onDisable() {
 		if ($this->fetcher !== null && !$this->fetcher->isFinished()) {
@@ -56,6 +57,8 @@ class Main extends BasicPlugin implements CommandExecutor {
        	"cache-signs" => 7200,
 				"# expire-cache" => "How often to expire caches (ticks)",
 				"expire-cache" => 200,
+				"# debug" => "shows additional debug data",
+				"debug" => false,
 			],
 			"fetcher" => [
 				"# path" => "file path for the file fetcher",
@@ -77,6 +80,7 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if (!isset($cf["fetcher"]["path"])) {
 			$cf["fetcher"]["path"] = $this->getDataFolder();
 		}
+		$this->debug = $cf["settings"]["debug"];
 		$this->texts = [];
 		foreach ($cf["signs"] as $a=>&$b) {
 			foreach ($b as $c) {
@@ -158,7 +162,6 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if ($this->fetch_redo) $this->scheduleRetrieve();
 	}
 	public function expireCache($dmaxage) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$now = time();
 		foreach (array_keys($this->signsTxt) as $id) {
 			if (!isset($this->signsCfg[$id])) {
@@ -176,7 +179,6 @@ class Main extends BasicPlugin implements CommandExecutor {
 				if ($fetcher !== null && $fetcher::default_age() != -1) {
 					$maxage = $fetcher::default_age();
 				}
-				echo "FETCHER:$fetcher MAXAGE=$maxage\n";//##DEBUG
 			}
 			if (($this->signsTxt[$id]["datetime"] + $maxage) < $now) unset($this->signsTxt[$id]["datetime"]);
 		}
@@ -312,6 +314,30 @@ class Main extends BasicPlugin implements CommandExecutor {
 		if (count($args) == 0) return false;
 		return $this->dispatchSCmd($sender,$cmd,$args);
 	}
+	public function getStats() {
+		$txt = [];
+		if ($this->fetcher === null) {
+			$txt[] = mc::_("Fetcher not running");
+		} else {
+			$txt[] = mc::_("Fetcher available: %1%",$this->fetcher->getTaskId());
+			if ($this->fetcher->isFinished()) {
+				$txt[] = mc::_("- Fetcher Finished");
+			}
+		}
+		return $txt;
+	}
+	/**
+	 * @api
+	 */
+	public function getFloats() { return $this->floats; }
+	public function updateSignCfg($id,$type,$content) {
+		if ($type == null) {
+			if (!isset($this->signsCfg[$id])) return;
+			unset($this->signsCfg[$id]);
+		} else {
+			$this->signsCfg[$id] = [ "type" => $type, "content" => $content ];
+		}
+	}
 	public function getSignCfg() {
 		return $this->signsCfg;
 	}
@@ -329,26 +355,5 @@ class Main extends BasicPlugin implements CommandExecutor {
 			$this->expireSign($id);
 		}
 	}
-	public function updateSignCfg($id,$type,$content) {
-		if ($type == null) {
-			if (!isset($this->signsCfg[$id])) return;
-			unset($this->signsCfg[$id]);
-		} else {
-			$this->signsCfg[$id] = [ "type" => $type, "content" => $content ];
-		}
-	}
-	public function getStats() {
-		$txt = [];
-		if ($this->fetcher === null) {
-			$txt[] = mc::_("Fetcher not running");
-		} else {
-			$txt[] = mc::_("Fetcher available: %1%",$this->fetcher->getTaskId());
-			if ($this->fetcher->isFinished()) {
-				$txt[] = mc::_("- Fetcher Finished");
-			}
-		}
-		return $txt;
-	}
-	public function getFloats() { return $this->floats; }
 
 }

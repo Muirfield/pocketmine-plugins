@@ -22,7 +22,7 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/worldprotect.7517/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **2.1.0**.
 
@@ -306,6 +306,8 @@ Returns an integer or null.
 
 # Changes
 
+* 2.1.1: minor Update
+  * updated to libcommon 1.1 ItemName module.
 * 2.1.0: API
   * Added API to determine max players
 * 2.0.3: Minor bug fix

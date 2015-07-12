@@ -32,6 +32,9 @@ permissions:
   goldstd.cmd.shopkeep:
     default: op
     description: "ShopKeepr management"
+  goldstd.shopkeep.shop:
+    default: true
+    description: "Allow buying from shop keeper"
   goldstd.signs.use:
     default: true
     description: "Allow access to signs"

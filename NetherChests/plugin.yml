@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: NetherChests
 description: An Ender Chest type plugin
-version: 1.1.0dev1
+version: 1.1.0
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests
 

@@ -38,6 +38,13 @@ abstract class Query extends SignFetcher {
 				$txt[] = $i."\t".$j;
 			}
 		}
+		if (($players = $Query->GetPlayers()) !== false) {
+			$list = "";
+			foreach($players as $p) {
+				$list .= $p."\n";
+			}
+			$txt[] = "PlayerList"."\t".$list;
+		}		
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		//print_r($vars);//##DEBUG
 		return $txt;

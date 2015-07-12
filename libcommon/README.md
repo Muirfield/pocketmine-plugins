@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
 
-# NAME
+# libcommon
 
 - Summary: aliuly's common library
 - Dependency Plugins: n/a
@@ -13,26 +13,18 @@
 
 ## Overview
 
-<!-- //php: $v_forum_thread = "http://forums.pocketmine.net/threads/xxxxxxxxxxxxxxxx"; -->
-<!-- template: prologue.md -->
-<!-- Add the line: -->
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/XXXX"; -->
-
-
-_NOTE:_
-
-This documentation was last updated for version **1.0.0**.
-
-Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon)
-for the most up-to-date documentation.
-
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-1.0.0).
-
-<!-- template-end -->
-
 This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.
+writing PocketMine-MP plugins.  Its main value as a stand-alone **phar**
+is when writing script plugins.  As it provide useful functionality that
+can be called directly by these scripts.
+
+For the most up to date documentation visit
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon).
+
+This plugin can be downloaded from its
+[Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
+<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
+page.
 
 Contains quite a few utility functions. Available modules:
 
@@ -81,6 +73,9 @@ Link.
 
 ## Changes
 
+- 1.1.0: Update 1<br/>
+  * Added ItemName class (with more item names)<br/>
+  * Removed MPMU::itemName<br/>
 - 1.0.0: First release
 
 ## Copyright
@@ -101,4 +96,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

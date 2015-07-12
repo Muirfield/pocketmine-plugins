@@ -32,6 +32,7 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\Player;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
@@ -146,14 +147,15 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 				new RconTask($this->owner,"rconDone",
 											preg_split('/\s+/',$this->servers[$id],3),
 											implode(" ",$args),
-											[$c->getName()])
+											[($c instanceof Player) ? $c->getName() : serialize($c)])
 		  );
 		}
 		return true;
 	}
-	public function taskDone($res,$player) {
-		if (($player = $this->owner->getServer()->getPlayer($player)) == null) {
-			$player = new ConsoleCommandSender;
+	public function taskDone($res,$sn) {
+		if (($player = $this->owner->getServer()->getPlayer($sn)) == null) {
+			$player = unserialize($sn);
+			echo "player=".get_class($player)."\n";//##DEBUG
 		}
 		if (!is_array($res)) {
 			$player->sendMessage($res);

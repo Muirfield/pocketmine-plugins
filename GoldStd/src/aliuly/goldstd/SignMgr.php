@@ -13,6 +13,7 @@ use pocketmine\entity\Effect;
 
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
+use aliuly\goldstd\common\ItemName;
 
 class SignMgr implements Listener {
 	protected $owner;
@@ -162,12 +163,12 @@ class SignMgr implements Listener {
 				}
 				if ($cnt == 0) {
 					$pl->sendMessage(mc::_("You do not have any %1%",
-												  MPMU::itemName($item2)));
+												  ItemName::str($item2)));
 					return;
 				}
 				if ($cnt < $item2->getCount()) {
 					$pl->sendMessage(mc::_("You do not have enough %1%",
-												  MPMU::itemName($item2)));
+												  ItemName::str($item2)));
 					$pl->sendMessage(mc::_("You have %1%, you need %2%",
 												 $cnt, $item2->getCount()));
 					return;
@@ -190,15 +191,15 @@ class SignMgr implements Listener {
 					}
 				}
 				$pl->sendMessage(mc::n(
-					mc::_("Gave away one %1%",MPMU::itemName($item2)),
+					mc::_("Gave away one %1%",ItemName::str($item2)),
 					mc::_("Gave away %2% %1%s",
-							MPMU::itemName($item2),$item2->getCount()),
+							ItemName::str($item2),$item2->getCount()),
 					$item2->getCount()));
 				// Give new stock...
 				$pl->getInventory()->addItem(clone $item1);
 				$pl->sendMessage(mc::n(
-					mc::_("Got one %1%", MPMU::itemName($item1)),
-					mc::_("Got %2% %1%s", MPMU::itemName($item1),$item1->getCount()),
+					mc::_("Got one %1%", ItemName::str($item1)),
+					mc::_("Got %2% %1%s", ItemName::str($item1),$item1->getCount()),
 					$item1->getCount()));
 				break;
 			case "casino":

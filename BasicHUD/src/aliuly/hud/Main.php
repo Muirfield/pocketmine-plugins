@@ -19,8 +19,10 @@ use pocketmine\item\Item;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+
 use aliuly\hud\common\mc;
 use aliuly\hud\common\MPMU;
+use aliuly\hud\common\ItemName;
 
 interface Formatter {
 	static public function formatString(Main $plugin,$format,Player $player);
@@ -314,7 +316,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	}
 	public function onItemHeld(PlayerItemHeldEvent $ev){
 		if ($ev->getItem()->getId() == Item::AIR) return;
-		$this->sendPopup($ev->getPlayer(),MPMU::itemName($ev->getItem()),2);
+		$this->sendPopup($ev->getPlayer(),ItemName::str($ev->getItem()),2);
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {

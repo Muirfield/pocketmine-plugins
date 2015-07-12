@@ -22,15 +22,15 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/netherchests.9269/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
-This documentation was last updated for version **1.1.0dev1**.
+This documentation was last updated for version **1.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.0).
 
 <!-- template-end -->
 
@@ -56,9 +56,24 @@ The following sections are defined:
 
 ## Permission nodes
 
+# FAQ
+
+* Q: What happens when more than one player use the NetherChest?
+* A: when a player opens a NetherChest they see their own inventory,
+  not somebody elses.  However, only one player can use a NetherChest
+  at a time.
+* Q: It doesn't work with iProtector!
+* A: I don't use iProtector.  This plugin only listens to
+  _InventoryOpen_ and _InventoryClose_ (it also listens to
+  _BlockPlace_ and _PlayerQuit_, but that has nothing to do with
+  opening chests).  iProtector listens and **Cancels** PlayerInteract
+  events.  These are fired **before** Inventory events.  So, if you
+  are not able to get it to work with _iProtector_, your configuration
+  is **wrong**.
+
 # Changes
 
-* 1.1.0 :
+* 1.1.0 : flexibility
   - more configuration, NetherChests can be global now
   - MySQL support
   - Translation: English, Spanish, Dutch

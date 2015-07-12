@@ -55,7 +55,6 @@ class BcTpMgr implements Listener {
 	 * @priority MONITOR
 	 */
 	public function onTeleport(EntityTeleportEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n"; //##DEBUG
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getEntity();
 		if (!($pl instanceof Player)) return;

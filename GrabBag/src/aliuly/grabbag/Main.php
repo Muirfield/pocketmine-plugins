@@ -86,6 +86,7 @@ class Main extends BasicPlugin {
 			"join-mgr" => JoinMgr::defaults(),
 			"broadcast-tp" => BcTpMgr::defaults(),
 			"freeze-thaw" => CmdFreezeMgr::defaults(),
+			"cmd-selector" => CmdSelMgr::defaults(),
 		]);
 	}
 	public function rconDone($res,$data) {

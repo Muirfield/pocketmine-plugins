@@ -313,6 +313,7 @@ class ShopKeep implements Listener {
 	}
 	/* Buy stuf...*/
 	public function startTrade($buyer,$seller,$shop) {
+		if (!MPMU::access($buyer,"goldstd.shopkeep.shop")) return;
 		if ($this->getState("trade-inv",$buyer,null) !== null) {
 			echo "Already trading\n";//##DEBUG
 			return;
