@@ -23,6 +23,7 @@ For the most up to date documentation visit
 
 This plugin can be downloaded from its
 [Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
+<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.
 
 Contains quite a few utility functions. Available modules:

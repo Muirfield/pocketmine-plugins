@@ -39,9 +39,11 @@ if ($old != $txt) file_put_contents($mft,$txt);
 // Create download page
 //
 $dl = SRCDIR."downloads.md";
+$icon = "<img src=\"https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png\"/>";
 $otxt = file_exists($dl) ? file_get_contents($dl) : "";
 $ntxt = "";
-$ntxt = "# Downloads\n";
+$ntxt .= "# Downloads\n";
+$ntxt .= "\n";
 $fp = popen("cd ".SRCDIR."; git tag -l","r");
 $vlst = [];
 while (($ln = fgets($fp)) !== false) {
@@ -53,9 +55,16 @@ while (($ln = fgets($fp)) !== false) {
 	$vlst[] = $ln;
 }
 fclose($fp);
-print_r($vlst);
-
-
-
+$vlst[] = "1.1.0";
+$vlst[] = "1.2.0";
+function rversion_compare($a,$b) { return version_compare($b,$a);}
+usort($vlst,"rversion_compare");
+foreach ($vlst as $v) {
+	$url = "blah";
+	$ntxt .= "* <a href=\"$url\">$icon $v</a>\n";
+}
+if ($ntxt != $otxt) {
+	file_put_contents($dl,$ntxt);
+}
 
 exit("OK\n");
