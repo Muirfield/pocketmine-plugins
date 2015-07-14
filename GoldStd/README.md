@@ -228,6 +228,7 @@ Default values for paying players by tapping
 * goldstd.cmd.balance : Show your current balance
 * goldstd.cmd.shopkeep : ShopKeepr management
   (Defaults to Op)
+* goldstd.shopkeep.shop : Allow buying from shop keeper
 * goldstd.signs.use : Allow access to signs
 * goldstd.signs.use.casino : Allow access to casino signs
 * goldstd.signs.use.shop : Allow access to shopping signs

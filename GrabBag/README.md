@@ -747,6 +747,8 @@ The following third party libraries are included:
 
 # Changes
 
+* 2.2.6: Bugfix
+  * gift command fixing
 * 2.2.5:
   * Fixed bugs
   * CmdSelMgr: configure max
@@ -878,4 +880,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
