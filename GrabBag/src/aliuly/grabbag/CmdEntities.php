@@ -24,12 +24,16 @@
  **   - **entities** **nuke** _[all|mobs|others]_
  **     -Clear entities from the server.
  **
+ **   Additionally, tiles can be specified by providing the following:
+ **
+ **   - t(x),(y),(z)[,world]
  **/
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\math\Vector3;
 
 use pocketmine\Player;
 use pocketmine\entity\Living;
@@ -130,6 +134,24 @@ class CmdEntities extends BasicCli implements CommandExecutor {
 	private function getTile($id) {
 		if (strtolower(substr($id,0,1)) == "t") {
 			$id = substr($id,1);
+		}
+		if (preg_match('/^(\d+),(\d+),(\d+),(\S+)$/',$id,$mv)) {
+			$l = $this->owner->getServer()->getLevelByName($mv[4]);
+			if ($l === null) return null;
+			$mv = new Vector3($mv[1],$mv[2],$mv[3]);
+			return $l->getTile($mv);
+		}
+		if (preg_match('/^(\d+),(\d+),(\d+)$/',$id,$mv)) {
+			$l = $this->owner->getServer()->getDefaultLevel();
+			if ($l === null) return null;
+			$mv = new Vector3($mv[1],$mv[2],$mv[3]);
+			$e = $l->getTile($mv);
+			if ($e !== null) return $e;
+			foreach($this->owner->getServer()->getLevels() as $l) {
+				$e = $l->getTile($mv);
+				if ($e !== null) return $e;
+			}
+			return null;
 		}
 		if (!is_numeric($id)) return null;
 		$id = intval($id);

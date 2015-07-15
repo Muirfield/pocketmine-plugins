@@ -59,7 +59,7 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 			case "nick":
 				if (!MPMU::inGame($sender)) return true;
 				if (count($args) == 0) {
-					$sender->sendName(mc::_("Current nick is: %1%",$sender->getDisplayName()));
+					$sender->sendMessage(mc::_("Current nick is: %1%",$sender->getDisplayName()));
 					return true;
 				}
 				if (count($args) !== 1)  return false;

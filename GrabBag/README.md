@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.2.5**.
+This documentation was last updated for version **2.2.6**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.5).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.6).
 
 <!-- template-end -->
 
@@ -221,6 +221,9 @@ The following commands are available:
   - **entities** **nuke** _[all|mobs|others]_
     -Clear entities from the server.
 
+  Additionally, tiles can be specified by providing the following:
+
+  - t(x),(y),(z)[,world]
 * **fly**  
   Toggle flying **ONLY FOR PM1.5**  
 
@@ -248,7 +251,8 @@ The following commands are available:
   obtain an item  
 
   This is a shortcut to `/give` that lets player get items for
-  themselves.
+  themselves.  You can replace **item** with **more** and the
+  current held item will be duplicated.
 
 * **gift** _[player]_ _&lt;item&gt;_ _[count]_  
   give an item to a player  
@@ -749,6 +753,8 @@ The following third party libraries are included:
 
 * 2.2.6: Bugfix
   * gift command fixing
+  * ChatMgr crash fixing
+  * (@SM11) Edit tiles by location (instead of by id)
 * 2.2.5:
   * Fixed bugs
   * CmdSelMgr: configure max
@@ -880,3 +886,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+
