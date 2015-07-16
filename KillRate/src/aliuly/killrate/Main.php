@@ -295,13 +295,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo "VIC=$vic PERP=$perp\n";//##DEBUG
 		$this->updateDb($perp,$vic);
 		$awards = [ false,false];
-		if (isset($this->cfg["settings"]["points"])) {
+		if ($this->cfg["settings"]["points"]) {
 			// Add points...
 			list($points,$money) = $this->getPrizes($vic);
 			$this->updateDb($perp,"points",$points);
 			$awards[0] = $points;
 		}
-		if (isset($this->cfg["settings"]["rewards"])) {
+		if ($this->cfg["settings"]["rewards"]) {
 			// Add money...
 			list($points,$money) = $this->getPrizes($vic);
 			MoneyAPI::grantMoney($this->money,$perp,$money);
@@ -399,7 +399,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
 					if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("serialKiller");
 					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
-					if (isset($this->cfg["settings"]["rewards"])) {
+					if ($this->cfg["settings"]["rewards"]) {
 						list($points,$money) = $this->getPrizes($vic);
 						$pp->sendMessage(TextFormat::GREEN.
 											  mc::_("You earn an additional $%1% for being in kill-streak!",$money));

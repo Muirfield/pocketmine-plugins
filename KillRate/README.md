@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.2.2**.
+This documentation was last updated for version **1.2.3**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-1.2.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-1.2.3).
 
 <!-- template-end -->
 
@@ -183,7 +183,7 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 * 1.2.3:
   * MySqlMgr: Fixed typo
-
+  * Fixed bug with setting rewards/points to false (Reported by @reidq7)
 * 1.2.2
   * small tweaks on the comments of the config file...
   * Added achievements
