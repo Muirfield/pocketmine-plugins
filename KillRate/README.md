@@ -181,6 +181,8 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
 # Changes
 
+* 1.2.4: Bug Fix
+  * Fixed bug prevents scoring on creative
 * 1.2.3:
   * MySqlMgr: Fixed typo
   * Fixed bug with setting rewards/points to false (Reported by @reidq7)
@@ -234,4 +236,3 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

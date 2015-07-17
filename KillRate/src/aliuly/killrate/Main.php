@@ -385,7 +385,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!($pp instanceof Player)) return; // Not killed by player...
 		// No scoring for creative players...
-		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
+		if ($pp->isCreative() && !$this->cfg["settings"]["creative"]) return;
 		if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("killer");
 		$perp = $pp->getName();
 		$vic = $pv->getName();
