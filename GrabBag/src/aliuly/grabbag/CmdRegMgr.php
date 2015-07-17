@@ -54,6 +54,7 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 													$cnt));
 				return true;
 			case "ls":
+			case "list":
 				$pageNumber = $this->getPageNumber($args);
 				if (count($args) == 0) {
 					$pattern = "*";

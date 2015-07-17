@@ -751,6 +751,8 @@ The following third party libraries are included:
 
 # Changes
 
+* ???
+  * Minor fix in Reg command
 * 2.2.6: Bugfix
   * gift command fixing
   * ChatMgr crash fixing
@@ -886,4 +888,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-
