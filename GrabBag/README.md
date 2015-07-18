@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.2.6**.
+This documentation was last updated for version **2.2.7**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.6).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.7).
 
 <!-- template-end -->
 
@@ -513,6 +513,7 @@ The following selectors are implemented:
 - m: game mode
 - type: entity type, use Player for player.
 - name: player's name`
+- w: world
 
 #### join-mgr
 
@@ -751,8 +752,10 @@ The following third party libraries are included:
 
 # Changes
 
-* ???
+* 2.2.7:
   * Minor fix in Reg command
+  * Fixed bug in Command Selector (@Legoboy0215 and @SM11)
+  * Command selector: w=world (@SM11)
 * 2.2.6: Bugfix
   * gift command fixing
   * ChatMgr crash fixing
@@ -888,3 +891,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

@@ -20,6 +20,7 @@
  ** - m: game mode
  ** - type: entity type, use Player for player.
  ** - name: player's name`
+ ** - w: world
  **
  ** CONFIG:cmd-selector
  **/
@@ -79,10 +80,10 @@ class CmdSelMgr extends BasicCli implements Listener {
 		if ($res === false) return;
 		$ev->setCancelled();
 		foreach($res as $c) {
-			$this->owner->getServer()->getPluginManager()->callEvent($ne = new PlayerCommandPreprocessEvent_sub($ev->getSender(), "/".$c));
+			$this->owner->getServer()->getPluginManager()->callEvent($ne = new PlayerCommandPreprocessEvent_sub($ev->getPlayer(), "/".$c));
 			if($ne->isCancelled()) continue;
 			if (substr($ne->getMessage(),0,1) !== "/") continue;
-			$this->owner->getServer()->dispatchCommand($ne->getSender(), substr($ne->getMessage(),1));
+			$this->owner->getServer()->dispatchCommand($ne->getPlayer(), substr($ne->getMessage(),1));
 		}
 	}
 	/**
@@ -192,6 +193,14 @@ class CmdSelMgr extends BasicCli implements Listener {
 						if($value !== strtolower($item->getName())) return false;
 					}
 					break;
+				case "w":
+					// Non standard
+					if ($value{0} === "!") {
+						if(substr($value,1) === strtolower($item->getLevel()->getName())) return false;
+					} else {
+						if($value !== strtolower($item->getLevel()->getName())) return false;
+					}
+				  break;
 				case "type":
 					if ($item instanceof Player) {
 						$type = "player";
