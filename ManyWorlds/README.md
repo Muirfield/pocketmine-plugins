@@ -172,10 +172,11 @@ for sample files.
 
 # Changes
 
-* 2.0.1: TBD
+* 2.0.1: Bug fix
   * Changed command to manyworlds and mw is an alias.  This is to
     prevent possible name collisions.
   * Completed Spanish translation.
+  * Fixed crash (reported by @reyak)
 * 2.0.0: Modularization
   * Re-written for modularity
   * teleport manager API deprecated
