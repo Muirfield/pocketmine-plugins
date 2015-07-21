@@ -22,6 +22,7 @@ use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\inventory\InventoryCloseEvent;
 use pocketmine\event\inventory\InventoryOpenEvent;
+use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 
 use aliuly\nechest\common\mc;
@@ -152,11 +153,40 @@ class Main extends PluginBase implements Listener {
 		if ($bl->getId() != Block::CHEST || $bl->getSide(Vector3::SIDE_DOWN)->getId() != $this->base_block) return;
 		$ev->getPlayer()->sendMessage(mc::_("Placed a NetherChest"));
 	}
+	public function onBlockBreakEvent(BlockBreakEvent $ev) {
+		if ($ev->isCancelled()) return;
+		$bl = $ev->getBlock();
+		if ($bl->getId() == $this->base_block) $bl = $bl->getSide(Vector3::SIDE_UP);
+		if ($bl->getId() == Block::CHEST) {
+			$tile = $bl->getLevel()->getTile($bl);
+			if ($tile == null) return;
+			if (!($tile instanceof Chest)) return;
+			$inv = $tile->getInventory();
+			if (!$this->isNeChest($inv)) return;
+			$cid = self::chestId($inv);
+			if (!isset($this->chests[$cid])) return;
+			$ev->getPlayer()->sendTip(mc::_("That NetherChest is in use!"));
+			$ev->setCancelled();
+			return;
+		}
+	}
 
 	public function onPlayerQuitEvent(PlayerQuitEvent $ev) {
 		$pn = self::iName($ev->getPlayer());
 		foreach (array_keys($this->chests) as $cid) {
-			if ($this->chests[$cid] == $pn) unset($this->chests[$cid]);
+			if ($this->chests[$cid] == $pn) {
+				unset($this->chests[$cid]);
+				list($level,$x,$y,$z) = explode(":",$cid);
+				$level = $this->getServer()->getLevelByName($level);
+				if ($level == null) continue;
+				$tile = $level->getTile(new Vector3($x,$y,$z));
+				if ($tile == null) continue;
+				if (!($tile instanceof Chest)) continue;
+				$inv = $tile->getInventory();
+				if (!$this->isNeChest($inv)) continue;
+				// QUITING WHILE NETHER CHEST IS OPEN!
+				$this->saveInventory($ev->getPlayer(),$inv);
+			}
 		}
 	}
 	public function onInventoryCloseEvent(InventoryCloseEvent $ev) {
