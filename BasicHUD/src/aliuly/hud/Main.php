@@ -266,24 +266,38 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			// Single format only
 			$this->format = [ $cf["format"], self::pickFormatter($cf["format"]) ];
 		}
-		$code = '$this->_getMessage = function($plugin,$player){';
+		$this->_getMessage = null;
+		$code = '$this->_getMessage = function($plugin,$player){ ';
 		if (file_exists($this->getDataFolder()."message.php")) {
 			$code .= file_get_contents($this->getDataFolder()."message.php");
 		} else {
 			$code .= $this->getResourceContents("message-example.php");
 		}
 		$code .= '};';
-		eval($code);
+		if (eval($code) === false) {
+			$err = error_get_last();
+			$this->getLogger()->error(mc::_("PHP error in message.php, %1%: %2%",$err["line"], $err["message"]));
+		}
 
+		$this->_getVars = null;
 		if (file_exists($this->getDataFolder()."vars.php")) {
-			$code = '$this->_getVars = function($plugin,&$vars,$player){' ."\n".
+			$code = '$this->_getVars = function($plugin,&$vars,$player){ '.
 					file_get_contents($this->getDataFolder()."vars.php").
 					'};'."\n";
 			//echo $code."\n";//##DEBUG
-			eval($code);
+			if (eval($code) === false) {
+				$err = error_get_last();
+				$this->getLogger()->error(mc::_("PHP error in vars.php, %1%: %2%",$err["line"], $err["message"]));
+			}
 		} else {
 			// Empty function (this means we do not need to test _getVars)
 			$this->_getVars = function(){};
+		}
+		if ($this->_getVars == null || $this->_getMessage == null) {
+			if ($this->_getVars == null) $this->getLogger()->error(TextFormat::RED.mc::_("Error in vars.php"));
+			if ($this->_getMessage == null) $this->getLogger()->error(TextFormat::RED.mc::_("Error in message.php"));
+			throw new \RunTimeException("Error loading custom code!");
+			return;
 		}
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new PopupTask($this), $cf["ticks"]);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
