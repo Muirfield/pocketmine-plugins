@@ -40,6 +40,14 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
+	private function findPlugin($path) {
+		if (file_exists($path)) return $path;
+		$srv = $this->owner->getServer();
+		foreach ([$srv->getPluginPath(),$srv->getDataPath(),$srv->getFilePath()] as $d) {
+			if (file_exists($d.'/'.$path)) return $d.'/'.$path;
+		}
+		return $path;
+	}
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("pluginmgr",
@@ -58,6 +66,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 
 		$mgr = $this->owner->getServer()->getPluginManager();
 		if ($scmd == "load" || $scmd == "ld") {
+			$pname = $this->findPlugin($pname);
 			if (!file_exists($pname)) {
 				$sender->sendMessage(TextFormat::RED.mc::_("%1%: Not found",$pname));
 				return true;
