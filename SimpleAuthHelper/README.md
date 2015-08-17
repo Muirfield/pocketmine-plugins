@@ -14,6 +14,10 @@
 
 ## Overview
 
+<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
+<!-- template: prologue.md -->
+<!-- template-end -->
+
 A plugin that simplifies the login process... Instead of
 asking for commands, users simply chat away...
 
@@ -49,7 +53,7 @@ password.  They type their login password directly (without
 * *logout*
   * De-authenticates a player.
 
-### Configuration
+### Config
 
 	```YAML
 	[CODE]
@@ -74,7 +78,7 @@ password.  They type their login password directly (without
 * **event-fixer**: More code to disable events for unauthenticated players.
   _This is an experimental feature!_.
 
-### Permissions
+### Permission Nodes
 
 * simpleauthhelper.command.chpwd: User can change password
 * simpleauthhelper.command.resetpwd: Ops can reset a user's password
