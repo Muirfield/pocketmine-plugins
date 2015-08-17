@@ -9,19 +9,19 @@
  **
  **   Manage plugins.
  **   The following sub-commands are available:
- **   - **pluginmgr** **enable** _<plugin>_
+ **   - **pluginmgr** **enable** _&lt;plugin&gt;_
  **     - Enable a disabled plugin.
- **   - **pluginmgr** **disable** _<plugin>_
+ **   - **pluginmgr** **disable** _&lt;plugin&gt;_
  **     - Disables an enabled plugin.
- **   - **pluginmgr** **reload** _<plugin>_
+ **   - **pluginmgr** **reload** _&lt;plugin&gt;_
  **     - Disables and enables a plugin.
- **   - **pluginmgr** **info** _<plugin>_
+ **   - **pluginmgr** **info** _&lt;plugin&gt;_
  **     - Show plugin details
- **   - **pluginmgr** **commands** _<plugin>_
+ **   - **pluginmgr** **commands** _&lt;plugin&gt;_
  **     - Show commands registered by plugin
- **   - **pluginmgr** **permissions** _<plugin>_
+ **   - **pluginmgr** **permissions** _&lt;plugin&gt;_
  **     - Show permissions registered by plugin
- **   - **pluginmgr** **load** _<path>_
+ **   - **pluginmgr** **load** _&lt;path&gt;_
  **     - Load a plugin from file path (presumably outside the **plugin** folder.)
  **
  **/
