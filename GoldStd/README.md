@@ -279,6 +279,8 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* 1.2.2: Bug fixes
+  * Fixing Effects permissions (reported by @may)
 * 1.2.1: Bug fixes
   * Weapons are detected using isSword, isAxe and isPickaxe.
   * Fixed bug that caused inventory to be lost (Thanks @reidq7 for figuring it out)
@@ -316,4 +318,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

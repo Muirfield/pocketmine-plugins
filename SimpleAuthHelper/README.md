@@ -14,9 +14,11 @@
 
 ## Overview
 
-
-Very simple plugin that simplifies the login process... Instead of
+A plugin that simplifies the login process... Instead of
 asking for commands, users simply chat away...
+
+I also provides for a number of tweaks that can improve the usability of
+[SimpleAuth](https://forums.pocketmine.net/plugins/simpleauth.4/).
 
 ### Register process
 
@@ -35,16 +37,17 @@ password.  They type their login password directly (without
 
 ## Documentation
 
-As a bonus, it can start a player with initial inventory upon
-registration.  This is configured through the **nest-egg** setting.
-
 ### Commands
 
-* *chpwd* _<old-pwd>_
+* *chpwd* _&lt;old-pwd&gt;_
   * Used by players to change their passwords.
-* *resetpwd* _<player>_
+* *resetpwd* _&lt;player&gt;_
   * Used by ops to reset a players password.  This actually unregisters
     the password.
+* *preregister* _&lt;player&gt;_  _&lt;passwd&gt;_
+  * Used by ops to pre-register players.
+* *logout*
+  * De-authenticates a player.
 
 ### Configuration
 
@@ -54,7 +57,10 @@ registration.  This is configured through the **nest-egg** setting.
 	login-timeout: 60
 	leet-mode: true
 	chat-protect: true
+  hide-unauth: false
+  event-fixer: false
 	[/CODE]
+  ```
 
 * **max-attempts** counts the number of tries to login.
 * **login-timeout** will kick the player out if not authenticated in
@@ -63,11 +69,18 @@ registration.  This is configured through the **nest-egg** setting.
   authenticating.
 * **chat-protect**: Monitors chat lines and if it notices a user
   entering their password it will stop that.
+* **hide-unath**: Makes player invisible until they authenticate.
+  _This is an experimental feature!_.
+* **event-fixer**: More code to disable events for unauthenticated players.
+  _This is an experimental feature!_.
 
 ### Permissions
 
 * simpleauthhelper.command.chpwd: User can change password
 * simpleauthhelper.command.resetpwd: Ops can reset a user's password
+* simpleauthhelper.command.logout: User can logout
+* simpleauthhelper.command.prereg: Ops can pre-register players
+
 
 # Changes
 
@@ -78,6 +91,7 @@ registration.  This is configured through the **nest-egg** setting.
   - leet-mode also works for /register.
   - Removed auto-ban.  It is now done in SimpleAuth.
   - Added support for hiding unauthenticated players (Suggested by @CaptainKenji17)
+  - Added pre-register and logout command
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.

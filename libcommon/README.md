@@ -28,8 +28,14 @@ page.
 
 Contains quite a few utility functions. Available modules:
 
-- mc - translation
+- BasicCli - My class to impelements commands and/or sub-commands
+- BasicHelp - Implements help functionality for sub-commands
+- BasicPlugin - My extensions to PluginBase
 - Cmd - execute PocketMine commands from a PHP module.
+- GetMotd - Retrieve motd data from remote servers
+- GetMotdAsyncTask - An AsyncTask wrapper for GetMotd
+- ItemName - Return object names
+- mc - translation
 - MoneyAPI - supports the following economy plugins:
   - GoldStd
   - PocketMoney
@@ -37,12 +43,11 @@ Contains quite a few utility functions. Available modules:
   - MassiveEconomy
 - MPMU - miscellaneous utilities
 - Npc - Non-player character functionality
-- PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
-- BasicPlugin - My extensions to PluginBase
-- BasicCli - My class to impelements commands and/or sub-commands
-- BasicHelp - Implements help functionality for sub-commands
 - PluginAsyncTask - A simple wrapper around AsyncTask
+- PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
 - QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery
+- Rcon - Rcon functionality
+- RconTask - An AsyncTask wrapper for Rcon
 
 Features:
 
@@ -73,8 +78,9 @@ Link.
 
 ## Changes
 
-- 1.1.1: Update 1<br/>
+- 1.2.0: Update 2<br/>
   * MoneyAPI bug fix<br/>
+  * Added GetMotdAsyncTask<br/>
 - 1.1.0: Update 1<br/>
   * Added ItemName class (with more item names)<br/>
   * Removed MPMU::itemName<br/>

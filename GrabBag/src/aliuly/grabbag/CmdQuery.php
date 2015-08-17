@@ -15,8 +15,16 @@
  **     - Removes `query` connection `id`.
  **   - **query ls**
  **     - List configured `query` connections.
- **   - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
- **     - Sends the `command` to the connection `id`.
+ **   - **query list**
+ **     - List players on all configured `query` connections.
+ **   - **query info** _&lt;id&gt;_
+ **     - Return details from query
+ **   - **query players** _&lt;id&gt;_
+ **     - Return players on specified server
+ **   - **query plugins** _&lt;id&gt;_
+ **     - Returns plugins on specified server
+ **   - **query summary**
+ **     - Summary of server data
  **
  ** CONFIG:query-hosts
  **
@@ -45,7 +53,7 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		$this->servers = $cfg;
 		$this->enableCmd("query",
 							  ["description" => mc::_("Query servers"),
-								"usage" => mc::_("/query [add|rm|ls|info|plugins|players|summary] <opts>"),
+								"usage" => mc::_("/query [add|rm|ls|list|info|plugins|players|summary] <opts>"),
 								"permission" => "gb.cmd.query"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {

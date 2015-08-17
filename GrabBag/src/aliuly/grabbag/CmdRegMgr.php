@@ -14,9 +14,9 @@
  **   - **list** _[pattern]_
  **     - Display a list of registered players or those that match the
  **       wildcard _pattern_.
- **   - **rm** _<player>_
- **     - Removes _<player>_ registration.
- **   - **since** _<when>_
+ **   - **rm** _&lt;player&gt;_
+ **     - Removes _&lt;player&gt;_ registration.
+ **   - **since** _&lt;when&gt;_
  **			- Display list of players registered since a date/time.
  **/
 
