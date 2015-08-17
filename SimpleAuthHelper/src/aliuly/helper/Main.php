@@ -218,7 +218,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		unset($this->pwds[$n]);
 		return;
 	}
-	public function checkPwd($pl,$pwd) {
+	public function checkPwd($pl,$pwd, $name = null) {
 		if (preg_match('/\s/',$pwd)) {
 			$pl->sendMessage(TextFormat::RED.mc::_("no spaces"));
 			return false;
@@ -228,9 +228,9 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 										  $this->auth->getConfig()->get("minPasswordLength")));
 			return false;
 		}
-		if (strtolower($pl->getName()) == strtolower($pwd)) {
-			$pl->sendMessage(TextFormat::RED.mc::_("not name"));
-			return false;
+		if (strtolower($name === null ? $pl->getName() : $name) == strtolower($pwd)) {
+		  $pl->sendMessage(TextFormat::RED.mc::_("not name"));
+		  return false;
 		}
 		return true;
 	}
@@ -247,6 +247,66 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	// Commands
 	//
 	//////////////////////////////////////////////////////////////////////
+	private function chpwd(CommandSender $sender, $oldpwd) {
+		if (!($sender instanceof Player)) {
+			$sender->sendMessage(TextFormat::RED.
+										mc::_("This command only works in-game."));
+			return true;
+		}
+		if(!$this->auth->isPlayerRegistered($sender)) {
+			$sender->sendMessage(TextFormat::YELLOW.mc::_("register first"));
+			return true;
+		}
+		if ($this->authenticate($sender,$oldpwd)) {
+			$this->chpwd[$sender->getName()] = $sender->getName();
+			$sender->sendMessage(TextFormat::AQUA.mc::_("chpwd msg"));
+			return true;
+		}
+		$sender->sendMessage(TextFormat::RED.mc::_("chpwd error"));
+		return false;
+	}
+	private function resetpwd($sender, $name) {
+		$player = $this->getServer()->getOfflinePlayer($name);
+		if($this->auth->unregisterPlayer($player)){
+			$sender->sendMessage(TextFormat::GREEN . mc::_("%1% unregistered",$name));
+			if($player instanceof Player){
+				$player->sendMessage(TextFormat::YELLOW.mc::_("You are no longer registered!"));
+				$this->auth->deauthenticatePlayer($player);
+			}
+		}else{
+			$sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
+		}
+		return true;
+	}
+	private function logout($sender) {
+		if (!($sender instanceof Player)) {
+			$sender->sendMessage(TextFormat::RED.
+										mc::_("This command only works in-game."));
+			return true;
+		}
+		if(!$this->auth->isPlayerAuthenticated($sender)) {
+			$sender->sendMessage(TextFormat::YELLOW.mc::_("login first"));
+			return true;
+		}
+		$sender->sendMessage(TextFormat::GREEN.mc::_("logout completed"))
+		$this->auth->deauthenticatePlayer($sender);
+		return true;
+	}
+	private function prereg($sender,$name,$newpwd) {
+		$player = $this->getServer()->getOfflinePlayer($name);
+		if ($this->auth->isPlayerRegistered($player)) {
+			$sender->sendMessage(TextFormat::RED.mc::_("%1% already registered", $name));
+			return true;
+		}
+		if (!$this->checkPwd($sender,$newpwd,$name)) return true;
+		if ($this->auth->registerPlayer($player,$newpwd)) {
+			$sender->sendMessage(TextFormat::GREEN.mc::_("registered %1%", $name));
+			$sender->sendMessage("OK");
+		} else {
+			$sender->sendMessage(TextFormat::RED.mc::_("error registering %1%", $name));
+		}
+		return true;
+	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		if (!$this->auth) {
 			$sender->sendMessage(TextFormat::RED.mc::_("SimpleAuthHelper has been disabled"));
@@ -255,39 +315,17 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 		switch($cmd->getName()){
 			case "chpwd":
-				if (!($sender instanceof Player)) {
-					$sender->sendMessage(TextFormat::RED.
-												mc::_("This command only works in-game."));
-					return true;
-				}
 				if (count($args) == 0) return false;
-				if(!$this->auth->isPlayerRegistered($sender)) {
-					$sender->sendMessage(TextFormat::YELLOW.mc::_("register first"));
-					return true;
-				}
-				if ($this->authenticate($sender,implode(" ", $args))) {
-					$this->chpwd[$sender->getName()] = $sender->getName();
-					$sender->sendMessage(TextFormat::AQUA.mc::_("chpwd msg"));
-					return true;
-				}
-				$sender->sendMessage(TextFormat::RED.mc::_("chpwd error"));
-				return false;
-				break;
+				return $this->chpwd($sender, implode(" ", $args));
 			case "resetpwd":
-				foreach($args as $name){
-					$player = $this->getServer()->getOfflinePlayer($name);
-					if($this->auth->unregisterPlayer($player)){
-						$sender->sendMessage(TextFormat::GREEN . mc::_("%1% unregistered",$name));
-						if($player instanceof Player){
-							$player->sendMessage(TextFormat::YELLOW.mc::_("You are no longer registered!"));
-							$this->auth->deauthenticatePlayer($player);
-						}
-					}else{
-						$sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
-					}
-					return true;
-				}
-				break;
+				if (count($args) != 1) return false;
+				return $this->resetpwd($sender, $args[1]);
+			case "logout":
+				if (count($args) != 0) return false;
+				return $this->logout($sender);
+			case "preregister":
+				if (count($args) != 2) return false;
+				return $this->prereg($sender,$args[0],$args[1]);
 		}
 		return false;
 	}
