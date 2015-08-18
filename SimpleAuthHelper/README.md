@@ -67,30 +67,6 @@ password.  They type their login password directly (without
 * *logout*
   * De-authenticates a player.
 
-### Config
-
-	```YAML
-	[CODE]
-	max-attempts: 5
-	login-timeout: 60
-	leet-mode: true
-	chat-protect: true
-  hide-unauth: false
-  event-fixer: false
-	[/CODE]
-  ```
-
-* **max-attempts** counts the number of tries to login.
-* **login-timeout** will kick the player out if not authenticated in
-  that number of seconds.
-* **leet-mode**: If enabled, will allow user to still use **/login** when
-  authenticating.
-* **chat-protect**: Monitors chat lines and if it notices a user
-  entering their password it will stop that.
-* **hide-unath**: Makes player invisible until they authenticate.
-  _This is an experimental feature!_.
-* **event-fixer**: More code to disable events for unauthenticated players.
-  _This is an experimental feature!_.
 
 ### Permission Nodes
 
@@ -123,6 +99,24 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 *  event-fixer: EXPERIMENTAL, cancels additional events for unauthenticated players
 *  perms-hacker: EXPERIMENTAL, Overrides permissions to make sure players can login
 
+# Player pre-registration
+
+It is possible to implement a web based pre-registration system with this
+plugin.
+
+1. *rcon* must be enabled on the PocketMine server.
+2. web server must be able to send *rcon* commands to PocketMine.
+3. Enable the *whitelist* functionality in PocketMine.
+4. Install *SimpleAuth* and *SimpleAuthHelper*.
+5. **Optionally** install *PurePerms* and disable
+   `simpleauthhelper.command.chpwd` permission.
+6. Whenever a user registers in web site, the web site script uses *rcon*
+   to send the follwoing:
+   - whitelist add _player_
+   - preregister _player_ _passwd_
+7. Whenever a user changes password in web site, we use *rcon* with:
+   - resetpwd _player_
+   - preregister _player_ _passwd_
 
 # Changes
 
@@ -143,7 +137,7 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 * 1.2.1: CallbackTask deprecation
   * Removed CallbackTask deprecation warnings
 * 1.2.0: max-logins
-  * Suggestion from MCPEPIG
+  * Suggestion from @MCPEPIG
     - kick user out after `max-attempts`.
     - Added a chpwd command.
   * Kick user out if not authenticated after `timeout` seconds.
@@ -171,4 +165,3 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
