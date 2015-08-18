@@ -26,6 +26,8 @@ use aliuly\spawnmgr\common\PluginCallbackTask;
 use aliuly\spawnmgr\common\MPMU;
 use aliuly\spawnmgr\common\mc;
 use aliuly\spawnmgr\common\ItemName;
+use aliuly\common\ArmorItems;
+
 
 class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $items;
@@ -205,23 +207,14 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	private function giveArmor($pl) {
 		if (!$pl->hasPermission("spawnmgr.receive.armor")) return;
 
-		$slot_map = [ "helmet" => 0, "chestplate" => 1, "leggings" => 2,
-						  "boots" => 3 , "cap" => 0, "tunic" => 1,
-						  "pants" => 2 ];
 		$inventory = [];
 		foreach ($this->armor as $j) {
 			$item = Item::fromString($j);
-			$itemName = explode(" ",strtolower(ItemName::str($item)),2);
-			if (count($itemName) != 2) {
+			$slot = ArmorItems::getArmorPart($item->getId());
+			if ($slot == ArmorItems::ERROR) {
 				$this->getLogger()->error(mc::_("Invalid armor item: %1%",$j));
 				continue;
 			}
-			list($material,$type) = $itemName;
-			if (!isset($slot_map[$type])) {
-				$this->getLogger()->error(mc::_("Invalid armor type: %1% for %2%",$type,$material));
-				continue;
-			}
-			$slot = $slot_map[$type];
 			$inventory[$slot] = $item;
 		}
 		foreach ($inventory as $slot => $item) {
