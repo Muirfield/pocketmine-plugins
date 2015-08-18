@@ -9,7 +9,6 @@ use pocketmine\Player;
  */
 class KillRate {
   protected $plugin;
-  protected $state;
   /**
    * @param KillRatePlugin $owner - plugin that owns this session
    */
