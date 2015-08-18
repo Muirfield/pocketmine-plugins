@@ -28,10 +28,13 @@ page.
 
 Contains quite a few utility functions. Available modules:
 
+- ArmorItems - Utilities to handle Armor/Item relations
 - BasicCli - My class to impelements commands and/or sub-commands
 - BasicHelp - Implements help functionality for sub-commands
 - BasicPlugin - My extensions to PluginBase
 - Cmd - execute PocketMine commands from a PHP module.
+- FileUtils - Generic file system functions
+- FreezeSession - Session implementing frozen players
 - GetMotd - Retrieve motd data from remote servers
 - GetMotdAsyncTask - An AsyncTask wrapper for GetMotd
 - ItemName - Return object names
@@ -48,6 +51,7 @@ Contains quite a few utility functions. Available modules:
 - QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery
 - Rcon - Rcon functionality
 - RconTask - An AsyncTask wrapper for Rcon
+- Session - Basic session management
 
 Features:
 
@@ -81,6 +85,8 @@ Link.
 - 1.2.0: Update 2<br/>
   * MoneyAPI bug fix<br/>
   * Added GetMotdAsyncTask<br/>
+  * Added Session management<br/>
+  * Added FileUtils<br/>
 - 1.1.0: Update 1<br/>
   * Added ItemName class (with more item names)<br/>
   * Removed MPMU::itemName<br/>

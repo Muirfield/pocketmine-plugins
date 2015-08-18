@@ -5,13 +5,10 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
-use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use aliuly\common\mc;
 use aliuly\common\BasicHelp;
-
-use pocketmine\event\player\PlayerQuitEvent;
 
 /**
  * Simple extension to the PocketMine PluginBase class
@@ -19,7 +16,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 abstract class BasicPlugin extends PluginBase implements Listener {
 	protected $modules = [];
 	protected $scmdMap = [];
-	protected $state = [];
+	protected $session;
 
 	/**
 	 * Given some defaults, this will load optional features
@@ -56,8 +53,7 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 			$this->getLogger()->info(mc::_("NO features enabled"));
 			return;
 		}
-		$this->state = [];
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->session = null;
 		$this->getLogger()->info(mc::n(mc::_("Enabled one feature"),
 													 mc::_("Enabled %1% features",$c),
 													 $c));
@@ -150,14 +146,6 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		}
 	}
 	/**
-	 * Handle player quit events.  Free's data used by the state tracking
-	 * code.
-	 */
-	public function onPlayerQuit(PlayerQuitEvent $ev) {
-		$n = strtolower($ev->getPlayer()->getName());
-		if (isset($this->state[$n])) unset($this->state[$n]);
-	}
-	/**
 	 * Get a player state for the desired module/$label.
 	 *
 	 * @param str $label - state variable to get
@@ -166,11 +154,8 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 	 * @return mixed
 	 */
 	public function getState($label,$player,$default) {
-		if ($player instanceof CommandSender) $player = $player->getName();
-		$player = strtolower($player);
-		if (!isset($this->state[$player])) return $default;
-		if (!isset($this->state[$player][$label])) return $default;
-		return $this->state[$player][$label];
+		if ($this->session === null) return $default;
+		return $this->session->getState($label,$player,$default);
 	}
 	/**
 	 * Set a player related state
@@ -181,11 +166,8 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 	 * @return mixed
 	 */
 	public function setState($label,$player,$val) {
-		if ($player instanceof CommandSender) $player = $player->getName();
-		$player = strtolower($player);
-		if (!isset($this->state[$player])) $this->state[$player] = [];
-		$this->state[$player][$label] = $val;
-		return $val;
+		if ($this->session === null) $this->session = new Session($this);
+		return $this->session->setState($label,$player,$val);
 	}
 	/**
 	 * Clears a player related state
@@ -194,11 +176,8 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 	 * @param Player|str $player - intance of Player or their name
 	 */
 	public function unsetState($label,$player) {
-		if ($player instanceof CommandSender) $player = $player->getName();
-		$player = strtolower($player);
-		if (!isset($this->state[$player])) return;
-		if (!isset($this->state[$player][$label])) return;
-		unset($this->state[$player][$label]);
+		if ($this->session === null) return;
+		$this->session->unsetState($label,$player);
 	}
 
 	/**
