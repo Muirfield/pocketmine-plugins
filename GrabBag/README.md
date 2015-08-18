@@ -750,10 +750,17 @@ The following third party libraries are included:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
 
+## WIP
+
+* Adding an API
+
 # Changes
 
 * 2.2.8: Update
   * Plugin loader will check server paths (include plugin folder)
+  * Doc updates.
+  * Updating libcommon stuff.
+  * WhoIs command now supports [PurePerms](https://forums.pocketmine.net/plugins/pureperms.862/)
 * 2.2.7:
   * Minor fix in Reg command
   * Fixed bug in Command Selector (@Legoboy0215 and @SM11)

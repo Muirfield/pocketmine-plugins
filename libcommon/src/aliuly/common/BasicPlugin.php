@@ -62,7 +62,15 @@ abstract class BasicPlugin extends PluginBase implements Listener {
 		}
 		return $cfg;
 	}
-
+  /**
+	 * Get module
+	 * @param str $module - module to retrieve
+	 * @return mixed|null
+	 */
+	public function getModule($str) {
+		if (isset($this->modules[$str])) return $this->modules[$str];
+		return null;
+	}
 	/**
 	 * Save a config section to the plugins' config.yml
 	 *

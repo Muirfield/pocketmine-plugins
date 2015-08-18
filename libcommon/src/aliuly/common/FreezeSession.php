@@ -7,17 +7,25 @@ use pocketmine\event\player\PlayerMoveEvent;
 /**
  * Frozen Player sessions
  *
- * TODO:
- * Check if GrabBag exists, if so, this will call GrabBag...
+ * NOTE, if GrabBag is available, it will use the GrabBag freeze-thaw
+ * implementation.  This gives you a command line interface and also
+ * reduces the number of listeners in use.
  */
 class FrozenSession extends Session {
   protected $hard;
+  protected $api;
   /**
    * @param PluginBase $owner - plugin that owns this session
    * @param bool $hard - hard freeze option
    */
   public function __construct(PluginBase $owner, $hard = true) {
+    $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
+    if ($bag && intval($bag->getDescription()->getVersion()) == 2 && $bag->getModule("freeze-thaw") !== null) { // EXPERIMENTAL!
+      $this->api = $bag->api;
+      return;
+    }
     parent::__construct($owner);
+    $this->api = null;
     $this->hard = $hard;
   }
   /**
@@ -43,15 +51,20 @@ class FrozenSession extends Session {
    * Checks if hard or soft freezing
    * @return bool
    */
-  public function isHard() {
+  public function isHardFreeze() {
+    if ($this->api !== null) return $this->api->isHardFreeze();
     return $this->hard;
   }
   /**
    * Sets hard or soft freezing
    * @param bool $hard - if true (default) hard freeze is in effect.
    */
-  public function setHard($hard = true) {
-    $this->hard = $hard;
+  public function setHardFreeze($hard = true) {
+    if ($this->api !== null) {
+      $this->api->setHardFreeze($hard);
+    } else {
+      $this->hard = $hard;
+    }
   }
   /**
    * Freeze given player
@@ -59,6 +72,10 @@ class FrozenSession extends Session {
    * @param bool $freeze - if true (default) freeze, if false, thaw.
    */
   public function freeze(Player $player, $freeze = true) {
+    if ($this->api !== null) {
+      $this->api->freeze($player,$freeze);
+      return;
+    }
     if ($freeze) {
       $this->setState("fz",$player,true);
     } else {
@@ -70,6 +87,7 @@ class FrozenSession extends Session {
    * @return str[]
    */
   public function getFrosties() {
+    if ($this->api !== null) return $this->api->getFrosties();
     $s = [];
     foreach ($this->state as $n=>$d) {
       if (isset($d["fz"])) $s[] = $n;
