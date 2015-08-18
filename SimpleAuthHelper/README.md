@@ -2,10 +2,9 @@
 
 # SimpleAuthHelper
 
-
-* Summary: Simplifies the SimpleAuth login process
-* Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* Summary: Simplifies the way people authenticate to servers
+* Dependency Plugins: SimpleAuth
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: SimpleAuth
 * OptionalPlugins: -
 * Categories: General
@@ -16,6 +15,21 @@
 
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
 <!-- template: prologue.md -->
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/simpleauthhelper.8074/) for
+that.  You are more likely to get a response and help that way.
+
+_NOTE:_
+
+This documentation was last updated for version **1.3.0dev2**.
+
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-1.3.0dev2).
+
 <!-- template-end -->
 
 A plugin that simplifies the login process... Instead of
@@ -24,7 +38,7 @@ asking for commands, users simply chat away...
 I also provides for a number of tweaks that can improve the usability of
 [SimpleAuth](https://forums.pocketmine.net/plugins/simpleauth.4/).
 
-### Register process
+#### Register process
 
 Player connects for the first time.  They are prompted to enter a
 *NEW* password.  They enter their password directly, without having to
@@ -33,7 +47,7 @@ enter */register*.
 They are asked for the password again to confirm.  They re-enter their
 password (again without */register*).
 
-### Login process
+#### Login process
 
 Player connects again.  They are prompted to enter their login
 password.  They type their login password directly (without
@@ -80,10 +94,12 @@ password.  They type their login password directly (without
 
 ### Permission Nodes
 
-* simpleauthhelper.command.chpwd: User can change password
-* simpleauthhelper.command.resetpwd: Ops can reset a user's password
-* simpleauthhelper.command.logout: User can logout
-* simpleauthhelper.command.prereg: Ops can pre-register players
+* simpleauthhelper.command.chpwd : Allow users to change passwords
+* simpleauthhelper.command.logout : Allow users to logout
+* simpleauthhelper.command.resetpwd : Allow ops to reset other's passwords
+  (Defaults to Op)
+* simpleauthhelper.command.prereg : Allow ops to pre-register users
+  (Defaults to Op)
 
 
 # Changes
@@ -132,3 +148,4 @@ password.  They type their login password directly (without
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

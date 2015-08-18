@@ -288,7 +288,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			$sender->sendMessage(TextFormat::YELLOW.mc::_("login first"));
 			return true;
 		}
-		$sender->sendMessage(TextFormat::GREEN.mc::_("logout completed"))
+		$sender->sendMessage(TextFormat::GREEN.mc::_("logout completed"));
 		$this->auth->deauthenticatePlayer($sender);
 		return true;
 	}
