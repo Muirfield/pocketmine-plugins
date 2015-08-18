@@ -98,13 +98,20 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 		$pm = $this->owner->getServer()->getPluginManager();
 		if (($kr = $pm->getPlugin("KillRate")) !== null) {
 			if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0) {
-				$score = $kr->getScore($target);
+				if (intval($this->kr->getDescription()->getVersion()) == 2) {
+					$score = $kr->api->getScore($target);
+				} else {
+					$score = $kr->getScore($target);
+				}
 				if ($score)
 					$txt[] = TextFormat::GREEN.mc::_("KillRate Score: ").TextFormat::WHITE.$score;
 			} else {
 				$txt[] = TextFormat::RED.mc::_("KillRate version is too old (%1%)",
 														 $kr->getDescription()->getVersion());
 			}
+		}
+		if (($pp = $pm->getPlugin("PurePerms")) !== null) {
+			$txt[] = TextFormat::GREEN.mc::_("PurePerms Group: ").TextFormat::WHITE.$pp->getUser($target)->getGroup()->getName();
 		}
 		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
 			if ($target instanceof Player) {
