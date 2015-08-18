@@ -1,4 +1,16 @@
 <?php
+/**
+ **
+ ** CONFIG:main
+ **
+ ** Configure the different features used by this plugin.
+ **
+ **    feature: true|false
+ **
+ ** If `true` the feature is enabled.  if `false` the feature is disabled.
+ **
+ **
+ **/
 namespace aliuly\helper;
 
 use pocketmine\plugin\PluginBase;
@@ -30,6 +42,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $chpwd;
 	protected $cfg;
 	protected $listener;
+	protected $permshacker;
 
 	public function onEnable(){
 		mc::plugin_init($this,$this->getFile());
@@ -45,22 +58,30 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
+			"# max-attemps" => "kick player after this many login attempts. ",// NOTE: This conflicts with SimpleAuth's blockAfterFail setting
 			"max-attempts" => 5,
+			"# login-timeout" => "must authenticate within this number of seconds",
 			"login-timeout" => 60,
+			"# leet-mode" => "lets players use also /login and /register",
 			"leet-mode" => true,
-			"chat-protect" => true,
+			"# chat-protect" => "prevent player to display their password in chat",
+			"chat-protect" => false,
+			"# hide-unauth" => "EXPERIMENTAL, hide unauthenticated players",
 			"hide-unauth" => false,
+			"# event-fixer" => "EXPERIMENTAL, cancels additional events",// for unauthenticated players
 			"event-fixer" => false,
+			"# perms-hacker" => "EXPERIMENTAL, Overrides permissions",//to make sure players can login
+			"perms-hacker" => false,
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
 
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		if ($this->cfg["event-fixer"]) {
-			echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 			$this->listener =new EventListener($this);
-			$this->getServer()->getPluginManager()->registerEvents($this->listener,$this);
-
+		}
+		if ($this->cfg["perms-hacker"]) {
+			$this->permshacker = new PermsHacker($this);
 		}
 		$this->pwds = [];
 	}

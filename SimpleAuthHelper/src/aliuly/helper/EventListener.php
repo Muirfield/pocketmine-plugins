@@ -43,6 +43,7 @@ class EventListener implements Listener{
 
 	public function __construct(HelperPlugin $owner){
 		$this->auth = $owner->auth;
+		$owner->getServer()->getPluginManager()->registerEvents($this, $owner);
 	}
 
 	/**

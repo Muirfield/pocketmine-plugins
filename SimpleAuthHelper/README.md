@@ -102,6 +102,28 @@ password.  They type their login password directly (without
   (Defaults to Op)
 
 
+### Configuration
+
+Configuration is through the `config.yml` file.
+The following sections are defined:
+
+#### main
+
+
+Configure the different features used by this plugin.
+
+   feature: true|false
+
+If `true` the feature is enabled.  if `false` the feature is disabled.
+*  max-attemps: kick player after this many login attempts.  NOTE: This conflicts with SimpleAuth's blockAfterFail setting
+*  login-timeout: must authenticate within this number of seconds
+*  leet-mode: lets players use also /login and /register
+*  chat-protect: prevent player to display their password in chat
+*  hide-unauth: EXPERIMENTAL, hide unauthenticated players
+*  event-fixer: EXPERIMENTAL, cancels additional events for unauthenticated players
+*  perms-hacker: EXPERIMENTAL, Overrides permissions to make sure players can login
+
+
 # Changes
 
 * 1.3.0: Modularization
@@ -112,6 +134,7 @@ password.  They type their login password directly (without
   - Removed auto-ban.  It is now done in SimpleAuth.
   - Added support for hiding unauthenticated players (Suggested by @CaptainKenji17)
   - Added pre-register and logout command
+  - forces permissions to be set
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.
