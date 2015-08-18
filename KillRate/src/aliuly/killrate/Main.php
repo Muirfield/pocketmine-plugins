@@ -36,6 +36,11 @@ use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
 use aliuly\killrate\common\MoneyAPI;
 
+use aliuly\killrate\api\KillRate as KillRateAPI;
+use aliuly\killrate\api\KillRateScoreEvent;
+use aliuly\killrate\api\KillRateResetEvent;
+
+
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
 	protected $cfg;
@@ -52,7 +57,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->dbm = null;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
-
+		$this->api = new KillRateAPI($this);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -291,22 +296,25 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return [0,0];
 	}
-	public function updateScores($perp,$vic) {
+	public function updateScores($player, $perp,$vic) {
 		//echo "VIC=$vic PERP=$perp\n";//##DEBUG
-		$this->updateDb($perp,$vic);
+		if ($this->cfg["settings"]["points"] || $this->cfg["settings"]["rewards"]){
+			list($points,$money) = $this->getPrizes($vic);
+			if (!$this->cfg["settings"]["points"]) $points = false;
+			if (!$this->cfg["settings"]["rewards"]) $money = false;
+		} else {
+			list($points,$money) = [false,false];
+		}
+		$this->getServer()->getPluginManager()->callEvent(
+				$ev = new KillRateScoreEvent($this,$player,$vic,$points,$money)
+		);
+		if ($ev->isCancelled()) return [false,false];
+		if ($ev->getIncr()) $this->updateDb($perp,$vic,$ev->getIncr());
 		$awards = [ false,false];
-		if ($this->cfg["settings"]["points"]) {
-			// Add points...
-			list($points,$money) = $this->getPrizes($vic);
-			$this->updateDb($perp,"points",$points);
-			$awards[0] = $points;
-		}
-		if ($this->cfg["settings"]["rewards"]) {
-			// Add money...
-			list($points,$money) = $this->getPrizes($vic);
-			MoneyAPI::grantMoney($this->money,$perp,$money);
-			$awards[1] = $money;
-		}
+    $awards[0] = $points = $ev->getPoints();
+		if ($points !== false && $points != 0) $this->updateDb($perp,"points", $points);
+		$awards[1] = $money = $ev->getMoney();
+		if ($money !== false) MoneyAPI::grantMoney($this->money,$perp,$money);
 		return $awards;
 	}
 	/**
@@ -333,7 +341,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				 && $this->cfg["settings"]["reset-on-death"] > 0) {
 				if ($deaths >= $this->cfg["settings"]["reset-on-death"]) {
 					// We died too many times... reset scores...
-					$this->dbm->delScore($pv->getName());
+					$this->getServer()->getPluginManager()->callEvent(
+						$ev = new KillRateResetEvent($this,$pv);
+					);
+					if (!$ev->isCancelled()) $this->delScore($pv);
 				}
 			}
 			if ($this->cfg["settings"]["kill-streak"]) {
@@ -354,7 +365,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
 					}
 				}
-				$this->dbm->delScore($pv->getName(),"streak");
+				$this->delScore($pv,"streak");
 			}
 		}
 		$cause = $pv->getLastDamageCause();
@@ -409,7 +420,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			}
 		}
 		$perp = $pp->getName();
-		list ($points,$money) = $this->updateScores($perp,$vic);
+
+		list ($points,$money) = $this->updateScores($pp,$perp,$vic);
 		$this->announce($pp,$points,$money);
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -610,5 +622,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($score) return $score["count"];
 		return 0;
 	}
-
+	public function delScore($pl, $ype = null) {
+		$this->dbm->delScore($pl->getName(), $type);
+	}
 }
