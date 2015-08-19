@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.2.1**.
+This documentation was last updated for version **1.2.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.2).
 
 <!-- template-end -->
 
@@ -173,7 +173,7 @@ Place a sign with the following text:
 
 Duration is a value in seconds.
 
-Effects:
+Examples:
 
 * [POTIONS]
   * 1:120:1
@@ -233,6 +233,7 @@ Default values for paying players by tapping
 * goldstd.signs.use.casino : Allow access to casino signs
 * goldstd.signs.use.shop : Allow access to shopping signs
 * goldstd.signs.use.trade : Allow access to trading signs
+* goldstd.signs.use.effects : Allow access to Effects signs
 * goldstd.signs.place : Allow placing signs
   (Defaults to Op)
 * goldstd.signs.place.casino : Allow placing casino signs
@@ -240,6 +241,8 @@ Default values for paying players by tapping
 * goldstd.signs.place.shop : Allow placing shopping signs
   (Defaults to Op)
 * goldstd.signs.place.trade : Allow placing trading signs
+  (Defaults to Op)
+* goldstd.signs.place.effects : Allow placing Effects signs
   (Defaults to Op)
 
 
