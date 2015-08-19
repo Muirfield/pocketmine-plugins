@@ -13,7 +13,7 @@ use aliuly\common\BasicHelp;
 /**
  * Simple extension to the PocketMine PluginBase class
  */
-abstract class BasicPlugin extends PluginBase implements Listener {
+abstract class BasicPlugin extends PluginBase {
 	protected $modules = [];
 	protected $scmdMap = [];
 	protected $session;

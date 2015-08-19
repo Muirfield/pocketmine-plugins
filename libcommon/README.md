@@ -72,7 +72,7 @@ For the full API documentation go to: [GitHub pages](http://alejandroliu.github.
 
 ## Examples
 
-If you enable **debug** in **pocketmine.yml** the plugin will create a
+If you enable **debug** level > 1 in **pocketmine.yml** the plugin will create a
 **libcommon** folder with some example scripts on how to use this library.
 
 Other wise you can follow this

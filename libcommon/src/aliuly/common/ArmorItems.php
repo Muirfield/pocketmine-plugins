@@ -44,7 +44,7 @@ abstract class ArmorItems {
           case "bod"://y
             return self::BODY;
           case "boo"://ts
-            return self::BOOTS
+            return self::BOOTS;
         }
         break;
       case "p"://ants
