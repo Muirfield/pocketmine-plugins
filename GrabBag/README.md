@@ -788,8 +788,10 @@ The following third party libraries are included:
 * Query:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
+  * name resolution doesn't work reliably, use IP address as work around.
+* CmdAlias : removing command (libcomm:rmCommand) does not work.
 
-## WIP
+## WIP and issues
 
 * Adding an API
 

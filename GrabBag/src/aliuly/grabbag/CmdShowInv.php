@@ -29,10 +29,12 @@ class CmdShowInv extends BasicCli implements CommandExecutor {
 		$this->enableCmd("seeinv",
 							  ["description" => mc::_("show player's inventory"),
 								"usage" => mc::_("/seeinv <player>"),
+								"aliases" => ["invsee"],
 								"permission" => "gb.cmd.seeinv"]);
 		$this->enableCmd("seearmor",
 							  ["description" => mc::_("show player's armor"),
 								"usage" => mc::_("/seearmor <player>"),
+								"aliases" => ["armorsee"],
 								"permission" => "gb.cmd.seearmor"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {

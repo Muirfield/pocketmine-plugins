@@ -41,7 +41,7 @@ class CmdSetArmor extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) return false;
 		$i = array_pop($args);
-		if (($type = AmorItems::str2quality($i)) == ArmorItems::ERROR) {
+		if (($type = ArmorItems::str2quality($i)) == ArmorItems::ERROR) {
 			$sender->sendMessage(mc::_("Unknown armor quality %1%",$i));
 			return false;
 		}

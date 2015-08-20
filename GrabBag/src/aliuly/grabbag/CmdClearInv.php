@@ -22,6 +22,7 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ItemName;
+use pocketmine\item\Item;
 
 class CmdClearInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -112,10 +113,10 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 			}
 		}
     $k = 0;
-		foreach ($pl->getInventory()->getContents() as $slot => &$inv) {
+		foreach ($target->getInventory()->getContents() as $slot => &$inv) {
 			if ($inv->getId() != $item->getId()) continue;
 			if ($count !== null) {
-				if ($item->getCount() > $count) {
+				if ($inv->getCount() > $count) {
 					$k += $count;
 					$inv->setCount($inv->getCount()-$count);
 					$target->getInventory()->setItem($slot,clone $inv);
@@ -129,10 +130,10 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 		}
 		if ($k) {
 		  $sender->sendMessage(mc::n(mc::_("one item of %1% removed",ItemName::str($item)),
-																 mc::_("%2% items of %1% removed",ItemName::str($item),$k)));
+																 mc::_("%2% items of %1% removed",ItemName::str($item),$k),$k));
 			if ($other)
-				$target->sendMessage(mc::n(mc::_("%2% took one item of %1% from you",ItemName::str($item),$sender->getDisplayName()),
-																 	 mc::_("%3% took %2% items of %1% from you",ItemName::str($item),$k,$sender->getDisplayName())));
+				$target->sendMessage(mc::n(mc::_("%2% took one item of %1% from you",ItemName::str($item),$sender->getName()),
+																 	 mc::_("%3% took %2% items of %1% from you",ItemName::str($item),$k,$sender->getName()),$k));
 		} else {
 			$sender->sendMessage(mc::_("No items were removed!"));
 		}

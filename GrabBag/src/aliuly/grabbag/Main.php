@@ -22,9 +22,12 @@ use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\BasicPlugin;
+use aliuly\grabbag\api\GrabBag as GrabBagAPI;
 
 class Main extends BasicPlugin {
+	public $api;
 	public function onEnable(){
+		$this->api = new GrabBagAPI($this);
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$features = [

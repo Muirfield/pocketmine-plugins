@@ -70,6 +70,7 @@ class CmdAlias extends BasicCli implements CommandExecutor {
     if (count($args) == 0) $args = ["--ls" ];
     switch(strtolower($args[0])) {
       case "--ls":
+      case "--list":
         array_shift($args);
         return $this->lsAliases($sender, $args);
       case "--rm":
@@ -79,9 +80,9 @@ class CmdAlias extends BasicCli implements CommandExecutor {
         array_shift($args);
         if (count($args) != 1) return false;
         if (MPMU::rmCommand($this->owner->getServer(),$args[0])) {
-          $sender->sendMessage(TextFormat::GREEN."Command %1% has been removed", $args[0]);
+          $sender->sendMessage(TextFormat::GREEN.mc::_("Command %1% has been removed", $args[0]));
         } else {
-          $sender->sendMessage(TextFormat::RED."Unable to remove command %1%", $args[0]);
+          $sender->sendMessage(TextFormat::RED.mc::_("Unable to remove command %1%", $args[0]));
         }
         return true;
     }

@@ -98,7 +98,8 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 		$pm = $this->owner->getServer()->getPluginManager();
 		if (($kr = $pm->getPlugin("KillRate")) !== null) {
 			if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0) {
-				if (intval($this->kr->getDescription()->getVersion()) == 2) {
+				if (intval($kr->getDescription()->getVersion()) == 2) {
+					echo get_class($kr->api)."\n";//##DEBUG
 					$score = $kr->api->getScore($target);
 				} else {
 					$score = $kr->getScore($target);
