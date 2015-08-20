@@ -4,11 +4,10 @@ namespace aliuly\common;
 use pocketmine\Server;
 use pocketmine\Player;
 
-use aliuly\comon\ItemName;
+use aliuly\common\ItemName;
 use pocketmine\utils\TextFormat;
-
-
-//use pocketmine\item\Item;
+use pocketmine\utils\Utils;
+use pocketmine\item\Item;
 
 /**
  * Common variable expansion.  You can use this for custom messages and/or
@@ -16,9 +15,9 @@ use pocketmine\utils\TextFormat;
  *
  * Plugins can extend this infrastructure by declaring the following functions:
  *
- * static public function getSysVars(Server $server, array &$vars);
+ * public function getSysVars(Server $server, array &$vars);
  *
- * static public function getPlayerVars(Player $player, array &$vars);
+ * public function getPlayerVars(Player $player, array &$vars);
  *
  * Otherwise they can call the functions: registerSysVars or registerPlayerVars.
  *
@@ -32,11 +31,6 @@ abstract class ExpandVars {
   static public $api = [];
   /** @var str[] static _constants_ */
   static public $consts = [
-    "{10SPACE}" => str_repeat(" ",10),
-    "{20SPACE}" => str_repeat(" ",20),
-    "{30SPACE}" => str_repeat(" ",30),
-    "{40SPACE}" => str_repeat(" ",40),
-    "{50SPACE}" => str_repeat(" ",50),
     "{NL}" => "\n",
     "{BLACK}" => TextFormat::BLACK,
     "{DARK_BLUE}" => TextFormat::DARK_BLUE,
@@ -108,9 +102,10 @@ abstract class ExpandVars {
   static protected function initSysVars(Server $server) {
     if (self::$sysExtensions !== null) return;
     self::$sysExtensions = self::AutoloadExtensions("getSysVars",$server);
-    self::$sysExtensions[] = __CLASS__ ."\\stdSysVars";
-    if (\pocketmine\DEBUG > 1) self::$sysExtensions[] = __CLASS__. "\\debugSysVars";
+    self::$sysExtensions[] =  [__CLASS__ ,"stdSysVars"];
+    if (\pocketmine\DEBUG > 1) self::$sysExtensions[] = [__CLASS__ , "debugSysVars"];
   }
+
   /**
    * Register a callback function that define system wide variable expansions
    * @param Server $server - reference to pocketmine server
@@ -118,6 +113,7 @@ abstract class ExpandVars {
    */
   static public function registerSysVars(Server $server, callable $fn) {
     self::initSysVars($server);
+
     self::$sysExtensions[] = $fn;
   }
   /**
@@ -127,6 +123,7 @@ abstract class ExpandVars {
    */
   static public function sysVars(Server $server, array &$vars) {
     self::initSysVars($server);
+    \aliuly\common\ExpandVars::stdSysVars($server,$vars);
     foreach (self::$sysExtensions as $cb) {
       $cb($server,$vars);
     }
@@ -160,7 +157,7 @@ abstract class ExpandVars {
       [ "day", 0, 24, "days"],
     ] as $f) {
         if ($f[1]) $e = floor($time % $f[1]);
-        $time = floor($time / $f[2])
+        $time = floor($time / $f[2]);
         if ($e) {
           $r = $e == 1 ? $f[0] : $f[3];
           $uptime = $e." ".$r . $q . $uptime;
@@ -174,10 +171,9 @@ abstract class ExpandVars {
     $mUsage = Utils::getMemoryUsage(true);
     $vars["{mainmem}"] = number_format(round($mUsage[0]/1024)/1024,2 );
     $vars["{memuse}"] = number_format(round($mUsage[1]/1024)/1024,2 );
-    $vars["{vmemuse}"] = number_format(round($mUsage[2]/1024)/1024,2 );
+    $vars["{maxmem}"] = number_format(round($mUsage[2]/1024)/1024,2 );
     $rUsage = Utils::getRealMemoryUsage();
     $vars["{heapmem}"] = number_format(round($rUsage[0]/1024)/1024,2 );
-    $vars["{maxmem}"] = number_format(round($rUsage[2]/1024)/1024,2 );
   }
   /**
    * Used to initialize the player specific variables table
@@ -186,32 +182,32 @@ abstract class ExpandVars {
   static protected function initPlayerVars(Server $server) {
     if (self::$playerExtensions !== null) return;
     self::$playerExtensions = self::AutoloadExtensions("getPlayerVars",$server);
-    self::$playerExtensions[] = __CLASS__ ."\\stdPlayerVars";
-    self::$playerExtensions[] = __CLASS__ ."\\invPlayerVars";
+    self::$playerExtensions[] = [ __CLASS__ , "stdPlayerVars" ];
+    self::$playerExtensions[] = [ __CLASS__ , "invPlayerVars" ];
     $pm = $server->getPluginManager();
     if (($kr = $pm->getPlugin("KillRate")) !== null) {
       if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0 &&
-          intval($this->kr->getDescription()->getVersion()) == 1) {
+          intval($kr->getDescription()->getVersion()) == 1) {
         self::$api["KillRate-1.1"] = $kr;
-        self::$playerExtensions[] = __CLASS__ ."\\kr1PlayerVars";
+        self::$playerExtensions[] = [ __CLASS__ , "kr1PlayerVars" ];
       }
     }
     if (($pp = $pm->getPlugin("PurePerms")) !== null) {
       self::$api["PurePerms"] = $pp;
-      self::$playerExtensions[] = __CLASS__ ."\\purePermsPlayerVars";
+      self::$playerExtensions[] = [ __CLASS__ , "purePermsPlayerVars" ];
     }
     if (($mm = $pm->getPlugin("GoldStd")) !== null) {
       self::$api["money"] = $mm;
-      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsGoldStd";
+      self::$playerExtensions[] = [ __CLASS__ ,"moneyPlayerVarsGoldStd" ];
     } elseif (($mm = $pm->getPlugin("PocketMoney")) !== null) {
       self::$api["money"] = $mm;
-      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsPocketMoney";
+      self::$playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsPocketMoney" ];
     } elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
       self::$api["money"] = $mm;
-      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsMassiveEconomy";
+      self::$playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsMassiveEconomy" ];
     } elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
       self::$api["money"] = $mm;
-      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsEconomysApi";
+      self::$playerExtensions[] = [ __CLASS__, "moneyPlayerVarsEconomysApi" ];
     }
   }
   /**
@@ -260,6 +256,7 @@ abstract class ExpandVars {
    */
   static public function invPlayerVars(Player $player,array &$vars) {
     $item = clone $player->getInventory()->getItemInHand();
+    if ($item->getId() == Item::AIR)
     $vars["{item}"] = ItemName::str($item);
     $vars["{itemid}"] = $item->getId();
   }

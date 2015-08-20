@@ -12,6 +12,7 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\event\Listener;
 use pocketmine\utils\Config;
 
@@ -46,7 +47,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $cfg;
 	protected $money;
 	protected $stats;
-	protected $api;
+	public $api;
 
 	//////////////////////////////////////////////////////////////////////
 	//
@@ -138,21 +139,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			 && $this->cfg["settings"]["dynamic-updates"] > 0) {
 			$this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),$this->cfg["settings"]["dynamic-updates"]);
 		}
-		if (MPMU::apiVersion("1.12.0")) {
-			if (MPMU::apiVersion(">1.12.0")) {
-				$this->getLogger()->warning(TextFormat::YELLOW.
-													 mc::_("This plugin has not been tested to run on %1%", MPMU::apiVersion()));
-			}
-			$this->api = 12;
-		} else {
-			$this->api = 10;
-		}
 
 		$this->stats = [];
 		if ($this->cfg["settings"]["achievements"]) {
 			Achievement::add("killer","First Blood!",[]);
 			Achievement::add("serialKiller","Killer Streak!",["killer"]);
 		}
+		$this->saveResource("KillRateEx.php");
 	}
 	public function onDisable() {
 		if ($this->dbm !== null) $this->dbm->close();
@@ -483,16 +476,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	private function updateSign($pl,$tile,$text) {
-		switch($this->api) {
-			case 10:
-				$pk = new EntityDataPacket();
-				break;
-			case 12:
-				$pk = new TileEntityDataPacket();
-				break;
-			default:
-				return;
-		}
+		$pk = new TileEntityDataPacket();
 		$data = $tile->getSpawnCompound();
 		$data->Text1 = new String("Text1",$text[0]);
 		$data->Text2 = new String("Text2",$text[1]);
@@ -617,12 +601,50 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		return $incr;
 
 	}
-	public function getScore($pl,$type = "points") {
-		$score = $this->dbm->getScore($pl->getName(),$type);
+	/**
+	 * @deprecated
+	 */
+	public function getScore($pn,$type = "points") {
+		if ($pn instanceof Player) $pn = $pn->getName();
+		$score = $this->dbm->getScore($pn,$type);
 		if ($score) return $score["count"];
 		return 0;
 	}
-	public function delScore($pl, $ype = null) {
+	public function getScoreV2($pn,$type = "points") {
+		$score = $this->dbm->getScore($pn,$type);
+		if ($score) return $score["count"];
+		return 0;
+	}
+	public function delScore($pn, $type = null) {
 		$this->dbm->delScore($pl->getName(), $type);
+	}
+	public function getPlayerVars(Player $player, array &$vars) {
+		$vars["{score}"] = $this->getScore($player);
+	}
+	public function getSysVars(Server $srv, array &$vars) {
+		$ranks = $this->getRankings(10);
+		if ($ranks == null) {
+			$vars["{tops}"] = "N/A";
+			$vars["{top10}"] = "N/A";
+			$vars["{top10names}"] = "N/A";
+		  $vars["{top10scores}"] = "N/A";
+		} else {
+			$vars["{tops}"] = "";
+			$vars["{top10}"] = "";
+			$vars["{top10names}"] = "";
+		  $vars["{top10scores}"] = "";
+			$i = 1; $q = "";
+			foreach ($ranks as $r) {
+				if ($i <= 3) {
+					$vars["{tops}"] .= $q.$i.". ".substr($r["player"],0,8).
+									" ".$r["count"];
+					$q = "   ";
+				}
+				$vars["{top10}"] .= $i.". ".$r["player"]." ".$r["count"]."\n";
+				$vars["{top10names}"] .= $r["player"]."\n";
+			  $vars["{top10scores}"] .= $r["count"]."\n";
+				++$i;
+			}
+		}
 	}
 }

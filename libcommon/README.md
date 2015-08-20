@@ -33,6 +33,7 @@ Contains quite a few utility functions. Available modules:
 - BasicHelp - Implements help functionality for sub-commands
 - BasicPlugin - My extensions to PluginBase
 - Cmd - execute PocketMine commands from a PHP module.
+- ExpandVars - utility for variable expansions
 - FileUtils - Generic file system functions
 - FreezeSession - Session implementing frozen players
 - GetMotd - Retrieve motd data from remote servers
@@ -84,9 +85,13 @@ Link.
 
 - 1.2.0: Update 2<br/>
   * MoneyAPI bug fix<br/>
-  * Added GetMotdAsyncTask<br/>
-  * Added Session management<br/>
-  * Added FileUtils<br/>
+  * New Features:<br/>
+    * GetMotdAsyncTask<br/>
+    * Session management<br/>
+    * FileUtils<br/>
+    * ArmorItems<br/>
+    * Variables<br/>
+    * ItemName can load user defined tables<br/>
 - 1.1.0: Update 1<br/>
   * Added ItemName class (with more item names)<br/>
   * Removed MPMU::itemName<br/>

@@ -2,7 +2,7 @@
 namespace aliuly\killrate\api;
 
 use aliuly\killrate\Main as KillRatePlugin;
-use pocketmine\Player;
+use pocketmine\IPlayer;
 
 /**
  * KillRate API
@@ -30,44 +30,45 @@ class KillRate {
   }
   /**
    * Update Database values.  Returns the new updated value.
-   * @param Player|str $player - Player that is scoring
+   * @param IPlayer|str $player - Player that is scoring
    * @param str $col - Type of data to update
    * @param int $incr - Amount to increment
    * @return int
    */
 	public function updateScore($player,$col = "points",$incr = 1) {
-    if ($player instanceof Player) $player = $player->getName();
+    if ($player instanceof IPlayer) $player = $player->getName();
     return $this->plugin->updateDb($player, $col, $incr);
   }
   /**
    * Returns a player's specific score.
-   * @param Player|str $player - Player that is scoring
+   * @param IPlayer|str $player - Player that is scoring
    * @param str $col - Type of data to update
    * @return int
    */
 	public function getScore($player,$col = "points") {
-    if ($player instanceof Player) $player = $player->getName();
-    return $this->plugin->getScore($player);
+    if ($player instanceof IPlayer) $player = $player->getName();
+    return $this->plugin->getScoreV2($player);
 	}
   /**
    * Set the score value
-   * @param Player|str $player - Player that is scoring
-   * @param str $col - Type of data to update
+   * @param IPlayer|str $player - Player that is scoring
    * @param int $score - new score
+   * @param str $col - Type of data to update
    * @return int
    */
-	public function setScore($player,$col = "points",$score) {
-    if ($player instanceof Player) $player = $player->getName();
-    $old_score = $this->plugin->getScore($player,$col);
+	public function setScore($player,$score, $col = "points") {
+    if ($player instanceof IPlayer) $player = $player->getName();
+    $old_score = $this->plugin->getScoreV2($player,$col);
     return $this->plugin->updateDb($player, $col, $score - $old_score);
   }
   /**
    * Returns a player's specific score.
-   * @param Player|str $player - Player that is scoring
+   * @param IPlayer|str $player - Player that is scoring
    * @param str $col - Type of data to update
    * @return int
    */
 	public function delScore($pl, $type = null) {
-		$this->dbm->delScore($pl->getName(), $type);
+    if ($player instanceof IPlayer) $player = $player->getName();
+		$this->plugin->delScore($player, $type);
 	}
 }

@@ -3,7 +3,7 @@
 # KillRate
 
 * Summary: Keep track of the number of kills
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: -
 * OptionalPlugins: PocketMoney,MassiveEconomy,EconomyAPI,GoldStd
 * Categories: Informational
@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.0**.
+This documentation was last updated for version **2.0.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.0dev1).
 
 <!-- template-end -->
 
@@ -46,8 +46,6 @@ Basic Usage:
 * killrate top [online] - Show top players.
 
 You can also place signs to show game statistics.
-
-Thanks to @Daniel123 and @CaptainKenji17 for suggestions and feedback.
 
 ## Documentation
 
@@ -147,42 +145,28 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
-## API
-
-The following functions are available to get information from this
-plugin:
-
-* getRankings($limit=10,$online=false,$stat = "points")
-  * $limit - the number of rows to return
-  * $online - false, all players, true, only on-line players are
-    returned
-  * $stat - the statistic you want to display
-* updateDb($player,$stat,$incr = 1)
-  * $player - the player you want to score
-  * $stat - type of statistic to update
-  * $incr - how many units to increase
-* getScore($player,$stat = "points")
-  * $player - player to look-up
-  * $stat - statistic to return
-
-To use the api:
-
-```php
-[PHP]
-$server->getPluginManager()->getPlugin("KillRate")->function()
-[/PHP]
-```
-
 ## FAQ
 
 * Q: Can you score when you push people to lava (or other indirect kills)?
 * A: Only direct kills are scored.  All indirect kills (pushing people
   to lava, causing explosions, etc) can not be scored.
 
+# TODO
+
+* getSysVars : should cache values.
+  - death-dealer should expire cache.
+  - getSysVars when called will check cache and return.
+  - if cache is expire, we calculate.
+  - Alternatively, getRankings should do the caching....
+
 # Changes
 
-* 1.2.4: Bug Fix
+* 2.0.0: Partial rewrite
   * Fixed bug prevents scoring on creative
+  * Fixed bug related to libcommon MoneyAPI (crash when no Economy loaded)
+  * Dropping support for PocketMine v1.4 and lower
+  * API has been revamped!
+  * Included example extension
 * 1.2.3:
   * MySqlMgr: Fixed typo
   * Fixed bug with setting rewards/points to false (Reported by @reidq7)
@@ -190,7 +174,7 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
   * small tweaks on the comments of the config file...
   * Added achievements
 * 1.2.1:
-  * CptKenji's features:
+  * Requested by @CaptainKenji17:
     * Double money and Best streak tracking.
   * Fixed MySql support.  It should work now.
 * 1.2.0: Bumped the version number to reflect config changes.
@@ -202,8 +186,8 @@ $server->getPluginManager()->getPlugin("KillRate")->function()
   * Signs are more configurable
   * **PLEASE DELETE OLD CONFIG.YML FILE**
 * 1.1.0: General improvements
-  * Added experimental MySQL support
-  * Messages file and translations: spanish
+  * Added experimental MySQL support (@predawnia)
+  * Messages file and translations: spanish (@Daniel123)
   * Dynamic signs
   * Pop-up scores
   * Kill Streak
