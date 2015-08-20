@@ -37,7 +37,7 @@ class KillRate {
    */
 	public function updateScore($player,$col = "points",$incr = 1) {
     if ($player instanceof Player) $player = $player->getName();
-    return $this->plugin->updateDb($player, $col, $incr)
+    return $this->plugin->updateDb($player, $col, $incr);
   }
   /**
    * Returns a player's specific score.
@@ -47,7 +47,7 @@ class KillRate {
    */
 	public function getScore($player,$col = "points") {
     if ($player instanceof Player) $player = $player->getName();
-    return $this->plugin->getScore($player)
+    return $this->plugin->getScore($player);
 	}
   /**
    * Set the score value
@@ -70,6 +70,4 @@ class KillRate {
 	public function delScore($pl, $type = null) {
 		$this->dbm->delScore($pl->getName(), $type);
 	}
-
-
 }

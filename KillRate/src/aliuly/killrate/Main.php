@@ -342,7 +342,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				if ($deaths >= $this->cfg["settings"]["reset-on-death"]) {
 					// We died too many times... reset scores...
 					$this->getServer()->getPluginManager()->callEvent(
-						$ev = new KillRateResetEvent($this,$pv);
+						$ev = new KillRateResetEvent($this,$pv)
 					);
 					if (!$ev->isCancelled()) $this->delScore($pv);
 				}
