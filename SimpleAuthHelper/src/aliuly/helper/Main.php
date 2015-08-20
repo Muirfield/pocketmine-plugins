@@ -32,6 +32,8 @@ use SimpleAuth\event\PlayerAuthenticateEvent;
 use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
 use aliuly\helper\EventListener;
+use aliuly\helper\PermsHacker;
+use aliuly\helper\DbMonitorTask;
 
 class Main extends PluginBase implements Listener,CommandExecutor {
 	const RE_REGISTER = '/^\s*\/register\s+/';
@@ -43,18 +45,18 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $cfg;
 	protected $listener;
 	protected $permshacker;
+	protected $monitor;
 
 	public function onEnable(){
 		mc::plugin_init($this,$this->getFile());
 		$this->auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
 		if (!$this->auth) {
 			$this->getLogger()->error(TextFormat::RED.mc::_("Unable to find SimpleAuth"));
-			throw new \RuntimeException("Missinge Dependancy");
+			throw new \RuntimeException("Missing Dependancy");
 			return;
 		}
 
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -70,8 +72,14 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			"hide-unauth" => false,
 			"# event-fixer" => "EXPERIMENTAL, cancels additional events",// for unauthenticated players
 			"event-fixer" => false,
-			"# perms-hacker" => "EXPERIMENTAL, Overrides permissions",//to make sure players can login
-			"perms-hacker" => false,
+			"# hack-login-perms" => "EXPERIMENTAL, overrides login permisions",//to make sure players can login
+			"hack-login-perms" => false,
+			"# hack-register-perms" => "EXPERIMENTAL, overrides register permisions",//to make sure players can register
+			"hack-register-perms" => false,
+			"# db-monitor" => "EXPERIMENTAL, enable database server monitoring",
+			"db-monitor" => false,
+			"# monitor-settings" => "Configure database monitor settings",
+			"monitor-settings" => DbMonitorTask::defaults(),
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
@@ -80,8 +88,11 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		if ($this->cfg["event-fixer"]) {
 			$this->listener =new EventListener($this);
 		}
-		if ($this->cfg["perms-hacker"]) {
-			$this->permshacker = new PermsHacker($this);
+		if ($this->cfg["hack-login-perms"] || $this->cfg["hack-register-perms"]) {
+			$this->permshacker = new PermsHacker($this,$this->cfg["hack-login-perms"],$this->cfg["hack-register-perms"]);
+		}
+		if ($this->cfg["mysql-monitor"]) {
+			$this->monitor = new DbMonitorTask($this,$this->cfg["monitor-settings"]);
 		}
 		$this->pwds = [];
 	}

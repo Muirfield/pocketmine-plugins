@@ -5,34 +5,52 @@ namespace aliuly\helper;
  * register and login
  */
 use pocketmine\event\Listener;
-
+use pocketmine\Player;
+use aliuly\helper\Main as HelperPlugin;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
+use aliuly\helper\common\mc;
+
 
 class PermsHacker implements Listener{
 	protected $perms;
-	public function __construct($plugin) {
+	protected $opts;
+	protected $helper;
+	public function __construct(HelperPlugin $plugin,$login,$register) {
+		$this->helper = $plugin;
 		$plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
+		$this->opts = [
+			"login" => $login,
+			"register" => $register,
+		];
 	}
-	public function forcePerms($player) {
-		$n = null;
-		foreach (["simpleauth.command.login","simpleauth.command.register"] as $perm) {
-			if ($player->hasPermission($perm)) continue;
-			if ($n === null) $n = strtolower($player->getName());
-			if (!isset($this->perms[$n])) {
-				$this->perms[$n] = $player->addAttachment($this);
-			}
-			$this->perms[$n]->setPermission($perm,true);
+	private function checkPerm(Player $pl, $perm) {
+		if ($pl->hasPermission($perm)) return;
+		$n = strtolower($pl->getName());
+		$this->helper->getLogger()->warnning(mc::_("Fixing %1% for %2%", $perm, $n));
+		if (!isset($this->perms[$n])) $this->perms[$n] = $pl->addAttachment($this->helper);
+		$this->perms[$n]->setPermission($perm,true);
+		$pl->recalculatePermissions();
+	}
+	public function forcePerms(Player $player) {
+		if ($this->helper->auth->isPlayerAuthenticated($player)) {
+			$this->resetPerms($player);
+			return;
 		}
-		if ($n !== null) $player->recalculatePermissions();
+		if ($this->opts["register"] && !$this->helper->auth->isPlayerRegistered($pl)) {
+			$this->checkPerm($player,"simpleauth.command.register");
+			return;
+		}
+		if ($this->opts["login"])	$this->checkPerm($player,"simpleauth.command.login");
 	}
-	public function resetPerms($pl) {
+	public function resetPerms(Player $pl) {
 		$n = strtolower($pl->getName());
 		if (isset($this->perms[$n])) {
 			$attach = $this->perms[$n];
 			unset($this->perms[$n]);
 			$pl->removeAttachment($attach);
-		}	
+			$pl->recalculatePermissions();
+		}
 	}
 	public function onQuit(PlayerQuitEvent $ev) {
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG

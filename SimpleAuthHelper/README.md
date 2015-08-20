@@ -53,6 +53,26 @@ Player connects again.  They are prompted to enter their login
 password.  They type their login password directly (without
 */login*).  And they are in.
 
+### Additional Features
+
+In addition to the simplified login/registration, the following optional
+features are available:
+
+- kick player after so many login attempts.  Note, that SimpleAuth v1.7.0
+  will kick **and ban** the player if there were too many password attempts.
+  This feature does the kick but does **NOT** ban.
+- kicks player if they have not logged in after certain time.
+- While you can login/register without entering commands, using login/register
+  can be enabled/disable.  If the user enters /login|/register, things will
+  still work as expected.
+- Check if players are entering the password on chat and
+  stop the password from being sent.
+- Make unauthenticated players invisible, and other players
+  invisible to unauthenticated players.
+- Cancel additional events.  Unauthenticated players can do even less stuff.
+- Makes sure that you have permission to run the register/login commands.
+- Monitor the database connection to make sure that it is still working.
+
 ## Documentation
 
 ### Commands
@@ -109,7 +129,8 @@ plugin.
 3. Enable the *whitelist* functionality in PocketMine.
 4. Install *SimpleAuth* and *SimpleAuthHelper*.
 5. **Optionally** install *PurePerms* and disable
-   `simpleauthhelper.command.chpwd` permission.
+   `simpleauthhelper.command.chpwd` permission.  You probably want
+   users to change passwords from the web site.
 6. Whenever a user registers in web site, the web site script uses *rcon*
    to send the follwoing:
    - whitelist add _player_
@@ -120,15 +141,15 @@ plugin.
 
 # Changes
 
-* 1.3.0: Modularization
+* 2.0.0: Major upgrade
   - uses now a common translation library
-  - some minor tweaks
-  - Removed little use feature: nest-egg
+  - Removed little used feature: nest-egg
   - leet-mode also works for /register.
   - Removed auto-ban.  It is now done in SimpleAuth.
   - Added support for hiding unauthenticated players (Suggested by @CaptainKenji17)
   - Added pre-register and logout command
   - forces permissions to be set
+  - Added a task to monitor database server status
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.
