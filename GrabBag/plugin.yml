@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.8
+version: 2.3.0dev0
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -63,6 +63,12 @@ permissions:
   gb.cmd.clearinv.others:
     default: op
     description: "Clear other's inventory"
+  gb.cmd.rminv:
+    default: true
+    description: "Remove item from player's inventory"
+  gb.cmd.rminv.others:
+    default: op
+    description: "Remove item from other's inventory"
   gb.cmd.clearhotbar:
     default: true
     description: "Clear player's hotbar"
@@ -207,3 +213,12 @@ permissions:
   gb.cmd.query.list:
     default: true
     description: "Query list command"
+  gb.cmd.alias:
+    default: op
+    description: "Allow creating aliases"
+  gb.cmd.reop:
+    default: true
+    description: "Access to reop command"
+  gb.cmd.reop.others:
+    default: op
+    description: "Allows to reop others"

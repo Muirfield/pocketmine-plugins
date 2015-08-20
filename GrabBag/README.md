@@ -756,11 +756,14 @@ The following third party libraries are included:
 
 # Changes
 
-* 2.2.8: Update
+* 2.3.0: Update
   * Plugin loader will check server paths (include plugin folder)
   * Doc updates.
   * Updating libcommon stuff.
   * WhoIs command now supports [PurePerms](https://forums.pocketmine.net/plugins/pureperms.862/)
+  * Added aliases module
+  * New command rminv
+  * New reop command
 * 2.2.7:
   * Minor fix in Reg command
   * Fixed bug in Command Selector (@Legoboy0215 and @SM11)

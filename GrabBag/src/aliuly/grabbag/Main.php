@@ -68,7 +68,9 @@ class Main extends BasicPlugin {
 			"chat-utils" => ["CmdChatMgr",true],
 			"query-hosts" => ["CmdQuery", true],
 			"cmd-selector" => ["CmdSelMgr", true],
-	];
+			"cmd-alias" => ["CmdAlias", true],
+			"reop" => ["CmdReOp" , true],
+		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
 			$features["skinner"] = [ "CmdSkinner", true ];
