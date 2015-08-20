@@ -3,7 +3,6 @@ namespace aliuly\livesigns\fetcher;
 use aliuly\common\xPaw\MinecraftQuery;
 use aliuly\common\xPaw\MinecraftQueryException;
 
-
 abstract class Query extends SignFetcher {
 	static public function fetch($dat,$cfg) {
 		if (!is_array($dat["content"])) {
