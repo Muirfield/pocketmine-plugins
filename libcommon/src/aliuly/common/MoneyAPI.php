@@ -21,7 +21,7 @@ abstract class MoneyAPI {
 	static public function noMoney(PluginBase $plugin,$level = LogLevel::WARNING) {
 		if (class_exists(__NAMESPACE__."\\mc",false)) {
 			$plugin->getLogger()->error($level,TextFormat::RED.
-											  mc::_("# MISSING MONEY API PLUGIN"));
+											  mc::_("! MISSING MONEY API PLUGIN"));
 			$plugin->getLogger()->error(TextFormat::BLUE.
 											  mc::_(". Please install one of the following:"));
 			$plugin->getLogger()->error(TextFormat::WHITE.
@@ -34,7 +34,7 @@ abstract class MoneyAPI {
 											  mc::_("* MassiveEconomy"));
 		} else {
 			$plugin->getLogger()->error($level,TextFormat::RED.
-											  "# MISSING MONEY API PLUGIN");
+											  "! MISSING MONEY API PLUGIN");
 			$plugin->getLogger()->error(TextFormat::BLUE.
 											  ". Please install one of the following:");
 			$plugin->getLogger()->error(TextFormat::WHITE.
