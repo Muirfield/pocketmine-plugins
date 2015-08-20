@@ -1,6 +1,6 @@
 <?php
 
-namespace xPaw;
+namespace aliuly\common\xPaw;
 
 /**
  * Class written by xPaw

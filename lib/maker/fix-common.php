@@ -6,6 +6,7 @@
 function fix_file($php_old,$nspath,array &$commons) {
 	$tr = [
 		"namespace aliuly\\common;" => "namespace ".$nspath."\\common;",
+		"namespace aliuly\\common\\" => "namespace ".$nspath."\\common\\",
 		"use aliuly\\common\\" => "use ".$nspath."\\common\\",
 	];
 	if (preg_match_all('/use\s+aliuly\\\.*\\\common\\\/',$php_old,$mv)) {
