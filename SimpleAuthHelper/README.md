@@ -4,7 +4,7 @@
 
 * Summary: Simplifies the way people authenticate to servers
 * Dependency Plugins: SimpleAuth
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.5 (API:1.12.0)
 * DependencyPlugins: SimpleAuth
 * OptionalPlugins: -
 * Categories: General
@@ -25,10 +25,10 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.3.0dev2**.
+This documentation was last updated for version **2.0.0dev1**.
 
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-1.3.0dev2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0dev1).
 
 <!-- template-end -->
 
@@ -53,26 +53,6 @@ Player connects again.  They are prompted to enter their login
 password.  They type their login password directly (without
 */login*).  And they are in.
 
-### Additional Features
-
-In addition to the simplified login/registration, the following optional
-features are available:
-
-- kick player after so many login attempts.  Note, that SimpleAuth v1.7.0
-  will kick **and ban** the player if there were too many password attempts.
-  This feature does the kick but does **NOT** ban.
-- kicks player if they have not logged in after certain time.
-- While you can login/register without entering commands, using login/register
-  can be enabled/disable.  If the user enters /login|/register, things will
-  still work as expected.
-- Check if players are entering the password on chat and
-  stop the password from being sent.
-- Make unauthenticated players invisible, and other players
-  invisible to unauthenticated players.
-- Cancel additional events.  Unauthenticated players can do even less stuff.
-- Makes sure that you have permission to run the register/login commands.
-- Monitor the database connection to make sure that it is still working.
-
 ## Documentation
 
 ### Commands
@@ -86,7 +66,6 @@ features are available:
   * Used by ops to pre-register players.
 * *logout*
   * De-authenticates a player.
-
 
 ### Permission Nodes
 
@@ -117,7 +96,16 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 *  chat-protect: prevent player to display their password in chat
 *  hide-unauth: EXPERIMENTAL, hide unauthenticated players
 *  event-fixer: EXPERIMENTAL, cancels additional events for unauthenticated players
-*  perms-hacker: EXPERIMENTAL, Overrides permissions to make sure players can login
+*  hack-login-perms: EXPERIMENTAL, overrides login permisions to make sure players can login
+*  hack-register-perms: EXPERIMENTAL, overrides register permisions to make sure players can register
+*  db-monitor: EXPERIMENTAL, enable database server monitoring
+*  monitor-settings: Configure database monitor settings
+
+#### monitor-settings
+
+*  canary-account: account to query this account is tested to check database proper operations
+*  check-interval: how to often to check database (seconds)
+
 
 # Player pre-registration
 
@@ -186,3 +174,4 @@ plugin.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
