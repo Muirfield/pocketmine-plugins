@@ -25,8 +25,8 @@ use pocketmine\command\Command;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
-use aliuly\common\MPMU;
-use aliuly\common\Cmd;
+use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\Cmd;
 use pocketmine\utils\TextFormat;
 
 class AliasCmd implements CommandExecutor {
@@ -113,7 +113,7 @@ class CmdAlias extends BasicCli implements CommandExecutor {
       return true;
     }
     unset($this->aliases[$alias]);
-    $sender->sendMessage(TextFormat::GREEN.mc::_("Removed alias %1%",$alias);
+    $sender->sendMessage(TextFormat::GREEN.mc::_("Removed alias %1%",$alias));
     return true;
   }
   private function showAlias(CommandSender $sender, $alias) {

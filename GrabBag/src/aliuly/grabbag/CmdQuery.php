@@ -42,8 +42,8 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
+use aliuly\grabbag\common\xPaw\MinecraftQuery;
+use aliuly\grabbag\common\xPaw\MinecraftQueryException;
 
 class CmdQuery extends BasicCli implements CommandExecutor {
 	protected $servers;

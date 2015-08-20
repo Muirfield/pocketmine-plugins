@@ -27,7 +27,7 @@ use pocketmine\item\Item;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use aliuly\common\ArmorItems;
+use aliuly\grabbag\common\ArmorItems;
 
 class CmdSetArmor extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

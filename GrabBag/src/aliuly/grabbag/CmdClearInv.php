@@ -134,7 +134,7 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 				$target->sendMessage(mc::n(mc::_("%2% took one item of %1% from you",ItemName::str($item),$sender->getDisplayName()),
 																 	 mc::_("%3% took %2% items of %1% from you",ItemName::str($item),$k,$sender->getDisplayName())));
 		} else {
-			$sender->sendMessage()
+			$sender->sendMessage(mc::_("No items were removed!"));
 		}
 		return true;
 	}

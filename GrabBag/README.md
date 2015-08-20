@@ -26,13 +26,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.2.7**.
+This documentation was last updated for version **2.3.0dev0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.2.7).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.3.0dev0).
 
 <!-- template-end -->
 
@@ -60,6 +60,7 @@ administration.
 * clearinv : Clear player's inventory
 * get : obtain an item
 * gift : give an item to a player
+* rminv : Remove item from player's Inventory
 * seearmor : Show player's armor
 * seeinv : Show player's inventory
 * setarmor : Sets armor (even in creative)
@@ -75,12 +76,17 @@ administration.
 * perm : temporarily change player's permissions
 * prefix : prepend prefix to chat lines
 * reg : Manage player registrations
+* reop : Let's op drop priviledges temporarily
 * shield : player is protected from taking damage
 * skin : manage player's skins
 
 ### Server Management
 
+* --list : List defined aliases
+* --rm : Remove an alias
+* --rmcmd : Remove an existing command
 * after : schedule command after a number of seconds
+* alias : Create a new command alias
 * at : schedule command at an appointed date/time
 * crash : manage crash dumps
 * opms : sends a message to ops only
@@ -138,12 +144,22 @@ plugins.
 
 The following commands are available:
 
+* --list : List defined aliases  
+
+* --rm : Remove an alias  
+* --rmcmd : Remove an existing command  
 * **after** _&lt;seconds&gt;_ _&lt;command&gt;_|list|cancel _&lt;id&gt;_  
   schedule command after a number of seconds  
 
   Will schedule to run *command* after *seconds*.
   The **list** sub command will show all the queued commands.
   The **cancel** sub command allows you to cancel queued commands.
+
+* **alias** _[--rm|--list|--rmcmd]_ _&lt;alias&gt;_ _&lt;command&gt;_ _[options]_  
+  Create a new command alias  
+
+  Create an alias to a command.
+  The following sub commands are possible:
 
 * **as** _&lt;player&gt;_ _&lt;command&gt;_  
   run command as somebody else  
@@ -181,7 +197,6 @@ The following commands are available:
 
 * **clearhotbar** _[player]_  
   Clear player's hotbar  
-
 * **clearinv** _[player]_  
   Clear player's inventory  
 * **crash** _[ls|clean|show]_  
@@ -309,19 +324,19 @@ The following commands are available:
 
   Manage plugins.
   The following sub-commands are available:
-  - **pluginmgr** **enable** _<plugin>_
+  - **pluginmgr** **enable** _&lt;plugin&gt;_
     - Enable a disabled plugin.
-  - **pluginmgr** **disable** _<plugin>_
+  - **pluginmgr** **disable** _&lt;plugin&gt;_
     - Disables an enabled plugin.
-  - **pluginmgr** **reload** _<plugin>_
+  - **pluginmgr** **reload** _&lt;plugin&gt;_
     - Disables and enables a plugin.
-  - **pluginmgr** **info** _<plugin>_
+  - **pluginmgr** **info** _&lt;plugin&gt;_
     - Show plugin details
-  - **pluginmgr** **commands** _<plugin>_
+  - **pluginmgr** **commands** _&lt;plugin&gt;_
     - Show commands registered by plugin
-  - **pluginmgr** **permissions** _<plugin>_
+  - **pluginmgr** **permissions** _&lt;plugin&gt;_
     - Show permissions registered by plugin
-  - **pluginmgr** **load** _<path>_
+  - **pluginmgr** **load** _&lt;path&gt;_
     - Load a plugin from file path (presumably outside the **plugin** folder.)
 
 * **poptp**  
@@ -351,8 +366,16 @@ The following commands are available:
     - Removes `query` connection `id`.
   - **query ls**
     - List configured `query` connections.
-  - **rcon** _&lt;id&gt;_ _&lt;command&gt;_
-    - Sends the `command` to the connection `id`.
+  - **query list**
+    - List players on all configured `query` connections.
+  - **query info** _&lt;id&gt;_
+    - Return details from query
+  - **query players** _&lt;id&gt;_
+    - Return players on specified server
+  - **query plugins** _&lt;id&gt;_
+    - Returns plugins on specified server
+  - **query summary**
+    - Summary of server data
 
 * **rcon** **[--add|--rm|--ls|id]** _&lt;command&gt;_  
   rcon client  
@@ -381,10 +404,18 @@ The following commands are available:
   - **list** _[pattern]_
     - Display a list of registered players or those that match the
       wildcard _pattern_.
-  - **rm** _<player>_
-    - Removes _<player>_ registration.
-  - **since** _<when>_
+  - **rm** _&lt;player&gt;_
+    - Removes _&lt;player&gt;_ registration.
+  - **since** _&lt;when&gt;_
 			- Display list of players registered since a date/time.
+* **reop** [_player_]  
+  Let's op drop priviledges temporarily  
+
+  Will drop **op** priviledges from player.  Player can get **op**
+  back at any time by enter **reop** again or by disconnecting.
+* **rminv** _[player]_ _&lt;item&gt;_ _[quantity]_  
+  Remove item from player's Inventory  
+
 * **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]  
   report an issue to ops  
 
@@ -411,15 +442,15 @@ The following commands are available:
   players can not join (unless they are ops).  Existing players
   can remain but may be kicked manually by any ops.
 
-* **setarmor** _[player]_ _[piece]_ _&lt;type&gt;_  
+* **setarmor** _[player]_ _[part]_ _&lt;quality&gt;_  
   Sets armor (even in creative)  
 
   This command lets you armor up.  It can armor up creative players too.
   If no `player` is given, the player giving the command will be armored.
 
-  Piece can be one of `head`, `body`, `legs`, or `boots`.
+  Part can be one of `head`, `body`, `legs`, or `boots`.
 
-  Type can be one of `leather`, `chainmail`, `iron`, `gold` or `diamond`.
+  Quality can be one of `none`, `leather`, `chainmail`, `iron`, `gold` or `diamond`.
 
 * **shield**  
   player is protected from taking damage  
@@ -640,6 +671,9 @@ this section through the *rcon* command.
 * gb.cmd.clearinv : Clear player's inventory
 * gb.cmd.clearinv.others : Clear other's inventory
   (Defaults to Op)
+* gb.cmd.rminv : Remove item from player's inventory
+* gb.cmd.rminv.others : Remove item from other's inventory
+  (Defaults to Op)
 * gb.cmd.clearhotbar : Clear player's hotbar
 * gb.cmd.clearhotbar.others : Clear other's hotbar
   (Defaults to Op)
@@ -723,6 +757,11 @@ this section through the *rcon* command.
 * gb.cmd.query.players : Access to query players
 * gb.cmd.query.players.showip : Show IP/hostname in query players
 * gb.cmd.query.list : Query list command
+* gb.cmd.alias : Allow creating aliases
+  (Defaults to Op)
+* gb.cmd.reop : Access to reop command
+* gb.cmd.reop.others : Allows to reop others
+  (Defaults to Op)
 
 
 ## Translations
@@ -903,3 +942,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

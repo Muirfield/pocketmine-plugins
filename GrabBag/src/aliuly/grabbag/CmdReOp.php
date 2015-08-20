@@ -24,9 +24,9 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 
-class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
+class CmdReOp extends BasicCli implements Listener,CommandExecutor {
 	protected $reops;
-	public function __construct($owner,$cfg) {
+	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("reop",
 							  ["description" => mc::_("Temporarily deops administrators"),
@@ -73,7 +73,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
       $sender->sendMessage(mc::_("That is not possible"));
       return true;
     }
-    $sender->sendMessage("You are not allowed to do this")
+    $sender->sendMessage(mc::_("You are not allowed to do this"));
 		return true;
 	}
 	public function onQuit(PlayerQuitEvent $ev) {
