@@ -4,6 +4,9 @@ namespace aliuly\common;
 use pocketmine\Server;
 use pocketmine\Player;
 
+use aliuly\comon\ItemName;
+use pocketmine\utils\TextFormat;
+
 
 //use pocketmine\item\Item;
 
@@ -25,6 +28,39 @@ abstract class ExpandVars {
   static protected $playerExtensions = null;
   /** @var callable[] Callables to create server wide variables */
   static protected $sysExtensions = null;
+  /** @var array API table */
+  static public $api = [];
+  /** @var str[] static _constants_ */
+  static public $consts = [
+    "{10SPACE}" => str_repeat(" ",10),
+    "{20SPACE}" => str_repeat(" ",20),
+    "{30SPACE}" => str_repeat(" ",30),
+    "{40SPACE}" => str_repeat(" ",40),
+    "{50SPACE}" => str_repeat(" ",50),
+    "{NL}" => "\n",
+    "{BLACK}" => TextFormat::BLACK,
+    "{DARK_BLUE}" => TextFormat::DARK_BLUE,
+    "{DARK_GREEN}" => TextFormat::DARK_GREEN,
+    "{DARK_AQUA}" => TextFormat::DARK_AQUA,
+    "{DARK_RED}" => TextFormat::DARK_RED,
+    "{DARK_PURPLE}" => TextFormat::DARK_PURPLE,
+    "{GOLD}" => TextFormat::GOLD,
+    "{GRAY}" => TextFormat::GRAY,
+    "{DARK_GRAY}" => TextFormat::DARK_GRAY,
+    "{BLUE}" => TextFormat::BLUE,
+    "{GREEN}" => TextFormat::GREEN,
+    "{AQUA}" => TextFormat::AQUA,
+    "{RED}" => TextFormat::RED,
+    "{LIGHT_PURPLE}" => TextFormat::LIGHT_PURPLE,
+    "{YELLOW}" => TextFormat::YELLOW,
+    "{WHITE}" => TextFormat::WHITE,
+    "{OBFUSCATED}" => TextFormat::OBFUSCATED,
+    "{BOLD}" => TextFormat::BOLD,
+    "{STRIKETHROUGH}" => TextFormat::STRIKETHROUGH,
+    "{UNDERLINE}" => TextFormat::UNDERLINE,
+    "{ITALIC}" => TextFormat::ITALIC,
+    "{RESET}" => TextFormat::RESET,
+  ];
 
   /**
    * Convert bearings in degrees into points in compass
@@ -151,6 +187,32 @@ abstract class ExpandVars {
     if (self::$playerExtensions !== null) return;
     self::$playerExtensions = self::AutoloadExtensions("getPlayerVars",$server);
     self::$playerExtensions[] = __CLASS__ ."\\stdPlayerVars";
+    self::$playerExtensions[] = __CLASS__ ."\\invPlayerVars";
+    $pm = $server->getPluginManager();
+    if (($kr = $pm->getPlugin("KillRate")) !== null) {
+      if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0 &&
+          intval($this->kr->getDescription()->getVersion()) == 1) {
+        self::$api["KillRate-1.1"] = $kr;
+        self::$playerExtensions[] = __CLASS__ ."\\kr1PlayerVars";
+      }
+    }
+    if (($pp = $pm->getPlugin("PurePerms")) !== null) {
+      self::$api["PurePerms"] = $pp;
+      self::$playerExtensions[] = __CLASS__ ."\\purePermsPlayerVars";
+    }
+    if (($mm = $pm->getPlugin("GoldStd")) !== null) {
+      self::$api["money"] = $mm;
+      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsGoldStd";
+    } elseif (($mm = $pm->getPlugin("PocketMoney")) !== null) {
+      self::$api["money"] = $mm;
+      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsPocketMoney";
+    } elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
+      self::$api["money"] = $mm;
+      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsMassiveEconomy";
+    } elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
+      self::$api["money"] = $mm;
+      self::$playerExtensions[] = __CLASS__ ."\\moneyPlayerVarsEconomysApi";
+    }
   }
   /**
    * Register a callback function that define player specific variable expansions
@@ -196,41 +258,58 @@ abstract class ExpandVars {
    * @param Player $player - reference to pocketmine Player
    * @param array &$vars - receives variable defintions
    */
-   static public function invPlayerVars(Player $player,array &$vars) {
-     if (self::$krApi === false) return;
-     if (self::$krApi === null) {
-       self::$krApi = false; // Disable by default
-       $kr = $player->getServer()->getPluginManager()->getPlugin("KillRate");
+  static public function invPlayerVars(Player $player,array &$vars) {
+    $item = clone $player->getInventory()->getItemInHand();
+    $vars["{item}"] = ItemName::str($item);
+    $vars["{itemid}"] = $item->getId();
+  }
 
-     }
-   }
-}
-
-
-
-if (($kr = $pm->getPlugin("KillRate")) !== null) {
-	if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0) {
-		$vars["{score}"] = $kr->getScore($player);
-		$ranks = $kr->getRankings(3);
+  /**
+   * @param Player $player - reference to pocketmine Player
+   * @param array &$vars - receives variable defintions
+   */
+  static public function kr1PlayerVars(Player $player,array &$vars) {
+    $vars["{score}"] = self::$api["killrate-1.1"]->getScore($player);
+		$ranks = self::$api["killrate-1.1"]->getRankings(10);
 		if ($ranks == null) {
 			$vars["{tops}"] = "N/A";
+      $vars["{top10}"] = "N/A";
 		} else {
 			$vars["{tops}"] = "";
+      $vars["{top10}"] = "";
 			$i = 1; $q = "";
 			foreach ($ranks as $r) {
-				$vars["{tops}"] .= $q.($i++).". ".substr($r["player"],0,8).
+        if ($i <= 3) {
+          $vars["{tops}"] .= $q.$i.". ".substr($r["player"],0,8).
 									 " ".$r["count"];
-				$q = "   ";
+          $q = "   ";
+        }
+        $vars["{top10}"] .= $i.". ".$r["player"]." ".$r["count"]."\n";
+        ++$i;
 			}
 		}
-	}
-}
-if (($mm = $pm->getPlugin("PocketMoney")) !== null) {
-	$vars["{money}"] = $mm->getMoney($player->getName());
-} elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
-	$vars["{money}"] = $mm->getMoney($player->getName());
-} elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
-	$vars["{money}"] = $mm->mymoney($player->getName());
-} elseif (($mm = $pm->getPlugin("GoldStd")) !== null) {
-	$vars["{money}"] = $mm->getMoney($player);
+  }
+  /**
+   * @param Player $player - reference to pocketmine Player
+   * @param array &$vars - receives variable defintions
+   */
+  static public function moneyPlayerVarsPocketMoney(Player $player,array &$vars) {
+    $vars["{money}"] = self::$api["money"]->getMoney($player->getName());
+  }
+  static public function moneyPlayerVarsMassiveEconomy(Player $player,array &$vars) {
+    $vars["{money}"] = self::$api["money"]->getMoney($player->getName());
+  }
+  static public function moneyPlayerVarsEconomysApi(Player $player,array &$vars) {
+    $vars["{money}"] = self::$api["money"]->mymoney($player->getName());
+  }
+  static public function moneyPlayerVarsGoldStd(Player $player,array &$vars) {
+    $vars["{money}"] = self::$api["money"]->getMoney($player);
+  }
+  /**
+   * @param Player $player - reference to pocketmine Player
+   * @param array &$vars - receives variable defintions
+   */
+  static public function purePermsPlayerVars(Player $player,array &$vars) {
+    $vars["{group}"] = self::$api["PurePerms"]->getUser($player)->getGroup()->getName();
+  }
 }
