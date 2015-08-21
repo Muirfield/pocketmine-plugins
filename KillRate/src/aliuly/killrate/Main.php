@@ -358,7 +358,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
 					}
 				}
-				$this->delScore($pv,"streak");
+				$this->dbm->delScore($n,"streak");
 			}
 		}
 		$cause = $pv->getLastDamageCause();

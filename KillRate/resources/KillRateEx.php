@@ -29,8 +29,7 @@
  * @api 1.12.0
  * @author aliuly
  * @description Simple command implementations
- * @softdepend libcommon
- * @depend KillRate
+ * @depend KillRate, libcommon
  */
 
 
@@ -103,9 +102,9 @@ namespace script{
 						return true;
 					}
 					$points = intval($points);
-					$kr->api->updateScore($player,"points",$points);
+					$this->kr->api->updateScore($player,"points",$points);
 					$sender->sendMessage(TextFormat::GREEN."Awarding ".$points." points to ".$player->getDisplayName());
-					$player->sendMessage(TextFormat::YELLOW."You have been awarded ".$points." by ".$sender->getDisplayName());
+					$player->sendMessage(TextFormat::YELLOW."You have been awarded ".$points." by ".$sender->getName());
 					return true;
 			}
 			return false;
