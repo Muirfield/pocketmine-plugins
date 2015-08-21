@@ -205,4 +205,10 @@ abstract class BasicPlugin extends PluginBase {
 		fclose($fp);
 		return $contents;
 	}
+	/**
+	 * Lets you dump the messages.ini file
+	 */
+	 public function getMessagesIni(){
+		 return $this->getResourceContents("messages/messages.ini");
+	 }
 }

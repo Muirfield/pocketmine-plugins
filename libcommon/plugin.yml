@@ -7,3 +7,8 @@ load: STARTUP
 description: aliuly's common library
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+
+permissions:
+  libcommon.debug.command:
+    default: op
+    description: "Allow access to libcommon debug commands"

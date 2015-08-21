@@ -1,13 +1,19 @@
 <?php
 namespace aliuly\loader;
 
+use pocketmine\command\ConsoleCommandSender;
+use pocketmine\command\CommandExecutor;
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
+
 use aliuly\common\BasicPlugin;
 use aliuly\common\MPMU;
+use aliuly\common\mc;
 
 /**
  * This class is used for the PocketMine PluginManager
  */
-class Main extends BasicPlugin{
+class Main extends BasicPlugin implements CommandExecutor{
 	/**
 	 * Provides the library version
 	 * @return str
@@ -16,14 +22,40 @@ class Main extends BasicPlugin{
 		return MPMU::version();
 	}
 	public function onEnable() {
-		if (\pocketmine\DEBUG > 1) {
-			if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-			$mft = explode("\n",trim($this->getResourceContents("manifest.txt")));
-			foreach ($mft as $f) {
-				if (file_exists($this->getDataFolder().$f)) continue;
-				$txt = $this->getResourceContents("examples/".$f);
-				file_put_contents($this->getDataFolder().$f,$txt);
-			}
+		if (\pocketmine\DEBUG <= 1) return;
+
+		// Create example folders
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		$mft = explode("\n",trim($this->getResourceContents("manifest.txt")));
+		foreach ($mft as $f) {
+			if (file_exists($this->getDataFolder().$f)) continue;
+			$txt = $this->getResourceContents("examples/".$f);
+			file_put_contents($this->getDataFolder().$f,$txt);
 		}
+		mc::plugin_init($this,$this->getFile());
+		MPMU::addCommand($this,$this,"libcommon", [
+			"description" => "LibCommon Command Line interface",
+			"usage" => "/libcommon <subcommand> [options]",
+			"aliases" => ["lc"],
+			"permission" => "libcommon.debug.command",
+		]);
+
+		$this->modules = [];
+		foreach ([
+			"Version",
+		] as $mod) {
+			$mod = __NAMESPACE__."\\".$mod;
+			$this->modules[] = new $mod($this);
+		}
+		$this->modules[] = new BasicHelp($this);
+	}
+	//////////////////////////////////////////////////////////////////////
+	//
+	// Command dispatcher
+	//
+	//////////////////////////////////////////////////////////////////////
+	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+		if ($cmd->getName() != "libcommon") return false;
+		return $this->dispatchSCmd($sender,$cmd,$args);
 	}
 }
