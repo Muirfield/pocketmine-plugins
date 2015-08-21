@@ -9,13 +9,7 @@ use pocketmine\event\Listener;
 use aliuly\helper\Main as HelperPlugin;
 use aliuly\helper\common\mc;
 use pocketmine\utils\TextFormat;
-use pocketmine\event\player\PlayerLoginEvent;
-
-use pocketmine\Player;
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
-
+use pocketmine\event\player\PlayerJoinEvent;
 
 class DbMonitorTask extends PluginTask implements Listener{
   protected $canary;
@@ -50,7 +44,26 @@ class DbMonitorTask extends PluginTask implements Listener{
       $this->getOwner()->getServer()->broadcastMessage(TextFormat::RED.mc::_("Detected loss of database connectivity!"));
     }
   }
+  private function enableAuth($mgr,$auth) {
+    if ($auth === null) return false; // OK, this is weird!
+    if ($auth->isEnabled()) return true;
+    $this->getOwner()->getLogger()->info(mc::_("Enabling SimpleAuth"));
+    $mgr->enablePlugin($auth);
+    if (!$auth->isEnabled()) return false;
+    $this->dbm = $auth->getDataProvider();
+    return true;
+  }
+
 	public function onRun($currentTicks){
+    //echo __METHOD__.",".__LINE__."\n";//##DEBUG
+    $mgr = $this->getOwner()->getServer()->getPluginManager();
+    $auth = $mgr->getPlugin("SimpleAuth");
+    if ($auth === null) return; // OK, this is weird!
+
+    if (!$auth->isEnabled()) {
+      if (!$this->enableAuth($mgr,$auth)) return; // Ouch...
+    }
+
     $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
     if ($player == null) return;//We can't proceed!
     if ($this->dbm->isPlayerRegistered($player)) {
@@ -64,20 +77,17 @@ class DbMonitorTask extends PluginTask implements Listener{
     /*
      * let's try to reconnect by resetting SimpleAuth
      */
-    $mgr = $this->getOwner()->getServer()->getPluginManager();
-    $auth = $mgr->getPlugin("SimpleAuth");
-    if ($auth === null) return; // OK, this is weird!
     if ($auth->isEnabled()) {
       $this->getOwner()->getLogger()->info(mc::_("Disabling SimpleAuth"));
       $mgr->disablePlugin($auth);
     }
     if (!$auth->isEnabled()) {
       $this->getOwner()->getLogger()->info(mc::_("Enabling SimpleAuth"));
-      $mgr->enablePlugin($auth);
+      if (!$this->enableAuth($mgr,$auth)) return; // Ouch...
     }
     if ($this->dbm->isPlayerRegistered($player)) $this->setStatus(true);
 	}
-  public function onConnect(PlayerLoginEvent $ev) {
+  public function onConnect(PlayerJoinEvent $ev) {
     if ($this->ok) return;
     $ev->getPlayer()->kick(mc::_("Database is experiencing technical difficulties"));
   }

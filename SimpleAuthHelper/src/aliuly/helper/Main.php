@@ -91,7 +91,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		if ($this->cfg["hack-login-perms"] || $this->cfg["hack-register-perms"]) {
 			$this->permshacker = new PermsHacker($this,$this->cfg["hack-login-perms"],$this->cfg["hack-register-perms"]);
 		}
-		if ($this->cfg["mysql-monitor"]) {
+		if ($this->cfg["db-monitor"]) {
 			$this->monitor = new DbMonitorTask($this,$this->cfg["monitor-settings"]);
 		}
 		$this->pwds = [];
