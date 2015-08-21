@@ -774,7 +774,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag/resources/messages)
 for sample files.
 
 ## Additional Libraries
@@ -789,7 +789,6 @@ The following third party libraries are included:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
   * name resolution doesn't work reliably, use IP address as work around.
-* CmdAlias : removing command (libcomm:rmCommand) does not work.
 
 ## WIP and issues
 
@@ -799,6 +798,7 @@ The following third party libraries are included:
 
 * 2.3.0: Update
   * Plugin loader will check server paths (include plugin folder)
+  * New plugin mgr sub command to dump messages.ini.
   * Doc updates.
   * Updating libcommon stuff.
   * WhoIs command now supports [PurePerms](https://forums.pocketmine.net/plugins/pureperms.862/)
@@ -944,4 +944,3 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
-

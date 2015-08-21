@@ -5,14 +5,10 @@
  ** COMMANDS
  **
  ** * alias : Create a new command alias
- **   usage: **alias** _[--rm|--list|--rmcmd]_ _<alias>_ _<command>_ _[options]_
+ **   usage: **alias** **[-f]** _<alias>_ _<command>_ _[options]_
  **
  **   Create an alias to a command.
- **   The following sub commands are possible:
- **
- **   * --rm : Remove an alias
- **   * --rmcmd : Remove an existing command
- **   * --list : List defined aliases
+ **   Use the **-f** to override existing commands
  **
  **/
 
@@ -56,7 +52,7 @@ class CmdAlias extends BasicCli implements CommandExecutor {
 		$this->aliases = [];
 		$this->enableCmd("alias",
 							  ["description" => mc::_("Create a command alias"),
-								"usage" => mc::_("/alias [--rm|--list|--rmcmd] <alias> [command]"),
+								"usage" => mc::_("/alias [-f] [alias [command]]"),
 								"permission" => "gb.cmd.alias"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
@@ -67,54 +63,29 @@ class CmdAlias extends BasicCli implements CommandExecutor {
 		return false;
 	}
   private function cmdAlias(CommandSender $sender,array $args) {
-    if (count($args) == 0) $args = ["--ls" ];
-    switch(strtolower($args[0])) {
-      case "--ls":
-      case "--list":
-        array_shift($args);
-        return $this->lsAliases($sender, $args);
-      case "--rm":
-        array_shift($args);
-        return $this->rmAlias($sender, $args);
-      case "--rmcmd":
-        array_shift($args);
-        if (count($args) != 1) return false;
-        if (MPMU::rmCommand($this->owner->getServer(),$args[0])) {
-          $sender->sendMessage(TextFormat::GREEN.mc::_("Command %1% has been removed", $args[0]));
-        } else {
-          $sender->sendMessage(TextFormat::RED.mc::_("Unable to remove command %1%", $args[0]));
-        }
-        return true;
-    }
+    if (count($args) == 0 || count($args) == 1 && is_numeric($args[0])) return $this->lsAliaes($sender,$args);
     if (count($args) == 1)  return $this->showAlias($sender, $args[0]);
+
+    if (args[0] == "-f") {
+      $force = true;
+      array_shift($args);
+      if (count($args) <= 1) return false;
+    } else
+      $force = false;
+
     // Create an alias
     $alias = array_shift($args);
     $cmdline = implode(" ",$args);
-    if (isset($this->aliases[$alias])) {
-      $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists as an alias", $alias));
-      return true;
-    }
     if ($this->owner->getServer()->getCommandMap()->getCommand($alias) !== null) {
-      $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists as a command", $alias));
-      return true;
+      if ($force) {
+        MPMU::rmCommand($this->owner->getServer(),$alias);
+      } else {
+        $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists use -f option", $alias));
+        return true;
+      }
     }
     $this->aliases[$alias] = new AliasCmd($this->owner, $alias, $cmdline);
     $sender->sendMessage(TextFormat::GREEN.mc::_("Created alias \"%1%\" as \"%2%\"",$alias,$cmdline));
-    return true;
-  }
-  private function rmAlias(CommandSender $sender, array $args) {
-    if (count($args) != 1) return false;
-    $alias = array_shift($args);
-    if (!isset($this->aliases[$alias])) {
-      $sender->sendMessage(TextFormat::RED.mc::_("%1% is NOT an alias", $alias));
-      return true;
-    }
-    if (!MPMU::rmCommand($this->owner->getServer(),$alias)) {
-      $sender->sendMessage(TextFormat::RED.mc::_("Unable to un-map alias %1%", $alias));
-      return true;
-    }
-    unset($this->aliases[$alias]);
-    $sender->sendMessage(TextFormat::GREEN.mc::_("Removed alias %1%",$alias));
     return true;
   }
   private function showAlias(CommandSender $sender, $alias) {

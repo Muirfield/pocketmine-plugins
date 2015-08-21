@@ -5,7 +5,7 @@
  ** COMMANDS
  **
  ** * pluginmgr : manage plugins
- **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _plugin>
+ **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
  **
  **   Manage plugins.
  **   The following sub-commands are available:
@@ -23,6 +23,8 @@
  **     - Show permissions registered by plugin
  **   - **pluginmgr** **load** _&lt;path&gt;_
  **     - Load a plugin from file path (presumably outside the **plugin** folder.)
+ **   - **pluginmgr** **dumpmsg** _&lt;plugin&gt;_
+ **     - Dump messages.ini.
  **
  **/
 
@@ -139,12 +141,30 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			case "permission":
 			case "permissions":
 				return $this->cmdPerms($sender,$plugin,$pageNumber);
+			case "dumpmsg":
+			case "dumpmsgs":
+				return $this->cmdDumpMsgs($sender,$plugin);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
 		}
 		return true;
 	}
+	private function cmdDumpMsgs(CommandSender $c,Plugin $p) {
+		$getini = [$plugin,"getMessagesIni"];
+		if (!is_callable($getini)) {
+			$c->sendMessage(mc::_("Plugin does not support dumping messages.ini"));
+			return true;
+		}
+		if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
+		if (file_put_contents($plugin->getDataFolder(),$getini())) {
+			$c->sendMessage(mc::_("messages.ini created"));
+		} else {
+			$c->sendMessage(mc::_("Error dumping messages.ini"));
+		}
+		return true;
+	}
+
 	private function cmdPerms(CommandSender $c,Plugin $p,$pageNumber) {
 		$desc = $p->getDescription();
 		$perms = $desc->getPermissions();
