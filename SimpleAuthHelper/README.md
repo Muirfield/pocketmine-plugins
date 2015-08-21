@@ -127,6 +127,13 @@ plugin.
    - resetpwd _player_
    - preregister _player_ _passwd_
 
+# TODO
+
+- db-monitor
+  - onEnable - check if canary account exists, if it doesn't we register it
+  - check what happens if we start with a stopped account
+  - on join we should check database status
+
 # Changes
 
 * 2.0.0: Major upgrade
@@ -174,4 +181,3 @@ plugin.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
