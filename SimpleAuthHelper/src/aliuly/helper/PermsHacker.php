@@ -58,6 +58,6 @@ class PermsHacker implements Listener{
 	}
 	public function onCmd(PlayerCommandPreprocessEvent $ev) {
   	echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$this->forcePerms($ev->getPlayer(););
+		$this->forcePerms($ev->getPlayer());
 	}
 }

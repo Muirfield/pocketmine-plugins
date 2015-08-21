@@ -127,6 +127,11 @@ plugin.
    - resetpwd _player_
    - preregister _player_ _passwd_
 
+## TODO
+
+- db-monitor
+  - when status goes bad, kick all unauthenticated players
+
 # Changes
 
 * 2.0.0: Major upgrade
