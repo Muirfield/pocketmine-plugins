@@ -21,7 +21,7 @@ class DbMonitorTask extends PluginTask implements Listener{
   static public function defaults() {
 		return [
       "# canary-account" => "account to query",//this account is tested to check database proper operations
-      "canary-account" => "steve",
+      "canary-account" => "test user",
       "# check-interval" => "how to often to check database (seconds)",
       "check-interval" => 600,
 		];
@@ -57,9 +57,26 @@ class DbMonitorTask extends PluginTask implements Listener{
     if ($mode) {
       $this->getOwner()->getLogger()->info(mc::_("Restored database connection"));
       $this->getOwner()->getServer()->broadcastMessage(TextFormat::GREEN.mc::_("Database connectivity restored!"));
-    } else {
-      $this->getOwner()->getLogger()->error(mc::_("LOST DATABASE CONNECTION!"));
-      $this->getOwner()->getServer()->broadcastMessage(TextFormat::RED.mc::_("Detected loss of database connectivity!"));
+      return;
+    }
+    $this->getOwner()->getLogger()->error(mc::_("LOST DATABASE CONNECTION!"));
+    $this->getOwner()->getServer()->broadcastMessage(TextFormat::RED.mc::_("Detected loss of database connectivity!"));
+    // Kick all unregistered players...
+    $auth = $this->getOwner()->getServer()->getPluginManager()->getPlugin("SimpleAuth");
+    if ($auth !== null) {
+      $cnt = 0;
+      foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $ll) {
+        if (!$auth->isPlayerAuthenticated($ll))
+          $ll->kick("Database is experiencing technical difficulties");
+      }
+      $this->getOwner()->getServer()->broadcastMessage(
+          TextFormat::BLUE.
+          mc::n(
+            mc::_("one unauthenticated player was kicked"),
+            mc::_("%1% unauthenticated players were kicked", $cnt),
+            $cnt
+          )
+      );
     }
   }
   private function enableAuth($mgr,$auth) {

@@ -37,7 +37,7 @@ class PermsHacker implements Listener{
 			$this->resetPerms($player);
 			return;
 		}
-		if ($this->opts["register"] && !$this->helper->auth->isPlayerRegistered($pl)) {
+		if ($this->opts["register"] && !$this->helper->auth->isPlayerRegistered($player)) {
 			$this->checkPerm($player,"simpleauth.command.register");
 			return;
 		}

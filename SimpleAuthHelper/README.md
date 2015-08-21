@@ -106,8 +106,20 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 *  canary-account: account to query this account is tested to check database proper operations
 *  check-interval: how to often to check database (seconds)
 
+## Translations
 
-# Player pre-registration
+This plugin will honour the server language configuration.  The
+languages currently available are:
+
+* English
+* Spanish
+
+You can provide your own message file by creating a file called
+`messages.ini` in the plugin config directory.  Check
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages)
+for sample files.
+
+## Player pre-registration
 
 It is possible to implement a web based pre-registration system with this
 plugin.
@@ -127,11 +139,6 @@ plugin.
    - resetpwd _player_
    - preregister _player_ _passwd_
 
-## TODO
-
-- db-monitor
-  - when status goes bad, kick all unauthenticated players
-
 # Changes
 
 * 2.0.0: Major upgrade
@@ -143,6 +150,7 @@ plugin.
   - Added pre-register and logout command
   - forces permissions to be set
   - Added a task to monitor database server status
+  - Thanks @rvachvg for helping debug this.
 * 1.2.3: Security improvements
   - prevent user from chatting away their password
   - add option so that players can also use "/login" to login.
