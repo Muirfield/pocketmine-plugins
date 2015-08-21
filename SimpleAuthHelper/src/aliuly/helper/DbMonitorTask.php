@@ -9,6 +9,7 @@ use pocketmine\event\Listener;
 use aliuly\helper\Main as HelperPlugin;
 use aliuly\helper\common\mc;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 
 class DbMonitorTask extends PluginTask implements Listener{
@@ -28,9 +29,26 @@ class DbMonitorTask extends PluginTask implements Listener{
 	public function __construct(HelperPlugin $owner,$cfg){
 		parent::__construct($owner);
     $this->canary = $cfg["canary-account"];
+    if ($owner->auth->isEnabled()) {
+      $this->dbm = $owner->auth->getDataProvider();
+      $this->ok = true; // Assume things are OK...
+      if (!$this->pollDB()) {
+        // If this fails then canary account doesn't exist yet... create it
+        $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
+        if ($player === null) {
+          throw new \RuntimeException("canary account definition error!");
+          return;
+        }
+        $err = $this->dbm->registerPlayer($player,"N/A");
+        if ($err === null) {
+          throw new \RuntimeException("Unable to register canary account!");
+        }
+      }
+    } else {
+      $this->ok = false;
+    }
+
     $owner->getServer()->getScheduler()->scheduleRepeatingTask($this,$cfg["check-interval"]*20);
-    $this->ok = true; // Assume things are OK...
-    $this->dbm = $owner->auth->getDataProvider();
     $owner->getServer()->getPluginManager()->registerEvents($this, $owner);
 	}
   private function setStatus($mode) {
@@ -53,6 +71,17 @@ class DbMonitorTask extends PluginTask implements Listener{
     $this->dbm = $auth->getDataProvider();
     return true;
   }
+  private function pollDB() {
+    //echo __METHOD__.",".__LINE__."\n";//##DEBUG
+    $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
+    if ($player == null) return true;//Automatically assume things are OK :)
+    try {
+      return $this->dbm->isPlayerRegistered($player);
+    } catch (\Exception $e) {
+      $this->getOwner()->getLogger()->error(mc::_("DBM Error: %1%",$e->getMessage()));
+    }
+    return false;
+  }
 
 	public function onRun($currentTicks){
     //echo __METHOD__.",".__LINE__."\n";//##DEBUG
@@ -63,10 +92,7 @@ class DbMonitorTask extends PluginTask implements Listener{
     if (!$auth->isEnabled()) {
       if (!$this->enableAuth($mgr,$auth)) return; // Ouch...
     }
-
-    $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
-    if ($player == null) return;//We can't proceed!
-    if ($this->dbm->isPlayerRegistered($player)) {
+    if ($this->pollDB()) {
       $this->setStatus(true);
       return;
     }
@@ -85,9 +111,12 @@ class DbMonitorTask extends PluginTask implements Listener{
       $this->getOwner()->getLogger()->info(mc::_("Enabling SimpleAuth"));
       if (!$this->enableAuth($mgr,$auth)) return; // Ouch...
     }
-    if ($this->dbm->isPlayerRegistered($player)) $this->setStatus(true);
+    if ($this->pollDB()) $this->setStatus(true);
 	}
-  public function onConnect(PlayerJoinEvent $ev) {
+  public function onConnect(PlayerLoginEvent $ev) {
+    $this->onRun(0);
+  }
+  public function onJoin(PlayerJoinEvent $ev) {
     if ($this->ok) return;
     $ev->getPlayer()->kick(mc::_("Database is experiencing technical difficulties"));
   }
