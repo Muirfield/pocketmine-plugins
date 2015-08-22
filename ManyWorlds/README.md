@@ -172,6 +172,11 @@ for sample files.
 
 # Changes
 
+* 2.0.2: Bug fix
+  * Updated libcommon to 1.2.0dev1
+    * This fixes a bug reported by @SoyPro. (#23)
+    * Note this means that permissions defined in `plugin.yml` are applied
+      properly which means all **ManyWorlds** sub commands are **OP only**.
 * 2.0.1: Bug fix
   * Changed command to manyworlds and mw is an alias.  This is to
     prevent possible name collisions.
