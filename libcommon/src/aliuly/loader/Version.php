@@ -20,7 +20,7 @@ class Version extends BasicCli {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableSCmd("version",["usage" => "",
-										"help" => mc::_("Show libcommon version"));
+										"help" => mc::_("Show libcommon version")]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
 		if (count($args) != 0) return false;

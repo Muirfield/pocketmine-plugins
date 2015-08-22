@@ -85,6 +85,7 @@ Link.
 
 - 1.2.0: Update 2<br/>
   * MoneyAPI bug fix<br/>
+  * Fixed BasicPlugin bug<br/>
   * New Features:<br/>
     * GetMotdAsyncTask<br/>
     * Session management<br/>

@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
 use aliuly\common\BasicPlugin;
+use aliuly\common\BasicHelp;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
 
@@ -23,7 +24,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 	}
 	public function onEnable() {
 		if (\pocketmine\DEBUG <= 1) return;
-
+		echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		// Create example folders
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		$mft = explode("\n",trim($this->getResourceContents("manifest.txt")));
@@ -32,6 +33,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 			$txt = $this->getResourceContents("examples/".$f);
 			file_put_contents($this->getDataFolder().$f,$txt);
 		}
+		echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		mc::plugin_init($this,$this->getFile());
 		MPMU::addCommand($this,$this,"libcommon", [
 			"description" => "LibCommon Command Line interface",
@@ -43,7 +45,9 @@ class Main extends BasicPlugin implements CommandExecutor{
 		$this->modules = [];
 		foreach ([
 			"Version",
+			"DumpMsgs",
 		] as $mod) {
+			echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 			$mod = __NAMESPACE__."\\".$mod;
 			$this->modules[] = new $mod($this);
 		}

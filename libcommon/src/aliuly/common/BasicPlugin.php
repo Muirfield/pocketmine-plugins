@@ -114,8 +114,8 @@ abstract class BasicPlugin extends PluginBase {
 			$sender->sendMessage(mc::_("Unknown sub-command %2% (try /%1% help)",$cmd->getName(),$scmd));
 			return false;
 		}
-		if (isset($this->scmdMapd["permission"][$scmd])) {
-			if (!$sender->hasPermission($this->scmdMapd["permission"][$scmd])) {
+		if (isset($this->scmdMap["permission"][$scmd])) {
+			if (!$sender->hasPermission($this->scmdMap["permission"][$scmd])) {
 				$sender->sendMessage(mc::_("You are not allowed to do this"));
 				return true;
 			}
