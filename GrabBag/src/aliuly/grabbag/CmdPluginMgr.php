@@ -150,14 +150,14 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		}
 		return true;
 	}
-	private function cmdDumpMsgs(CommandSender $c,Plugin $p) {
+	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
 		$getini = [$plugin,"getMessagesIni"];
 		if (!is_callable($getini)) {
 			$c->sendMessage(mc::_("Plugin does not support dumping messages.ini"));
 			return true;
 		}
 		if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
-		if (file_put_contents($plugin->getDataFolder(),$getini())) {
+		if (file_put_contents($plugin->getDataFolder()."messages.ini",$getini())) {
 			$c->sendMessage(mc::_("messages.ini created"));
 		} else {
 			$c->sendMessage(mc::_("Error dumping messages.ini"));
@@ -214,19 +214,19 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 					 TextFormat::WHITE.$desc->getWebsite();
 		if (count($desc->getCompatibleApis()))
 			$txt[] = TextFormat::GREEN.mc::_("APIs: ").
-					 TextFormat::WHITE.implode(", ",$desc->getCompatibleApis());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getCompatibleApis());
 		if (count($desc->getAuthors()))
 			$txt[] = TextFormat::GREEN.mc::_("Authors: ").
-					 TextFormat::WHITE.implode(", ",$desc->getAuthors());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getAuthors());
 		if (count($desc->getDepend()))
 			$txt[] = TextFormat::GREEN.mc::_("Dependancies: ").
-					 TextFormat::WHITE.implode(", ",$desc->getDepend());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getDepend());
 		if (count($desc->getSoftDepend()))
 			$txt[] = TextFormat::GREEN.mc::_("Soft-Dependancies: ").
-					 TextFormat::WHITE.implode(", ",$desc->getSoftDepend());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getSoftDepend());
 		if (count($desc->getLoadBefore()))
 			$txt[] = TextFormat::GREEN.mc::_("Load Before: ").
-					 TextFormat::WHITE.implode(", ",$desc->getLoadBefore());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getLoadBefore());
 		if (($cnt = count($desc->getCommands())) > 0)
 			$txt[] = TextFormat::GREEN.mc::_("Commands: ").TextFormat::WHITE.$cnt;
 		if (($cnt = count($desc->getPermissions())) > 0)

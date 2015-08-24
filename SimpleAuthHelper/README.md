@@ -25,10 +25,10 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.0dev2**.
+This documentation was last updated for version **2.0.0dev3**.
 
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0dev2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0dev3).
 
 <!-- template-end -->
 
@@ -106,6 +106,7 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
 *  canary-account: account to query this account is tested to check database proper operations
 *  check-interval: how to often to check database (seconds)
 
+
 ## Translations
 
 This plugin will honour the server language configuration.  The
@@ -138,6 +139,10 @@ plugin.
 7. Whenever a user changes password in web site, we use *rcon* with:
    - resetpwd _player_
    - preregister _player_ _passwd_
+
+## Issues
+
+* Event Fixer: Crafting doesn't work
 
 # Changes
 

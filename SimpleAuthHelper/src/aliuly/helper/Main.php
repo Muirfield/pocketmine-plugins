@@ -351,7 +351,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				return $this->chpwd($sender, implode(" ", $args));
 			case "resetpwd":
 				if (count($args) != 1) return false;
-				return $this->resetpwd($sender, $args[1]);
+				return $this->resetpwd($sender, $args[0]);
 			case "logout":
 				if (count($args) != 0) return false;
 				return $this->logout($sender);

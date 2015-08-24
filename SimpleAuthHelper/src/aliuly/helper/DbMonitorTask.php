@@ -69,14 +69,16 @@ class DbMonitorTask extends PluginTask implements Listener{
         if (!$auth->isPlayerAuthenticated($ll))
           $ll->kick("Database is experiencing technical difficulties");
       }
-      $this->getOwner()->getServer()->broadcastMessage(
+      if ($cnt)
+        $this->getOwner()->getServer()->broadcastMessage(
           TextFormat::BLUE.
           mc::n(
             mc::_("one unauthenticated player was kicked"),
             mc::_("%1% unauthenticated players were kicked", $cnt),
             $cnt
           )
-      );
+        );
+      return;
     }
   }
   private function enableAuth($mgr,$auth) {
