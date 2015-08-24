@@ -1,14 +1,14 @@
 <?php
-namespace aliuly\grabbag\selectors;
+namespace aliuly\common\selectors;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use aliuly\grabbag\CmdSelMgr as CmdSelModule;
+use pocketmine\Server;
 
-class AllEntity implements BaseSelector {
-  static public function select(CmdSelModule $owner, CommandSender $sender, array $args) {
+class AllEntity extends BaseSelector {
+  static public function select(Server $srv, CommandSender $sender, array $args) {
     $result = [];
-    foreach($owner->getServer()->getLevels() as $l) {
+    foreach($srv->getLevels() as $l) {
       foreach($l->getEntities() as $e) {
         if (count($args) && !$owner->checkSelectors($args,$sender,$e)) continue;
         if ($e instanceof Player) {
