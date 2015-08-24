@@ -113,7 +113,7 @@ abstract class BasicPlugin extends PluginBase {
 		if ($this->scmdMap === null) {
 			$this->scmdMap = new SubCommandMap();
 		}
-		$this->scmdMap->registerSCmd($cmd,$callable,$opts)
+		$this->scmdMap->registerSCmd($cmd,$callable,$opts);
 	}
 	/**
 	 * Get a player state for the desired module/$label.

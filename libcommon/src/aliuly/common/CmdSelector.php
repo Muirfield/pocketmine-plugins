@@ -1,7 +1,7 @@
 <?php
 namespace aliuly\common;
 
-use aliuly\grabbag\common\mc;
+use aliuly\common\mc;
 
 use aliuly\common\selectors\All;
 use aliuly\common\selectors\AllEntity;

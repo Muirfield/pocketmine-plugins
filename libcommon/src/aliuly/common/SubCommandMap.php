@@ -25,7 +25,7 @@ class SubCommandMap {
   /**
    * Dispatch commands using sub command table
    */
-  protected function dispatchSCmd(CommandSender $sender,Command $cmd,array $args,$data=null) {
+  public function dispatchSCmd(CommandSender $sender,Command $cmd,array $args,$data=null) {
     if (count($args) == 0) {
       $sender->sendMessage(mc::_("No sub-command specified"));
       return false;
