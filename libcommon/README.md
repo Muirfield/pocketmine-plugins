@@ -53,6 +53,7 @@ Contains quite a few utility functions. Available modules:
 - Rcon - Rcon functionality
 - RconTask - An AsyncTask wrapper for Rcon
 - Session - Basic session management
+- SubCommandMap - Essemble sub command implementation
 
 Features:
 
@@ -93,6 +94,7 @@ Link.
     * ArmorItems<br/>
     * Variables<br/>
     * ItemName can load user defined tables<br/>
+    * SubCommandMap spinned-off from BasicPlugin<br/>
 - 1.1.0: Update 1<br/>
   * Added ItemName class (with more item names)<br/>
   * Removed MPMU::itemName<br/>

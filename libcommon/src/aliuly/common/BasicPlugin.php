@@ -11,13 +11,14 @@ use pocketmine\utils\Config;
 use aliuly\common\mc;
 use aliuly\common\BasicHelp;
 use aliuly\common\Session;
+use aliuly\common\SubCommandMap;
 
 /**
  * Simple extension to the PocketMine PluginBase class
  */
 abstract class BasicPlugin extends PluginBase {
 	protected $modules = [];
-	protected $scmdMap = [];
+	protected $scmdMap = null;
 	protected $session;
 
 	/**
@@ -59,7 +60,7 @@ abstract class BasicPlugin extends PluginBase {
 		$this->getLogger()->info(mc::n(mc::_("Enabled one feature"),
 													 mc::_("Enabled %1% features",$c),
 													 $c));
-		if (count($this->scmdMap) && count($this->scmdMap["mgrs"])) {
+		if ($this->scmdMap !== null && $this->scmdMap->getCommandCount() > 0) {
 			$this->modules[] = new BasicHelp($this,$xhlp);
 		}
 		return $cfg;
@@ -87,49 +88,17 @@ abstract class BasicPlugin extends PluginBase {
 		$cfg->save();
 	}
 	/**
-	 * Used to initialize sub-command table
-	 */
-	protected function initSCmdMap() {
-		$this->scmdMap = [
-			"mgrs" => [],
-			"help" => [],
-			"usage" => [],
-			"alias" => [],
-			"permission" => [],
-		];
-	}
-	/**
 	 * Dispatch commands using sub command table
 	 */
 	protected function dispatchSCmd(CommandSender $sender,Command $cmd,array $args,$data=null) {
-		if (count($args) == 0) {
-			$sender->sendMessage(mc::_("No sub-command specified"));
+		if ($this->scmdMap === null) {
+			$sender->sendMessage(mc::_("No sub-commands available"));
 			return false;
 		}
-		$scmd = strtolower(array_shift($args));
-		if (isset($this->scmdMap["alias"][$scmd])) {
-			$scmd = $this->scmdMap["alias"][$scmd];
-		}
-		if (!isset($this->scmdMap["mgrs"][$scmd])) {
-			$sender->sendMessage(mc::_("Unknown sub-command %2% (try /%1% help)",$cmd->getName(),$scmd));
-			return false;
-		}
-		if (isset($this->scmdMap["permission"][$scmd])) {
-			if (!$sender->hasPermission($this->scmdMap["permission"][$scmd])) {
-				$sender->sendMessage(mc::_("You are not allowed to do this"));
-				return true;
-			}
-		}
-		$callback = $this->scmdMap["mgrs"][$scmd];
-		if ($callback($sender,$cmd,$scmd,$data,$args)) return true;
-		if (isset($this->scmdMap["mgrs"]["help"])) {
-			$callback = $this->scmdMap["mgrs"]["help"];
-			return $callback($sender,$cmd,$scmd,$data,["usage"]);
-		}
-		return false;
+		return $this->scmdMap->dispatchSCmd($sender,$cmd,$args,$data);
 	}
 	/** Look-up sub command map
-	 * @return array
+	 * @returns SubCommandMap
 	 */
 	public function getSCmdMap() {
 		return $this->scmdMap;
@@ -141,19 +110,10 @@ abstract class BasicPlugin extends PluginBase {
 	 * @param array $opts - additional options
 	 */
 	public function registerSCmd($cmd,$callable,$opts) {
-		$cmd = strtolower($cmd);
-		$this->scmdMap["mgrs"][$cmd] = $callable;
-
-		foreach (["help","usage","permission"] as $p) {
-			if(isset($opts[$p])) {
-				$this->scmdMap[$p][$cmd] = $opts[$p];
-			}
+		if ($this->scmdMap === null) {
+			$this->scmdMap = new SubCommandMap();
 		}
-		if (isset($opts["aliases"])) {
-			foreach ($opts["aliases"] as $alias) {
-				$this->scmdMap["alias"][$alias] = $cmd;
-			}
-		}
+		$this->scmdMap->registerSCmd($cmd,$callable,$opts)
 	}
 	/**
 	 * Get a player state for the desired module/$label.
