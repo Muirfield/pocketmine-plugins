@@ -166,9 +166,18 @@ for sample files.
 * A: You must be using PocketMine-MP v1.4.1.  Set the `generator` to
   `flat`.
 * Q: How do I load multiple worlds on start-up?
-  A: That functionality is provided by PocketMine-MP core by default.
+* A: That functionality is provided by PocketMine-MP core by default.
   In the `pocketmine.yml` file there is a `worlds` section where you
-  can define which worlds to load on start-up.
+  can define which worlds to load on start-up.  Examples:
+
+      [CODE]
+      # pocketmine.yml
+      worlds:
+         world1: []
+         world2: []
+      [/CODE]
+
+  This will automatically load worlds: "world1" and "world2" on startup.
 
 # Changes
 
@@ -247,4 +256,3 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

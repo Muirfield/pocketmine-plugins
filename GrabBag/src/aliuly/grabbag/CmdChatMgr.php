@@ -7,7 +7,10 @@
  ** * chat-on|chat-off : Allow players to opt-out from chat
  **   usage: **chat-on|chat-off** _[player|--list|--server]_
  **
- **   Prevents players from receiving chat messages.
+ **   Prevents players from sending/receiving chat messages.
+ **   The following options are recognized:
+ **   - --list : Lists the players that have chat on/off status
+ **   - --server : Globally toggles on/off chat.
  **
  ** * clearchat : Clears your chat window
  **   usage: **clearchat**

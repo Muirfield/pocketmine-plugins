@@ -140,9 +140,25 @@ plugin.
    - resetpwd _player_
    - preregister _player_ _passwd_
 
+## Database Monitor
+
+This module is responsible for monitoring the SimpleAuth data provider
+to make sure that it is up and running and disable logins if it is not
+available.
+
+It kicks off a background task that will poll the SimpleAuth data provider
+by trying to retrieve the data from the "canary-account".  It is important
+that you have configured and have working SimpleAuth provider the first
+time you enable the database monitor.  This is because the "canary-account"
+needs to be created (if it doesn't exist already).
+
+On a regular interval, the SimpleAuth
+data provider is checked.  If it is not running, all unauthenticated players
+are kicked and any new joins are not allowed.
+
 ## Issues
 
-* Event Fixer: Crafting doesn't work
+* Event Fixer: Crafting canceling doesn't work
 
 # Changes
 

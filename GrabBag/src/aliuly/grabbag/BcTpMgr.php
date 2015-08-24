@@ -4,7 +4,7 @@
  ** Broadcast player's teleports
  **
  ** This listener module will broadcast when a player teleports to
- ** another location.
+ ** another location.  It also generates some smoke and plays a sound.
  **
  ** CONFIG:broadcast-tp
  **/

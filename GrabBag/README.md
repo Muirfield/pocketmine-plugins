@@ -803,7 +803,7 @@ The following third party libraries are included:
   * Updating libcommon stuff.
   * WhoIs command now supports [PurePerms](https://forums.pocketmine.net/plugins/pureperms.862/)
   * Added aliases module
-  * New command rminv
+  * New command rminv (@SeangJemmy)
   * New reop command
 * 2.2.7:
   * Minor fix in Reg command
