@@ -46,6 +46,7 @@ namespace script{
 	use aliuly\killrate\api\KillRateResetEvent;
 	use aliuly\killrate\common\MPMU;
 
+	
 	class KillRateEx extends PluginBase implements CommandExecutor,Listener{
 		public $kr;
 		public $pp;
@@ -78,7 +79,7 @@ namespace script{
 			if ($clevel >= 5) return; // max level is 5!
 			if (!$ev->getPoints() || $ev->getPoints() < 0)  return; // Actually deducting points!
 
-			$cscore = $this->kr->getScore($ev->getPlayer());
+			$cscore = $this->kr->api->getScore($ev->getPlayer());
 			$threshold = ($clevel + 1) * ($clevel + 1) * 1000;
 			//echo "cscore=$cscore - threshold=$threshold\n";//##DEBUG
 
