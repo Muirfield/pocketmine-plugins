@@ -5,7 +5,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\Server;
 
 abstract class BaseSelector {
-  static public function select(Server $srv, CommandSender $sender, array $args);
+  static public function select(Server $srv, CommandSender $sender, array $args) {
+    throw new RuntimeException("unimplmented!");
+  }
   static public function checkSelectors(array $args,CommandSender $sender, Entity $item) {
     foreach($args as $name => $value){
       switch($name){

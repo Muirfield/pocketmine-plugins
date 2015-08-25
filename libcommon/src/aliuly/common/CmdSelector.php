@@ -3,6 +3,7 @@ namespace aliuly\common;
 
 use aliuly\common\mc;
 
+use aliuly\common\selectors\BaseSelector;
 use aliuly\common\selectors\All;
 use aliuly\common\selectors\AllEntity;
 use aliuly\common\selectors\Random;
@@ -44,10 +45,9 @@ abstract class CmdSelector {
 					$sargs[$kvp[0]] = strtolower($kvp[1]);
 				}
 				$selector = substr($selector,0,$i);
-				print_r($sargs);//##DEBUG
 			}
 			$results = self::dispatchSelector($server, $sender , $selector, $sargs);
-			if (!is_array($results)) continue;
+			if (!is_array($results) || count($results) == 0) continue;
 			$ret = true;
 			$new = [];
 

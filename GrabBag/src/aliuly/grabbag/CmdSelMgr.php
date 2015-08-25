@@ -39,7 +39,7 @@ use pocketmine\event\Timings;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
-use aliuly\common\CmdSelector;
+use aliuly\grabbag\common\CmdSelector;
 
 class PlayerCommandPreprocessEvent_sub extends PlayerCommandPreprocessEvent{
 }

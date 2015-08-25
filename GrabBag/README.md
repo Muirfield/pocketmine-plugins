@@ -82,9 +82,6 @@ administration.
 
 ### Server Management
 
-* --list : List defined aliases
-* --rm : Remove an alias
-* --rmcmd : Remove an existing command
 * after : schedule command after a number of seconds
 * alias : Create a new command alias
 * at : schedule command at an appointed date/time
@@ -144,10 +141,6 @@ plugins.
 
 The following commands are available:
 
-* --list : List defined aliases  
-
-* --rm : Remove an alias  
-* --rmcmd : Remove an existing command  
 * **after** _&lt;seconds&gt;_ _&lt;command&gt;_|list|cancel _&lt;id&gt;_  
   schedule command after a number of seconds  
 
@@ -155,11 +148,11 @@ The following commands are available:
   The **list** sub command will show all the queued commands.
   The **cancel** sub command allows you to cancel queued commands.
 
-* **alias** _[--rm|--list|--rmcmd]_ _&lt;alias&gt;_ _&lt;command&gt;_ _[options]_  
+* **alias** **[-f]** _&lt;alias&gt;_ _&lt;command&gt;_ _[options]_  
   Create a new command alias  
 
   Create an alias to a command.
-  The following sub commands are possible:
+  Use the **-f** to override existing commands
 
 * **as** _&lt;player&gt;_ _&lt;command&gt;_  
   run command as somebody else  
@@ -190,7 +183,10 @@ The following commands are available:
 * **chat-on|chat-off** _[player|--list|--server]_  
   Allow players to opt-out from chat  
 
-  Prevents players from receiving chat messages.
+  Prevents players from sending/receiving chat messages.
+  The following options are recognized:
+  - --list : Lists the players that have chat on/off status
+  - --server : Globally toggles on/off chat.
 
 * **clearchat**  
   Clears your chat window  
@@ -253,7 +249,7 @@ The following commands are available:
 * **followme-off** _&lt;player&gt;_  
   stop making a player follow you  
 
-* **freeze|thaw** [_player_|**--hard|--soft**]  
+* **freeze|thaw** [ _player_ | **--hard|--soft** ]  
   freeze/unfreeze a player so they cannot move.  
 
   Stops players from moving.  If no player specified it will show
@@ -319,7 +315,7 @@ The following commands are available:
 
 * **players**  
   Shows what players are on-line  
-* **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _plugin&gt;  
+* **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _&lt;plugin&gt;_  
   manage plugins  
 
   Manage plugins.
@@ -338,6 +334,8 @@ The following commands are available:
     - Show permissions registered by plugin
   - **pluginmgr** **load** _&lt;path&gt;_
     - Load a plugin from file path (presumably outside the **plugin** folder.)
+  - **pluginmgr** **dumpmsg** _&lt;plugin&gt;_
+    - Dump messages.ini.
 
 * **poptp**  
   Returns to the previous location  
@@ -522,7 +520,7 @@ This listener module will broadcast when a player uses FastTransfer
 Broadcast player's teleports
 
 This listener module will broadcast when a player teleports to
-another location.
+another location.  It also generates some smoke and plays a sound.
 
 #### CommandSelector
 
@@ -773,9 +771,8 @@ languages currently available are:
 * Spanish
 
 You can provide your own message file by creating a file called
-`messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag/resources/messages)
-for sample files.
+`messages.ini` in the plugin config directory.  Use the `GrabBag`'s
+`pluginmgr dumpmsgs` command to create an empty `messages.ini` file.
 
 ## Additional Libraries
 
@@ -944,3 +941,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * * *
+

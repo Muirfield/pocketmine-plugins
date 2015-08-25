@@ -5,7 +5,7 @@
  ** COMMANDS
  **
  ** * freeze|thaw : freeze/unfreeze a player so they cannot move.
- **   usage: **freeze|thaw** [_player_|**--hard|--soft**]
+ **   usage: **freeze|thaw** [ _player_ | **--hard|--soft** ]
  **
  **   Stops players from moving.  If no player specified it will show
  **   the list of frozen players.
