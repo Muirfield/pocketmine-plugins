@@ -29,7 +29,7 @@
  * @api 1.12.0
  * @author aliuly
  * @description Simple command implementations
- * @depend KillRate, libcommon
+ * @depend KillRate, PurePerms
  */
 
 
@@ -44,8 +44,7 @@ namespace script{
 
 	use aliuly\killrate\api\KillRateScoreEvent;
 	use aliuly\killrate\api\KillRateResetEvent;
-	use aliuly\common\MPMU;
-
+	use aliuly\killrate\common\MPMU;
 
 	class KillRateEx extends PluginBase implements CommandExecutor,Listener{
 		public $kr;
@@ -75,13 +74,15 @@ namespace script{
 		}
 		public function onScoreAdd(KillRateScoreEvent $ev) {
 			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),3));
+			//echo "clevel=$clevel\n";//##DEBUG
 			if ($clevel >= 5) return; // max level is 5!
 			if (!$ev->getPoints() || $ev->getPoints() < 0)  return; // Actually deducting points!
 
 			$cscore = $this->kr->getScore($ev->getPlayer());
 			$threshold = ($clevel + 1) * ($clevel + 1) * 1000;
+			//echo "cscore=$cscore - threshold=$threshold\n";//##DEBUG
 
-			if ($cscore + $ev->getPoints < $threshold) return; // Did not manage to raise level yet!
+			if ($cscore + $ev->getPoints() < $threshold) return; // Did not manage to raise level yet!
 
 			$nlevel ="lvl" . intval( $clevel + 1 );
 			$ev->getPlayer()->sendMessage("Congratulations!");
