@@ -167,6 +167,7 @@ The contents of these "ini" files are key-value pairs:
   * Dropping support for PocketMine v1.4 and lower
   * API has been revamped!
   * Included example extension
+  * Added KillRate calculations
 * 1.2.3:
   * MySqlMgr: Fixed typo
   * Fixed bug with setting rewards/points to false (Reported by @reidq7)
@@ -220,4 +221,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

@@ -241,9 +241,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				continue;
 			} else {
 				if (count($args) != 1) $c->sendMessage(TextFormat::BLUE.$pl);
+				list($k,$d) = [null,null];
 				foreach ($score as $row) {
+					if ($row["type"] == "player") $k = (float)$row["count"];
+					if ($row["type"] == "deaths") $d = $row["count"];
 					$c->sendMessage(TextFormat::GREEN.$row['type'].": ".
 										 TextFormat::WHITE.$row['count']);
+				}
+				if ($k !== null && $d !== null && $d > 0) {
+					$c->sendMessage(TextFormat::GREEN.mc::_("kdratio: ").
+										 TextFormat::WHITE.round($k/$d,2));
 				}
 			}
 		}
@@ -617,6 +624,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	}
 	public function delScore($pn, $type = null) {
 		$this->dbm->delScore($pl->getName(), $type);
+	}
+	public function getScores($pn) {
+		return $this->dbm->getScores($pn);
 	}
 	public function getPlayerVars(Player $player, array &$vars) {
 		$vars["{score}"] = $this->getScore($player);
