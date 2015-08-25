@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.0**.
+This documentation was last updated for version **2.1.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.1).
 
 <!-- template-end -->
 
@@ -76,9 +76,6 @@ specified in the `server.properties` file.
 * gm-save-inv : Will save inventory contents when switching gamemodes.
 
 ## Documentation
-
-**NOTE: v2.0.0 is a complete rewrite.  Please test your settings
-carefully when upgrading**
 
 This plugin let's you limit what happens in a world.
 
@@ -307,7 +304,10 @@ Returns an integer or null.
 # Changes
 
 * 2.1.1: minor Update
-  * updated to libcommon 1.1 ItemName module.
+  * updated to libcommon 1.2.0dev2
+     - Upgraded to ItemName module
+     - permissions defined in `plugin.yml` are applied
+       properly which means most sub commands are now **OP only**.
 * 2.1.0: API
   * Added API to determine max players
 * 2.0.3: Minor bug fix
