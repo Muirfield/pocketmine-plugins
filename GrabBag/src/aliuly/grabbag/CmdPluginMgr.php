@@ -37,6 +37,7 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginManager;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
@@ -54,7 +55,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		parent::__construct($owner);
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -164,7 +165,6 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		}
 		return true;
 	}
-
 	private function cmdPerms(CommandSender $c,Plugin $p,$pageNumber) {
 		$desc = $p->getDescription();
 		$perms = $desc->getPermissions();
@@ -231,6 +231,10 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			$txt[] = TextFormat::GREEN.mc::_("Commands: ").TextFormat::WHITE.$cnt;
 		if (($cnt = count($desc->getPermissions())) > 0)
 			$txt[] = TextFormat::GREEN.mc::_("Permissions: ").TextFormat::WHITE.$cnt;
+		$loader = explode("\\",get_class($p->getPluginLoader()));
+		$txt[] = TextFormat::GREEN.mc::_("PluginLoader: ").TextFormat::WHITE.
+					array_pop($loader);
 		return $this->paginateText($c,$pageNumber,$txt);
+
 	}
 }
