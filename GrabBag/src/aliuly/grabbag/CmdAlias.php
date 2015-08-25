@@ -63,10 +63,10 @@ class CmdAlias extends BasicCli implements CommandExecutor {
 		return false;
 	}
   private function cmdAlias(CommandSender $sender,array $args) {
-    if (count($args) == 0 || count($args) == 1 && is_numeric($args[0])) return $this->lsAliaes($sender,$args);
+    if (count($args) == 0 || count($args) == 1 && is_numeric($args[0])) return $this->lsAliases($sender,$args);
     if (count($args) == 1)  return $this->showAlias($sender, $args[0]);
 
-    if (args[0] == "-f") {
+    if ($args[0] == "-f") {
       $force = true;
       array_shift($args);
       if (count($args) <= 1) return false;
