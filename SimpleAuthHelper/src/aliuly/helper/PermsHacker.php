@@ -27,7 +27,7 @@ class PermsHacker implements Listener{
 	private function checkPerm(Player $pl, $perm) {
 		if ($pl->hasPermission($perm)) return;
 		$n = strtolower($pl->getName());
-		$this->helper->getLogger()->warnning(mc::_("Fixing %1% for %2%", $perm, $n));
+		$this->helper->getLogger()->warning(mc::_("Fixing %1% for %2%", $perm, $n));
 		if (!isset($this->perms[$n])) $this->perms[$n] = $pl->addAttachment($this->helper);
 		$this->perms[$n]->setPermission($perm,true);
 		$pl->recalculatePermissions();
@@ -44,20 +44,25 @@ class PermsHacker implements Listener{
 		if ($this->opts["login"])	$this->checkPerm($player,"simpleauth.command.login");
 	}
 	public function resetPerms(Player $pl) {
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$n = strtolower($pl->getName());
 		if (isset($this->perms[$n])) {
+			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$attach = $this->perms[$n];
 			unset($this->perms[$n]);
 			$pl->removeAttachment($attach);
 			$pl->recalculatePermissions();
 		}
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	public function onQuit(PlayerQuitEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->resetPerms($ev->getPlayer());
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	public function onCmd(PlayerCommandPreprocessEvent $ev) {
-  	echo __METHOD__.",".__LINE__."\n";//##DEBUG
+  	//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->forcePerms($ev->getPlayer());
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 }

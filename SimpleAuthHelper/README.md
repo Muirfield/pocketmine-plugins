@@ -25,10 +25,10 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.0dev3**.
+This documentation was last updated for version **2.0.0**.
 
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0dev3).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0).
 
 <!-- template-end -->
 

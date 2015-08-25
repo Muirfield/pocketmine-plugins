@@ -27,8 +27,10 @@ class Session implements Listener {
    * @param PlayerQuitEvent $ev - Quit event
 	 */
 	public function onPlayerQuit(PlayerQuitEvent $ev) {
+    //echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$n = strtolower($ev->getPlayer()->getName());
 		if (isset($this->state[$n])) unset($this->state[$n]);
+    //echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
   /**
 	 * Get a player state for the desired module/$label.

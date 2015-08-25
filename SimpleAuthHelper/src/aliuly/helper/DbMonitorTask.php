@@ -8,6 +8,7 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\event\Listener;
 use aliuly\helper\Main as HelperPlugin;
 use aliuly\helper\common\mc;
+use aliuly\helper\common\PluginCallbackTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -66,8 +67,10 @@ class DbMonitorTask extends PluginTask implements Listener{
     if ($auth !== null) {
       $cnt = 0;
       foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $ll) {
-        if (!$auth->isPlayerAuthenticated($ll))
-          $ll->kick("Database is experiencing technical difficulties");
+        if (!$auth->isPlayerAuthenticated($ll)) {
+          $this->delayedKick($ll,mc::_("Database is experiencing technical difficulties"));
+          ++$cnt;
+        }
       }
       if ($cnt)
         $this->getOwner()->getServer()->broadcastMessage(
@@ -132,11 +135,24 @@ class DbMonitorTask extends PluginTask implements Listener{
     }
     if ($this->pollDB()) $this->setStatus(true);
 	}
+  public function doKick($n,$msg) {
+    $pl = $this->getOwner()->getServer()->getPlayer($n);
+    if ($pl === null) return;
+    $pl->kick($msg);
+  }
+  private function delayedKick($pl,$msg) {
+    $this->getOwner()->getServer()->getScheduler()->scheduleDelayedTask(
+      new PluginCallbackTask($this->getOwner(),[$this,"doKick"],[$pl->getName(),$msg]),
+      10
+    );
+  }
   public function onConnect(PlayerLoginEvent $ev) {
+    //echo  __METHOD__.",".__LINE__."\n";//##DEBUG
     $this->onRun(0);
   }
   public function onJoin(PlayerJoinEvent $ev) {
     if ($this->ok) return;
-    $ev->getPlayer()->kick(mc::_("Database is experiencing technical difficulties"));
+    //echo  __METHOD__.",".__LINE__."\n";//##DEBUG
+    $this->delayedKick($ev->getPlayer(),mc::_("Database is experiencing technical difficulties"));
   }
 }

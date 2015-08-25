@@ -5,7 +5,7 @@ depend: [SimpleAuth]
 
 name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
-version: 2.0.0dev3
+version: 2.0.0
 author: aliuly
 
 commands:
@@ -23,6 +23,7 @@ commands:
     description: "pre-register player"
     usage: "/preregister <player> <passwd>"
     permission: simpleauthhelper.command.prereg
+    aliases: [prereg]
   logout:
     description: "logout player"
     usage: "/logout"
