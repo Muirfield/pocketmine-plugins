@@ -184,8 +184,10 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	// Event handlers
 	//
 	public function onPlayerQuit(PlayerQuitEvent $ev) {
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->stopFollowing($ev->getPlayer());
 		$this->stopLeading($ev->getPlayer());
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	public function onPlayerMoveEvent(PlayerMoveEvent $ev) {
 		$n = MPMU::iName($ev->getPlayer());

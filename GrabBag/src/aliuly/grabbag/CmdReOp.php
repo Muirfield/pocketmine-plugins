@@ -83,5 +83,6 @@ class CmdReOp extends BasicCli implements Listener,CommandExecutor {
     unset($this->reops[$n]);
     if ($ev->getPlayer()->isOp()) return;
     $ev->getPlayer()->setOp(true);
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
   }
 }

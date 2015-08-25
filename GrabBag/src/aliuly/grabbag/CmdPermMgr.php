@@ -40,8 +40,10 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 							  ["description" => mc::_("change permissions"),
 								"usage" => mc::_("/perm <player> <dump|permission> [true|false]"),
 								"permission" => "gb.cmd.permmgr"]);
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onQuit(PlayerQuitEvent $ev) {
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl = $ev->getPlayer();
 		$n = strtolower($pl->getName());
 		if (isset($this->perms[$n])) {
@@ -49,6 +51,7 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 			unset($this->perms[$n]);
 			$pl->removeAttachment($attach);
 		}
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
