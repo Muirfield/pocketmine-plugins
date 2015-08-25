@@ -1,0 +1,69 @@
+---
+Guest:
+  inheritance: []
+  permissions:
+  - -essentials.kit
+  - -essentials.kit.other
+  - -pocketmine.command.me
+  - pchat.colored
+  - pocketmine.command.list
+  - pperms.command.ppinfo
+  worlds: []
+lvl0:
+  isDefault: true
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+lvl1:
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+lvl2:
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+lvl3:
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+lvl4:
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+lvl5:
+  inheritance:
+  - Guest
+  worlds: []
+  permissions: []
+Admin:
+  inheritance:
+  - Guest
+  permissions:
+  - essentials.gamemode
+  - pocketmine.broadcast
+  - pocketmine.command.gamemode
+  - pocketmine.command.give
+  - pocketmine.command.kick
+  - pocketmine.command.teleport
+  - pocketmine.command.time
+  worlds: []
+Owner:
+  inheritance:
+  - Guest
+  - Admin
+  permissions:
+  - essentials
+  - pocketmine.command
+  - pperms.command
+  worlds: []
+OP:
+  inheritance: []
+  permissions:
+  - '*'
+  worlds: []
+...
