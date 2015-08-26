@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.0dev1**.
+This documentation was last updated for version **2.0.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.0).
 
 <!-- template-end -->
 
@@ -181,7 +181,7 @@ The contents of these "ini" files are key-value pairs:
 * 1.2.0: Bumped the version number to reflect config changes.
   * Added the "^^^" hack.
   * Removed pop-up scores.
-  * Improved documentation
+  * Improved doc-umentation
 * 1.1.1:
   * Minor tweaks
   * Signs are more configurable
@@ -221,3 +221,4 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
