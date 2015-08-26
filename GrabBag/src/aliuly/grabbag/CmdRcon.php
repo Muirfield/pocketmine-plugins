@@ -29,6 +29,7 @@
 namespace aliuly\grabbag;
 
 use pocketmine\command\ConsoleCommandSender;
+use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
@@ -38,6 +39,7 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\RconTask;
+use aliuly\common\Rcon;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
@@ -142,20 +144,41 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 			if (count($grp) == 0) return false;
 		}
 		$cmd = implode(" ",$args);
+		if ($c instanceof RemoteConsoleCommandSender) {
+			// This is an Rcon connection itself... we run in the foreground
+			foreach ($grp as $id) {
+				list($host,$port,$auth) = preg_split('/\s+/',$this->servers[$id],3);
+				$ret = Rcon::connect($host,$port,$auth);
+				if (!is_array($ret)) {
+					$c->sendMessage($ret);
+					continue;
+				}
+				list($sock,$id) = $ret;
+				$ret = Rcon::cmd($cmd,$sock,$id);
+				if (is_array($ret)) {
+					$c->sendMessage($ret[0]);
+				} else {
+					$c->sendMessage($ret);
+				}
+				fclose($sock);
+			}
+			return true;
+		}
 		foreach ($grp as $id) {
 			$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
 				new RconTask($this->owner,"rconDone",
 											preg_split('/\s+/',$this->servers[$id],3),
-											implode(" ",$args),
-											[($c instanceof Player) ? $c->getName() : serialize($c)])
+											$cmd, [($c instanceof Player) ? $c->getName() : null])
+
 		  );
 		}
 		return true;
 	}
 	public function taskDone($res,$sn) {
-		if (($player = $this->owner->getServer()->getPlayer($sn)) == null) {
-			$player = unserialize($sn);
-			echo "player=".get_class($player)."\n";//##DEBUG
+		if ($sn === null) {
+			$player = new ConsoleCommandSender();
+		} elseif (($player = $this->owner->getServer()->getPlayer($sn)) == null) {
+			return; // Output discarded!
 		}
 		if (!is_array($res)) {
 			$player->sendMessage($res);
