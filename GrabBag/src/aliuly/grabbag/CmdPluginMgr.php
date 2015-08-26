@@ -38,6 +38,7 @@ use pocketmine\utils\TextFormat;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginManager;
+use pocketmine\plugin\PluginDescription;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
@@ -145,12 +146,38 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			case "dumpmsg":
 			case "dumpmsgs":
 				return $this->cmdDumpMsgs($sender,$plugin);
+			case "uninstall":
+			case "remove":
+			case "rm":
+			case "erase":
+				return $this->cmdErase($sender,$plugin,$mgr);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
 		}
 		return true;
 	}
+	private function cmdErase(CommandSender $c,Plugin $plugin, PluginManager $mgr) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginManager");
+		$file = $reflex->getProperty("fileAssociations");
+		$file->setAccessible(true);
+		$loaders = $file->getValue($mgr);
+		foreach ($loaders as $loader) {
+			echo __METHOD__.",".__LINE__." ".get_class($loader)."\n";//##DEBUG
+			foreach (new \RegexIterator(new \DirectoryIterator($this->owner->getServer()->getPluginPath()), $loader->getPluginFilters()) as $file) {
+				if ($file === "." || $file === "..") continue;
+				echo __METHOD__.",".__LINE__." $file\n";//##DEBUG
+				$file = $this->owner->getServer()->getPluginPath().$file."\n";
+				$desc = $loader->getPluginDescription($file);
+				if (!($desc instanceof PluginDescription)) continue;
+				echo $desc->getName()." - ".$file."\n";
+			}
+		}
+
+		return true;
+	}
+
 	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
 		$getini = [$plugin,"getMessagesIni"];
 		if (!is_callable($getini)) {
