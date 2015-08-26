@@ -146,38 +146,12 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			case "dumpmsg":
 			case "dumpmsgs":
 				return $this->cmdDumpMsgs($sender,$plugin);
-			case "uninstall":
-			case "remove":
-			case "rm":
-			case "erase":
-				return $this->cmdErase($sender,$plugin,$mgr);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
 		}
 		return true;
 	}
-	private function cmdErase(CommandSender $c,Plugin $plugin, PluginManager $mgr) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginManager");
-		$file = $reflex->getProperty("fileAssociations");
-		$file->setAccessible(true);
-		$loaders = $file->getValue($mgr);
-		foreach ($loaders as $loader) {
-			echo __METHOD__.",".__LINE__." ".get_class($loader)."\n";//##DEBUG
-			foreach (new \RegexIterator(new \DirectoryIterator($this->owner->getServer()->getPluginPath()), $loader->getPluginFilters()) as $file) {
-				if ($file === "." || $file === "..") continue;
-				echo __METHOD__.",".__LINE__." $file\n";//##DEBUG
-				$file = $this->owner->getServer()->getPluginPath().$file."\n";
-				$desc = $loader->getPluginDescription($file);
-				if (!($desc instanceof PluginDescription)) continue;
-				echo $desc->getName()." - ".$file."\n";
-			}
-		}
-
-		return true;
-	}
-
 	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
 		$getini = [$plugin,"getMessagesIni"];
 		if (!is_callable($getini)) {
@@ -261,6 +235,13 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		$loader = explode("\\",get_class($p->getPluginLoader()));
 		$txt[] = TextFormat::GREEN.mc::_("PluginLoader: ").TextFormat::WHITE.
 					array_pop($loader);
+
+		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginBase");
+		$file = $reflex->getProperty("file");
+		$file->setAccessible(true);
+		$file = $file->getValue($p);
+		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
+
 		return $this->paginateText($c,$pageNumber,$txt);
 
 	}
