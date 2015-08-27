@@ -145,7 +145,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			Achievement::add("killer","First Blood!",[]);
 			Achievement::add("serialKiller","Killer Streak!",["killer"]);
 		}
-		$this->saveResource("KillRateEx.php");
 	}
 	public function onDisable() {
 		if ($this->dbm !== null) $this->dbm->close();
