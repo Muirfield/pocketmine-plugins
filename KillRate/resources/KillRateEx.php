@@ -46,7 +46,7 @@ namespace script{
 	use aliuly\killrate\api\KillRateResetEvent;
 	use aliuly\killrate\common\MPMU;
 
-	
+
 	class KillRateEx extends PluginBase implements CommandExecutor,Listener{
 		public $kr;
 		public $pp;
@@ -63,6 +63,10 @@ namespace script{
 				throw new \RuntimeException("Missinge Dependancy");
 				return;
 			}
+			/*
+			 * The /krgive command is used to give points to players.
+			 * technically is not part of the level mechanism
+			 */
 			MPMU::addCommand($this,$this,"krgive",[
 					"description" => "Add points to KillRate score",
 					"usage" => "/krgive <player> <points>",
@@ -71,21 +75,65 @@ namespace script{
 		}
 		public function onScoreReset(KillRateResetEvent $ev) {
 			$ev->getPlayer()->sendMessage("You are being demoted to Level 0!");
+			/*
+			 * Make sure that the default group in the PurePerms configuration
+			 * is the Level 0 group!
+			 *
+			 * This only happens if you enable the score reset when you die function
+			 * in KillRate.
+			 */
 			$this->pp->getUser($ev->getPlayer())->setGroup($this->pp->getDefaultGroup(), null);
 		}
 		public function onScoreAdd(KillRateScoreEvent $ev) {
-			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),3));
-			//echo "clevel=$clevel\n";//##DEBUG
-			if ($clevel >= 5) return; // max level is 5!
+			/*
+			 * If we deduct points we do nothing....  After a player gains a level
+			 * they get to keep it (unless they die)
+			 */
 			if (!$ev->getPoints() || $ev->getPoints() < 0)  return; // Actually deducting points!
+			/*
+			 * Get what is the current player levels as a number.  The "3" is because
+			 * in this example levels are called "lvl" followed by the number.
+			 * If you change the group names make sure you change this line so that
+			 * $clevel is always a number (integer)
+			 *
+			 */
+			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),3));
+			/*
+			 * The example only defines 5 levels.  Feel free to change this
+			 */
+			if ($clevel >= 5) return; // max level is 5!
 
+			/*
+			 * Gets the current score
+			 */
 			$cscore = $this->kr->api->getScore($ev->getPlayer());
+			/*
+			 * This formula figures out the number of points needed to level UP!
+			 *
+			 * The default uses a non-linear formula:
+			 *
+			 *   Lvl0 - 0 points
+			 *   Lvl1 - 1000 points
+			 *   Lvl2 - 4000 points
+			 *   Lvl3 - 8000 points
+			 *   Lvl4 - 16000 points
+			 *   Lvl5 - 32000 points
+			 *
+			 * Feel free to change this
+			 */
 			$threshold = ($clevel + 1) * ($clevel + 1) * 1000;
-			//echo "cscore=$cscore - threshold=$threshold\n";//##DEBUG
 
 			if ($cscore + $ev->getPoints() < $threshold) return; // Did not manage to raise level yet!
 
+			/*
+			 * This determines the next group that corresponds to the new level.
+			 * Make sure you change this if you change the group names.
+			 */
 			$nlevel ="lvl" . intval( $clevel + 1 );
+			/*
+			 * Tell everybody the good news (so they can get jellous)
+			 * and then change the player's PurePerms group
+			 */
 			$ev->getPlayer()->sendMessage("Congratulations!");
 			$this->getServer()->broadcastMessage(TextFormat::YELLOW.
 														$ev->getPlayer()->getDisplayName().
