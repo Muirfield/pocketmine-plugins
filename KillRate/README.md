@@ -145,11 +145,6 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
-## FAQ
-
-* Q: Can you score when you push people to lava (or other indirect kills)?
-* A: Only direct kills are scored.  All indirect kills (pushing people
-  to lava, causing explosions, etc) can not be scored.
 
 ## KillRateEx
 
@@ -180,13 +175,20 @@ In order to use the script extension you need to do the following:
    of comments on how things work.
 6. Re-start your server.
 
-# TODO
+## TODO
 
 * getSysVars : should cache values.
   - death-dealer should expire cache.
   - getSysVars when called will check cache and return.
   - if cache is expire, we calculate.
   - Alternatively, getRankings should do the caching....
+
+## FAQ
+
+* Q: Can you score when you push people to lava (or other indirect kills)?
+* A: Only direct kills are scored.  All indirect kills (pushing people
+  to lava, causing explosions, etc) can not be scored.
+
 
 # Changes
 
