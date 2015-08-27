@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.1**.
+This documentation was last updated for version **2.1.2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.2).
 
 <!-- template-end -->
 
@@ -303,6 +303,8 @@ Returns an integer or null.
 
 # Changes
 
+* 2.1.2: bug fix
+  - Load/Unload events were not being registered (Bug reported by @GuddaJ)
 * 2.1.1: minor Update
   * updated to libcommon 1.2.0dev2
      - Upgraded to ItemName module

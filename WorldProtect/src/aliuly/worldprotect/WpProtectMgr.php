@@ -76,8 +76,11 @@ class WpProtectMgr extends BaseWp implements Listener {
 				return true;
 			case "rm":
 				if (!count($args)) return false;
+				echo __METHOD__.",".__LINE__."\n";//##DEBUG
+
 				foreach ($args as $i) {
 					$iusr = strtolower($i);
+					echo __METHOD__.",".__LINE__."\n";//##DEBUG
 					if ($this->owner->authCheck($world,$iusr)) {
 						$this->owner->authRm($world,$iusr);
 						$c->sendMessage(mc::_("[WP] %1% removed from %2%'s auth list",$i,$world));
