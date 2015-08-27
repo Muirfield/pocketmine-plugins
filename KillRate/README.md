@@ -138,7 +138,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 `messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages)
 for sample files.
 
 The contents of these "ini" files are key-value pairs:
@@ -151,6 +151,35 @@ The contents of these "ini" files are key-value pairs:
 * A: Only direct kills are scored.  All indirect kills (pushing people
   to lava, causing explosions, etc) can not be scored.
 
+## KillRateEx
+
+There is a script extension for KillRate that implements Levels in KillRate
+called KillRateEx.
+
+It is not as plug and play as KillRate so it is only available as a script
+plugin.  This is because it requires to be customized before use.
+
+KillRateEx can be downloaded from
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+
+Some versions of KillRate will create a sample KillRateEx.php in the KillRate
+folder.  You then only need to copy that file to your Plugins folder.  That
+version may be out-of-date, so preferably you should download it from the link
+shown earlier.
+
+In order to use the script extension you need to do the following:
+
+1. Download the script plugin:
+  [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+2. Copy the script plugin to your plugin folder.
+3. Install [PurePerms](http://forums.pocketmine.net/plugins/pureperms.862/)
+4. Read KillRateEx.php on how to configure PurePerms or alternatively download
+   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   and place it in the PurePerms folder as "groups.yml".
+5. Read and modify KillRateEx.php according to taste.  The script has plenty
+   of comments on how things work.
+6. Re-start your server.
+
 # TODO
 
 * getSysVars : should cache values.
@@ -161,6 +190,8 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* ???:
+  * Removed KillRateEx inclusion
 * 2.0.0: Partial rewrite
   * Fixed bug prevents scoring on creative
   * Fixed bug related to libcommon MoneyAPI (crash when no Economy loaded)
@@ -221,4 +252,3 @@ The contents of these "ini" files are key-value pairs:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
