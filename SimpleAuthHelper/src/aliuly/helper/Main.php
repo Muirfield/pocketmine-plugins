@@ -31,6 +31,8 @@ use SimpleAuth\event\PlayerAuthenticateEvent;
 
 use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
+use aliuly\helper\common\MPMU;
+
 use aliuly\helper\EventListener;
 use aliuly\helper\PermsHacker;
 use aliuly\helper\DbMonitorTask;
@@ -48,15 +50,28 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $monitor;
 
 	public function onEnable(){
-		mc::plugin_init($this,$this->getFile());
+
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		if (mc::plugin_init($this,$this->getFile()) === false) {
+			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
+			mc::plugin_init($this,$this->getFile());
+			$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with English strings");
+			$this->getLogger()->error(TextFormat::AQUA."Please consider translating and submitting a translation");
+			$this->getLogger()->error(TextFormat::AQUA."to the developer");
+		} else {
+			if (mc::_("<nagme>") === "yes") {
+				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
+				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
+			}
+		}
 		$this->auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
 		if (!$this->auth) {
 			$this->getLogger()->error(TextFormat::RED.mc::_("Unable to find SimpleAuth"));
 			throw new \RuntimeException("Missing Dependancy");
 			return;
 		}
-
-		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),

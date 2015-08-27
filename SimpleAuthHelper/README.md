@@ -25,10 +25,10 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.0**.
+This documentation was last updated for version **2.0.1**.
 
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.1).
 
 <!-- template-end -->
 
@@ -162,6 +162,8 @@ are kicked and any new joins are not allowed.
 
 # Changes
 
+* 2.0.1: language defaults
+  - make sure that languages default to English (reported by @minebuilder0110)
 * 2.0.0: Major upgrade
   - uses now a common translation library
   - Removed little used feature: nest-egg
@@ -208,3 +210,4 @@ are kicked and any new joins are not allowed.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
