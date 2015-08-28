@@ -3,6 +3,7 @@
 namespace aliuly\common;
 use aliuly\common\Session;
 use pocketmine\event\player\PlayerMoveEvent;
+use aliuly\common\MPMU;
 
 /**
  * Frozen Player sessions
@@ -11,7 +12,7 @@ use pocketmine\event\player\PlayerMoveEvent;
  * implementation.  This gives you a command line interface and also
  * reduces the number of listeners in use.
  */
-class FrozenSession extends Session {
+class FreezeSession extends Session {
   protected $hard;
   protected $api;
   /**
@@ -20,7 +21,7 @@ class FrozenSession extends Session {
    */
   public function __construct(PluginBase $owner, $hard = true) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
-    if ($bag && intval($bag->getDescription()->getVersion()) == 2 && $bag->getModule("freeze-thaw") !== null) { // EXPERIMENTAL!
+    if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("freeze-thaw")) {
       $this->api = $bag->api;
       return;
     }

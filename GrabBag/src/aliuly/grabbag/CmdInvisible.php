@@ -33,7 +33,10 @@ class CmdInvisible extends BasicCli implements Listener,CommandExecutor {
 								"permission" => "gb.cmd.invisible"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
-	private function activate(Player $pl) {
+	public function isInvisible(Player $pl) {
+		return $this->getState($pl,false);
+	}
+	public function activate(Player $pl) {
 		$pl->sendMessage(mc::_("You are now invisible"));
 		$this->setState($pl,true);
 		foreach($this->owner->getServer()->getOnlinePlayers() as $online){
@@ -41,7 +44,7 @@ class CmdInvisible extends BasicCli implements Listener,CommandExecutor {
 			$online->hidePlayer($pl);
 		}
 	}
-	private function deactivate(Player $pl) {
+	public function deactivate(Player $pl) {
 		$pl->sendMessage(mc::_("You are no longer invisible"));
 		$this->setState($pl,false);
 		foreach($this->owner->getServer()->getOnlinePlayers() as $online){
