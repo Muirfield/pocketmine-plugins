@@ -13,7 +13,6 @@ namespace aliuly\loader;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use aliuly\common\mc;
-use aliuly\common\MPMU;
 use aliuly\common\BasicCli;
 
 class DumpMsgs extends BasicCli {

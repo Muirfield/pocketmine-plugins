@@ -23,17 +23,6 @@ class Main extends BasicPlugin implements CommandExecutor{
 		return MPMU::version();
 	}
 	public function onEnable() {
-		if (\pocketmine\DEBUG <= 1) return;
-		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
-		// Create example folders
-		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-		$mft = explode("\n",trim($this->getResourceContents("manifest.txt")));
-		foreach ($mft as $f) {
-			if (file_exists($this->getDataFolder().$f)) continue;
-			$txt = $this->getResourceContents("examples/".$f);
-			file_put_contents($this->getDataFolder().$f,$txt);
-		}
-		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		mc::plugin_init($this,$this->getFile());
 		MPMU::addCommand($this,$this,"libcommon", [
 			"description" => "LibCommon Command Line interface",
@@ -43,13 +32,34 @@ class Main extends BasicPlugin implements CommandExecutor{
 		]);
 
 		$this->modules = [];
+		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([
 			"Version",
-			"DumpMsgs",
 		] as $mod) {
 			//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 			$mod = __NAMESPACE__."\\".$mod;
 			$this->modules[] = new $mod($this);
+		}
+
+		if (\pocketmine\DEBUG > 1) {
+			//echo __METhOD__.",".__LINE__."\n";//##DEBUG
+			// Create example folders
+			if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+			$mft = explode("\n",trim($this->getResourceContents("manifest.txt")));
+			foreach ($mft as $f) {
+				if (file_exists($this->getDataFolder().$f)) continue;
+				$txt = $this->getResourceContents("examples/".$f);
+				file_put_contents($this->getDataFolder().$f,$txt);
+			}
+			//echo __METhOD__.",".__LINE__."\n";//##DEBUG
+			foreach ([
+				"DumpMsgs",
+				"EchoCmd",
+			] as $mod) {
+				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
+				$mod = __NAMESPACE__."\\".$mod;
+				$this->modules[] = new $mod($this);
+			}
 		}
 		$this->modules[] = new BasicHelp($this);
 	}

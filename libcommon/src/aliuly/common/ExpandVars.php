@@ -123,7 +123,6 @@ abstract class ExpandVars {
    */
   static public function sysVars(Server $server, array &$vars) {
     self::initSysVars($server);
-    \aliuly\common\ExpandVars::stdSysVars($server,$vars);
     foreach (self::$sysExtensions as $cb) {
       $cb($server,$vars);
     }
@@ -147,22 +146,28 @@ abstract class ExpandVars {
    */
   static public function debugSysVars(Server $server, &$vars) {
     // Enable debugging variables...
-    $time = microtime(true) - \pocketmine\START_TIME;
+    $time = floor(microtime(true) - \pocketmine\START_TIME);
     $uptime = "";
     $q = "";
     foreach ([
-      [ "sec", 60, 1, "secs"],
-      [ "min", 60, 60, "mins"],
-      [ "hour", 24, 60, "hours"],
-      [ "day", 0, 24, "days"],
+      [ "sec", 60, "secs"],
+      [ "min", 60,  "mins"],
+      [ "hour", 24, "hours"],
+      [ "day", 0, "days"],
     ] as $f) {
-        if ($f[1]) $e = floor($time % $f[1]);
-        $time = floor($time / $f[2]);
+        if ($f[1]) {
+          $e = floor($time % $f[1]);
+          $time = floor($time / $f[1]);
+        } else {
+          $e = $time;
+          $time = 0;
+        }
         if ($e) {
-          $r = $e == 1 ? $f[0] : $f[3];
+          $r = $e == 1 ? $f[0] : $f[2];
           $uptime = $e." ".$r . $q . $uptime;
           $q = ", ";
         }
+        if ($time == 0) break;
     }
     $vars["{uptime}"] = $uptime;
     $vars["{netup}"] = round($server->getNetwork()->getUpload()/1024,2);
