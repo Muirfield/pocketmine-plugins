@@ -105,7 +105,13 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 		}
 		return false;
 	}
-
+  public function schedule($secs,$cmdline) {
+		$h = $this->owner->getServer()->getScheduler()->scheduleDelayedTask(
+			new PluginCallbackTask($this->owner,[$this,"runCommand"],[$cmdline]),
+			$secs * 20
+		);
+		$this->tasks[$h->getTaskId()] = [time()+$secs,$cmdline];
+	}
 	private function cmdAfter(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		if (!is_numeric($args[0])) {

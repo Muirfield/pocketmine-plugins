@@ -162,6 +162,9 @@ are kicked and any new joins are not allowed.
 
 # Changes
 
+* ????: Added translation
+  - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #23)
+  - Added a deu.ini (German) message file. (Contributed by @thebigsmileXD)
 * 2.0.1: language defaults
   - make sure that languages default to English (reported by @minebuilder0110)
 * 2.0.0: Major upgrade
@@ -210,4 +213,3 @@ are kicked and any new joins are not allowed.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
