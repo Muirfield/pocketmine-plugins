@@ -194,6 +194,7 @@ In order to use the script extension you need to do the following:
 
 * ???:
   * Removed KillRateEx inclusion
+  * dump messages.ini if no language defined.
 * 2.0.0: Partial rewrite
   * Fixed bug prevents scoring on creative
   * Fixed bug related to libcommon MoneyAPI (crash when no Economy loaded)
