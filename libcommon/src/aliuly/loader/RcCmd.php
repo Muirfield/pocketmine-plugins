@@ -20,12 +20,15 @@ use aliuly\common\PMScript;
 use aliuly\common\ExpandVars;
 
 class RcCmd extends BasicCli {
+	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
+		$this->interp = new PMScript($owner->gerServer(),
+														["vars"=> new ExpandVars($owner->getServer())]);
+		$this->interp->define("{libcommon}", MPMU::version());
+
 		$this->enableSCmd("rc",["usage" => "<script> [args]",
 										"help" => mc::_("Runs the given PMScript")]);
-    PMScript::$consts = ExpandVars::$consts;
-    PMScript::$consts['{libcommon}'] = MPMU::version();
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
     if (count($args) == 0) return false;
@@ -41,8 +44,8 @@ class RcCmd extends BasicCli {
       return true;
     }
     $txt = file_get_contents($script);
-
-    PMScript::run($this->owner->getServer(), $c, $txt, $args);
+		$this->interp->define("{script}",array_shift($args));
+		$this->interp->run($c,$txt,$args, ["lib" => $this->owner ];
     return true;
 	}
 }

@@ -85,6 +85,9 @@ class ExpandVars {
   public function getServer() {
     return $this->server;
   }
+  public function getConsts() {
+    return $this->consts;
+  }
   /**
    * Register API
    * @param str $apiname - API id

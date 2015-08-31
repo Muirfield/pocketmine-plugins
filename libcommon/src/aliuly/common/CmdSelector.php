@@ -20,12 +20,12 @@ abstract class CmdSelector {
    * occurred.
    *
    * @param Server $server - Server context
-   * @param CommandSender|null $sender - context executing this command
+   * @param CommandSender $sender - context executing this command
    * @param str $cmdline - command line to expand
    * @param int $max - max number of expansions
    * @return str[]|false
    */
-  static public function expandSelectors(Server $server, $sender, $cmdline, $max= 100) {
+  static public function expandSelectors(Server $server, CommandSender $sender, $cmdline, $max= 100) {
 		$tokens = preg_split('/\s+/',$cmdline);
 
 		$res = [ $tokens ];
@@ -41,7 +41,7 @@ abstract class CmdSelector {
 				foreach (explode(",",substr($selector,$i+1,-1)) as $kv) {
 					$kvp = explode("=",$kv,2);
 					if (count($kvp) != 2) {
-						if ($sender instanceof CommandSender) $sender->sendMessage(mc::_("Selector: invalid argument %1%",$kv));
+						$sender->sendMessage(mc::_("Selector: invalid argument %1%",$kv));
 						continue;
 					}
 					$sargs[$kvp[0]] = strtolower($kvp[1]);

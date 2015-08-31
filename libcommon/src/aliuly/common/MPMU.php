@@ -162,7 +162,7 @@ abstract class MPMU {
 	 * @param Server $server - pocketmine server instance
 	 * @param str $plug - plugin to call
 	 * @param str $method - method to call
-	 * @param mixed $default - If the plugin does not exist or it is not enable, this value uis returned
+	 * @param mixed $default - If the plugin does not exist or it is not enable, this value is returned
 	 * @return mixed
 	 */
 	static public function callPlugin($server,$plug,$method,$args,$default = null) {
