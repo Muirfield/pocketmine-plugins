@@ -4,10 +4,17 @@ namespace aliuly\common\selectors;
 use pocketmine\command\CommandSender;
 use pocketmine\Server;
 
+/**
+ * Base class for command selectors
+ */
 abstract class BaseSelector {
-  static public function select(Server $srv, CommandSender $sender, array $args) {
-    throw new RuntimeException("unimplmented!");
-  }
+  /**
+   * Main entry point for command selectors
+   */
+  static public function select(Server $srv, CommandSender $sender, array $args);
+  /**
+   * Implement selectors like m, name, etc...
+   */
   static public function checkSelectors(array $args,CommandSender $sender, Entity $item) {
     foreach($args as $name => $value){
       switch($name){

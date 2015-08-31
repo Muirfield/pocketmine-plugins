@@ -5,6 +5,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\Server;
 
+/**
+ * Implements @e command selector
+ */
 class AllEntity extends BaseSelector {
   static public function select(Server $srv, CommandSender $sender, array $args) {
     $result = [];

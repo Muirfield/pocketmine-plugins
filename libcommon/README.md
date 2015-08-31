@@ -33,11 +33,13 @@ Contains quite a few utility functions. Available modules:
 - BasicHelp - Implements help functionality for sub-commands
 - BasicPlugin - My extensions to PluginBase
 - Cmd - execute PocketMine commands from a PHP module.
+- CmdSelector - command selector implementation
 - ExpandVars - utility for variable expansions
 - FileUtils - Generic file system functions
 - FreezeSession - Session implementing frozen players
 - GetMotd - Retrieve motd data from remote servers
 - GetMotdAsyncTask - An AsyncTask wrapper for GetMotd
+- InvisibleSession - Invisible players
 - ItemName - Return object names
 - mc - translation
 - MoneyAPI - supports the following economy plugins:
@@ -48,12 +50,13 @@ Contains quite a few utility functions. Available modules:
 - MPMU - miscellaneous utilities
 - Npc - Non-player character functionality
 - PluginAsyncTask - A simple wrapper around AsyncTask
-- PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy
+- PluginCallbackTask - Replacement for the CallbackTask deprecated functionality
+- PMScript - scripting routines
 - QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery
 - Rcon - Rcon functionality
 - RconTask - An AsyncTask wrapper for Rcon
 - Session - Basic session management
-- SubCommandMap - Essemble sub command implementation
+- SubCommandMap - Enssemble sub command implementation
 
 Features:
 
@@ -71,6 +74,22 @@ It also bundles useful third party libraries:
 - xPaw MinecraftQuery
 
 For the full API documentation go to: [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+
+## Commands
+
+Also, for debugging purposes, the **libcommon** command is provided, which
+has the following sub-commands:
+
+* **libcommon** **version** : Show the libcommon version.
+
+These sub-commands are only available if **debug** level > 1
+in **pocketmine.yml**:
+
+* **libcommon** **dumpmsg** _plugin_ : Dump `messages.ini` from the given
+  plugin.
+* **libcommon** **echo** _text_ : Display the given text (does variable
+  substitution)
+
 
 ## Examples
 

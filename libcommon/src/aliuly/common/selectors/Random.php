@@ -4,7 +4,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\Server;
 
-
+/**
+ * Implements @r command selector
+ */
 class Random extends BaseSelector {
   static public function select(Server $srv, CommandSender $sender, array $args) {
     $result = [];

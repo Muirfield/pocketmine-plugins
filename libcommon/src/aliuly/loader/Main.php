@@ -10,6 +10,7 @@ use aliuly\common\BasicPlugin;
 use aliuly\common\BasicHelp;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
+use aliuly\common\PMScript;
 
 /**
  * This class is used for the PocketMine PluginManager
@@ -55,6 +56,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 			foreach ([
 				"DumpMsgs",
 				"EchoCmd",
+				"RcCmd",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 				$mod = __NAMESPACE__."\\".$mod;
@@ -62,6 +64,12 @@ class Main extends BasicPlugin implements CommandExecutor{
 			}
 		}
 		$this->modules[] = new BasicHelp($this);
+
+		// Auto start scripts...
+		if (file_exists($script = $this->getDataFolder()."autostart.pms")) {
+			$txt = file_get_contents($script);
+			PMScript::run($this->getServer(), null, $txt, ["autostart"]);
+		}
 	}
 	//////////////////////////////////////////////////////////////////////
 	//

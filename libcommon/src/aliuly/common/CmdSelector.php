@@ -14,16 +14,18 @@ use pocketmine\entity\Entity;
 use pocketmine\command\CommandSender;
 
 abstract class CmdSelector {
-  /** @var int - max number of commands to expand to... */
-  static public $max = 100;
   /**
-   * Expand command selectors
+   * Expand command selectors.
+   * Returns an array with string substitutions or `false` if no expansions
+   * occurred.
+   *
    * @param Server $server - Server context
-   * @param CommandSender $sender - context executing this command
+   * @param CommandSender|null $sender - context executing this command
    * @param str $cmdline - command line to expand
-   * @return str[]
+   * @param int $max - max number of expansions
+   * @return str[]|false
    */
-  static public function expandSelectors(Server $server, CommandSender $sender, $cmdline) {
+  static public function expandSelectors(Server $server, $sender, $cmdline, $max= 100) {
 		$tokens = preg_split('/\s+/',$cmdline);
 
 		$res = [ $tokens ];
@@ -39,7 +41,7 @@ abstract class CmdSelector {
 				foreach (explode(",",substr($selector,$i+1,-1)) as $kv) {
 					$kvp = explode("=",$kv,2);
 					if (count($kvp) != 2) {
-						$sender->sendMessage(mc::_("Selector: invalid argument %1%",$kv));
+						if ($sender instanceof CommandSender) $sender->sendMessage(mc::_("Selector: invalid argument %1%",$kv));
 						continue;
 					}
 					$sargs[$kvp[0]] = strtolower($kvp[1]);
@@ -56,9 +58,9 @@ abstract class CmdSelector {
 					$tmpLine = $i;
 					$tmpLine[$argc] = $j;
 					$new[] = $tmpLine;
-					if (count($new) > self::$max) break;
+					if (count($new) > $max) break;
 				}
-				if (count($new) > self::$max) break;
+				if (count($new) > $max) break;
 			}
 			$res = $new;
 		}
@@ -82,5 +84,4 @@ abstract class CmdSelector {
 		}
 		return null;
 	}
-
 }

@@ -5,6 +5,7 @@ use pocketmine\Server;
 use pocketmine\Player;
 
 use aliuly\common\ItemName;
+use aliuly\common\MPMU;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils;
 use pocketmine\item\Item;
@@ -22,88 +23,113 @@ use pocketmine\item\Item;
  * Otherwise they can call the functions: registerSysVars or registerPlayerVars.
  *
  */
-abstract class ExpandVars {
+class ExpandVars {
   /** @var callable[] Callables to create player specific variables */
-  static protected $playerExtensions = null;
+  protected $playerExtensions;
   /** @var callable[] Callables to create server wide variables */
-  static protected $sysExtensions = null;
+  protected $sysExtensions;
   /** @var array API table */
-  static public $api = [];
+  protected $apitable;
   /** @var str[] static _constants_ */
-  static public $consts = [
-    "{NL}" => "\n",
-    "{BLACK}" => TextFormat::BLACK,
-    "{DARK_BLUE}" => TextFormat::DARK_BLUE,
-    "{DARK_GREEN}" => TextFormat::DARK_GREEN,
-    "{DARK_AQUA}" => TextFormat::DARK_AQUA,
-    "{DARK_RED}" => TextFormat::DARK_RED,
-    "{DARK_PURPLE}" => TextFormat::DARK_PURPLE,
-    "{GOLD}" => TextFormat::GOLD,
-    "{GRAY}" => TextFormat::GRAY,
-    "{DARK_GRAY}" => TextFormat::DARK_GRAY,
-    "{BLUE}" => TextFormat::BLUE,
-    "{GREEN}" => TextFormat::GREEN,
-    "{AQUA}" => TextFormat::AQUA,
-    "{RED}" => TextFormat::RED,
-    "{LIGHT_PURPLE}" => TextFormat::LIGHT_PURPLE,
-    "{YELLOW}" => TextFormat::YELLOW,
-    "{WHITE}" => TextFormat::WHITE,
-    "{OBFUSCATED}" => TextFormat::OBFUSCATED,
-    "{BOLD}" => TextFormat::BOLD,
-    "{STRIKETHROUGH}" => TextFormat::STRIKETHROUGH,
-    "{UNDERLINE}" => TextFormat::UNDERLINE,
-    "{ITALIC}" => TextFormat::ITALIC,
-    "{RESET}" => TextFormat::RESET,
-  ];
-
+  protected $consts;
+  /** @var Server pocketmine server context */
+  protected $server;
   /**
-   * Convert bearings in degrees into points in compass
-   * @param float $deg - yaw
-   * @return str
+   * @param Server $server - server context
    */
-  static public function bearing($deg) {
-    // Determine bearing
-    if (22.5 <= $deg && $deg < 67.5) {
-      return "NW";
-    } elseif (67.5 <= $deg && $deg < 112.5) {
-      return "N";
-    } elseif (112.5 <= $deg && $deg < 157.5) {
-      return "NE";
-    } elseif (157.5 <= $deg && $deg < 202.5) {
-      return "E";
-    } elseif (202.5 <= $deg && $deg < 247.5) {
-      return "SE";
-    } elseif (247.5 <= $deg && $deg < 292.5) {
-      return "S";
-    } elseif (292.5 <= $deg && $deg < 337.5) {
-      return "SW";
-    } else {
-      return "W";
-    }
-    return (int)$deg;
+  public function __construct(Server $server) {
+    $this->server = $server;
+    $this->playerExtensions = null;
+    $this->sysExtensions = null;
+    $this->apitable = [];
+    $this->consts = [
+      "{NL}" => "\n",
+      "{BLACK}" => TextFormat::BLACK,
+      "{DARK_BLUE}" => TextFormat::DARK_BLUE,
+      "{DARK_GREEN}" => TextFormat::DARK_GREEN,
+      "{DARK_AQUA}" => TextFormat::DARK_AQUA,
+      "{DARK_RED}" => TextFormat::DARK_RED,
+      "{DARK_PURPLE}" => TextFormat::DARK_PURPLE,
+      "{GOLD}" => TextFormat::GOLD,
+      "{GRAY}" => TextFormat::GRAY,
+      "{DARK_GRAY}" => TextFormat::DARK_GRAY,
+      "{BLUE}" => TextFormat::BLUE,
+      "{GREEN}" => TextFormat::GREEN,
+      "{AQUA}" => TextFormat::AQUA,
+      "{RED}" => TextFormat::RED,
+      "{LIGHT_PURPLE}" => TextFormat::LIGHT_PURPLE,
+      "{YELLOW}" => TextFormat::YELLOW,
+      "{WHITE}" => TextFormat::WHITE,
+      "{OBFUSCATED}" => TextFormat::OBFUSCATED,
+      "{BOLD}" => TextFormat::BOLD,
+      "{STRIKETHROUGH}" => TextFormat::STRIKETHROUGH,
+      "{UNDERLINE}" => TextFormat::UNDERLINE,
+      "{ITALIC}" => TextFormat::ITALIC,
+      "{RESET}" => TextFormat::RESET,
+      "{10SPACE}" => str_repeat(" ",10),
+      "{20SPACE}" => str_repeat(" ",20),
+      "{30SPACE}" => str_repeat(" ",30),
+      "{40SPACE}" => str_repeat(" ",40),
+      "{50SPACE}" => str_repeat(" ",50),
+      "{MOTD}" => $server->getMotd(),
+    ];
+  }
+  /**
+   * Define additional constants on the fly...
+   * @param str $name
+   * @param str $value
+   */
+  public function define($str,$value) {
+    $this->consts[$str] = $value;
+  }
+  public function getServer() {
+    return $this->server;
+  }
+  /**
+   * Register API
+   * @param str $apiname - API id
+   * @param mixed $ptr - API object
+   */
+  public function registerApi($apiname,$ptr) {
+    $this->apitable[$apiname] = $ptr;
+  }
+  /**
+   * Return API entry
+   * @param str $apiname - API id
+   * @param bool $exception - if true raise exemption on error
+   * @return mixed|null
+   */
+  public function api($apiname,$exception = true) {
+    if (isset($this->apitable[$apiname])) return $this->apitable[$apiname];
+    if ($exception) throw new \RuntimeException("Missing API ".$apiname);
+    return null;
   }
   /**
    * Scan loaded plugins and identifies which plugins have an entry
    * point to variable expansions...
    */
-  static protected function AutoloadExtensions($mode, Server $server) {
+   protected function autoloadExtensions($mode) {
     $tab = [];
-    foreach ($server->getPluginManager()->getPlugins() as $plug) {
+    foreach ($this->server->getPluginManager()->getPlugins() as $plug) {
       if (!$plug->isEnabled()) continue;
       $cb = [ $plug, $mode ];
       if (is_callable($cb)) $tab[] = $cb;
     }
     return $tab;
   }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // System variables
+  ///////////////////////////////////////////////////////////////////////////
+
   /**
    * Used to initialize the system wide variables table
-   * @param Server $server - reference to PocketMine server
    */
-  static protected function initSysVars(Server $server) {
-    if (self::$sysExtensions !== null) return;
-    self::$sysExtensions = self::AutoloadExtensions("getSysVars",$server);
-    self::$sysExtensions[] =  [__CLASS__ ,"stdSysVars"];
-    if (\pocketmine\DEBUG > 1) self::$sysExtensions[] = [__CLASS__ , "debugSysVars"];
+   protected function initSysVars() {
+    if ($this->sysExtensions !== null) return;
+    $this->sysExtensions = $this->autoloadExtensions("getSysVars");
+    $this->sysExtensions[] =  [ __CLASS__, "stdSysVars" ];
+    if (\pocketmine\DEBUG > 1) $this->$sysExtensions[] = [ __CLASS__, "debugSysVars"];
   }
 
   /**
@@ -111,40 +137,42 @@ abstract class ExpandVars {
    * @param Server $server - reference to pocketmine server
    * @param callable $fn - callable should have as argumens (Server $server, array &$vars)
    */
-  static public function registerSysVars(Server $server, callable $fn) {
-    self::initSysVars($server);
-
-    self::$sysExtensions[] = $fn;
+  public function registerSysVars(callable $fn) {
+    $this->initSysVars();
+    $this->$sysExtensions[] = $fn;
   }
+
   /**
    * Main entry point for system wide variable defintions
    * @param Server $server - reference to pocketmine server
    * @param array &$vars - receives variable defintions
    */
-  static public function sysVars(Server $server, array &$vars) {
-    self::initSysVars($server);
-    foreach (self::$sysExtensions as $cb) {
-      $cb($server,$vars);
+  public function sysVars(array &$vars) {
+    $this->initSysVars();
+    foreach ($this->$sysExtensions as $cb) {
+      $cb($this,$vars);
     }
   }
+
   /**
    * Basic system wide variable definitions
-   * @param Server $server - pocketmine Server
+   * @param ExpandVars $lib - ExpandVars instance
    * @param array &$vars - variables
    */
-  static public function stdSysVars(Server $server, array &$vars) {
+  static public function stdSysVars(ExpandVars $lib, array &$vars) {
     foreach ([
-              "{tps}" => $server->getTicksPerSecond(),
-              "{tickUsage}" => $server->getTickUsage(),
+              "{tps}" => $lib->getServer()->getTicksPerSecond(),
+              "{tickUsage}" => $lib->getServer()->getTickUsage(),
     ] as $a => $b) {
       $vars[$a] = $b;
     }
   }
   /**
-   * @param Server $server - pocketmine Server
+   * @param ExpandVars $lib - ExpandVars instance
    * @param array &$vars - variables
    */
-  static public function debugSysVars(Server $server, &$vars) {
+  static public function debugSysVars(ExpandVars $lib, &$vars) {
+    $server = $lib->getServer();
     // Enable debugging variables...
     $time = floor(microtime(true) - \pocketmine\START_TIME);
     $uptime = "";
@@ -180,39 +208,42 @@ abstract class ExpandVars {
     $rUsage = Utils::getRealMemoryUsage();
     $vars["{heapmem}"] = number_format(round($rUsage[0]/1024)/1024,2 );
   }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Player variables
+  ///////////////////////////////////////////////////////////////////////////
+
   /**
    * Used to initialize the player specific variables table
-   * @param Server $server - reference to PocketMine server
    */
-  static protected function initPlayerVars(Server $server) {
-    if (self::$playerExtensions !== null) return;
-    self::$playerExtensions = self::AutoloadExtensions("getPlayerVars",$server);
-    self::$playerExtensions[] = [ __CLASS__ , "stdPlayerVars" ];
-    self::$playerExtensions[] = [ __CLASS__ , "invPlayerVars" ];
-    $pm = $server->getPluginManager();
+  protected function initPlayerVars() {
+    if ($this->$playerExtensions !== null) return;
+    $this->playerExtensions = $this->autoloadExtensions("getPlayerVars");
+    $this->playerExtensions[] = [ __CLASS__ , "stdPlayerVars" ];
+    $this->playerExtensions[] = [ __CLASS__ , "invPlayerVars" ];
+    $pm = $this->server->getPluginManager();
     if (($kr = $pm->getPlugin("KillRate")) !== null) {
-      if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0 &&
-          intval($kr->getDescription()->getVersion()) == 1) {
-        self::$api["KillRate-1.1"] = $kr;
-        self::$playerExtensions[] = [ __CLASS__ , "kr1PlayerVars" ];
+      if (MPMU::apiCheck($kr->getDescription()->getVersion(),"1.1")) {
+        $this->registerApi("KillRate-1.1",$kr);
+        $this->playerExtensions[] = [ __CLASS__ , "kr1PlayerVars" ];
       }
     }
     if (($pp = $pm->getPlugin("PurePerms")) !== null) {
-      self::$api["PurePerms"] = $pp;
-      self::$playerExtensions[] = [ __CLASS__ , "purePermsPlayerVars" ];
+      $this->registerApi("PurePerms",$pp);
+      $this->playerExtensions[] = [ __CLASS__ , "purePermsPlayerVars" ];
     }
     if (($mm = $pm->getPlugin("GoldStd")) !== null) {
-      self::$api["money"] = $mm;
-      self::$playerExtensions[] = [ __CLASS__ ,"moneyPlayerVarsGoldStd" ];
+      $this->registerApi("money", $mm);
+      $this->playerExtensions[] = [ __CLASS__ ,"moneyPlayerVarsGoldStd" ];
     } elseif (($mm = $pm->getPlugin("PocketMoney")) !== null) {
-      self::$api["money"] = $mm;
-      self::$playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsPocketMoney" ];
+      $this->registerApi("money", $mm);
+      $this->playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsPocketMoney" ];
     } elseif (($mm = $pm->getPlugin("MassiveEconomy")) !== null) {
-      self::$api["money"] = $mm;
-      self::$playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsMassiveEconomy" ];
+      $this->registerApi("money", $mm);
+      $this->playerExtensions[] = [ __CLASS__ , "moneyPlayerVarsMassiveEconomy" ];
     } elseif (($mm = $pm->getPlugin("EconomyAPI")) !== null) {
-      self::$api["money"] = $mm;
-      self::$playerExtensions[] = [ __CLASS__, "moneyPlayerVarsEconomysApi" ];
+      $this->registerApi("money", $mm);
+      $this->playerExtensions[] = [ __CLASS__, "moneyPlayerVarsEconomysApi" ];
     }
   }
   /**
@@ -234,6 +265,34 @@ abstract class ExpandVars {
     foreach (self::$playerExtensions as $cb) {
       $cb($player,$vars);
     }
+  }
+
+
+  /**
+   * Convert bearings in degrees into points in compass
+   * @param float $deg - yaw
+   * @return str
+   */
+  static public function bearing($deg) {
+    // Determine bearing
+    if (22.5 <= $deg && $deg < 67.5) {
+      return "NW";
+    } elseif (67.5 <= $deg && $deg < 112.5) {
+      return "N";
+    } elseif (112.5 <= $deg && $deg < 157.5) {
+      return "NE";
+    } elseif (157.5 <= $deg && $deg < 202.5) {
+      return "E";
+    } elseif (202.5 <= $deg && $deg < 247.5) {
+      return "SE";
+    } elseif (247.5 <= $deg && $deg < 292.5) {
+      return "S";
+    } elseif (292.5 <= $deg && $deg < 337.5) {
+      return "SW";
+    } else {
+      return "W";
+    }
+    return (int)$deg;
   }
   /**
    * Basic player specific variable definitions
