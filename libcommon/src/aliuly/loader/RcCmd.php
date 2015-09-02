@@ -11,6 +11,7 @@
 namespace aliuly\loader;
 
 use pocketmine\command\CommandSender;
+use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
 
 use aliuly\common\BasicCli;
@@ -23,10 +24,20 @@ class RcCmd extends BasicCli {
 	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->interp = new PMScript($owner);
+		$this->interp = new PMScript($owner,$owner->getVars());
 		$this->interp->define("{libcommon}", MPMU::version());
 		$this->enableSCmd("rc",["usage" => "<script> [args]",
 										"help" => mc::_("Runs the given PMScript")]);
+	}
+	public function autostart() {
+		$script = $this->owner->getDataFolder()."autostart.pms";
+		if (!file_exists($script)) return;
+		$env = [];
+		$args = [];
+		$this->interp->define("{script}",array_shift($args));
+		if ($this->interp->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
+			$c->sendMessage(mc::_("Compilation error"));
+		}
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
     if (count($args) == 0) return false;

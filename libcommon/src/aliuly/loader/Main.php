@@ -10,17 +10,22 @@ use aliuly\common\BasicPlugin;
 use aliuly\common\BasicHelp;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
+use aliuly\common\ExpandVars;
 
 /**
  * This class is used for the PocketMine PluginManager
  */
 class Main extends BasicPlugin implements CommandExecutor{
+	protected $vars;
 	/**
 	 * Provides the library version
 	 * @return str
 	 */
 	public function api() {
 		return MPMU::version();
+	}
+	public function getVars() {
+		return $this->vars;
 	}
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
@@ -31,6 +36,9 @@ class Main extends BasicPlugin implements CommandExecutor{
 			"permission" => "libcommon.debug.command",
 		]);
 
+		$this->vars = new ExpandVars($this);
+		$this->vars->define("{libcommon}", MPMU::version());
+		
 		$this->modules = [];
 		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([
@@ -58,17 +66,15 @@ class Main extends BasicPlugin implements CommandExecutor{
 				"RcCmd",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
-				$mod = __NAMESPACE__."\\".$mod;
-				$this->modules[$mod] = new $mod($this);
+
+				$class = __NAMESPACE__."\\".$mod;
+				$this->modules[$mod] = new $class($this);
 			}
 		}
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 
 		// Auto start scripts...
-		//if (file_exists($script = $this->getDataFolder()."autostart.pms")) {
-		//	$txt = file_get_contents($script);
-		//	PMScript::run($this->getServer(), null, $txt, ["autostart"]);
-		//}
+		$this->modules["RcCmd"]->autostart();
 	}
 	//////////////////////////////////////////////////////////////////////
 	//

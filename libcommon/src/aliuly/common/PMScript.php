@@ -4,6 +4,7 @@ namespace aliuly\common;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 use aliuly\common\CmdSelector;
 use aliuly\common\ExpandVars;
@@ -19,11 +20,11 @@ class PMScript {
   protected $globs;
   /**
    * @param Plugin $owner - plugin that owns this interpreter
-   * @param int $selector - if 0, command selctors are not used, otherwise max commands
+   * @param bool|ExpandVars $vars - allow for standard variable expansion
    * @param bool $perms - allow the use of Cmd::opexec
-   * @param bool $vars - allow for standard variable expansion
+   * @param int $selector - if 0, command selctors are not used, otherwise max commands
    */
-  public function __construct(Plugin $owner,$selector = 100, $perms = true, $vars = true) {
+  public function __construct(Plugin $owner, $vars = true, $perms = true, $selector = 100) {
     $this->owner = $owner;
     $this->selector = $selector;
     $this->globs = [];
@@ -33,7 +34,11 @@ class PMScript {
       $this->perms = [ $this->owner->getServer(), "dispatchCommand" ];
     }
     if ($vars) {
-      $this->vars = new ExpandVars($owner);
+      if ($vars instanceof ExpandVars) {
+        $this->vars = $vars;
+      } else {
+        $this->vars = new ExpandVars($owner);
+      }
     } else {
       $this->vars = null;
     }
@@ -146,7 +151,11 @@ class PMScript {
     foreach ($opts as $i=>&$j) {
       if (is_string($j)) $vars["{".$i."}"] = $j;
     }
-    $php($this,$ctx,$vars,$args,$opts);
+    try {
+      $php($this,$ctx,$vars,$args,$opts);
+    } catch (\Exception $e) {
+      $ctx->sendMessage(TextFormat::RED.mc::_("Exception: %1%",$e->getMessage()));
+    }
   }
   /**
    * Prepare PMScript and convert into a PHP callable

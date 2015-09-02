@@ -20,20 +20,16 @@ use aliuly\common\MPMU;
 
 
 class EchoCmd extends BasicCli {
-  protected $vars;
-
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableSCmd("echo",["usage" => "[text]",
 										"help" => mc::_("Show given text")]);
-    $this->vars = new ExpandVars($this->owner);
-    $this->vars->define("{libcommon}", MPMU::version());
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
     $cmdline = implode(" ",$args);
-    $vars = $this->vars->getConsts();
-    $this->vars->sysVars($vars);
-    if ($c instanceof Player) $this->vars->playerVars($c,$vars);
+    $vars = $this->owner->getVars()->getConsts();
+    $this->owner->getVars()->sysVars($vars);
+    if ($c instanceof Player) $this->owner->getVars()->playerVars($c,$vars);
     $cmdline = strtr($cmdline,$vars);
     $c->sendMessage($cmdline);
     return true;
