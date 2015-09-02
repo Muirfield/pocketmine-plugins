@@ -640,10 +640,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function getScores($pn) {
 		return $this->dbm->getScores($pn);
 	}
-	public function getPlayerVars(Player $player, array &$vars) {
+	public function getPlayerVarsV1(Player $player, array &$vars) {
 		$vars["{score}"] = $this->getScore($player);
 	}
-	public function getSysVars(Server $srv, array &$vars) {
+	public function getSysVarsV1(array &$vars) {
 		$ranks = $this->getRankings(10);
 		if ($ranks == null) {
 			$vars["{tops}"] = "N/A";

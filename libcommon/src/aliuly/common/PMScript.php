@@ -2,199 +2,59 @@
 namespace aliuly\common;
 
 use pocketmine\command\CommandSender;
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\command\RemoteConsoleCommandSender;
-use pocketmine\Server;
+use pocketmine\plugin\Plugin;
 use pocketmine\Player;
 
 use aliuly\common\CmdSelector;
 use aliuly\common\ExpandVars;
-
+use aliuly\common\Cmd;
 /**
  * Class that implements a PocketMine-MP scripting engine
  */
 class PMScript {
-  protected $options;
+  protected $owner;
+  protected $selector;
+  protected $perms;
   protected $vars;
-  protected $server;
   protected $globs;
   /**
-   *
-   * Options:
-   * - vars : ExpandVars object or null
-   * - cmdSelectors : use command selectors
-   * - perms : Allow +op:,+rcon:,+console: prefixes
-   *
-   * @param array $opts - options array
-   * @param array $consts - initial constants
+   * @param Plugin $owner - plugin that owns this interpreter
+   * @param int $selector - if 0, command selctors are not used, otherwise max commands
+   * @param bool $perms - allow the use of Cmd::opexec
+   * @param bool $vars - allow for standard variable expansion
    */
-  public function __construct(Server $server, $opts) {
-    $this->server = $server;
-    $this->options = [];
+  public function __construct(Plugin $owner,$selector = 100, $perms = true, $vars = true) {
+    $this->owner = $owner;
+    $this->selector = $selector;
     $this->globs = [];
-    foreach ("cmdSelectors"=>true, "perms"=>true] as $k=>$v) {
-      $this->options[$k] = isset($opts[$k]) ? $opts[$k] : $v;
-    }
-    $this->vars = isset($options["vars"]) ? $options["vars"] : null;
-  }
-  ////////////////////////////////////////////////////////////////////////
-  // Static functions API
-  ////////////////////////////////////////////////////////////////////////
-
-  /**
-   * @param Server $srv - pocketmine\Server instance
-   * @param CommandSender $ctx - running context
-   * @param str $cmdline - command line to execute
-   */
-  static public function opexec(Server $srv, CommandSender $ctx, $cmdline) {
-    if (($cm = self::startsWith($cmdline,"+op:")) !== null) {
-      if (!$ctx->isOp()) {
-        $ctx->setOp(true);
-        $srv->distpatchCommand($ctx,$cm);
-        $ctx->setOp(false);
-        return;
-      }
-      $srv->distpatchCommand($ctx,$cm);
-      return;
-    }
-    if (($cm = self::startsWith($cmdline,"+console:")) !== null) {
-      $srv->distpatchCommand(new ConsoleCommandSender,$cm);
-      return;
-    }
-    if (($cm = self::startsWith($cmdline,"+rcon:")) !== null) {
-      $rcon = new RemoteConsoleCommandSender;
-      $srv->distpatchCommand(new ConsoleCommandSender,$cm);
-      if (trim($rcon->getMessage()) != "") $ctx->sendMessage($rcon->getMessage());
-      return;
-    }
-    $srv->dispatchCommand($ctx,$cmdline);
-  }
-  /**
-   * Run a command with a given context
-   * @param Server $srv - pocketmine\Server instance
-   * @param CommandSender $ctx - running context
-   * @param str $cmdline - command line to execute
-   * @param bool $selectors - allow command selectors
-   * @param bool $perms - allow permission prefixes
-   */
-  static public function exec(Server $srv,CommandSender $ctx,$cmdline, $selectors = true, $perms = true) {
-    if ($selectors) {
-      $res = CmdSelector::expandSelectors($srv,$ctx,$cmdline);
-      if ($res === false) $res = [ $cmdline ];
-
-      if ($perms) {
-        foreach ($res as $cmd) {
-          self::opexec($srv,$ctx,$cmd);
-        }
-      } else {
-        foreach ($res as $cmd) {
-          $srv->distpatchCommand($ctx,$cmdline);
-        }
-      }
+    if ($perms) {
+      $this->perms = [ Cmd::class, "opexec" ];
     } else {
-      if ($erms) {
-        self::opexec($srv,$ctx,$cmdline);
-      } else {
-        if ($ctx == null) $ctx = new ConsoleCommandSender;
-        $srv->distpatchCommand($ctx,$cmdline);
-      }
+      $this->perms = [ $this->owner->getServer(), "dispatchCommand" ];
+    }
+    if ($vars) {
+      $this->vars = new ExpandVars($owner);
+    } else {
+      $this->vars = null;
     }
   }
-  ////////////////////////////////////////////////////////////////////////
-  // Static support functions
-  ////////////////////////////////////////////////////////////////////////
-  /** Convert text into PHP code
-   * @param $txt - input text
-   * @return str
-   */
-  static public function prepare($txt) {
-    $php = "";
-    foreach (explode("\n",$txt) as $ln) {
-      $ln = trim($ln);
-      if ($ln == "" || $ln{0} == "#" || $ln{0} == ";") continue;
-      $toks = preg_split("/\\s+/",$ln);
-      if ($ln{0} == "@") {
-        $c = substr($ln,-1);
-        $q = ($c == ":" || $c == ";") ? "\n" : ";\n";
-        $php .= substr($ln,1).$q;
-      } else {
-        $php .= "  ".__CLASS__."::exec(\$server,\$context,'".$ln."',\$selectors,\$perms);\n";
-      }
-    }
-    return $php;
-  }
-  /**
-   * Check prefixes
-   * @param str $txt - input text
-   * @param str $tok - keyword to test
-   * @return
-   */
-  static public function startsWith($txt,$tok) {
-    $ln = strlen($tok);
-    if (strtolower(substr($txt,0,$ln)) != $tok) return null;
-    return trim(substr($txt,$ln));
-  }
-
-  ////////////////////////////////////////////////////////////////////////
-  // OOP API
-  ////////////////////////////////////////////////////////////////////////
   /**
    * Define additional constants on the fly...
    * @param str $name
-   * @param str $value
+   * @param mixed $value
    */
   public function define($str,$value) {
-    $this->vars->define($str,$value);
+    if ($this->vars !== null) $this->vars->define($str,$value);
   }
-  /**
-   * @param CommandSender $context
-   * @param str $script
-   * @param array|null $args
-   * @param array|null $exts
-   */
-  public function run($context,$script, $args = null,$exts = null) {
-    if (!($context instanceof CommandSender)) $context = new ConsoleCommandSender;
-    // convert to php (caching?)
-    $php = self::prepare($script);
-    echo "======\n";//##DEBUG
-    echo $php;//##DEBUG
-    echo "======\n";//##DEBUG
-
-    // Basic variable definitions...
-    $server = $this->server;
-    $selectors = $this->options["cmdSelectors"];
-    $perms = $this->options["perms"];
-    $interp = $this;
-
-    // Additional variable definitions...
-    if ($exts as $j=>$k) {
-      eval("\$$j = \$k;");
-    }
-
-    // Expand vars
-    if ($this->vars !== null) {
-      $vars = $this->vars->getConsts();
-      $this->vars->sysVars($vars);
-      if ($context instanceof Player) $this->vars->playerVars($context,$vars);
-      if ($args !== null) {
-        $vars["{#}"] = count($args);
-        for ($i = 0; $i < count($args) ; ++$i) {
-          $vars["{".$i."}"] = $args[$i];
-        }
-      }
-      $php = strtr($php,$vars);
-      echo $php;//##DEBUG
-      echo "======\n";//##DEBUG
-    } elseif ($args !== null) {
-      $vars = [ "{#}" => count($args) ];
-      for ($i = 0; $i < count($args) ; ++$i) {
-        $vars["{".$i."}"] = $args[$i];
-      }
-      $php = strtr($php,$vars);
-    }
-    // Run commands
-    eval($php);
+  /** Return plugin owner */
+  public function getOwner() {
+    return $this->owner;
   }
+  /** Return server */
+  public function getServer() {
+    return $this->owner->getServer();
+  }
+
   /**
    * @param str $label - global variable to get
    * @param mixed $default - default value to return is no global found
@@ -223,6 +83,118 @@ class PMScript {
   public function unsetGlob($label) {
     if (!isset($this->globs[$label])) return;
     unset($this->globs[$label]);
+  }
+  ////////////////////////////////////////////////////////////////////////
+  // Main implementation
+  ////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Run a script file
+   * @param CommandSender $ctx - Command context
+   * @param callable $php - Loaded PMScript
+   * @param array $args - Command args
+   * @param array $opts - Some environemnt variables
+   */
+  public function runScriptFile(CommandSender $ctx, $path, array &$args, array &$opts) {
+    $php = $this->loadScriptFile($path);
+    if ($php === false) return false;
+    $this->executeScript($ctx,$php,$args,$opts);
+    return true;
+  }
+
+  /**
+   * load a script from file (May implement a cache in the future...)
+   * @param str $path - path to file to load
+   * @param bool $cache - enable/disable caching
+   */
+  public function loadScriptFile($path,$cache = false) {
+    return $this->loadScriptCode(file_get_contents($path));
+  }
+  /**
+   * Execute a PMScript
+   *
+   * @param CommandSender $ctx - Command context
+   * @param callable $php - Loaded PMScript
+   * @param array $args - Command args
+   * @param array $opts - Some environemnt variables
+   */
+  public function runScriptCode(CommandSender $ctx,$pmscode,array &$args,array &$opts) {
+    $php = $this->loadScriptCode($pmscode);
+    if ($php === false) return false;
+    $this->executeScript($ctx,$php,$args,$opts);
+    return true;
+  }
+  /**
+   * Execute preloaded PHP code
+   * @param CommandSender $ctx - Command context
+   * @param callable $php - Loaded PMScript
+   * @param array $args - Command args
+   */
+  public function executeScript(CommandSender $ctx, $php, array &$args, array &$opts) {
+    if ($this->vars === null) {
+      $vars = [];
+    } else {
+      $vars = $this->vars->getConsts();
+      $this->vars->sysVars($vars);
+      if ($ctx instanceof Player) $this->vars->playerVars($ctx,$vars);
+    }
+    $vars["{#}"] = count($args);
+    $i = 0;
+    foreach ($args as $j) {
+      $vars["{".($i++)."}"] = $j;
+    }
+    foreach ($opts as $i=>&$j) {
+      if (is_string($j)) $vars["{".$i."}"] = $j;
+    }
+    $php($this,$ctx,$vars,$args,$opts);
+  }
+  /**
+   * Prepare PMScript and convert into a PHP callable
+   * @param str $pmscript - text script
+   */
+   public function loadScriptCode($pmscript) {
+     $php = "";
+     // Prefix code ...
+     $php .= " return function (\$interp,\$context,&\$vars,&\$args,&\$env) {";
+     $php .= "  foreach (\$vars as \$i=>\$j) {\n";
+     $php .= "    if (preg_match(\"/^\\{([_a-zA-Z][_a-zA-Z0-9]*)\\}\\\$/\",\$i,\$mv)) {\n";
+     $php .= "       eval(\"\\\$\" . \$mv[1] . \" = \\\$j;\\n\");\n";
+     $php .= "    }\n";
+     $php .= "  }\n";
+     foreach (explode("\n",$pmscript) as $ln) {
+       $ln = trim($ln);
+       if ($ln == "" || $ln{0} == "#" || $ln{0} == ";") continue;
+       if ($ln{0} == "@") {
+         $c = substr($ln,-1);
+         $q = ($c == ":" || $c == ";") ? "\n" : ";\n";
+         $php .= substr($ln,1).$q;
+       } else {
+         $php .= "  \$interp->exec(\$context,'".$ln."',\$vars);\n";
+       }
+     }
+     $php .= "};";
+     echo $php;
+     return eval($php);
+  }
+  /**
+   * Execute a command
+   * @param CommandSender $ctx - Command context
+   * @param str $cmdline - Command to execute
+   * @param array $vars - Variables table for variable expansion
+   */
+  public function exec(CommandSender $ctx, $cmdline, $vars) {
+    if ($this->selector) {
+      $cmds = CmdSelector::expandSelectors($this->getServer(),$ctx, $cmdline, $this->selector);
+      if ($cmds == false) {
+        $cmds = [ $cmdline ];
+      }
+    } else {
+      $cmds = [ $cmdline ];
+    }
+    $cmdex = $this->perms;
+    foreach ($cmds as $ln) {
+      $cmdex($ctx,$ln);
+    }
   }
 
 }

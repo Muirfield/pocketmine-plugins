@@ -1,7 +1,9 @@
 <?php
 namespace aliuly\common;
 use aliuly\common\MPMU;
+use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\command\ConsoleCommandSender;
+use pocketmine\command\CommandSender;
 use pocketmine\event\player\PlayerChatEvent;
 
 /**
@@ -61,4 +63,51 @@ abstract class Cmd {
 			$server->dispatchCommand(new ConsoleCommandSender(),$c);
 		}
 	}
+	/**
+	 * Handles command prefixes before dispatching commands.
+	 *
+	 * The following prefixes are recognized:
+	 * - "+op:", temporarily gives the player Op (if the player is not Op yet)
+	 * - "+console:", runs the command as if it was run from the console.
+	 * - "+rcon:", runs the command as if it was run from a RemoteConsole,
+	 *   capturing all output which is then send to the player.
+	 *
+	 * @param CommandSender $ctx - running context
+	 * @param str $cmdline - command line to execute
+	 */
+	static public function opexec(CommandSender $ctx, $cmdline) {
+		if (($cm = self::startsWith($cmdline,"+op:")) !== null) {
+			if (!$ctx->isOp()) {
+				$ctx->setOp(true);
+				$ctx->getServer()->distpatchCommand($ctx,$cm);
+				$ctx->setOp(false);
+				return;
+			}
+			$ctx->getServer()->distpatchCommand($ctx,$cm);
+			return;
+		}
+		if (($cm = self::startsWith($cmdline,"+console:")) !== null) {
+			$ctx->getServer()->distpatchCommand(new ConsoleCommandSender,$cm);
+			return;
+		}
+		if (($cm = self::startsWith($cmdline,"+rcon:")) !== null) {
+			$rcon = new RemoteConsoleCommandSender;
+			$ctx->getServer()->distpatchCommand($rcon,$cm);
+			if (trim($rcon->getMessage()) != "") $ctx->sendMessage($rcon->getMessage());
+			return;
+		}
+		$ctx->getServer()->dispatchCommand($ctx,$cmdline);
+	}
+	/**
+	* Check prefixes
+	* @param str $txt - input text
+	* @param str $tok - keyword to test
+	* @return
+	*/
+	static public function startsWith($txt,$tok) {
+		$ln = strlen($tok);
+		if (strtolower(substr($txt,0,$ln)) != $tok) return null;
+		return trim(substr($txt,$ln));
+	}
+
 }

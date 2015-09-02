@@ -23,10 +23,8 @@ class RcCmd extends BasicCli {
 	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->interp = new PMScript($owner->gerServer(),
-														["vars"=> new ExpandVars($owner->getServer())]);
+		$this->interp = new PMScript($owner);
 		$this->interp->define("{libcommon}", MPMU::version());
-
 		$this->enableSCmd("rc",["usage" => "<script> [args]",
 										"help" => mc::_("Runs the given PMScript")]);
 	}
@@ -43,9 +41,11 @@ class RcCmd extends BasicCli {
       $c->sendMessage(mc::_("Invalid script path: %1%",$args[0]));
       return true;
     }
-    $txt = file_get_contents($script);
+		$env = [];
 		$this->interp->define("{script}",array_shift($args));
-		$this->interp->run($c,$txt,$args, ["lib" => $this->owner ];
+		if ($this->interp->runScriptFile($c,$script,$args,$env) === false) {
+			$c->sendMessage(mc::_("Compilation error"));
+		}
     return true;
 	}
 }
