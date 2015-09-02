@@ -183,6 +183,7 @@ class PMScript {
    * @param array $vars - Variables table for variable expansion
    */
   public function exec(CommandSender $ctx, $cmdline, $vars) {
+    $cmdline = strtr($cmdline,$vars);
     if ($this->selector) {
       $cmds = CmdSelector::expandSelectors($this->getServer(),$ctx, $cmdline, $this->selector);
       if ($cmds == false) {
