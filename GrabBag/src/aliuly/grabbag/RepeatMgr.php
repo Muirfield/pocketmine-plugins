@@ -1,41 +1,38 @@
 <?php
-/**
- ** MODULE:repeater
- **
- ** Uses `!!` to repeat command with changes
- **
- ** If you want to repeat a previous command enter `!!` *without* any `/`
- ** in front.  This works for commands and chat messages.
- **
- ** You can optionally append additional text to `!!` to do certain
- ** things:
- **
- ** * `!!` number
- **   - Will let you paginate output.  For example, entering:
- **		/mw ls
- **		!!2
- **		!!3
- **   This will start showing the output of `/mw ls` and consecutive pages.
- ** * `!!` `/`
- **   - if you forgot the `/` in front, this command will add it.  Example:
- **		help
- **		!!/
- ** * `!!` text
- **   - Will append `text` to the previous command.  For example:
- **		/gamemode
- **		!! survival john
- **   This will show the usage of survival, the next line will change the
- **   gamemode of john to survival.
- ** * `!!` str1 str2
- **   - Will repeat the previous command replacing `str1` with `str2`
- **     Example:
- **		/give player drt
- **		!!drt dirt
- **   This will change `drt` into `dirt`.
- ** * `!!`^ text
- **   - Will insert `text` at the beginning of the command.
- **
- **/
+//= module:repeater
+//: Uses `!!` to repeat command with changes
+//:
+//: If you want to repeat a previous command enter `!!` *without* any `/`
+//: in front.  This works for commands and chat messages.
+//:
+//: You can optionally append additional text to `!!` to do certain
+//: things:
+//:
+//: * `!!` number
+//:   - Will let you paginate output.  For example, entering:
+//:		/mw ls
+//:		!!2
+//:		!!3
+//:   This will start showing the output of `/mw ls` and consecutive pages.
+//: * `!!` `/`
+//:   - if you forgot the `/` in front, this command will add it.  Example:
+//:		help
+//:		!!/
+//: * `!!` text
+//:   - Will append `text` to the previous command.  For example:
+//:		/gamemode
+//:		!! survival john
+//:   This will show the usage of survival, the next line will change the
+//:   gamemode of john to survival.
+//: * `!!` str1 str2
+//:   - Will repeat the previous command replacing `str1` with `str2`
+//:     Example:
+//:		/give player drt
+//:		!!drt dirt
+//:   This will change `drt` into `dirt`.
+//: * `!!`^ text
+//:   - Will insert `text` at the beginning of the command.
+//:
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;

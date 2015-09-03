@@ -1,21 +1,23 @@
 <?php
-/**
- ** OVERVIEW:Teleporting
- **
- ** COMMANDS
- **
- ** * followers : List who is following who
- **   usage: **followers**
- ** * follow : Follow a player
- **   usage: **follow** _<player>_
- ** * follow-off : stop following a player
- **   usage: **follow-off**
- ** * followme : Make a player follow you
- **   usage: **folowme** _<player>_
- ** * followme-off : stop making a player follow you
- **   usage: **followme-off** _<player>_
- **
- **/
+//= cmd:followers,Teleporting
+//: List who is following who
+//> usage: **followers**
+
+//= cmd:follow,Teleporting
+//: Follow a player
+//> usage: **follow** _<player>_
+
+//= cmd:follow-off,Teleporting
+//: stop following a player
+//> usage: **follow-off**
+
+//= cmd:followme,Teleporting
+//: Make a player follow you
+//> usage: **folowme** _<player>_
+
+//= cmd:followme-off,Teleporting
+//: stop making a player follow you
+//> usage: **followme-off** _<player>_
 
 namespace aliuly\grabbag;
 

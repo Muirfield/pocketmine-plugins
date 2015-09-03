@@ -1,32 +1,25 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * pluginmgr : manage plugins
- **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
- **
- **   Manage plugins.
- **   The following sub-commands are available:
- **   - **pluginmgr** **enable** _&lt;plugin&gt;_
- **     - Enable a disabled plugin.
- **   - **pluginmgr** **disable** _&lt;plugin&gt;_
- **     - Disables an enabled plugin.
- **   - **pluginmgr** **reload** _&lt;plugin&gt;_
- **     - Disables and enables a plugin.
- **   - **pluginmgr** **info** _&lt;plugin&gt;_
- **     - Show plugin details
- **   - **pluginmgr** **commands** _&lt;plugin&gt;_
- **     - Show commands registered by plugin
- **   - **pluginmgr** **permissions** _&lt;plugin&gt;_
- **     - Show permissions registered by plugin
- **   - **pluginmgr** **load** _&lt;path&gt;_
- **     - Load a plugin from file path (presumably outside the **plugin** folder.)
- **   - **pluginmgr** **dumpmsg** _&lt;plugin&gt;_
- **     - Dump messages.ini.
- **
- **/
+//= cmd:pluginmgr,Server_Management
+//: manage plugins
+//> usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
+//: Manage plugins.
+//:  The following sub-commands are available:
+//> - **pluginmgr** **enable** _<plugin>_
+//:     - Enable a disabled plugin.
+//> - **pluginmgr** **disable** _<plugin>_
+//:     - Disables an enabled plugin.
+//> - **pluginmgr** **reload** _<plugin>_
+//:     - Disables and enables a plugin.
+//> - **pluginmgr** **info** _<plugin>_
+//:     - Show plugin details
+//> - **pluginmgr** **commands** _<plugin>_
+//:     - Show commands registered by plugin
+//> - **pluginmgr** **permissions** _<plugin>_
+//:     - Show permissions registered by plugin
+//> - **pluginmgr** **load** _<path>_
+//:     - Load a plugin from file path (presumably outside the **plugin** folder.)
+//> - **pluginmgr** **dumpmsg** <plugin>_
+//:     - Dump messages.ini.
 
 namespace aliuly\grabbag;
 

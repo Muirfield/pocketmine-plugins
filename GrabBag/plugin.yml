@@ -147,9 +147,6 @@ permissions:
   gb.cmd.rcon:
     default: op
     description: "use RCON client"
-  gb.cmd.rcon.config:
-    default: op
-    description: "Modify the RCON configuration"
   gb.cmd.fly:
     default: op
     description: "Flight control"
@@ -198,9 +195,6 @@ permissions:
   gb.cmd.query:
     default: true
     description: "Access to query command"
-  gb.cmd.query.addrm:
-    default: op
-    description: "Modify query hosts configuration"
   gb.cmd.query.details:
     default: true
     description: "View query details (ls, info, plugins)"
@@ -222,3 +216,18 @@ permissions:
   gb.cmd.reop.others:
     default: op
     description: "Allows to reop others"
+  gb.cmd.servers:
+    default: op
+    description: "Allows access to servers command"
+  gb.cmd.servers.read:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.read.viewip:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.read.viewrcon:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.write:
+    default: op
+    description: "Allows changing servers configuration"

@@ -1,16 +1,11 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * heal : Restore health to a player
- **   usage: **heal** _[player]_ _[ammount]_
- **
- **   Heals a player.  If the amount is positive it will heal, if negative
- **   the player will be hurt.  The units are in 1/2 hearts.
- **
- **/
+//= cmd:heal,Trolling
+//: Restore health to a player
+//> usage: **heal** _[player]_ _[ammount]_
+//:
+//: Heals a player.  If the amount is positive it will heal, if negative
+//: the player will be hurt.  The units are in 1/2 hearts.
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

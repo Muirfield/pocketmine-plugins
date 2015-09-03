@@ -3,7 +3,7 @@ namespace aliuly\grabbag\api;
 
 use aliuly\grabbag\Main as GrabBagPlugin;
 use pocketmine\Player;
-use aliuly\common\mc;
+use aliuly\grabbag\common\mc;
 
 /**
  * GrabBag API

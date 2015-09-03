@@ -1,17 +1,11 @@
 <?php
-/**
- ** MODULE:join-mgr
- ** Announce joining ops, and show server motd
- **
- ** This listener module will broadcast a message for ops joining
- ** a server.
- **
- ** Also, it will show the server's motd on connect.
- **
- ** CONFIG:join-mgr
- **/
-
-
+//= module:join-mgr
+//: Announce joining ops, and show server motd
+//:
+//: This listener module will broadcast a message for ops joining
+//: a server.
+//:
+//: Also, it will show the server's motd on connect.
 
 namespace aliuly\grabbag;
 
@@ -28,6 +22,7 @@ class JoinMgr implements Listener {
 	static $delay = 15;
 
 	static public function defaults() {
+		//= cfg:join-mgr
 		return [
 			"# adminjoin" => "broadcast whenever an op joins",
 			"adminjoin" => true,

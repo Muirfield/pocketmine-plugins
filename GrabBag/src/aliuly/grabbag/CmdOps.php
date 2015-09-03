@@ -1,12 +1,8 @@
 <?php
-/**
- ** OVERVIEW:Informational
- **
- ** COMMANDS
- **
- ** * ops: Shows who are the ops on this server.
- **   usage: **ops**
- **/
+//= cmd:ops,Informational
+//: Shows who are the ops on this server.
+//> usage: **ops**
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

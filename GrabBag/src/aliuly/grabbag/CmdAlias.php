@@ -1,16 +1,11 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * alias : Create a new command alias
- **   usage: **alias** **[-f]** _<alias>_ _<command>_ _[options]_
- **
- **   Create an alias to a command.
- **   Use the **-f** to override existing commands
- **
- **/
+//= cmd:alias,Server_Management
+//: Create a new command alias
+//> usage: **alias** **[-f]** _<alias>_ _<command>_ _[options]_
+//:
+//: Create an alias to a command.
+//: Use the **-f** to override existing commands
+//:
 
 namespace aliuly\grabbag;
 

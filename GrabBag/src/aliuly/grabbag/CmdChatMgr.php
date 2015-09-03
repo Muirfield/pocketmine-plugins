@@ -1,23 +1,20 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * chat-on|chat-off : Allow players to opt-out from chat
- **   usage: **chat-on|chat-off** _[player|--list|--server]_
- **
- **   Prevents players from sending/receiving chat messages.
- **   The following options are recognized:
- **   - --list : Lists the players that have chat on/off status
- **   - --server : Globally toggles on/off chat.
- **
- ** * clearchat : Clears your chat window
- **   usage: **clearchat**
- **
- ** * nick : Change your display name
- **   usage: **nick** _<name>_
- **/
+//= cmd:chat-on|chat-off,Trolling
+//: Allow players to opt-out from chat
+//> usage: **chat-on|chat-off** _[player|--list|--server]_
+//:
+//: Prevents players from sending/receiving chat messages.
+//: The following options are recognized:
+//: - --list : Lists the players that have chat on/off status
+//: - --server : Globally toggles on/off chat.
+//:
+//= cmd:clearchat,Player_Management
+//: Clears your chat window
+//> usage: **clearchat**
+//:
+//= cmd:nick,Player_Management
+//: Change your display name
+//> usage: **nick** _<name>_
 
 namespace aliuly\grabbag;
 

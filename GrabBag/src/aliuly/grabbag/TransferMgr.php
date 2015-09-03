@@ -1,10 +1,9 @@
 <?php
-/**
- ** MODULE:broadcast-ft
- ** Broadcast player's using FastTransfer
- **
- ** This listener module will broadcast when a player uses FastTransfer
- **/
+//= module:broadcast-ft
+//: Broadcast player's using FastTransfer
+//:
+//: This listener module will broadcast when a player uses FastTransfer
+
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;

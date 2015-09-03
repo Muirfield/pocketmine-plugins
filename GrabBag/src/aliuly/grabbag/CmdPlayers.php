@@ -1,12 +1,7 @@
 <?php
-/**
- ** OVERVIEW:Informational
- **
- ** COMMANDS
- **
- ** * players: Shows what players are on-line
- **   usage: **players**
- **/
+//= cmd:players,Informational
+//: Shows what players are on-line
+//> usage: **players**
 
 namespace aliuly\grabbag;
 

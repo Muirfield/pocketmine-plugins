@@ -1,15 +1,10 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * reop : Let's op drop priviledges temporarily
- **   usage: **reop** [_player_]
- **
- **   Will drop **op** priviledges from player.  Player can get **op**
- **   back at any time by enter **reop** again or by disconnecting.
- **/
+//= cmd:reop,Player_Management
+//: Let's op drop priviledges temporarily
+//> usage: **reop** [_player_]
+//:
+//: Will drop **op** priviledges from player.  Player can get **op**
+//: back at any time by enter **reop** again or by disconnecting.
 
 namespace aliuly\grabbag;
 

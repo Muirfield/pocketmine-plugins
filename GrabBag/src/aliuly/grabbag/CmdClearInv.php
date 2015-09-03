@@ -1,17 +1,16 @@
 <?php
-/**
- ** OVERVIEW:Inventory Management
- **
- ** COMMANDS
- **
- ** * clearinv : Clear player's inventory
- **   usage: **clearinv** _[player]_
- ** * clearhotbar: Clear player's hotbar
- **   usage: **clearhotbar** _[player]_
- ** * rminv : Remove item from player's Inventory
- **   usage: **rminv** _[player]_ _<item>_ _[quantity]_
- **
- **/
+//= cmd:clearinv,Inventory_Management
+//: Clear player's inventory
+//> usage: **clearinv** _[player]_
+
+//= cmd:clearhotbar,Inventory_Management
+//: Clear player's hotbar
+//> usage: **clearhotbar** _[player]_
+
+//= cmd:rminv,Inventory_Management
+//: Remove item from player's Inventory
+//> usage: **rminv** _[player]_ _<item>_ _[quantity]_
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

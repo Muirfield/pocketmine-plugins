@@ -1,20 +1,14 @@
 <?php
-/**
- ** OVERVIEW:Inventory Management
- **
- ** COMMANDS
- **
- ** * setarmor : Sets armor (even in creative)
- **   usage: **setarmor** _[player]_ _[part]_ _<quality>_
- **
- **   This command lets you armor up.  It can armor up creative players too.
- **   If no `player` is given, the player giving the command will be armored.
- **
- **   Part can be one of `head`, `body`, `legs`, or `boots`.
- **
- **   Quality can be one of `none`, `leather`, `chainmail`, `iron`, `gold` or `diamond`.
- **
- **/
+//= cmd:setarmor,Inventory_Management
+//: Sets armor (even in creative)
+//> usage: **setarmor** _[player]_ _[part]_ _<quality>_
+//:
+//: This command lets you armor up.  It can armor up creative players too.
+//: If no `player` is given, the player giving the command will be armored.
+//:
+//: Part can be one of `head`, `body`, `legs`, or `boots`.
+//:
+//: Quality can be one of `none`, `leather`, `chainmail`, `iron`, `gold` or `diamond`.
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

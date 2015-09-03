@@ -1,21 +1,15 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * perm : temporarily change player's permissions
- **   usage: **perm** _<player>_ _<dump|permission> _[true|false]_
- **
- **   This can be used to temporarily change player's permissions.
- **   Changes are only done in-memory, so these will revert if the
- **   disconnects or the server reloads.
- **   You can specify a _permission_ and it will show it's valueor
- **   if true|false is specified it will be changed.
- **   If you specify **dump**, it will show all permissions
- **   associated to a player.
- **
- **/
+//= cmd:perm,Player_Management
+//: temporarily change player's permissions
+//> usage: **perm** _<player>_ _<dump|permission> _[true|false]_
+//:
+//: This can be used to temporarily change player's permissions.
+//: Changes are only done in-memory, so these will revert if the
+//: disconnects or the server reloads.
+//: You can specify a _permission_ and it will show it's value or
+//: if true|false is specified it will be changed.
+//: If you specify **dump**, it will show all permissions
+//: associated to a player.
 
 namespace aliuly\grabbag;
 

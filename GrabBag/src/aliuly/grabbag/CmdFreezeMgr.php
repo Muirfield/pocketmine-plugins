@@ -1,20 +1,14 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * freeze|thaw : freeze/unfreeze a player so they cannot move.
- **   usage: **freeze|thaw** [ _player_ | **--hard|--soft** ]
- **
- **   Stops players from moving.  If no player specified it will show
- **   the list of frozen players.
- **
- **   If `--hard` or `--soft` is specified instead of a player name, it
- **   will change the freeze mode.
- **
- ** CONFIG:freeze-thaw
- **/
+//= cmd:freeze|thaw,Trolling
+//: freeze/unfreeze a player so they cannot move.
+//> usage: **freeze|thaw** [ _player_ | **--hard|--soft** ]
+//:
+//: Stops players from moving.  If no player specified it will show
+//: the list of frozen players.
+//:
+//: If `--hard` or `--soft` is specified instead of a player name, it
+//: will change the freeze mode.
+
 
 namespace aliuly\grabbag;
 
@@ -32,6 +26,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;
 	protected $hard;
 
+	//= cfg:freeze-thaw
 	static public function defaults() {
 		return [
 			"# hard-freeze" => "how hard to freeze players.", // If `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.

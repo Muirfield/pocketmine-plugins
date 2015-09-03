@@ -1,15 +1,9 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * * invis : player invisible
- **   usage: **invis**
- **
- **   This will toggle your invisibility status.
- **
- **/
+//= cmd:invis,Player_Management
+//: makes player invisible
+//> usage: **invis**
+//: This will toggle your invisibility status.
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

@@ -1,15 +1,10 @@
 <?php
-/**
- ** OVERVIEW:Inventory Management
- **
- ** COMMANDS
- **
- ** * seeinv : Show player's inventory
- **   usage: **seeinv** _<player>_
- ** * seearmor : Show player's armor
- **   usage: **seearmor** _<player>_
- **
- **/
+//= cmd:seeinv,Inventory_Management
+//: Show player's inventory
+//> usage: **seeinv** _<player>_
+//= cmd:seearmor,Inventory_Management
+//: Show player's armor
+//> usage: **seearmor** _<player>_
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

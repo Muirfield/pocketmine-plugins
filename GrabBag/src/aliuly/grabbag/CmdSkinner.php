@@ -1,21 +1,17 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * skin : manage player's skins
- **   usage: **skin** _[player]_ _[save|load|ls]_ _[name]_
- **
- **   Manipulate player's skins on the server.
- **   Sub-commands:
- **   - **skin** **ls**
- **     - List all available skins on the server.  Default command.
- **   - **skin** _[player]_ **save** _<name>_
- **     - Saves _player_'s skin to _name_.
- **   - **skin** _[player]_ **load** _<name>_
- **     - Loads _player_'s skin from _name_.
- **/
+//= cmd:skin,Player_Management
+//: manage player's skins
+//> usage: **skin** _[player]_ _[save|load|ls]_ _[name]_
+//:
+//: Manipulate player's skins on the server.
+//: Sub-commands:
+//> - **skin** **ls**
+//:     - List all available skins on the server.  Default command.
+//> - **skin** _[player]_ **save** _<name>_
+//:     - Saves _player_'s skin to _name_.
+//> - **skin** _[player]_ **load** _<name>_
+//:     - Loads _player_'s skin from _name_.
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
