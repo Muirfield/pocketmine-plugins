@@ -1,15 +1,21 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = DevTools -->
+<!-- meta:PluginAccess = N/A -->
+
+<!-- template: gd2/header.md -->
+
 # libcommon
 
 - Summary: aliuly's common library
-- Dependency Plugins: n/a
-- PocketMine-MP version: 1.4 (API:1.10.0)
-- DependencyPlugins: -
-- OptionalPlugins: -
-- Categories: DevTools
-- Plugin Access: -
+- PocketMine-MP version: 1.5 (API:1.12.0)
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: DevTools 
+- Plugin Access: N/A 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+
+<!-- end-include -->
 
 ## Overview
 

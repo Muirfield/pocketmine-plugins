@@ -24,6 +24,11 @@ use pocketmine\item\Item;
  *
  */
 class ExpandVars {
+  /** @const str getSysVarsFn This is the function signature for SysVars */
+  const getSysVarsFn = "getSysVarsV1";
+  /** @const str getPlayerVarsFn This is the function signature for PlayerVars */
+  const getPlayerVarsFn = "getPlayerVarsV1";
+
   /** @var callable[] Callables to create player specific variables */
   protected $playerExtensions;
   /** @var callable[] Callables to create server wide variables */
@@ -150,7 +155,7 @@ class ExpandVars {
    */
    protected function initSysVars() {
     if ($this->sysExtensions !== null) return;
-    $this->sysExtensions = $this->autoloadExtensions("getSysVarsV1");
+    $this->sysExtensions = $this->autoloadExtensions(self::getSysVarsFn);
     $this->sysExtensions[] =  [ $this, "stdSysVars" ];
     if (\pocketmine\DEBUG > 1)  $this->sysExtensions[] = [ $this, "debugSysVars"];
     $pm = $this->getServer()->getPluginManager();
@@ -284,7 +289,7 @@ class ExpandVars {
    */
   protected function initPlayerVars() {
     if ($this->$playerExtensions !== null) return;
-    $this->playerExtensions = $this->autoloadExtensions("getPlayerVarsV1");
+    $this->playerExtensions = $this->autoloadExtensions(self::getPlayerVarsFn);
     $this->playerExtensions[] = [ $this , "stdPlayerVars" ];
     $this->playerExtensions[] = [ $this , "invPlayerVars" ];
     $pm = $this->getServer()->getPluginManager();

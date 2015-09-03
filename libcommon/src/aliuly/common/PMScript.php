@@ -18,6 +18,7 @@ class PMScript {
   protected $perms;
   protected $vars;
   protected $globs;
+
   /**
    * @param Plugin $owner - plugin that owns this interpreter
    * @param bool|ExpandVars $vars - allow for standard variable expansion
@@ -28,11 +29,13 @@ class PMScript {
     $this->owner = $owner;
     $this->selector = $selector;
     $this->globs = [];
+
     if ($perms) {
-      $this->perms = [ Cmd::class, "opexec" ];
+      $this->perms = [ __NAMESPACE__."\\Cmd" , "opexec" ];
     } else {
       $this->perms = [ $this->owner->getServer(), "dispatchCommand" ];
     }
+
     if ($vars) {
       if ($vars instanceof ExpandVars) {
         $this->vars = $vars;
@@ -41,6 +44,28 @@ class PMScript {
       }
     } else {
       $this->vars = null;
+    }
+
+  }
+  /**
+   * Execute a command
+   * @param CommandSender $ctx - Command context
+   * @param str $cmdline - Command to execute
+   * @param array $vars - Variables table for variable expansion
+   */
+  public function exec(CommandSender $ctx, $cmdline, $vars) {
+    $cmdline = strtr($cmdline,$vars);
+    if ($this->selector) {
+      $cmds = CmdSelector::expandSelectors($this->getServer(),$ctx, $cmdline, $this->selector);
+      if ($cmds == false) {
+        $cmds = [ $cmdline ];
+      }
+    } else {
+      $cmds = [ $cmdline ];
+    }
+    $cmdex = $this->perms;
+    foreach ($cmds as $ln) {
+      $cmdex($ctx,$ln);
     }
   }
   /**
@@ -204,26 +229,4 @@ class PMScript {
      echo $php;
      return eval($php);
   }
-  /**
-   * Execute a command
-   * @param CommandSender $ctx - Command context
-   * @param str $cmdline - Command to execute
-   * @param array $vars - Variables table for variable expansion
-   */
-  public function exec(CommandSender $ctx, $cmdline, $vars) {
-    $cmdline = strtr($cmdline,$vars);
-    if ($this->selector) {
-      $cmds = CmdSelector::expandSelectors($this->getServer(),$ctx, $cmdline, $this->selector);
-      if ($cmds == false) {
-        $cmds = [ $cmdline ];
-      }
-    } else {
-      $cmds = [ $cmdline ];
-    }
-    $cmdex = $this->perms;
-    foreach ($cmds as $ln) {
-      $cmdex($ctx,$ln);
-    }
-  }
-
 }

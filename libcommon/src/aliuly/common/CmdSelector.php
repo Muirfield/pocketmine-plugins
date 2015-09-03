@@ -13,6 +13,13 @@ use pocketmine\Server;
 use pocketmine\entity\Entity;
 use pocketmine\command\CommandSender;
 
+/**
+ * Implements Minecraft Command selectors.  See
+ * [Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_a
+rguments)
+ * for more info.
+ *
+ */
 abstract class CmdSelector {
   /**
    * Expand command selectors.
