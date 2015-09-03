@@ -44,6 +44,25 @@ class PMScript {
     }
   }
   /**
+   * If libcommon is available, try to get a single shared instance of
+   * PMScript
+   */
+  static public function getCommonInterp(Plugin $owner) {
+    $pm = $owner->getServer()->getPluginManager();
+    if (($gb = $pm->getPlugin("GrabBag")) !== null) {
+      if (MPMU::apiCheck($gb->getDescription()->getVersion(),"2.3")) {
+        $vars =  $gb->api->getInterp();
+        if ($vars instanceof PMScript) return $vars;
+      }
+    }
+    if (($lc = $pm->getPlugin("libcommon")) !== null) {
+      if (MPMU::apiCheck($lc->getDescription()->getVersion(),"1.2")) {
+        return $lc->getInterp();
+      }
+    }
+    return new PMScript($owner, ExpandVars::getCommonVars($owner));
+  }
+  /**
    * Define additional constants on the fly...
    * @param str $name
    * @param mixed $value

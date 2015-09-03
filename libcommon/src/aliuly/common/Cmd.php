@@ -99,11 +99,11 @@ abstract class Cmd {
 		$ctx->getServer()->dispatchCommand($ctx,$cmdline);
 	}
 	/**
-	* Check prefixes
-	* @param str $txt - input text
-	* @param str $tok - keyword to test
-	* @return
-	*/
+	 * Check prefixes
+	 * @param str $txt - input text
+	 * @param str $tok - keyword to test
+	 * @return str|null
+	 */
 	static public function startsWith($txt,$tok) {
 		$ln = strlen($tok);
 		if (strtolower(substr($txt,0,$ln)) != $tok) return null;

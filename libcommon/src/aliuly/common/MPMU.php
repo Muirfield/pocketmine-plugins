@@ -16,7 +16,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "1.1.1";
+	const VERSION = "1.2.0dev2";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check

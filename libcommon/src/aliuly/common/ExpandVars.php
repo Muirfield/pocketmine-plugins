@@ -75,6 +75,27 @@ class ExpandVars {
     ];
   }
   /**
+   * If libcommon is available, try to get a single shared instance of
+   * ExpandVars
+   */
+  static public function getCommonVars(Plugin $owner) {
+    $pm = $owner->getServer()->getPluginManager();
+    if (($gb = $pm->getPlugin("GrabBag")) !== null) {
+      if (MPMU::apiCheck($gb->getDescription()->getVersion(),"2.3")) {
+        $vars =  $gb->api->getVars();
+        if ($vars instanceof ExpandVars) return $vars;
+      }
+    }
+    if (($lc = $pm->getPlugin("libcommon")) !== null) {
+      if (MPMU::apiCheck($lc->getDescription()->getVersion(),"1.2")) {
+        return $lc->getVars();
+      }
+    }
+    return new ExpandVars($owner);
+  }
+
+
+  /**
    * Define additional constants on the fly...
    * @param str $name
    * @param str $value
@@ -153,11 +174,19 @@ class ExpandVars {
 
   /**
    * Main entry point for system wide variable defintions
-   * @param Server $server - reference to pocketmine server
    * @param array &$vars - receives variable defintions
    */
   public function sysVars(array &$vars) {
     $this->initSysVars();
+    foreach ($this->sysExtensions as $cb) {
+      $cb($vars);
+    }
+  }
+  /**
+   * Shorter entry point for system wide variable defintions
+   * @param array &$vars - receives variable defintions
+   */
+  public function sysVarsShort(array &$vars) {
     foreach ($this->sysExtensions as $cb) {
       $cb($vars);
     }
@@ -298,6 +327,16 @@ class ExpandVars {
    */
   public function playerVars(Player $player, array &$vars) {
     $this->initPlayerVars();
+    foreach ($this->playerExtensions as $cb) {
+      $cb($this,$player,$vars);
+    }
+  }
+  /**
+   * Shorter entry point for player specifc variable defintions
+   * @param Player $player - reference to pocketmine Player
+   * @param array &$vars - receives variable defintions
+   */
+  public function playerVarsShort(Player $player, array &$vars) {
     foreach ($this->playerExtensions as $cb) {
       $cb($this,$player,$vars);
     }

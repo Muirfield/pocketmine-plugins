@@ -11,12 +11,14 @@ use aliuly\common\BasicHelp;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\ExpandVars;
+use aliuly\common\PMScript;
 
 /**
  * This class is used for the PocketMine PluginManager
  */
 class Main extends BasicPlugin implements CommandExecutor{
 	protected $vars;
+	protected $interp;
 	/**
 	 * Provides the library version
 	 * @return str
@@ -27,6 +29,12 @@ class Main extends BasicPlugin implements CommandExecutor{
 	public function getVars() {
 		return $this->vars;
 	}
+	public function getInterp() {
+		if ($this->interp === null) {
+			$this->interp  = new PMScript($this,$this->getVars());
+		}
+		return $this->interp;
+	}
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
 		MPMU::addCommand($this,$this,"libcommon", [
@@ -36,9 +44,10 @@ class Main extends BasicPlugin implements CommandExecutor{
 			"permission" => "libcommon.debug.command",
 		]);
 
+		$this->interp = null;
 		$this->vars = new ExpandVars($this);
 		$this->vars->define("{libcommon}", MPMU::version());
-		
+
 		$this->modules = [];
 		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([
@@ -74,7 +83,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 
 		// Auto start scripts...
-		$this->modules["RcCmd"]->autostart();
+		if (isset($this->modules["RcCmd"]))	$this->modules["RcCmd"]->autostart();
 	}
 	//////////////////////////////////////////////////////////////////////
 	//

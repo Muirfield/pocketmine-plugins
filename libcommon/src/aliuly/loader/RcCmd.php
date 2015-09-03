@@ -24,10 +24,12 @@ class RcCmd extends BasicCli {
 	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->interp = new PMScript($owner,$owner->getVars());
-		$this->interp->define("{libcommon}", MPMU::version());
+		$this->interp = $owner->getInterp();
 		$this->enableSCmd("rc",["usage" => "<script> [args]",
 										"help" => mc::_("Runs the given PMScript")]);
+	}
+	public function getInterp() {
+		return $this->interp;
 	}
 	public function autostart() {
 		$script = $this->owner->getDataFolder()."autostart.pms";
