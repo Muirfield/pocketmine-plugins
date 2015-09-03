@@ -1,13 +1,7 @@
 <?php
-/**
- ** OVERVIEW:Sub Commands
- **
- ** COMMANDS
- **
- ** * version : Shows the libcommon version
- **   usage: /libcommon **version**
- **
- **/
+//= cmd:version
+//: shows the libcomonn version
+//>  usage: /libcommon **version**
 namespace aliuly\loader;
 
 use pocketmine\command\CommandSender;

@@ -5,7 +5,7 @@ use pocketmine\command\RemoteConsoleCommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandSender;
 use pocketmine\event\player\PlayerChatEvent;
-
+use pocketmine\Player;
 /**
  * Utility class to execute commands|chat's as player or console
  */
@@ -91,9 +91,13 @@ abstract class Cmd {
 			return;
 		}
 		if (($cm = self::startsWith($cmdline,"+rcon:")) !== null) {
-			$rcon = new RemoteConsoleCommandSender;
-			$ctx->getServer()->distpatchCommand($rcon,$cm);
-			if (trim($rcon->getMessage()) != "") $ctx->sendMessage($rcon->getMessage());
+			if ($ctx instanceof Player) {
+				$rcon = new RemoteConsoleCommandSender;
+				$ctx->getServer()->distpatchCommand($rcon,$cm);
+				if (trim($rcon->getMessage()) != "") $ctx->sendMessage($rcon->getMessage());
+			} else {
+				$ctx->getServer()->distpatchCommand($ctx,$cm);
+			}
 			return;
 		}
 		$ctx->getServer()->dispatchCommand($ctx,$cmdline);

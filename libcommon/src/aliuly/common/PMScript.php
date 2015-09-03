@@ -1,4 +1,57 @@
 <?php
+//# ## PMScript
+//:
+//: The PMScript module implements a simple [PHP](https://secure.php.net/)
+//: based scripting engine.  It can be used to enter multiple PocketMine
+//: commands while allowing you to add PHP code to control the flow of
+//: the script.
+//:
+//: While you can embed any arbitrary PHP code, for readability purposes
+//: it is recommended that you use
+//: [PHP's alternative syntax](http://php.net/manual/en/control-structures.alternative-syntax.php)
+//:
+//: By convention, PMScript's have a file extension of ".pms" and they are
+//: just simple text file containing PHP console commands (without the "/").
+//:
+//: To control the execution you can use the following prefixes when
+//: entering commands:
+//:
+//: * **+op:** - will give Op access to the player (temporarily) before executing
+//:   a command
+//: * **+console:** - run the command as if it was run from the console.
+//: * **+rcon:** - like **+console:** but the output is sent to the player.
+//:
+//: Also, before executing a command variable expansion (e.g. {vars}) and
+//: command selector expansion (e.g. @a, @r, etc) takes place.
+//:
+//: Note that available variables depend on installed plugins, pocketmine.yml
+//: settings, execution context, etc.
+//:
+//: ### Adding logic flow to PMScripts
+//:
+//: Arbitrary PHP code can be added to your pmscripts.  Lines that start
+//: with "@" are treated as PHP code.  For your convenience,
+//: you can ommit ";" at the end of the line.
+//:
+//: Any valid PHP code can be used, but for readability, the use of
+//: alternative syntax is recommended.
+//:
+//: The execution context for this PHP code has the following variables
+//: available:
+//:
+//: * **$interp** - reference to the running PMSCript object.
+//: * **$context** - This is the CommandSender that is executing the script
+//: * **$vars** - This is the variables array used for variable substitution
+//:   when executing commands.
+//: * **$args** - Command line arguments.
+//: * **$env** - execution environment.  Empty by default but may be used
+//:   by third party plugins.
+//: * **$v_xxxxx** - When posible the variables use for command variable
+//:   substitution are made available as **$v_xxxx**.  For example, the
+//:   **{tps}** variable, will be available as **$v_tps**
+//: 
+
+
 namespace aliuly\common;
 
 use pocketmine\command\CommandSender;
@@ -211,7 +264,7 @@ class PMScript {
      $php .= " return function (\$interp,\$context,&\$vars,&\$args,&\$env) {";
      $php .= "  foreach (\$vars as \$i=>\$j) {\n";
      $php .= "    if (preg_match(\"/^\\{([_a-zA-Z][_a-zA-Z0-9]*)\\}\\\$/\",\$i,\$mv)) {\n";
-     $php .= "       eval(\"\\\$\" . \$mv[1] . \" = \\\$j;\\n\");\n";
+     $php .= "       eval(\"\\\$v_\" . \$mv[1] . \" = \\\$j;\\n\");\n";
      $php .= "    }\n";
      $php .= "  }\n";
      foreach (explode("\n",$pmscript) as $ln) {
@@ -226,7 +279,6 @@ class PMScript {
        }
      }
      $php .= "};";
-     echo $php;
      return eval($php);
   }
 }

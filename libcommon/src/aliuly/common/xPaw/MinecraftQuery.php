@@ -5,13 +5,16 @@ namespace aliuly\common\xPaw;
 /**
  * Class written by xPaw
  *
- * Website: http://xpaw.me
- * GitHub: https://github.com/xPaw/PHP-Minecraft-Query
+ * - Website: <http://xpaw.me>
+ * - GitHub: <https://github.com/xPaw/PHP-Minecraft-Query>
+ *
+ * * * *
  *
  * Queries remote minecraft servers
  *
  * Basic usage:
  *
+ *     // Sample usage
  *     use xPaw\MinecraftQuery;
  *     use xPaw\MinecraftQueryException;
  *     $query = new MinecraftQuery;

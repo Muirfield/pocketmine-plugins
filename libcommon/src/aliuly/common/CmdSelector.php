@@ -1,6 +1,26 @@
 <?php
 namespace aliuly\common;
-
+//= CmdSelector
+//:
+//: This adds "@" prefixes for commands.
+//: See
+//: [Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
+//: for an explanation on prefixes.
+//:
+//: This only implements the following prefixes:
+//:
+//: - @a - all players
+//: - @e - all entities (including players)
+//: - @r - random player/entity
+//:
+//: The following selectors are implemented:
+//:
+//: - c: (only for @r),count
+//: - m: game mode
+//: - type: entity type, use Player for player.
+//: - name: player's name
+//: - w: world
+//:
 use aliuly\common\mc;
 
 use aliuly\common\selectors\BaseSelector;
@@ -15,8 +35,7 @@ use pocketmine\command\CommandSender;
 
 /**
  * Implements Minecraft Command selectors.  See
- * [Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_a
-rguments)
+ * [Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
  * for more info.
  *
  */

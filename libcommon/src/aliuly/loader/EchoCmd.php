@@ -1,13 +1,9 @@
 <?php
-/**
- ** OVERVIEW:Sub Commands
- **
- ** COMMANDS
- **
- ** * echo : Shows the given text
- **   usage: /libcommon **echo** _[text]_
- **
- **/
+//= cmd:echo
+//: shows the given text (variable substitutions are performed)
+//>  usage: /libcommon **echo** _[text]_
+//:
+//: This command is available when **DEBUG** is enabled.
 namespace aliuly\loader;
 
 use pocketmine\command\CommandSender;

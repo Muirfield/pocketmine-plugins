@@ -1,13 +1,9 @@
 <?php
-/**
- ** OVERVIEW:Sub Commands
- **
- ** COMMANDS
- **
- ** * dumpmsg : Dump a plugins messages.ini
- **   usage: /libcommon dumpmsg _<plugin>_
- **
- **/
+//= cmd:dumpmsg
+//: Dump a plugin's messages.ini
+//> usage: /libcommon **dumpmsg** _<plugin>_
+//:
+//: This command is available when **DEBUG** is enabled.
 namespace aliuly\loader;
 
 use pocketmine\command\CommandSender;

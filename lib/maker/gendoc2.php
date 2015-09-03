@@ -35,7 +35,38 @@ function analyze_doc($otxt) {
 function analyze_php($src, &$snippets) {
 	$scode = basename($src);
 	foreach(file($src,FILE_IGNORE_NEW_LINES) as $lni) {
-		if (!preg_match('/^\s*\/\/(.) ?(.*)\s*$/',$lni,$mv)) continue;
+
+		if (!preg_match('/^\s*\/\/(.) ?(.*)\s*$/',$lni,$mv)) {
+			if (preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*$/',$lni,$mv) ||
+				preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*\/\/\s*(.*)$/',$lni,$mv)) {
+
+				// Probably a config doc line...
+				if (count($mv) == 4) {
+					list(,$indent,$setting,$descr) = $mv;
+				}
+				else {
+					list(,$indent,$setting,$descr,$more) = $mv;
+					$descr .= " ".$more;
+				}
+				if (!isset($snippets[$scode])) $snippets[$scode] = [];
+				switch (substr($setting,0,1)) {
+					case "|":
+						$snippets[$scode][] = substr($setting,1).": ".$descr;
+						break;
+					default:
+					  // Figure out indentation...
+						$indent = "";
+						for ($i = count($snippets[$scode])-1;$i >= 0;$i--) {
+							if ($snippets[$scode][$i] == "") continue;
+							if (preg_match('/^(\s*)/',$i,$mv)) $indent = $mv[1];
+							break;
+						}
+						$snippets[$scode][] = $indent."* ".$setting.": ".$descr;
+				}
+
+			}
+			continue;
+		}
 		list (,$sel,$ln) = $mv;
 
 		if ($sel == ">") {
