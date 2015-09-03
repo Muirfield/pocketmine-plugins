@@ -45,6 +45,21 @@ abstract class BasicPlugin extends PluginBase {
 			}
 			if (!$j) continue;
 			$class = $mods[$i][0];
+			if (is_array($class)) {
+				while (count($class) > 1) {
+					// All classes before the last one are dependencies...
+					$classname = $dep = array_shift($class);
+					if(strpos($classname,"\\") === false) $classname = $ns."\\".$classname;
+					if (isset($this->modules[$dep])) continue; // Dependancy already loaded
+					if(isset($cfg[strtolower($dep)])) {
+						$this->modules[$dep] = new $classname($this,$cfg[strtolower($dep)]);
+					} else {
+						$this->modules[$dep] = new $classname($this);
+					}
+				}
+				// The last class in the array implements the actual feature
+				$class = array_shift($class);
+			}
 			if(strpos($class,"\\") === false) $class = $ns."\\".$class;
 			if (isset($cfg[$i]))
 				$this->modules[$i] = new $class($this,$cfg[$i]);

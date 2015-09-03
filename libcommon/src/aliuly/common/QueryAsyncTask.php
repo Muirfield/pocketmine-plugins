@@ -34,7 +34,12 @@ class QueryAsyncTask extends PluginAsyncTask{
 		$this->port = $port;
 	}
 	public function onRun() {
-		$this->setResult(null);
+		$this->setResult([
+			"host"=>$this->host,
+			"port" => $this->port,
+			"info" => null,
+			"players" => null,
+		]);
 		$Query = new MinecraftQuery( );
 		try {
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG

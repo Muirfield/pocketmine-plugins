@@ -33,7 +33,11 @@ class GetMotdAsyncTask extends PluginAsyncTask{
 		$this->port = $port;
 	}
 	public function onRun() {
-		$this->setResult(null);
+		$this->setResult([
+				"host"=>$this->host,
+				"port" => $this->port,
+				"results" => null,
+		]);
 		$res = GetMotd::query($this->host,$this->port);
 		$this->setResult([
 			"host"=>$this->host,

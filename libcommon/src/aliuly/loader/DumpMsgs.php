@@ -14,7 +14,7 @@ use aliuly\common\BasicCli;
 class DumpMsgs extends BasicCli {
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->enableSCmd("dumpmsg",["usage" => "<plugin>",
+		$this->enableSCmd("dumpmsg",["usage" => mc::_("<plugin>"),
 										"help" => mc::_("Dump a plugins messages.ini")]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {

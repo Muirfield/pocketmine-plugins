@@ -12,3 +12,6 @@ permissions:
   libcommon.debug.command:
     default: op
     description: "Allow access to libcommon debug commands"
+  libcommon.echo.command:
+    default: true
+    description: "Basic echo command"

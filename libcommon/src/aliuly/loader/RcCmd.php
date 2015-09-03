@@ -28,7 +28,7 @@ class RcCmd extends BasicCli {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->interp = $owner->getInterp();
-		$this->enableSCmd("rc",["usage" => "<script> [args]",
+		$this->enableSCmd("rc",["usage" => mc::_("<script> [args]"),
 										"help" => mc::_("Runs the given PMScript")]);
 	}
 	public function getInterp() {

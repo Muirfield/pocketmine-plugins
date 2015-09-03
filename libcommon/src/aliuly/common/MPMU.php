@@ -241,6 +241,17 @@ abstract class MPMU {
 		}
 		$player->sendPopup($msg);
 	}
+	/**
+	 * Check prefixes
+	 * @param str $txt - input text
+	 * @param str $tok - keyword to test
+	 * @return str|null
+	 */
+	static public function startsWith($txt,$tok) {
+		$ln = strlen($tok);
+		if (strtolower(substr($txt,0,$ln)) != $tok) return null;
+		return trim(substr($txt,$ln));
+	}
 
 
 }

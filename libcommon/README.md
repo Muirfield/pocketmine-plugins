@@ -68,6 +68,24 @@ has the following sub-commands:
    usage: /libcommon **echo** _[text]_
   
   This command is available when **DEBUG** is enabled.
+* motd-add: Add a server for MOTD querying<br/>
+  usage: /libcommon **motd-add** _&lt;server&gt;_ _[port]_
+  
+  This command is available when **DEBUG** is enabled.
+  
+* motd-stat: Return the servers MOTD values<br/>
+  usage: /libcommon **motd-stat**
+  
+  This command is available when **DEBUG** is enabled.
+* query-add: Add a server for Query gathering<br/>
+  usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
+  
+  This command is available when **DEBUG** is enabled.
+  
+* query-list: Return the available Query data<br/>
+  usage: /libcommon **query-list**
+  
+  This command is available when **DEBUG** is enabled.
 * rc: Runs the given script<br/>
   usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
   
@@ -164,10 +182,15 @@ available:
 
 ## Changes
 
-- 1.2.0: Update 2
+- 1.2.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
-  * New Features:
+  * Lots of new API features.
+  * Added sub-commands
+  * Bug Fixes:
+    * MoneyAPI crash
+    * BasicPlugin permission dispatcher
+  * API Features
     * GetMotdAsyncTask
     * Session management
     * FileUtils
@@ -178,15 +201,16 @@ available:
     * SubCommandMap spinned-off from BasicPlugin
   * Sub commands
     * DumpMsgs
-    * echo
+    * echo and basic echo
     * rc
+    * motd utils
     * version
 - 1.1.0: Update 1
   * Added ItemName class (with more item names)
   * Removed MPMU::itemName
 - 1.0.0: First release
 
-## Copyright
+# Copyright
 
 libcommon
 Copyright (C) 2015 Alejandro Liu

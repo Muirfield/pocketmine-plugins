@@ -38,8 +38,8 @@ class Main extends BasicPlugin implements CommandExecutor{
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
 		MPMU::addCommand($this,$this,"libcommon", [
-			"description" => "LibCommon Command Line interface",
-			"usage" => "/libcommon <subcommand> [options]",
+			"description" => mc::_("LibCommon Command Line interface"),
+			"usage" => mc::_("/libcommon <subcommand> [options]"),
 			"aliases" => ["lc"],
 			"permission" => "libcommon.debug.command",
 		]);
@@ -73,17 +73,29 @@ class Main extends BasicPlugin implements CommandExecutor{
 				"DumpMsgs",
 				"EchoCmd",
 				"RcCmd",
+				"MotdMgr",
+				"QueryMgr",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 
 				$class = __NAMESPACE__."\\".$mod;
 				$this->modules[$mod] = new $class($this);
 			}
+			MPMU::addCommand($this,$this,"echo", [
+			"description" => mc::_("Basic echo command"),
+			"usage" => mc::_("/libcommon <subcommand> [options]"),
+			"permission" => "libcommon.echo.command",
+		]);
 		}
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 
 		// Auto start scripts...
 		if (isset($this->modules["RcCmd"]))	$this->modules["RcCmd"]->autostart();
+	}
+	public function asyncResults($res, $module, $cbname, ...$args) {
+		if (!isset($this->modules[$module])) return;
+		$cb = [ $this->modules[$module], $cbname ];
+		$cb($res, ...$args);
 	}
 	//////////////////////////////////////////////////////////////////////
 	//
@@ -91,6 +103,10 @@ class Main extends BasicPlugin implements CommandExecutor{
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+		if ($cmd->getName() == "echo") {
+			$sender->sendMessage(implode(" ",$args));
+			return true;
+		}
 		if ($cmd->getName() != "libcommon") return false;
 		return $this->dispatchSCmd($sender,$cmd,$args);
 	}

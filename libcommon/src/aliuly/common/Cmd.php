@@ -76,7 +76,7 @@ abstract class Cmd {
 	 * @param str $cmdline - command line to execute
 	 */
 	static public function opexec(CommandSender $ctx, $cmdline) {
-		if (($cm = self::startsWith($cmdline,"+op:")) !== null) {
+		if (($cm = MPMU::startsWith($cmdline,"+op:")) !== null) {
 			if (!$ctx->isOp()) {
 				$ctx->setOp(true);
 				$ctx->getServer()->distpatchCommand($ctx,$cm);
@@ -86,11 +86,11 @@ abstract class Cmd {
 			$ctx->getServer()->distpatchCommand($ctx,$cm);
 			return;
 		}
-		if (($cm = self::startsWith($cmdline,"+console:")) !== null) {
+		if (($cm = MPMU::startsWith($cmdline,"+console:")) !== null) {
 			$ctx->getServer()->distpatchCommand(new ConsoleCommandSender,$cm);
 			return;
 		}
-		if (($cm = self::startsWith($cmdline,"+rcon:")) !== null) {
+		if (($cm = MPMU::startsWith($cmdline,"+rcon:")) !== null) {
 			if ($ctx instanceof Player) {
 				$rcon = new RemoteConsoleCommandSender;
 				$ctx->getServer()->distpatchCommand($rcon,$cm);
@@ -101,17 +101,6 @@ abstract class Cmd {
 			return;
 		}
 		$ctx->getServer()->dispatchCommand($ctx,$cmdline);
-	}
-	/**
-	 * Check prefixes
-	 * @param str $txt - input text
-	 * @param str $tok - keyword to test
-	 * @return str|null
-	 */
-	static public function startsWith($txt,$tok) {
-		$ln = strlen($tok);
-		if (strtolower(substr($txt,0,$ln)) != $tok) return null;
-		return trim(substr($txt,$ln));
 	}
 
 }

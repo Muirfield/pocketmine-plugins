@@ -18,7 +18,7 @@ use aliuly\common\MPMU;
 class EchoCmd extends BasicCli {
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->enableSCmd("echo",["usage" => "[text]",
+		$this->enableSCmd("echo",["usage" => mc::_("[text]"),
 										"help" => mc::_("Show given text")]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
