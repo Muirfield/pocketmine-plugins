@@ -57,6 +57,17 @@ class CmdAlias extends BasicCli implements CommandExecutor {
 		}
 		return false;
 	}
+  public function addAlias($alias,$cmdline,$force) {
+    if ($this->owner->getServer()->getCommandMap()->getCommand($alias) !== null) {
+      if ($force) {
+        MPMU::rmCommand($this->owner->getServer(),$alias);
+      } else {
+        return false;
+      }
+    }
+    $this->aliases[$alias] = new AliasCmd($this->owner, $alias, $cmdline);
+    return true;
+  }
   private function cmdAlias(CommandSender $sender,array $args) {
     if (count($args) == 0 || count($args) == 1 && is_numeric($args[0])) return $this->lsAliases($sender,$args);
     if (count($args) == 1)  return $this->showAlias($sender, $args[0]);
@@ -71,16 +82,11 @@ class CmdAlias extends BasicCli implements CommandExecutor {
     // Create an alias
     $alias = array_shift($args);
     $cmdline = implode(" ",$args);
-    if ($this->owner->getServer()->getCommandMap()->getCommand($alias) !== null) {
-      if ($force) {
-        MPMU::rmCommand($this->owner->getServer(),$alias);
-      } else {
-        $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists use -f option", $alias));
-        return true;
-      }
+    if ($this->cmdAlias($alias,$cmdline,$force)) {
+      $sender->sendMessage(TextFormat::GREEN.mc::_("Created alias \"%1%\" as \"%2%\"",$alias,$cmdline));
+    } else {
+      $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists use -f option", $alias));
     }
-    $this->aliases[$alias] = new AliasCmd($this->owner, $alias, $cmdline);
-    $sender->sendMessage(TextFormat::GREEN.mc::_("Created alias \"%1%\" as \"%2%\"",$alias,$cmdline));
     return true;
   }
   private function showAlias(CommandSender $sender, $alias) {

@@ -117,4 +117,30 @@ class GrabBag {
   public function after($cmdline,$secs) {
     $this->getModule("after-at")->schedule($secs,$cmdline);
   }
+  //////////////////////////////////////////////////////////////
+  // CmdAlias
+  //////////////////////////////////////////////////////////////
+  /**
+   * Define alias
+   * @param str $alias - alias name
+   * @param str $cmdline - command line to execute
+   * @param bool $force - overwrite existing commands
+   * @return bool - true on succes, false on failure
+   */
+  public function alias($alias, $cmdline,$force = false) {
+    return $this->getModule("cmd-alias")->addAlias($alias,$cmdline,$force);
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdBlowUp
+  //////////////////////////////////////////////////////////////
+  /**
+   * Blow player up
+   * @param Player $player - victim
+   * @param int $yield - explosion power
+   * @param bool $magic - don't affect blocks
+   * @return bool - true on succes, false on failure
+   */
+  public function blowPlayer($player,$yield,$magic = false) {
+    return $this->getModule("blowup")->blowPlayer($player,$yield,$magic);
+  }
 }

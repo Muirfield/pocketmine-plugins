@@ -28,6 +28,14 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 								"usage" => mc::_("/blowup <player> [yield|magic|normal]"),
 								"permission" => "gb.cmd.blowup"]);
 	}
+	public function blowPlayer($pl,$yield,$magic) {
+		$this->owner->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($pl,$yield));
+		if ($cc->isCancelled()) return false;
+		$explosion = new Explosion($pl,$yield);
+		if (!$magic) $explosion->explodeA();
+		$explosion->explodeB();
+		return true;
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "blowup") return false;
 		if (count($args) == 0) return false;
@@ -49,11 +57,7 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 				$magic = false;
 			}
 		}
-		$this->owner->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($pl,$yield));
-		if ($cc->isCancelled()) return true;
-		$explosion = new Explosion($pl,$yield);
-		if (!$magic) $explosion->explodeA();
-		$explosion->explodeB();
+		$this->blowPlayer($pl,$yield,$magic);
 		return true;
 	}
 }
