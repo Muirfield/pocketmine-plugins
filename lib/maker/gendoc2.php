@@ -125,7 +125,13 @@ function expand_tags2($txt,&$snippets,&$yaml) {
 		} elseif (($cm = startsWith($ln,"\n<TEMPLATE>\n")) !== null) {
 			// Insert a template...
 			ob_start();
-			include(LIBDIR."templ/".$cm);
+			if (file_exists(SRCDIR.$cm)) {
+				include(SRCDIR.$cm);
+			} elseif (file_exists(LIBDIR."templ/".$cm)) {
+				include(LIBDIR."templ/".$cm);
+			} else {
+				echo "<!-- MISSING TEMPLATE: $cm ->\n";
+			}
 			foreach (explode("\n",ob_get_clean()) as $i) {
 				$out[] = $i;
 			}

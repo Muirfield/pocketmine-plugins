@@ -8,6 +8,9 @@ foreach (array_keys($snippets) as $a) {
 }
 ksort($cmds);
 foreach ($cmds as $j=>$k) {
+  $j = explode(",",$j);
+  $j = $j[0];
+
   $p = "* ".$j.": ";
   $q = "<br/>\n";
   foreach ($snippets[$k] as $i) {
