@@ -37,6 +37,18 @@ class GrabBag {
      if ($this->plugin->getModule($feature) === null) return false;
      return true;
    }
+   /**
+    * Currently un-implemented
+    */
+   public function getVars() {
+     return null;
+   }
+   /**
+    * Currently un-implemented
+    */
+   public function getInterp() {
+     return null;
+   }
 
   //////////////////////////////////////////////////////////////
   // CmdFreeze
