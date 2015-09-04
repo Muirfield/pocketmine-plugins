@@ -7,10 +7,26 @@ use pocketmine\event\Cancellable;
 
 class GbRemoveServerEvent extends GrabBagEvent implements Cancellable {
   public static $handlerList = null;
+  private $serverId;
   /**
    * @param GrabBagPlugin $plugin - plugin owner
    */
-   public function __construct(GrabBagPlugin $plugin) {
+   public function __construct(GrabBagPlugin $plugin,$id) {
      parent::__construct($plugin);
+     $this->serverId = $id;
    }
+  /**
+   * Returns the server id
+   * @return str
+   */
+  public function getId() {
+     return $this->serverId;
+  }
+  /**
+   * Sets the server id
+   * @param str $id
+   */
+  public function setId($id) {
+     $this->serverId = $id;
+  }
 }

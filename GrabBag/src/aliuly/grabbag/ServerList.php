@@ -29,6 +29,8 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\PermUtils;
 
+use aliuly\grabbag\api\GbAddServerEvent;
+use aliuly\grabbag\api\GbRemoveServerEvent;
 
 
 class ServerList extends BasicCli implements CommandExecutor {
@@ -56,13 +58,25 @@ class ServerList extends BasicCli implements CommandExecutor {
     return array_keys($this->servers);
   }
   public function addServer($key,$val) {
-    $this->servers[$key] = $val;
+    $this->owner->getServer()->getPluginManager()->callEvent(
+	$ev = new GbAddServerEvent($this->owner, $key, $val)
+    )
+    if ($ev->isCancelled()) return false;
+    $this->servers[$ev->getId()] = $ev->getAttrs();
     $this->owner->cfgSave(self::CfgTag,$this->servers);
+    return true;
   }
   public function rmServer($id) {
-    if (!isset($this->servers[$id])) return;
+    if (!isset($this->servers[$id])) return true;
+    $this->owner->getServer()->getPluginManager()->callEvent(
+	$ev = new GbAddServerEvent($this->owner, $key, $val)
+    )
+    if ($ev->isCancelled()) return false;
+    $id = $ev->getId();
+    if (!isset($this->servers[$id])) return true;
     unset($this->servers[$id]);
     $this->owner->cfgSave(self::CfgTag,$this->servers);
+    return true;
   }
   public function getServer($id) {
     if (isset($this->servers[$id])) return $this->servers[$id];
@@ -130,8 +144,10 @@ class ServerList extends BasicCli implements CommandExecutor {
         return false;
       }
     }
-    $this->addServer($id,$dat);
-    $c->sendMessage(mc::_("Server id %1% configured",$id));
+    if ($this->addServer($id,$dat))
+      $c->sendMessage(mc::_("Server id %1% configured",$id));
+    else
+      $c->sendMessage(mc::_("Failed to configure %1%",$id));
     return true;
   }
   private function cmdRm(CommandSender $c,$args) {
@@ -144,8 +160,10 @@ class ServerList extends BasicCli implements CommandExecutor {
       $c->sendMessage(mc::_("%1% does not exist",$id));
       return false;
     }
-    $this->rmServer($id);
-    $c->sendMessage(mc::_("Server id %1% deleted",$id));
+    if ($this->rmServer($id))
+      $c->sendMessage(mc::_("Server id %1% deleted",$id));
+    else
+      $c->sendMessage(mc::_("Unable to delete id %1%",$id));
     return true;
   }
   private function cmdList(CommandSender $c,$args) {
