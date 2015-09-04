@@ -33,7 +33,10 @@ class GrabBag {
    * @return bool
    */
    public function getFeature($feature) {
-     if (!in_array($feature,["freeze-thaw", "invisible"])) return false;
+     if (!in_array($feature,[
+       "freeze-thaw", "invisible", "after-at", "cmd-alias",
+       "blowup",
+     ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
      return true;
    }
