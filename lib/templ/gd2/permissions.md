@@ -5,13 +5,27 @@ if (isset($yaml["permissions"])) {
 
   foreach ($yaml["permissions"] as $p => $pd) {
     $desc = isset($pd["description"]) ? $pd["description"] : $p;
-    echo "* $p : $desc\n";
+
     if (isset($pd["default"])) {
-      if ($pd["default"] === "op") {
-        echo "  (Defaults to Op)\n";
-      } elseif (!$pd["default"]) {
-        echo "  _(Defaults to disabled)_\n";
+      $def = $pd["default"];
+      if (is_bool($def)) {
+        $def = $def ? "true" : "false";
       }
+      switch (strtolower($def)) {
+        case "true":
+          $deftx = "";
+          break;
+        case "false":
+          $deftx = " (disabled)";
+          break;
+        case "op":
+        case "notop":
+        default:
+          $deftx = " (".$def.")";
+      }
+    } else {
+      $deftx = " (op)";
     }
+    echo "* $p$deftx: $desc\n";
   }
 }
