@@ -182,7 +182,7 @@ available:
 
 ## Changes
 
-- 1.2.0: Major Update 2
+- 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
   * Lots of new API features.

@@ -25,7 +25,7 @@ class FreezeSession extends Session {
       $this->api = $bag->api;
       return;
     }
-    parent::__construct($owner);
+    parent::__construct($owner);	// We do it here so to prevent the registration of listeners
     $this->api = null;
     $this->hard = $hard;
   }

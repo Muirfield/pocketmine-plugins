@@ -73,8 +73,9 @@ abstract class mc {
 				$plugin->getServer()->getProperty("settings.language").
 				".ini";
 		if (!file_exists($msgs)) return false;
-		return mc::load($msgs);
+		return self::load($msgs);
 	}
+
 	/**
 	 * Load the specified message catalogue.
 	 * Can read .ini or .po files.
@@ -96,7 +97,7 @@ abstract class mc {
 					if ($mm[2][$i] == "") continue;
 					eval('$a = "'.$mm[1][$i].'";');
 					eval('$b = "'.$mm[2][$i].'";');
-					mc::$txt[$a] = $b;
+					self::$txt[$a] = $b;
 				}
 				return $c;
 			}
