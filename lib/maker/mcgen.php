@@ -51,6 +51,10 @@ function mcgen($mcdir,$srcdir) {
 		}
 
 		$nmsgs = mcutils::po_get(file_get_contents($po));
+		// Add meta data tags...
+		foreach (["lang","version"] as $tt) {
+			$nmsgs["mc.".$tt] = "";
+		}
 		unlink($po);
 		if ($nmsgs === null) {
 			echo("Error reading $po\n");
