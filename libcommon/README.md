@@ -9,10 +9,10 @@
 
 - Summary: aliuly's common library
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins: 
-- OptionalPlugins: 
-- Categories: DevTools 
-- Plugin Access: N/A 
+- DependencyPlugins:
+- OptionalPlugins:
+- Categories: DevTools
+- Plugin Access: N/A
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -20,9 +20,9 @@
 ## Overview
 
 This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.  Normally I embed different modules
-into my **phar** plugins but it is possible to use it as a stand-alone
-**phar**.
+writing PocketMine-MP plugins.  Normally I embed the differnt modules
+when creating my plugins in order to avoid dependency issues.  However
+**libcommon** is usable as a stand-alone plugin.
 
 When used as stand-alone, it provides useful functionality that
 can be called directly by script plugins.  Also, if **\pocketmine\DEBUG** > 1,
@@ -62,41 +62,41 @@ has the following sub-commands:
 <!-- template: gd2/subcmds.md -->
 * dumpmsg: Dump a plugin's messages.ini<br/>
   usage: /libcommon **dumpmsg** _&lt;plugin&gt;_
-  
+
   This command is available when **DEBUG** is enabled.
 * echo: shows the given text (variable substitutions are performed)<br/>
    usage: /libcommon **echo** _[text]_
-  
+
   This command is available when **DEBUG** is enabled.
 * motd-add: Add a server for MOTD querying<br/>
   usage: /libcommon **motd-add** _&lt;server&gt;_ _[port]_
-  
+
   This command is available when **DEBUG** is enabled.
-  
+
 * motd-stat: Return the servers MOTD values<br/>
   usage: /libcommon **motd-stat**
-  
+
   This command is available when **DEBUG** is enabled.
 * query-add: Add a server for Query gathering<br/>
   usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
-  
+
   This command is available when **DEBUG** is enabled.
-  
+
 * query-list: Return the available Query data<br/>
   usage: /libcommon **query-list**
-  
+
   This command is available when **DEBUG** is enabled.
 * rc: Runs the given script<br/>
   usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
-  
+
   This command is available when **DEBUG** is enabled.
   This command will execute PMScripts present in the **libcommon**
   folder.  By convention, the ".pms" suffix must be used for the file
   name, but the ".pms" is ommitted when issuing this command.
-  
+
   The special script **autostart.pms** is executed automatically
   when the **libcommon** plugin gets enabled.
-  
+
 * version: shows the libcomonn version<br/>
    usage: /libcommon **version**
 
@@ -228,4 +228,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
