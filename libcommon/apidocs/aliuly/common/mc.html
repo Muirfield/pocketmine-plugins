@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Sun, 12 Jul 2015 16:27:44 +0000">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -16,7 +16,7 @@
 </head>
 <body id="definition">
 
-<header><h1>libcommon: My Common PocketMine plugin library</h1><span>Class</span>
+<header><h1>libcommon: A common PocketMine-MP library</h1><span>Class</span>
 
 <h2>aliuly\common\mc</h2>
 
@@ -55,7 +55,7 @@
 <h3>Methods</h3>
 <table>
 <tr>
-<td class="type">static  void</td>
+<td class="type">static  int|false</td>
 <td class="description"><p class="name"><a href="#load()">load</a>(str f)</p><p class="description">Load the specified message catalogue.
 </p></td>
 </tr>
@@ -65,7 +65,7 @@
 </p></td>
 </tr>
 <tr>
-<td class="type">static  void</td>
+<td class="type">static  int|false</td>
 <td class="description"><p class="name"><a href="#plugin_init()">plugin_init</a>(Plugin plugin, str path)</p><p class="description">Load a message file for a PocketMine plugin.
 </p></td>
 </tr>
@@ -77,13 +77,15 @@
 
 </div>
 
-<code class="signature" id="load">public static  void <strong>load</strong>(str f)</code>
+<code class="signature" id="load">public static  int|false <strong>load</strong>(str f)</code>
 <div class="details">
 <p>Load the specified message catalogue.
  Can read .ini or .po files.</p>
 <table>
 <tr><th>Parameters</th>
 <td>f - - Filename to load</td>
+</tr><tr><th>Returns</th>
+<td>- returns the number of strings loaded or false on error</td>
 </tr></table>
 </div>
 
@@ -100,13 +102,15 @@
 </tr></table>
 </div>
 
-<code class="signature" id="plugin_init">public static  void <strong>plugin_init</strong>(Plugin plugin, str path)</code>
+<code class="signature" id="plugin_init">public static  int|false <strong>plugin_init</strong>(Plugin plugin, str path)</code>
 <div class="details">
 <p>Load a message file for a PocketMine plugin.  Only uses .ini files.</p>
 <table>
 <tr><th>Parameters</th>
 <td>plugin - - owning plugin</td>
 <td>path - - output of $plugin->getFile()</td>
+</tr><tr><th>Returns</th>
+<td>- false on error or the number of messages loaded</td>
 </tr></table>
 </div>
 

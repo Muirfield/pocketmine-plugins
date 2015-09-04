@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+<link rel="start" href="../../../namespaces.html">
+
+<title>GrabBag (GrabBag API)</title>
+
+</head>
+<body id="definition">
+
+<header><h1>GrabBag API: Miscellaneous functions</h1><span>Class</span>
+
+<h2>aliuly\grabbag\api\GrabBag</h2>
+
+</header><p class="signature">public  class <strong>GrabBag</strong></p>
+
+<div class="comment"><p>GrabBag API</p>
+</div>
+
+<h3>Methods</h3>
+<table>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(GrabBagPlugin owner)</p><p class="description">
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#after()">after</a>(int secs, str cmdline)</p><p class="description">Schedule a command to be run
+</p></td>
+</tr>
+<tr>
+<td class="type"> bool</td>
+<td class="description"><p class="name"><a href="#alias()">alias</a>(str alias, str cmdline, bool force)</p><p class="description">Define alias
+</p></td>
+</tr>
+<tr>
+<td class="type"> bool</td>
+<td class="description"><p class="name"><a href="#blowPlayer()">blowPlayer</a>(Player player, int yield, bool magic)</p><p class="description">Blow player up
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#freeze()">freeze</a>(Player player, bool freeze)</p><p class="description">Freeze given player
+</p></td>
+</tr>
+<tr>
+<td class="type"> bool</td>
+<td class="description"><p class="name"><a href="#getFeature()">getFeature</a>(str feature)</p><p class="description">Check if feature is supported...
+</p></td>
+</tr>
+<tr>
+<td class="type"> str[]</td>
+<td class="description"><p class="name"><a href="#getFrosties()">getFrosties</a>()</p><p class="description">Return a list of frozen players
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getInterp()">getInterp</a>()</p><p class="description">Currently un-implemented
+</p></td>
+</tr>
+<tr>
+<td class="type"> mixed|null</td>
+<td class="description"><p class="name"><a href="#getModule()">getModule</a>(str module)</p><p class="description">Check if module is available...
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getVars()">getVars</a>()</p><p class="description">Currently un-implemented
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#invisible()">invisible</a>(Player player, bool invis)</p><p class="description">Make player invisible
+</p></td>
+</tr>
+<tr>
+<td class="type"> bool</td>
+<td class="description"><p class="name"><a href="#isHardFreeze()">isHardFreeze</a>()</p><p class="description">Checks if hard or soft freezing
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#isInvisible()">isInvisible</a>(Player player)</p><p class="description">Check if player is invisible...
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setHardFreeze()">setHardFreeze</a>(bool hard)</p><p class="description">Sets hard or soft freezing
+</p></td>
+</tr>
+</table>
+
+<h3>Details</h3>
+<code class="signature" id="__construct">public  void <strong>__construct</strong>(GrabBagPlugin owner)</code>
+<div class="details">
+
+<table>
+<tr><th>Parameters</th>
+<td>owner - - plugin that owns this session</td>
+</tr></table>
+</div>
+
+<code class="signature" id="after">public  void <strong>after</strong>(int secs, str cmdline)</code>
+<div class="details">
+<p>Schedule a command to be run</p>
+<table>
+<tr><th>Parameters</th>
+<td>secs - - execute after this number of seconds</td>
+<td>cmdline - - command line to execute</td>
+</tr></table>
+</div>
+
+<code class="signature" id="alias">public  bool <strong>alias</strong>(str alias, str cmdline, bool force)</code>
+<div class="details">
+<p>Define alias</p>
+<table>
+<tr><th>Parameters</th>
+<td>alias - - alias name</td>
+<td>cmdline - - command line to execute</td>
+<td>force - - overwrite existing commands</td>
+</tr><tr><th>Returns</th>
+<td>- true on succes, false on failure</td>
+</tr></table>
+</div>
+
+<code class="signature" id="blowPlayer">public  bool <strong>blowPlayer</strong>(Player player, int yield, bool magic)</code>
+<div class="details">
+<p>Blow player up</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - victim</td>
+<td>yield - - explosion power</td>
+<td>magic - - don't affect blocks</td>
+</tr><tr><th>Returns</th>
+<td>- true on succes, false on failure</td>
+</tr></table>
+</div>
+
+<code class="signature" id="freeze">public  void <strong>freeze</strong>(Player player, bool freeze)</code>
+<div class="details">
+<p>Freeze given player</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - player to freeze</td>
+<td>freeze - - if true (default) freeze, if false, thaw.</td>
+</tr></table>
+</div>
+
+<code class="signature" id="getFeature">public  bool <strong>getFeature</strong>(str feature)</code>
+<div class="details">
+<p>Check if feature is supported...</p>
+<table>
+<tr><th>Parameters</th>
+<td>feature - - module name</td>
+</tr></table>
+</div>
+
+<code class="signature" id="getFrosties">public  str[] <strong>getFrosties</strong>()</code>
+<div class="details">
+<p>Return a list of frozen players</p>
+</div>
+
+<code class="signature" id="getInterp">public  void <strong>getInterp</strong>()</code>
+<div class="details">
+<p>Currently un-implemented</p>
+</div>
+
+<code class="signature" id="getModule">public  mixed|null <strong>getModule</strong>(str module)</code>
+<div class="details">
+<p>Check if module is available...
+ This will throw an exception if the module is not available</p>
+<table>
+<tr><th>Parameters</th>
+<td>module - - module name</td>
+</tr></table>
+</div>
+
+<code class="signature" id="getVars">public  void <strong>getVars</strong>()</code>
+<div class="details">
+<p>Currently un-implemented</p>
+</div>
+
+<code class="signature" id="invisible">public  void <strong>invisible</strong>(Player player, bool invis)</code>
+<div class="details">
+<p>Make player invisible</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - player to change</td>
+<td>invis - - if true (default) invisible, if false, visible.</td>
+</tr></table>
+</div>
+
+<code class="signature" id="isHardFreeze">public  bool <strong>isHardFreeze</strong>()</code>
+<div class="details">
+<p>Checks if hard or soft freezing</p>
+</div>
+
+<code class="signature" id="isInvisible">public  void <strong>isInvisible</strong>(Player player)</code>
+<div class="details">
+<p>Check if player is invisible...</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - player to check</td>
+</tr></table>
+</div>
+
+<code class="signature" id="setHardFreeze">public  void <strong>setHardFreeze</strong>(bool hard)</code>
+<div class="details">
+<p>Sets hard or soft freezing</p>
+<table>
+<tr><th>Parameters</th>
+<td>hard - - if true (default) hard freeze is in effect.</td>
+</tr></table>
+</div>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

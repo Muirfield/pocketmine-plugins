@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Sun, 12 Jul 2015 16:27:44 +0000">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
 
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <link rel="start" href="namespaces.html">
@@ -16,27 +16,10 @@
 </head>
 <body id="namespaces">
 
-<header><h1>libcommon: My Common PocketMine plugin library</h1><h2>Overview</h2></header><table><tr><td><a href="aliuly/common.html">aliuly\common</a></td></tr><tr><td><a href="aliuly/example.html">aliuly\example</a></td></tr><tr><td><a href="aliuly/loader.html">aliuly\loader</a></td></tr><tr><td><a href="xpaw.html">xPaw</a></td></tr></table><h3>Description</h3><div class="comment"><p><img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/></p>
+<header><h1>libcommon: A common PocketMine-MP library</h1><h2>Overview</h2></header><table><tr><td><a href="aliuly/common.html">aliuly\common</a></td></tr><tr><td><a href="aliuly/common/selectors.html">aliuly\common\selectors</a></td></tr><tr><td><a href="aliuly/common/xpaw.html">aliuly\common\xPaw</a></td></tr><tr><td><a href="aliuly/example.html">aliuly\example</a></td></tr><tr><td><a href="aliuly/loader.html">aliuly\loader</a></td></tr><tr><td><a href="perms.html">perms</a></td></tr></table><h3>Description</h3><div class="comment"><p><img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/></p>
 
-<h1>libcommon</h1>
-
-<ul>
-<li>Summary: aliuly's common library</li>
-<li>Dependency Plugins: n/a</li>
-<li>PocketMine-MP version: 1.4 (API:1.10.0)</li>
-<li>DependencyPlugins: -</li>
-<li>OptionalPlugins: -</li>
-<li>Categories: DevTools</li>
-<li>Plugin Access: -</li>
-<li>WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon</li>
-</ul>
-
-<h2>Overview</h2>
-
-<p>This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.  Its main value as a stand-alone <strong>phar</strong>
-is when writing script plugins.  As it provide useful functionality that
-can be called directly by these scripts.</p>
+<p>This plugin contains a library of useful PocketMine-MP functions
+and classes.</p>
 
 <p>For the most up to date documentation visit
 <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon">github</a>.</p>
@@ -46,84 +29,33 @@ can be called directly by these scripts.</p>
 <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.</p>
 
-<p>Contains quite a few utility functions. Available modules:</p>
-
-<ul>
-<li>mc - translation</li>
-<li>Cmd - execute PocketMine commands from a PHP module.</li>
-<li>MoneyAPI - supports the following economy plugins:</li>
-<li>GoldStd</li>
-<li>PocketMoney</li>
-<li>EconomyAPI</li>
-<li>MassiveEconomy</li>
-<li>MPMU - miscellaneous utilities</li>
-<li>Npc - Non-player character functionality</li>
-<li>PluginCallbackTask - Replacement for the CallbackTask deprecated functionaltiy</li>
-<li>BasicPlugin - My extensions to PluginBase</li>
-<li>BasicCli - My class to impelements commands and/or sub-commands</li>
-<li>BasicHelp - Implements help functionality for sub-commands</li>
-<li>PluginAsyncTask - A simple wrapper around AsyncTask</li>
-<li>QueryAsyncTask - An AsyncTask wrapper for MinecraftQuery</li>
-</ul>
-
-<p>Features:</p>
-
-<ul>
-<li>Paginated output</li>
-<li>Command/Sub-command registration</li>
-<li>Player state management</li>
-<li>Config shortcuts and multi-module|feature management</li>
-<li>Translations</li>
-<li>Multiple economy supports</li>
-<li>API version checking</li>
-<li>Plugin shortcuts, etc...</li>
-</ul>
-
-<p>It also bundles useful third party libraries:</p>
-
-<ul>
-<li>xPaw MinecraftQuery</li>
-</ul>
-
-<p>For the full API documentation go to: <a href="http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html">GitHub pages</a></p>
-
 <h2>Examples</h2>
 
-<p>If you enable <strong>debug</strong> in <strong>pocketmine.yml</strong> the plugin will create a
-libcommon** folder with some example scripts on how to use this library.</p>
+<p>If you enable <strong>debug</strong> level > 1 in <strong>pocketmine.yml</strong> the plugin will create
+a <strong>libcommon</strong> folder with some example scripts on how to use this library.</p>
 
 <p>Other wise you can follow this
 <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples" target="_new" title="_examples_" >
 Link.
 </a></p>
 
-<h2>Changes</h2>
+<h2>NOTE</h2>
 
-<ul>
-<li>1.1.0: Update 1<br/>
-Added ItemName class (with more item names)<br/>
-Removed MPMU::itemName<br/></li>
-<li>1.0.0: First release</li>
-</ul>
+<p>API documentation is automatically generated with
+<a href="http://peej.github.com/phpdoctor">PHPDoctor</a>.
+As such, there may be some documentation artifacts created by accident.
+I am unable to find the source of these.</p>
 
 <h2>Copyright</h2>
 
 <p>libcommon<br/>
 Copyright (C) 2015 Alejandro Liu<br/>
-All Rights Reserved.</p>
-
-<p>This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.</p>
-
-<p>This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.</p>
-
-<p>You should have received a copy of the GNU General Public License
-along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+All Rights Reserved.<br/>
+This program comes with ABSOLUTELY NO WARRANTY;<br/>
+This is free software, and you are welcome to redistribute it
+under certain conditions.<br/>
+For more information see
+<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</a>.</p>
 </div>
 
 <p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor">PHPDoctor: The PHP Documentation Creator</a></p>

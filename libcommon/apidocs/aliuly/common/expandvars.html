@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="start" href="../../namespaces.html">
+
+<title>ExpandVars (libcommon)</title>
+
+</head>
+<body id="definition">
+
+<header><h1>libcommon: A common PocketMine-MP library</h1><span>Class</span>
+
+<h2>aliuly\common\ExpandVars</h2>
+
+</header><p class="signature">public  class <strong>ExpandVars</strong></p>
+
+<div class="comment"><p>Common variable expansion.  You can use this for custom messages and/or
+ custom commands.</p>
+
+<p>Plugins can extend this infrastructure by declaring the following functions:</p>
+
+<p>public function getSysVarsV1(array &amp;$vars);</p>
+
+<p>public function getPlayerVarsV1(Player $player, array &amp;$vars);</p>
+
+<p>Otherwise they can call the functions: registerSysVars or registerPlayerVars.</p>
+</div>
+
+<h3>Constants</h3>
+<table>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#getPlayerVarsFn">getPlayerVarsFn</a></p><p class="description">
+</p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#getSysVarsFn">getSysVarsFn</a></p><p class="description">
+</p></td>
+</tr>
+</table>
+
+<h3>Methods</h3>
+<table>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(Plugin owner, Server server)</p><p class="description">
+</p></td>
+</tr>
+<tr>
+<td class="type"> mixed</td>
+<td class="description"><p class="name"><a href="#api()">api</a>(str apiname, bool exception)</p><p class="description">Return API entry, if not found it will throw a RuntimeException
+</p></td>
+</tr>
+<tr>
+<td class="type">protected  void</td>
+<td class="description"><p class="name"><a href="#autoloadExtensions()">autoloadExtensions</a>(mixed mode)</p><p class="description">Scan loaded plugins and identifies which plugins have an entry
+ point to variable expansions...
+</p></td>
+</tr>
+<tr>
+<td class="type">static  str</td>
+<td class="description"><p class="name"><a href="#bearing()">bearing</a>(float deg)</p><p class="description">Convert bearings in degrees into points in compass
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#debugSysVars()">debugSysVars</a>(array &$vars, mixed vars)</p><p class="description">
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#define()">define</a>(str name, str value)</p><p class="description">Define additional constants on the fly...
+</p></td>
+</tr>
+<tr>
+<td class="type">static  void</td>
+<td class="description"><p class="name"><a href="#getCommonVars()">getCommonVars</a>(Plugin owner)</p><p class="description">If libcommon is available, try to get a single shared instance of
+ ExpandVars
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getConsts()">getConsts</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getServer()">getServer</a>()</p></td>
+</tr>
+<tr>
+<td class="type">protected  void</td>
+<td class="description"><p class="name"><a href="#initPlayerVars()">initPlayerVars</a>()</p><p class="description">Used to initialize the player specific variables table
+</p></td>
+</tr>
+<tr>
+<td class="type">protected  void</td>
+<td class="description"><p class="name"><a href="#initSysVars()">initSysVars</a>()</p><p class="description">Used to initialize the system wide variables table
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#invPlayerVars()">invPlayerVars</a>(Player player, array &$vars, mixed vars)</p><p class="description">Inventory related variables
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#kr1PlayerVars()">kr1PlayerVars</a>(Player player, array &$vars, mixed vars)</p><p class="description">KillRate-1.1 compatible player variables
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#kr1SysVars()">kr1SysVars</a>(array &$vars, mixed vars)</p><p class="description">KillRate v1.1 sysvars compatibility
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#moneyPlayerVarsEconomysApi()">moneyPlayerVarsEconomysApi</a>(Player player, array &$vars, mixed vars)</p><p class="description">EconomysAPI Support
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#moneyPlayerVarsGoldStd()">moneyPlayerVarsGoldStd</a>(Player player, array &$vars, mixed vars)</p><p class="description">GoldStd Support
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#moneyPlayerVarsMassiveEconomy()">moneyPlayerVarsMassiveEconomy</a>(Player player, array &$vars, mixed vars)</p><p class="description">MassiveEconomy Support
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#moneyPlayerVarsPocketMoney()">moneyPlayerVarsPocketMoney</a>(Player player, array &$vars, mixed vars)</p><p class="description">PocketMoney Support
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#playerVars()">playerVars</a>(Player player, array &$vars, mixed vars)</p><p class="description">Main entry point for player specifc variable defintions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#playerVarsShort()">playerVarsShort</a>(Player player, array &$vars, mixed vars)</p><p class="description">Shorter entry point for player specifc variable defintions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#purePermsPlayerVars()">purePermsPlayerVars</a>(Player player, array &$vars, mixed vars)</p><p class="description">PurePerms compatibility
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#registerApi()">registerApi</a>(str apiname, mixed ptr)</p><p class="description">Register API
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#registerPlayerVars()">registerPlayerVars</a>(callable fn)</p><p class="description">Register a callback function that define player specific variable expansions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#registerSysVars()">registerSysVars</a>(Server server, callable fn)</p><p class="description">Register a callback function that define system wide variable expansions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#stdPlayerVars()">stdPlayerVars</a>(Player player, array &$vars, mixed vars)</p><p class="description">Basic player specific variable definitions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#stdSysVars()">stdSysVars</a>(array &$vars, mixed vars)</p><p class="description">Basic system wide variable definitions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#sysVars()">sysVars</a>(array &$vars, mixed vars)</p><p class="description">Main entry point for system wide variable defintions
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#sysVarsShort()">sysVarsShort</a>(array &$vars, mixed vars)</p><p class="description">Shorter entry point for system wide variable defintions
+</p></td>
+</tr>
+</table>
+
+<h3>Details</h3>
+<code class="signature" id="getPlayerVarsFn">public final static  str <strong>getPlayerVarsFn</strong> = &quot;getPlayerVarsV1&quot;</code>
+<div class="details">
+
+<table>
+<tr><th>Const</th>
+<td>str getPlayerVarsFn This is the function signature for PlayerVars</td>
+</tr></table>
+</div>
+
+<code class="signature" id="getSysVarsFn">public final static  str <strong>getSysVarsFn</strong> = &quot;getSysVarsV1&quot;</code>
+<div class="details">
+
+<table>
+<tr><th>Const</th>
+<td>str getSysVarsFn This is the function signature for SysVars</td>
+</tr></table>
+</div>
+
+<code class="signature" id="__construct">public  void <strong>__construct</strong>(Plugin owner, Server server)</code>
+<div class="details">
+
+<table>
+<tr><th>Parameters</th>
+<td>server - - server context</td>
+</tr></table>
+</div>
+
+<code class="signature" id="api">public  mixed <strong>api</strong>(str apiname, bool exception)</code>
+<div class="details">
+<p>Return API entry, if not found it will throw a RuntimeException</p>
+<table>
+<tr><th>Parameters</th>
+<td>apiname - - API id</td>
+<td>exception - - if true raise exemption on error</td>
+</tr></table>
+</div>
+
+<code class="signature" id="autoloadExtensions">protected  void <strong>autoloadExtensions</strong>(mixed mode)</code>
+<div class="details">
+<p>Scan loaded plugins and identifies which plugins have an entry
+ point to variable expansions...</p>
+</div>
+
+<code class="signature" id="bearing">public static  str <strong>bearing</strong>(float deg)</code>
+<div class="details">
+<p>Convert bearings in degrees into points in compass</p>
+<table>
+<tr><th>Parameters</th>
+<td>deg - - yaw</td>
+</tr></table>
+</div>
+
+<code class="signature" id="debugSysVars">public  void <strong>debugSysVars</strong>(array &$vars, mixed vars)</code>
+<div class="details">
+
+<table>
+<tr><th>Parameters</th>
+<td>&$vars - - variables</td>
+</tr></table>
+</div>
+
+<code class="signature" id="define">public  void <strong>define</strong>(str name, str value)</code>
+<div class="details">
+<p>Define additional constants on the fly...</p>
+</div>
+
+<code class="signature" id="getCommonVars">public static  void <strong>getCommonVars</strong>(Plugin owner)</code>
+<div class="details">
+<p>If libcommon is available, try to get a single shared instance of
+ ExpandVars</p>
+</div>
+
+<code class="signature" id="getConsts">public  void <strong>getConsts</strong>()</code>
+<div class="details">
+</div>
+
+<code class="signature" id="getServer">public  void <strong>getServer</strong>()</code>
+<div class="details">
+</div>
+
+<code class="signature" id="initPlayerVars">protected  void <strong>initPlayerVars</strong>()</code>
+<div class="details">
+<p>Used to initialize the player specific variables table</p>
+</div>
+
+<code class="signature" id="initSysVars">protected  void <strong>initSysVars</strong>()</code>
+<div class="details">
+<p>Used to initialize the system wide variables table</p>
+</div>
+
+<code class="signature" id="invPlayerVars">public  void <strong>invPlayerVars</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>Inventory related variables</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="kr1PlayerVars">public  void <strong>kr1PlayerVars</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>KillRate-1.1 compatible player variables</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="kr1SysVars">public  void <strong>kr1SysVars</strong>(array &$vars, mixed vars)</code>
+<div class="details">
+<p>KillRate v1.1 sysvars compatibility</p>
+<table>
+<tr><th>Parameters</th>
+<td>&$vars - - variables</td>
+</tr></table>
+</div>
+
+<code class="signature" id="moneyPlayerVarsEconomysApi">public  void <strong>moneyPlayerVarsEconomysApi</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>EconomysAPI Support</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="moneyPlayerVarsGoldStd">public  void <strong>moneyPlayerVarsGoldStd</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>GoldStd Support</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="moneyPlayerVarsMassiveEconomy">public  void <strong>moneyPlayerVarsMassiveEconomy</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>MassiveEconomy Support</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="moneyPlayerVarsPocketMoney">public  void <strong>moneyPlayerVarsPocketMoney</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>PocketMoney Support</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="playerVars">public  void <strong>playerVars</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>Main entry point for player specifc variable defintions</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="playerVarsShort">public  void <strong>playerVarsShort</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>Shorter entry point for player specifc variable defintions</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="purePermsPlayerVars">public  void <strong>purePermsPlayerVars</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>PurePerms compatibility</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="registerApi">public  void <strong>registerApi</strong>(str apiname, mixed ptr)</code>
+<div class="details">
+<p>Register API</p>
+<table>
+<tr><th>Parameters</th>
+<td>apiname - - API id</td>
+<td>ptr - - API object</td>
+</tr></table>
+</div>
+
+<code class="signature" id="registerPlayerVars">public  void <strong>registerPlayerVars</strong>(callable fn)</code>
+<div class="details">
+<p>Register a callback function that define player specific variable expansions</p>
+<table>
+<tr><th>Parameters</th>
+<td>fn - - callable should have as argumens (Player $player, array &$vars)</td>
+</tr></table>
+</div>
+
+<code class="signature" id="registerSysVars">public  void <strong>registerSysVars</strong>(Server server, callable fn)</code>
+<div class="details">
+<p>Register a callback function that define system wide variable expansions</p>
+<table>
+<tr><th>Parameters</th>
+<td>server - - reference to pocketmine server</td>
+<td>fn - - callable should have as argumens (Server $server, array &$vars)</td>
+</tr></table>
+</div>
+
+<code class="signature" id="stdPlayerVars">public  void <strong>stdPlayerVars</strong>(Player player, array &$vars, mixed vars)</code>
+<div class="details">
+<p>Basic player specific variable definitions</p>
+<table>
+<tr><th>Parameters</th>
+<td>player - - reference to pocketmine Player</td>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="stdSysVars">public  void <strong>stdSysVars</strong>(array &$vars, mixed vars)</code>
+<div class="details">
+<p>Basic system wide variable definitions</p>
+<table>
+<tr><th>Parameters</th>
+<td>&$vars - - variables</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sysVars">public  void <strong>sysVars</strong>(array &$vars, mixed vars)</code>
+<div class="details">
+<p>Main entry point for system wide variable defintions</p>
+<table>
+<tr><th>Parameters</th>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sysVarsShort">public  void <strong>sysVarsShort</strong>(array &$vars, mixed vars)</code>
+<div class="details">
+<p>Shorter entry point for system wide variable defintions</p>
+<table>
+<tr><th>Parameters</th>
+<td>&$vars - - receives variable defintions</td>
+</tr></table>
+</div>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

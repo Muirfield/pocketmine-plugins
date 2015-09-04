@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Sun, 12 Jul 2015 16:27:44 +0000">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -16,7 +16,7 @@
 </head>
 <body id="definition">
 
-<header><h1>libcommon: My Common PocketMine plugin library</h1><span>Class</span>
+<header><h1>libcommon: A common PocketMine-MP library</h1><span>Class</span>
 
 <h2>aliuly\common\BasicPlugin</h2>
 
@@ -45,12 +45,22 @@
 </p></td>
 </tr>
 <tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getMessagesIni()">getMessagesIni</a>()</p><p class="description">Lets you dump the messages.ini file
+</p></td>
+</tr>
+<tr>
+<td class="type"> mixed|null</td>
+<td class="description"><p class="name"><a href="#getModule()">getModule</a>(str module, mixed str)</p><p class="description">Get module
+</p></td>
+</tr>
+<tr>
 <td class="type"> string|null</td>
 <td class="description"><p class="name"><a href="#getResourceContents()">getResourceContents</a>(string filename)</p><p class="description">Gets the contents of an embedded resource on the plugin file.
 </p></td>
 </tr>
 <tr>
-<td class="type"> array</td>
+<td class="type"> void</td>
 <td class="description"><p class="name"><a href="#getSCmdMap()">getSCmdMap</a>()</p><p class="description">Look-up sub command map
 </p></td>
 </tr>
@@ -60,18 +70,8 @@
 </p></td>
 </tr>
 <tr>
-<td class="type">protected  void</td>
-<td class="description"><p class="name"><a href="#initSCmdMap()">initSCmdMap</a>()</p><p class="description">Used to initialize sub-command table
-</p></td>
-</tr>
-<tr>
 <td class="type">protected  array</td>
 <td class="description"><p class="name"><a href="#modConfig()">modConfig</a>(str ns, array mods, array defaults, str xhlp)</p><p class="description">Given some defaults, this will load optional features
-</p></td>
-</tr>
-<tr>
-<td class="type"> void</td>
-<td class="description"><p class="name"><a href="#onPlayerQuit()">onPlayerQuit</a>(PlayerQuitEvent ev)</p><p class="description">Handle player quit events.
 </p></td>
 </tr>
 <tr>
@@ -107,14 +107,32 @@
 <p>Dispatch commands using sub command table</p>
 </div>
 
+<code class="signature" id="getMessagesIni">public  void <strong>getMessagesIni</strong>()</code>
+<div class="details">
+<p>Lets you dump the messages.ini file</p>
+</div>
+
+<code class="signature" id="getModule">public  mixed|null <strong>getModule</strong>(str module, mixed str)</code>
+<div class="details">
+<p>Get module</p>
+<table>
+<tr><th>Parameters</th>
+<td>module - - module to retrieve</td>
+</tr></table>
+</div>
+
 <code class="signature" id="getResourceContents">public  string|null <strong>getResourceContents</strong>(string filename)</code>
 <div class="details">
 <p>Gets the contents of an embedded resource on the plugin file.</p>
 </div>
 
-<code class="signature" id="getSCmdMap">public  array <strong>getSCmdMap</strong>()</code>
+<code class="signature" id="getSCmdMap">public  void <strong>getSCmdMap</strong>()</code>
 <div class="details">
 <p>Look-up sub command map</p>
+<table>
+<tr><th>Returns</th>
+<td>SubCommandMap</td>
+</tr></table>
 </div>
 
 <code class="signature" id="getState">public  mixed <strong>getState</strong>(str label, Player|str player, mixed default)</code>
@@ -128,11 +146,6 @@
 </tr></table>
 </div>
 
-<code class="signature" id="initSCmdMap">protected  void <strong>initSCmdMap</strong>()</code>
-<div class="details">
-<p>Used to initialize sub-command table</p>
-</div>
-
 <code class="signature" id="modConfig">protected  array <strong>modConfig</strong>(str ns, array mods, array defaults, str xhlp)</code>
 <div class="details">
 <p>Given some defaults, this will load optional features</p>
@@ -143,12 +156,6 @@
 <td>defaults - - default options to use for config.yml</td>
 <td>xhlp - - optional help format.</td>
 </tr></table>
-</div>
-
-<code class="signature" id="onPlayerQuit">public  void <strong>onPlayerQuit</strong>(PlayerQuitEvent ev)</code>
-<div class="details">
-<p>Handle player quit events.  Free's data used by the state tracking
- code.</p>
 </div>
 
 <code class="signature" id="registerSCmd">public  void <strong>registerSCmd</strong>(str cmd, callable callable, array opts)</code>

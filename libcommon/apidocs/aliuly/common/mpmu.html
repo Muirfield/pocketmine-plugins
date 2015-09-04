@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Sun, 12 Jul 2015 16:27:44 +0000">
+<meta name="when" content="Fri, 04 Sep 2015 00:08:33 +0000">
 
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
 <link rel="start" href="../../namespaces.html">
@@ -16,7 +16,7 @@
 </head>
 <body id="definition">
 
-<header><h1>libcommon: My Common PocketMine plugin library</h1><span>Class</span>
+<header><h1>libcommon: A common PocketMine-MP library</h1><span>Class</span>
 
 <h2>aliuly\common\MPMU</h2>
 
@@ -93,6 +93,11 @@
 </p></td>
 </tr>
 <tr>
+<td class="type">static  str|null</td>
+<td class="description"><p class="name"><a href="#startsWith()">startsWith</a>(str txt, str tok)</p><p class="description">Check prefixes
+</p></td>
+</tr>
+<tr>
 <td class="type">static  str|bool</td>
 <td class="description"><p class="name"><a href="#version()">version</a>(str version)</p><p class="description">libcommon library version.
 </p></td>
@@ -100,7 +105,7 @@
 </table>
 
 <h3>Details</h3>
-<code class="signature" id="VERSION">public final static  str <strong>VERSION</strong> = &quot;1.1.0&quot;</code>
+<code class="signature" id="VERSION">public final static  str <strong>VERSION</strong> = &quot;1.2.0dev2&quot;</code>
 <div class="details">
 
 <table>
@@ -164,7 +169,7 @@
 <td>server - - pocketmine server instance</td>
 <td>plug - - plugin to call</td>
 <td>method - - method to call</td>
-<td>default - - If the plugin does not exist or it is not enable, this value uis returned</td>
+<td>default - - If the plugin does not exist or it is not enable, this value is returned</td>
 </tr></table>
 </div>
 
@@ -213,6 +218,16 @@
  plugins that might cause issues.</p>
 
 <p>Currently only supports SimpleAuth and BasicHUD.</p>
+</div>
+
+<code class="signature" id="startsWith">public static  str|null <strong>startsWith</strong>(str txt, str tok)</code>
+<div class="details">
+<p>Check prefixes</p>
+<table>
+<tr><th>Parameters</th>
+<td>txt - - input text</td>
+<td>tok - - keyword to test</td>
+</tr></table>
 </div>
 
 <code class="signature" id="version">public static  str|bool <strong>version</strong>(str version)</code>
