@@ -22,7 +22,7 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ItemName;
 use aliuly\grabbag\common\PermUtils;
-use aliuly\common\InvUtils;
+use aliuly\grabbag\common\InvUtils;
 
 use pocketmine\item\Item;
 

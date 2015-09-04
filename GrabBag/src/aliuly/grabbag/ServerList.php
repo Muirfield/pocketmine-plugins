@@ -40,7 +40,7 @@ class ServerList extends BasicCli implements CommandExecutor {
   public function __construct($owner,$cfg) {
     parent::__construct($owner);
     $this->servers = $cfg;
-    
+
     PermUtils::add($this->owner, "gb.cmd.servers", "servers command", "op");
     PermUtils::add($this->owner, "gb.cmd.servers.read", "view server configuration", "op");
     PermUtils::add($this->owner, "gb.cmd.servers.read.viewip", "view server IP address", "op");
@@ -59,8 +59,8 @@ class ServerList extends BasicCli implements CommandExecutor {
   }
   public function addServer($key,$val) {
     $this->owner->getServer()->getPluginManager()->callEvent(
-	$ev = new GbAddServerEvent($this->owner, $key, $val)
-    )
+	     $ev = new GbAddServerEvent($this->owner, $key, $val)
+    );
     if ($ev->isCancelled()) return false;
     $this->servers[$ev->getId()] = $ev->getAttrs();
     $this->owner->cfgSave(self::CfgTag,$this->servers);
@@ -69,8 +69,8 @@ class ServerList extends BasicCli implements CommandExecutor {
   public function rmServer($id) {
     if (!isset($this->servers[$id])) return true;
     $this->owner->getServer()->getPluginManager()->callEvent(
-	$ev = new GbAddServerEvent($this->owner, $key, $val)
-    )
+	     $ev = new GbAddServerEvent($this->owner, $key, $val)
+     );
     if ($ev->isCancelled()) return false;
     $id = $ev->getId();
     if (!isset($this->servers[$id])) return true;
@@ -187,7 +187,7 @@ class ServerList extends BasicCli implements CommandExecutor {
         }
       }
       if (isset($dat["#"])) {
-        $ln .= $q.mc::_("#:%1%",$dat["#"]);
+        $ln .= $q.mc::_(" #:%1%",$dat["#"]);
         $q = ", ";
       }
       $txt[] = $ln;

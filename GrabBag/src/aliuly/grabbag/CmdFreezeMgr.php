@@ -35,6 +35,25 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 		];
 	}
 
+	public function isHardFreeze() {
+		return $this->hard;
+  }
+  public function setHardFreeze($hard) {
+		$this->hard = $hard ? true : false;
+		$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+  }
+  public function freeze($player, $freeze) {
+		$n = strtolower($player->getName());
+		if ($freeze) {
+			$this->frosties[$n] = $player->getName();
+		} else {
+			if (isset($this->frosties[$n])) unset($this->frosties[$n]);
+		}
+  }
+  public function getFrosties() {
+    return array_keys($this->frosties);
+  }
+
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->hard = $cfg["hard-freeze"];
@@ -61,14 +80,12 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 		switch ($cmd->getName()) {
 			case "freeze":
 				if ($args[0] == "--hard") {
-					$this->hard = true;
 					$sender->sendMessage(mc::_("Now doing hard freeze"));
-					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$this->setHardFreeze(true);
 					return true;
 				} elseif ($args[0] == "--soft") {
-					$this->hard = false;
 					$sender->sendMessage(mc::_("Now doing soft freeze"));
-					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$this->setHardFreeze(false);
 					return true;
 				}
 
