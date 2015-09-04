@@ -28,6 +28,16 @@ class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 								"permission" => "gb.cmd.shield"]);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
+	public function isShielded($player) {
+		return $this->getState($player,false)
+	}
+	public function setShield($player, $mode) {
+		if ($mode) {
+			$this->setState($player,true);
+		} $else {
+			$this->unsetState($player);
+		}
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) !== 0) return false;
 		if ($cmd->getName() != "shield") return false;
@@ -35,7 +45,7 @@ class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 		$state = $this->getState($sender,false);
 		if ($state) {
 			$sender->sendMessage(mc::_("Shields DOWN"));
-			$this->setState($sender,false);
+			$this->unsetState($sender);
 		} else {
 			$sender->sendMessage(mc::_("Shields UP"));
 			$this->setState($sender,true);

@@ -26,6 +26,14 @@ class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 								"usage" => mc::_("/slay <player> [message]"),
 								"permission" => "gb.cmd.slay"]);
 	}
+	public function slay($victim, $msg = "") {
+		if ($msg == "") {
+			$this->unsetState($victim);
+		} else {
+			$this->setState($victim,[time(),$msg);
+		}
+		$victim->setHealth(0);
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "slay") return false;
 		if (!isset($args[0])) {
@@ -37,12 +45,7 @@ class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 			$sender->sendMessage(mc::_("Player %1% not found",$n));
 			return true;
 		}
-		if (count($args)) {
-			$this->setState($victim,[time(),implode(" ",$args)]);
-		} else {
-			$this->unsetState($victim);
-		}
-		$victim->setHealth(0);
+		$this->slay($victim,implode(" ",$args));
 		$sender->sendMessage(TextFormat::RED.mc::_("%1% has been slain.",$victim->getName()));
 		return true;
 	}

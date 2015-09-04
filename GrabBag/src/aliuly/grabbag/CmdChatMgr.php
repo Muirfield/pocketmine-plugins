@@ -54,6 +54,19 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
+
+	public function setGlobalChat($mode) {
+		$this->chat = $mode;
+	}
+	public function getGlobalChat() {
+		return $this->chat;
+	}
+	public function setPlayerChat($player,$mode) {
+		$this->setState($player,!$mode);
+	}
+	public function getPlayerChat($player) {
+		return !$this->getState($to,false));
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		switch ($cmd->getName()) {
 			case "nick":
@@ -111,10 +124,10 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 							if (count($args)) return false;
 							if (!MPMU::access($sender,"gb.cmd.togglechat.global")) return true;
 							if ($cmd->getName() == "chat-off") {
-								$this->chat = false;
+								$this->setGlobalChat(false);
 								$this->owner->getServer()->broadcastMessage(mc::_("Chat disabled globally from %1%", $sender->getName()));
 							} else {
-								$this->chat = true;
+								$this->setGlobalChat(true);
 								$this->owner->getServer()->broadcastMessage(mc::_("Chat enabled globally from %1%", $sender->getName()));
 							}
 							return true;

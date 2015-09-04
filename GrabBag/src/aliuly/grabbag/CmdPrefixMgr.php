@@ -10,6 +10,9 @@
 //: - Send multiple `/as player` commands in a row.
 //: - Start a private chat `/tell player` with another player.
 //: - You prefer commands over chat: `-n /`
+//:
+//: When prefix is enabled and you one to send just _one_ command without
+//: prefix, prepend your text with **<**.
 
 namespace aliuly\grabbag;
 
@@ -55,6 +58,7 @@ class CmdPrefixMgr extends BasicCli implements CommandExecutor,Listener {
 	private function processCmd($msg,$sender) {
 		$prefix = $this->getState($sender,"");
 		if ($prefix == "") return false;
+		if ($msg{0} == "<") return false; // Just this command we do it without prefix!
 		if ($sender instanceof Player) {
 			if (preg_match('/^\s*\/prefix\s*/',$msg)) return false;
 		} else {

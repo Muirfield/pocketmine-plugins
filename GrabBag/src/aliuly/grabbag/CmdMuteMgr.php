@@ -72,6 +72,22 @@ class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 		}
 		return false;
 	}
+	public function getMutes() {
+		return array_keys($this->mutes);
+	}
+	public function setMute($player,$mode) {
+		$n = strtolower($player->getName());
+		if ($mode) {
+			if (isset($this->mutes[$n])) return;
+			$this->mutes[$n] = $player->getName();
+		} else  {
+			if (!isset($this->mutes[$n])) return;
+			unset $this->mutes[$n];
+		}
+	}
+	public function getMute($player) {
+		return isset($this->mutes[strtolower($player->getName())]);
+	}
 
 	public function onChat(PlayerChatEvent $ev) {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG

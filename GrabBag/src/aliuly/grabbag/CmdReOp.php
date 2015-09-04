@@ -30,6 +30,26 @@ class CmdReOp extends BasicCli implements Listener,CommandExecutor {
     $this->reops = [];
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
+	public function isReOp($target) {
+		return isset($this->reops[strtolower($target->getName())]);
+	}
+	public function reopPlayer($target) {
+		$n = strtolower($target->getName());
+    if ($target->isOp()) {
+			$this->reops[$n] = true;
+      $target->setOp(false);
+			$target->sendMessage(mc::_("You are no longer Op"));
+			return true;
+		}
+		// Player wants to resume op
+    if (isset($this->reops[$n])) {
+      $target->setOp(true);
+			$target->sendMessage(mc::_("You are now Op"));
+      unset($this->reops[$n]);
+      return true;
+    }
+		return false;
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
     if (count($args) > 1) return false;
 		if (count($args) == 0) {
