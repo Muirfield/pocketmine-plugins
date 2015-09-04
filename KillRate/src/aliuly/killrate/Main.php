@@ -1,7 +1,4 @@
 <?php
-/**
- ** CONFIG:config.yml
- **/
 namespace aliuly\killrate;
 
 use pocketmine\plugin\PluginBase;
@@ -65,7 +62,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
-			"# settings" => "Configuration settings",
+			//= cfg:settings
 			"settings" => [
 				"# points" => "award points.", // if true points are awarded and tracked.
 				"points" => true,
@@ -82,17 +79,26 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"# achievements" => "Enable PocketMine achievements",
 				"achievements" => true,
 			],
-			"# values" => "configure awards. (1st.money, 2nd.points)", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
+			//= cfg:values
+			//:
+			//: Configure awards for the different type of kills.  Format:
+			//:
+			//:     "entity" => [ money, points ],
+			//:
+			//: The entity ( * ) is the default.
 			"values" => [
+				"<Example>" => [ "money" , "points" ],
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
-			"# formats" => "Sign formats.", // Used to show sign data
+			//= cfg:formats
+			//: Sign formats used to show sign data.
 			"formats" => [
 				"default" => "{sname} {count}",
 				"names" => "{n}.{player}",
 				"scores" => "{count}",
 			],
+			//= cfg:database
 			"# backend" => "Use SQLiteMgr or MySqlMgr",
 			"backend" => "SQLiteMgr",
 			"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
@@ -103,7 +109,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"database" => "KillRateDb",
 				"port" => 3306,
 			],
-			"# signs" => "placed signs text.", // These are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
+			//= cfg:signs
+			//: Placed signs text.
+			//: These are used to configure sign texts.  Place signs with the
+			//: words on the left, and the sign type (on the right) will be
+			//: created
 			"signs" => [
 				"[STATS]" => "stats",
 				"[ONLINE TOPS]" => "online-tops",
