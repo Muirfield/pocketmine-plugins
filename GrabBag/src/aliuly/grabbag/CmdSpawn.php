@@ -22,13 +22,16 @@ class CmdSpawn extends BasicCli implements CommandExecutor {
 								"usage" => mc::_("/spawn"),
 								"permission" => "gb.cmd.spawn"]);
 	}
+	public function tpSpawn($pl) {
+		$pos = $pl->getLevel()->getSafeSpawn();
+		$pl->teleport($pos);
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "spawn") return false;
 		if (count($args) != 0) return false;
 		if (!MPMU::inGame($sender)) return true;
-		$pos = $sender->getLevel()->getSafeSpawn();
 		$sender->sendMessage("Teleporting to spawn...");
-		$sender->teleport($pos);
+		$this->tpSpawn($sender);
 		return true;
 	}
 }

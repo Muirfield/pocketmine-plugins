@@ -43,7 +43,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 		return false;
 	}
 
-	private function cmdPushTp(CommandSender $c,$args) {
+	public function cmdPushTp(CommandSender $c,$args) {
 		if (!MPMU::inGame($c)) return true;
 
 		// Determine target...
@@ -98,7 +98,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 		}
 		return true;
 	}
-	private function cmdPopTp(CommandSender $c,$args) {
+	public function cmdPopTp(CommandSender $c,$args) {
 		if (!MPMU::inGame($c)) return true;
 		if (count($args)) return false;
 

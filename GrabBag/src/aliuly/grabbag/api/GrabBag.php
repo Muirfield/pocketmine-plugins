@@ -40,7 +40,8 @@ class GrabBag {
      if (!in_array($feature,[
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
-       "shield", "skinner", "slay",
+       "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
+       "throw", "pushtp-poptp",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
      return true;
@@ -342,6 +343,94 @@ class GrabBag {
   public function slay(Player $victim, $msg = "") {
     $this->getModule("slay")->slay($victim,$msg);
   }
+  //////////////////////////////////////////////////////////////
+  // CmdSpawn
+  //////////////////////////////////////////////////////////////
+  /**
+   * Teleport a player to world spawn
+   * @param Player $player
+   */
+  public function tpSpawn(Player $player) {
+    $this->getModule("spawn")->tpSpawn($player);
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdSrvMoDeMgr
+  //////////////////////////////////////////////////////////////
+  /**
+   * Return the current service mode status
+   * @return false|str
+   */
+  public function getServiceMode() {
+    return $this->getModule("srvmode")->getServiceMode();
+  }
+  /**
+   * Change the service mode
+   * @param str $msg
+   */
+  public function setServiceMode($msg) {
+    $this->getModule("srvmode")->setServiceMode($msg);
+  }
+  /**
+   * Exists service mode
+   */
+  public function unsetServiceMode() {
+    $this->getModule("srvmode")->unsetServiceMode();
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdSummon
+  //////////////////////////////////////////////////////////////
+  /**
+   * Teleport a player to the summoner's vicinity
+   * @param Player $summoner
+   * @param Player $victim
+   */
+  public function summonPlayer(Player $summoner,Player $victim) {
+    $this->getModule("summon-dismiss")->cmdSummon($summoner,[$victim->getName()]);
+  }
+  /**
+   * Dismiss a previously summoned player
+   * @param Player $summoner
+   * @param Player $victim
+   */
+  public function dismissPlayer(Player $summoner,Player $victim) {
+    $this->getModule("summon-dismiss")->cmdDismiss($summoner,[$victim->getName()]);
+  }
+  /**
+   * Dismiss all summoned players
+   * @param Player $summoner
+   */
+  public function dismissAll(Player $summoner) {
+    $this->getModule("summon-dismiss")->cmdDismiss($summoner,["--all"]);
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdThrow
+  //////////////////////////////////////////////////////////////
+  /**
+   * Throw player up in the air.
+   * @param Player $victim
+   */
+  public function throwPlayer(Player $victim) {
+    $this->getModule("throw")->throwPlayer($victim);
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdTpStack
+  //////////////////////////////////////////////////////////////
+  /**
+   * Save position to stack
+   * @param Player $player
+   */
+   public function pushTp(Player $player) {
+     $this->getModule("pushtp-poptp")->cmdPushTp($player,[]);
+   }
+   /**
+    * Restore position from stack
+    * @param Player $player
+    */
+    public function popTp(Player $player) {
+      $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
+    }
+
   //
 
 }
+pushtp-poptp

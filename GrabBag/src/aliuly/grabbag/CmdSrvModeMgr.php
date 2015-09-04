@@ -39,11 +39,20 @@ class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->mode = false;
 	}
+	public function getServiceMode() {
+		return $this->mode;
+	}
+	public function setServiceMode($msg) {
+		$this->mode = $msg;
+	}
+	public function unsetServiceMode() {
+		$this->mode = false;
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "servicemode") return false;
 		if (count($args) == 0) {
-			if ($this->mode !== false) {
-				$sender->sendMessage(TextFormat::RED.mc::_("In Service Mode: %1%",$this->mode));
+			if ($this->getServiceMode() !== false) {
+				$sender->sendMessage(TextFormat::RED.mc::_("In Service Mode: %1%",$this->getServiceMode()));
 			} else {
 				$sender->sendMessage(TextFormat::GREEN.mc::_("In Normal operating mode"));
 			}
@@ -54,11 +63,11 @@ class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {
 			if (!$msg) $msg = mc::_("Scheduled maintenance");
 			$this->owner->getServer()->broadcastMessage(TextFormat::RED.mc::_("ATTENTION: Entering service mode"));
 			$this->owner->getServer()->broadcastMessage(TextFormat::YELLOW." - ".$msg);
+			$this->setServiceMode($msg);
 		} else {
-			$msg = false;
 			$this->owner->getServer()->broadcastMessage(TextFormat::GREEN.mc::_("ATTENTION: Leaving service mode"));
+			$this->unsetServiceMode();
 		}
-		$this->mode = $msg;
 		return true;
 	}
 	//

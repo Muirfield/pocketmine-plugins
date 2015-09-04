@@ -43,7 +43,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		return false;
 	}
 
-	private function cmdSummon(CommandSender $c,$args) {
+	public function cmdSummon(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		if (!MPMU::inGame($c)) return true;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
@@ -73,7 +73,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		$pl->teleport($c->getLevel()->getSafeSpawn($mv));
 		return true;
 	}
-	private function cmdDismiss(CommandSender $c,$args) {
+	public function cmdDismiss(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		if (!MPMU::inGame($c)) return true;
 

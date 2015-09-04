@@ -814,12 +814,6 @@ The following third party libraries are included:
     - chat-on|off + mute
     - shield
   - Pending
-    - spawn - cmd equiv CmdSpawn/
-    - spectator : NO! deprecated
-    - srvmode - cmd equiv CmdSrvModeMgr/srvmode
-    - summon - cmd equiv CmdSummon/summon-dismiss
-    - throw - cmd equiv CmdThrow/throw
-    - tpstack - cmd eauiv CmdTpStack/pushtp-poptp
     - serverlist - api + adding events ServerList/ServerList
 * Finish conversion to dynamic permissions
 * Query:

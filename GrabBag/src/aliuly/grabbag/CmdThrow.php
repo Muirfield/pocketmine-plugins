@@ -25,15 +25,7 @@ class CmdThrow extends BasicCli implements CommandExecutor {
 								"usage" => mc::_("/throw <player> [force]"),
 								"permission" => "gb.cmd.throw"]);
 	}
-	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-		if ($cmd->getName() != "throw") return false;
-		if (count($args) > 2 || count($args) == 0) return false;
-		$pl = $this->owner->getServer()->getPlayer($args[0]);
-		if (!$pl) {
-			$sender->sendMessage(mc::_("%1% not found",$args[0]));
-			return true;
-		}
-
+	public function throwPlayer($pl) {
 		if (MPMU::apiVersion("1.12.0")) {
 			$pl->teleport(new Vector3($pl->getX(),128,$pl->getZ()));
 		} else {
@@ -43,6 +35,17 @@ class CmdThrow extends BasicCli implements CommandExecutor {
 
 			$pl->setMotion(new Vector3(0,$force,0));
 		}
+
+	}
+	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
+		if ($cmd->getName() != "throw") return false;
+		if (count($args) > 2 || count($args) == 0) return false;
+		$pl = $this->owner->getServer()->getPlayer($args[0]);
+		if (!$pl) {
+			$sender->sendMessage(mc::_("%1% not found",$args[0]));
+			return true;
+		}
+		$this->throwPlayer($pl);
 		return true;
 	}
 }
