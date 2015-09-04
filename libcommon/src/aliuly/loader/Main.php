@@ -53,11 +53,17 @@ class Main extends BasicPlugin implements CommandExecutor{
 		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([
 			"Version",
+			"RcCmd",
 		] as $mod) {
 			//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 			$mod = __NAMESPACE__."\\".$mod;
 			$this->modules[$mod] = new $mod($this);
 		}
+		MPMU::addCommand($this,$this,"echo", [
+			"description" => mc::_("Basic echo command"),
+			"usage" => mc::_("/libcommon <subcommand> [options]"),
+			"permission" => "libcommon.echo.command",
+		]);
 
 		if (\pocketmine\DEBUG > 1) {
 			//echo __METhOD__.",".__LINE__."\n";//##DEBUG
@@ -73,7 +79,6 @@ class Main extends BasicPlugin implements CommandExecutor{
 			foreach ([
 				"DumpMsgs",
 				"EchoCmd",
-				"RcCmd",
 				"MotdMgr",
 				"QueryMgr",
 			] as $mod) {
@@ -82,11 +87,6 @@ class Main extends BasicPlugin implements CommandExecutor{
 				$class = __NAMESPACE__."\\".$mod;
 				$this->modules[$mod] = new $class($this);
 			}
-			MPMU::addCommand($this,$this,"echo", [
-			"description" => mc::_("Basic echo command"),
-			"usage" => mc::_("/libcommon <subcommand> [options]"),
-			"permission" => "libcommon.echo.command",
-		]);
 		}
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 

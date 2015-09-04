@@ -3,7 +3,6 @@
 //: Runs the given script
 //> usage: usage: /libcommon **rc** _<script>_ _[args]_
 //:
-//: This command is available when **DEBUG** is enabled.
 //: This command will execute PMScripts present in the **libcommon**
 //: folder.  By convention, the ".pms" suffix must be used for the file
 //: name, but the ".pms" is ommitted when issuing this command.
