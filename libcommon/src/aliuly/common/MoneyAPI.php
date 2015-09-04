@@ -20,30 +20,30 @@ abstract class MoneyAPI {
 	 */
 	static public function noMoney(PluginBase $plugin,$level = LogLevel::WARNING) {
 		if (class_exists(__NAMESPACE__."\\mc",false)) {
-			$plugin->getLogger()->log($level,TextFormat::RED.
-											  mc::_("# MISSING MONEY API PLUGIN"));
-			$this->getLogger()->error(TextFormat::BLUE.
+			$plugin->getLogger()->error($level,TextFormat::RED.
+											  mc::_("! MISSING MONEY API PLUGIN"));
+			$plugin->getLogger()->error(TextFormat::BLUE.
 											  mc::_(". Please install one of the following:"));
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  mc::_("* GoldStd"));
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  mc::_("* PocketMoney"));
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  mc::_("* EconomyAPI or"));
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  mc::_("* MassiveEconomy"));
 		} else {
-			$plugin->getLogger()->log($level,TextFormat::RED.
-											  "# MISSING MONEY API PLUGIN");
-			$this->getLogger()->error(TextFormat::BLUE.
+			$plugin->getLogger()->error($level,TextFormat::RED.
+											  "! MISSING MONEY API PLUGIN");
+			$plugin->getLogger()->error(TextFormat::BLUE.
 											  ". Please install one of the following:");
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  "* GoldStd");
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  "* PocketMoney");
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  "* EconomyAPI or");
-			$this->getLogger()->error(TextFormat::WHITE.
+			$plugin->getLogger()->error(TextFormat::WHITE.
 											  "* MassiveEconomy");
 		}
 	}

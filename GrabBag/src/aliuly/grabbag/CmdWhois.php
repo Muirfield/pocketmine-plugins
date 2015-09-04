@@ -1,13 +1,7 @@
 <?php
-/**
- ** OVERVIEW:Informational
- **
- ** COMMANDS
- **
- ** * whois : Gives detail information on players
- **   usage: **whois** _<player>_
- **
- **/
+//= cmd:whois,Informational
+//: Gives detailed information on players
+//> usage: **whois** _<player>_
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -98,13 +92,21 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 		$pm = $this->owner->getServer()->getPluginManager();
 		if (($kr = $pm->getPlugin("KillRate")) !== null) {
 			if (version_compare($kr->getDescription()->getVersion(),"1.1") >= 0) {
-				$score = $kr->getScore($target);
+				if (intval($kr->getDescription()->getVersion()) == 2) {
+					echo get_class($kr->api)."\n";//##DEBUG
+					$score = $kr->api->getScore($target);
+				} else {
+					$score = $kr->getScore($target);
+				}
 				if ($score)
 					$txt[] = TextFormat::GREEN.mc::_("KillRate Score: ").TextFormat::WHITE.$score;
 			} else {
 				$txt[] = TextFormat::RED.mc::_("KillRate version is too old (%1%)",
 														 $kr->getDescription()->getVersion());
 			}
+		}
+		if (($pp = $pm->getPlugin("PurePerms")) !== null) {
+			$txt[] = TextFormat::GREEN.mc::_("PurePerms Group: ").TextFormat::WHITE.$pp->getUser($target)->getGroup()->getName();
 		}
 		if (($sa = $pm->getPlugin("SimpleAuth")) !== null) {
 			if ($target instanceof Player) {

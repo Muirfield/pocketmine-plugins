@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.0.6**.
+This documentation was last updated for version **1.0.7**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/BasicHUD-1.0.6).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/BasicHUD-1.0.7).
 
 <!-- template-end -->
 
@@ -181,6 +181,8 @@ if (($hud = $this->getServer()->getPluginManager()->getPlugin("BasicHUD")) !== n
 
 # Changes
 
+* 1.0.7: display errors
+  * will throw an error if vars.php or messages.php fail to compile.
 * 1.0.6:
   * Fixed vars-example (money issues thanks @vertx)
   * Display item selected onItemHeld

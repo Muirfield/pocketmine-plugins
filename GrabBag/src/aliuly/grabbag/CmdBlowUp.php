@@ -1,17 +1,12 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * blowup : explode a player
- **   usage: **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**
- **
- **   Explodes `player` with an explosion with the given `yield` (a number).
- **   If `magic` is specified no damage will be taken by blocks.  The
- **   default is `normal`, where blocks do get damaged.
- **
- **/
+//= cmd:blowup,Trolling
+//: explode a player
+//> usage: **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**
+//:
+//: Explodes `player` with an explosion with the given `yield` (a number).
+//: If `magic` is specified no damage will be taken by blocks.  The
+//: default is `normal`, where blocks do get damaged.
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -32,6 +27,14 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 							  ["description" => mc::_("Explode a player"),
 								"usage" => mc::_("/blowup <player> [yield|magic|normal]"),
 								"permission" => "gb.cmd.blowup"]);
+	}
+	public function blowPlayer($pl,$yield,$magic) {
+		$this->owner->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($pl,$yield));
+		if ($cc->isCancelled()) return false;
+		$explosion = new Explosion($pl,$yield);
+		if (!$magic) $explosion->explodeA();
+		$explosion->explodeB();
+		return true;
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "blowup") return false;
@@ -54,11 +57,7 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 				$magic = false;
 			}
 		}
-		$this->owner->getServer()->getPluginManager()->callEvent($cc = new ExplosionPrimeEvent($pl,$yield));
-		if ($cc->isCancelled()) return true;
-		$explosion = new Explosion($pl,$yield);
-		if (!$magic) $explosion->explodeA();
-		$explosion->explodeB();
+		$this->blowPlayer($pl,$yield,$magic);
 		return true;
 	}
 }

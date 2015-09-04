@@ -1,24 +1,18 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * crash : manage crash dumps
- **   usage: **crash** _[ls|clean|show]_
- **
- **   Will show the number of `crash` files in the server.
- **   The following optional sub-commands are available:
- **   - **crash** **count**
- **     - Count the number of crash files
- **   - **crash** **ls** _[patthern]_
- **     - List crash files
- **   - **crash** **clean** _[pattern]_
- **     - Delete crash files
- **   - **show** _[pattern]_
- **     - Shows the crash file ##
- **
- **/
+//= cmd:crash,Server_Management
+//: manage crash dumps
+//> usage: **crash** _[ls|clean|show]_
+//:
+//: Will show the number of **crash** files in the server.
+//: The following optional sub-commands are available:
+//: - **crash** **count**
+//:   - Count the number of crash files
+//: - **crash** **ls** _[pattern]_
+//:   - List crash files
+//: - **crash** **clean** _[pattern]_
+//:   - Delete crash files
+//: - **show** _[pattern]_
+//:   - Shows the crash file ##
 
 namespace aliuly\grabbag;
 

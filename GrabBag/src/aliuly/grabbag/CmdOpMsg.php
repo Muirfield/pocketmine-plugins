@@ -1,31 +1,26 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * opms : sends a message to ops only
- **   usage: **opms** _[msg]_
- **
- **   Sends chat messages that are only see by ops.  Only works with ops
- **   that are on-line at the moment.  If you no ops are on-line you
- **   should use the `rpt` command.
- **
- ** * rpt : report an issue to ops
- **   usage: **rpt** [_message_|**read|clear** _<all|##>_]
- **
- **   Logs/reports an issue to server ops.  These issues are stored in a
- **   a file which can be later read by the server operators.  Use this
- **   when there are **no** ops on-line.  If there are ops on-line you
- **   should use the `opms` command.
- **
- **   The following ops only commands are available:
- **   - **rpt** **read** _[##]_
- **     - reads reports.  You can specify the page by specifying a number.
- **   - **rpt** **clear** _<all|##>_
- **     - will delete the specified report or if `all`, all the reports.
- **
- **/
+//= cmd:opms,Server_Management
+//: sends a message to ops only
+//> usage: **opms** _[msg]_
+//:
+//: Sends chat messages that are only see by ops.  Only works with ops
+//: that are on-line at the moment.  If you no ops are on-line you
+//: should use the **rpt** command.
+
+//= cmd:rpt,Server_Management
+//: report an issue to ops
+//> usage: **rpt** [_message_|**read|clear** _<all|##>_]
+//:
+//: Logs/reports an issue to server ops.  These issues are stored in a
+//: a file which can be later read by the server operators.  Use this
+//: when there are **no** ops on-line.  If there are ops on-line you
+//: should use the **opms** command.
+//:
+//: The following ops only commands are available:
+//> - **rpt** **read** _[##]_
+//:   - reads reports.  You can specify the page by specifying a number.
+//> - **rpt** **clear** _<all|##>_
+//:   - will delete the specified report or if `all`, all the reports.
 
 namespace aliuly\grabbag;
 
@@ -147,6 +142,7 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	public function onPlayerJoin(PlayerJoinEvent $e) {
 		$pl = $e->getPlayer();
 		if ($pl == null) return;
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!$pl->hasPermission("gb.cmd.rpt.read")) return;
 		list($id,$rpt) = $this->rpt->getAll();
 		if (count($rpt)) $pl->sendMessage(

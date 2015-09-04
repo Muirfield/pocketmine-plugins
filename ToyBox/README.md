@@ -23,7 +23,7 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/plugins/toybox.1135/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **1.2.1**.
 

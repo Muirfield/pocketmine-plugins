@@ -1,9 +1,7 @@
 <?php
-/**
- ** MODULE:blood-particles
- ** Display particles when a player gets hit
- **
- **/
+//= module:blood-particles
+//: Display particles when a player gets hit
+
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;

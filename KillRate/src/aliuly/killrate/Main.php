@@ -12,6 +12,7 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\event\Listener;
 use pocketmine\utils\Config;
 
@@ -36,12 +37,17 @@ use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
 use aliuly\killrate\common\MoneyAPI;
 
+use aliuly\killrate\api\KillRate as KillRateAPI;
+use aliuly\killrate\api\KillRateScoreEvent;
+use aliuly\killrate\api\KillRateResetEvent;
+
+
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
 	protected $cfg;
 	protected $money;
 	protected $stats;
-	protected $api;
+	public $api;
 
 	//////////////////////////////////////////////////////////////////////
 	//
@@ -51,8 +57,21 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function onEnable(){
 		$this->dbm = null;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-		mc::plugin_init($this,$this->getFile());
-
+		if (mc::plugin_init($this,$this->getFile()) === false) {
+			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
+			mc::plugin_init($this,$this->getFile());
+			$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with empty strings");
+			$this->getLogger()->error(TextFormat::AQUA."Please consider translating it and submitting a");
+			$this->getLogger()->error(TextFormat::AQUA."translation to the developer");
+		} else {
+			if (mc::_("<nagme>") === "yes") {
+				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
+				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
+			}
+		}
+		$this->api = new KillRateAPI($this);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
@@ -132,15 +151,6 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($this->cfg["settings"]["dynamic-updates"]
 			 && $this->cfg["settings"]["dynamic-updates"] > 0) {
 			$this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginCallbackTask($this,[$this,"updateTimer"],[]),$this->cfg["settings"]["dynamic-updates"]);
-		}
-		if (MPMU::apiVersion("1.12.0")) {
-			if (MPMU::apiVersion(">1.12.0")) {
-				$this->getLogger()->warning(TextFormat::YELLOW.
-													 mc::_("This plugin has not been tested to run on %1%", MPMU::apiVersion()));
-			}
-			$this->api = 12;
-		} else {
-			$this->api = 10;
 		}
 
 		$this->stats = [];
@@ -243,9 +253,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				continue;
 			} else {
 				if (count($args) != 1) $c->sendMessage(TextFormat::BLUE.$pl);
+				list($k,$d) = [null,null];
 				foreach ($score as $row) {
+					if ($row["type"] == "player") $k = (float)$row["count"];
+					if ($row["type"] == "deaths") $d = $row["count"];
 					$c->sendMessage(TextFormat::GREEN.$row['type'].": ".
 										 TextFormat::WHITE.$row['count']);
+				}
+				if ($k !== null && $d !== null && $d > 0) {
+					$c->sendMessage(TextFormat::GREEN.mc::_("kdratio: ").
+										 TextFormat::WHITE.round($k/$d,2));
 				}
 			}
 		}
@@ -291,22 +308,25 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		return [0,0];
 	}
-	public function updateScores($perp,$vic) {
+	public function updateScores($player, $perp,$vic) {
 		//echo "VIC=$vic PERP=$perp\n";//##DEBUG
-		$this->updateDb($perp,$vic);
+		if ($this->cfg["settings"]["points"] || $this->cfg["settings"]["rewards"]){
+			list($points,$money) = $this->getPrizes($vic);
+			if (!$this->cfg["settings"]["points"]) $points = false;
+			if (!$this->cfg["settings"]["rewards"]) $money = false;
+		} else {
+			list($points,$money) = [false,false];
+		}
+		$this->getServer()->getPluginManager()->callEvent(
+				$ev = new KillRateScoreEvent($this,$player,$vic,$points,$money)
+		);
+		if ($ev->isCancelled()) return [false,false];
+		if ($ev->getIncr()) $this->updateDb($perp,$vic,$ev->getIncr());
 		$awards = [ false,false];
-		if (isset($this->cfg["settings"]["points"])) {
-			// Add points...
-			list($points,$money) = $this->getPrizes($vic);
-			$this->updateDb($perp,"points",$points);
-			$awards[0] = $points;
-		}
-		if (isset($this->cfg["settings"]["rewards"])) {
-			// Add money...
-			list($points,$money) = $this->getPrizes($vic);
-			MoneyAPI::grantMoney($this->money,$perp,$money);
-			$awards[1] = $money;
-		}
+    $awards[0] = $points = $ev->getPoints();
+		if ($points !== false && $points != 0) $this->updateDb($perp,"points", $points);
+		$awards[1] = $money = $ev->getMoney();
+		if ($money !== false) MoneyAPI::grantMoney($this->money,$perp,$money);
 		return $awards;
 	}
 	/**
@@ -333,7 +353,10 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				 && $this->cfg["settings"]["reset-on-death"] > 0) {
 				if ($deaths >= $this->cfg["settings"]["reset-on-death"]) {
 					// We died too many times... reset scores...
-					$this->dbm->delScore($pv->getName());
+					$this->getServer()->getPluginManager()->callEvent(
+						$ev = new KillRateResetEvent($this,$pv)
+					);
+					if (!$ev->isCancelled()) $this->delScore($pv);
 				}
 			}
 			if ($this->cfg["settings"]["kill-streak"]) {
@@ -354,7 +377,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
 					}
 				}
-				$this->dbm->delScore($pv->getName(),"streak");
+				$this->dbm->delScore($n,"streak");
 			}
 		}
 		$cause = $pv->getLastDamageCause();
@@ -385,7 +408,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		if (!($pp instanceof Player)) return; // Not killed by player...
 		// No scoring for creative players...
-		if ($pp->isCreative() && !isset($this->cfg["settings"]["creative"])) return;
+		if ($pp->isCreative() && !$this->cfg["settings"]["creative"]) return;
 		if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("killer");
 		$perp = $pp->getName();
 		$vic = $pv->getName();
@@ -399,7 +422,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
 					if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("serialKiller");
 					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
-					if (isset($this->cfg["settings"]["rewards"])) {
+					if ($this->cfg["settings"]["rewards"]) {
 						list($points,$money) = $this->getPrizes($vic);
 						$pp->sendMessage(TextFormat::GREEN.
 											  mc::_("You earn an additional $%1% for being in kill-streak!",$money));
@@ -409,7 +432,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			}
 		}
 		$perp = $pp->getName();
-		list ($points,$money) = $this->updateScores($perp,$vic);
+
+		list ($points,$money) = $this->updateScores($pp,$perp,$vic);
 		$this->announce($pp,$points,$money);
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -471,16 +495,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	private function updateSign($pl,$tile,$text) {
-		switch($this->api) {
-			case 10:
-				$pk = new EntityDataPacket();
-				break;
-			case 12:
-				$pk = new TileEntityDataPacket();
-				break;
-			default:
-				return;
-		}
+		$pk = new TileEntityDataPacket();
 		$data = $tile->getSpawnCompound();
 		$data->Text1 = new String("Text1",$text[0]);
 		$data->Text2 = new String("Text2",$text[1]);
@@ -605,10 +620,53 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		return $incr;
 
 	}
-	public function getScore($pl,$type = "points") {
-		$score = $this->dbm->getScore($pl->getName(),$type);
+	/**
+	 * @deprecated
+	 */
+	public function getScore($pn,$type = "points") {
+		if ($pn instanceof Player) $pn = $pn->getName();
+		$score = $this->dbm->getScore($pn,$type);
 		if ($score) return $score["count"];
 		return 0;
 	}
-
+	public function getScoreV2($pn,$type = "points") {
+		$score = $this->dbm->getScore($pn,$type);
+		if ($score) return $score["count"];
+		return 0;
+	}
+	public function delScore($pn, $type = null) {
+		$this->dbm->delScore($pl->getName(), $type);
+	}
+	public function getScores($pn) {
+		return $this->dbm->getScores($pn);
+	}
+	public function getPlayerVarsV1(Player $player, array &$vars) {
+		$vars["{score}"] = $this->getScore($player);
+	}
+	public function getSysVarsV1(array &$vars) {
+		$ranks = $this->getRankings(10);
+		if ($ranks == null) {
+			$vars["{tops}"] = "N/A";
+			$vars["{top10}"] = "N/A";
+			$vars["{top10names}"] = "N/A";
+		  $vars["{top10scores}"] = "N/A";
+		} else {
+			$vars["{tops}"] = "";
+			$vars["{top10}"] = "";
+			$vars["{top10names}"] = "";
+		  $vars["{top10scores}"] = "";
+			$i = 1; $q = "";
+			foreach ($ranks as $r) {
+				if ($i <= 3) {
+					$vars["{tops}"] .= $q.$i.". ".substr($r["player"],0,8).
+									" ".$r["count"];
+					$q = "   ";
+				}
+				$vars["{top10}"] .= $i.". ".$r["player"]." ".$r["count"]."\n";
+				$vars["{top10names}"] .= $r["player"]."\n";
+			  $vars["{top10scores}"] .= $r["count"]."\n";
+				++$i;
+			}
+		}
+	}
 }

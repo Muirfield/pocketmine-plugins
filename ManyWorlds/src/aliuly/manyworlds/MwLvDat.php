@@ -37,6 +37,7 @@ use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\String;
 use pocketmine\nbt\tag\Long;
 use pocketmine\nbt\tag\Compound;
+use pocketmine\math\Vector3;
 
 class MwLvDat extends BasicCli {
 	public function __construct($owner) {

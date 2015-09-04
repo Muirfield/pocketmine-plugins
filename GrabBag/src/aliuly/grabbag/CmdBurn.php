@@ -1,16 +1,11 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * burn : Burns the specified player
- **   usage: **burn** _<player>_ _[secs]_
- **
- **   Sets `player` on fire for the specified number of seconds.
- **   Default is 15 seconds.
- **
- **/
+//= cmd:burn,Trolling
+//: Burns the specified player
+//> usage: **burn** _<player>_ _[secs]_
+//:
+//: Sets `player` on fire for the specified number of seconds.
+//: Default is 15 seconds.
+//:
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

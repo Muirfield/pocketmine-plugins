@@ -1,7 +1,6 @@
 <?php
 namespace aliuly\common;
 use pocketmine\item\Item;
-use aliuly\common\mc;
 
 /**
  * ItemName database
@@ -11,13 +10,42 @@ abstract class ItemName {
 	static protected $xnames = null;
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
+	/** @var str[] $usrnames Possibly localized names for items */
+	static protected $usrnames = [];
+	/**
+	 * Initialize $usrnames
+	 * @param str[] $names - names to load
+	 */
+	static public function initUsrNames(array $names) {
+		self::$usrnames = $names;
+	}
+	/**
+	 * Load the specified item names.
+	 * Return number of items read, -1 in case of error.
+	 * @param str $f - Filename to load
+	 * @return int
+	 */
+	public static function loadUsrNames($f) {
+		$tx = file($f, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
+		$i = 0;
+		if ($tx === false) return -1;
+		foreach ($tx as $x) {
+			$x = trim($x);
+			if (substr($x,0,1) == "#" || substr($x,0,1) == ";") continue;
+			$x = preg_split('/\s*=\s*/',$x,2);
+			if (count($x) != 2) continue;
+			++$i;
+			self::$usrnames[$x[0]] = $x[1];
+		}
+		return $i;
+	}
 
 	/**
 	 * Initialize extended names table
 	 */
 	static protected function initXnames() {
 		self::$xnames = [
-			351 => [
+			Item::DYE => [
 				0 => "Ink Sac",
 				1 => "Rose Red",
 				2 => "Cactus Green",
@@ -36,7 +64,7 @@ abstract class ItemName {
 				15 => "Bone Meal",
 				"*" => "Dye",
 			],
-			383 => [
+			Item::SPAWN_EGG => [
 				"*" => "Spawn Egg",
 				32 => "Spawn Zombie",
 				33 => "Spawn Creeper",
@@ -70,16 +98,19 @@ abstract class ItemName {
 	 * @return str
 	 */
 	static public function str(Item $item) {
-		if (self::$xnames == null) {
-			self::initXnames();
-		}
-		if (isset(self::$xnames[$item->getId()])) {
-			if (isset(self::$xnames[$item->getId()][$item->getDamage()])) {
-				return self::$xnames[$item->getId()][$item->getDamage()];
-			} elseif (isset(self::$xnames[$item->getId()]["*"])) {
-				return self::$xnames[$item->getId()]["*"];
+		$id = $item->getId();
+		$meta = $item->getDamage();
+		if (isset(self::$usrnames[$id.":".$meta])) return self::$usrnames[$id.":".$meta];
+		if (isset(self::$usrnames[$id])) return self::$usrnames[$id];
+		if (self::$xnames == null) self::initXnames();
+
+		if (isset(self::$xnames[$id])) {
+			if (isset(self::$xnames[$id][$meta])) {
+				return self::$xnames[$id][$meta];
+			} elseif (isset(self::$xnames[$id]["*"])) {
+				return self::$xnames[$id]["*"];
 			} else {
-				return self::$xnames[$item->getId()][0];
+				return self::$xnames[$id][0];
 			}
 		}
 		$n = $item->getName();
@@ -87,13 +118,12 @@ abstract class ItemName {
 		if (count(self::$items) == 0) {
 			$constants = array_keys((new \ReflectionClass("pocketmine\\item\\Item"))->getConstants());
 			foreach ($constants as $constant) {
-				$id = constant("pocketmine\\item\\Item::$constant");
+				$cid = constant("pocketmine\\item\\Item::$constant");
 				$constant = str_replace("_", " ", $constant);
-				self::$items[$id] = $constant;
+				self::$items[$cid] = $constant;
 			}
 		}
-		if (isset(self::$items[$item->getId()]))
-			return self::$items[$item->getId()];
+		if (isset(self::$items[$id])) return self::$items[$id];
 		return $n;
 	}
 }

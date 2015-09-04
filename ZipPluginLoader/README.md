@@ -4,21 +4,36 @@
 
 * Summary: Load Zip packed plugins
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 (API:1.10.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: Developer Tools
 * Plugin Access: Manages plugins
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
+* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader
 
 ## Overview
 
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/zippluginloader.8924"; -->
 <!-- template: prologue.md -->
-INSERTED BY TEMPLATE
+
+**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+
+It is difficult to carry a conversation in the reviews.  If you
+have a question/bug-report/request please use the
+[Thread](http://forums.pocketmine.net/threads/zippluginloader.8924) for
+that.  You are more likely to get a response and help that way.
+
+_NOTE:_
+
+This documentation was last updated for version **1.1.2**.
+
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
+for the most up-to-date documentation.
+
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ZipPluginLoader-1.1.2).
+
 <!-- template-end -->
-
-
 
 **NOTE: This is unlike _DevTools_, as it is focus on only loading Zip files
 instead of folders like _DevTools_.**  You still need _DevTools_ if
@@ -76,3 +91,4 @@ loaded.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

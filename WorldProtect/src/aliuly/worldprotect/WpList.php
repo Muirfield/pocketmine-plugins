@@ -30,7 +30,7 @@ class WpList extends BaseWp {
 										"aliases" => ["info"]]);
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$world,array $args) {
-		$cm = $this->owner->getScmdMap();
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pageNumber = $this->getPageNumber($args);
 
 		if (count($args)==1) return $this->wpDetails($c,$args[0],$pageNumber);

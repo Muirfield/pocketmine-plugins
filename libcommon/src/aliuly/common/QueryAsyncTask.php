@@ -3,8 +3,8 @@ namespace aliuly\common;
 use aliuly\common\PluginAsyncTask;
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
+use aliuly\common\xPaw\MinecraftQuery;
+use aliuly\common\xPaw\MinecraftQueryException;
 
 
 /**
@@ -34,7 +34,12 @@ class QueryAsyncTask extends PluginAsyncTask{
 		$this->port = $port;
 	}
 	public function onRun() {
-		$this->setResult(null);
+		$this->setResult([
+			"host"=>$this->host,
+			"port" => $this->port,
+			"info" => null,
+			"players" => null,
+		]);
 		$Query = new MinecraftQuery( );
 		try {
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG

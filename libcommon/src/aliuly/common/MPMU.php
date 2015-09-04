@@ -16,7 +16,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "1.1.0";
+	const VERSION = "1.2.0dev2";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -162,7 +162,7 @@ abstract class MPMU {
 	 * @param Server $server - pocketmine server instance
 	 * @param str $plug - plugin to call
 	 * @param str $method - method to call
-	 * @param mixed $default - If the plugin does not exist or it is not enable, this value uis returned
+	 * @param mixed $default - If the plugin does not exist or it is not enable, this value is returned
 	 * @return mixed
 	 */
 	static public function callPlugin($server,$plug,$method,$args,$default = null) {
@@ -240,6 +240,17 @@ abstract class MPMU {
 			return;
 		}
 		$player->sendPopup($msg);
+	}
+	/**
+	 * Check prefixes
+	 * @param str $txt - input text
+	 * @param str $tok - keyword to test
+	 * @return str|null
+	 */
+	static public function startsWith($txt,$tok) {
+		$ln = strlen($tok);
+		if (strtolower(substr($txt,0,$ln)) != $tok) return null;
+		return trim(substr($txt,$ln));
 	}
 
 

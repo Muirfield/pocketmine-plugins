@@ -4,7 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.2.5
+version: 2.3.0dev0
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
@@ -63,6 +63,12 @@ permissions:
   gb.cmd.clearinv.others:
     default: op
     description: "Clear other's inventory"
+  gb.cmd.rminv:
+    default: true
+    description: "Remove item from player's inventory"
+  gb.cmd.rminv.others:
+    default: op
+    description: "Remove item from other's inventory"
   gb.cmd.clearhotbar:
     default: true
     description: "Clear player's hotbar"
@@ -141,9 +147,6 @@ permissions:
   gb.cmd.rcon:
     default: op
     description: "use RCON client"
-  gb.cmd.rcon.config:
-    default: op
-    description: "Modify the RCON configuration"
   gb.cmd.fly:
     default: op
     description: "Flight control"
@@ -192,9 +195,6 @@ permissions:
   gb.cmd.query:
     default: true
     description: "Access to query command"
-  gb.cmd.query.addrm:
-    default: op
-    description: "Modify query hosts configuration"
   gb.cmd.query.details:
     default: true
     description: "View query details (ls, info, plugins)"
@@ -207,3 +207,27 @@ permissions:
   gb.cmd.query.list:
     default: true
     description: "Query list command"
+  gb.cmd.alias:
+    default: op
+    description: "Allow creating aliases"
+  gb.cmd.reop:
+    default: true
+    description: "Access to reop command"
+  gb.cmd.reop.others:
+    default: op
+    description: "Allows to reop others"
+  gb.cmd.servers:
+    default: op
+    description: "Allows access to servers command"
+  gb.cmd.servers.read:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.read.viewip:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.read.viewrcon:
+    default: op
+    description: "Allows viewing servers configuration"
+  gb.cmd.servers.write:
+    default: op
+    description: "Allows changing servers configuration"

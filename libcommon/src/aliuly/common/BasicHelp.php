@@ -35,40 +35,40 @@ class BasicHelp extends BasicCli {
 
 		if (count($args)) {
 			if ($args[0] == "usage") {
-				if (!isset($cm["usage"][$scmd])) return false;
+				if ($cm->getUsage($scmd) === null) return false;
 				$c->sendMessage(TextFormat::RED.mc::_("Usage: ").
 									 sprintf($this->fmt,
 												$cc->getName(),
-												$scmd,
-												$cm["usage"][$scmd]));
+												$scmd, $cm->getUsage($scmd)));
 				return true;
 			}
 			$txt = [ "Help for ".$cc->getName() ];
 
 			foreach ($args as $i) {
-				if (isset($cm["alias"][$i])) $i=$cm["alias"][$i];
-				if (!isset($cm["help"][$i]) && !isset($cm["usage"][$i])) {
+				if ($cm->getAlias($i) !== null) $i=$cm->getAlias($i);
+				if ($cm->getHelpMsg($i) === null && $cm->getUsage($i) === null) {
 					$txt[] = TextFormat::RED.mc::_("No help for %1%",$i);
 					continue;
 				}
+
 				$txt[] = TextFormat::YELLOW.mc::_("Help: ").TextFormat::WHITE.
 						 "/".$cc->getName()." $i";
-				if (isset($cm["help"][$i]))
+				if ($cm->getHelpMsg($i) !== null)
 					$txt[] = TextFormat::YELLOW.mc::_("Description: ").
-							 TextFormat::WHITE.$cm["help"][$i];
-				if (isset($cm["usage"][$i]))
+							 TextFormat::WHITE.$cm->getHelpMsg($i);
+				if ($cm->getUsage($i) !== null)
 					$txt[] = TextFormat::YELLOW.mc::_("Usage: ").
 							 TextFormat::WHITE.
-							 sprintf($this->fmt,$cc->getName(),$i,$cm["usage"][$i]);
+							 sprintf($this->fmt,$cc->getName(),$i,$cm->getUsage($i));
 				//echo ">>> ".$this->fmt."\n";//##DEBUG
 			}
 			return $this->paginateText($c,$pageNumber,$txt);
 		}
-		ksort($cm["help"]);
+
 		$txt = [ mc::_("Available sub-commands for %1%",$cc->getName()) ];
-		foreach ($cm["help"] as $cn => $desc) {
+		foreach ($cm->getHelp() as $cn => $desc) {
 			$ln = TextFormat::GREEN.$cn;
-			foreach ($cm["alias"] as $i => $j) {
+			foreach ($cm->getAliases() as $i => $j) {
 				if ($j == $cn) $ln .= "|$i";
 			}
 			$ln .= ": ".TextFormat::WHITE.$desc;

@@ -1,8 +1,7 @@
 <?php
 namespace aliuly\livesigns\fetcher;
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
-
+use aliuly\common\xPaw\MinecraftQuery;
+use aliuly\common\xPaw\MinecraftQueryException;
 
 abstract class Query extends SignFetcher {
 	static public function fetch($dat,$cfg) {
@@ -44,7 +43,7 @@ abstract class Query extends SignFetcher {
 				$list .= $p."\n";
 			}
 			$txt[] = "PlayerList"."\t".$list;
-		}		
+		}
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		//print_r($vars);//##DEBUG
 		return $txt;

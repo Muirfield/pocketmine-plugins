@@ -206,19 +206,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/LIAB">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/LIAB-icon.png" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      LIAB
-    </a>
-  </th>
-  <td>
-    Leave it all behind
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD">
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
       <br/>

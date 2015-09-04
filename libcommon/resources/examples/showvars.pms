@@ -1,0 +1,5 @@
+#
+# Basic example...
+#
+@$vars["{list}"] = print_r($vars,true)
+lc echo {list}

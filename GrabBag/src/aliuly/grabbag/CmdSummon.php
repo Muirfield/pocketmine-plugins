@@ -1,15 +1,11 @@
 <?php
-/**
- ** OVERVIEW:Teleporting
- **
- ** COMMANDS
- **
- ** * summon : Summons a player to your location
- **   usage: **summon** _<player>_ _[message]_
- ** * dismiss : Dismiss a previously summoned player
- **   usage: **dismiss** _<player>_ _[message]_
- **
- **/
+//= cmd:summon,Teleporting
+//: Summons a player to your location
+//> usage: **summon** _<player>_ _[message]_
+
+//= cmd:dismiss,Teleporting
+//: Dismiss a previously summoned player
+//> usage: **dismiss** _<player>_ _[message]_
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

@@ -1,13 +1,11 @@
 <?php
-/**
- ** MODULE:broadcast-tp
- ** Broadcast player's teleports
- **
- ** This listener module will broadcast when a player teleports to
- ** another location.
- **
- ** CONFIG:broadcast-tp
- **/
+//= module:broadcast-tp
+//: Broadcast player teleports
+//:
+//: This listener module will broadcast when a player teleports to
+//: another location.  It also generates some smoke and plays a sound.
+//:
+
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;
@@ -28,6 +26,7 @@ class BcTpMgr implements Listener {
 	protected $local;
 
 	static public function defaults() {
+		//= cfg:broadcast-tp
 		return [
 			"# world" => "world broadcast setting.", // If true, will broadcast teleports accross worlds.
 			"world" => true,

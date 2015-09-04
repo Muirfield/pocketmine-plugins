@@ -63,22 +63,23 @@ abstract class mc {
 	 *
 	 * @param Plugin $plugin - owning plugin
 	 * @param str $path - output of $plugin->getFile()
+	 * @return int|false - false on error or the number of messages loaded
 	 */
 	public static function plugin_init($plugin,$path) {
 		if (file_exists($plugin->getDataFolder()."messages.ini")) {
-			self::load($plugin->getDataFolder()."messages.ini");
-			return;
+			return self::load($plugin->getDataFolder()."messages.ini");
 		}
 		$msgs = $path."resources/messages/".
 				$plugin->getServer()->getProperty("settings.language").
 				".ini";
-		if (!file_exists($msgs)) return;
-		mc::load($msgs);
+		if (!file_exists($msgs)) return false;
+		return mc::load($msgs);
 	}
 	/**
 	 * Load the specified message catalogue.
 	 * Can read .ini or .po files.
 	 * @param str $f - Filename to load
+	 * @return int|false - returns the number of strings loaded or false on error
 	 */
 	public static function load($f) {
 		$potxt = "\n".file_get_contents($f)."\n";

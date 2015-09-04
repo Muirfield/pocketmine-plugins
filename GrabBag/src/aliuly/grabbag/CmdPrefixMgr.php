@@ -1,21 +1,15 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * prefix : prepend prefix to chat lines
- **   usage: **prefix** _[-n]_ _<prefix text>_
- **
- **   This allows you to prepend a prefix to chat lines.
- **   To stop enter `/prefix` by itself (or `prefix` at the console).
- **   Usage examples:
- **
- **   - Send multiple `/as player` commands in a row.
- **   - Start a private chat `/tell player` with another player.
- **   - You prefer commands over chat: `-n /`
- **
- **/
+//= cmd:prefix,Player_Management
+//: prepend prefix to chat lines
+//> usage: **prefix** _[-n]_ _<prefix text>_
+//:
+//: This allows you to prepend a prefix to chat lines.
+//: To stop enter `/prefix` by itself (or `prefix` at the console).
+//: Usage examples:
+//:
+//: - Send multiple `/as player` commands in a row.
+//: - Start a private chat `/tell player` with another player.
+//: - You prefer commands over chat: `-n /`
 
 namespace aliuly\grabbag;
 

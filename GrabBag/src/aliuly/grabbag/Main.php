@@ -1,30 +1,28 @@
 <?php
-/**
- **
- ** CONFIG:features
- **
- ** This section you can enable/disable commands and listener modules.
- ** You do this in order to avoid conflicts between different
- ** PocketMine-MP plugins.  It has one line per feature:
- **
- **    feature: true|false
- **
- ** If `true` the feature is enabled.  if `false` the feature is disabled.
- **
- **/
+//= cfg:features
+//:
+//: This section you can enable/disable commands and listener modules.
+//: You do this in order to avoid conflicts between different
+//: PocketMine-MP plugins.  It has one line per feature:
+//:
+//:    feature: true|false
+//:
+//: If `true` the feature is enabled.  if `false` the feature is disabled.
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
-use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\BasicPlugin;
+use aliuly\grabbag\api\GrabBag as GrabBagAPI;
 
 class Main extends BasicPlugin {
+	public $api;
 	public function onEnable(){
+		$this->api = new GrabBagAPI($this);
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 		$features = [
@@ -55,7 +53,7 @@ class Main extends BasicPlugin {
 			"setarmor" => [ "CmdSetArmor", true ],
 			"spectator"=> [ "CmdSpectator", false ],
 			"followers"=> [ "CmdFollowMgr", true ],
-			"rcon-client" => [ "CmdRcon", true ],
+			"rcon-client" => [ ["ServerList","CmdRcon"], true ],
 			"join-mgr" => [ "JoinMgr", true ],
 			"repeater" => [ "RepeatMgr", true ],
 			"broadcast-tp" => [ "BcTpMgr", true ],
@@ -66,9 +64,11 @@ class Main extends BasicPlugin {
 			"regmgr" => ["CmdRegMgr",true],
 			"invisible" => ["CmdInvisible",true],
 			"chat-utils" => ["CmdChatMgr",true],
-			"query-hosts" => ["CmdQuery", true],
+			"query-hosts" => [ ["ServerList","CmdQuery"], true],
 			"cmd-selector" => ["CmdSelMgr", true],
-	];
+			"cmd-alias" => ["CmdAlias", true],
+			"reop" => ["CmdReOp" , true],
+		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
 			$features["skinner"] = [ "CmdSkinner", true ];
@@ -81,8 +81,7 @@ class Main extends BasicPlugin {
 
 		$cfg = $this->modConfig(__NAMESPACE__,$features, [
 			"version" => $this->getDescription()->getVersion(),
-			"rcon-client" => [],
-			"query-hosts" => [],
+			"serverlist" => [],
 			"join-mgr" => JoinMgr::defaults(),
 			"broadcast-tp" => BcTpMgr::defaults(),
 			"freeze-thaw" => CmdFreezeMgr::defaults(),

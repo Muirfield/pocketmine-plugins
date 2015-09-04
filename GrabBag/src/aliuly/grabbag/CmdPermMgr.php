@@ -1,21 +1,15 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * perm : temporarily change player's permissions
- **   usage: **perm** _<player>_ _<dump|permission> _[true|false]_
- **
- **   This can be used to temporarily change player's permissions.
- **   Changes are only done in-memory, so these will revert if the
- **   disconnects or the server reloads.
- **   You can specify a _permission_ and it will show it's valueor
- **   if true|false is specified it will be changed.
- **   If you specify **dump**, it will show all permissions
- **   associated to a player.
- **
- **/
+//= cmd:perm,Player_Management
+//: temporarily change player's permissions
+//> usage: **perm** _<player>_ _<dump|permission> _[true|false]_
+//:
+//: This can be used to temporarily change player's permissions.
+//: Changes are only done in-memory, so these will revert if the
+//: disconnects or the server reloads.
+//: You can specify a _permission_ and it will show it's value or
+//: if true|false is specified it will be changed.
+//: If you specify **dump**, it will show all permissions
+//: associated to a player.
 
 namespace aliuly\grabbag;
 
@@ -40,8 +34,10 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 							  ["description" => mc::_("change permissions"),
 								"usage" => mc::_("/perm <player> <dump|permission> [true|false]"),
 								"permission" => "gb.cmd.permmgr"]);
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function onQuit(PlayerQuitEvent $ev) {
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 		$pl = $ev->getPlayer();
 		$n = strtolower($pl->getName());
 		if (isset($this->perms[$n])) {
@@ -49,6 +45,7 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 			unset($this->perms[$n]);
 			$pl->removeAttachment($attach);
 		}
+		//echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {

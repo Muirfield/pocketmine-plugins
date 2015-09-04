@@ -1,19 +1,20 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * gmc : Change your gamemode to _Creative_.
- **   usage: **gmc**
- ** * gms : Change your gamemode to _Survival_.
- **   usage: **gms**
- ** * gma : Change your gamemode to _Adventure_.
- **   usage: **gma**
- ** * gmspc : Change your gamemode to _Spectator_.
- **   usage: **gmspc**
- **
- **/
+//= cmd:gmc,Player_Management
+//: Change your gamemode to _Creative_.
+//> usage: **gmc**
+
+//= cmd:gms,Player_Management
+//: Change your gamemode to _Survival_.
+//> usage: **gms**
+
+//= cmd:gma,Player_Management
+//: Change your gamemode to _Adventure_.
+//> usage: **gma**
+
+//= cmd:gmspc,Player_Management
+//: Change your gamemode to _Spectator_.
+//> usage: **gmspc**
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

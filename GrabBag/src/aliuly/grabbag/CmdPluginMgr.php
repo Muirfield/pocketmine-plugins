@@ -1,30 +1,25 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * pluginmgr : manage plugins
- **   usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _plugin>
- **
- **   Manage plugins.
- **   The following sub-commands are available:
- **   - **pluginmgr** **enable** _<plugin>_
- **     - Enable a disabled plugin.
- **   - **pluginmgr** **disable** _<plugin>_
- **     - Disables an enabled plugin.
- **   - **pluginmgr** **reload** _<plugin>_
- **     - Disables and enables a plugin.
- **   - **pluginmgr** **info** _<plugin>_
- **     - Show plugin details
- **   - **pluginmgr** **commands** _<plugin>_
- **     - Show commands registered by plugin
- **   - **pluginmgr** **permissions** _<plugin>_
- **     - Show permissions registered by plugin
- **   - **pluginmgr** **load** _<path>_
- **     - Load a plugin from file path (presumably outside the **plugin** folder.)
- **
- **/
+//= cmd:pluginmgr,Server_Management
+//: manage plugins
+//> usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
+//: Manage plugins.
+//:  The following sub-commands are available:
+//> - **pluginmgr** **enable** _<plugin>_
+//:     - Enable a disabled plugin.
+//> - **pluginmgr** **disable** _<plugin>_
+//:     - Disables an enabled plugin.
+//> - **pluginmgr** **reload** _<plugin>_
+//:     - Disables and enables a plugin.
+//> - **pluginmgr** **info** _<plugin>_
+//:     - Show plugin details
+//> - **pluginmgr** **commands** _<plugin>_
+//:     - Show commands registered by plugin
+//> - **pluginmgr** **permissions** _<plugin>_
+//:     - Show permissions registered by plugin
+//> - **pluginmgr** **load** _<path>_
+//:     - Load a plugin from file path (presumably outside the **plugin** folder.)
+//> - **pluginmgr** **dumpmsg** <plugin>_
+//:     - Dump messages.ini.
 
 namespace aliuly\grabbag;
 
@@ -35,16 +30,26 @@ use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginManager;
+use pocketmine\plugin\PluginDescription;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
+	private function findPlugin($path) {
+		if (file_exists($path)) return $path;
+		$srv = $this->owner->getServer();
+		foreach ([$srv->getPluginPath(),$srv->getDataPath(),$srv->getFilePath()] as $d) {
+			if (file_exists($d.'/'.$path)) return $d.'/'.$path;
+		}
+		return $path;
+	}
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -58,6 +63,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 
 		$mgr = $this->owner->getServer()->getPluginManager();
 		if ($scmd == "load" || $scmd == "ld") {
+			$pname = $this->findPlugin($pname);
 			if (!file_exists($pname)) {
 				$sender->sendMessage(TextFormat::RED.mc::_("%1%: Not found",$pname));
 				return true;
@@ -130,9 +136,26 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			case "permission":
 			case "permissions":
 				return $this->cmdPerms($sender,$plugin,$pageNumber);
+			case "dumpmsg":
+			case "dumpmsgs":
+				return $this->cmdDumpMsgs($sender,$plugin);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
+		}
+		return true;
+	}
+	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
+		$getini = [$plugin,"getMessagesIni"];
+		if (!is_callable($getini)) {
+			$c->sendMessage(mc::_("Plugin does not support dumping messages.ini"));
+			return true;
+		}
+		if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
+		if (file_put_contents($plugin->getDataFolder()."messages.ini",$getini())) {
+			$c->sendMessage(mc::_("messages.ini created"));
+		} else {
+			$c->sendMessage(mc::_("Error dumping messages.ini"));
 		}
 		return true;
 	}
@@ -185,23 +208,34 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 					 TextFormat::WHITE.$desc->getWebsite();
 		if (count($desc->getCompatibleApis()))
 			$txt[] = TextFormat::GREEN.mc::_("APIs: ").
-					 TextFormat::WHITE.implode(", ",$desc->getCompatibleApis());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getCompatibleApis());
 		if (count($desc->getAuthors()))
 			$txt[] = TextFormat::GREEN.mc::_("Authors: ").
-					 TextFormat::WHITE.implode(", ",$desc->getAuthors());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getAuthors());
 		if (count($desc->getDepend()))
 			$txt[] = TextFormat::GREEN.mc::_("Dependancies: ").
-					 TextFormat::WHITE.implode(", ",$desc->getDepend());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getDepend());
 		if (count($desc->getSoftDepend()))
 			$txt[] = TextFormat::GREEN.mc::_("Soft-Dependancies: ").
-					 TextFormat::WHITE.implode(", ",$desc->getSoftDepend());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getSoftDepend());
 		if (count($desc->getLoadBefore()))
 			$txt[] = TextFormat::GREEN.mc::_("Load Before: ").
-					 TextFormat::WHITE.implode(", ",$desc->getLoadBefore());
+					 TextFormat::WHITE.implode(TextFormat::BLUE.", ".TextFormat::WHITE,$desc->getLoadBefore());
 		if (($cnt = count($desc->getCommands())) > 0)
 			$txt[] = TextFormat::GREEN.mc::_("Commands: ").TextFormat::WHITE.$cnt;
 		if (($cnt = count($desc->getPermissions())) > 0)
 			$txt[] = TextFormat::GREEN.mc::_("Permissions: ").TextFormat::WHITE.$cnt;
+		$loader = explode("\\",get_class($p->getPluginLoader()));
+		$txt[] = TextFormat::GREEN.mc::_("PluginLoader: ").TextFormat::WHITE.
+					array_pop($loader);
+
+		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginBase");
+		$file = $reflex->getProperty("file");
+		$file->setAccessible(true);
+		$file = $file->getValue($p);
+		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
+
 		return $this->paginateText($c,$pageNumber,$txt);
+
 	}
 }

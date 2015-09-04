@@ -1,13 +1,8 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * fly : Toggle flying **ONLY FOR PM1.5**
- **   usage: **fly**
- **
- **/
+//= cmd:fly,Player_Management
+//: Toggle flying **ONLY FOR PM >1.5**
+//> usage: **fly**
+//
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

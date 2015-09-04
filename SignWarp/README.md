@@ -22,7 +22,7 @@ have a question/bug-report/request please use the
 [Thread](http://forums.pocketmine.net/threads/signwarp.7276/) for
 that.  You are more likely to get a response and help that way.
 
-**NOTE:**
+_NOTE:_
 
 This documentation was last updated for version **1.5.1**.
 

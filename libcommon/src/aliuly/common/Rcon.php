@@ -39,6 +39,7 @@ abstract class Rcon {
 
 		return [$sock,$id];
 	}
+
 	/**
 	 * @param Rcon::RCTYPE_COMMAND|Rcon::RCTYPE_AUTH $type
 	 * @param str $payload

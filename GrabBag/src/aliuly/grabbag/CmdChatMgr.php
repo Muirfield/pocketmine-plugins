@@ -1,20 +1,20 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * chat-on|chat-off : Allow players to opt-out from chat
- **   usage: **chat-on|chat-off** _[player|--list|--server]_
- **
- **   Prevents players from receiving chat messages.
- **
- ** * clearchat : Clears your chat window
- **   usage: **clearchat**
- **
- ** * nick : Change your display name
- **   usage: **nick** _<name>_
- **/
+//= cmd:chat-on|chat-off,Trolling
+//: Allow players to opt-out from chat
+//> usage: **chat-on|chat-off** _[player|--list|--server]_
+//:
+//: Prevents players from sending/receiving chat messages.
+//: The following options are recognized:
+//: - --list : Lists the players that have chat on/off status
+//: - --server : Globally toggles on/off chat.
+//:
+//= cmd:clearchat,Player_Management
+//: Clears your chat window
+//> usage: **clearchat**
+//:
+//= cmd:nick,Player_Management
+//: Change your display name
+//> usage: **nick** _<name>_
 
 namespace aliuly\grabbag;
 
@@ -59,7 +59,7 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 			case "nick":
 				if (!MPMU::inGame($sender)) return true;
 				if (count($args) == 0) {
-					$sender->sendName(mc::_("Current nick is: %1%",$sender->getDisplayName()));
+					$sender->sendMessage(mc::_("Current nick is: %1%",$sender->getDisplayName()));
 					return true;
 				}
 				if (count($args) !== 1)  return false;

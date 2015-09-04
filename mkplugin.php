@@ -59,7 +59,8 @@ if (is_executable($plug."maker")) {
 if (is_file($plug."ignore.txt")) {
 	$ignore["ignore.txt"] = "ignore.txt";
 	foreach (file($plug."ignore.txt") as $ln) {
-		$ln = trim(preg_subst('/^#.$/',"",$ln));
+		$ln = trim(preg_replace('/^#.$/',"",$ln));
+		if ($ln === "") continue;
 		$ignore[$ln] = $ln;
 	}
 } else {
@@ -82,7 +83,7 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plug)) as 
 	if (!is_file($s)) continue;
 	$cnt++;
 	$d = substr($s,strlen($plug));
-	if (isset($ignore[$d])) continue;
+	if (isset($ignore[basename($d)]) || isset($ignore[$d])) continue;
 	echo("  [$cnt] $d\n");
 	if (preg_match('/\.php$/',$d)) {
 		$fp = fopen($s,"r");

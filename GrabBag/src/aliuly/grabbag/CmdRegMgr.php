@@ -1,24 +1,20 @@
 <?php
-/**
- ** OVERVIEW:Player Management
- **
- ** COMMANDS
- **
- ** * reg : Manage player registrations
- **   usage: **reg** _[subcommand]_ _[options]_
- **
- **   By default it will show the number of registered players.  The following
- **   sub-commands are available:
- **   - **count**
- **     - default sub-command.  Counts the number of registered players.
- **   - **list** _[pattern]_
- **     - Display a list of registered players or those that match the
- **       wildcard _pattern_.
- **   - **rm** _<player>_
- **     - Removes _<player>_ registration.
- **   - **since** _<when>_
- **			- Display list of players registered since a date/time.
- **/
+//= cmd:reg,Player_Management
+//: Manage player registrations
+//> usage: **reg** _[subcommand]_ _[options]_
+//:
+//: By default it will show the number of registered players.  The following
+//: sub-commands are available:
+//> - **count**
+//:     - default sub-command.  Counts the number of registered players.
+//> - **list** _[pattern]_
+//:     - Display a list of registered players or those that match the
+//:       wildcard _pattern_.
+//> - **rm** _<player>_
+//:     - Removes _player_ registration.
+//> - **since** _<when>_
+//:			- Display list of players registered since a date/time.
+
 
 namespace aliuly\grabbag;
 
@@ -54,6 +50,7 @@ class CmdRegMgr extends BasicCli implements CommandExecutor {
 													$cnt));
 				return true;
 			case "ls":
+			case "list":
 				$pageNumber = $this->getPageNumber($args);
 				if (count($args) == 0) {
 					$pattern = "*";

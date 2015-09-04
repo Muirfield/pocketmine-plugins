@@ -32,7 +32,9 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\inventory\CraftItemEvent;
 use pocketmine\Player;
+use pocketmine\inventory\PlayerInventory;
 use aliuly\helper\Main as HelperPlugin;
 
 
@@ -42,7 +44,27 @@ class EventListener implements Listener{
 	private $owner;
 
 	public function __construct(HelperPlugin $owner){
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$this->auth = $owner->auth;
+		$owner->getServer()->getPluginManager()->registerEvents($this, $owner);
+	}
+
+	/**
+	 * @priority LOWEST
+	 */
+	public function onCrafting(CraftItemEvent $event){
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		foreach ($event->getTransaction()->getInventories() as $inv) {
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			if (($inv instanceof PlayerInventory)) continue;
+			echo __METHOD__.",".__LINE__."\n";//##DEBUG
+			$player = $inv->getHolder();
+			if (!$this->auth->isPlayerAuthenticated($inv->getHolder())) {
+				echo __METHOD__.",".__LINE__."\n";//##DEBUG
+				$event->setCancelled(true);
+				return;
+			}
+		}
 	}
 
 	/**

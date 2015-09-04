@@ -1,12 +1,8 @@
 <?php
-/**
- ** OVERVIEW:Trolling
- **
- ** COMMANDS
- **
- ** * throw : Throw a player in the air
- **   usage: **throw** _<player>_ _[force]_
- **/
+//= cmd:throw,Trolling
+//: Throw a player in the air
+//> usage: **throw** _<player>_ _[force]_
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

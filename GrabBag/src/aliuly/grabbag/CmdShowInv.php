@@ -1,15 +1,10 @@
 <?php
-/**
- ** OVERVIEW:Inventory Management
- **
- ** COMMANDS
- **
- ** * seeinv : Show player's inventory
- **   usage: **seeinv** _<player>_
- ** * seearmor : Show player's armor
- **   usage: **seearmor** _<player>_
- **
- **/
+//= cmd:seeinv,Inventory_Management
+//: Show player's inventory
+//> usage: **seeinv** _<player>_
+//= cmd:seearmor,Inventory_Management
+//: Show player's armor
+//> usage: **seearmor** _<player>_
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -29,10 +24,12 @@ class CmdShowInv extends BasicCli implements CommandExecutor {
 		$this->enableCmd("seeinv",
 							  ["description" => mc::_("show player's inventory"),
 								"usage" => mc::_("/seeinv <player>"),
+								"aliases" => ["invsee"],
 								"permission" => "gb.cmd.seeinv"]);
 		$this->enableCmd("seearmor",
 							  ["description" => mc::_("show player's armor"),
 								"usage" => mc::_("/seearmor <player>"),
+								"aliases" => ["armorsee"],
 								"permission" => "gb.cmd.seearmor"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {

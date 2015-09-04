@@ -1,4 +1,16 @@
 <?php
+/**
+ **
+ ** CONFIG:main
+ **
+ ** Configure the different features used by this plugin.
+ **
+ **    feature: true|false
+ **
+ ** If `true` the feature is enabled.  if `false` the feature is disabled.
+ **
+ **
+ **/
 namespace aliuly\helper;
 
 use pocketmine\plugin\PluginBase;
@@ -19,7 +31,11 @@ use SimpleAuth\event\PlayerAuthenticateEvent;
 
 use aliuly\helper\common\PluginCallbackTask;
 use aliuly\helper\common\mc;
+use aliuly\helper\common\MPMU;
+
 use aliuly\helper\EventListener;
+use aliuly\helper\PermsHacker;
+use aliuly\helper\DbMonitorTask;
 
 class Main extends PluginBase implements Listener,CommandExecutor {
 	const RE_REGISTER = '/^\s*\/register\s+/';
@@ -30,37 +46,68 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $chpwd;
 	protected $cfg;
 	protected $listener;
+	protected $permshacker;
+	protected $monitor;
 
 	public function onEnable(){
-		mc::plugin_init($this,$this->getFile());
+
+		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+		if (mc::plugin_init($this,$this->getFile()) === false) {
+			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
+			mc::plugin_init($this,$this->getFile());
+			$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with English strings");
+			$this->getLogger()->error(TextFormat::AQUA."Please consider translating and submitting a translation");
+			$this->getLogger()->error(TextFormat::AQUA."to the developer");
+		} else {
+			if (mc::_("<nagme>") === "yes") {
+				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
+				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
+				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
+			}
+		}
 		$this->auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
 		if (!$this->auth) {
 			$this->getLogger()->error(TextFormat::RED.mc::_("Unable to find SimpleAuth"));
-			throw new \RuntimeException("Missinge Dependancy");
+			throw new \RuntimeException("Missing Dependancy");
 			return;
 		}
 
-		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-
-
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
+			"# max-attemps" => "kick player after this many login attempts. ",// NOTE: This conflicts with SimpleAuth's blockAfterFail setting
 			"max-attempts" => 5,
+			"# login-timeout" => "must authenticate within this number of seconds",
 			"login-timeout" => 60,
+			"# leet-mode" => "lets players use also /login and /register",
 			"leet-mode" => true,
-			"chat-protect" => true,
+			"# chat-protect" => "prevent player to display their password in chat",
+			"chat-protect" => false,
+			"# hide-unauth" => "EXPERIMENTAL, hide unauthenticated players",
 			"hide-unauth" => false,
+			"# event-fixer" => "EXPERIMENTAL, cancels additional events",// for unauthenticated players
 			"event-fixer" => false,
+			"# hack-login-perms" => "EXPERIMENTAL, overrides login permisions",//to make sure players can login
+			"hack-login-perms" => false,
+			"# hack-register-perms" => "EXPERIMENTAL, overrides register permisions",//to make sure players can register
+			"hack-register-perms" => false,
+			"# db-monitor" => "EXPERIMENTAL, enable database server monitoring",
+			"db-monitor" => false,
+			"# monitor-settings" => "Configure database monitor settings",
+			"monitor-settings" => DbMonitorTask::defaults(),
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
 
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		if ($this->cfg["event-fixer"]) {
-			echo  __METHOD__.",".__LINE__."\n";//##DEBUG
 			$this->listener =new EventListener($this);
-			$this->getServer()->getPluginManager()->registerEvents($this->listener,$this);
-
+		}
+		if ($this->cfg["hack-login-perms"] || $this->cfg["hack-register-perms"]) {
+			$this->permshacker = new PermsHacker($this,$this->cfg["hack-login-perms"],$this->cfg["hack-register-perms"]);
+		}
+		if ($this->cfg["db-monitor"]) {
+			$this->monitor = new DbMonitorTask($this,$this->cfg["monitor-settings"]);
 		}
 		$this->pwds = [];
 	}
@@ -218,7 +265,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		unset($this->pwds[$n]);
 		return;
 	}
-	public function checkPwd($pl,$pwd) {
+	public function checkPwd($pl,$pwd, $name = null) {
 		if (preg_match('/\s/',$pwd)) {
 			$pl->sendMessage(TextFormat::RED.mc::_("no spaces"));
 			return false;
@@ -228,9 +275,9 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 										  $this->auth->getConfig()->get("minPasswordLength")));
 			return false;
 		}
-		if (strtolower($pl->getName()) == strtolower($pwd)) {
-			$pl->sendMessage(TextFormat::RED.mc::_("not name"));
-			return false;
+		if (strtolower($name === null ? $pl->getName() : $name) == strtolower($pwd)) {
+		  $pl->sendMessage(TextFormat::RED.mc::_("not name"));
+		  return false;
 		}
 		return true;
 	}
@@ -247,6 +294,66 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	// Commands
 	//
 	//////////////////////////////////////////////////////////////////////
+	private function chpwd(CommandSender $sender, $oldpwd) {
+		if (!($sender instanceof Player)) {
+			$sender->sendMessage(TextFormat::RED.
+										mc::_("This command only works in-game."));
+			return true;
+		}
+		if(!$this->auth->isPlayerRegistered($sender)) {
+			$sender->sendMessage(TextFormat::YELLOW.mc::_("register first"));
+			return true;
+		}
+		if ($this->authenticate($sender,$oldpwd)) {
+			$this->chpwd[$sender->getName()] = $sender->getName();
+			$sender->sendMessage(TextFormat::AQUA.mc::_("chpwd msg"));
+			return true;
+		}
+		$sender->sendMessage(TextFormat::RED.mc::_("chpwd error"));
+		return false;
+	}
+	private function resetpwd($sender, $name) {
+		$player = $this->getServer()->getOfflinePlayer($name);
+		if($this->auth->unregisterPlayer($player)){
+			$sender->sendMessage(TextFormat::GREEN . mc::_("%1% unregistered",$name));
+			if($player instanceof Player){
+				$player->sendMessage(TextFormat::YELLOW.mc::_("You are no longer registered!"));
+				$this->auth->deauthenticatePlayer($player);
+			}
+		}else{
+			$sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
+		}
+		return true;
+	}
+	private function logout($sender) {
+		if (!($sender instanceof Player)) {
+			$sender->sendMessage(TextFormat::RED.
+										mc::_("This command only works in-game."));
+			return true;
+		}
+		if(!$this->auth->isPlayerAuthenticated($sender)) {
+			$sender->sendMessage(TextFormat::YELLOW.mc::_("login first"));
+			return true;
+		}
+		$sender->sendMessage(TextFormat::GREEN.mc::_("logout completed"));
+		$this->auth->deauthenticatePlayer($sender);
+		return true;
+	}
+	private function prereg($sender,$name,$newpwd) {
+		$player = $this->getServer()->getOfflinePlayer($name);
+		if ($this->auth->isPlayerRegistered($player)) {
+			$sender->sendMessage(TextFormat::RED.mc::_("%1% already registered", $name));
+			return true;
+		}
+		if (!$this->checkPwd($sender,$newpwd,$name)) return true;
+		if ($this->auth->registerPlayer($player,$newpwd)) {
+			$sender->sendMessage(TextFormat::GREEN.mc::_("registered %1%", $name));
+			$sender->sendMessage("OK");
+		} else {
+			$sender->sendMessage(TextFormat::RED.mc::_("error registering %1%", $name));
+		}
+		return true;
+	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
 		if (!$this->auth) {
 			$sender->sendMessage(TextFormat::RED.mc::_("SimpleAuthHelper has been disabled"));
@@ -255,39 +362,17 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 		switch($cmd->getName()){
 			case "chpwd":
-				if (!($sender instanceof Player)) {
-					$sender->sendMessage(TextFormat::RED.
-												mc::_("This command only works in-game."));
-					return true;
-				}
 				if (count($args) == 0) return false;
-				if(!$this->auth->isPlayerRegistered($sender)) {
-					$sender->sendMessage(TextFormat::YELLOW.mc::_("register first"));
-					return true;
-				}
-				if ($this->authenticate($sender,implode(" ", $args))) {
-					$this->chpwd[$sender->getName()] = $sender->getName();
-					$sender->sendMessage(TextFormat::AQUA.mc::_("chpwd msg"));
-					return true;
-				}
-				$sender->sendMessage(TextFormat::RED.mc::_("chpwd error"));
-				return false;
-				break;
+				return $this->chpwd($sender, implode(" ", $args));
 			case "resetpwd":
-				foreach($args as $name){
-					$player = $this->getServer()->getOfflinePlayer($name);
-					if($this->auth->unregisterPlayer($player)){
-						$sender->sendMessage(TextFormat::GREEN . mc::_("%1% unregistered",$name));
-						if($player instanceof Player){
-							$player->sendMessage(TextFormat::YELLOW.mc::_("You are no longer registered!"));
-							$this->auth->deauthenticatePlayer($player);
-						}
-					}else{
-						$sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
-					}
-					return true;
-				}
-				break;
+				if (count($args) != 1) return false;
+				return $this->resetpwd($sender, $args[0]);
+			case "logout":
+				if (count($args) != 0) return false;
+				return $this->logout($sender);
+			case "preregister":
+				if (count($args) != 2) return false;
+				return $this->prereg($sender,$args[0],$args[1]);
 		}
 		return false;
 	}

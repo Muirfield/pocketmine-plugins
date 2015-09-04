@@ -1,5 +1,5 @@
 name: GoldStd
-version: 1.2.1dev2
+version: 1.2.2
 main: aliuly\goldstd\Main
 api: [1.12.0]
 load: POSTWORLD
@@ -47,6 +47,9 @@ permissions:
   goldstd.signs.use.trade:
     default: true
     description: "Allow access to trading signs"
+  goldstd.signs.use.effects:
+    default: true
+    description: "Allow access to Effects signs"
   goldstd.signs.place:
     default: op
     description: "Allow placing signs"
@@ -59,3 +62,6 @@ permissions:
   goldstd.signs.place.trade:
     default: op
     description: "Allow placing trading signs"
+  goldstd.signs.place.effects:
+    default: op
+    description: "Allow placing Effects signs"

@@ -6,6 +6,7 @@
 function fix_file($php_old,$nspath,array &$commons) {
 	$tr = [
 		"namespace aliuly\\common;" => "namespace ".$nspath."\\common;",
+		"namespace aliuly\\common\\" => "namespace ".$nspath."\\common\\",
 		"use aliuly\\common\\" => "use ".$nspath."\\common\\",
 	];
 	if (preg_match_all('/use\s+aliuly\\\.*\\\common\\\/',$php_old,$mv)) {
@@ -20,7 +21,7 @@ function fix_file($php_old,$nspath,array &$commons) {
 	// Now look-up dependencies...
 	if (preg_match_all('/use\s+aliuly\\\.*\\\common\\\(.*);/',$php_new,$mv)) {
 		foreach ($mv[1] as $cn) {
-			$commons[$cn.".php"] = $cn;
+			$commons[strtr($cn,["\\"=>DIRECTORY_SEPARATOR]).".php"] = $cn;
 		}
 	}
 
@@ -70,8 +71,8 @@ function fix_common($srcdir,$libdir,$plugin) {
 		$php_out = fix_file($php_in,$nspath,$mv);
 		if (!file_exists($d) || $php_out != file_get_contents($d)) {
 			echo("Updating ".substr($d,strlen($srcdir."src/"))."\n");
+			chkdir($d);
 			file_put_contents($d,$php_out);
-
 		}
 
 		$done[$cn] = $cn;
@@ -88,6 +89,13 @@ function fix_common($srcdir,$libdir,$plugin) {
 		echo "Deleting...".basename($php)."\n";
 		unlink($php);
 	}
+}
+
+function chkdir($p) {
+	$d = dirname($p);
+	if (is_dir($d)) return;
+	chkdir($d);
+	if (!mkdir($d)) die("Unable to create path: $d\n");
 }
 /*	  fix_file($s,$nspath,$commons);
 	}

@@ -55,7 +55,7 @@ class BanItem extends BaseWp implements Listener {
 			return true;
 		}
 		$cc = 0;
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
+		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 
 		$ids = $this->owner->getCfg($world, "banitem", []);
 		if ($scmd == "unbanitem") {

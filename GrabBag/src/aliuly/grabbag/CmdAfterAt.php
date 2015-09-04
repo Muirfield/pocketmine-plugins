@@ -1,33 +1,30 @@
 <?php
-/**
- ** OVERVIEW:Server Management
- **
- ** COMMANDS
- **
- ** * after : schedule command after a number of seconds
- **   usage: **after** _<seconds>_ _<command>_|list|cancel _<id>_
- **
- **   Will schedule to run *command* after *seconds*.
- **   The **list** sub command will show all the queued commands.
- **   The **cancel** sub command allows you to cancel queued commands.
- **
- ** * at : schedule command at an appointed date/time
- **   usage: **at** _<time>_ _[:]_ _command_|list|cancel _<id>_
- **
- **   Will schedule to run *command* at the given date/time.  This uses
- **   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
- **   function so _times_ must follow the format described in
- **   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
- **   The **list** sub command will show all the queued commands.
- **   The **cancel** sub command allows you to cancel queued commands.
- **
- ** DOCS
- **
- ** Commands scheduled by `at` and `after` will only run as
- ** long as the server is running.  These scheduled commands will *not*
- ** survive server reloads or reboots.
- **
- **/
+//= cmd:after,Server_Management
+//: schedule command after a number of seconds
+//> usage: **after** _<seconds>_ _<command>|list|cancel_ _<id>_
+//:
+//: Will schedule to run *command* after *seconds*.
+//: The **list** sub command will show all the queued commands.
+//: The **cancel** sub command allows you to cancel queued commands.
+//:
+//= cmd:at,Server_Management
+//: schedule command at an appointed date/time
+//> usage: **at** _<time>_ _[:]_ _<command>|list|cancel _<id>_
+//:
+//: Will schedule to run *command* at the given date/time.  This uses
+//: php's [strtotime](http://php.net/manual/en/function.strtotime.php)
+//: function so _times_ must follow the format described in
+//: [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
+//: The **list** sub command will show all the queued commands.
+//: The **cancel** sub command allows you to cancel queued commands.
+//:
+//= cmdnotes
+//:
+//: Commands scheduled by `at` and `after` will only run as
+//: long as the server is running.  These scheduled commands will *not*
+//: survive server reloads or reboots.
+//:
+
 
 namespace aliuly\grabbag;
 
@@ -105,7 +102,13 @@ class CmdAfterAt extends BasicCli implements CommandExecutor {
 		}
 		return false;
 	}
-
+  public function schedule($secs,$cmdline) {
+		$h = $this->owner->getServer()->getScheduler()->scheduleDelayedTask(
+			new PluginCallbackTask($this->owner,[$this,"runCommand"],[$cmdline]),
+			$secs * 20
+		);
+		$this->tasks[$h->getTaskId()] = [time()+$secs,$cmdline];
+	}
 	private function cmdAfter(CommandSender $c,$args) {
 		if (count($args) < 2) return false;
 		if (!is_numeric($args[0])) {

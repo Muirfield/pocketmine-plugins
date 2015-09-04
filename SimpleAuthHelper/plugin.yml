@@ -1,11 +1,11 @@
 main: aliuly\helper\Main
-api: 1.10.0
+api: 1.12.0
 load: POSTWORLD
 depend: [SimpleAuth]
 
 name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
-version: 1.3.0dev2
+version: 2.0.1
 author: aliuly
 
 commands:
@@ -19,11 +19,26 @@ commands:
     usage: "/resetpwd <player>"
     permission: simpleauthhelper.command.resetpwd
     aliases: [resetpw]
+  preregister:
+    description: "pre-register player"
+    usage: "/preregister <player> <passwd>"
+    permission: simpleauthhelper.command.prereg
+    aliases: [prereg]
+  logout:
+    description: "logout player"
+    usage: "/logout"
+    permission: simpleauthhelper.command.logout
 
 permissions:
   simpleauthhelper.command.chpwd:
     default: true
     description: "Allow users to change passwords"
+  simpleauthhelper.command.logout:
+    default: true
+    description: "Allow users to logout"
   simpleauthhelper.command.resetpwd:
     default: op
     description: "Allow ops to reset other's passwords"
+  simpleauthhelper.command.prereg:
+    default: op
+    description: "Allow ops to pre-register users"
