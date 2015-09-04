@@ -27,7 +27,7 @@ use pocketmine\event\player\PlayerChatEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-
+use aliuly\grabbag\common\PermUtils;
 
 class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $chat;
@@ -35,6 +35,14 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->chat = true;
+
+		PermUtils::add($this->owner, "gb.cmd.togglechat", "lets players opt out from chat", "true");
+		PermUtils::add($this->owner, "gb.cmd.togglechat.others", "lets you toggle chat for others", "op");
+		PermUtils::add($this->owner, "gb.cmd.togglechat.excempt", "chat-off players will always receive chats from these players", "op");
+		PermUtils::add($this->owner, "gb.cmd.togglechat.global", "Can toggle chat for the server as a whole", "op");
+		PermUtils::add($this->owner, "gb.cmd.clearchat", "Clear your chat window", "true");
+		PermUtils::add($this->owner, "gb.cmd.nick", "Change display name", "true");
+
 		$this->enableCmd("clearchat",
 										["description" => mc::_("clears your chat window"),
 										"usage" => mc::_("/clearchat"),
@@ -65,7 +73,7 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 		$this->setState($player,!$mode);
 	}
 	public function getPlayerChat($player) {
-		return !$this->getState($to,false));
+		return !$this->getState($to,false);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		switch ($cmd->getName()) {

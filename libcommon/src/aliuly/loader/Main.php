@@ -37,6 +37,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 	}
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
+
 		MPMU::addCommand($this,$this,"libcommon", [
 			"description" => mc::_("LibCommon Command Line interface"),
 			"usage" => mc::_("/libcommon <subcommand> [options]"),

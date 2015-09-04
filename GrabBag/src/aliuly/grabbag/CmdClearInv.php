@@ -21,11 +21,21 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ItemName;
+use aliuly\grabbag\common\PermUtils;
+
 use pocketmine\item\Item;
 
 class CmdClearInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+
+		PermUtils::add($this->owner, "gb.cmd.clearinv", "clear player's inventory", "true");
+		PermUtils::add($this->owner, "gb.cmd.clearinv.others", "clear other's inventory", "op");
+		PermUtils::add($this->owner, "gb.cmd.rminv", "remove item from inventory", "true");
+		PermUtils::add($this->owner, "gb.cmd.rminv.others", "remove item from other's inventory", "op");
+		PermUtils::add($this->owner, "gb.cmd.clearhotbar", "clear player's hotbar", "true");
+		PermUtils::add($this->owner, "gb.cmd.clearhotbar.others", "clear other's hotbar", "op");
+
 		$this->enableCmd("clearinv",
 							  ["description" => mc::_("Clear player's inventory"),
 								"usage" => mc::_("/clearinv [player]"),

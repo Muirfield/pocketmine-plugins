@@ -18,10 +18,13 @@ use pocketmine\Player;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+
+		PermUtils::add($this->owner, "gb.cmd.shield", "Allow players to become invulnverable", "op");
 		$this->enableCmd("shield",
 							  ["description" => mc::_("makes player invulnerable"),
 								"usage" => mc::_("/shield"),
@@ -29,12 +32,12 @@ class CmdShieldMgr extends BasicCli implements Listener,CommandExecutor {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function isShielded($player) {
-		return $this->getState($player,false)
+		return $this->getState($player,false);
 	}
 	public function setShield($player, $mode) {
 		if ($mode) {
 			$this->setState($player,true);
-		} $else {
+		} else {
 			$this->unsetState($player);
 		}
 	}

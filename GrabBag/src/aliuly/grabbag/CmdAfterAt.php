@@ -36,12 +36,16 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\PluginCallbackTask;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdAfterAt extends BasicCli implements CommandExecutor {
 	protected $tasks;
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->tasks = [];
+
+		PermUtils::add($this->owner, "gb.cmd.after", "access command scheduler", "op");
+
 		$this->enableCmd("after",
 							  ["description" => mc::_("schedule to run a command after x seconds"),
 								"usage" => mc::_("/after <seconds> <command>|list|cancel <id>"),

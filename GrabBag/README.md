@@ -350,19 +350,20 @@ The following commands are available:
   - Send multiple `/as player` commands in a row.
   - Start a private chat `/tell player` with another player.
   - You prefer commands over chat: `-n /`
+
+  When prefix is enabled and you one to send just _one_ command without
+  prefix, prepend your text with **<**.
 * pushtp: Saves current location and teleport<br/>
   usage: **pushtp** _&lt;player&gt;_ _[target]_
 * query: query remote servers<br/>
-  usage: **query** **[add|rm|ls|info|plugins|players|summary]** _[opts]_
+  usage: **query** **[list|info|plugins|players|summary]** _[opts]_
 
   This is a query client that you can use to query other
-  remote servers.  Options:
-  - **query add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _[comments]_
-      - adds a `query` connection with `id`.
-  - **query rm** _&lt;id&gt;_
-      - Removes `query` connection `id`.
-  - **query ls**
-      - List configured `query` connections.
+  remote servers.
+
+  Servers are defined with the **servers** command.
+
+  Options:
   - **query list**
       - List players on all configured `query` connections.
   - **query info** _&lt;id&gt;_
@@ -580,6 +581,7 @@ things:
 <!-- end-include -->
 
 <!-- template: test.md -->
+<!-- MISSING TEMPLATE: test.md ->
 
 <!-- end-include -->
 
@@ -669,8 +671,6 @@ This section configures peer servers.  This can be used with
   (Defaults to Op)
 * gb.cmd.gmspc : Allow to switch gamemode to spectator
   (Defaults to Op)
-* gb.cmd.slay : Allow slaying players
-  (Defaults to Op)
 * gb.cmd.heal : Allow healing
   (Defaults to Op)
 * gb.cmd.whois : Show player details
@@ -693,8 +693,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.clearhotbar.others : Clear other's hotbar
   (Defaults to Op)
 * gb.cmd.get : Get blocks
-  (Defaults to Op)
-* gb.cmd.shield : Allow players to become invulnerable
   (Defaults to Op)
 * gb.cmd.servicemode : Allow access to service mode command
   (Defaults to Op)
@@ -736,15 +734,11 @@ This section configures peer servers.  This can be used with
   (Defaults to Op)
 * gb.cmd.rcon : use RCON client
   (Defaults to Op)
-* gb.cmd.rcon.config : Modify the RCON configuration
-  (Defaults to Op)
 * gb.cmd.fly : Flight control
   (Defaults to Op)
 * gb.cmd.crash : Crash dump management
   (Defaults to Op)
 * gb.cmd.pluginmgr : Manage plugins
-  (Defaults to Op)
-* gb.cmd.permmgr : Change permissions
   (Defaults to Op)
 * gb.cmd.regs : Manage player registrations
   (Defaults to Op)
@@ -766,8 +760,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.clearchat : Clear your chat window
 * gb.cmd.nick : Change display name
 * gb.cmd.query : Access to query command
-* gb.cmd.query.addrm : Modify query hosts configuration
-  (Defaults to Op)
 * gb.cmd.query.details : View query details (ls, info, plugins)
 * gb.cmd.query.players : Access to query players
 * gb.cmd.query.players.showip : Show IP/hostname in query players
@@ -788,6 +780,11 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servers.write : Allows changing servers configuration
   (Defaults to Op)
 
+<!-- end-include -->
+<!-- snippet: rtperms -->
+* gb.cmd.slay (op): Allow slaying players
+* gb.cmd.permmgr (op): Manipulate Permissions
+* gb.cmd.shield (op): Allow players to become invulnverable
 <!-- end-include -->
 
 ## Translations
@@ -824,6 +821,7 @@ The following third party libraries are included:
     - throw - cmd equiv CmdThrow/throw
     - tpstack - cmd eauiv CmdTpStack/pushtp-poptp
     - serverlist - api + adding events ServerList/ServerList
+* Finish conversion to dynamic permissions
 * Query:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
@@ -840,6 +838,8 @@ The following third party libraries are included:
   * Added aliases module
   * New command rminv (@SeangJemmy)
   * New reop command
+  * Configuration of Rcon and Query has changed
+  * Permissions are conditionally created (if the module is enabled)
   * Adding a complete new API
 * 2.2.7:
   * Minor fix in Reg command

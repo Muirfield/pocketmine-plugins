@@ -21,9 +21,6 @@ permissions:
   gb.cmd.ops:
     default: true
     description: "list server ops"
-  gb.cmd.sudo:
-    default: op
-    description: "Allow to run command as another user"
   gb.cmd.gma:
     default: op
     description: "Allow to switch gamemode to Adventure"
@@ -36,9 +33,6 @@ permissions:
   gb.cmd.gmspc:
     default: op
     description: "Allow to switch gamemode to spectator"
-  gb.cmd.slay:
-    default: op
-    description: "Allow slaying players"
   gb.cmd.heal:
     default: op
     description: "Allow healing"
@@ -57,30 +51,9 @@ permissions:
   gb.cmd.seeinv:
     default: op
     description: "Show player's inventory"
-  gb.cmd.clearinv:
-    default: true
-    description: "Clear player's inventory"
-  gb.cmd.clearinv.others:
-    default: op
-    description: "Clear other's inventory"
-  gb.cmd.rminv:
-    default: true
-    description: "Remove item from player's inventory"
-  gb.cmd.rminv.others:
-    default: op
-    description: "Remove item from other's inventory"
-  gb.cmd.clearhotbar:
-    default: true
-    description: "Clear player's hotbar"
-  gb.cmd.clearhotbar.others:
-    default: op
-    description: "Clear other's hotbar"
   gb.cmd.get:
     default: op
     description: "Get blocks"
-  gb.cmd.shield:
-    default: op
-    description: "Allow players to become invulnerable"
   gb.cmd.servicemode:
     default: op
     description: "Allow access to service mode command"
@@ -93,15 +66,9 @@ permissions:
   gb.cmd.entities:
     default: op
     description: "Access entities command"
-  gb.cmd.mute:
-    default: op
-    description: "mute/unmute"
   gb.cmd.freeze:
     default: op
     description: "freeze/thaw users"
-  gb.cmd.after:
-    default: op
-    description: "Schedule commands"
   gb.cmd.rpt:
     default: true
     description: "Report issues"
@@ -120,15 +87,9 @@ permissions:
   gb.cmd.spawn:
     default: true
     description: "Allow to teleport to spawn"
-  gb.cmd.burn:
-    default: op
-    description: "Allow the use of burn command"
   gb.cmd.throw:
     default: op
     description: "Allow to throw players up in the air"
-  gb.cmd.blowup:
-    default: op
-    description: "Allow to blow-up players"
   gb.cmd.setarmor:
     default: op
     description: "Allow you to set your armor"
@@ -150,15 +111,9 @@ permissions:
   gb.cmd.fly:
     default: op
     description: "Flight control"
-  gb.cmd.crash:
-    default: op
-    description: "Crash dump management"
   gb.cmd.pluginmgr:
     default: op
     description: Manage plugins
-  gb.cmd.permmgr:
-    default: op
-    description: Change permissions
   gb.cmd.regs:
     default: op
     description: Manage player registrations
@@ -174,24 +129,6 @@ permissions:
   gb.cmd.invisible.inmune:
     default: false
     description: make player inmune to invisibility tricks
-  gb.cmd.togglechat:
-    default: true
-    description: "lets players opt out from chat"
-  gb.cmd.togglechat.others:
-    default: op
-    description: "lets you toggle chat for others"
-  gb.cmd.togglechat.excempt:
-    default: op
-    description: "chat-off players will always receive chats from these"
-  gb.cmd.togglechat.global:
-    default: op
-    description: "Can toggle chat for the server as a whole"
-  gb.cmd.clearchat:
-    default: true
-    description: "Clear your chat window"
-  gb.cmd.nick:
-    default: true
-    description: "Change display name"
   gb.cmd.query:
     default: true
     description: "Access to query command"
@@ -207,9 +144,6 @@ permissions:
   gb.cmd.query.list:
     default: true
     description: "Query list command"
-  gb.cmd.alias:
-    default: op
-    description: "Allow creating aliases"
   gb.cmd.reop:
     default: true
     description: "Access to reop command"
@@ -231,3 +165,67 @@ permissions:
   gb.cmd.servers.write:
     default: op
     description: "Allows changing servers configuration"
+
+#  gb.cmd.permmgr:
+#    default: op
+#    description: Change permissions
+#  gb.cmd.slay:
+#    default: op
+#    description: "Allow slaying players"
+#  gb.cmd.shield:
+#    default: op
+#    description: "Allow players to become invulnerable"
+#  gb.cmd.mute:
+#    default: op
+#    description: "mute/unmute"
+#  gb.cmd.togglechat:
+#    default: true
+#    description: "lets players opt out from chat"
+#  gb.cmd.togglechat.others:
+#    default: op
+#    description: "lets you toggle chat for others"
+#  gb.cmd.togglechat.excempt:
+#    default: op
+#    description: "chat-off players will always receive chats from these"
+#  gb.cmd.togglechat.global:
+#    default: op
+#    description: "Can toggle chat for the server as a whole"
+#  gb.cmd.clearchat:
+#    default: true
+#    description: "Clear your chat window"
+#  gb.cmd.nick:
+#    default: true
+#    description: "Change display name"
+#  gb.cmd.after:
+#    default: op
+#    description: "Schedule commands"
+#  gb.cmd.alias:
+#    default: op
+#    description: "Allow creating aliases"
+#  gb.cmd.sudo:
+#    default: op
+#    description: "Allow to run command as another user"
+#  gb.cmd.burn:
+#    default: op
+#    description: "Allow the use of burn command"
+#  gb.cmd.clearinv:
+#    default: true
+#    description: "Clear player's inventory"
+#  gb.cmd.clearinv.others:
+#    default: op
+#    description: "Clear other's inventory"
+#  gb.cmd.rminv:
+#    default: true
+#    description: "Remove item from player's inventory"
+#  gb.cmd.rminv.others:
+#    default: op
+#    description: "Remove item from other's inventory"
+#  gb.cmd.clearhotbar:
+#    default: true
+#    description: "Clear player's hotbar"
+#  gb.cmd.clearhotbar.others:
+#    default: op
+#    description: "Clear other's hotbar"
+#  gb.cmd.crash:
+#    default: op
+#    description: "Crash dump management"

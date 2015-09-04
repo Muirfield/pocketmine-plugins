@@ -23,6 +23,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 	protected $perms;
@@ -30,6 +31,9 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->perms = [];
+
+		PermUtils::add($this->owner, "gb.cmd.permmgr", "Manipulate Permissions", "op");
+
 		$this->enableCmd("perm",
 							  ["description" => mc::_("change permissions"),
 								"usage" => mc::_("/perm <player> <dump|permission> [true|false]"),

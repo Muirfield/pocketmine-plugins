@@ -15,12 +15,16 @@ use pocketmine\utils\TextFormat;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
+
+		PermUtils::add($this->owner, "gb.cmd.slay", "Allow slaying players", "op");
+
 		$this->enableCmd("slay",
 							  ["description" => mc::_("kill a player with optional message"),
 								"usage" => mc::_("/slay <player> [message]"),
@@ -30,7 +34,7 @@ class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 		if ($msg == "") {
 			$this->unsetState($victim);
 		} else {
-			$this->setState($victim,[time(),$msg);
+			$this->setState($victim,[time(),$msg]);
 		}
 		$victim->setHealth(0);
 	}
