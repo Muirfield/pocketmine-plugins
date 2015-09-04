@@ -7,6 +7,7 @@ use pocketmine\Player;
 use aliuly\common\Session;
 use aliuly\common\MPMU;
 
+use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
 
 
@@ -22,9 +23,8 @@ class ChatSession extends Session {
   protected $chat;
   /**
    * @param PluginBase $owner - plugin that owns this session
-   * @param bool $hard - hard freeze option
    */
-  public function __construct(PluginBase $owner, $hard = true) {
+  public function __construct(PluginBase $owner) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
     $this->apis = [ null, null ];
     if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3")) {
@@ -78,8 +78,8 @@ class ChatSession extends Session {
    */
   public function getPlayerChat(Player $player) {
     if ($this->apis[0] !== null) return $this->apis[0]->getPlayerChat($player);
-    
-    return $this->getState("chat",$player,true)
+
+    return $this->getState("chat",$player,true);
   }
   /**
    * Mute/UnMute a player

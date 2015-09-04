@@ -12,6 +12,7 @@ use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\ExpandVars;
 use aliuly\common\PMScript;
+use aliuly\common\PluginCallbackTask;
 
 /**
  * This class is used for the PocketMine PluginManager
@@ -56,8 +57,8 @@ class Main extends BasicPlugin implements CommandExecutor{
 			"RcCmd",
 		] as $mod) {
 			//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
-			$mod = __NAMESPACE__."\\".$mod;
-			$this->modules[$mod] = new $mod($this);
+			$class = __NAMESPACE__."\\".$mod;
+			$this->modules[$mod] = new $class($this);
 		}
 		MPMU::addCommand($this,$this,"echo", [
 			"description" => mc::_("Basic echo command"),
@@ -91,7 +92,13 @@ class Main extends BasicPlugin implements CommandExecutor{
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 
 		// Auto start scripts...
-		if (isset($this->modules["RcCmd"]))	$this->modules["RcCmd"]->autostart();
+		if (isset($this->modules["RcCmd"]))	{
+			// Schedule to run this later so that other Plugins
+			// get a change to start...
+			$this->getServer()->getScheduler()->scheduleDelayedTask(
+				new PluginCallbackTask($this,[$this->modules["RcCmd"],"autostart"]),15
+			);
+		}
 	}
 	public function asyncResults($res, $module, $cbname, ...$args) {
 		if (!isset($this->modules[$module])) return;

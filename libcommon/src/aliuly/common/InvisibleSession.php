@@ -3,6 +3,8 @@
 namespace aliuly\common;
 use aliuly\common\Session;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\plugin\PluginBase;
+use pocketmine\Player;
 
 /**
  * Invisible Player sessions

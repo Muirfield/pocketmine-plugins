@@ -89,7 +89,6 @@ has the following sub-commands:
 * rc: Runs the given script<br/>
   usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
 
-  This command is available when **DEBUG** is enabled.
   This command will execute PMScripts present in the **libcommon**
   folder.  By convention, the ".pms" suffix must be used for the file
   name, but the ".pms" is ommitted when issuing this command.
@@ -101,6 +100,10 @@ has the following sub-commands:
    usage: /libcommon **version**
 
 <!-- end-include -->
+
+For use in PMScripts, a **echo** command is defined.  Unlike the
+**libcommon echo** command, **echo** does not do any variable
+substitutions.
 
 ## Command Selectors
 <!-- snippet: cmdselector  -->

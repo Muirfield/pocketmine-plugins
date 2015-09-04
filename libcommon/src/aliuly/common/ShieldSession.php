@@ -6,6 +6,7 @@ use aliuly\common\MPMU;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\plugin\PluginBase;
 
 /**
  * Shielded Player sessions

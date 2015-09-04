@@ -16,13 +16,13 @@ abstract class mc2 {
 	 * @return int|false - false on error or the number of messages loaded
 	 */
 	public static function plugin_init_alt($plugin,$path) {
-		$lang = $this->getServer()->getProperty("settings.language");
+		$lang = $plugin->getServer()->getProperty("settings.language");
 		if (mc::plugin_init($plugin,$path) === false) {
 			list($fp,$fill) = [$plugin->getResource("messages/eng.ini"),"English"];
 			if ($fp === null) list($fp,$fill) = [ $plugin->getResource("messages/messages.ini"),"EMPTY"];
 			if ($fp === null) return false;
 			file_put_contents($plugin->getDataFolder()."messages.ini",stream_get_contents($fp)."\n\"<nagme>\"=\"yes\"\n");
-			mc::plugin_init$plugin,$path);
+			mc::plugin_init($plugin,$path);
 			$plugin->getLogger()->error(TextFormat::RED."Your selected language \"".$lang."\" is not supported");
 			$plugin->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with ".$fill." strings");
 			$plugin->getLogger()->error(TextFormat::AQUA."Please consider translating and submitting a translation");
@@ -36,15 +36,15 @@ abstract class mc2 {
 
 		// Potentially the language may exists since this was created...
 		$fp = $plugin->getResource("messages/".$lang.".ini");
-		if($fp === null){
-			$plugin->getLogger()->error(TextFormat::RED."Your selected language \"".$ln."\" is not supported");
+		if($fp === null && $lang != "eng"){
+			$plugin->getLogger()->error(TextFormat::RED."Your selected language \"".$lang."\" is not supported");
 			$plugin->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
 			$plugin->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
 			return;
 		}
-		fclose($fp);
+		if ($fp !== null) fclose($fp);
 		// This language is actually supported...
-		$plugin->getLogger()->error(TextFormat::RED."Using a supported language: \"".$ln."\"");
+		$plugin->getLogger()->error(TextFormat::RED."Using a supported language: \"".$lang."\"");
 		$plugin->getLogger()->error(TextFormat::YELLOW."Saving/Fixing \"messages.ini\" as");
 		$plugin->getLogger()->error(TextFormat::YELLOW."\"messages.bak\"...");
 		$orig = file_get_contents($plugin->getDataFolder()."messages.ini");
@@ -52,4 +52,3 @@ abstract class mc2 {
 		unlink($plugin->getDataFolder()."messages.ini");
 	}
 }
-

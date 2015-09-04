@@ -3,6 +3,8 @@
 namespace aliuly\common;
 use aliuly\common\Session;
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\plugin\PluginBase;
+use pocketmine\Player;
 use aliuly\common\MPMU;
 
 /**

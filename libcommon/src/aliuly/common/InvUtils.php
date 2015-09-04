@@ -50,7 +50,7 @@ abstract class InvUtils {
 			$target->getInventory()->clear($slot);
 			if ($count === 0) break;
 		}
-		$inv->sendContents($target);
+		$target->getInventory()->sendContents($target);
 		return $k;
 	}
 
