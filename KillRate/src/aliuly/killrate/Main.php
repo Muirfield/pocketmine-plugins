@@ -99,15 +99,17 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"scores" => "{count}",
 			],
 			//= cfg:database
-			"# backend" => "Use SQLiteMgr or MySqlMgr",
-			"backend" => "SQLiteMgr",
-			"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
-			"MySql" => [
-				"host" => "localhost",
-				"user" => "nobody",
-				"password" => "secret",
-				"database" => "KillRateDb",
-				"port" => 3306,
+			"database" => [
+				"# backend" => "Use SQLiteMgr or MySqlMgr",
+				"backend" => "SQLiteMgr",
+				"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
+				"MySql" => [
+					"host" => "localhost",
+					"user" => "nobody",
+					"password" => "secret",
+					"database" => "KillRateDb",
+					"port" => 3306,
+				],
 			],
 			//= cfg:signs
 			//: Placed signs text.
@@ -126,20 +128,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-		if (version_compare($this->cfg["version"],"1.2.0") < 0) {
+		if (version_compare($this->cfg["version"],"2.0.1") < 0) {
 			$this->getLogger()->warning(TextFormat::RED.mc::_("Configuration has been changed"));
 			$this->getLogger()->warning(mc::_("It is recommended to delete old config.yml"));
 		}
 
-		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
+		$backend = __NAMESPACE__."\\".$this->cfg["database"]["backend"];
 		$this->dbm = new $backend($this);
-		if ($this->cfg["backend"] != "SQLiteMgr") {
-			$this->getLogger()->warning(TextFormat::RED.mc::_("Using %1% backend is untested",$this->cfg["backend"]));
-			$this->getLogger()->warning(TextFormat::RED.mc::_("Please report bugs"));
-		} else {
-			$this->getLogger()->info(mc::_("Using %1% as backend",
-													 $this->cfg["backend"]));
-		}
+		$this->getLogger()->info(mc::_("Using %1% as backend",
+													 $this->cfg["database"]["backend"]));
+
 		if (isset($this->cfg["settings"]["rewards"])) {
 			$this->money = MoneyAPI::moneyPlugin($this);
 			if ($this->money) {
@@ -165,6 +163,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	}
 
 	public function getCfg($key) {
+		if (!isset($this->cfg[$key])) {
+			return $this->cfg["database"][$key];
+		}
 		return $this->cfg[$key];
 	}
 
