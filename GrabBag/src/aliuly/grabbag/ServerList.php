@@ -27,10 +27,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\command\RemoteConsoleCommandSender;
-use pocketmine\Player;
+use aliuly\grabbag\common\PermUtils;
 
 
 
@@ -41,6 +38,13 @@ class ServerList extends BasicCli implements CommandExecutor {
   public function __construct($owner,$cfg) {
     parent::__construct($owner);
     $this->servers = $cfg;
+    
+    PermUtils::add($this->owner, "gb.cmd.servers", "servers command", "op");
+    PermUtils::add($this->owner, "gb.cmd.servers.read", "view server configuration", "op");
+    PermUtils::add($this->owner, "gb.cmd.servers.read.viewip", "view server IP address", "op");
+    PermUtils::add($this->owner, "gb.cmd.servers.read.viewrcon", "view rcon secrets", "op");
+    PermUtils::add($this->owner, "gb.cmd.servers.write", "change server configuration", "op");
+
     $this->enableCmd("servers",
                 ["description" => mc::_("Manage server lists"),
                 "usage" => mc::_("/servers <add|rm|ls> [opts]"),

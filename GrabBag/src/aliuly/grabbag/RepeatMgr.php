@@ -44,12 +44,14 @@ use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class RepeatMgr implements Listener {
 	public $owner;
 
 	public function __construct(Plugin $plugin) {
 		$this->owner = $plugin;
+		PermUtils::add($this->owner, "gb.module.repeater", "use !! to repeat commands", "true");
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	public function processCmd($msg,$sender) {

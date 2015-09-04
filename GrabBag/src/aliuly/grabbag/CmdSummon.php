@@ -17,11 +17,13 @@ use pocketmine\math\Vector3;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSummon extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.summon", "summon|dismmiss command", "op");
 		$this->enableCmd("summon",
 							  ["description" => mc::_("Teleports players to your location"),
 								"usage" => mc::_("/summon <player> [message]"),

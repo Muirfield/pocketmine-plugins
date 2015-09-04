@@ -33,6 +33,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $leaders;
@@ -41,6 +42,8 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.follow", "lets you follow others", "op");
+		PermUtils::add($this->owner, "gb.cmd.followme", "let others follow you", "op");
 		$this->enableCmd("followers",
 							  ["description" => mc::_("List leads and followers"),
 								"usage" => mc::_("/followers"),

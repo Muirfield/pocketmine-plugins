@@ -13,10 +13,13 @@ use pocketmine\math\Vector3;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdThrow extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.throw", "Troll players", "op");
+
 		$this->enableCmd("throw",
 							  ["description" => mc::_("Throw player up in the air"),
 								"usage" => mc::_("/throw <player> [force]"),

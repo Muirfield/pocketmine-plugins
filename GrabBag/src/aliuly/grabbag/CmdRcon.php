@@ -26,12 +26,15 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\RconTask;
 use aliuly\grabbag\common\Rcon;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.rcon", "Rcon client", "op");
+
 		$this->enableCmd("rcon",
 							  ["description" => mc::_("RCON client"),
 								"usage" => mc::_("/rcon <id> <command>"),

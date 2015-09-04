@@ -37,12 +37,18 @@ use pocketmine\utils\Config;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	protected $rpt;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+
+		PermUtils::add($this->owner, "gb.cmd.opms", "Send op only messages", "true");
+		PermUtils::add($this->owner, "gb.cmd.rpt", "Report issues", "true");
+		PermUtils::add($this->owner, "gb.cmd.rpt.read", "Read reported issues", "op");
+
 		$this->enableCmd("opms",
 							  ["description" => mc::_("Send message to ops"),
 								"usage" => mc::_("/opms <message>"),
@@ -111,7 +117,7 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 		}
 		$this->rpt->setAll([$id,$rpt]);
 		$this->rpt->save();
-		return true;		
+		return true;
 	}
 	public function opmsgCmd(CommandSender $sender, array $args) {
 		if (count($args) == 0) return false;

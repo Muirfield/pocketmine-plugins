@@ -14,11 +14,14 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
+
 
 class CmdPlayers extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.players", "connected players", "true");
 		$this->enableCmd("players",
 							  ["description" => mc::_("show players connected and locations"),
 								"usage" => mc::_("/players"),

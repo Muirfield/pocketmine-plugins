@@ -17,11 +17,13 @@ use pocketmine\math\Vector3;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdTpStack extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.pushpoptp", "position stack", "op");
 		$this->enableCmd("pushtp",
 							  ["description" => mc::_("Save your current position when teleporting"),
 								"usage" => mc::_("/pushtp [player|position|world]"),

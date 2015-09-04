@@ -21,10 +21,14 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSkinner extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.skin", "Manage skins", "op");
+		PermUtils::add($this->owner, "gb.cmd.skin.other", "Manage other's skins", "op");
+
 		$this->enableCmd("skin",
 							  ["description" => mc::_("Manage skins on the server"),
 								"usage" => mc::_("/skin [player] [save|load|ls] [name]"),

@@ -25,6 +25,7 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\ItemName;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdGet extends BasicCli implements CommandExecutor {
 	// Override the MaxStacks counter...
@@ -36,6 +37,7 @@ class CmdGet extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.get", "get blocks", "op");
 		$this->enableCmd("get",
 							  ["description" => mc::_("Shortcut to /give me"),
 								"usage" => mc::_("/get <item[:damage]> [amount]"),

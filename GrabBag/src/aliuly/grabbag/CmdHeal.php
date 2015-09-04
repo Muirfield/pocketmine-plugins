@@ -15,10 +15,12 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdHeal extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.heal", "heal players", "op");
 		$this->enableCmd("heal",
 							  ["description" => mc::_("heal player"),
 								"usage" => mc::_("/heal [player] [amount]"),

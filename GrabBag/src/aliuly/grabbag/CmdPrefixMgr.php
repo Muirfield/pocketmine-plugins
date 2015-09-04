@@ -28,11 +28,14 @@ use pocketmine\event\server\ServerCommandEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdPrefixMgr extends BasicCli implements CommandExecutor,Listener {
 	static $delay = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.prefix", "Prefix command", "true");
+
 		$this->enableCmd("prefix",
 							  ["description" => mc::_("Execute commands with prefix inserted"),
 								"usage" => mc::_("/prefix [-n] <text>"),

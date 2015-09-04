@@ -18,11 +18,15 @@ use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdReOp extends BasicCli implements Listener,CommandExecutor {
 	protected $reops;
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.reop", "Reop command", "true");
+		PermUtils::add($this->owner, "gb.cmd.reop.others", "ReOp others", "op");
+
 		$this->enableCmd("reop",
 							  ["description" => mc::_("Temporarily deops administrators"),
 								"usage" => mc::_("/reop [player]"),

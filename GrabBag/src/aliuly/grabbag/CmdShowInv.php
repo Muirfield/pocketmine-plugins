@@ -17,10 +17,13 @@ use pocketmine\item\Item;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\ItemName;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdShowInv extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.seearmor", "View armor", "op");
+		PermUtils::add($this->owner, "gb.cmd.seeinv", "View inventory", "op");
 		$this->enableCmd("seeinv",
 							  ["description" => mc::_("show player's inventory"),
 								"usage" => mc::_("/seeinv <player>"),

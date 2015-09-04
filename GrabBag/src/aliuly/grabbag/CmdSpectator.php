@@ -26,12 +26,14 @@ use pocketmine\event\player\PlayerInteractEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 	protected $watchers;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.spectator", "Turn players into spectators", "op");
 		$this->enableCmd("spectator",
 							  ["description" => mc::_("Make player an spectator"),
 								"usage" => mc::_("/spectator [player]"),

@@ -20,12 +20,17 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\PluginCallbackTask;
+use aliuly\grabbag\common\PermUtils;
+
 
 class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {
 	protected $mode;
 	static $delay = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.servicemode", "service mode command", "op");
+		PermUtils::add($this->owner, "gb.servicemode.allow", "login when in service mode", "op");
+
 		$this->enableCmd("servicemode",
 							  ["description" => mc::_("Enter/Exit servicemode"),
 								"usage" => mc::_("/servicemode [on|off [message]]"),

@@ -21,6 +21,7 @@ use pocketmine\event\player\PlayerMoveEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;
@@ -37,6 +38,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->hard = $cfg["hard-freeze"];
+		PermUtils::add($this->owner, "gb.cmd.freeze", "freeze/thaw players", "op");
 		$this->enableCmd("freeze",
 							  ["description" => mc::_("freeze player"),
 								"usage" => mc::_("/freeze [--hard|--soft] [player]"),
