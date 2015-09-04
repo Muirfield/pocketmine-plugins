@@ -807,15 +807,6 @@ The following third party libraries are included:
 
 ## WIP and issues
 
-* Adding an API
-  - Move to libcommon:
-    - clearinv, chb and rminvitem
-  - alt libcommon implementation
-    - chat-on|off + mute
-    - shield
-  - Pending
-    - serverlist - api + adding events ServerList/ServerList
-* Finish conversion to dynamic permissions
 * Query:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.

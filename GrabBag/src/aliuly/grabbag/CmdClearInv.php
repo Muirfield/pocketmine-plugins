@@ -22,6 +22,7 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ItemName;
 use aliuly\grabbag\common\PermUtils;
+use aliuly\common\InvUtils;
 
 use pocketmine\item\Item;
 
@@ -68,19 +69,14 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 		}
 		switch ($cmd->getName()) {
 			case "clearinv":
-				$target->getInventory()->clearAll();
+				InvUtils::clearInventory($target);
 				if ($other) $target->sendMessage(mc::_("Your inventory has been cleared by %1%", $sender->getName()));
 				$sender->sendMessage(mc::_("%1%'s inventory cleared",$target->getName()));
 				return true;
 			case "clearhotbar":
-				$inv = $target->getInventory();
-				for ($i=0;$i < $inv->getHotbarSize(); $i++) {
-					$inv->setHotbarSlotIndex($i,-1);
-				}
+				InvUtils::clearHotbar($target);
 				if ($other) $target->sendMessage(mc::_("Your hotbar has been cleared by %1%", $sender->getName()));
 				$sender->sendMessage(mc::_("%1%'s hotbar cleared",$target->getName()));
-				// Make sure inventory is updated...
-				$inv->sendContents($target);
 				return true;
 		}
 		return false;
@@ -121,25 +117,10 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 				return true;
 			}
 		}
-    $k = 0;
-		foreach ($target->getInventory()->getContents() as $slot => &$inv) {
-			if ($inv->getId() != $item->getId()) continue;
-			if ($count !== null) {
-				if ($inv->getCount() > $count) {
-					$k += $count;
-					$inv->setCount($inv->getCount()-$count);
-					$target->getInventory()->setItem($slot,clone $inv);
-					break;
-				}
-				$count -= $inv->getCount();
-			}
-			$k += $inv->getCount();
-			$target->getInventory()->clear($slot);
-			if ($count === 0) break;
-		}
+		$k = InvUtils::rmInvItem($target,$item,$count);
 		if ($k) {
-		  $sender->sendMessage(mc::n(mc::_("one item of %1% removed",ItemName::str($item)),
-																 mc::_("%2% items of %1% removed",ItemName::str($item),$k),$k));
+			$sender->sendMessage(mc::n(mc::_("one item of %1% removed",ItemName::str($item)),
+						 mc::_("%2% items of %1% removed",ItemName::str($item),$k),$k));
 			if ($other)
 				$target->sendMessage(mc::n(mc::_("%2% took one item of %1% from you",ItemName::str($item),$sender->getName()),
 																 	 mc::_("%3% took %2% items of %1% from you",ItemName::str($item),$k,$sender->getName()),$k));

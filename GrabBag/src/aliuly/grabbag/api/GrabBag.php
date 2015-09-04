@@ -42,6 +42,7 @@ class GrabBag {
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
        "throw", "pushtp-poptp",
+       "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
      return true;
@@ -290,13 +291,13 @@ class GrabBag {
    */
   public function isShielded(Player $target) {
 		return $this->getModule("shield")->isShielded($target);
-	}
+  }
   /**
    * Turn on/off shields
    * @param Player $target
    * @param bool $mode - true is shielded, false is not
    */
-	public function setShield(Player $target) {
+  public function setShield(Player $target, $mode) {
     $this->getModule("shield")->setShield($target, $mode);
   }
   //////////////////////////////////////////////////////////////
@@ -426,11 +427,43 @@ class GrabBag {
     * Restore position from stack
     * @param Player $player
     */
-    public function popTp(Player $player) {
+   public function popTp(Player $player) {
       $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
-    }
+   }
 
+  //////////////////////////////////////////////////////////////
+  // ServerList
+  //////////////////////////////////////////////////////////////
+  /**
+   * Get server ids
+   */
+  public function getServerIds() {
+    return $this->getModule("ServerList")->getIds();
+  }
+  /**
+   * Add Server
+   * @param str $id - Server Id
+   * @param array $attrs - Server attributes
+   * @return bool - true on success, false on error
+   */
+  public function addServer($id,array $attrs) {
+    return $this->getModule("ServerList")->addServer($id,$attrs);
+  }
+  /**
+   * Remove Server
+   * @param str $id - Server Id
+   * @return bool - true on success, false on error
+   */
+  public function removeServer($id) {
+    return $this->getModule("ServerList")->rmServer($id);
+  }
+  /**
+   * Get Server attributes
+   * @param str $id - Server Id
+   * @return array - attributes
+   */
+  public function getServer($id) {
+    return $this->getModule("ServerList")->getServer($id);
+  }
   //
-
 }
-pushtp-poptp

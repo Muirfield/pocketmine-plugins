@@ -33,6 +33,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\Achievement;
 
 use aliuly\killrate\common\mc;
+use aliuly\killrate\common\mc2;
 use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
 use aliuly\killrate\common\MoneyAPI;
@@ -57,20 +58,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function onEnable(){
 		$this->dbm = null;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-		if (mc::plugin_init($this,$this->getFile()) === false) {
-			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
-			mc::plugin_init($this,$this->getFile());
-			$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
-			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with empty strings");
-			$this->getLogger()->error(TextFormat::AQUA."Please consider translating it and submitting a");
-			$this->getLogger()->error(TextFormat::AQUA."translation to the developer");
-		} else {
-			if (mc::_("<nagme>") === "yes") {
-				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
-				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
-				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
-			}
-		}
+
+		mc2::plugin_init_alt($this,$this->getFile());
+
 		$this->api = new KillRateAPI($this);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [

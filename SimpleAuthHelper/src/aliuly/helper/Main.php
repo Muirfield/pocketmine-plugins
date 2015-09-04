@@ -50,8 +50,8 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	protected $monitor;
 
 	public function onEnable(){
-
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
+
 		if (mc::plugin_init($this,$this->getFile()) === false) {
 			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
 			mc::plugin_init($this,$this->getFile());
@@ -59,13 +59,31 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with English strings");
 			$this->getLogger()->error(TextFormat::AQUA."Please consider translating and submitting a translation");
 			$this->getLogger()->error(TextFormat::AQUA."to the developer");
+			$this->getLogger()->error(TextFormat::YELLOW."If you later change your language in \"pocketmine.yml\"");
+			$this->getLogger()->error(TextFormat::YELLOW."make sure you delete this \"messages.ini\"");
+			$this->getLogger()->error(TextFormat::YELLOW."otherwise your changes will not be recognized");
 		} else {
 			if (mc::_("<nagme>") === "yes") {
-				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
-				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
-				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
+				// Potentially the language may exists since this was created...
+				$ln = $this->getServer()->getProperty("settings.language");
+				$fp = $this->getResource("messages/".$ln.".ini");
+				if($fp === null){
+					$this->getLogger()->error(TextFormat::RED."Your selected language \"".$ln."\" is not supported");
+					$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
+					$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
+				} else {
+					fclose($fp);
+					// This language is actually supported...
+					$this->getLogger()->error(TextFormat::RED."Using a supported language: \"".$ln."\"");
+					$this->getLogger()->error(TextFormat::YELLOW."Saving/Fixing \"messages.ini\" as");
+					$this->getLogger()->error(TextFormat::YELLOW."\"messages.bak\"...");
+					$orig = file_get_contents($this->getDataFolder()."messages.ini");
+					file_put_contents($this->getDataFolder()."messages.bak",strtr($orig,["<nagme>"=>"<don't nagme>"]));
+					unlink($this->getDataFolder()."messages.ini");
+				}
 			}
 		}
+
 		$this->auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
 		if (!$this->auth) {
 			$this->getLogger()->error(TextFormat::RED.mc::_("Unable to find SimpleAuth"));
