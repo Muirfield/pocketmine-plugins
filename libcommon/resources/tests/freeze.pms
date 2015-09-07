@@ -1,0 +1,19 @@
+;
+; Test Freeze session
+;
+s s labrat
+@ $fz = new \aliuly\common\FreezeSession($interp->getOwner(),true)
+@ $fz->setHardFreeze(true)
+echo '.($fz->isHardFreeze() ? "HardFreeze" : "SoftFreeze" ).'
+@ $fz->setHardFreeze(false)
+echo '.($fz->isHardFreeze() ? "HardFreeze" : "SoftFreeze" ).'
+@ $labrat = $interp->getServer()->getPlayer("labrat")
+
+@ $fz->freeze($labrat)
+echo >>'.implode(", ",$fz->getFrosties()).'
+freeze
+@ $fz->freeze($labrat,false)
+echo >>'.implode(", ",$fz->getFrosties()).'
+freeze
+
+kick labrat

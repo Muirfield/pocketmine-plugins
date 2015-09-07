@@ -9,10 +9,10 @@
 
 - Summary: aliuly's common library
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: DevTools
-- Plugin Access: N/A
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: DevTools 
+- Plugin Access: N/A 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -54,6 +54,23 @@ It also bundles useful third party libraries:
 For the full API documentation go to:
 [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
 
+The following subcommands are available:
+<!-- php:$h = 0; -->
+<!-- template: gd2/cmdoverview.md -->
+
+* dumpmsg: Dump a plugin's messages.ini
+* echo: shows the given text (variable substitutions are performed)
+* motd-add: Add a server for MOTD querying
+* motd-stat: Return the servers MOTD values
+* query-add: Add a server for Query gathering
+* query-list: Return the available Query data
+* rc: Runs the given script
+* trace: controls event tracing
+* version: shows the libcommon version
+
+
+<!-- end-include -->
+
 ## Commands
 
 Also, for debugging purposes, the **libcommon** command is provided, which
@@ -62,41 +79,66 @@ has the following sub-commands:
 <!-- template: gd2/subcmds.md -->
 * dumpmsg: Dump a plugin's messages.ini<br/>
   usage: /libcommon **dumpmsg** _&lt;plugin&gt;_
-
+  
   This command is available when **DEBUG** is enabled.
 * echo: shows the given text (variable substitutions are performed)<br/>
    usage: /libcommon **echo** _[text]_
-
+  
   This command is available when **DEBUG** is enabled.
 * motd-add: Add a server for MOTD querying<br/>
   usage: /libcommon **motd-add** _&lt;server&gt;_ _[port]_
-
+  
   This command is available when **DEBUG** is enabled.
-
+  
 * motd-stat: Return the servers MOTD values<br/>
   usage: /libcommon **motd-stat**
-
+  
   This command is available when **DEBUG** is enabled.
 * query-add: Add a server for Query gathering<br/>
   usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
-
+  
   This command is available when **DEBUG** is enabled.
-
+  
 * query-list: Return the available Query data<br/>
   usage: /libcommon **query-list**
-
+  
   This command is available when **DEBUG** is enabled.
 * rc: Runs the given script<br/>
   usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
-
+  
   This command will execute PMScripts present in the **libcommon**
   folder.  By convention, the ".pms" suffix must be used for the file
   name, but the ".pms" is ommitted when issuing this command.
-
+  
   The special script **autostart.pms** is executed automatically
   when the **libcommon** plugin gets enabled.
-
-* version: shows the libcomonn version<br/>
+  
+* trace: controls event tracing<br/>
+   usage: /libcommon **trace** _[options]_
+  
+  This command is available when **DEBUG** is enabled.
+  Trace will show to the user the different events that are being
+  triggered on the server.  To reduce spam, events are de-duplicated.
+  
+  Sub commands:
+  * /libcommon **trace**
+    - Shows the current trace status
+  * /libcommon **trace** **on**
+    - Turns on tracing
+  * /libcommon **trace** **off**
+    - Turns off tracing
+  * /libcommon **trace** **events** _[type|class]_
+    - Show the list of the different event types and classes.  If a _type_
+      or _class_ was specified, it will show the events defined for them.
+  * /libcommon **trace** _&lt;event|type|class&gt;_ _[additional options]_
+    - Will add the specified _event|type|class_ to the current user's
+      trace session.
+  * /libcommon **trace** _&lt;-event|type|class&gt;_ _[additional options]_
+    - If you start the _event|type|class_ specification name with a
+      **dash**, the _event|type|class_ will be removed from the current
+      trace session.
+  
+* version: shows the libcommon version<br/>
    usage: /libcommon **version**
 
 <!-- end-include -->
@@ -208,6 +250,7 @@ available:
     * rc
     * motd utils
     * version
+    * trace
 - 1.1.0: Update 1
   * Added ItemName class (with more item names)
   * Removed MPMU::itemName
@@ -231,3 +274,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

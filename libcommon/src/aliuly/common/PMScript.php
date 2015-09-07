@@ -49,7 +49,7 @@
 //: * **$v_xxxxx** - When posible the variables use for command variable
 //:   substitution are made available as **$v_xxxx**.  For example, the
 //:   **{tps}** variable, will be available as **$v_tps**
-//: 
+//:
 
 
 namespace aliuly\common;

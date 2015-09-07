@@ -1,6 +1,6 @@
 <?php
 //= cmd:version
-//: shows the libcomonn version
+//: shows the libcommon version
 //>  usage: /libcommon **version**
 namespace aliuly\loader;
 

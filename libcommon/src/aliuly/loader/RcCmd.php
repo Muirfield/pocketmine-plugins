@@ -23,10 +23,12 @@ use aliuly\common\PMScript;
 use aliuly\common\ExpandVars;
 
 class RcCmd extends BasicCli {
+	protected $limitPath;
 	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->interp = $owner->getInterp();
+		$this->limitPath = true;
 		$this->enableSCmd("rc",["usage" => mc::_("<script> [args]"),
 										"help" => mc::_("Runs the given PMScript")]);
 	}
@@ -45,17 +47,32 @@ class RcCmd extends BasicCli {
 	}
 	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
     if (count($args) == 0) return false;
+		if (count($args) == 1) {
+			if (strtolower($args[0]) == "--limit-path") {
+				$c->sendMessage(mc::_("Script path restricted to plugin data folder"));
+				$this->limitPath = true;
+				return true;
+			}
+			if (strtolower($args[0]) == "--no-limit-path") {
+				$c->sendMessage(mc::_("Removing Script path restrictions"));
+				$this->limitPath = false;
+				return true;
+			}
+		}
+
     $script = $this->owner->getDataFolder().$args[0];
     if (!preg_match("/\\.[pP][mM][sS]\$/",$script)) $script .= ".pms";
     if (!file_exists($script)) {
       $c->sendMessage(mc::_("%1%: not found",$args[0]));
       return true;
     }
-    $script = realpath($script);
-    if (substr($script,0,strlen($this->owner->getDataFolder())) != $this->owner->getDataFolder() ) {
-      $c->sendMessage(mc::_("Invalid script path: %1%",$args[0]));
-      return true;
-    }
+		if ($this->limitPath) {
+    	$script = realpath($script);
+    	if (substr($script,0,strlen($this->owner->getDataFolder())) != $this->owner->getDataFolder() ) {
+      	$c->sendMessage(mc::_("Invalid script path: %1%",$args[0]));
+      	return true;
+    	}
+		}
 		$env = [];
 		$this->interp->define("{script}",array_shift($args));
 		if ($this->interp->runScriptFile($c,$script,$args,$env) === false) {

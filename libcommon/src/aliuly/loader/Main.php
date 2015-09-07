@@ -82,6 +82,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 				"EchoCmd",
 				"MotdMgr",
 				"QueryMgr",
+				"TraceCmd",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 
