@@ -38,7 +38,7 @@ use xPaw\MinecraftQueryException;
 
 class CmdQuery extends BasicCli implements CommandExecutor {
 
-	public function __construct($owner,$cfg) {
+	public function __construct($owner) {
 		parent::__construct($owner);
 		PermUtils::add($this->owner, "gb.cmd.query", "Query command", "true");
 		PermUtils::add($this->owner, "gb.cmd.query.details", "View details (info, plugins)", "true");

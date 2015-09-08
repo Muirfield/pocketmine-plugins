@@ -76,6 +76,7 @@ class Main extends BasicPlugin {
 			$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 			if ($ft) {
 				$features["broadcast-ft"] = [ "TransferMgr", true ];
+				$features["ftservers"] = [ ["ServerList","CmdFTServers"] , true];
 			}
 		}
 

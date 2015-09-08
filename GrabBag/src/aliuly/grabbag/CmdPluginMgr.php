@@ -18,8 +18,10 @@
 //:     - Show permissions registered by plugin
 //> - **pluginmgr** **load** _<path>_
 //:     - Load a plugin from file path (presumably outside the **plugin** folder.)
-//> - **pluginmgr** **dumpmsg** <plugin>_
+//> - **pluginmgr** **dumpmsg** _<plugin>_
 //:     - Dump messages.ini.
+//> - **pluginmgr** **uninstall** _<plugin>_
+//:     - Uninstall plugin.
 
 namespace aliuly\grabbag;
 
@@ -36,6 +38,8 @@ use pocketmine\plugin\PluginDescription;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\PermUtils;
+use aliuly\common\MPMU;
+use aliuly\common\FileUtils;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
 	private function findPlugin($path) {
@@ -141,6 +145,8 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			case "dumpmsg":
 			case "dumpmsgs":
 				return $this->cmdDumpMsgs($sender,$plugin);
+			case "uninstall":
+				return $this->cmdRemove($sender,$plugin,$mgr);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
@@ -231,13 +237,53 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		$txt[] = TextFormat::GREEN.mc::_("PluginLoader: ").TextFormat::WHITE.
 					array_pop($loader);
 
+		$file = $this->getPluginFilePath($p);
+		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
+
+		return $this->paginateText($c,$pageNumber,$txt);
+	}
+	private function cmdRemove(CommandSender $c,Plugin $plugin,$mgr) {
+		$file = $this->getPluginFilePath($plugin);
+		// Check the different types...
+		if (($fp = MPMU::startsWith($file,"phar:")) !== null) {
+			// This is a phar plugin file
+			$file = $fp;
+			$c->sendMessage(mc::_("Uninstalled PHAR plugin from %1%", $file));
+		} elseif (($fp = MPMU::startsWith($file,"myzip:")) !== null) {
+			// This is a zip plugin
+			$fp = explode("#",$fp);
+			array_pop($fp);
+			$file = implode("#",$fp);
+			$c->sendMessage(mc::_("Uninstalled Zip plugin from %1%", $file));
+		} elseif (is_dir($file)) {
+			// A Folder plugin from devtools
+			$c->sendMessage(mc::_("Uninstalled Folder plugin from %1%", $file));
+		} elseif (is_file($file)) {
+			// A Script plugin
+			$c->sendMessage(mc::_("Uninstalled Script plugin from %1%", $file));
+		} else {
+			$loader = explode("\\",get_class($plugin->getPluginLoader()));
+			$c->sendMessage(mc::_("Unsupported loader %1% for uninstall", array_pop($loader)));
+			return true;
+		}
+		$mgr->disablePlugin($plugin);
+		if (FileUtils::rm_r($file)) {
+			$c->sendMessage(TextFormat::GREEN.mc::_("Uninstalled!"));
+			$c->sendMessage(mc::_("It is recommended to re-start the server as"));
+			$c->sendMessage(mc::_("there may be lingering references pointing"));
+			$c->sendMessage(mc::_("to the old plugin."));
+		} else {
+			$c->sendMessage(TextFormat::RED.mc::_("Uninstal failed"));
+		}
+		return true;
+	}
+
+	protected function getPluginFilePath(Plugin $p) {
 		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginBase");
 		$file = $reflex->getProperty("file");
 		$file->setAccessible(true);
 		$file = $file->getValue($p);
-		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
-
-		return $this->paginateText($c,$pageNumber,$txt);
-
+		$file = preg_replace("/\/*\$/","",$file);
+		return $file;
 	}
 }
