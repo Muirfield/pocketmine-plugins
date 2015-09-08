@@ -10,6 +10,22 @@ use aliuly\grabbag\common\mc;
 
 /**
  * GrabBag API
+ *
+ * Example Usage:
+ *
+ * Check if GrabBag is installed....
+ * <code>
+ * $api = null;
+ * if (($plugin = $server->getPluginManager()->getPlugin("GrabBag") !== null) && $plugin->isEnabled() && MPMU::apiCheck($plugin->getDescription()->getVersion(),"2.3")) {
+ *   if ($plugin->api->getFeature("freeze-thaw")) $api = $plugin->api;
+ * }
+ * </code>
+ *
+ * Call an API function:
+ *
+ * <code>
+ *   $api->freeze($player);
+ * </code>
  */
 class GrabBag {
   protected $plugin;

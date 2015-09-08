@@ -1,0 +1,18 @@
+#!/bin/sh
+cd $(dirname $0) || exit 1
+apigen=$(cd ../../tools && pwd)/apigen
+[ -x $apigen ] || exit 1
+dstdir=apidocs
+
+rm -rf $dstdir
+tmpdir=$(mktemp -d -p $(pwd))
+echo $tmpdir
+trap "rm -rf $tmpdir" EXIT
+
+# Prepare source...
+$apigen generate \
+  -s libcommon/src/aliuly \
+  -s lib/xPaw \
+  -s GrabBag/src/aliuly/grabbag/api \
+  -s KillRate/src/aliuly/killrate/api \
+  -d $dstdir
