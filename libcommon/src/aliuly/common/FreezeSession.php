@@ -23,7 +23,7 @@ class FreezeSession extends Session {
    */
   public function __construct(PluginBase $owner, $hard = true) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
-    if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("freeze-thaw")) {
+    if ($bag && $bag->isEnabled() && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("freeze-thaw")) {
       $this->api = $bag->api;
       return;
     }

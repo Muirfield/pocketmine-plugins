@@ -86,7 +86,7 @@ class ExpandVars {
   static public function getCommonVars(Plugin $owner) {
     $pm = $owner->getServer()->getPluginManager();
     if (($gb = $pm->getPlugin("GrabBag")) !== null) {
-      if (MPMU::apiCheck($gb->getDescription()->getVersion(),"2.3")) {
+      if ($gb->isEnabled() && MPMU::apiCheck($gb->getDescription()->getVersion(),"2.3")) {
         $vars =  $gb->api->getVars();
         if ($vars instanceof ExpandVars) return $vars;
       }
