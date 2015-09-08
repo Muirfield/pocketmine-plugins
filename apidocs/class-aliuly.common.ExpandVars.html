@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\common\ExpandVars</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-aliuly.common.ArmorItems.html">ArmorItems</a></li>
+				<li><a href="class-aliuly.common.BasicCli.html">BasicCli</a></li>
+				<li><a href="class-aliuly.common.BasicHelp.html">BasicHelp</a></li>
+				<li><a href="class-aliuly.common.BasicPlugin.html">BasicPlugin</a></li>
+				<li><a href="class-aliuly.common.ChatSession.html">ChatSession</a></li>
+				<li><a href="class-aliuly.common.Cmd.html">Cmd</a></li>
+				<li><a href="class-aliuly.common.CmdSelector.html">CmdSelector</a></li>
+				<li class="active"><a href="class-aliuly.common.ExpandVars.html">ExpandVars</a></li>
+				<li><a href="class-aliuly.common.FileUtils.html">FileUtils</a></li>
+				<li><a href="class-aliuly.common.FreezeSession.html">FreezeSession</a></li>
+				<li><a href="class-aliuly.common.GetMotd.html">GetMotd</a></li>
+				<li><a href="class-aliuly.common.GetMotdAsyncTask.html">GetMotdAsyncTask</a></li>
+				<li><a href="class-aliuly.common.InvisibleSession.html">InvisibleSession</a></li>
+				<li><a href="class-aliuly.common.InvUtils.html">InvUtils</a></li>
+				<li><a href="class-aliuly.common.ItemName.html">ItemName</a></li>
+				<li><a href="class-aliuly.common.mc.html">mc</a></li>
+				<li><a href="class-aliuly.common.mc2.html">mc2</a></li>
+				<li><a href="class-aliuly.common.MoneyAPI.html">MoneyAPI</a></li>
+				<li><a href="class-aliuly.common.MPMU.html">MPMU</a></li>
+				<li><a href="class-aliuly.common.Npc.html">Npc</a></li>
+				<li><a href="class-aliuly.common.PermUtils.html">PermUtils</a></li>
+				<li><a href="class-aliuly.common.PluginAsyncTask.html">PluginAsyncTask</a></li>
+				<li><a href="class-aliuly.common.PluginCallbackTask.html">PluginCallbackTask</a></li>
+				<li><a href="class-aliuly.common.PMScript.html">PMScript</a></li>
+				<li><a href="class-aliuly.common.QueryAsyncTask.html">QueryAsyncTask</a></li>
+				<li><a href="class-aliuly.common.Rcon.html">Rcon</a></li>
+				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
+				<li><a href="class-aliuly.common.Session.html">Session</a></li>
+				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.common.html" title="Summary of aliuly\common"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class ExpandVars</h1>
+
+
+	<div class="description">
+	<p>Common variable expansion.  You can use this for custom messages and/or
+custom commands.</p>
+
+<p>Plugins can extend this infrastructure by declaring the following functions:</p>
+
+<p>public function getSysVarsV1(array &amp;$vars);</p>
+
+<p>public function getPlayerVarsV1(Player $player, array &amp;$vars);</p>
+
+<p>Otherwise they can call the functions: registerSysVars or registerPlayerVars.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.common.ExpandVars.html#13-459" title="Go to source code">common/ExpandVars.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#42-81" title="Go to source code">__construct</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd>$server - server context</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCommonVars" id="_getCommonVars">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCommonVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#82-100" title="Go to source code">getCommonVars</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			<p>If libcommon is available, try to get a single shared instance of
+ExpandVars</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>If libcommon is available, try to get a single shared instance of
+ExpandVars</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="define" id="_define">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_define">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#103-110" title="Go to source code">define</a>( <span>str <var>$str</var></span>, <span>str <var>$value</var></span> )</code>
+
+		<div class="description short">
+			<p>Define additional constants on the fly...</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Define additional constants on the fly...</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$str</var></dt>
+					<dd>$name</dd>
+					<dt><var>$value</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getServer" id="_getServer">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getServer">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#111-113" title="Go to source code">getServer</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getConsts" id="_getConsts">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getConsts">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#114-116" title="Go to source code">getConsts</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="registerApi" id="_registerApi">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_registerApi">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#117-124" title="Go to source code">registerApi</a>( <span>str <var>$apiname</var></span>, <span>mixed <var>$ptr</var></span> )</code>
+
+		<div class="description short">
+			<p>Register API</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register API</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$apiname</var></dt>
+					<dd><ul>
+<li>API id</li>
+</ul></dd>
+					<dt><var>$ptr</var></dt>
+					<dd><ul>
+<li>API object</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="api" id="_api">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_api">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#125-134" title="Go to source code">api</a>( <span>str <var>$apiname</var></span>, <span>boolean <var>$exception</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			<p>Return API entry, if not found it will throw a RuntimeException</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return API entry, if not found it will throw a RuntimeException</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$apiname</var></dt>
+					<dd><ul>
+<li>API id</li>
+</ul></dd>
+					<dt><var>$exception</var></dt>
+					<dd><ul>
+<li>if true raise exemption on error</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="autoloadExtensions" id="_autoloadExtensions">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_autoloadExtensions">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#135-147" title="Go to source code">autoloadExtensions</a>( <span> <var>$mode</var></span> )</code>
+
+		<div class="description short">
+			<p>Scan loaded plugins and identifies which plugins have an entry
+point to variable expansions...</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Scan loaded plugins and identifies which plugins have an entry
+point to variable expansions...</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="initSysVars" id="_initSysVars">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_initSysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#153-168" title="Go to source code">initSysVars</a>( )</code>
+
+		<div class="description short">
+			<p>Used to initialize the system wide variables table</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Used to initialize the system wide variables table</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="registerSysVars" id="_registerSysVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_registerSysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#170-178" title="Go to source code">registerSysVars</a>( <span>callable <var>$fn</var></span>, <span>callable <var>$fn</var>,…</span> )</code>
+
+		<div class="description short">
+			<p>Register a callback function that define system wide variable expansions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register a callback function that define system wide variable expansions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$fn</var></dt>
+					<dd>$server - reference to pocketmine server</dd>
+					<dt><var>$fn</var>,…</dt>
+					<dd><ul>
+<li>callable should have as argumens (Server $server, array &amp;$vars)</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sysVars" id="_sysVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#180-189" title="Go to source code">sysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Main entry point for system wide variable defintions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Main entry point for system wide variable defintions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sysVarsShort" id="_sysVarsShort">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sysVarsShort">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#190-198" title="Go to source code">sysVarsShort</a>( <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Shorter entry point for system wide variable defintions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Shorter entry point for system wide variable defintions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stdSysVars" id="_stdSysVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_stdSysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#204-216" title="Go to source code">stdSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Basic system wide variable definitions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Basic system wide variable definitions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - variables</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="debugSysVars" id="_debugSysVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_debugSysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#217-256" title="Go to source code">debugSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - variables</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="kr1SysVars" id="_kr1SysVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_kr1SysVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#257-281" title="Go to source code">kr1SysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>KillRate v1.1 sysvars compatibility</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>KillRate v1.1 sysvars compatibility</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - variables</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="initPlayerVars" id="_initPlayerVars">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_initPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#287-319" title="Go to source code">initPlayerVars</a>( )</code>
+
+		<div class="description short">
+			<p>Used to initialize the player specific variables table</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Used to initialize the player specific variables table</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="registerPlayerVars" id="_registerPlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_registerPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#320-327" title="Go to source code">registerPlayerVars</a>( <span>callable <var>$fn</var></span> )</code>
+
+		<div class="description short">
+			<p>Register a callback function that define player specific variable expansions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register a callback function that define player specific variable expansions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$fn</var></dt>
+					<dd><ul>
+<li>callable should have as argumens (Player $player, array &amp;$vars)</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="playerVars" id="_playerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_playerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#328-338" title="Go to source code">playerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Main entry point for player specifc variable defintions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Main entry point for player specifc variable defintions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="playerVarsShort" id="_playerVarsShort">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_playerVarsShort">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#339-348" title="Go to source code">playerVarsShort</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Shorter entry point for player specifc variable defintions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Shorter entry point for player specifc variable defintions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stdPlayerVars" id="_stdPlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_stdPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#352-371" title="Go to source code">stdPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Basic player specific variable definitions</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Basic player specific variable definitions</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="invPlayerVars" id="_invPlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_invPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#372-385" title="Go to source code">invPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>Inventory related variables</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Inventory related variables</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="kr1PlayerVars" id="_kr1PlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_kr1PlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#387-393" title="Go to source code">kr1PlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>KillRate-1.1 compatible player variables</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>KillRate-1.1 compatible player variables</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="moneyPlayerVarsPocketMoney" id="_moneyPlayerVarsPocketMoney">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_moneyPlayerVarsPocketMoney">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#394-400" title="Go to source code">moneyPlayerVarsPocketMoney</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>PocketMoney Support</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>PocketMoney Support</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="moneyPlayerVarsMassiveEconomy" id="_moneyPlayerVarsMassiveEconomy">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_moneyPlayerVarsMassiveEconomy">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#401-407" title="Go to source code">moneyPlayerVarsMassiveEconomy</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>MassiveEconomy Support</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>MassiveEconomy Support</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="moneyPlayerVarsEconomysApi" id="_moneyPlayerVarsEconomysApi">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_moneyPlayerVarsEconomysApi">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#408-414" title="Go to source code">moneyPlayerVarsEconomysApi</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>EconomysAPI Support</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>EconomysAPI Support</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="moneyPlayerVarsGoldStd" id="_moneyPlayerVarsGoldStd">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_moneyPlayerVarsGoldStd">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#415-421" title="Go to source code">moneyPlayerVarsGoldStd</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>GoldStd Support</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>GoldStd Support</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="purePermsPlayerVars" id="_purePermsPlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_purePermsPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#422-428" title="Go to source code">purePermsPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>PurePerms compatibility</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>PurePerms compatibility</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="bearing" id="_bearing">
+
+		<td class="attributes"><code>
+			 public static
+
+			str
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_bearing">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#432-457" title="Go to source code">bearing</a>( <span>float <var>$deg</var></span> )</code>
+
+		<div class="description short">
+			<p>Convert bearings in degrees into points in compass</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Convert bearings in degrees into points in compass</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$deg</var></dt>
+					<dd><ul>
+<li>yaw</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					str
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="getSysVarsFn" id="getSysVarsFn">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-aliuly.common.ExpandVars.html#27-28" title="Go to source code"><b>getSysVarsFn</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+					<h4>Const</h4>
+					<div class="list">
+							str getSysVarsFn This is the function signature for SysVars<br>
+					</div>
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#getSysVarsFn" class="anchor">#</a>
+				<code><span class="php-quote">&quot;getSysVarsV1&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="getPlayerVarsFn" id="getPlayerVarsFn">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-aliuly.common.ExpandVars.html#29-30" title="Go to source code"><b>getPlayerVarsFn</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+					<h4>Const</h4>
+					<div class="list">
+							str getPlayerVarsFn This is the function signature for PlayerVars<br>
+					</div>
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#getPlayerVarsFn" class="anchor">#</a>
+				<code><span class="php-quote">&quot;getPlayerVarsV1&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="playerExtensions" id="$playerExtensions">
+		<td class="attributes"><code>
+			protected  
+			callable[]
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.ExpandVars.html#32-33" title="Go to source code"><var>$playerExtensions</var></a>
+
+			<div class="description short">
+				<p>Callables to create player specific variables</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Callables to create player specific variables</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$playerExtensions" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="sysExtensions" id="$sysExtensions">
+		<td class="attributes"><code>
+			protected  
+			callable[]
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.ExpandVars.html#34-35" title="Go to source code"><var>$sysExtensions</var></a>
+
+			<div class="description short">
+				<p>Callables to create server wide variables</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Callables to create server wide variables</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$sysExtensions" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="apitable" id="$apitable">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.ExpandVars.html#36-37" title="Go to source code"><var>$apitable</var></a>
+
+			<div class="description short">
+				<p>API table</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>API table</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$apitable" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="consts" id="$consts">
+		<td class="attributes"><code>
+			protected  
+			str[]
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.ExpandVars.html#38-39" title="Go to source code"><var>$consts</var></a>
+
+			<div class="description short">
+				<p>static <em>constants</em></p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>static <em>constants</em></p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$consts" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="owner" id="$owner">
+		<td class="attributes"><code>
+			protected  
+			Server
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.ExpandVars.html#40-41" title="Go to source code"><var>$owner</var></a>
+
+			<div class="description short">
+				<p>pocketmine server context</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>pocketmine server context</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$owner" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

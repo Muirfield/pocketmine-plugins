@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\grabbag\api\GrabBag</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-aliuly.grabbag.api.GbAddServerEvent.html">GbAddServerEvent</a></li>
+				<li><a href="class-aliuly.grabbag.api.GbRemoveServerEvent.html">GbRemoveServerEvent</a></li>
+				<li class="active"><a href="class-aliuly.grabbag.api.GrabBag.html">GrabBag</a></li>
+				<li><a href="class-aliuly.grabbag.api.GrabBagEvent.html">GrabBagEvent</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.grabbag.api.html" title="Summary of aliuly\grabbag\api"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class GrabBag</h1>
+
+
+	<div class="description">
+	<p>GrabBag API</p>
+
+<p>Example Usage:</p>
+
+<p>Check if GrabBag is installed....</p>
+
+<pre><span class="php-var">$api</span> = <span class="php-keyword1">null</span>;
+<span class="php-keyword1">if</span> ((<span class="php-var">$plugin</span> = <span class="php-var">$server</span>-&gt;getPluginManager()-&gt;getPlugin(<span class="php-quote">&quot;GrabBag&quot;</span>) !== <span class="php-keyword1">null</span>) &amp;&amp; <span class="php-var">$plugin</span>-&gt;isEnabled() &amp;&amp; MPMU::apiCheck(<span class="php-var">$plugin</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;2.3&quot;</span>)) {
+  <span class="php-keyword1">if</span> (<span class="php-var">$plugin</span>-&gt;api-&gt;getFeature(<span class="php-quote">&quot;freeze-thaw&quot;</span>)) <span class="php-var">$api</span> = <span class="php-var">$plugin</span>-&gt;api;
+}</pre>
+
+<p>Call an API function:</p>
+
+<pre><span class="php-var">$api</span>-&gt;freeze(<span class="php-var">$player</span>);</pre>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.grabbag.html">grabbag</a>\<a href="namespace-aliuly.grabbag.api.html">api</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.grabbag.api.GrabBag.html#11-485" title="Go to source code">GrabBag.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#32-37" title="Go to source code">__construct</a>( <span>aliuly\grabbag\Main <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd><ul>
+<li>plugin that owns this session</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getModule" id="_getModule">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getModule">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#38-48" title="Go to source code">getModule</a>( <span>str <var>$module</var></span> )</code>
+
+		<div class="description short">
+			<p>Check if module is available...
+This will throw an exception if the module is not available</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check if module is available...
+This will throw an exception if the module is not available</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$module</var></dt>
+					<dd><ul>
+<li>module name</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed|null
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFeature" id="_getFeature">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFeature">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#49-65" title="Go to source code">getFeature</a>( <span>str <var>$feature</var></span> )</code>
+
+		<div class="description short">
+			<p>Check if feature is supported and has been enabled in the GrabBag
+configuration file.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check if feature is supported and has been enabled in the GrabBag
+configuration file.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$feature</var></dt>
+					<dd><ul>
+<li>module name</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getVars" id="_getVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getVars">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#66-71" title="Go to source code">getVars</a>( )</code>
+
+		<div class="description short">
+			<p>Currently un-implemented</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Currently un-implemented</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getInterp" id="_getInterp">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getInterp">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#72-77" title="Go to source code">getInterp</a>( )</code>
+
+		<div class="description short">
+			<p>Currently un-implemented</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Currently un-implemented</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isHardFreeze" id="_isHardFreeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isHardFreeze">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#82-88" title="Go to source code">isHardFreeze</a>( )</code>
+
+		<div class="description short">
+			<p>Checks if hard or soft freezing</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Checks if hard or soft freezing</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setHardFreeze" id="_setHardFreeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setHardFreeze">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#89-95" title="Go to source code">setHardFreeze</a>( <span>boolean <var>$hard</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			<p>Sets hard or soft freezing</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sets hard or soft freezing</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$hard</var></dt>
+					<dd><ul>
+<li>if true (default) hard freeze is in effect.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="freeze" id="_freeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_freeze">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#96-103" title="Go to source code">freeze</a>( <span>pocketmine\Player <var>$player</var></span>, <span>boolean <var>$freeze</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			<p>Freeze given player</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Freeze given player</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>player to freeze</li>
+</ul></dd>
+					<dt><var>$freeze</var></dt>
+					<dd><ul>
+<li>if true (default) freeze, if false, thaw.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFrosties" id="_getFrosties">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFrosties">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#104-110" title="Go to source code">getFrosties</a>( )</code>
+
+		<div class="description short">
+			<p>Return a list of frozen players</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return a list of frozen players</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="invisible" id="_invisible">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_invisible">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#114-127" title="Go to source code">invisible</a>( <span>pocketmine\Player <var>$player</var></span>, <span>boolean <var>$invis</var></span> )</code>
+
+		<div class="description short">
+			<p>Make player invisible</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Make player invisible</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>player to change</li>
+</ul></dd>
+					<dt><var>$invis</var></dt>
+					<dd><ul>
+<li>if true (default) invisible, if false, visible.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isInvisible" id="_isInvisible">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isInvisible">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#128-134" title="Go to source code">isInvisible</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Check if player is invisible...</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check if player is invisible...</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>player to check</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="after" id="_after">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_after">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#138-145" title="Go to source code">after</a>( <span>integer <var>$cmdline</var></span>, <span>str <var>$secs</var></span> )</code>
+
+		<div class="description short">
+			<p>Schedule a command to be run</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Schedule a command to be run</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cmdline</var></dt>
+					<dd>$secs - execute after this number of seconds</dd>
+					<dt><var>$secs</var></dt>
+					<dd>$cmdline - command line to execute</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="alias" id="_alias">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_alias">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#149-158" title="Go to source code">alias</a>( <span>str <var>$alias</var></span>, <span>str <var>$cmdline</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			<p>Define a command alias</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Define a command alias</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$alias</var></dt>
+					<dd><ul>
+<li>alias name</li>
+</ul></dd>
+					<dt><var>$cmdline</var></dt>
+					<dd><ul>
+<li>command line to execute</li>
+</ul></dd>
+					<dt><var>$force</var></dt>
+					<dd><ul>
+<li>overwrite existing commands</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br><ul>
+<li>true on succes, false on failure</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="blowPlayer" id="_blowPlayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_blowPlayer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#162-171" title="Go to source code">blowPlayer</a>( <span>pocketmine\Player <var>$player</var></span>, <span>integer <var>$yield</var></span>, <span>boolean <var>$magic</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			<p>Blow player up</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Blow player up</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>victim</li>
+</ul></dd>
+					<dt><var>$yield</var></dt>
+					<dd><ul>
+<li>explosion power</li>
+</ul></dd>
+					<dt><var>$magic</var></dt>
+					<dd><ul>
+<li>don't affect blocks</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br><ul>
+<li>true on succes, false on failure</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setGlobalChat" id="_setGlobalChat">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setGlobalChat">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#175-181" title="Go to source code">setGlobalChat</a>( <span>boolean <var>$mode</var></span> )</code>
+
+		<div class="description short">
+			<p>Enable/Disable Chat globally</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Enable/Disable Chat globally</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mode</var></dt>
+					<dd><ul>
+<li>true, chat is active, false, chat is disabled</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getGlobalChat" id="_getGlobalChat">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getGlobalChat">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#182-188" title="Go to source code">getGlobalChat</a>( )</code>
+
+		<div class="description short">
+			<p>Returns global chat status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns global chat status</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setPlayerChat" id="_setPlayerChat">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setPlayerChat">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#189-196" title="Go to source code">setPlayerChat</a>( <span>pocketmine\Player <var>$player</var></span>, <span>boolean <var>$mode</var></span> )</code>
+
+		<div class="description short">
+			<p>Enable/Disable player's chat</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Enable/Disable player's chat</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+					<dt><var>$mode</var></dt>
+					<dd><ul>
+<li>true, chat is active, false, chat is disabled</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPlayerChat" id="_getPlayerChat">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPlayerChat">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#197-204" title="Go to source code">getPlayerChat</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns player's chat status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns player's chat status</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLeaders" id="_getLeaders">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLeaders">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#208-214" title="Go to source code">getLeaders</a>( )</code>
+
+		<div class="description short">
+			<p>Returns players that are leading others</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns players that are leading others</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFollowers" id="_getFollowers">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFollowers">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#215-222" title="Go to source code">getFollowers</a>( <span>pocketmine\Player <var>$leader</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns followers of a certain leader</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns followers of a certain leader</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$leader</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="follow" id="_follow">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_follow">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#223-230" title="Go to source code">follow</a>( <span>pocketmine\Player <var>$follower</var></span>, <span>pocketmine\Player <var>$leader</var></span> )</code>
+
+		<div class="description short">
+			<p>Make a player follow another</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Make a player follow another</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$follower</var></dt>
+					<dd></dd>
+					<dt><var>$leader</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stopFollowing" id="_stopFollowing">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_stopFollowing">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#231-237" title="Go to source code">stopFollowing</a>( <span>pocketmine\Player <var>$follower</var></span> )</code>
+
+		<div class="description short">
+			<p>Stop a player from following</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Stop a player from following</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$follower</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stopLeading" id="_stopLeading">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_stopLeading">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#238-244" title="Go to source code">stopLeading</a>( <span>pocketmine\Player <var>$leader</var></span> )</code>
+
+		<div class="description short">
+			<p>Remove all folowers from a leader</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Remove all folowers from a leader</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$leader</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMutes" id="_getMutes">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMutes">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#248-254" title="Go to source code">getMutes</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the list of muted players</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the list of muted players</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setMute" id="_setMute">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setMute">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#255-262" title="Go to source code">setMute</a>( <span>pocketmine\Player <var>$player</var></span>, <span>boolean <var>$mode</var></span> )</code>
+
+		<div class="description short">
+			<p>Mute/UnMute a player</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Mute/UnMute a player</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+					<dt><var>$mode</var></dt>
+					<dd><ul>
+<li>true is muted, false is unmuted</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMute" id="_getMute">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMute">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#263-270" title="Go to source code">getMute</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns a player mute status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a player mute status</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fileReport" id="_fileReport">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fileReport">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#274-281" title="Go to source code">fileReport</a>( <span>pocketmine\command\CommandSender <var>$c</var></span>, <span>str <var>$report</var></span> )</code>
+
+		<div class="description short">
+			<p>File a report</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>File a report</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$c</var></dt>
+					<dd></dd>
+					<dt><var>$report</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isReOp" id="_isReOp">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isReOp">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#285-292" title="Go to source code">isReOp</a>( <span>pocketmine\Player <var>$target</var></span> )</code>
+
+		<div class="description short">
+			<p>Return player's reop status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return player's reop status</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="reopPlayer" id="_reopPlayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_reopPlayer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#293-299" title="Go to source code">reopPlayer</a>( <span>pocketmine\Player <var>$target</var></span> )</code>
+
+		<div class="description short">
+			<p>Toggle player's reop</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Toggle player's reop</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isShielded" id="_isShielded">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isShielded">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#303-310" title="Go to source code">isShielded</a>( <span>pocketmine\Player <var>$target</var></span> )</code>
+
+		<div class="description short">
+			<p>Return player's shield status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return player's shield status</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setShield" id="_setShield">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setShield">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#311-318" title="Go to source code">setShield</a>( <span>pocketmine\Player <var>$target</var></span>, <span>boolean <var>$mode</var></span> )</code>
+
+		<div class="description short">
+			<p>Turn on/off shields</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Turn on/off shields</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd></dd>
+					<dt><var>$mode</var></dt>
+					<dd><ul>
+<li>true is shielded, false is not</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSkins" id="_getSkins">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSkins">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#322-329" title="Go to source code">getSkins</a>( <span>str <var>$folder</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Returns a list of skins</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a list of skins</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$folder</var></dt>
+					<dd><ul>
+<li>folder to search</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="saveSkin" id="_saveSkin">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_saveSkin">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#330-340" title="Go to source code">saveSkin</a>( <span>pocketmine\entity\Human <var>$human</var></span>, <span>str <var>$fn</var></span>, <span>str <var>$folder</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Save a player's skin</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Save a player's skin</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$human</var></dt>
+					<dd><ul>
+<li>character to save</li>
+</ul></dd>
+					<dt><var>$fn</var></dt>
+					<dd><ul>
+<li>file name</li>
+</ul></dd>
+					<dt><var>$folder</var></dt>
+					<dd><ul>
+<li>folder to search</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer<br><ul>
+<li>bytes written</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="loadSkin" id="_loadSkin">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_loadSkin">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#341-351" title="Go to source code">loadSkin</a>( <span>pocketmine\entity\Human <var>$human</var></span>, <span>str <var>$fn</var></span>, <span>str <var>$folder</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Load a player's skin</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Load a player's skin</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$human</var></dt>
+					<dd><ul>
+<li>character to load</li>
+</ul></dd>
+					<dt><var>$fn</var></dt>
+					<dd><ul>
+<li>file name</li>
+</ul></dd>
+					<dt><var>$folder</var></dt>
+					<dd><ul>
+<li>folder to search</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br><ul>
+<li>true on succes, false on failure</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="slay" id="_slay">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_slay">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#355-362" title="Go to source code">slay</a>( <span>pocketmine\Player <var>$victim</var></span>, <span>str <var>$msg</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
+
+		<div class="description short">
+			<p>Kills a player with optional message</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Kills a player with optional message</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$victim</var></dt>
+					<dd></dd>
+					<dt><var>$msg</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="tpSpawn" id="_tpSpawn">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_tpSpawn">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#366-372" title="Go to source code">tpSpawn</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Teleport a player to world spawn</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Teleport a player to world spawn</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getServiceMode" id="_getServiceMode">
+
+		<td class="attributes"><code>
+			 public 
+
+			false|str
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getServiceMode">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#376-382" title="Go to source code">getServiceMode</a>( )</code>
+
+		<div class="description short">
+			<p>Return the current service mode status</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return the current service mode status</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					false|str
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setServiceMode" id="_setServiceMode">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setServiceMode">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#383-389" title="Go to source code">setServiceMode</a>( <span>str <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			<p>Change the service mode</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Change the service mode</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unsetServiceMode" id="_unsetServiceMode">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unsetServiceMode">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#390-395" title="Go to source code">unsetServiceMode</a>( )</code>
+
+		<div class="description short">
+			<p>Exists service mode</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Exists service mode</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="summonPlayer" id="_summonPlayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_summonPlayer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#399-406" title="Go to source code">summonPlayer</a>( <span>pocketmine\Player <var>$summoner</var></span>, <span>pocketmine\Player <var>$victim</var></span> )</code>
+
+		<div class="description short">
+			<p>Teleport a player to the summoner's vicinity</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Teleport a player to the summoner's vicinity</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$summoner</var></dt>
+					<dd></dd>
+					<dt><var>$victim</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dismissPlayer" id="_dismissPlayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dismissPlayer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#407-414" title="Go to source code">dismissPlayer</a>( <span>pocketmine\Player <var>$summoner</var></span>, <span>pocketmine\Player <var>$victim</var></span> )</code>
+
+		<div class="description short">
+			<p>Dismiss a previously summoned player</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Dismiss a previously summoned player</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$summoner</var></dt>
+					<dd></dd>
+					<dt><var>$victim</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dismissAll" id="_dismissAll">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dismissAll">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#415-421" title="Go to source code">dismissAll</a>( <span>pocketmine\Player <var>$summoner</var></span> )</code>
+
+		<div class="description short">
+			<p>Dismiss all summoned players</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Dismiss all summoned players</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$summoner</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="throwPlayer" id="_throwPlayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_throwPlayer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#425-431" title="Go to source code">throwPlayer</a>( <span>pocketmine\Player <var>$victim</var></span> )</code>
+
+		<div class="description short">
+			<p>Throw player up in the air.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Throw player up in the air.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$victim</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pushTp" id="_pushTp">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pushTp">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#435-441" title="Go to source code">pushTp</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Save position to stack</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Save position to stack</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="popTp" id="_popTp">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_popTp">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#442-448" title="Go to source code">popTp</a>( <span>pocketmine\Player <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Restore position from stack</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Restore position from stack</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getServerIds" id="_getServerIds">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getServerIds">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#453-458" title="Go to source code">getServerIds</a>( )</code>
+
+		<div class="description short">
+			<p>Get server ids</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get server ids</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addServer" id="_addServer">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addServer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#459-467" title="Go to source code">addServer</a>( <span>str <var>$id</var></span>, <span>array <var>$attrs</var></span> )</code>
+
+		<div class="description short">
+			<p>Add Server</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Add Server</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><ul>
+<li>Server Id</li>
+</ul></dd>
+					<dt><var>$attrs</var></dt>
+					<dd><ul>
+<li>Server attributes</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br><ul>
+<li>true on success, false on error</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="removeServer" id="_removeServer">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_removeServer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#468-475" title="Go to source code">removeServer</a>( <span>str <var>$id</var></span> )</code>
+
+		<div class="description short">
+			<p>Remove Server</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Remove Server</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><ul>
+<li>Server Id</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br><ul>
+<li>true on success, false on error</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getServer" id="_getServer">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getServer">#</a>
+		<code><a href="source-class-aliuly.grabbag.api.GrabBag.html#476-483" title="Go to source code">getServer</a>( <span>str <var>$id</var></span> )</code>
+
+		<div class="description short">
+			<p>Get Server attributes</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get Server attributes</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><ul>
+<li>Server Id</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br><ul>
+<li>attributes</li>
+</ul>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="plugin" id="$plugin">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.grabbag.api.GrabBag.html#31" title="Go to source code"><var>$plugin</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$plugin" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

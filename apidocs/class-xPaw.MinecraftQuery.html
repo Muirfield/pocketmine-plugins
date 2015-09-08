@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class xPaw\MinecraftQuery</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-xPaw.MinecraftQuery.html">MinecraftQuery</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-xPaw.MinecraftQueryException.html">MinecraftQueryException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-xPaw.html" title="Summary of xPaw"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class MinecraftQuery</h1>
+
+
+	<div class="description">
+	<p>Queries remote minecraft servers</p>
+
+<p>Class written by xPaw</p>
+
+<ul>
+<li>Website: <a href="http://xpaw.me">http://xpaw.me</a></li>
+<li>GitHub: <a href="https://github.com/xPaw/PHP-Minecraft-Query">https://github.com/xPaw/PHP-Minecraft-Query</a></li>
+</ul>
+
+<hr />
+
+<pre><span class="php-comment">// Sample usage</span>
+     <span class="php-keyword1">use</span> xPaw\MinecraftQuery;
+     <span class="php-keyword1">use</span> xPaw\MinecraftQueryException;
+     <span class="php-var">$query</span> = <span class="php-keyword1">new</span> MinecraftQuery;
+     <span class="php-keyword1">try</span> {
+        <span class="php-var">$Query</span>-&gt;Connect(<span class="php-var">$host</span>,<span class="php-var">$port</span>,<span class="php-var">$timeout</span>);
+     } <span class="php-keyword1">catch</span> (MinecraftQueryException <span class="php-var">$e</span>) {
+        <span class="php-keyword1">die</span>(<span class="php-var">$e</span>-&gt;getMessage().<span class="php-quote">&quot;\n&quot;</span>);
+     }
+     <span class="php-keyword2">print_r</span>(<span class="php-var">$Query</span>-&gt;GetInfo());
+     <span class="php-keyword2">print_r</span>(<span class="php-var">$Query</span>-&gt;GetPlayers());</pre>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-xPaw.html">xPaw</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-xPaw.MinecraftQuery.html#5-222" title="Go to source code">MinecraftQuery.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="Connect" id="_Connect">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Connect">#</a>
+		<code><a href="source-class-xPaw.MinecraftQuery.html#38-74" title="Go to source code">Connect</a>( <span>str <var>$Ip</var></span>, <span>integer <var>$Port</var> = <span class="php-num">19132</span></span>, <span>integer <var>$Timeout</var> = <span class="php-num">3</span> </span> )</code>
+
+		<div class="description short">
+			<p>Query server</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Query server</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$Ip</var></dt>
+					<dd><ul>
+<li>IP or hostname to query</li>
+</ul></dd>
+					<dt><var>$Port</var></dt>
+					<dd><ul>
+<li>Port to connect to</li>
+</ul></dd>
+					<dt><var>$Timeout</var></dt>
+					<dd><ul>
+<li>Timeout in seconds</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetInfo" id="_GetInfo">
+
+		<td class="attributes"><code>
+			 public 
+
+			array|false
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetInfo">#</a>
+		<code><a href="source-class-xPaw.MinecraftQuery.html#76-83" title="Go to source code">GetInfo</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the query data</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the query data</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array|false
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetPlayers" id="_GetPlayers">
+
+		<td class="attributes"><code>
+			 public 
+
+			array|false
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetPlayers">#</a>
+		<code><a href="source-class-xPaw.MinecraftQuery.html#85-92" title="Go to source code">GetPlayers</a>( )</code>
+
+		<div class="description short">
+			<p>Returns player list</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns player list</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array|false
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="STATISTIC" id="STATISTIC">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-xPaw.MinecraftQuery.html#31" title="Go to source code"><b>STATISTIC</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#STATISTIC" class="anchor">#</a>
+				<code><span class="php-num">0x00</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="HANDSHAKE" id="HANDSHAKE">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-xPaw.MinecraftQuery.html#32" title="Go to source code"><b>HANDSHAKE</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#HANDSHAKE" class="anchor">#</a>
+				<code><span class="php-num">0x09</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

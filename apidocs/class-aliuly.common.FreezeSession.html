@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\common\FreezeSession</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-aliuly.common.ArmorItems.html">ArmorItems</a></li>
+				<li><a href="class-aliuly.common.BasicCli.html">BasicCli</a></li>
+				<li><a href="class-aliuly.common.BasicHelp.html">BasicHelp</a></li>
+				<li><a href="class-aliuly.common.BasicPlugin.html">BasicPlugin</a></li>
+				<li><a href="class-aliuly.common.ChatSession.html">ChatSession</a></li>
+				<li><a href="class-aliuly.common.Cmd.html">Cmd</a></li>
+				<li><a href="class-aliuly.common.CmdSelector.html">CmdSelector</a></li>
+				<li><a href="class-aliuly.common.ExpandVars.html">ExpandVars</a></li>
+				<li><a href="class-aliuly.common.FileUtils.html">FileUtils</a></li>
+				<li class="active"><a href="class-aliuly.common.FreezeSession.html">FreezeSession</a></li>
+				<li><a href="class-aliuly.common.GetMotd.html">GetMotd</a></li>
+				<li><a href="class-aliuly.common.GetMotdAsyncTask.html">GetMotdAsyncTask</a></li>
+				<li><a href="class-aliuly.common.InvisibleSession.html">InvisibleSession</a></li>
+				<li><a href="class-aliuly.common.InvUtils.html">InvUtils</a></li>
+				<li><a href="class-aliuly.common.ItemName.html">ItemName</a></li>
+				<li><a href="class-aliuly.common.mc.html">mc</a></li>
+				<li><a href="class-aliuly.common.mc2.html">mc2</a></li>
+				<li><a href="class-aliuly.common.MoneyAPI.html">MoneyAPI</a></li>
+				<li><a href="class-aliuly.common.MPMU.html">MPMU</a></li>
+				<li><a href="class-aliuly.common.Npc.html">Npc</a></li>
+				<li><a href="class-aliuly.common.PermUtils.html">PermUtils</a></li>
+				<li><a href="class-aliuly.common.PluginAsyncTask.html">PluginAsyncTask</a></li>
+				<li><a href="class-aliuly.common.PluginCallbackTask.html">PluginCallbackTask</a></li>
+				<li><a href="class-aliuly.common.PMScript.html">PMScript</a></li>
+				<li><a href="class-aliuly.common.QueryAsyncTask.html">QueryAsyncTask</a></li>
+				<li><a href="class-aliuly.common.Rcon.html">Rcon</a></li>
+				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
+				<li><a href="class-aliuly.common.Session.html">Session</a></li>
+				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.common.html" title="Summary of aliuly\common"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class FreezeSession</h1>
+
+
+	<div class="description">
+	<p>Frozen Player sessions</p>
+
+<p>NOTE, if GrabBag is available, it will use the GrabBag freeze-thaw
+implementation.  This gives you a command line interface and also
+reduces the number of listeners in use.</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-aliuly.common.Session.html"><span>aliuly\common\Session</span></a>
+			
+			 implements 
+<span>pocketmine\event\Listener</span>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>aliuly\common\FreezeSession</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.common.FreezeSession.html#10-100" title="Go to source code">common/FreezeSession.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#20-33" title="Go to source code">__construct</a>( <span>pocketmine\plugin\PluginBase <var>$owner</var></span>, <span>boolean <var>$hard</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd><ul>
+<li>plugin that owns this session</li>
+</ul></dd>
+					<dt><var>$hard</var></dt>
+					<dd><ul>
+<li>hard freeze option</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-aliuly.common.Session.html#___construct">aliuly\common\Session::__construct()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onMove" id="_onMove">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onMove">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#34-52" title="Go to source code">onMove</a>( <span>pocketmine\event\player\PlayerMoveEvent <var>$ev</var></span> )</code>
+
+		<div class="description short">
+			<p>Handle player move events.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Handle player move events.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$ev</var></dt>
+					<dd><ul>
+<li>Move event</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isHardFreeze" id="_isHardFreeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isHardFreeze">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#53-60" title="Go to source code">isHardFreeze</a>( )</code>
+
+		<div class="description short">
+			<p>Checks if hard or soft freezing</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Checks if hard or soft freezing</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setHardFreeze" id="_setHardFreeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setHardFreeze">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#61-71" title="Go to source code">setHardFreeze</a>( <span>boolean <var>$hard</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			<p>Sets hard or soft freezing</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sets hard or soft freezing</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$hard</var></dt>
+					<dd><ul>
+<li>if true (default) hard freeze is in effect.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="freeze" id="_freeze">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_freeze">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#72-87" title="Go to source code">freeze</a>( <span>pocketmine\Player <var>$player</var></span>, <span>boolean <var>$freeze</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			<p>Freeze given player</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Freeze given player</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>player to freeze</li>
+</ul></dd>
+					<dt><var>$freeze</var></dt>
+					<dd><ul>
+<li>if true (default) freeze, if false, thaw.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFrosties" id="_getFrosties">
+
+		<td class="attributes"><code>
+			 public 
+
+			str[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFrosties">#</a>
+		<code><a href="source-class-aliuly.common.FreezeSession.html#88-99" title="Go to source code">getFrosties</a>( )</code>
+
+		<div class="description short">
+			<p>Return a list of frozen players</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return a list of frozen players</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					str[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-aliuly.common.Session.html#methods">aliuly\common\Session</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-aliuly.common.Session.html#_getState">getState()</a>, 
+			<a href="class-aliuly.common.Session.html#_onPlayerQuit">onPlayerQuit()</a>, 
+			<a href="class-aliuly.common.Session.html#_setState">setState()</a>, 
+			<a href="class-aliuly.common.Session.html#_unsetState">unsetState()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="hard" id="$hard">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.FreezeSession.html#18" title="Go to source code"><var>$hard</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$hard" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="api" id="$api">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.FreezeSession.html#19" title="Go to source code"><var>$api</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$api" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-aliuly.common.Session.html#properties">aliuly\common\Session</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-aliuly.common.Session.html#$plugin"><var>$plugin</var></a>, 
+			<a href="class-aliuly.common.Session.html#$state"><var>$state</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

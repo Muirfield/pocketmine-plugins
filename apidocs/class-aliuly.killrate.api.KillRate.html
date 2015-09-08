@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\killrate\api\KillRate</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-aliuly.killrate.api.KillRate.html">KillRate</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateEvent.html">KillRateEvent</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateResetEvent.html">KillRateResetEvent</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateScoreEvent.html">KillRateScoreEvent</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.killrate.api.html" title="Summary of aliuly\killrate\api"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class KillRate</h1>
+
+
+	<div class="description">
+	<p>KillRate API</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.killrate.html">killrate</a>\<a href="namespace-aliuly.killrate.api.html">api</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.killrate.api.KillRate.html#7-117" title="Go to source code">KillRate.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#12-17" title="Go to source code">__construct</a>( <span>aliuly\killrate\Main <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd><ul>
+<li>plugin that owns this session</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getRankings" id="_getRankings">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRankings">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#18-30" title="Go to source code">getRankings</a>( <span>integer <var>$limit</var> = <span class="php-num">10</span></span>, <span>boolean <var>$online</var> = <span class="php-keyword1">false</span></span>, <span>str <var>$col</var> = <span class="php-quote">&quot;points&quot;</span></span> )</code>
+
+		<div class="description short">
+			<p>Show rankings</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Show rankings</p>
+
+<p>Returns an array with each element having a ["player"] and ["count"].</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$limit</var></dt>
+					<dd><ul>
+<li>Max number of players to rank</li>
+</ul></dd>
+					<dt><var>$online</var></dt>
+					<dd><ul>
+<li>if true limit rankings to on-line players</li>
+</ul></dd>
+					<dt><var>$col</var></dt>
+					<dd><ul>
+<li>Type of data to return</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getRankedScores" id="_getRankedScores">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRankedScores">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#31-59" title="Go to source code">getRankedScores</a>( <span>integer <var>$limit</var> = <span class="php-num">10</span></span>, <span>boolean <var>$online</var> = <span class="php-keyword1">false</span></span>, <span>str <var>$col</var> = <span class="php-quote">&quot;points&quot;</span></span> )</code>
+
+		<div class="description short">
+			<p>Return ranked scores</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return ranked scores</p>
+
+<p>Returns an array with each element having a ["player_name"] and
+all the values from <code>getScores</code>.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$limit</var></dt>
+					<dd><ul>
+<li>Max number of players to rank</li>
+</ul></dd>
+					<dt><var>$online</var></dt>
+					<dd><ul>
+<li>if true limit rankings to on-line players</li>
+</ul></dd>
+					<dt><var>$col</var></dt>
+					<dd><ul>
+<li>Type of data to sort</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="updateScore" id="_updateScore">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateScore">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#60-70" title="Go to source code">updateScore</a>( <span>pocketmine\IPlayer|str <var>$player</var></span>, <span>str <var>$col</var> = <span class="php-quote">&quot;points&quot;</span></span>, <span>integer <var>$incr</var> = <span class="php-num">1</span></span> )</code>
+
+		<div class="description short">
+			<p>Update Database values.  Returns the new updated value.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Update Database values.  Returns the new updated value.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>Player that is scoring</li>
+</ul></dd>
+					<dt><var>$col</var></dt>
+					<dd><ul>
+<li>Type of data to update</li>
+</ul></dd>
+					<dt><var>$incr</var></dt>
+					<dd><ul>
+<li>Amount to increment</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getScore" id="_getScore">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer|float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getScore">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#71-81" title="Go to source code">getScore</a>( <span>pocketmine\IPlayer|str <var>$player</var></span>, <span>str <var>$col</var> = <span class="php-quote">&quot;points&quot;</span></span> )</code>
+
+		<div class="description short">
+			<p>Returns a player's specific score.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a player's specific score.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>Player that is scoring</li>
+</ul></dd>
+					<dt><var>$col</var></dt>
+					<dd><ul>
+<li>Type of data to update</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer|float
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getKDRatio" id="_getKDRatio">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getKDRatio">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#82-93" title="Go to source code">getKDRatio</a>( <span>pocketmine\IPlayer|str <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Get KillDeath Ratio</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get KillDeath Ratio</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>Player that is scoring</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer|null
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setScore" id="_setScore">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setScore">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#95-106" title="Go to source code">setScore</a>( <span>pocketmine\IPlayer|str <var>$player</var></span>, <span>integer <var>$score</var></span>, <span>str <var>$col</var> = <span class="php-quote">&quot;points&quot;</span></span> )</code>
+
+		<div class="description short">
+			<p>Set the score value</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set the score value</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>Player that is scoring</li>
+</ul></dd>
+					<dt><var>$score</var></dt>
+					<dd><ul>
+<li>new score</li>
+</ul></dd>
+					<dt><var>$col</var></dt>
+					<dd><ul>
+<li>Type of data to update</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delScore" id="_delScore">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delScore">#</a>
+		<code><a href="source-class-aliuly.killrate.api.KillRate.html#107-116" title="Go to source code">delScore</a>( <span>pocketmine\IPlayer|str <var>$pl</var></span>, <span>str <var>$type</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Returns a player's specific score.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a player's specific score.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$pl</var></dt>
+					<dd>$player - Player that is scoring</dd>
+					<dt><var>$type</var></dt>
+					<dd>$col - Type of data to update</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="plugin" id="$plugin">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.killrate.api.KillRate.html#11" title="Go to source code"><var>$plugin</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$plugin" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

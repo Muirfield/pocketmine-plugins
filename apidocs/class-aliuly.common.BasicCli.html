@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\common\BasicCli</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-aliuly.common.ArmorItems.html">ArmorItems</a></li>
+				<li class="active"><a href="class-aliuly.common.BasicCli.html">BasicCli</a></li>
+				<li><a href="class-aliuly.common.BasicHelp.html">BasicHelp</a></li>
+				<li><a href="class-aliuly.common.BasicPlugin.html">BasicPlugin</a></li>
+				<li><a href="class-aliuly.common.ChatSession.html">ChatSession</a></li>
+				<li><a href="class-aliuly.common.Cmd.html">Cmd</a></li>
+				<li><a href="class-aliuly.common.CmdSelector.html">CmdSelector</a></li>
+				<li><a href="class-aliuly.common.ExpandVars.html">ExpandVars</a></li>
+				<li><a href="class-aliuly.common.FileUtils.html">FileUtils</a></li>
+				<li><a href="class-aliuly.common.FreezeSession.html">FreezeSession</a></li>
+				<li><a href="class-aliuly.common.GetMotd.html">GetMotd</a></li>
+				<li><a href="class-aliuly.common.GetMotdAsyncTask.html">GetMotdAsyncTask</a></li>
+				<li><a href="class-aliuly.common.InvisibleSession.html">InvisibleSession</a></li>
+				<li><a href="class-aliuly.common.InvUtils.html">InvUtils</a></li>
+				<li><a href="class-aliuly.common.ItemName.html">ItemName</a></li>
+				<li><a href="class-aliuly.common.mc.html">mc</a></li>
+				<li><a href="class-aliuly.common.mc2.html">mc2</a></li>
+				<li><a href="class-aliuly.common.MoneyAPI.html">MoneyAPI</a></li>
+				<li><a href="class-aliuly.common.MPMU.html">MPMU</a></li>
+				<li><a href="class-aliuly.common.Npc.html">Npc</a></li>
+				<li><a href="class-aliuly.common.PermUtils.html">PermUtils</a></li>
+				<li><a href="class-aliuly.common.PluginAsyncTask.html">PluginAsyncTask</a></li>
+				<li><a href="class-aliuly.common.PluginCallbackTask.html">PluginCallbackTask</a></li>
+				<li><a href="class-aliuly.common.PMScript.html">PMScript</a></li>
+				<li><a href="class-aliuly.common.QueryAsyncTask.html">QueryAsyncTask</a></li>
+				<li><a href="class-aliuly.common.Rcon.html">Rcon</a></li>
+				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
+				<li><a href="class-aliuly.common.Session.html">Session</a></li>
+				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.common.html" title="Summary of aliuly\common"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class BasicCli</h1>
+
+
+	<div class="description">
+	<p>Implements Basic CLI common functionality.  It is useful for plugins
+that implement multiple commands or sub-commands</p>
+	</div>
+
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-aliuly.common.BasicHelp.html">aliuly\common\BasicHelp</a>, 
+			<a href="class-aliuly.loader.DumpMsgs.html">aliuly\loader\DumpMsgs</a>, 
+			<a href="class-aliuly.loader.EchoCmd.html">aliuly\loader\EchoCmd</a>, 
+			<a href="class-aliuly.loader.MotdMgr.html">aliuly\loader\MotdMgr</a>, 
+			<a href="class-aliuly.loader.QueryMgr.html">aliuly\loader\QueryMgr</a>, 
+			<a href="class-aliuly.loader.RcCmd.html">aliuly\loader\RcCmd</a>, 
+			<a href="class-aliuly.loader.TraceCmd.html">aliuly\loader\TraceCmd</a>, 
+			<a href="class-aliuly.loader.Version.html">aliuly\loader\Version</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br>
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.common.BasicCli.html#12-177" title="Go to source code">common/BasicCli.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#18-23" title="Go to source code">__construct</a>( <span><code><a href="class-aliuly.common.BasicPlugin.html">aliuly\common\BasicPlugin</a></code> <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd><ul>
+<li>Plugin that owns this module</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="enableSCmd" id="_enableSCmd">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_enableSCmd">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#24-32" title="Go to source code">enableSCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$opts</var></span> )</code>
+
+		<div class="description short">
+			<p>Register this class as a sub-command.  See BasicPlugin for details.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register this class as a sub-command.  See BasicPlugin for details.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cmd</var></dt>
+					<dd><ul>
+<li>sub-command to register</li>
+</ul></dd>
+					<dt><var>$opts</var></dt>
+					<dd><ul>
+<li>additional options for registering sub-command</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="enableCmd" id="_enableCmd">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_enableCmd">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#33-63" title="Go to source code">enableCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$yaml</var></span> )</code>
+
+		<div class="description short">
+			<p>Register this class as a command.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register this class as a command.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cmd</var></dt>
+					<dd><ul>
+<li>command to register</li>
+</ul></dd>
+					<dt><var>$yaml</var></dt>
+					<dd><ul>
+<li>options for command</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPageNumber" id="_getPageNumber">
+
+		<td class="attributes"><code>
+			 protected 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPageNumber">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#64-78" title="Go to source code">getPageNumber</a>( <span>array <var>&amp; $args</var></span> )</code>
+
+		<div class="description short">
+			<p>Use for paginaged output implementation.
+This gets the player specified page number that we want to Display</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Use for paginaged output implementation.
+This gets the player specified page number that we want to Display</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$args</var></dt>
+					<dd><ul>
+<li>Passed arguments</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer<br>page number
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="paginateText" id="_paginateText">
+
+		<td class="attributes"><code>
+			 protected 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_paginateText">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#79-110" title="Go to source code">paginateText</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$txt</var></span> )</code>
+
+		<div class="description short">
+			<p>Use for paginaged output implementation.
+Shows a bunch of line in paginated output.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Use for paginaged output implementation.
+Shows a bunch of line in paginated output.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sender</var></dt>
+					<dd><ul>
+<li>entity that we need to display text to</li>
+</ul></dd>
+					<dt><var>$pageNumber</var></dt>
+					<dd><ul>
+<li>page that we need to display</li>
+</ul></dd>
+					<dt><var>$txt</var></dt>
+					<dd><ul>
+<li>Array containing one element per output line</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>true
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="paginateTable" id="_paginateTable">
+
+		<td class="attributes"><code>
+			 protected 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_paginateTable">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#111-138" title="Go to source code">paginateTable</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$tab</var></span> )</code>
+
+		<div class="description short">
+			<p>Use for paginaged output implementation.
+Formats and paginates a table</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Use for paginaged output implementation.
+Formats and paginates a table</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sender</var></dt>
+					<dd><ul>
+<li>entity that we need to display text to</li>
+</ul></dd>
+					<dt><var>$pageNumber</var></dt>
+					<dd><ul>
+<li>page that we need to display</li>
+</ul></dd>
+					<dt><var>$tab</var></dt>
+					<dd>$txt - Array containing one element per cell</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>true
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getState" id="_getState">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getState">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#141-153" title="Go to source code">getState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
+
+		<div class="description short">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+Retrieves the state.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+Retrieves the state.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>entity that we need state from</li>
+</ul></dd>
+					<dt><var>$default</var></dt>
+					<dd><ul>
+<li>Default value to return if no state found</li>
+</ul></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed<br>$state
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setState" id="_setState">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setState">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#154-165" title="Go to source code">setState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
+
+		<div class="description short">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+Sets the state.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+Sets the state.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>entity that we need to set state</li>
+</ul></dd>
+					<dt><var>$val</var></dt>
+					<dd><ul>
+<li>Value to use for the state</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unsetState" id="_unsetState">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unsetState">#</a>
+		<code><a href="source-class-aliuly.common.BasicCli.html#166-176" title="Go to source code">unsetState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span> )</code>
+
+		<div class="description short">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+UnSets the state.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Entry point for BasicPlugin state functionality.  This makes it module
+specific.
+UnSets the state.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>entity that we need to unset state</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="owner" id="$owner">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.common.BasicCli.html#17" title="Go to source code"><var>$owner</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$owner" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

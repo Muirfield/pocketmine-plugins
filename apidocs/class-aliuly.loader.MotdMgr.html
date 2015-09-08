@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class aliuly\loader\MotdMgr</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-aliuly.html">
+						aliuly<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.html">
+						common<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.common.selectors.html">
+						selectors					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.grabbag.html">
+						grabbag<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.grabbag.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-aliuly.killrate.html">
+						killrate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-aliuly.killrate.api.html">
+						api					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-aliuly.loader.html">
+						loader					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-xPaw.html">
+						xPaw					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-aliuly.loader.DumpMsgs.html">DumpMsgs</a></li>
+				<li><a href="class-aliuly.loader.EchoCmd.html">EchoCmd</a></li>
+				<li><a href="class-aliuly.loader.Main.html">Main</a></li>
+				<li class="active"><a href="class-aliuly.loader.MotdMgr.html">MotdMgr</a></li>
+				<li><a href="class-aliuly.loader.QueryMgr.html">QueryMgr</a></li>
+				<li><a href="class-aliuly.loader.RcCmd.html">RcCmd</a></li>
+				<li><a href="class-aliuly.loader.TraceCmd.html">TraceCmd</a></li>
+				<li><a href="class-aliuly.loader.TraceListener.html">TraceListener</a></li>
+				<li><a href="class-aliuly.loader.Version.html">Version</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-aliuly.loader.html" title="Summary of aliuly\loader"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class MotdMgr</h1>
+
+
+	<div class="description">
+	<p>Basic/Example MOTD support implementation</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-aliuly.common.BasicCli.html"><span>aliuly\common\BasicCli</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>aliuly\loader\MotdMgr</span></b>			
+			 implements 
+<span>pocketmine\event\Listener</span>
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.loader.html">loader</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-aliuly.loader.MotdMgr.html#26-103" title="Go to source code">loader/MotdMgr.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-aliuly.loader.MotdMgr.html#34-42" title="Go to source code">__construct</a>( <span>BasicPlugin <var>$owner</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$owner</var></dt>
+					<dd><ul>
+<li>Plugin that owns this module</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-aliuly.common.BasicCli.html#___construct">aliuly\common\BasicCli::__construct()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onSCommand" id="_onSCommand">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onSCommand">#</a>
+		<code><a href="source-class-aliuly.loader.MotdMgr.html#43-51" title="Go to source code">onSCommand</a>( <span>pocketmine\command\CommandSender <var>$c</var></span>, <span>pocketmine\command\Command <var>$cc</var></span>, <span> <var>$scmd</var></span>, <span> <var>$data</var></span>, <span>array <var>$args</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="launchTask" id="_launchTask">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_launchTask">#</a>
+		<code><a href="source-class-aliuly.loader.MotdMgr.html#72-77" title="Go to source code">launchTask</a>( <span> <var>$srv</var></span>, <span> <var>$port</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="regenQuery" id="_regenQuery">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_regenQuery">#</a>
+		<code><a href="source-class-aliuly.loader.MotdMgr.html#78-87" title="Go to source code">regenQuery</a>( <span>pocketmine\event\server\QueryRegenerateEvent <var>$ev</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="gotResults" id="_gotResults">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_gotResults">#</a>
+		<code><a href="source-class-aliuly.loader.MotdMgr.html#88-101" title="Go to source code">gotResults</a>( <span> <var>$res</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-aliuly.common.BasicCli.html#methods">aliuly\common\BasicCli</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-aliuly.common.BasicCli.html#_enableCmd">enableCmd()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_enableSCmd">enableSCmd()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_getPageNumber">getPageNumber()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_getState">getState()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_paginateTable">paginateTable()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_paginateText">paginateText()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_setState">setState()</a>, 
+			<a href="class-aliuly.common.BasicCli.html#_unsetState">unsetState()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="freq" id="freq">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-aliuly.loader.MotdMgr.html#30" title="Go to source code"><b>freq</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#freq" class="anchor">#</a>
+				<code><span class="php-num">200</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="registered" id="$registered">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.loader.MotdMgr.html#31" title="Go to source code"><var>$registered</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$registered" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="peers" id="$peers">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-aliuly.loader.MotdMgr.html#32" title="Go to source code"><var>$peers</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$peers" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-aliuly.common.BasicCli.html#properties">aliuly\common\BasicCli</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-aliuly.common.BasicCli.html#$owner"><var>$owner</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
