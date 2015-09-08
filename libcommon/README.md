@@ -52,7 +52,7 @@ It also bundles useful third party libraries:
 - xPaw MinecraftQuery
 
 For the full API documentation go to:
-[GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+[GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
 
 The following subcommands are available:
 <!-- php:$h = 0; -->
@@ -256,22 +256,26 @@ available:
   * Removed MPMU::itemName
 - 1.0.0: First release
 
+<!-- php:$copyright="2015"; -->
+<!-- template: gd2/gpl2.md -->
 # Copyright
 
-libcommon
-Copyright (C) 2015 Alejandro Liu
-All Rights Reserved.
+    libcommon
+    Copyright (C) 2015 Alejandro Liu
+    All Rights Reserved.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+<!-- end-include -->
 
