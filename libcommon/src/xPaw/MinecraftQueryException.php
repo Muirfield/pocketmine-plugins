@@ -1,6 +1,6 @@
 <?php
 
-namespace aliuly\common\xPaw;
+namespace xPaw;
 
 /**
  * Exceptions
