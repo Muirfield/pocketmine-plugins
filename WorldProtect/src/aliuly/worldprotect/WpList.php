@@ -88,6 +88,9 @@ class WpList extends BaseWp {
 		if (isset($wcfg["unbreakable"]))
 			$txt[] = TextFormat::AQUA.mc::_("Unbreakable(%1%): ",count($wcfg["unbreakable"])).
 					 TextFormat::WHITE.implode(",",$wcfg["unbreakable"]);
+		if (isset($wcfg["bancmds"]))
+			$txt[] = TextFormat::AQUA.mc::_("Ban Commands(%1%): ",count($wcfg["bancmds"])).
+						TextFormat::WHITE.implode(",",$wcfg["bancmds"]);
 		if (isset($wcfg["banitem"]))
 			$txt[] = TextFormat::AQUA.mc::_("Banned(%1%): ",count($wcfg["banitem"])).
 					 TextFormat::WHITE.implode(",",$wcfg["banitem"]);
@@ -130,6 +133,8 @@ class WpList extends BaseWp {
 			$attr[]=mc::_("gm:").$wcfg["gamemode"];
 		if (isset($wcfg["unbreakable"]))
 			$attr[]=mc::_("ubab:").count($wcfg["unbreakable"]);
+		if (isset($wcfg["bancmds"]))
+				$attr[]=mc::_("bc:").count($wcfg["bancmds"]);
 		if (isset($wcfg["banitem"]))
 			$attr[]=mc::_("bi:").count($wcfg["banitem"]);
 		return $attr;

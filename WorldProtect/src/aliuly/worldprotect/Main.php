@@ -43,6 +43,7 @@ class Main extends BasicPlugin implements CommandExecutor,Listener {
 			"motd" => [ "WpMotdMgr", false ],
 			"no-explode" => [ "NoExplodeMgr", false ],
 			"unbreakable" => [ "Unbreakable", false ],
+			"bancmds" => [ "BanCmd" , false ],
 			"banitem" => [ "BanItem", true ],
 			"gamemode" => [ "GmMgr", false ],
 			"gm-save-inv" => [ "GmSaveInv", false ],

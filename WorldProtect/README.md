@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.2**.
+This documentation was last updated for version **2.2.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.1.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.2.0dev1).
 
 <!-- template-end -->
 
@@ -45,7 +45,7 @@ Features:
 * Show a text file when players enter a world
 * Stops explosions from happening in a world
 * Unbreakable blocks
-* Banned Items
+* Banned Items and commands
 * Per world gamemode with inventory saving
 
 All commands require a `world` name to be given, otherwise a default
@@ -57,6 +57,7 @@ specified in the `server.properties` file.
 
 * /motd : Shows the world's *motd* text
 * add : Add player to the authorized list
+* bancmd|unbancmd : Prevents commands to be used in worlds
 * banitem|unbanitem : Control items that can/cannot be used
 * border : defines a border for a world
 * gm : Configures a world's gamemode.
@@ -91,7 +92,7 @@ It is able to:
 * Show a text file when players enter a world.  To explain players
   what is allowed (or not allowed) in specific worlds.  For example
   you could warn players when they are entering a PvP world.
-* Create unbreakable blocks.
+  * Create sable blocks.
 
 ### Command Reference
 
@@ -103,6 +104,9 @@ The following commands are available:
   rules around a world.
 * /wp _[world]_ **add** _&lt;player&gt;_  
   Add player to the authorized list  
+* /wp  _[world]_ **bancmd|unbancmd** _[cmds]_  
+  Prevents commands to be used in worlds  
+  List of commands that will be banned on specific worlds.
 * /wp  _[world]_ **banitem|unbanitem** _[Item-ids]_  
   Control items that can/cannot be used  
   Manages which Items can or can not be used in a given world.
@@ -252,6 +256,8 @@ If `true` the feature is enabled.  if `false` the feature is disabled.
   (Defaults to Op)
 * wp.cmd.unbreakable : Modify unbreakable block list
   (Defaults to Op)
+* wp.cmd.bancmd : Ban/unban commands
+  (Defaults to Op)
 * wp.cmd.banitem : Ban/unban items
   (Defaults to Op)
 * wp.cmd.info : Show WP config info
@@ -303,6 +309,8 @@ Returns an integer or null.
 
 # Changes
 
+* 2.2.0: minor Update
+  - Implemented banned commands (@Tolo)
 * 2.1.2: bug fix
   - Load/Unload events were not being registered (Bug reported by @GuddaJ)
 * 2.1.1: minor Update
