@@ -110,6 +110,7 @@ administration.
 * followers: List who is following who
 * followme: Make a player follow you
 * followme-off: stop making a player follow you
+* ftserver: Traver to remove servers
 * poptp: Returns to the previous location
 * pushtp: Saves current location and teleport
 * spawn: Teleport player to spawn point
@@ -265,6 +266,10 @@ The following commands are available:
   
   If `--hard` or `--soft` is specified instead of a player name, it
   will change the freeze mode.
+* ftserver: Traver to remove servers<br/>
+  usage: **ftserver** _&lt;serverid&gt;_
+  
+  Teleport to servers defined with the **/servers** command.
 * get: obtain an item<br/>
   usage: **get** _&lt;item&gt;_ _[count]_
   
@@ -319,7 +324,7 @@ The following commands are available:
 * players: Shows what players are on-line<br/>
   usage: **players**
 * pluginmgr: manage plugins<br/>
-  usage: **pluginmgr** _&lt;enable|disable|reload|info|commands|permissions|load&gt;_ _&lt;plugin&gt;_
+  usage: **pluginmgr** _&lt;subcmd&gt;_ _&lt;plugin&gt;_
   Manage plugins.
    The following sub-commands are available:
   - **pluginmgr** **enable** _&lt;plugin&gt;_
@@ -336,8 +341,13 @@ The following commands are available:
       - Show permissions registered by plugin
   - **pluginmgr** **load** _&lt;path&gt;_
       - Load a plugin from file path (presumably outside the **plugin** folder.)
-  - **pluginmgr** **dumpmsg** &lt;plugin&gt;_
+  - **pluginmgr** **dumpmsg** _&lt;plugin&gt;_ _[lang]_
       - Dump messages.ini.
+  - **pluginmgr** **uninstall** _&lt;plugin&gt;_
+      - Uninstall plugin.
+  - **pluginmgr** **feature** _&lt;plugin&gt;_ _[[-|+]feature]_
+      - For plugins that have a _features_ table in **config.yml**
+        this will let you change those settings.
 * poptp: Returns to the previous location<br/>
   usage: **poptp**
 * prefix: prepend prefix to chat lines<br/>
@@ -657,22 +667,50 @@ This section configures peer servers.  This can be used with
 ### Permission Nodes
 
 <!-- snippet: rtperms -->
-* gb.cmd.crash (op): crash dump management
+* gb.cmd.pushpoptp (op): position stack
+* gb.cmd.freeze (op): freeze/thaw players
 * gb.cmd.get (op): get blocks
+* gb.cmd.gma (op): Switch gamemode to Adventure
+* gb.cmd.gms (op): Switch gamemode to Survival
+* gb.cmd.gmc (op): Switch gamemode to Creative
+* gb.cmd.gmspc (op): Switch gamemode to Spectator
 * gb.cmd.heal (op): heal players
+* gb.cmd.invisible (op): invisibility power
+* gb.cmd.invisible.inmune (disabled): can see invisible players
 * gb.cmd.mute (op): mute/unmute players
+* gb.cmd.opms: Send op only messages
+* gb.cmd.rpt: Report issues
+* gb.cmd.rpt.read (op): Read reported issues
+* gb.cmd.ops: Display ops
 * gb.cmd.permmgr (op): Manipulate Permissions
+* gb.module.cmdsel: use command selectors
+* gb.cmd.servicemode (op): service mode command
+* gb.servicemode.allow (op): login when in service mode
+* gb.module.repeater: use !! to repeat commands
+* gb.cmd.players: connected players
+* gb.cmd.prefix: Prefix command
 * gb.cmd.query: Query command
 * gb.cmd.query.details: View details (info, plugins)
 * gb.cmd.query.players: View players
 * gb.cmd.query.players.showip: View players server IP
 * gb.cmd.query.list: Query List sub command
-* gb.module.cmdsel: use command selectors
-* gb.cmd.seearmor (op): View armor
-* gb.cmd.seeinv (op): View inventory
-* gb.cmd.skin (op): Manage skins
-* gb.cmd.skin.other (op): Manage other's skins
-* gb.cmd.after (op): access command scheduler
+* gb.cmd.reop: Reop command
+* gb.cmd.reop.others (op): ReOp others
+* gb.cmd.slay (op): Allow slaying players
+* gb.cmd.whois (op): view players details
+* gb.cmd.whois.showip (op): view players IP address
+* gb.cmd.sudo (op): Run command as another user
+* gb.cmd.burn (op): Burn other players
+* gb.cmd.clearinv: clear player's inventory
+* gb.cmd.clearinv.others (op): clear other's inventory
+* gb.cmd.rminv: remove item from inventory
+* gb.cmd.rminv.others (op): remove item from other's inventory
+* gb.cmd.clearhotbar: clear player's hotbar
+* gb.cmd.clearhotbar.others (op): clear other's hotbar
+* gb.cmd.follow (op): lets you follow others
+* gb.cmd.followme (op): let others follow you
+* gb.cmd.regs (op): Manage player registrations
+* gb.cmd.alias (op): allow creating aliases
 * gb.cmd.togglechat: lets players opt out from chat
 * gb.cmd.togglechat.others (op): lets you toggle chat for others
 * gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
@@ -680,57 +718,30 @@ This section configures peer servers.  This can be used with
 * gb.cmd.clearchat: Clear your chat window
 * gb.cmd.nick: Change display name
 * gb.cmd.entities (op): entity management
-* gb.cmd.follow (op): lets you follow others
-* gb.cmd.followme (op): let others follow you
-* gb.cmd.opms: Send op only messages
-* gb.cmd.rpt: Report issues
-* gb.cmd.rpt.read (op): Read reported issues
-* gb.cmd.ops: Display ops
-* gb.cmd.prefix: Prefix command
+* gb.cmd.rcon (op): Rcon client
+* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.setarmor (op): Configure armor
 * gb.cmd.setarmor.others (op): Configure other's armor
-* gb.cmd.alias (op): allow creating aliases
-* gb.cmd.freeze (op): freeze/thaw players
-* gb.cmd.rcon (op): Rcon client
-* gb.cmd.sudo (op): Run command as another user
-* gb.cmd.gma (op): Switch gamemode to Adventure
-* gb.cmd.gms (op): Switch gamemode to Survival
-* gb.cmd.gmc (op): Switch gamemode to Creative
-* gb.cmd.gmspc (op): Switch gamemode to Spectator
-* gb.cmd.blowup (op): Explode other players
-* gb.cmd.burn (op): Burn other players
-* gb.cmd.invisible (op): invisibility power
-* gb.cmd.invisible.inmune (disabled): can see invisible players
-* gb.module.repeater: use !! to repeat commands
-* gb.cmd.fly (op): flight control
-* gb.cmd.whois (op): view players details
-* gb.cmd.whois.showip (op): view players IP address
-* gb.cmd.pluginmgr (op): Run-time management of plugins
-* gb.cmd.reop: Reop command
-* gb.cmd.reop.others (op): ReOp others
-* gb.cmd.regs (op): Manage player registrations
 * gb.cmd.shield (op): Allow players to become invulnverable
-* gb.cmd.slay (op): Allow slaying players
+* gb.cmd.seearmor (op): View armor
+* gb.cmd.seeinv (op): View inventory
+* gb.cmd.skin (op): Manage skins
+* gb.cmd.skin.other (op): Manage other's skins
 * gb.cmd.spawn: Teleport to spawn
 * gb.cmd.spectator (op): Turn players into spectators
-* gb.cmd.servicemode (op): service mode command
-* gb.servicemode.allow (op): login when in service mode
-* gb.cmd.summon (op): summon|dismmiss command
-* gb.cmd.throw (op): Troll players
-* gb.cmd.timings (op): view timings report
-* gb.cmd.pushpoptp (op): position stack
 * gb.cmd.servers (op): servers command
 * gb.cmd.servers.read (op): view server configuration
 * gb.cmd.servers.read.viewip (op): view server IP address
 * gb.cmd.servers.read.viewrcon (op): view rcon secrets
 * gb.cmd.servers.write (op): change server configuration
-* gb.cmd.clearinv: clear player's inventory
-* gb.cmd.clearinv.others (op): clear other's inventory
-* gb.cmd.rminv: remove item from inventory
-* gb.cmd.rminv.others (op): remove item from other's inventory
-* gb.cmd.clearhotbar: clear player's hotbar
-* gb.cmd.clearhotbar.others (op): clear other's hotbar
-* gb.cmd.players: connected players
+* gb.cmd.after (op): access command scheduler
+* gb.cmd.blowup (op): Explode other players
+* gb.cmd.crash (op): crash dump management
+* gb.cmd.fly (op): flight control
+* gb.cmd.pluginmgr (op): Run-time management of plugins
+* gb.cmd.summon (op): summon|dismmiss command
+* gb.cmd.throw (op): Troll players
+* gb.cmd.timings (op): view timings report
 <!-- end-include -->
 
 ## Translations
@@ -762,7 +773,7 @@ The following third party libraries are included:
 
 * 2.3.0: Update
   * Plugin loader will check server paths (include plugin folder)
-  * New plugin mgr sub command to dump messages.ini.
+  * New plugin mgr sub command to dump messages.ini and to un-install.
   * Doc updates.
   * Updating libcommon stuff.
   * WhoIs command now supports [PurePerms](https://forums.pocketmine.net/plugins/pureperms.862/)

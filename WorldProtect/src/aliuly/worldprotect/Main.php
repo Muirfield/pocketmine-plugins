@@ -1,17 +1,16 @@
 <?php
-/**
- **
- ** CONFIG:features
- **
- ** This section you can enable/disable modules.
- ** You do this in order to avoid conflicts between different
- ** PocketMine-MP plugins.  It has one line per feature:
- **
- **    feature: true|false
- **
- ** If `true` the feature is enabled.  if `false` the feature is disabled.
- **
- **/
+//= cmd:/worldprotect,Main_Commands
+//: Main WorldProtect command
+//> usage: /worldprotect  _[world]_ _<subcmd>_ _[options]_
+//= cfg:features
+//: This section you can enable/disable modules.
+//: You do this in order to avoid conflicts between different
+//: PocketMine-MP plugins.  It has one line per feature:
+//:
+//:     feature: true|false
+//:
+//: If **true** the feature is enabled.  if **false** the feature is disabled.
+//:
 namespace aliuly\worldprotect;
 
 use pocketmine\command\CommandSender;
@@ -43,6 +42,7 @@ class Main extends BasicPlugin implements CommandExecutor,Listener {
 			"motd" => [ "WpMotdMgr", false ],
 			"no-explode" => [ "NoExplodeMgr", false ],
 			"unbreakable" => [ "Unbreakable", false ],
+			"bancmds" => [ "BanCmd" , false ],
 			"banitem" => [ "BanItem", true ],
 			"gamemode" => [ "GmMgr", false ],
 			"gm-save-inv" => [ "GmSaveInv", false ],

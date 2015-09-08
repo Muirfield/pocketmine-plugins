@@ -1,7 +1,7 @@
 <?php
 //= cmd:pluginmgr,Server_Management
 //: manage plugins
-//> usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
+//> usage: **pluginmgr** _<subcmd>_ _<plugin>_
 //: Manage plugins.
 //:  The following sub-commands are available:
 //> - **pluginmgr** **enable** _<plugin>_
@@ -18,8 +18,13 @@
 //:     - Show permissions registered by plugin
 //> - **pluginmgr** **load** _<path>_
 //:     - Load a plugin from file path (presumably outside the **plugin** folder.)
-//> - **pluginmgr** **dumpmsg** <plugin>_
+//> - **pluginmgr** **dumpmsg** _<plugin>_ _[lang]_
 //:     - Dump messages.ini.
+//> - **pluginmgr** **uninstall** _<plugin>_
+//:     - Uninstall plugin.
+//> - **pluginmgr** **feature** _<plugin>_ _[[-|+]feature]_
+//:     - For plugins that have a _features_ table in **config.yml**
+//:       this will let you change those settings.
 
 namespace aliuly\grabbag;
 
@@ -32,10 +37,13 @@ use pocketmine\utils\TextFormat;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginManager;
 use pocketmine\plugin\PluginDescription;
+use pocketmine\utils\Config;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\PermUtils;
+use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\FileUtils;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
 	private function findPlugin($path) {
@@ -51,7 +59,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		PermUtils::add($this->owner, "gb.cmd.pluginmgr", "Run-time management of plugins", "op");
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg|uninstall|feature> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -140,21 +148,90 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 				return $this->cmdPerms($sender,$plugin,$pageNumber);
 			case "dumpmsg":
 			case "dumpmsgs":
-				return $this->cmdDumpMsgs($sender,$plugin);
+				return $this->cmdDumpMsgs($sender,$plugin, $args);
+			case "uninstall":
+				return $this->cmdRemove($sender,$plugin,$mgr);
+			case "feature":
+				return $this->cmdFeatures($sender,$plugin, $mgr, $args, $pageNumber);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
 		}
 		return true;
 	}
-	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
-		$getini = [$plugin,"getMessagesIni"];
-		if (!is_callable($getini)) {
-			$c->sendMessage(mc::_("Plugin does not support dumping messages.ini"));
+	private function cmdFeatures(CommandSender $c,Plugin $plugin, $mgr, $args, $pageNumber) {
+		//
+		$cfgfile = $plugin->getDataFolder()."config.yml";
+		if (!file_exists($cfgfile)) {
+			$c->sendMessage(mc::_("%1%: Does not have config.yml", $plugin->getDescription()->getFullName()));
 			return true;
 		}
+		$cfg = (new Config($cfgfile,Config::YAML,[]))->getAll();
+		$section = "features";
+		if (!isset($cfg[$section]) || !is_array($cfg[$section])) {
+			$c->sendMessage(mc::_("%1%: Does not have compatible config.yml", $plugin->getDescription()->getFullName()));
+			return true;
+		}
+		if (count($args) == 0) {
+			$txt = [];
+			$txt[] = mc::_("%1% Features", $plugin->getDescription()->getFullName());
+			foreach ($cfg[$section] as $a => $b) {
+				if (is_bool($b)) {
+					$txt[] = TextFormat::AQUA.$a.TextFormat::WHITE.": ". ($b ? TextFormat::GREEN.mc::_("yes") : TextFormat::YELLOW. mc::_("no"));
+					if (isset($cfg[$section]["# ".$b])) {
+						$txt[] = TextFormat::BLUE."    ".$cfg[$section]["# ".$b];
+					}
+				}
+			}
+			return $this->paginateText($c,$pageNumber,$txt);
+		}
+		$bounce = false;
+		foreach ($args as $i) {
+			$v = true;
+			if ($i{0} == "+") {
+				$i = substr($i,1);
+			} elseif ($i{0} == "-") {
+				$v = false;
+				$i = substr($i,1);
+			}
+			if (!isset($cfg[$section][$i]) || !is_bool($cfg[$section][$i])) {
+				$c->sendMessage(mc::_("%1%: Does not support feature %2%", $plugin->getDescription()->getFullName(), $i));
+				continue;
+			}
+			if ($cfg[$section][$i] === $v) continue;
+			$cfg[$section][$i] = $v;
+			if ($v) {
+				$c->sendMessage(mc::_("Enabling %1%",$i));
+			} else {
+				$c->sendMessage(mc::_("Disabling %1%",$i));
+			}
+			$bounce = true;
+		}
+		if (!$bounce) {
+			$c->sendMessage(mc::_("No changes"));
+			return true;
+		}
+		$yaml = new Config($cfgfile,Config::YAML,[]);
+		$yaml->setAll($cfg);
+		$yaml->save();
+		$mgr->disablePlugin($plugin);
+		$mgr->enablePlugin($plugin);
+		$c->sendMessage(TextFormat::GREEN.
+									mc::_("Plugin %1% reloaded",$plugin->getDescription()->getFullName()));
+		return true;
+	}
+	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin, $args) {
+		if (count($args) > 1) return false;
+		$lang = count($args) == 1 ? $args[0] : "messages";
+		$file = $this->getPluginFilePath($plugin)."/resources/messages/".$lang.".ini";
+		if (!file_exists($file)) {
+			echo "FILE=$file\n";//##DEBUG
+			$c->sendMessage(mc::_("Missing language file %1%", $lang));
+			return true;
+		}
+		$txt = file_get_contents($file);
 		if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
-		if (file_put_contents($plugin->getDataFolder()."messages.ini",$getini())) {
+		if (file_put_contents($plugin->getDataFolder()."messages.ini",$txt)) {
 			$c->sendMessage(mc::_("messages.ini created"));
 		} else {
 			$c->sendMessage(mc::_("Error dumping messages.ini"));
@@ -231,13 +308,53 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		$txt[] = TextFormat::GREEN.mc::_("PluginLoader: ").TextFormat::WHITE.
 					array_pop($loader);
 
+		$file = $this->getPluginFilePath($p);
+		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
+
+		return $this->paginateText($c,$pageNumber,$txt);
+	}
+	private function cmdRemove(CommandSender $c,Plugin $plugin,$mgr) {
+		$file = $this->getPluginFilePath($plugin);
+		// Check the different types...
+		if (($fp = MPMU::startsWith($file,"phar:")) !== null) {
+			// This is a phar plugin file
+			$file = $fp;
+			$c->sendMessage(mc::_("Uninstalled PHAR plugin from %1%", $file));
+		} elseif (($fp = MPMU::startsWith($file,"myzip:")) !== null) {
+			// This is a zip plugin
+			$fp = explode("#",$fp);
+			array_pop($fp);
+			$file = implode("#",$fp);
+			$c->sendMessage(mc::_("Uninstalled Zip plugin from %1%", $file));
+		} elseif (is_dir($file)) {
+			// A Folder plugin from devtools
+			$c->sendMessage(mc::_("Uninstalled Folder plugin from %1%", $file));
+		} elseif (is_file($file)) {
+			// A Script plugin
+			$c->sendMessage(mc::_("Uninstalled Script plugin from %1%", $file));
+		} else {
+			$loader = explode("\\",get_class($plugin->getPluginLoader()));
+			$c->sendMessage(mc::_("Unsupported loader %1% for uninstall", array_pop($loader)));
+			return true;
+		}
+		$mgr->disablePlugin($plugin);
+		if (FileUtils::rm_r($file)) {
+			$c->sendMessage(TextFormat::GREEN.mc::_("Uninstalled!"));
+			$c->sendMessage(mc::_("It is recommended to re-start the server as"));
+			$c->sendMessage(mc::_("there may be lingering references pointing"));
+			$c->sendMessage(mc::_("to the old plugin."));
+		} else {
+			$c->sendMessage(TextFormat::RED.mc::_("Uninstall failed"));
+		}
+		return true;
+	}
+
+	protected function getPluginFilePath(Plugin $p) {
 		$reflex = new \ReflectionClass("pocketmine\\plugin\\PluginBase");
 		$file = $reflex->getProperty("file");
 		$file->setAccessible(true);
 		$file = $file->getValue($p);
-		$txt[] = TextFormat::GREEN.mc::_("FileName: ").TextFormat::WHITE.$file;
-
-		return $this->paginateText($c,$pageNumber,$txt);
-
+		$file = preg_replace("/\/*\$/","",$file);
+		return $file;
 	}
 }

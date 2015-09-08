@@ -1,16 +1,23 @@
 <?php
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * banitem|unbanitem: Control items that can/cannot be used
- **   usage: /wp  _[world]_ **banitem|unbanitem** _[Item-ids]_
- **   Manages which Items can or can not be used in a given world.
- **   You can get a list of items currently banned
- **   if you do not specify any _[item-ids]_.  Otherwise these are
- **   added or removed from the list.
- **/
+//= cmd:banitem|unbanitem,Sub_Commands
+//: Control itmes that can/cannot be used
+//> usage: /wp  _[world]_ **banitem|unbanitem** _[Item-ids]_
+//:
+//: Manages which Items can or can not be used in a given world.
+//:  You can get a list of items currently banned
+//:  if you do not specify any _[item-ids]_.  Otherwise these are
+//:  added or removed from the list.
+//:
+//= features
+//: * Ban specific items in a world
+//
+//= docs
+//: Some items are able to modify a world by being consume (i.e. do not
+//: need to be placed).  For example, _bonemeal_, _water or lava buckets_.
+//: To prevent this type of griefing, you can use the **banitem**
+//: feature.
+//:
+
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;

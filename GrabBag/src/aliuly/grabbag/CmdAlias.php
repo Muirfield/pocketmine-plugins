@@ -24,7 +24,7 @@ use aliuly\grabbag\common\PermUtils;
 class AliasCmd implements CommandExecutor {
   protected $cmd;
   public function __construct($owner,$alias,$cmd) {
-    MPMU::addCommand($owner, $this, $alias, [
+    Cmd::addCommand($owner, $this, $alias, [
       "description" => mc::_("Alias for %1%", $cmd),
       "usage" => mc::_("/%1% [options]", $alias),
     ]);

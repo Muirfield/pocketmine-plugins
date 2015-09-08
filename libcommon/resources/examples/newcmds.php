@@ -20,14 +20,15 @@ namespace aliuly\example{
 	use pocketmine\command\Command;
 
 	use aliuly\common\MPMU;
+	use aliuly\common\Cmd;
 
 	class NewCmds extends PluginBase implements CommandExecutor{
 		public function onEnable(){
-			MPMU::addCommand($this,$this,"sp",[
+			Cmd::addCommand($this,$this,"sp",[
 					"description" => "Sends popup to player",
 					"usage" => "/sp <player> [message]",
 				]);
-			MPMU::addCommand($this,$this,"st",[
+			Cmd::addCommand($this,$this,"st",[
 					"description" => "Sends tip to player",
 					"usage" => "/st <player> [message]",
 				]);

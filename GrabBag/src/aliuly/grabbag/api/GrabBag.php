@@ -7,6 +7,8 @@ use pocketmine\entity\Human;
 use pocketmine\command\CommandSender;
 
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\ExpandVars;
+use aliuly\grabbag\common\PMScript;
 
 /**
  * GrabBag API
@@ -29,11 +31,15 @@ use aliuly\grabbag\common\mc;
  */
 class GrabBag {
   protected $plugin;
+  protected $vars;
+  protected $interp;
   /**
    * @param GrabBagPlugin $owner - plugin that owns this session
    */
   public function __construct(GrabBagPlugin $owner) {
     $this->plugin = $owner;
+    $this->vars = null;
+    $this->interp = null;
   }
   /**
    * Check if module is available...
@@ -67,13 +73,19 @@ class GrabBag {
     * Currently un-implemented
     */
    public function getVars() {
-     return null;
+     if ($this->vars === null) {
+       $this->vars = new ExpandVars($this->plugin);
+     }
+     return $this->vars;
    }
    /**
     * Currently un-implemented
     */
    public function getInterp() {
-     return null;
+     if ($this->interp == null) {
+       $this->interp  = new PMScript($this->plugin,$this->getVars());
+     }
+     return $this->interp;
    }
 
   //////////////////////////////////////////////////////////////

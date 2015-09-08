@@ -1,13 +1,11 @@
 <?php
-/**
- ** MODULE:gm-save-inv
- ** Will save inventory contents when switching gamemodes.
- **
- ** This is useful
- ** for when you have per world game modes so that players going from a
- ** survival world to a creative world and back do not loose their
- ** inventory.
- **/
+//= module:gm-save-inv
+//: Will save inventory contents when switching gamemodes.
+//:
+//: This is useful for when you have per world game modes so that
+//: players going from a survival world to a creative world and back
+//: do not loose their inventory.
+
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;
