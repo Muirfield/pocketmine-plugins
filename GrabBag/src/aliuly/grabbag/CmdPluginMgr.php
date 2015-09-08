@@ -1,7 +1,7 @@
 <?php
 //= cmd:pluginmgr,Server_Management
 //: manage plugins
-//> usage: **pluginmgr** _<enable|disable|reload|info|commands|permissions|load>_ _<plugin>_
+//> usage: **pluginmgr** _<subcmd>_ _<plugin>_
 //: Manage plugins.
 //:  The following sub-commands are available:
 //> - **pluginmgr** **enable** _<plugin>_
@@ -18,7 +18,7 @@
 //:     - Show permissions registered by plugin
 //> - **pluginmgr** **load** _<path>_
 //:     - Load a plugin from file path (presumably outside the **plugin** folder.)
-//> - **pluginmgr** **dumpmsg** _<plugin>_
+//> - **pluginmgr** **dumpmsg** _<plugin>_ _[lang]_
 //:     - Dump messages.ini.
 //> - **pluginmgr** **uninstall** _<plugin>_
 //:     - Uninstall plugin.
@@ -55,7 +55,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		PermUtils::add($this->owner, "gb.cmd.pluginmgr", "Run-time management of plugins", "op");
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg|uninstall> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -144,7 +144,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 				return $this->cmdPerms($sender,$plugin,$pageNumber);
 			case "dumpmsg":
 			case "dumpmsgs":
-				return $this->cmdDumpMsgs($sender,$plugin);
+				return $this->cmdDumpMsgs($sender,$plugin, $args);
 			case "uninstall":
 				return $this->cmdRemove($sender,$plugin,$mgr);
 			default:
@@ -153,14 +153,18 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		}
 		return true;
 	}
-	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin) {
-		$getini = [$plugin,"getMessagesIni"];
-		if (!is_callable($getini)) {
-			$c->sendMessage(mc::_("Plugin does not support dumping messages.ini"));
+	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin, $args) {
+		if (count($args) > 1) return false;
+		$lang = count($args) == 1 ? $args[0] : "messages";
+		$file = $this->getPluginFilePath($plugin)."/resources/messages/".$lang.".ini";
+		if (!file_exists($file)) {
+			echo "FILE=$file\n";//##DEBUG
+			$c->sendMessage(mc::_("Missing language file %1%", $lang));
 			return true;
 		}
+		$txt = file_get_contents($file);
 		if (!is_dir($plugin->getDataFolder())) mkdir($plugin->getDataFolder());
-		if (file_put_contents($plugin->getDataFolder()."messages.ini",$getini())) {
+		if (file_put_contents($plugin->getDataFolder()."messages.ini",$txt)) {
 			$c->sendMessage(mc::_("messages.ini created"));
 		} else {
 			$c->sendMessage(mc::_("Error dumping messages.ini"));
