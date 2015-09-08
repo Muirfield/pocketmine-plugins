@@ -6,6 +6,8 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandSender;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\Player;
+use pocketmine\command\PluginCommand;
+
 /**
  * Utility class to execute commands|chat's as player or console
  */
