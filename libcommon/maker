@@ -6,6 +6,8 @@ require_once(SRCDIR."../lib/include.php");
 require_once(LIBDIR."maker/gendoc2.php");
 require_once(LIBDIR."maker/mcgen.php");
 require_once(LIBDIR."maker/fix-common.php");
+require_once(LIBDIR."maker/updcode.php");
+update_code(LIBDIR."xPaw",SRCDIR."src/xPaw");
 
 //
 // Fix the version number

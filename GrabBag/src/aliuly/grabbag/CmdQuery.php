@@ -33,8 +33,8 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\PermUtils;
 
-use aliuly\grabbag\common\xPaw\MinecraftQuery;
-use aliuly\grabbag\common\xPaw\MinecraftQueryException;
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
 
 class CmdQuery extends BasicCli implements CommandExecutor {
 
