@@ -5,6 +5,9 @@ use aliuly\grabbag\Main as GrabBagPlugin;
 use aliuly\grabbag\api\GrabBagEvent;
 use pocketmine\event\Cancellable;
 
+/**
+ * Triggered when a new server is being added to the server list
+ */
 class GbAddServerEvent extends GrabBagEvent implements Cancellable {
   public static $handlerList = null;
   private $serverId;

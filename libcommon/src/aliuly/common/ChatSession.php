@@ -27,7 +27,7 @@ class ChatSession extends Session {
   public function __construct(PluginBase $owner) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
     $this->apis = [ null, null ];
-    if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3")) {
+    if ($bag && $bag->isEnabled() && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3")) {
       if ($bag->api->getFeature("chat-utils")) $this->apis[0] = $bag->api;
       if ($bag->api->getFeature("mute-unmute")) $this->apis[1] = $bag->api;
       return;
