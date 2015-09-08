@@ -12,6 +12,7 @@ use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\ExpandVars;
 use aliuly\common\PMScript;
+use aliuly\common\PluginCallbackTask;
 
 /**
  * This class is used for the PocketMine PluginManager
@@ -37,6 +38,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 	}
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
+
 		MPMU::addCommand($this,$this,"libcommon", [
 			"description" => mc::_("LibCommon Command Line interface"),
 			"usage" => mc::_("/libcommon <subcommand> [options]"),
@@ -52,11 +54,17 @@ class Main extends BasicPlugin implements CommandExecutor{
 		//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 		foreach ([
 			"Version",
+			"RcCmd",
 		] as $mod) {
 			//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
-			$mod = __NAMESPACE__."\\".$mod;
-			$this->modules[$mod] = new $mod($this);
+			$class = __NAMESPACE__."\\".$mod;
+			$this->modules[$mod] = new $class($this);
 		}
+		MPMU::addCommand($this,$this,"echo", [
+			"description" => mc::_("Basic echo command"),
+			"usage" => mc::_("/libcommon <subcommand> [options]"),
+			"permission" => "libcommon.echo.command",
+		]);
 
 		if (\pocketmine\DEBUG > 1) {
 			//echo __METhOD__.",".__LINE__."\n";//##DEBUG
@@ -72,25 +80,26 @@ class Main extends BasicPlugin implements CommandExecutor{
 			foreach ([
 				"DumpMsgs",
 				"EchoCmd",
-				"RcCmd",
 				"MotdMgr",
 				"QueryMgr",
+				"TraceCmd",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 
 				$class = __NAMESPACE__."\\".$mod;
 				$this->modules[$mod] = new $class($this);
 			}
-			MPMU::addCommand($this,$this,"echo", [
-			"description" => mc::_("Basic echo command"),
-			"usage" => mc::_("/libcommon <subcommand> [options]"),
-			"permission" => "libcommon.echo.command",
-		]);
 		}
 		$this->modules["BasicHelp"] = new BasicHelp($this);
 
 		// Auto start scripts...
-		if (isset($this->modules["RcCmd"]))	$this->modules["RcCmd"]->autostart();
+		if (isset($this->modules["RcCmd"]))	{
+			// Schedule to run this later so that other Plugins
+			// get a change to start...
+			$this->getServer()->getScheduler()->scheduleDelayedTask(
+				new PluginCallbackTask($this,[$this->modules["RcCmd"],"autostart"]),15
+			);
+		}
 	}
 	public function asyncResults($res, $module, $cbname, ...$args) {
 		if (!isset($this->modules[$module])) return;

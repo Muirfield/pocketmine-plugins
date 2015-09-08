@@ -35,6 +35,7 @@ use pocketmine\plugin\PluginDescription;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
 	private function findPlugin($path) {
@@ -47,6 +48,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 	}
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.pluginmgr", "Run-time management of plugins", "op");
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
 								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg> <plugin>"),

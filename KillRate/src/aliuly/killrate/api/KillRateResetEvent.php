@@ -6,6 +6,10 @@ use pocketmine\event\Cancellable;
 use pocketmine\Player;
 use aliuly\killrate\api\KillRateEvent;
 
+/**
+ * Triggered when the player dies enough times so that scores will
+ * be reset to zero.  This is essentially the **GAME OVER** event.
+ */
 class KillRateResetEvent extends KillRateEvent implements Cancellable {
   public static $handlerList = null;
   /** @var Player */

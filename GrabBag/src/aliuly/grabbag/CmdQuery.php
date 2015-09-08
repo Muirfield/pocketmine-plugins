@@ -31,13 +31,21 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\xPaw\MinecraftQuery;
-use aliuly\grabbag\common\xPaw\MinecraftQueryException;
+use aliuly\grabbag\common\PermUtils;
+
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
 
 class CmdQuery extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.query", "Query command", "true");
+		PermUtils::add($this->owner, "gb.cmd.query.details", "View details (info, plugins)", "true");
+		PermUtils::add($this->owner, "gb.cmd.query.players", "View players", "true");
+		PermUtils::add($this->owner, "gb.cmd.query.players.showip", "View players server IP", "true");
+		PermUtils::add($this->owner, "gb.cmd.query.list", "Query List sub command", "true");
+
 		$this->enableCmd("query",
 							  ["description" => mc::_("Query servers"),
 								"usage" => mc::_("/query [list|info|plugins|players|summary] <opts>"),

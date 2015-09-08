@@ -1,0 +1,13 @@
+echo Trace testing
+lc tr on
+lc tr
+lc tr events player
+lc tr player
+lc tr
+s s steve
+kick steve
+s s steve
+kick steve
+lc tr -player
+lc tr
+lc tr off

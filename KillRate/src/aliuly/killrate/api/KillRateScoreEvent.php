@@ -6,6 +6,9 @@ use pocketmine\event\Cancellable;
 use pocketmine\Player;
 use aliuly\killrate\api\KillRateEvent;
 
+/**
+ * Triggered when the player is scoring points
+ */
 class KillRateScoreEvent extends KillRateEvent implements Cancellable {
   public static $handlerList = null;
   /** @var Player */

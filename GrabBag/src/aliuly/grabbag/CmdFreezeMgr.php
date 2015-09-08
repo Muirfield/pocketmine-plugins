@@ -21,6 +21,7 @@ use pocketmine\event\player\PlayerMoveEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;
@@ -34,9 +35,29 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 		];
 	}
 
+	public function isHardFreeze() {
+		return $this->hard;
+  }
+  public function setHardFreeze($hard) {
+		$this->hard = $hard ? true : false;
+		$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+  }
+  public function freeze($player, $freeze) {
+		$n = strtolower($player->getName());
+		if ($freeze) {
+			$this->frosties[$n] = $player->getName();
+		} else {
+			if (isset($this->frosties[$n])) unset($this->frosties[$n]);
+		}
+  }
+  public function getFrosties() {
+    return array_keys($this->frosties);
+  }
+
 	public function __construct($owner,$cfg) {
 		parent::__construct($owner);
 		$this->hard = $cfg["hard-freeze"];
+		PermUtils::add($this->owner, "gb.cmd.freeze", "freeze/thaw players", "op");
 		$this->enableCmd("freeze",
 							  ["description" => mc::_("freeze player"),
 								"usage" => mc::_("/freeze [--hard|--soft] [player]"),
@@ -59,14 +80,12 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 		switch ($cmd->getName()) {
 			case "freeze":
 				if ($args[0] == "--hard") {
-					$this->hard = true;
 					$sender->sendMessage(mc::_("Now doing hard freeze"));
-					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$this->setHardFreeze(true);
 					return true;
 				} elseif ($args[0] == "--soft") {
-					$this->hard = false;
 					$sender->sendMessage(mc::_("Now doing soft freeze"));
-					$this->owner->cfgSave("freeze-thaw",["hard-freeze"=>$this->hard]);
+					$this->setHardFreeze(false);
 					return true;
 				}
 

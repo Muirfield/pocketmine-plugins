@@ -33,6 +33,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $leaders;
@@ -41,6 +42,8 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.follow", "lets you follow others", "op");
+		PermUtils::add($this->owner, "gb.cmd.followme", "let others follow you", "op");
 		$this->enableCmd("followers",
 							  ["description" => mc::_("List leads and followers"),
 								"usage" => mc::_("/followers"),
@@ -126,38 +129,6 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		}
 		return false;
 	}
-	private function follow($follower,$leader) {
-		$follower = MPMU::iName($follower);
-		$leader = MPMU::iName($leader);
-		if (isset($this->followers[$follower])) $this->followStop($follower);
-		if (!isset($this->leaders[$leader])) {
-			// First follower!
-			$this->leaders[$leader] = [];
-		}
-		$this->leaders[$leader][$follower] = $follower;
-		$this->followers[$follower] = $leader;
-		$this->approach($follower,$leader);
-	}
-	private function stopFollowing($follower) {
-		$follower = MPMU::iName($follower);
-		if (!isset($this->followers[$follower])) return;
-		$leader = $this->followers[$follower];
-		unset($this->followers[$follower]);
-		if (!isset($this->leaders[$leader])) return;
-		if (isset($this->leaders[$leader][$follower]))
-			unset($this->leaders[$leader][$follower]);
-		if (count($this->leaders[$leader]) == 0)
-			unset($this->leaders[$leader]);
-	}
-	private function stopLeading($leader) {
-		$leader = MPMU::iName($leader);
-		if (!isset($this->leaders[$leader])) return;
-		foreach ($this->leaders[$leader] as $follower) {
-			if (isset($this->followers[$follower]))
-				unset($this->followers[$follower]);
-		}
-		unset($this->leaders[$leader]);
-	}
 	private function approach($f,$l) {
 		// "f=$f l=$l\n";//##DEBUG
 		if (!($f instanceof Player)) {
@@ -201,4 +172,46 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 			}
 		}
 	}
+	// API related stuff...
+	public function getLeaders() {
+		return array_keys($this->leaders);
+	}
+	public function getFollowers($leader) {
+		$leader = MPMU::iName($leader);
+		return $this->leaders[$leader];
+	}
+	public function follow($follower,$leader) {
+		$follower = MPMU::iName($follower);
+		$leader = MPMU::iName($leader);
+		if (isset($this->followers[$follower])) $this->followStop($follower);
+		if (!isset($this->leaders[$leader])) {
+			// First follower!
+			$this->leaders[$leader] = [];
+		}
+		$this->leaders[$leader][$follower] = $follower;
+		$this->followers[$follower] = $leader;
+		$this->approach($follower,$leader);
+	}
+	public function stopFollowing($follower) {
+		$follower = MPMU::iName($follower);
+		if (!isset($this->followers[$follower])) return;
+		$leader = $this->followers[$follower];
+		unset($this->followers[$follower]);
+		if (!isset($this->leaders[$leader])) return;
+		if (isset($this->leaders[$leader][$follower]))
+			unset($this->leaders[$leader][$follower]);
+		if (count($this->leaders[$leader]) == 0)
+			unset($this->leaders[$leader]);
+	}
+	public function stopLeading($leader) {
+		$leader = MPMU::iName($leader);
+		if (!isset($this->leaders[$leader])) return;
+		foreach ($this->leaders[$leader] as $follower) {
+			if (isset($this->followers[$follower]))
+				unset($this->followers[$follower]);
+		}
+		unset($this->leaders[$leader]);
+	}
+
+	//
 }

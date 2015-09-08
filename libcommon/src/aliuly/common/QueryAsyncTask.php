@@ -3,8 +3,8 @@ namespace aliuly\common;
 use aliuly\common\PluginAsyncTask;
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
-use aliuly\common\xPaw\MinecraftQuery;
-use aliuly\common\xPaw\MinecraftQueryException;
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
 
 
 /**

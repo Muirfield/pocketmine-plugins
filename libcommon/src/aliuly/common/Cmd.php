@@ -14,7 +14,7 @@ abstract class Cmd {
 	 * Execute a command as a given player
 	 *
 	 * @param Player|CommandSender $sender - Entity to impersonate
-	 * @param str[]|str $cmd - commands to exectue
+	 * @param str[]|str $cmd - commands to execute
 	 * @param bool $show - show commands being executed
 	 */
 	static public function exec($sender,$cmd,$show=true) {
@@ -23,6 +23,18 @@ abstract class Cmd {
 			if($show)$sender->sendMessage("CMD> $c");
 			$sender->getServer()->dispatchCommand($sender,$c);
 		}
+	}
+	/**
+	 * Execute a command capturing output
+	 *
+	 * @param Server $server
+	 * @param str $cmd - command to execute
+	 * @return str
+	 */
+	static public function system($server, $cmd) {
+		$rcon = new RemoteConsoleCommandSender;
+		$server->distpatchCommand($rcon,$cm);
+		return $rcon->getMessage();
 	}
 	/**
 	 * Chat a message as a given player

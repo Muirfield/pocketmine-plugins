@@ -16,7 +16,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "1.2.0dev2";
+	const VERSION = "1.90.0dev0";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -208,7 +208,7 @@ abstract class MPMU {
 	}
 	/**
 	 * Unregisters a command
-   * @param Server|Plugin $obj - Access path to server instance
+	 * @param Server|Plugin $obj - Access path to server instance
 	 * @param str $cmd - Command name to remove
 	 */
 	static public function rmCommand($srv, $cmd) {

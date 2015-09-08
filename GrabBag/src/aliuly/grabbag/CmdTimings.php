@@ -18,10 +18,12 @@ use pocketmine\utils\TextFormat;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdTimings extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.timings", "view timings report", "op");
 		$this->enableCmd("showtimings",
 							  ["description" => mc::_("Show timings data (see /timings)"),
 								"usage" => mc::_("/showtimings [t#]"),

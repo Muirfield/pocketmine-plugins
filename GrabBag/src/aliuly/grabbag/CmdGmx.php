@@ -23,14 +23,20 @@ use pocketmine\command\Command;
 
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdGmx extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.gma", "Switch gamemode to Adventure", "op");
+		PermUtils::add($this->owner, "gb.cmd.gms", "Switch gamemode to Survival", "op");
+		PermUtils::add($this->owner, "gb.cmd.gmc", "Switch gamemode to Creative", "op");
+		PermUtils::add($this->owner, "gb.cmd.gmspc", "Switch gamemode to Spectator", "op");
 		$this->enableCmd("gmc",
 							  ["description" => mc::_("switch gamemode to creative"),
 								"usage" => mc::_("/gmc"),

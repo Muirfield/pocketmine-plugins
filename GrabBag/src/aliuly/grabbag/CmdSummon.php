@@ -17,11 +17,13 @@ use pocketmine\math\Vector3;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSummon extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.summon", "summon|dismmiss command", "op");
 		$this->enableCmd("summon",
 							  ["description" => mc::_("Teleports players to your location"),
 								"usage" => mc::_("/summon <player> [message]"),
@@ -41,7 +43,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		return false;
 	}
 
-	private function cmdSummon(CommandSender $c,$args) {
+	public function cmdSummon(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		if (!MPMU::inGame($c)) return true;
 		$pl = $this->owner->getServer()->getPlayer($args[0]);
@@ -71,7 +73,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		$pl->teleport($c->getLevel()->getSafeSpawn($mv));
 		return true;
 	}
-	private function cmdDismiss(CommandSender $c,$args) {
+	public function cmdDismiss(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		if (!MPMU::inGame($c)) return true;
 

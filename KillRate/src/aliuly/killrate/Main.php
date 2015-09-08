@@ -1,7 +1,4 @@
 <?php
-/**
- ** CONFIG:config.yml
- **/
 namespace aliuly\killrate;
 
 use pocketmine\plugin\PluginBase;
@@ -33,6 +30,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\Achievement;
 
 use aliuly\killrate\common\mc;
+use aliuly\killrate\common\mc2;
 use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
 use aliuly\killrate\common\MoneyAPI;
@@ -57,25 +55,14 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	public function onEnable(){
 		$this->dbm = null;
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
-		if (mc::plugin_init($this,$this->getFile()) === false) {
-			file_put_contents($this->getDataFolder()."messages.ini",MPMU::getResourceContents($this,"messages/eng.ini")."\n\"<nagme>\"=\"yes\"\n");
-			mc::plugin_init($this,$this->getFile());
-			$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
-			$this->getLogger()->error(TextFormat::YELLOW."Creating a custom \"messages.ini\" with empty strings");
-			$this->getLogger()->error(TextFormat::AQUA."Please consider translating it and submitting a");
-			$this->getLogger()->error(TextFormat::AQUA."translation to the developer");
-		} else {
-			if (mc::_("<nagme>") === "yes") {
-				$this->getLogger()->error(TextFormat::RED."Your selected language \"".$this->getServer()->getProperty("settings.language")."\" is not supported");
-				$this->getLogger()->error(TextFormat::AQUA."Please consider translating \"messages.ini\"");
-				$this->getLogger()->error(TextFormat::AQUA."and submitting a translation to the  developer");
-			}
-		}
+
+		mc2::plugin_init_alt($this,$this->getFile());
+
 		$this->api = new KillRateAPI($this);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
-			"# settings" => "Configuration settings",
+			//= cfg:settings
 			"settings" => [
 				"# points" => "award points.", // if true points are awarded and tracked.
 				"points" => true,
@@ -92,28 +79,43 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				"# achievements" => "Enable PocketMine achievements",
 				"achievements" => true,
 			],
-			"# values" => "configure awards. (1st.money, 2nd.points)", // Configures how many points or how much money is awarded per kill type.  The first number is points, the second is money.  You can use negative values.
+			//= cfg:values
+			//:
+			//: Configure awards for the different type of kills.  Format:
+			//:
+			//:     "entity" => [ money, points ],
+			//:
+			//: The entity ( * ) is the default.
 			"values" => [
+				"<Example>" => [ "money" , "points" ],
 				"*" => [ 1, 10 ],	// Default
 				"Player" => [ 100, 100 ],
 			],
-			"# formats" => "Sign formats.", // Used to show sign data
+			//= cfg:formats
+			//: Sign formats used to show sign data.
 			"formats" => [
 				"default" => "{sname} {count}",
 				"names" => "{n}.{player}",
 				"scores" => "{count}",
 			],
-			"# backend" => "Use SQLiteMgr or MySqlMgr",
-			"backend" => "SQLiteMgr",
-			"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
-			"MySql" => [
-				"host" => "localhost",
-				"user" => "nobody",
-				"password" => "secret",
-				"database" => "KillRateDb",
-				"port" => 3306,
+			//= cfg:database
+			"database" => [
+				"# backend" => "Use SQLiteMgr or MySqlMgr",
+				"backend" => "SQLiteMgr",
+				"# MySql" => "MySQL settings.", // Only used if backend is MySqlMgr to configure MySql settings
+				"MySql" => [
+					"host" => "localhost",
+					"user" => "nobody",
+					"password" => "secret",
+					"database" => "KillRateDb",
+					"port" => 3306,
+				],
 			],
-			"# signs" => "placed signs text.", // These are used to configure sign texts.  Place signs with the words on the left, and the sign type (on the right) will be created
+			//= cfg:signs
+			//: Placed signs text.
+			//: These are used to configure sign texts.  Place signs with the
+			//: words on the left, and the sign type (on the right) will be
+			//: created
 			"signs" => [
 				"[STATS]" => "stats",
 				"[ONLINE TOPS]" => "online-tops",
@@ -126,20 +128,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		];
 		$this->cfg = (new Config($this->getDataFolder()."config.yml",
 										 Config::YAML,$defaults))->getAll();
-		if (version_compare($this->cfg["version"],"1.2.0") < 0) {
+		if (version_compare($this->cfg["version"],"2.0.1") < 0) {
 			$this->getLogger()->warning(TextFormat::RED.mc::_("Configuration has been changed"));
 			$this->getLogger()->warning(mc::_("It is recommended to delete old config.yml"));
 		}
 
-		$backend = __NAMESPACE__."\\".$this->cfg["backend"];
+		$backend = __NAMESPACE__."\\".$this->cfg["database"]["backend"];
 		$this->dbm = new $backend($this);
-		if ($this->cfg["backend"] != "SQLiteMgr") {
-			$this->getLogger()->warning(TextFormat::RED.mc::_("Using %1% backend is untested",$this->cfg["backend"]));
-			$this->getLogger()->warning(TextFormat::RED.mc::_("Please report bugs"));
-		} else {
-			$this->getLogger()->info(mc::_("Using %1% as backend",
-													 $this->cfg["backend"]));
-		}
+		$this->getLogger()->info(mc::_("Using %1% as backend",
+													 $this->cfg["database"]["backend"]));
+
 		if (isset($this->cfg["settings"]["rewards"])) {
 			$this->money = MoneyAPI::moneyPlugin($this);
 			if ($this->money) {
@@ -165,6 +163,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 	}
 
 	public function getCfg($key) {
+		if (!isset($this->cfg[$key])) {
+			return $this->cfg["database"][$key];
+		}
 		return $this->cfg[$key];
 	}
 

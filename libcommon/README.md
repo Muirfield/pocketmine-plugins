@@ -20,9 +20,9 @@
 ## Overview
 
 This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.  Normally I embed different modules
-into my **phar** plugins but it is possible to use it as a stand-alone
-**phar**.
+writing PocketMine-MP plugins.  Normally I embed the differnt modules
+when creating my plugins in order to avoid dependency issues.  However
+**libcommon** is usable as a stand-alone plugin.
 
 When used as stand-alone, it provides useful functionality that
 can be called directly by script plugins.  Also, if **\pocketmine\DEBUG** > 1,
@@ -53,6 +53,23 @@ It also bundles useful third party libraries:
 
 For the full API documentation go to:
 [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+
+The following subcommands are available:
+<!-- php:$h = 0; -->
+<!-- template: gd2/cmdoverview.md -->
+
+* dumpmsg: Dump a plugin's messages.ini
+* echo: shows the given text (variable substitutions are performed)
+* motd-add: Add a server for MOTD querying
+* motd-stat: Return the servers MOTD values
+* query-add: Add a server for Query gathering
+* query-list: Return the available Query data
+* rc: Runs the given script
+* trace: controls event tracing
+* version: shows the libcommon version
+
+
+<!-- end-include -->
 
 ## Commands
 
@@ -89,7 +106,6 @@ has the following sub-commands:
 * rc: Runs the given script<br/>
   usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
   
-  This command is available when **DEBUG** is enabled.
   This command will execute PMScripts present in the **libcommon**
   folder.  By convention, the ".pms" suffix must be used for the file
   name, but the ".pms" is ommitted when issuing this command.
@@ -97,10 +113,39 @@ has the following sub-commands:
   The special script **autostart.pms** is executed automatically
   when the **libcommon** plugin gets enabled.
   
-* version: shows the libcomonn version<br/>
+* trace: controls event tracing<br/>
+   usage: /libcommon **trace** _[options]_
+  
+  This command is available when **DEBUG** is enabled.
+  Trace will show to the user the different events that are being
+  triggered on the server.  To reduce spam, events are de-duplicated.
+  
+  Sub commands:
+  * /libcommon **trace**
+    - Shows the current trace status
+  * /libcommon **trace** **on**
+    - Turns on tracing
+  * /libcommon **trace** **off**
+    - Turns off tracing
+  * /libcommon **trace** **events** _[type|class]_
+    - Show the list of the different event types and classes.  If a _type_
+      or _class_ was specified, it will show the events defined for them.
+  * /libcommon **trace** _&lt;event|type|class&gt;_ _[additional options]_
+    - Will add the specified _event|type|class_ to the current user's
+      trace session.
+  * /libcommon **trace** _&lt;-event|type|class&gt;_ _[additional options]_
+    - If you start the _event|type|class_ specification name with a
+      **dash**, the _event|type|class_ will be removed from the current
+      trace session.
+  
+* version: shows the libcommon version<br/>
    usage: /libcommon **version**
 
 <!-- end-include -->
+
+For use in PMScripts, a **echo** command is defined.  Unlike the
+**libcommon echo** command, **echo** does not do any variable
+substitutions.
 
 ## Command Selectors
 <!-- snippet: cmdselector  -->
@@ -182,7 +227,7 @@ available:
 
 ## Changes
 
-- 1.2.0: Major Update 2
+- 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
   * Lots of new API features.
@@ -205,6 +250,7 @@ available:
     * rc
     * motd utils
     * version
+    * trace
 - 1.1.0: Update 1
   * Added ItemName class (with more item names)
   * Removed MPMU::itemName

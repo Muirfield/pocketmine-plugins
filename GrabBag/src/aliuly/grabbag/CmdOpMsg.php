@@ -37,12 +37,18 @@ use pocketmine\utils\Config;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	protected $rpt;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+
+		PermUtils::add($this->owner, "gb.cmd.opms", "Send op only messages", "true");
+		PermUtils::add($this->owner, "gb.cmd.rpt", "Report issues", "true");
+		PermUtils::add($this->owner, "gb.cmd.rpt.read", "Read reported issues", "op");
+
 		$this->enableCmd("opms",
 							  ["description" => mc::_("Send message to ops"),
 								"usage" => mc::_("/opms <message>"),
@@ -62,80 +68,86 @@ class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 						mc::_("%1% reports on file",count($rpt)),
 						count($rpt)));
 	}
+	public function rptCmd(CommandSender $sender,array $args) {
+		if (count($args) == 0) return false;
+		list($id,$rpt) = $this->rpt->getAll();
+		if ($args[0] == "read" && (count($args) == 1 ||
+											(count($args) == 2 && is_numeric($args[1])))) {
+			if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
+			if (count($rpt) == 0) {
+				$sender->sendMessage(TextFormat::RED.mc::_("No reports on file!"));
+				return true;
+			}
+			$pageNumber = $this->getPageNumber($args);
+			$tab = [[ mc::_("ID"),mc::_("Date"),mc::_("Name"),
+						mc::_("Reports: %1%",count($rpt)) ]];
+			foreach ($rpt as $i=>$ln) {
+				list($tm,$name,$ms) = $ln;
+				$tm = date(mc::_("d-M H:i"),$tm);
+				$tab[] = [ $i,$tm,$name,$ms ];
+			}
+			$this->paginateTable($sender,$pageNumber,$tab);
+			return true;
+		}
+		if ($args[0] == "clear" && count($args) == 2) {
+			if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
+			if ($args[1] == "all") {
+				$rpt = [];
+				$sender->sendMessage(TextFormat::RED.mc::_("All reports deleted"));
+			} else {
+				$i = intval($args[1]);
+				if (!isset($rpt[$i])) {
+					$sender->sendMessage(mc::_("Unknown report #%1%",$i));
+					return true;
+				}
+				unset($rpt[$i]);
+				$sender->sendMessage(mc::_("Deleting report #%1%",$i));
+			}
+		} else {
+			$rpt[++$id] = [time(),$sender->getName(),implode(" ",$args)];
+			$sender->sendMessage(mc::_("Report filed as #%1%",$id));
+			$ms = TextFormat::BLUE.
+				mc::_("Rpt[#%1% from %2%] ",$id,$sender->getName()).
+				TextFormat::YELLOW.implode(" ",$args);
+			$this->owner->getLogger()->info($ms);
+			foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
+				if (!$pl->isOp()) continue;
+				$pl->sendMessage($ms);
+			}
+		}
+		$this->rpt->setAll([$id,$rpt]);
+		$this->rpt->save();
+		return true;
+	}
+	public function opmsgCmd(CommandSender $sender, array $args) {
+		if (count($args) == 0) return false;
+		$ms = TextFormat::BLUE.mc::_("OpMsg [%1%] ",$sender->getName()).
+			TextFormat::YELLOW.implode(" ",$args);
+		$this->owner->getLogger()->info($ms);
+		$count = 0;
+		foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
+			if (!$pl->isOp()) continue;
+			$pl->sendMessage($ms);
+			++$count;
+		}
+		if (($sender instanceof Player) && !$sender->isOp()) {
+			if($count){
+				$sender->sendMessage(mc::_("(ops:%1%) ",$count).implode(" ",$args));
+			}else{
+				$sender->sendMessage(mc::_("Message sent to console only"));
+				if ($sender->hasPermission("gb.cmd.rpt")) {
+					$sender->sendMessage(mc::_("Try /rpt instead"));
+				}
+			}
+		}
+		return true;
+	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		switch($cmd->getName()) {
 			case "opms":
-				if (count($args) == 0) return false;
-				$ms = TextFormat::BLUE.mc::_("OpMsg [%1%] ",$sender->getName()).
-					 TextFormat::YELLOW.implode(" ",$args);
-				$this->owner->getLogger()->info($ms);
-				$count = 0;
-				foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
-					if (!$pl->isOp()) continue;
-					$pl->sendMessage($ms);
-					++$count;
-				}
-				if (($sender instanceof Player) && !$sender->isOp()) {
-					if($count){
-						$sender->sendMessage(mc::_("(ops:%1%) ",$count).implode(" ",$args));
-					}else{
-						$sender->sendMessage(mc::_("Message sent to console only"));
-						if ($sender->hasPermission("gb.cmd.rpt")) {
-							$sender->sendMessage(mc::_("Try /rpt instead"));
-						}
-					}
-				}
-				return true;
+			  return $this->opmsgCmd($sender,$args);
 			case "rpt":
-				if (count($args) == 0) return false;
-				list($id,$rpt) = $this->rpt->getAll();
-				if ($args[0] == "read" && (count($args) == 1 ||
-													(count($args) == 2 && is_numeric($args[1])))) {
-					if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
-					if (count($rpt) == 0) {
-						$sender->sendMessage(TextFormat::RED.mc::_("No reports on file!"));
-						return true;
-					}
-					$pageNumber = $this->getPageNumber($args);
-					$tab = [[ mc::_("ID"),mc::_("Date"),mc::_("Name"),
-								 mc::_("Reports: %1%",count($rpt)) ]];
-					foreach ($rpt as $i=>$ln) {
-						list($tm,$name,$ms) = $ln;
-						$tm = date(mc::_("d-M H:i"),$tm);
-						$tab[] = [ $i,$tm,$name,$ms ];
-					}
-					$this->paginateTable($sender,$pageNumber,$tab);
-					return true;
-				}
-				if ($args[0] == "clear" && count($args) == 2) {
-					if (!MPMU::access($sender,"gb.cmd.rpt.read")) return false;
-					if ($args[1] == "all") {
-						$rpt = [];
-						$sender->sendMessage(TextFormat::RED.mc::_("All reports deleted"));
-					} else {
-						$i = intval($args[1]);
-						if (!isset($rpt[$i])) {
-							$sender->sendMessage(mc::_("Unknown report #%1%",$i));
-							return true;
-						}
-						unset($rpt[$i]);
-						$sender->sendMessage(mc::_("Deleting report #%1%",$i));
-					}
-				} else {
-					$rpt[++$id] = [time(),$sender->getName(),implode(" ",$args)];
-					$sender->sendMessage(mc::_("Report filed as #%1%",$id));
-					$ms = TextFormat::BLUE.
-						 mc::_("Rpt[#%1% from %2%] ",$id,$sender->getName()).
-						 TextFormat::YELLOW.implode(" ",$args);
-					$this->owner->getLogger()->info($ms);
-					foreach ($this->owner->getServer()->getOnlinePlayers() as $pl) {
-						if (!$pl->isOp()) continue;
-						$pl->sendMessage($ms);
-					}
-				}
-				$this->rpt->setAll([$id,$rpt]);
-				$this->rpt->save();
-				return true;
+				return $this->rptCmd($sender,$args);
 		}
 		return false;
 	}

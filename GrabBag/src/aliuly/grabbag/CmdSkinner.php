@@ -21,14 +21,35 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSkinner extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.skin", "Manage skins", "op");
+		PermUtils::add($this->owner, "gb.cmd.skin.other", "Manage other's skins", "op");
+
 		$this->enableCmd("skin",
 							  ["description" => mc::_("Manage skins on the server"),
 								"usage" => mc::_("/skin [player] [save|load|ls] [name]"),
 								"permission" => "gb.cmd.skin"]);
+	}
+	public function getSkins($folder = null) {
+		if ($folder === null) $folder = $this->owner->getDataFolder();
+		return glob($folder."*.skin");
+	}
+	public function saveSkin($human,$fn, $folder = null) {
+		if ($folder === null) $folder = $this->owner->getDataFolder();
+		$bin = zlib_encode($human->getSkinData(),ZLIB_ENCODING_DEFLATE,9);
+		file_put_contents($folder.$fn,$bin);
+		return strlen($bin);
+	}
+	public function loadSkin($human,$fn, $folder = null) {
+		if ($folder === null) $folder = $this->owner->getDataFolder();
+		$bin = file_get_contents($folder.$fn);
+		if ($bin === false) return false;
+		$human->setSkin(zlib_decode($bin),$slim);
+		return true;
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "skin") return false;
@@ -44,7 +65,8 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 		if (count($args) == 0) $args = [ "ls" ];
 		switch (strtolower(array_shift($args))) {
 			case "ls":
-				$skins = glob($this->owner->getDataFolder()."*.skin");
+				$skins = $this->getSkins();
+
 				if (count($skins) == 0) {
 					$sender->sendMessage(mc::_("No skins found"));
 					return true;
@@ -68,9 +90,8 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 				if (!MPMU::inGame($human)) return true;
 				if ($human !== $sender && !MPMU::access($sender,"gb.cmd.skin.other")) return true;
 				$fn = preg_replace('/\.skin$/','',basename($args[0])).".skin";
-				$bin = zlib_encode($human->getSkinData(),ZLIB_ENCODING_DEFLATE,9);
-				file_put_contents($this->owner->getDataFolder().$fn,$bin);
-				$sender->sendMessage(mc::_("Wrote %1% bytes to %2%",strlen($bin),$fn));
+				$cnt = $this->saveSkin($human,$fn);
+				$sender->sendMessage(mc::_("Wrote %1% bytes to %2%",$cnt,$fn));
 				return true;
 			case "load":
 				$slim = false;
@@ -82,14 +103,12 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 				if (count($args) != 1) return false;
 				if (!MPMU::inGame($human)) return true;
 				$fn = preg_replace('/\.skin$/','',basename($args[0])).".skin";
-				$bin = file_get_contents($this->owner->getDataFolder().$fn);
-				if ($bin === false) {
+
+				if ($this->loadSkin($human,$fn)) {
+					$sender->sendMessage(mc::_("Updated skin for %1%",$human->getName()));
+				} else {
 					$sender->sendMessage(mc::_("Unable to read %1%",$fn));
-					return true;
 				}
-				$human->setSkin(zlib_decode($bin),$slim);
-				$sender->sendMessage(mc::_("Updated skin for %1%",
-													$human->getName()));
 				return true;
 		}
 		return false;

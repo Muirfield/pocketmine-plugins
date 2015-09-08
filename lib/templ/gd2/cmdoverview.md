@@ -16,7 +16,7 @@ echo "\n";
 foreach ($segments as $i=>&$j) {
   ksort($j);
   $n = ucwords(strtr($i,"_"," "));
-  echo str_repeat("#",$h)." ".$n."\n\n";
+  if ($h) echo str_repeat("#",$h)." ".$n."\n\n";
   foreach ($j as $a=>$b) {
     echo "* ".$a.": ".$snippets[$b][0]."\n";
   }

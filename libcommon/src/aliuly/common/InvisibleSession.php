@@ -3,6 +3,8 @@
 namespace aliuly\common;
 use aliuly\common\Session;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\plugin\PluginBase;
+use pocketmine\Player;
 
 /**
  * Invisible Player sessions
@@ -18,7 +20,7 @@ class InvisibleSession extends Session {
    */
   public function __construct(PluginBase $owner) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
-    if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("invisible")) {
+    if ($bag && $bag->isEnabled() && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("invisible")) {
       $this->api = $bag->api;
       return;
     }

@@ -74,7 +74,6 @@ function fix_common($srcdir,$libdir,$plugin) {
 			chkdir($d);
 			file_put_contents($d,$php_out);
 		}
-
 		$done[$cn] = $cn;
 		foreach ($mv as $j=>$k) {
 			if (isset($done[$j])) continue;
@@ -83,11 +82,13 @@ function fix_common($srcdir,$libdir,$plugin) {
 		}
 	}
 	// Clean-up unused files
-	foreach (glob($commondir."*.php") as $php) {
-		$b = basename($php);
+	$clen = strlen($commondir);
+	foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($commondir)) as $s){
+		if ($s->getFileName() == "." || $s->getFileName() == "..") continue;
+    $b = substr($s,$clen);
 		if (isset($commons[$b])) continue;
-		echo "Deleting...".basename($php)."\n";
-		unlink($php);
+		echo "Deleting...".$b."\n";
+		unlink($s);
 	}
 }
 

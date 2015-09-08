@@ -11,6 +11,7 @@ use pocketmine\command\Command;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 use pocketmine\Player;
 use pocketmine\event\player\PlayerChatEvent;
@@ -19,6 +20,7 @@ class CmdAs extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.sudo", "Run command as another user", "op");
 		$this->enableCmd("as",
 							  ["description" => mc::_("execute command as somebody else"),
 								"usage" => mc::_("/as <player> <cmd>"),

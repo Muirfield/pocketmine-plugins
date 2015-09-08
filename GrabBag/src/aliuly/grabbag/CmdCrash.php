@@ -24,10 +24,12 @@ use pocketmine\utils\TextFormat;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdCrash extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.crash", "crash dump management", "op");
 		$this->enableCmd("crash",
 							  ["description" => mc::_("manage crash files"),
 								"usage" => mc::_("/crash [count|clean|show|ls]"),

@@ -17,10 +17,14 @@ use pocketmine\Player;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdInvisible extends BasicCli implements Listener,CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.invisible", "invisibility power", "op");
+		PermUtils::add($this->owner, "gb.cmd.invisible.inmune", "can see invisible players", "false");
+
 		$this->enableCmd("invis",
 							  ["description" => mc::_("makes player invisible"),
 								"usage" => mc::_("/invis"),

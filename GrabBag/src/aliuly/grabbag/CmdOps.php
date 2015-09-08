@@ -11,12 +11,15 @@ use pocketmine\command\Command;
 
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+
+use aliuly\grabbag\common\PermUtils;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 
 class CmdOps extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.ops", "Display ops", "true");
 		$this->enableCmd("ops",
 							  ["description" => mc::_("show ops and their on-line status"),
 								"usage" => mc::_("/ops"),

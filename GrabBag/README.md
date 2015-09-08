@@ -350,19 +350,20 @@ The following commands are available:
   - Send multiple `/as player` commands in a row.
   - Start a private chat `/tell player` with another player.
   - You prefer commands over chat: `-n /`
+  
+  When prefix is enabled and you one to send just _one_ command without
+  prefix, prepend your text with **<**.
 * pushtp: Saves current location and teleport<br/>
   usage: **pushtp** _&lt;player&gt;_ _[target]_
 * query: query remote servers<br/>
-  usage: **query** **[add|rm|ls|info|plugins|players|summary]** _[opts]_
+  usage: **query** **[list|info|plugins|players|summary]** _[opts]_
   
   This is a query client that you can use to query other
-  remote servers.  Options:
-  - **query add** _&lt;id&gt;_ _&lt;address&gt;_ _&lt;port&gt;_ _[comments]_
-      - adds a `query` connection with `id`.
-  - **query rm** _&lt;id&gt;_
-      - Removes `query` connection `id`.
-  - **query ls**
-      - List configured `query` connections.
+  remote servers.
+  
+  Servers are defined with the **servers** command.
+  
+  Options:
   - **query list**
       - List players on all configured `query` connections.
   - **query info** _&lt;id&gt;_
@@ -445,11 +446,12 @@ The following commands are available:
   usage: **setarmor** _[player]_ _[part]_ _&lt;quality&gt;_
   
   This command lets you armor up.  It can armor up creative players too.
-  If no `player` is given, the player giving the command will be armored.
+  If no **player** is given, the player giving the command will be armored.
   
-  Part can be one of `head`, `body`, `legs`, or `boots`.
+  Part can be one of **head**, **body**, **legs**, or **boots**.
   
-  Quality can be one of `none`, `leather`, `chainmail`, `iron`, `gold` or `diamond`.
+  Quality can be one of **none**, **leather**, **chainmail**, **iron**,
+  **gold** or **diamond**.
 * shield: player is protected from taking damage<br/>
   usage: **shield**
   
@@ -580,6 +582,7 @@ things:
 <!-- end-include -->
 
 <!-- template: test.md -->
+<!-- MISSING TEMPLATE: test.md ->
 
 <!-- end-include -->
 
@@ -609,7 +612,7 @@ The following selectors are implemented:
 
 ### Configuration
 
-Configuration is through the `config.yml` file.
+Configuration is through the **config.yml** file.
 The following sections are defined:
 
 <!-- php:$h=4; -->
@@ -651,143 +654,83 @@ This section configures peer servers.  This can be used with
 
 <!-- end-include -->
 
-<!-- template: gd2/permissions.md -->
-
 ### Permission Nodes
 
-* gb.module.repeater : Access to repeater module
-* gb.module.cmdsel : Access to command selectors
-* gb.cmd.players : allow players command
-* gb.cmd.ops : list server ops
-* gb.cmd.sudo : Allow to run command as another user
-  (Defaults to Op)
-* gb.cmd.gma : Allow to switch gamemode to Adventure
-  (Defaults to Op)
-* gb.cmd.gms : Allow to switch gamemode to survival
-  (Defaults to Op)
-* gb.cmd.gmc : Allow to switch gamemode to creative
-  (Defaults to Op)
-* gb.cmd.gmspc : Allow to switch gamemode to spectator
-  (Defaults to Op)
-* gb.cmd.slay : Allow slaying players
-  (Defaults to Op)
-* gb.cmd.heal : Allow healing
-  (Defaults to Op)
-* gb.cmd.whois : Show player details
-  (Defaults to Op)
-* gb.cmd.whois.showip : Show player IP address
-  (Defaults to Op)
-* gb.cmd.timings : Show timings data
-  (Defaults to Op)
-* gb.cmd.seearmor : Show player's armor
-  (Defaults to Op)
-* gb.cmd.seeinv : Show player's inventory
-  (Defaults to Op)
-* gb.cmd.clearinv : Clear player's inventory
-* gb.cmd.clearinv.others : Clear other's inventory
-  (Defaults to Op)
-* gb.cmd.rminv : Remove item from player's inventory
-* gb.cmd.rminv.others : Remove item from other's inventory
-  (Defaults to Op)
-* gb.cmd.clearhotbar : Clear player's hotbar
-* gb.cmd.clearhotbar.others : Clear other's hotbar
-  (Defaults to Op)
-* gb.cmd.get : Get blocks
-  (Defaults to Op)
-* gb.cmd.shield : Allow players to become invulnerable
-  (Defaults to Op)
-* gb.cmd.servicemode : Allow access to service mode command
-  (Defaults to Op)
-* gb.servicemode.allow : Allow login when in service mode.
-  (Defaults to Op)
-* gb.cmd.opms : Allow to send op only messages
-* gb.cmd.entities : Access entities command
-  (Defaults to Op)
-* gb.cmd.mute : mute/unmute
-  (Defaults to Op)
-* gb.cmd.freeze : freeze/thaw users
-  (Defaults to Op)
-* gb.cmd.after : Schedule commands
-  (Defaults to Op)
-* gb.cmd.rpt : Report issues
-* gb.cmd.rpt.read : Read reported issues
-  (Defaults to Op)
-* gb.cmd.summon : Summon|Dismiss command
-  (Defaults to Op)
-* gb.cmd.pushpoptp : push/pop teleport
-  (Defaults to Op)
-* gb.cmd.prefix : Allow the use of /prefix
-* gb.cmd.spawn : Allow to teleport to spawn
-* gb.cmd.burn : Allow the use of burn command
-  (Defaults to Op)
-* gb.cmd.throw : Allow to throw players up in the air
-  (Defaults to Op)
-* gb.cmd.blowup : Allow to blow-up players
-  (Defaults to Op)
-* gb.cmd.setarmor : Allow you to set your armor
-  (Defaults to Op)
-* gb.cmd.setarmor.others : Allow you to set others armor
-  (Defaults to Op)
-* gb.cmd.spectator : Turn players into spectators
-  (Defaults to Op)
-* gb.cmd.follow : Let players can follow others
-  (Defaults to Op)
-* gb.cmd.followme : Make players follow you
-  (Defaults to Op)
-* gb.cmd.rcon : use RCON client
-  (Defaults to Op)
-* gb.cmd.rcon.config : Modify the RCON configuration
-  (Defaults to Op)
-* gb.cmd.fly : Flight control
-  (Defaults to Op)
-* gb.cmd.crash : Crash dump management
-  (Defaults to Op)
-* gb.cmd.pluginmgr : Manage plugins
-  (Defaults to Op)
-* gb.cmd.permmgr : Change permissions
-  (Defaults to Op)
-* gb.cmd.regs : Manage player registrations
-  (Defaults to Op)
-* gb.cmd.skin : Manage skins
-  (Defaults to Op)
-* gb.cmd.skin.other : Manage other's skins skins
-  (Defaults to Op)
-* gb.cmd.invisible : make player invisible
-  (Defaults to Op)
-* gb.cmd.invisible.inmune : make player inmune to invisibility tricks
-  _(Defaults to disabled)_
-* gb.cmd.togglechat : lets players opt out from chat
-* gb.cmd.togglechat.others : lets you toggle chat for others
-  (Defaults to Op)
-* gb.cmd.togglechat.excempt : chat-off players will always receive chats from these
-  (Defaults to Op)
-* gb.cmd.togglechat.global : Can toggle chat for the server as a whole
-  (Defaults to Op)
-* gb.cmd.clearchat : Clear your chat window
-* gb.cmd.nick : Change display name
-* gb.cmd.query : Access to query command
-* gb.cmd.query.addrm : Modify query hosts configuration
-  (Defaults to Op)
-* gb.cmd.query.details : View query details (ls, info, plugins)
-* gb.cmd.query.players : Access to query players
-* gb.cmd.query.players.showip : Show IP/hostname in query players
-* gb.cmd.query.list : Query list command
-* gb.cmd.alias : Allow creating aliases
-  (Defaults to Op)
-* gb.cmd.reop : Access to reop command
-* gb.cmd.reop.others : Allows to reop others
-  (Defaults to Op)
-* gb.cmd.servers : Allows access to servers command
-  (Defaults to Op)
-* gb.cmd.servers.read : Allows viewing servers configuration
-  (Defaults to Op)
-* gb.cmd.servers.read.viewip : Allows viewing servers configuration
-  (Defaults to Op)
-* gb.cmd.servers.read.viewrcon : Allows viewing servers configuration
-  (Defaults to Op)
-* gb.cmd.servers.write : Allows changing servers configuration
-  (Defaults to Op)
-
+<!-- snippet: rtperms -->
+* gb.cmd.crash (op): crash dump management
+* gb.cmd.get (op): get blocks
+* gb.cmd.heal (op): heal players
+* gb.cmd.mute (op): mute/unmute players
+* gb.cmd.permmgr (op): Manipulate Permissions
+* gb.cmd.query: Query command
+* gb.cmd.query.details: View details (info, plugins)
+* gb.cmd.query.players: View players
+* gb.cmd.query.players.showip: View players server IP
+* gb.cmd.query.list: Query List sub command
+* gb.module.cmdsel: use command selectors
+* gb.cmd.seearmor (op): View armor
+* gb.cmd.seeinv (op): View inventory
+* gb.cmd.skin (op): Manage skins
+* gb.cmd.skin.other (op): Manage other's skins
+* gb.cmd.after (op): access command scheduler
+* gb.cmd.togglechat: lets players opt out from chat
+* gb.cmd.togglechat.others (op): lets you toggle chat for others
+* gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
+* gb.cmd.togglechat.global (op): Can toggle chat for the server as a whole
+* gb.cmd.clearchat: Clear your chat window
+* gb.cmd.nick: Change display name
+* gb.cmd.entities (op): entity management
+* gb.cmd.follow (op): lets you follow others
+* gb.cmd.followme (op): let others follow you
+* gb.cmd.opms: Send op only messages
+* gb.cmd.rpt: Report issues
+* gb.cmd.rpt.read (op): Read reported issues
+* gb.cmd.ops: Display ops
+* gb.cmd.prefix: Prefix command
+* gb.cmd.setarmor (op): Configure armor
+* gb.cmd.setarmor.others (op): Configure other's armor
+* gb.cmd.alias (op): allow creating aliases
+* gb.cmd.freeze (op): freeze/thaw players
+* gb.cmd.rcon (op): Rcon client
+* gb.cmd.sudo (op): Run command as another user
+* gb.cmd.gma (op): Switch gamemode to Adventure
+* gb.cmd.gms (op): Switch gamemode to Survival
+* gb.cmd.gmc (op): Switch gamemode to Creative
+* gb.cmd.gmspc (op): Switch gamemode to Spectator
+* gb.cmd.blowup (op): Explode other players
+* gb.cmd.burn (op): Burn other players
+* gb.cmd.invisible (op): invisibility power
+* gb.cmd.invisible.inmune (disabled): can see invisible players
+* gb.module.repeater: use !! to repeat commands
+* gb.cmd.fly (op): flight control
+* gb.cmd.whois (op): view players details
+* gb.cmd.whois.showip (op): view players IP address
+* gb.cmd.pluginmgr (op): Run-time management of plugins
+* gb.cmd.reop: Reop command
+* gb.cmd.reop.others (op): ReOp others
+* gb.cmd.regs (op): Manage player registrations
+* gb.cmd.shield (op): Allow players to become invulnverable
+* gb.cmd.slay (op): Allow slaying players
+* gb.cmd.spawn: Teleport to spawn
+* gb.cmd.spectator (op): Turn players into spectators
+* gb.cmd.servicemode (op): service mode command
+* gb.servicemode.allow (op): login when in service mode
+* gb.cmd.summon (op): summon|dismmiss command
+* gb.cmd.throw (op): Troll players
+* gb.cmd.timings (op): view timings report
+* gb.cmd.pushpoptp (op): position stack
+* gb.cmd.servers (op): servers command
+* gb.cmd.servers.read (op): view server configuration
+* gb.cmd.servers.read.viewip (op): view server IP address
+* gb.cmd.servers.read.viewrcon (op): view rcon secrets
+* gb.cmd.servers.write (op): change server configuration
+* gb.cmd.clearinv: clear player's inventory
+* gb.cmd.clearinv.others (op): clear other's inventory
+* gb.cmd.rminv: remove item from inventory
+* gb.cmd.rminv.others (op): remove item from other's inventory
+* gb.cmd.clearhotbar: clear player's hotbar
+* gb.cmd.clearhotbar.others (op): clear other's hotbar
+* gb.cmd.players: connected players
 <!-- end-include -->
 
 ## Translations
@@ -808,16 +751,12 @@ The following third party libraries are included:
 
 * [xPaw's MinecraftQuery](http://xpaw.me GitHub: https://github.com/xPaw/PHP-Minecraft-Query)
 
-## Known issues
+## WIP and issues
 
 * Query:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
   * name resolution doesn't work reliably, use IP address as work around.
-
-## WIP and issues
-
-* Adding an API
 
 # Changes
 
@@ -830,6 +769,9 @@ The following third party libraries are included:
   * Added aliases module
   * New command rminv (@SeangJemmy)
   * New reop command
+  * Configuration of Rcon and Query has changed
+  * Permissions are conditionally created (if the module is enabled)
+  * Adding a complete new API
 * 2.2.7:
   * Minor fix in Reg command
   * Fixed bug in Command Selector (@Legoboy0215 and @SM11)

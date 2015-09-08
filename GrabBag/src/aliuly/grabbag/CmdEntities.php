@@ -41,11 +41,12 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ItemName;
-
+use aliuly\grabbag\common\PermUtils;
 
 class CmdEntities extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.entities", "entity management", "op");
 		$this->enableCmd("entities",
 							  ["description" => mc::_("Manage entities"),
 								"usage" => mc::_("/entities [tile|info|rm|sign#|count|nuke] [args]"),

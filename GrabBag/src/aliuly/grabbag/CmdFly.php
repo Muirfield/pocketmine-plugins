@@ -13,11 +13,13 @@ use pocketmine\utils\TextFormat;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdFly extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.fly", "flight control", "op");
 		$this->enableCmd("fly",
 							  ["description" => mc::_("Allow flying"),
 								"usage" => mc::_("/fly"),

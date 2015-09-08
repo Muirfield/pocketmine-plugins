@@ -13,12 +13,13 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\utils\TextFormat;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\Cmd;
-use pocketmine\utils\TextFormat;
+use aliuly\grabbag\common\PermUtils;
 
 class AliasCmd implements CommandExecutor {
   protected $cmd;
@@ -45,6 +46,7 @@ class CmdAlias extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->aliases = [];
+    PermUtils::add($this->owner, "gb.cmd.alias", "allow creating aliases", "op");
 		$this->enableCmd("alias",
 							  ["description" => mc::_("Create a command alias"),
 								"usage" => mc::_("/alias [-f] [alias [command]]"),

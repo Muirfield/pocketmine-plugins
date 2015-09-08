@@ -16,12 +16,17 @@ use pocketmine\event\player\PlayerChatEvent;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
+
 
 class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $mutes;
 
 	public function __construct($owner) {
 		parent::__construct($owner);
+
+		PermUtils::add($this->owner, "gb.cmd.mute", "mute/unmute players", "op");
+
 		$this->enableCmd("mute",
 							  ["description" => mc::_("mute player"),
 								"usage" => mc::_("/mute [player]"),
@@ -71,6 +76,22 @@ class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 				return true;
 		}
 		return false;
+	}
+	public function getMutes() {
+		return array_keys($this->mutes);
+	}
+	public function setMute($player,$mode) {
+		$n = strtolower($player->getName());
+		if ($mode) {
+			if (isset($this->mutes[$n])) return;
+			$this->mutes[$n] = $player->getName();
+		} else  {
+			if (!isset($this->mutes[$n])) return;
+			unset($this->mutes[$n]);
+		}
+	}
+	public function getMute($player) {
+		return isset($this->mutes[strtolower($player->getName())]);
 	}
 
 	public function onChat(PlayerChatEvent $ev) {

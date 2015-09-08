@@ -3,6 +3,8 @@
 namespace aliuly\common;
 use aliuly\common\Session;
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\plugin\PluginBase;
+use pocketmine\Player;
 use aliuly\common\MPMU;
 
 /**
@@ -21,11 +23,11 @@ class FreezeSession extends Session {
    */
   public function __construct(PluginBase $owner, $hard = true) {
     $bag = $owner->getServer()->getPluginManager()->getPlugin("GrabBag");
-    if ($bag && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("freeze-thaw")) {
+    if ($bag && $bag->isEnabled() && MPMU::apiCheck($bag->getDescription()->getVersion(),"2.3") && $bag->api->getFeature("freeze-thaw")) {
       $this->api = $bag->api;
       return;
     }
-    parent::__construct($owner);
+    parent::__construct($owner);	// We do it here so to prevent the registration of listeners
     $this->api = null;
     $this->hard = $hard;
   }

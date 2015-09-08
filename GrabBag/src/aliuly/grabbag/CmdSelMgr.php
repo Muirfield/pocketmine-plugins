@@ -21,6 +21,7 @@ use pocketmine\event\Timings;
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\CmdSelector;
+use aliuly\grabbag\common\PermUtils;
 
 class PlayerCommandPreprocessEvent_sub extends PlayerCommandPreprocessEvent{
 }
@@ -42,6 +43,7 @@ class CmdSelMgr extends BasicCli implements Listener {
 	public function __construct($owner, $cfg) {
 		parent::__construct($owner);
 		$this->max = $cfg["max-commands"];
+    PermUtils::add($this->owner, "gb.module.cmdsel", "use command selectors", "true");
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
 	/**

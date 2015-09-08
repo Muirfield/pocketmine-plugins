@@ -1,8 +1,10 @@
 <?php
 
-namespace aliuly\common\xPaw;
+namespace xPaw;
 
 /**
+ * Queries remote minecraft servers
+*
  * Class written by xPaw
  *
  * - Website: <http://xpaw.me>
@@ -10,22 +12,19 @@ namespace aliuly\common\xPaw;
  *
  * * * *
  *
- * Queries remote minecraft servers
- *
- * Basic usage:
- *
- *     // Sample usage
- *     use xPaw\MinecraftQuery;
- *     use xPaw\MinecraftQueryException;
- *     $query = new MinecraftQuery;
- *     try {
- *        $Query->Connect($host,$port,$timeout);
- *     } catch (MinecraftQueryException $e) {
- *        die($e->getMessage()."\n");
- *     }
- *     print_r($Query->GetInfo());
- *     print_r($Query->GetPlayers());
- *
+ * <code>
+ *      // Sample usage
+ *      use xPaw\MinecraftQuery;
+ *      use xPaw\MinecraftQueryException;
+ *      $query = new MinecraftQuery;
+ *      try {
+ *         $Query->Connect($host,$port,$timeout);
+ *      } catch (MinecraftQueryException $e) {
+ *         die($e->getMessage()."\n");
+ *      }
+ *      print_r($Query->GetInfo());
+ *      print_r($Query->GetPlayers());
+ * </code>
  */
 class MinecraftQuery
 {

@@ -37,6 +37,30 @@ function analyze_php($src, &$snippets) {
 	foreach(file($src,FILE_IGNORE_NEW_LINES) as $lni) {
 
 		if (!preg_match('/^\s*\/\/(.) ?(.*)\s*$/',$lni,$mv)) {
+			if (($lno = preg_replace('/^\s*PermUtils::add/',"",$lni)) != $lni) {
+				$lno = preg_replace('/^[^,]+,\s*/',"",$lno);
+				$lno = preg_replace('/\s*[^"]+$/',"",$lno);
+				$lno = eval("return  [ $lno ];");
+				if ($lno === false) continue;
+				list($name,$desc,$def) = $lno;
+				switch (strtolower($def)) {
+					case "true":
+					  $deftx = "";
+						break;
+					case "false":
+						$deftx = " (disabled)";
+						break;
+					case "op":
+					case "notop":
+					default:
+					  $deftx = " ($def)";
+				}
+
+				if (!isset($snippets["rtperms"])) $snippets["rtperms"] = [];
+				$snippets["rtperms"][] = "* ".$name.$deftx.": ".$desc;
+				continue;
+			}
+
 			if (preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*$/',$lni,$mv) ||
 				preg_match('/^(\s*)"#(.*)"\s*=>\s*"(.*)"\s*,?\s*\/\/\s*(.*)$/',$lni,$mv)) {
 

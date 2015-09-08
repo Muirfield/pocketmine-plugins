@@ -1,0 +1,24 @@
+;
+; Test Chat routines
+;
+s s labrat
+@ $chatmgr = new \aliuly\common\ChatSession($interp->getOwner())
+echo labrat says YEAH
+as labrat say yeah
+@ $chatmgr->setGlobalChat(false)
+echo labrat tries to say YEAH
+as labrat say yeah
+@ $chatmgr->setGlobalChat(true)
+@ $labrat = $interp->getServer()->getPlayer("labrat")
+@ $chatmgr->setPlayerChat($labrat,false)
+echo labrat tries to say YEAH
+as labrat say yeah
+@ $chatmgr->setPlayerChat($labrat,true)
+echo labrat says YEAH
+as labrat say yeah
+@ $chatmgr->setMute($labrat,true)
+mute
+@ $chatmgr->setMute($labrat,false)
+mute
+
+kick labrat

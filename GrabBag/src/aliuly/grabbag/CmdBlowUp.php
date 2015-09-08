@@ -15,6 +15,7 @@ use pocketmine\command\Command;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
+use aliuly\grabbag\common\PermUtils;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;
@@ -23,6 +24,7 @@ use pocketmine\level\Explosion;
 class CmdBlowUp extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.blowup", "Explode other players", "op");
 		$this->enableCmd("blowup",
 							  ["description" => mc::_("Explode a player"),
 								"usage" => mc::_("/blowup <player> [yield|magic|normal]"),

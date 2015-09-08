@@ -4,11 +4,12 @@
 //> usage: **setarmor** _[player]_ _[part]_ _<quality>_
 //:
 //: This command lets you armor up.  It can armor up creative players too.
-//: If no `player` is given, the player giving the command will be armored.
+//: If no **player** is given, the player giving the command will be armored.
 //:
-//: Part can be one of `head`, `body`, `legs`, or `boots`.
+//: Part can be one of **head**, **body**, **legs**, or **boots**.
 //:
-//: Quality can be one of `none`, `leather`, `chainmail`, `iron`, `gold` or `diamond`.
+//: Quality can be one of **none**, **leather**, **chainmail**, **iron**,
+//: **gold** or **diamond**.
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -22,10 +23,14 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\ArmorItems;
+use aliuly\grabbag\common\PermUtils;
 
 class CmdSetArmor extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
+		PermUtils::add($this->owner, "gb.cmd.setarmor", "Configure armor", "op");
+		PermUtils::add($this->owner, "gb.cmd.setarmor.others", "Configure other's armor", "op");
+
 		$this->enableCmd("setarmor",
 							  ["description" => mc::_("Set armor (even in creative)"),
 								"usage" => mc::_("/setarmor [player] [piece] <quality>"),
