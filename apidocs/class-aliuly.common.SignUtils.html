@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class aliuly\common\ItemName</title>
+	<title>Class aliuly\common\SignUtils</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -94,7 +94,7 @@
 				<li><a href="class-aliuly.common.GetMotdAsyncTask.html">GetMotdAsyncTask</a></li>
 				<li><a href="class-aliuly.common.InvisibleSession.html">InvisibleSession</a></li>
 				<li><a href="class-aliuly.common.InvUtils.html">InvUtils</a></li>
-				<li class="active"><a href="class-aliuly.common.ItemName.html">ItemName</a></li>
+				<li><a href="class-aliuly.common.ItemName.html">ItemName</a></li>
 				<li><a href="class-aliuly.common.mc.html">mc</a></li>
 				<li><a href="class-aliuly.common.mc2.html">mc2</a></li>
 				<li><a href="class-aliuly.common.MoneyAPI.html">MoneyAPI</a></li>
@@ -109,7 +109,7 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
-				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li class="active"><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
 			</ul>
 
@@ -149,11 +149,11 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class ItemName</h1>
+	<h1>Class SignUtils</h1>
 
 
 	<div class="description">
-	<p>ItemName database</p>
+	<p>Routines for manipulating signs</p>
 	</div>
 
 
@@ -170,7 +170,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.ItemName.html#5-129" title="Go to source code">common/ItemName.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.SignUtils.html#9-28" title="Go to source code">common/SignUtils.php</a>
 		<br>
 	</div>
 
@@ -178,7 +178,7 @@
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="initUsrNames" id="_initUsrNames">
+	<tr data-order="breakSign" id="_breakSign">
 
 		<td class="attributes"><code>
 			 public static
@@ -189,22 +189,22 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_initUsrNames">#</a>
-		<code><a href="source-class-aliuly.common.ItemName.html#15-21" title="Go to source code">initUsrNames</a>( <span>array <var>$names</var></span> )</code>
+		<a class="anchor" href="#_breakSign">#</a>
+		<code><a href="source-class-aliuly.common.SignUtils.html#13-22" title="Go to source code">breakSign</a>( <span>pocketmine\tile\Sign <var>$tile</var></span> )</code>
 
 		<div class="description short">
-			<p>Initialize $usrnames</p>
+			<p>Destroy a sign</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Initialize $usrnames</p>
+			<p>Destroy a sign</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$names</var></dt>
+					<dt><var>$tile</var></dt>
 					<dd><ul>
-<li>names to load</li>
+<li>sign tile</li>
 </ul></dd>
 				</dl></div>
 
@@ -215,113 +215,29 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="loadUsrNames" id="_loadUsrNames">
+	<tr data-order="breakSignLater" id="_breakSignLater">
 
 		<td class="attributes"><code>
 			 public static
 
-			integer
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_loadUsrNames">#</a>
-		<code><a href="source-class-aliuly.common.ItemName.html#22-41" title="Go to source code">loadUsrNames</a>( <span><code><a href="class-aliuly.common.ItemName.html#_str">aliuly\common\ItemName::str()</a></code> <var>$f</var></span> )</code>
-
-		<div class="description short">
-			<p>Load the specified item names.
-Return number of items read, -1 in case of error.</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Load the specified item names.
-Return number of items read, -1 in case of error.</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$f</var></dt>
-					<dd><ul>
-<li>Filename to load</li>
-</ul></dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					integer
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="initXnames" id="_initXnames">
-
-		<td class="attributes"><code>
-			 protected static
-
 			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_initXnames">#</a>
-		<code><a href="source-class-aliuly.common.ItemName.html#43-91" title="Go to source code">initXnames</a>( )</code>
+		<a class="anchor" href="#_breakSignLater">#</a>
+		<code><a href="source-class-aliuly.common.SignUtils.html#23-27" title="Go to source code">breakSignLater</a>( <span>pocketmine\plugin\Plugin <var>$plugin</var></span>, <span>pocketmine\tile\Sign <var>$tile</var></span>, <span> <var>$ticks</var> = <span class="php-num">5</span></span> )</code>
 
 		<div class="description short">
-			<p>Initialize extended names table</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Initialize extended names table</p>
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="str" id="_str">
-
-		<td class="attributes"><code>
-			 public static
-
-			<code><a href="class-aliuly.common.ItemName.html#_str">aliuly\common\ItemName::str()</a></code>
 			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_str">#</a>
-		<code><a href="source-class-aliuly.common.ItemName.html#93-128" title="Go to source code">str</a>( <span>pocketmine\item\Item <var>$item</var></span> )</code>
-
-		<div class="description short">
-			<p>Given an pocketmine\item\Item object, it returns a friendly name
-for it.</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Given an pocketmine\item\Item object, it returns a friendly name
-for it.</p>
+			
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$item</var></dt>
-					<dd>item</dd>
-				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					<code><a href="class-aliuly.common.ItemName.html#_str">aliuly\common\ItemName::str()</a></code>
-				</div>
 
 
 
@@ -342,84 +258,6 @@ for it.</p>
 
 
 
-	<table class="summary properties" id="properties">
-	<caption>Properties summary</caption>
-	<tr data-order="xnames" id="$xnames">
-		<td class="attributes"><code>
-			protected static 
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-aliuly.common.ItemName.html#9-10" title="Go to source code"><var>$xnames</var></a>
-
-			<div class="description short">
-				<p>$xnames extended names</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>$xnames extended names</p>
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$xnames" class="anchor">#</a>
-				<code><span class="php-keyword1">null</span></code>
-			</div>
-		</td>
-	</tr>
-	<tr data-order="items" id="$items">
-		<td class="attributes"><code>
-			protected static 
-			<code><a href="class-aliuly.common.ItemName.html#_str">aliuly\common\ItemName::str()</a>[]</code>
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-aliuly.common.ItemName.html#11-12" title="Go to source code"><var>$items</var></a>
-
-			<div class="description short">
-				<p>$items Nice names for items</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>$items Nice names for items</p>
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$items" class="anchor">#</a>
-				<code>[]</code>
-			</div>
-		</td>
-	</tr>
-	<tr data-order="usrnames" id="$usrnames">
-		<td class="attributes"><code>
-			protected static 
-			<code><a href="class-aliuly.common.ItemName.html#_str">aliuly\common\ItemName::str()</a>[]</code>
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-aliuly.common.ItemName.html#13-14" title="Go to source code"><var>$usrnames</var></a>
-
-			<div class="description short">
-				<p>$usrnames Possibly localized names for items</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>$usrnames Possibly localized names for items</p>
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$usrnames" class="anchor">#</a>
-				<code>[]</code>
-			</div>
-		</td>
-	</tr>
-	</table>
 
 
 

@@ -109,6 +109,7 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
 			</ul>
 
@@ -169,7 +170,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.Cmd.html#9-118" title="Go to source code">common/Cmd.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.Cmd.html#11-165" title="Go to source code">common/Cmd.php</a>
 		<br>
 	</div>
 
@@ -189,7 +190,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_exec">#</a>
-		<code><a href="source-class-aliuly.common.Cmd.html#13-26" title="Go to source code">exec</a>( <span>pocketmine\Player|pocketmine\command\CommandSender <var>$sender</var></span>, <span>str[]|str <var>$cmd</var></span>, <span>boolean <var>$show</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-aliuly.common.Cmd.html#15-28" title="Go to source code">exec</a>( <span>pocketmine\Player|pocketmine\command\CommandSender <var>$sender</var></span>, <span>str[]|str <var>$cmd</var></span>, <span>boolean <var>$show</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Execute a command as a given player</p>
@@ -234,7 +235,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_system">#</a>
-		<code><a href="source-class-aliuly.common.Cmd.html#27-38" title="Go to source code">system</a>( <span>Server <var>$server</var></span>, <span>str <var>$cmd</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Cmd.html#29-40" title="Go to source code">system</a>( <span>Server <var>$server</var></span>, <span>str <var>$cmd</var></span> )</code>
 
 		<div class="description short">
 			<p>Execute a command capturing output</p>
@@ -277,7 +278,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_chat">#</a>
-		<code><a href="source-class-aliuly.common.Cmd.html#39-63" title="Go to source code">chat</a>( <span>pocketmine\Player|pocketmine\command\CommandSender <var>$sender</var></span>, <span>str[]|str <var>$msgs</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Cmd.html#41-65" title="Go to source code">chat</a>( <span>pocketmine\Player|pocketmine\command\CommandSender <var>$sender</var></span>, <span>str[]|str <var>$msgs</var></span> )</code>
 
 		<div class="description short">
 			<p>Chat a message as a given player</p>
@@ -316,7 +317,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_console">#</a>
-		<code><a href="source-class-aliuly.common.Cmd.html#64-77" title="Go to source code">console</a>( <span>Server <var>$server</var></span>, <span>str[]|str <var>$cmd</var></span>, <span>boolean <var>$show</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-aliuly.common.Cmd.html#66-79" title="Go to source code">console</a>( <span>Server <var>$server</var></span>, <span>str[]|str <var>$cmd</var></span>, <span>boolean <var>$show</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			<p>Execute commands as console</p>
@@ -361,7 +362,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_opexec">#</a>
-		<code><a href="source-class-aliuly.common.Cmd.html#78-116" title="Go to source code">opexec</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>str <var>$cmdline</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Cmd.html#80-118" title="Go to source code">opexec</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>str <var>$cmdline</var></span> )</code>
 
 		<div class="description short">
 			<p>Handles command prefixes before dispatching commands.</p>
@@ -385,6 +386,94 @@
 					<dt><var>$cmdline</var></dt>
 					<dd><ul>
 <li>command line to execute</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addCommand" id="_addCommand">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addCommand">#</a>
+		<code><a href="source-class-aliuly.common.Cmd.html#119-151" title="Go to source code">addCommand</a>( <span>Plugin <var>$plugin</var></span>, <span>CommandExecutor <var>$executor</var></span>, <span>str <var>$cmd</var></span>, <span>array <var>$yaml</var></span> )</code>
+
+		<div class="description short">
+			<p>Register a command</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Register a command</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$plugin</var></dt>
+					<dd><ul>
+<li>plugin that "owns" the command</li>
+</ul></dd>
+					<dt><var>$executor</var></dt>
+					<dd><ul>
+<li>object that will be called onCommand</li>
+</ul></dd>
+					<dt><var>$cmd</var></dt>
+					<dd><ul>
+<li>Command name</li>
+</ul></dd>
+					<dt><var>$yaml</var></dt>
+					<dd><ul>
+<li>Additional settings for this command.</li>
+</ul></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rmCommand" id="_rmCommand">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rmCommand">#</a>
+		<code><a href="source-class-aliuly.common.Cmd.html#152-164" title="Go to source code">rmCommand</a>( <span>Server|Plugin <var>$srv</var></span>, <span>str <var>$cmd</var></span> )</code>
+
+		<div class="description short">
+			<p>Unregisters a command</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Unregisters a command</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$srv</var></dt>
+					<dd>$obj - Access path to server instance</dd>
+					<dt><var>$cmd</var></dt>
+					<dd><ul>
+<li>Command name to remove</li>
 </ul></dd>
 				</dl></div>
 

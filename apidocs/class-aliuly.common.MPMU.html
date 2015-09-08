@@ -109,6 +109,7 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
 			</ul>
 
@@ -169,7 +170,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.MPMU.html#12-257" title="Go to source code">common/MPMU.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.MPMU.html#11-276" title="Go to source code">common/MPMU.php</a>
 		<br>
 	</div>
 
@@ -189,7 +190,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_version">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#21-32" title="Go to source code">version</a>( <span>str <var>$version</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#20-31" title="Go to source code">version</a>( <span>str <var>$version</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
 
 		<div class="description short">
 			<p>libcommon library version.  If a version is provided it will check
@@ -230,7 +231,7 @@ the version using apiCheck.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_apiVersion">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#33-43" title="Go to source code">apiVersion</a>( <span>str <var>$version</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#32-42" title="Go to source code">apiVersion</a>( <span>str <var>$version</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
 
 		<div class="description short">
 			<p>Used to check the PocketMine API version</p>
@@ -269,7 +270,7 @@ the version using apiCheck.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_apiCheck">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#44-78" title="Go to source code">apiCheck</a>( <span>str <var>$api</var></span>, <span>str <var>$version</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#43-77" title="Go to source code">apiCheck</a>( <span>str <var>$api</var></span>, <span>str <var>$version</var></span> )</code>
 
 		<div class="description short">
 			<p>Checks API compatibility from $api against $version.  $version is a
@@ -316,7 +317,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_gamemodeStr">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#79-102" title="Go to source code">gamemodeStr</a>( <span>integer <var>$mode</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#78-101" title="Go to source code">gamemodeStr</a>( <span>integer <var>$mode</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns a localized string for the gamemode</p>
@@ -355,7 +356,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_access">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#103-116" title="Go to source code">access</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>str <var>$permission</var></span>, <span>boolean <var>$msg</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#102-115" title="Go to source code">access</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>str <var>$permission</var></span>, <span>boolean <var>$msg</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Check's player or sender's permissions and shows a message if appropriate</p>
@@ -398,7 +399,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_inGame">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#117-130" title="Go to source code">inGame</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>boolean <var>$msg</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#116-129" title="Go to source code">inGame</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>boolean <var>$msg</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Check's if $sender is a player in game</p>
@@ -439,7 +440,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_iName">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#131-142" title="Go to source code">iName</a>( <span>pocketmine\Player|str <var>$player</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#130-141" title="Go to source code">iName</a>( <span>pocketmine\Player|str <var>$player</var></span> )</code>
 
 		<div class="description short">
 			<p>Takes a player and creates a string suitable for indexing</p>
@@ -480,7 +481,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getResourceContents">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#143-158" title="Go to source code">getResourceContents</a>( <span>Plugin <var>$plugin</var></span>, <span>str <var>$filename</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#142-157" title="Go to source code">getResourceContents</a>( <span>Plugin <var>$plugin</var></span>, <span>str <var>$filename</var></span> )</code>
 
 		<div class="description short">
 			<p>Lile file_get_contents but for a Plugin resource</p>
@@ -521,14 +522,24 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_callPlugin">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#159-175" title="Go to source code">callPlugin</a>( <span>Server <var>$server</var></span>, <span>str <var>$plug</var></span>, <span>str <var>$method</var></span>, <span>mixed <var>$args</var></span>, <span> <var>$default</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#158-192" title="Go to source code">callPlugin</a>( <span>Server <var>$server</var></span>, <span>str|array <var>$plug</var></span>, <span>str <var>$method</var></span>, <span>mixed <var>$args</var></span>, <span> <var>$default</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
-			<p>Call a plugin's function</p>
+			<p>Call a plugin's function.</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Call a plugin's function</p>
+			<p>Call a plugin's function.</p>
+
+<p>If the $plug parameter is given a string, it will simply look for that
+plugin.  If an array is provided, it is assumed to be of the form:
+ [ "plugin", "version" ]</p>
+
+<p>So then it will check that the plugin exists, and the version number
+matches according to the rules from <strong>apiCheck</strong>.</p>
+
+<p>Also, if plugin contains an <strong>api</strong> property, it will use that as
+the class for method calling instead.</p>
 
 
 				<h4>Parameters</h4>
@@ -562,7 +573,7 @@ string containing the version.  It can contain the following operators:</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="addCommand" id="_addCommand">
+	<tr data-order="addCommand" id="_addCommand" class="deprecated">
 
 		<td class="attributes"><code>
 			 public static
@@ -574,7 +585,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_addCommand">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#176-208" title="Go to source code">addCommand</a>( <span>Plugin <var>$plugin</var></span>, <span>CommandExecutor <var>$executor</var></span>, <span>str <var>$cmd</var></span>, <span>array <var>$yaml</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#193-226" title="Go to source code">addCommand</a>( <span>Plugin <var>$plugin</var></span>, <span>CommandExecutor <var>$executor</var></span>, <span>str <var>$cmd</var></span>, <span>array <var>$yaml</var></span> )</code>
 
 		<div class="description short">
 			<p>Register a command</p>
@@ -583,6 +594,10 @@ string containing the version.  It can contain the following operators:</p>
 		<div class="description detailed hidden">
 			<p>Register a command</p>
 
+				<h4>Deprecated</h4>
+				<div class="list">
+						Moved to Cmd class<br>
+				</div>
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
@@ -611,7 +626,7 @@ string containing the version.  It can contain the following operators:</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="rmCommand" id="_rmCommand">
+	<tr data-order="rmCommand" id="_rmCommand" class="deprecated">
 
 		<td class="attributes"><code>
 			 public static
@@ -623,7 +638,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_rmCommand">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#209-221" title="Go to source code">rmCommand</a>( <span>Server|Plugin <var>$srv</var></span>, <span>str <var>$cmd</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#227-240" title="Go to source code">rmCommand</a>( <span>Server|Plugin <var>$srv</var></span>, <span>str <var>$cmd</var></span> )</code>
 
 		<div class="description short">
 			<p>Unregisters a command</p>
@@ -632,6 +647,10 @@ string containing the version.  It can contain the following operators:</p>
 		<div class="description detailed hidden">
 			<p>Unregisters a command</p>
 
+				<h4>Deprecated</h4>
+				<div class="list">
+						Moved to Cmd class<br>
+				</div>
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
@@ -662,7 +681,7 @@ string containing the version.  It can contain the following operators:</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sendPopup">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#222-243" title="Go to source code">sendPopup</a>( <span>pocketmine\Player <var>$player</var></span>, <span>str <var>$msg</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#241-262" title="Go to source code">sendPopup</a>( <span>pocketmine\Player <var>$player</var></span>, <span>str <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Send a PopUp, but takes care of checking if there are some
@@ -703,7 +722,7 @@ plugins that might cause issues.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_startsWith">#</a>
-		<code><a href="source-class-aliuly.common.MPMU.html#244-254" title="Go to source code">startsWith</a>( <span>str <var>$txt</var></span>, <span>str <var>$tok</var></span> )</code>
+		<code><a href="source-class-aliuly.common.MPMU.html#263-273" title="Go to source code">startsWith</a>( <span>str <var>$txt</var></span>, <span>str <var>$tok</var></span> )</code>
 
 		<div class="description short">
 			<p>Check prefixes</p>
@@ -752,7 +771,7 @@ plugins that might cause issues.</p>
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.MPMU.html#18-19" title="Go to source code"><b>VERSION</b></a>
+				<a href="source-class-aliuly.common.MPMU.html#17-18" title="Go to source code"><b>VERSION</b></a>
 			</code>
 
 			<div class="description short">
@@ -789,7 +808,7 @@ plugins that might cause issues.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.MPMU.html#16-17" title="Go to source code"><var>$items</var></a>
+				<a href="source-class-aliuly.common.MPMU.html#15-16" title="Go to source code"><var>$items</var></a>
 
 			<div class="description short">
 				<p>$items Nice names for items</p>
