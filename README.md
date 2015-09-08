@@ -261,7 +261,8 @@ Repository for my *official* PocketMine plugins.
 
 Other stuff:
 
-* [libcommon API docs](http://alejandroliu.github.io/pocketmine-plugins/libcommon/apidocs/index.html)
+* [API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+  for all the plugins in this repository.
 
 # Copyright
 
