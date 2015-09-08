@@ -34,6 +34,7 @@ use aliuly\killrate\common\mc2;
 use aliuly\killrate\common\MPMU;
 use aliuly\killrate\common\PluginCallbackTask;
 use aliuly\killrate\common\MoneyAPI;
+use aliuly\killrate\common\SignUtils;
 
 use aliuly\killrate\api\KillRate as KillRateAPI;
 use aliuly\killrate\api\KillRateScoreEvent;
@@ -467,10 +468,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$pl = $ev->getPlayer();
 		if (!MPMU::access($pl,"killrate.signs.place")) {
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
-			$l = $pl->getLevel();
-			$l->setBlockIdAt($tile->getX(),$tile->getY(),$tile->getZ(),Block::AIR);
-			$l->setBlockDataAt($tile->getX(),$tile->getY(),$tile->getZ(),0);
-			$tile->close();
+			SignUtils::breakSignLater($this,$tile);
 			return;
 		}
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG

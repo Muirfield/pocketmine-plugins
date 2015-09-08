@@ -173,6 +173,31 @@ The contents of these "ini" files are key-value pairs:
 
 	"Base text"="Translated Text"
 
+## API
+
+This plugins implements an API.  Please go to
+[API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+to read the API reference documentation.
+
+Example Usage:
+
+### Check API availability
+
+```php
+$api = null;
+if (($plugin = $server->getPluginManager()->getPlugin("KillRate") !== null) &&
+      $plugin->isEnabled() &&
+      MPMU::apiCheck($plugin->getDescription()->getVersion(),"2.0")) {
+  $api = $plugin->api;
+}
+```
+
+### Call an API function:
+
+```php
+$score = $api->getScore($player);
+```
+
 ## KillRateEx
 
 There is a script extension for KillRate that implements Levels in KillRate
@@ -192,7 +217,7 @@ shown earlier.
 In order to use the script extension you need to do the following:
 
 1. Download the script plugin:
-  [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
 2. Copy the script plugin to your plugin folder.
 3. Install [PurePerms](http://forums.pocketmine.net/plugins/pureperms.862/)
 4. Read KillRateEx.php on how to configure PurePerms or alternatively download
@@ -218,9 +243,10 @@ In order to use the script extension you need to do the following:
 
 # Changes
 
-* 2.0.1:
+* 2.0.1: Bug fixes
   * Removed KillRateEx inclusion
   * dump messages.ini if no language defined.
+  * Fixed crash when not permitted to place signs (Reported by @Tolo)
 * 2.0.0: Partial rewrite
   * Fixed bug prevents scoring on creative
   * Fixed bug related to libcommon MoneyAPI (crash when no Economy loaded)
