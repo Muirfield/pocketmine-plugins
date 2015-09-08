@@ -1,22 +1,27 @@
 <?php
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * border : defines a border for a world
- **   usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
- **   Defines a border for an otherwise infinite world.  Usage:
- **   - /wp _[world]_ **border**
- **     - will show the current borders for _[world]_.
- **   - /wp _[world]_ **border** _x1 z1 x2 z2_
- **     - define the border as the region defined by _x1,z1_ and _x2,z2_.
- **   - /wp _[world]_ **border** _range_
- **     - define the border as being _range_ blocks in `x` and `z` axis away
- **       from the spawn point.
- **   - /wp _[world]_ **border** **none**
- **     - Remove borders
- **/
+//= cmd:border,Sub_Commands
+//: defines a border for a world
+//> usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
+//:   Defines a border for an otherwise infinite world.  Usage:
+//>   - /wp _[world]_ **border**
+//:     - will show the current borders for _[world]_.
+//>   - /wp _[world]_ **border** _x1 z1 x2 z2_
+//:     - define the border as the region defined by _x1,z1_ and _x2,z2_.
+//>   - /wp _[world]_ **border** _range_
+//:     - define the border as being _range_ blocks in `x` and `z` axis away
+//:       from the spawn point.
+//>   - /wp _[world]_ **border** **none**
+//:     - Remove borders
+//:
+//= features
+//: * World borders
+
+//= docs
+//: It is possible to create limits in your limitless worlds.
+//: So players are not able to go beyond a preset border.  This is
+//: useful if you want to avoid overloading the server by
+//: generating new Terrain.
+//:
 
 
 namespace aliuly\worldprotect;

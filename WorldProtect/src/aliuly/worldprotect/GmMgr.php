@@ -1,18 +1,17 @@
 <?php
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * gm : Configures a world's gamemode.
- **   usage : /wp _[world]_ gm _[value]_
- **   - /wp _[world]_ **gm**
- **     - Shows the current game mode
- **   - /wp _[world]_ **gm** _mode_
- **     - Sets world game mode
- **   - /wp _[world]_ **gm** **none**
- **     - Removes per world gamemode
- **/
+//= cmd:gm,Sub_Commands
+//: Configures per world game modes
+//> usage: /wp _[world]_ gm _[value]_
+//: Options:
+//> - /wp _[world]_ **gm**
+//:   - show current gamemode
+//> - /wp _[world]_ **gm** _<mode>_
+//:   - Sets the world gamemode to _mode_
+//> - /wp _[world]_ **gm** **none**
+//:   - Removes per world game mode
+//:
+//= features
+//: * Per world game modes
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;

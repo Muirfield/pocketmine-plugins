@@ -1,25 +1,38 @@
 <?php
 namespace aliuly\worldprotect;
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * add : Add player to the authorized list
- **   usage: /wp _[world]_ **add** _<player>_
- ** * rm : Removes player from the authorized list
- **   usage: /wp _[world]_ **rm** _<player>_
- ** * unlock : Removes protection
- **   usage: /wp _[world]_ **unlock**
- ** * lock : Locks world, not even Op can use.
- **   usage: /wp _[world]_ **lock**
- ** * protect : Protects world, only certain players can build.
- **   usage: /wp _[world]_ **protect**
- **   When in this mode, only players in the _authorized_ list can build.
- **   If there is no authorized list, it will use `wp.cmd.protect.auth`
- **   permission instead.
- **
- **/
+//= cmd:add,Sub_Commands
+//: Add player to the authorized list
+//> usage: /wp _[world]_ **add** _<player>_
+//= cmd:rm,Sub_Commands
+//: Removes player from the authorized list
+//> usage: /wp _[world]_ **rm** _<player>_
+//=  cmd:unlock,Sub_Commands
+//: Removes protection
+//> usage: /wp _[world]_ **unlock**
+//= cmd:lock,Sub_Commands
+//: Locks world, not even Op can use.
+//> usage: /wp _[world]_ **lock**
+//= cmd:protect,Sub_Commands
+//: Protects world, only certain players can build.
+//> usage: /wp _[world]_ **protect**
+//: When in this mode, only players in the _authorized_ list can build.
+//: If there is no authorized list, it will use **wp.cmd.protect.auth**
+//: permission instead.
+//:
+//= features
+//: * Protect worlds from building/block breaking
+//
+//= docs
+//: This plugin protects worlds from griefers by restricing placing and breaking
+//: blocks.  Worlds has three protection levels:
+//:
+//: * unlock - anybody can place/break blocks
+//: * protect - players in the _authorized_ list (or if the list is empty)
+//:   players with **wp.cmd.protect.auth** permission can place/break
+//:   blocks.
+//: * lock - nobody (even *ops*) is allowed to place/break blocks.
+//:
+
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;

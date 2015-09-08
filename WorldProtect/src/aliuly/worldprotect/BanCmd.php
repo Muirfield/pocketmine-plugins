@@ -1,13 +1,14 @@
 <?php
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * bancmd|unbancmd: Prevents commands to be used in worlds
- **   usage: /wp  _[world]_ **bancmd|unbancmd** _[cmds]_
- **   List of commands that will be banned on specific worlds.
- **/
+//= cmd:bancmd|unbancmd,Sub_Commands
+//: Prevents commands to be used in worlds
+//> usage: /wp _[world]_ **bancmd|unbancmd** _[command]_
+//:
+//: If no commands are given it will show a list of banned
+//: commands.   Otherwise the _command_ will be added/removed
+//: from the ban list
+//:
+//= features
+//: * Ban commands on a per world basis
 namespace aliuly\worldprotect;
 
 use pocketmine\plugin\PluginBase as Plugin;

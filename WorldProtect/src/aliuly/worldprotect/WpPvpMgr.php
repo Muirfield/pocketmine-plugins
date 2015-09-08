@@ -1,19 +1,17 @@
 <?php
 namespace aliuly\worldprotect;
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * pvp : Controls PvP in a world
- **   usage: /wp  _[world]_ **pvp** _[on|off|spawn-off]_
- **   - /wp _[world]_ **pvp** **off**
- **     - no PvP is allowed.
- **   - /wp _[world]_ **pvp** **on**
- **     - PvP is allowed
- **   - /wp _[world]_ **pvp** **spawn-off**
- **     - PvP is allowed except if inside the spawn area.
- **/
+//= cmd:pvp,Sub_Commands
+//: Controls PvP in a world
+//> usage: /wp  _[world]_ **pvp** _[on|off|spawn-off]_
+//>   - /wp _[world]_ **pvp** **off**
+//:     - no PvP is allowed.
+//>   - /wp _[world]_ **pvp** **on**
+//:     - PvP is allowed
+//>   - /wp _[world]_ **pvp** **spawn-off**
+//:     - PvP is allowed except if inside the spawn area.
+//:
+//= features
+//: * Per World PvP
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;

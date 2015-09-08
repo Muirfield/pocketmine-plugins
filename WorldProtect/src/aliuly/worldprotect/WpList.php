@@ -1,17 +1,11 @@
 <?php
-/**
- ** OVERVIEW:Basic Usage
- **
- ** COMMANDS
- **
- ** * ls : List info on world protection.
- **   usage: /wp **ls** _[world]_
- **   - /wp **ls**
- **     - shows an overview of protections applied to all loaded worlds
- **   - /wp **ls** _[world]_
- **     - shows details of an specific world
- **/
-
+//= cmd:ls,Sub_Commands
+//: List info on world protection.
+//> usage: /wp **ls** _[world]_
+//>    - /wp **ls**
+//:      - shows an overview of protections applied to all loaded worlds
+//>    - /wp **ls** _[world]_
+//:      - shows details of an specific world
 namespace aliuly\worldprotect;
 
 use pocketmine\command\CommandSender;
