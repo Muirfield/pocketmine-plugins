@@ -27,8 +27,8 @@ namespace aliuly\example{
 
 	class CmdReMapper extends PluginBase implements CommandExecutor{
 		public function onEnable(){
-			MPMU::rmCommand($this->getServer(),"list");
-			MPMU::addCommand($this,$this,"list",[
+			Cmd::rmCommand($this->getServer(),"list");
+			Cmd::addCommand($this,$this,"list",[
 					"description" => "Replaced List command",
 					"usage" => "/list",
 				]);

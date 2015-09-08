@@ -180,6 +180,7 @@ abstract class MPMU {
 	 * @param CommandExecutor $executor - object that will be called onCommand
 	 * @param str $cmd - Command name
 	 * @param array $yaml - Additional settings for this command.
+	 * @deprecated Moved to Cmd class
 	 */
 	static public function addCommand($plugin, $executor, $cmd, $yaml) {
 		$newCmd = new PluginCommand($cmd,$plugin);
@@ -210,6 +211,7 @@ abstract class MPMU {
 	 * Unregisters a command
 	 * @param Server|Plugin $obj - Access path to server instance
 	 * @param str $cmd - Command name to remove
+	 * @deprecated Moved to Cmd class
 	 */
 	static public function rmCommand($srv, $cmd) {
 		$cmdMap = $srv->getCommandMap();

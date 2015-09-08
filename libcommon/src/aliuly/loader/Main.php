@@ -9,6 +9,7 @@ use pocketmine\command\Command;
 use aliuly\common\BasicPlugin;
 use aliuly\common\BasicHelp;
 use aliuly\common\MPMU;
+use aliuly\common\Cmd;
 use aliuly\common\mc;
 use aliuly\common\ExpandVars;
 use aliuly\common\PMScript;
@@ -39,7 +40,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 	public function onEnable() {
 		mc::plugin_init($this,$this->getFile());
 
-		MPMU::addCommand($this,$this,"libcommon", [
+		Cmd::addCommand($this,$this,"libcommon", [
 			"description" => mc::_("LibCommon Command Line interface"),
 			"usage" => mc::_("/libcommon <subcommand> [options]"),
 			"aliases" => ["lc"],
@@ -60,7 +61,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 			$class = __NAMESPACE__."\\".$mod;
 			$this->modules[$mod] = new $class($this);
 		}
-		MPMU::addCommand($this,$this,"echo", [
+		Cmd::addCommand($this,$this,"echo", [
 			"description" => mc::_("Basic echo command"),
 			"usage" => mc::_("/libcommon <subcommand> [options]"),
 			"permission" => "libcommon.echo.command",

@@ -114,5 +114,50 @@ abstract class Cmd {
 		}
 		$ctx->getServer()->dispatchCommand($ctx,$cmdline);
 	}
-
+	/**
+	 * Register a command
+	 *
+	 * @param Plugin $plugin - plugin that "owns" the command
+	 * @param CommandExecutor $executor - object that will be called onCommand
+	 * @param str $cmd - Command name
+	 * @param array $yaml - Additional settings for this command.
+	 */
+	static public function addCommand($plugin, $executor, $cmd, $yaml) {
+		$newCmd = new PluginCommand($cmd,$plugin);
+		if (isset($yaml["description"]))
+			$newCmd->setDescription($yaml["description"]);
+		if (isset($yaml["usage"]))
+			$newCmd->setUsage($yaml["usage"]);
+		if(isset($yaml["aliases"]) and is_array($yaml["aliases"])) {
+			$aliasList = [];
+			foreach($yaml["aliases"] as $alias) {
+				if(strpos($alias,":")!== false) {
+					$this->owner->getLogger()->info("Unable to load alias $alias");
+					continue;
+				}
+				$aliasList[] = $alias;
+			}
+			$newCmd->setAliases($aliasList);
+		}
+		if(isset($yaml["permission"]))
+			$newCmd->setPermission($yaml["permission"]);
+		if(isset($yaml["permission-message"]))
+			$newCmd->setPermissionMessage($yaml["permission-message"]);
+		$newCmd->setExecutor($executor);
+		$cmdMap = $plugin->getServer()->getCommandMap();
+		$cmdMap->register($plugin->getDescription()->getName(),$newCmd);
+	}
+	/**
+	 * Unregisters a command
+	 * @param Server|Plugin $obj - Access path to server instance
+	 * @param str $cmd - Command name to remove
+	 */
+	static public function rmCommand($srv, $cmd) {
+		$cmdMap = $srv->getCommandMap();
+		$oldCmd = $cmdMap->getCommand($cmd);
+		if ($oldCmd === null) return false;
+		$oldCmd->setLabel($cmd."_disabled");
+		$oldCmd->unregister($cmdMap);
+		return true;
+	}
 }
