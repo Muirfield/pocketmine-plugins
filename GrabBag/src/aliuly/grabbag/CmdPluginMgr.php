@@ -22,6 +22,9 @@
 //:     - Dump messages.ini.
 //> - **pluginmgr** **uninstall** _<plugin>_
 //:     - Uninstall plugin.
+//> - **pluginmgr** **feature** _<plugin>_ _[[-|+]feature]_
+//:     - For plugins that have a _features_ table in **config.yml**
+//:       this will let you change those settings.
 
 namespace aliuly\grabbag;
 
@@ -34,12 +37,13 @@ use pocketmine\utils\TextFormat;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginManager;
 use pocketmine\plugin\PluginDescription;
+use pocketmine\utils\Config;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\PermUtils;
-use aliuly\common\MPMU;
-use aliuly\common\FileUtils;
+use aliuly\grabbag\common\MPMU;
+use aliuly\grabbag\common\FileUtils;
 
 class CmdPluginMgr extends BasicCli implements CommandExecutor {
 	private function findPlugin($path) {
@@ -55,7 +59,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 		PermUtils::add($this->owner, "gb.cmd.pluginmgr", "Run-time management of plugins", "op");
 		$this->enableCmd("pluginmgr",
 							  ["description" => mc::_("manage plugins"),
-								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg|uninstall> <plugin>"),
+								"usage" => mc::_("/pluginmgr <enable|disable|reload|info|commands|permissions|load|dumpmsg|uninstall|feature> <plugin>"),
 								"aliases" => ["pm"],
 								"permission" => "gb.cmd.pluginmgr"]);
 	}
@@ -147,10 +151,73 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 				return $this->cmdDumpMsgs($sender,$plugin, $args);
 			case "uninstall":
 				return $this->cmdRemove($sender,$plugin,$mgr);
+			case "feature":
+				return $this->cmdFeatures($sender,$plugin, $mgr, $args, $pageNumber);
 			default:
 				$sender->sendMessage(mc::_("Unknown sub-command %1%",$scmd));
 				return false;
 		}
+		return true;
+	}
+	private function cmdFeatures(CommandSender $c,Plugin $plugin, $mgr, $args, $pageNumber) {
+		//
+		$cfgfile = $plugin->getDataFolder()."config.yml";
+		if (!file_exists($cfgfile)) {
+			$c->sendMessage(mc::_("%1%: Does not have config.yml", $plugin->getDescription()->getFullName()));
+			return true;
+		}
+		$cfg = (new Config($cfgfile,Config::YAML,[]))->getAll();
+		$section = "features";
+		if (!isset($cfg[$section]) || !is_array($cfg[$section])) {
+			$c->sendMessage(mc::_("%1%: Does not have compatible config.yml", $plugin->getDescription()->getFullName()));
+			return true;
+		}
+		if (count($args) == 0) {
+			$txt = [];
+			$txt[] = mc::_("%1% Features", $plugin->getDescription()->getFullName());
+			foreach ($cfg[$section] as $a => $b) {
+				if (is_bool($b)) {
+					$txt[] = TextFormat::AQUA.$a.TextFormat::WHITE.": ". ($b ? TextFormat::GREEN.mc::_("yes") : TextFormat::YELLOW. mc::_("no"));
+					if (isset($cfg[$section]["# ".$b])) {
+						$txt[] = TextFormat::BLUE."    ".$cfg[$section]["# ".$b];
+					}
+				}
+			}
+			return $this->paginateText($c,$pageNumber,$txt);
+		}
+		$bounce = false;
+		foreach ($args as $i) {
+			$v = true;
+			if ($i{0} == "+") {
+				$i = substr($i,1);
+			} elseif ($i{0} == "-") {
+				$v = false;
+				$i = substr($i,1);
+			}
+			if (!isset($cfg[$section][$i]) || !is_bool($cfg[$section][$i])) {
+				$c->sendMessage(mc::_("%1%: Does not support feature %2%", $plugin->getDescription()->getFullName(), $i));
+				continue;
+			}
+			if ($cfg[$section][$i] === $v) continue;
+			$cfg[$section][$i] = $v;
+			if ($v) {
+				$c->sendMessage(mc::_("Enabling %1%",$i));
+			} else {
+				$c->sendMessage(mc::_("Disabling %1%",$i));
+			}
+			$bounce = true;
+		}
+		if (!$bounce) {
+			$c->sendMessage(mc::_("No changes"));
+			return true;
+		}
+		$yaml = new Config($cfgfile,Config::YAML,[]);
+		$yaml->setAll($cfg);
+		$yaml->save();
+		$mgr->disablePlugin($plugin);
+		$mgr->enablePlugin($plugin);
+		$c->sendMessage(TextFormat::GREEN.
+									mc::_("Plugin %1% reloaded",$plugin->getDescription()->getFullName()));
 		return true;
 	}
 	private function cmdDumpMsgs(CommandSender $c,Plugin $plugin, $args) {
@@ -277,7 +344,7 @@ class CmdPluginMgr extends BasicCli implements CommandExecutor {
 			$c->sendMessage(mc::_("there may be lingering references pointing"));
 			$c->sendMessage(mc::_("to the old plugin."));
 		} else {
-			$c->sendMessage(TextFormat::RED.mc::_("Uninstal failed"));
+			$c->sendMessage(TextFormat::RED.mc::_("Uninstall failed"));
 		}
 		return true;
 	}
