@@ -36,10 +36,12 @@ use aliuly\grabbag\api\GbRemoveServerEvent;
 class ServerList extends BasicCli implements CommandExecutor {
   const CfgTag = "serverlist";
   protected $servers;
+  protected $query;
 
   public function __construct($owner,$cfg) {
     parent::__construct($owner);
     $this->servers = $cfg;
+    $this->query = [];
 
     PermUtils::add($this->owner, "gb.cmd.servers", "servers command", "op");
     PermUtils::add($this->owner, "gb.cmd.servers.read", "view server configuration", "op");
@@ -70,7 +72,7 @@ class ServerList extends BasicCli implements CommandExecutor {
     if (!isset($this->servers[$id])) return true;
     $this->owner->getServer()->getPluginManager()->callEvent(
 	     $ev = new GbAddServerEvent($this->owner, $key, $val)
-     );
+    );
     if ($ev->isCancelled()) return false;
     $id = $ev->getId();
     if (!isset($this->servers[$id])) return true;
@@ -81,6 +83,35 @@ class ServerList extends BasicCli implements CommandExecutor {
   public function getServer($id) {
     if (isset($this->servers[$id])) return $this->servers[$id];
     return null;
+  }
+  public function addQueryData($id,$tag,$attrs) {
+    $this->owner->getServer()->getPluginManager()->callEvent(
+	     $ev = new GbUpdateQueryEvent($this->owner, $id, $tag, $attrs)
+    );
+    if ($ev->isCancelled()) return false;
+
+    $id = $ev->getId();
+    $tag = $ev->getTag();
+
+    if (!isset($this->query[$id])) $this->query[$id] = [];
+    if (is_array($attrs)) {
+      $this->query[$id][$tag] = $ev->getData();
+      $this->query[$id][$tag]["age"] = microtime(true);
+    } else {
+      $this->query[$id][$tag] = [ "value" => $ev->getData(), "age" => microtime(true) ];
+    }
+    return true;
+  }
+  public function getQueryData($id,$tag = null,$default = null) {
+
+
+  }
+  public function delQueryData($id,$tag = null) {
+    $this->owner->getServer()->getPluginManager()->callEvent(
+	     $ev = new GbRmQueryEvent($this->owner, $id, $tag)
+    );
+    if ($ev->isCancelled()) return false;
+    return true;
   }
 
   public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
