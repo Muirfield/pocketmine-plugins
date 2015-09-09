@@ -2,6 +2,7 @@
 //= cmd:gm,Sub_Commands
 //: Configures per world game modes
 //> usage: /wp _[world]_ gm _[value]_
+//:
 //: Options:
 //> - /wp _[world]_ **gm**
 //:   - show current gamemode

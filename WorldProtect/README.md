@@ -1,5 +1,7 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/WorldProtect-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = Anti-Griefing -->
+<!-- meta:PluginAccess = Commands, Data Saving, World Editing -->
 <!-- template: gd2/header.md -->
 
 # WorldProtect
@@ -8,8 +10,8 @@
 - PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
 - DependencyPlugins: 
 - OptionalPlugins: 
-- Categories: N/A
-- Plugin Access: N/A
+- Categories: Anti-Griefing 
+- Plugin Access: Commands, Data Saving, World Editing 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect
 
 <!-- end-include -->
@@ -28,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.2.0dev1**.
+This documentation was last updated for version **2.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.2.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.2.0).
 
 <!-- end-include -->
 
@@ -43,16 +45,16 @@ A full featured World protection plugin.
 Features:
 
 <!-- snippet:features -->
-* Control explosions per world
-* World borders
-* Automatically displayed/per world MOTD
-* Per World PvP
+* Ban commands on a per world basis
+* Ban specific items in a world
 * Per world game modes
 * Limit the number of players in a world
+* Control explosions per world
 * Unbreakable blocks
-* Ban specific items in a world
+* World borders
+* Automatically displayed/per world MOTD
 * Protect worlds from building/block breaking
-* Ban commands on a per world basis
+* Per World PvP
 <!-- end-include -->
 
 All commands require a _world_ name to be given, otherwise a default
@@ -103,6 +105,11 @@ specified in the _server.properties_ file.
 This plugin let's you limit what happens in a world.
 
 <!-- snippet: docs -->
+Some items are able to modify a world by being consume (i.e. do not
+need to be placed).  For example, _bonemeal_, _water or lava buckets_.
+To prevent this type of griefing, you can use the **banitem**
+feature.
+
 It is possible to create limits in your limitless worlds.
 So players are not able to go beyond a preset border.  This is
 useful if you want to avoid overloading the server by
@@ -112,16 +119,11 @@ Show a text file when players enter a world.  To explain players
 what is allowed (or not allowed) in specific worlds.  For example
 you could warn players when they are entering a PvP world.
 
-Some items are able to modify a world by being consume (i.e. do not
-need to be placed).  For example, _bonemeal_, _water or lava buckets_.
-To prevent this type of griefing, you can use the **banitem**
-feature.
-
 This plugin protects worlds from griefers by restricing placing and breaking
-blocks.  Worlds has three protection levels:
+blocks.  Worlds have three protection levels:
 
 * unlock - anybody can place/break blocks
-* protect - players in the _authorized_ list (or if the list is empty)
+* protect - players in the _authorized_ list or, if the list is empty,
   players with **wp.cmd.protect.auth** permission can place/break
   blocks.
 * lock - nobody (even *ops*) is allowed to place/break blocks.
@@ -135,6 +137,7 @@ The following commands are available:
 <!-- template: gd2/subcmds.md -->
 * /motd: Shows the world's *motd* text<br/>
   usage: /motd  _[world]_
+  
   Shows the *motd* text of a _world_.  This can be used to show
     rules around a world.
 * /worldprotect: Main WorldProtect command<br/>
@@ -158,7 +161,8 @@ The following commands are available:
   
 * border: defines a border for a world<br/>
   usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
-    Defines a border for an otherwise infinite world.  Usage:
+  
+  Defines a border for an otherwise infinite world.  Usage:
     - /wp _[world]_ **border**
       - will show the current borders for _[world]_.
     - /wp _[world]_ **border** _x1 z1 x2 z2_
@@ -171,6 +175,7 @@ The following commands are available:
   
 * gm: Configures per world game modes<br/>
   usage: /wp _[world]_ gm _[value]_
+  
   Options:
   - /wp _[world]_ **gm**
     - show current gamemode
@@ -198,18 +203,18 @@ The following commands are available:
   
 * motd: Modifies the world's *motd* text.<br/>
   usage: /wp _[world]_ **motd** _&lt;text&gt;_
-    Let's you modify the world's *motd* text.  The command only
-    supports a single line, however you can modify the *motd* text
-   by editing the `wpcfg.yml` file that is stored in the `world`
-   folder.  For example:
   
-        [CODE]
-        motd:
-        - line 1
-        - line 2
-        - line 3
-        - line 4... etc
-        [/CODE]
+  Let's you modify the world's *motd* text.  The command only
+  supports a single line, however you can modify the *motd* text
+  by editing the **wpcfg.yml** file that is stored in the **world**
+  folder.  For example:
+  - [CODE]
+    - motd:
+      - line 1
+      - line 2
+      - line 3
+      - line 4... etc
+  - [/CODE]
 * noexplode: Stops explosions in a world<br/>
   usage: /wp  _[world]_ **noexplode** _[off|world|spawn]_
     - /wp _[world]_ **noexplode** **off**
@@ -221,6 +226,7 @@ The following commands are available:
   
 * protect: Protects world, only certain players can build.<br/>
   usage: /wp _[world]_ **protect**
+  
   When in this mode, only players in the _authorized_ list can build.
   If there is no authorized list, it will use **wp.cmd.protect.auth**
   permission instead.
@@ -238,6 +244,7 @@ The following commands are available:
   usage: /wp _[world]_ **rm** _&lt;player&gt;_
 * unbreakable|breakable: Control blocks that can/cannot be broken<br/>
   usage: /wp  _[world]_ **breakable|unbreakable** _[block-ids]_
+  
   Manages which blocks can or can not be broken in a given world.
   You can get a list of blocks currently set to **unbreakable**
   if you do not specify any _[block-ids]_.  Otherwise these are
@@ -334,7 +341,7 @@ You can provide your own message file by creating a file called
 Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect/resources/messages/)
 for sample files.
 Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
 installed, you can create an empty **messages.ini** using the command:
 
      pm dumpmsgs WorldProtect [lang]

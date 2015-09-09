@@ -2,7 +2,8 @@
 //= cmd:border,Sub_Commands
 //: defines a border for a world
 //> usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
-//:   Defines a border for an otherwise infinite world.  Usage:
+//:
+//: Defines a border for an otherwise infinite world.  Usage:
 //>   - /wp _[world]_ **border**
 //:     - will show the current borders for _[world]_.
 //>   - /wp _[world]_ **border** _x1 z1 x2 z2_

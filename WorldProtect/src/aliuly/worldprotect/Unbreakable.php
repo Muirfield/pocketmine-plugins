@@ -2,6 +2,7 @@
 //= cmd:unbreakable|breakable,Sub_Commands
 //: Control blocks that can/cannot be broken
 //> usage: /wp  _[world]_ **breakable|unbreakable** _[block-ids]_
+//:
 //: Manages which blocks can or can not be broken in a given world.
 //: You can get a list of blocks currently set to **unbreakable**
 //: if you do not specify any _[block-ids]_.  Otherwise these are
