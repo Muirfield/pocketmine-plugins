@@ -1,5 +1,7 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = Informational -->
+<!-- meta:PluginAccess = Commands, Databases, Entities -->
 <!-- template: gd2/header.md -->
 
 # KillRate
@@ -8,8 +10,8 @@
 - PocketMine-MP version: 1.5 (API:1.12.0)
 - DependencyPlugins: 
 - OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd
-- Categories: N/A
-- Plugin Access: N/A
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
@@ -156,6 +158,8 @@ The entity ( * ) is the default.
 
 <!-- end-include -->
 
+<!-- template: gd2/mctxt.md -->
+
 ## Translations
 
 This plugin will honour the server language configuration.  The
@@ -164,14 +168,18 @@ languages currently available are:
 * English
 * Spanish
 
+
 You can provide your own message file by creating a file called
-**messages.ini** in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+**messages.ini** in the plugin config directory.
+Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
 for sample files.
+Alternatively, if you have
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
+installed, you can create an empty **messages.ini** using the command:
 
-The contents of these "ini" files are key-value pairs:
+     pm dumpmsgs KillRate [lang]
 
-	"Base text"="Translated Text"
+<!-- end-include -->
 
 ## API
 
@@ -289,6 +297,8 @@ In order to use the script extension you need to do the following:
   * Added support for GoldStd
 * 1.0.0 : First submission
 
+<!-- php:$copyright="2015"; -->
+<!-- template: gd2/gpl2.md -->
 # Copyright
 
     KillRate
@@ -307,4 +317,6 @@ In order to use the script extension you need to do the following:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+<!-- end-include -->
 
