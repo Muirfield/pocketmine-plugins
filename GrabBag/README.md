@@ -602,7 +602,7 @@ things:
 
 <!-- end-include -->
 
-## Command Selectors
+### Command Selectors
 <!-- snippet: cmdselector  -->
 
 This adds "@" prefixes for commands.
@@ -625,6 +625,12 @@ The following selectors are implemented:
 - w: world
 
 <!-- end-include -->
+
+### API
+
+Since version 2.3 of GrabBag, an API is available.  For more information
+see the
+[API documentation.](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
 
 ### Configuration
 
