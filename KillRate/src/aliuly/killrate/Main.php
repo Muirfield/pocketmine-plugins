@@ -159,6 +159,9 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			Achievement::add("killer","First Blood!",[]);
 			Achievement::add("serialKiller","Killer Streak!",["killer"]);
 			Achievement::add("ranked1","Ranked #1!",["killer"]);
+			Achievement::add("kill10","Achieved 10 Kills!",["killer"]);
+			Achievement::add("kill100","Achieved 100 Kills!",["killer"]);
+			Achievement::add("kill1000","Achieved 1,000 Kills!",["killer"]);
 		}
 	}
 	public function onDisable() {
@@ -340,6 +343,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 				$player->awardAchievement("ranked1");
 			}
 			// Insert achievements for achievement 10, 100 and 1,000 kills
+			if ($vic == "Player") {
+				$score = $this->dbm->getScore($perp,$vic);
+				if ($score) {
+					switch ($score["count"]) {
+						case 10: $player->awardAchievement("kill10"); break;
+						case 100: $player->awardAchievement("kill100"); break;
+						case 1000: $player->awardAchievement("kill1000"); break;
+					}
+				}
+			}
 		}
 
 		return $awards;
