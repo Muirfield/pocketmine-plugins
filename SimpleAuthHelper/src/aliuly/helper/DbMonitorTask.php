@@ -1,7 +1,4 @@
 <?php
-/**
- ** CONFIG:monitor-settings
- **/
 namespace aliuly\helper;
 
 use pocketmine\scheduler\PluginTask;
@@ -20,6 +17,7 @@ class DbMonitorTask extends PluginTask implements Listener{
   protected $fix;
 
   static public function defaults() {
+    //= cfg:monitor-settings
 		return [
       "# canary-account" => "account to query",//this account is tested to check database proper operations
       "canary-account" => "test user",

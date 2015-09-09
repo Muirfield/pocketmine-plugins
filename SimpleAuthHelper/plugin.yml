@@ -5,8 +5,9 @@ depend: [SimpleAuth]
 
 name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
-version: 2.0.1
+version: 2.0.2
 author: aliuly
+website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
 
 commands:
   chpwd:
