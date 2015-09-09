@@ -39,7 +39,9 @@ use aliuly\killrate\common\SignUtils;
 use aliuly\killrate\api\KillRate as KillRateAPI;
 use aliuly\killrate\api\KillRateScoreEvent;
 use aliuly\killrate\api\KillRateResetEvent;
-
+use aliuly\killrate\api\KillRateNewStreakEvent;
+use aliuly\killrate\api\KillRateEndStreakEvent;
+use aliuly\killrate\api\KillRateBonusScoreEvent;
 
 class Main extends PluginBase implements CommandExecutor,Listener {
 	protected $dbm;
@@ -156,6 +158,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($this->cfg["settings"]["achievements"]) {
 			Achievement::add("killer","First Blood!",[]);
 			Achievement::add("serialKiller","Killer Streak!",["killer"]);
+			Achievement::add("ranked1","Ranked #1!",["killer"]);
 		}
 	}
 	public function onDisable() {
@@ -329,6 +332,16 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		if ($points !== false && $points != 0) $this->updateDb($perp,"points", $points);
 		$awards[1] = $money = $ev->getMoney();
 		if ($money !== false) MoneyAPI::grantMoney($this->money,$perp,$money);
+
+		if ($this->cfg["settings"]["achievements"]) {
+			$res = $this->getRankings(1);
+			if ($res !== null && $res[0]["player"] == $perp) {
+				// Achieved #1 ranking!
+				$player->awardAchievement("ranked1");
+			}
+			// Insert achievements for achievement 10, 100 and 1,000 kills
+		}
+
 		return $awards;
 	}
 	/**
@@ -364,22 +377,29 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			if ($this->cfg["settings"]["kill-streak"]) {
 				$n = $pv->getName();
 				$newstreak = $this->dbm->getScore($n,"streak");
+				$oldstreak = $this->dbm->getScore($n,"best-streak");
+				$oldstreak = $oldstreak ? $oldstreak["count"] : null;
 				// Keep track of the best streak ever...
 				if ($newstreak) {
 					$newstreak = $newstreak["count"];
-					$oldstreak = $this->dbm->getScore($n,"best-streak");
-					if ($oldstreak) {
-						$oldstreak = $oldstreak["count"];
-						if ($newstreak > $oldstreak) {
-							$this->dbm->updateScore($n,"best-streak",$newstreak);
-							$this->getServer()->broadcastMessage(mc::_("%1% beat previous streak record of %2% at %3% kills", $n, $oldstreak, $newstreak));
+					$this->getServer()->getPluginManager()->callEvent(
+							$ev = new KillRateEndStreakEvent($this,$pv,$newstreak,$oldstreak)
+					);
+					if (!$ev->isCancelled()) {
+						if ($oldstreak !== null) {
+							if ($newstreak > $oldstreak) {
+								$this->dbm->updateScore($n,"best-streak",$newstreak);
+								$this->getServer()->broadcastMessage(mc::_("%1% beat previous streak record of %2% at %3% kills", $n, $oldstreak, $newstreak));
+							} else {
+								$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
+							}
+						} else {
+							$this->dbm->insertScore($n,"best-streak",$newstreak);
+							$this->getServer()->broadcastMessage(mc::_("%1% ended his first kill-streak at %2% kills", $n, $newstreak));
 						}
-					} else {
-						$this->dbm->insertScore($n,"best-streak",$newstreak);
-						$this->getServer()->broadcastMessage(mc::_("%1% ended his kill-streak at %2% kills", $n, $newstreak));
+						$this->dbm->delScore($n,"streak");
 					}
 				}
-				$this->dbm->delScore($n,"streak");
 			}
 		}
 		$cause = $pv->getLastDamageCause();
@@ -422,13 +442,21 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			if ($this->cfg["settings"]["kill-streak"]) {
 				$streak = $this->updateDb($perp,"streak");
 				if ($streak > $this->cfg["settings"]["kill-streak"]) {
+					$this->getServer()->getPluginManager()->callEvent(
+							new KillRateNewStreakEvent($this,$pp,$pv,$streak)
+					);
 					if ($this->cfg["settings"]["achievements"]) $pp->awardAchievement("serialKiller");
 					$this->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2% kill streak",$pp->getName(),$streak));
 					if ($this->cfg["settings"]["rewards"]) {
 						list($points,$money) = $this->getPrizes($vic);
-						$pp->sendMessage(TextFormat::GREEN.
-											  mc::_("You earn an additional $%1% for being in kill-streak!",$money));
-						MoneyAPI::grantMoney($this->money,$perp,$money);
+						$this->getServer()->getPluginManager()->callEvent(
+								$ev = new KillRateBonusScoreEvent($this,$pp,$pv,$money)
+						);
+						if (!$ev->isCancelled()) {
+							$pp->sendMessage(TextFormat::GREEN.
+											  mc::_("You earn an additional $%1% for being in kill-streak!",$ev->getMoney()));
+							MoneyAPI::grantMoney($this->money,$perp,$ev->getMoney());
+						}
 					}
 				}
 			}
