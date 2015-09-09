@@ -7,7 +7,7 @@
 //:
 //:    feature: true|false
 //:
-//: If `true` the feature is enabled.  if `false` the feature is disabled.
+//: If **true** the feature is enabled.  if **false** the feature is disabled.
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase;

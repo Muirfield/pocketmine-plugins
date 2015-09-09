@@ -3,7 +3,7 @@
 //: Burns the specified player
 //> usage: **burn** _<player>_ _[secs]_
 //:
-//: Sets `player` on fire for the specified number of seconds.
+//: Sets _player_ on fire for the specified number of seconds.
 //: Default is 15 seconds.
 //:
 namespace aliuly\grabbag;

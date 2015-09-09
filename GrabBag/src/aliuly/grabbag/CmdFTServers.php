@@ -1,6 +1,6 @@
 <?php
 //= cmd:ftserver,Teleporting
-//: Traver to remove servers
+//: Travel to remove servers
 //> usage: **ftserver** _<serverid>_
 //:
 //: Teleport to servers defined with the **/servers** command.

@@ -1,8 +1,8 @@
 <?php
 //= cmd:slay,Trolling
 //: Kills the specified player
-//> usage: **slay** _<player>_ _[msg]_
-//: Kills a player with an optional `message`.
+//> usage: **slay** _<player>_ _[messsage]_
+//: Kills a player with an optional _message_.
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;

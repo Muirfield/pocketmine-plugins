@@ -1,6 +1,6 @@
 <?php
 //= cmd:reop,Player_Management
-//: Let's op drop priviledges temporarily
+//: Let ops drop priviledges temporarily
 //> usage: **reop** [_player_]
 //:
 //: Will drop **op** priviledges from player.  Player can get **op**

@@ -1,7 +1,7 @@
 <?php
 //= cmd:perm,Player_Management
 //: temporarily change player's permissions
-//> usage: **perm** _<player>_ _<dump|permission> _[true|false]_
+//> usage: **perm** _<player>_ _<dump|permission>_ _[true|false]_
 //:
 //: This can be used to temporarily change player's permissions.
 //: Changes are only done in-memory, so these will revert if the

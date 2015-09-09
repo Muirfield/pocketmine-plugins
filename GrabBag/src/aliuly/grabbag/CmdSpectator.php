@@ -1,9 +1,9 @@
 <?php
 //= cmd:spectator|unspectator,Trolling
-//: toggle a player's spectator mode
+//: toggle a player's spectator mode **(DEPRECATED)**
 //> usage: **spectator|unspectator** _[player]_
 //:
-//: `/spectator` will turn a player into an spectator.  In this mode
+//: This command will turn a player into an spectator.  In this mode
 //: players can move but not interact (i.e. can't take/give damage,
 //: can't place/break blocks, etc).
 //:

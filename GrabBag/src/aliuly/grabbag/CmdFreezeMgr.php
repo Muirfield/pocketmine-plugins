@@ -6,7 +6,7 @@
 //: Stops players from moving.  If no player specified it will show
 //: the list of frozen players.
 //:
-//: If `--hard` or `--soft` is specified instead of a player name, it
+//: If **--hard** or **--soft** is specified instead of a player name, it
 //: will change the freeze mode.
 
 
@@ -30,7 +30,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	//= cfg:freeze-thaw
 	static public function defaults() {
 		return [
-			"# hard-freeze" => "how hard to freeze players.", // If `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
+			"# hard-freeze" => "how hard to freeze players.", // If **true** no movement is allowed.  If **false**, turning is allowed but not walking/running/flying, etc.
 			"hard-freeze"=>false,
 		];
 	}

@@ -20,7 +20,7 @@
 //> - **rpt** **read** _[##]_
 //:   - reads reports.  You can specify the page by specifying a number.
 //> - **rpt** **clear** _<all|##>_
-//:   - will delete the specified report or if `all`, all the reports.
+//:   - will delete the specified report or if **all**, all the reports.
 
 namespace aliuly\grabbag;
 

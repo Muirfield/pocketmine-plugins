@@ -6,14 +6,14 @@
 //: By default it will show the number of registered players.  The following
 //: sub-commands are available:
 //> - **count**
-//:     - default sub-command.  Counts the number of registered players.
+//:   - default sub-command.  Counts the number of registered players.
 //> - **list** _[pattern]_
-//:     - Display a list of registered players or those that match the
-//:       wildcard _pattern_.
+//:   - Display a list of registered players or those that match the
+//:     wildcard _pattern_.
 //> - **rm** _<player>_
-//:     - Removes _player_ registration.
+//:   - Removes _player_ registration.
 //> - **since** _<when>_
-//:			- Display list of players registered since a date/time.
+//:   - Display list of players registered since a date/time.
 
 
 namespace aliuly\grabbag;

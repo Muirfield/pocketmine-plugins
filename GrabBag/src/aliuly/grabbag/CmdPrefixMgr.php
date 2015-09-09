@@ -4,12 +4,12 @@
 //> usage: **prefix** _[-n]_ _<prefix text>_
 //:
 //: This allows you to prepend a prefix to chat lines.
-//: To stop enter `/prefix` by itself (or `prefix` at the console).
+//: To stop enter **/prefix** by itself (or **prefix** at the console).
 //: Usage examples:
 //:
-//: - Send multiple `/as player` commands in a row.
-//: - Start a private chat `/tell player` with another player.
-//: - You prefer commands over chat: `-n /`
+//: - Send multiple **/as player** commands in a row.
+//: - Start a private chat **/tell player** with another player.
+//: - You prefer commands over chat: **/prefix -n /**
 //:
 //: When prefix is enabled and you one to send just _one_ command without
 //: prefix, prepend your text with **<**.

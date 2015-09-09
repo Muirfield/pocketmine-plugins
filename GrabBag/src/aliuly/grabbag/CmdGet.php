@@ -3,7 +3,7 @@
 //: obtain an item
 //> usage: **get** _<item>_ _[count]_
 //:
-//: This is a shortcut to `/give` that lets player get items for
+//: This is a shortcut to **give** that lets player get items for
 //: themselves.  You can replace **item** with **more** and the
 //: current held item will be duplicated.
 
@@ -11,7 +11,7 @@
 //: give an item to a player
 //> usage: **gift** _[player]_ _<item>_ _[count]_
 //:
-//: This is a re-implementation of `/give`.
+//: This is a re-implementation of **give** command.
 
 namespace aliuly\grabbag;
 

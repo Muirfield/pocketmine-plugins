@@ -20,9 +20,11 @@
 //:
 //= cmdnotes
 //:
-//: Commands scheduled by `at` and `after` will only run as
+//: Commands scheduled by **at** and **after** will only run as
 //: long as the server is running.  These scheduled commands will *not*
-//: survive server reloads or reboots.
+//: survive server reloads or reboots.  If you want persistent commands,
+//: it is recommended that you use a plugin like
+//: [TimeCommander](http://forums.pocketmine.net/plugins/timecommander.768/).
 //:
 
 

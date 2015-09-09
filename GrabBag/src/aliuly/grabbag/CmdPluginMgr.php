@@ -2,6 +2,7 @@
 //= cmd:pluginmgr,Server_Management
 //: manage plugins
 //> usage: **pluginmgr** _<subcmd>_ _<plugin>_
+//:
 //: Manage plugins.
 //:  The following sub-commands are available:
 //> - **pluginmgr** **enable** _<plugin>_
