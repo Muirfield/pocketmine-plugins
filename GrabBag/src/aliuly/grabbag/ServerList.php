@@ -31,7 +31,8 @@ use aliuly\grabbag\common\PermUtils;
 
 use aliuly\grabbag\api\GbAddServerEvent;
 use aliuly\grabbag\api\GbRemoveServerEvent;
-
+use aliuly\grabbag\api\GbRmQueryEvent;
+use aliuly\grabbag\api\GbUpdateQueryEvent;
 
 class ServerList extends BasicCli implements CommandExecutor {
   const CfgTag = "serverlist";
@@ -95,22 +96,31 @@ class ServerList extends BasicCli implements CommandExecutor {
 
     if (!isset($this->query[$id])) $this->query[$id] = [];
     if (is_array($attrs)) {
-      $this->query[$id][$tag] = $ev->getData();
+      $this->query[$id][$tag] = $ev->getAttrs();
       $this->query[$id][$tag]["age"] = microtime(true);
     } else {
-      $this->query[$id][$tag] = [ "value" => $ev->getData(), "age" => microtime(true) ];
+      $this->query[$id][$tag] = [ "value" => $ev->getAttrs(), "age" => microtime(true) ];
     }
     return true;
   }
   public function getQueryData($id,$tag = null,$default = null) {
-
-
+    if (!isset($this->query[$id])) return $default;
+    if ($tag === null) return $this->query[$id];
+    if (!isset($this->query[$id][$tag])) return $default;
+    return $this->query[$id][$tag];
   }
   public function delQueryData($id,$tag = null) {
+    if (!isset($this->query[$id])) return;
+    if ($tag !== null && !isset($this->query[$id][$tag])) return;
     $this->owner->getServer()->getPluginManager()->callEvent(
 	     $ev = new GbRmQueryEvent($this->owner, $id, $tag)
     );
     if ($ev->isCancelled()) return false;
+    if ($tag !== null) {
+      unset($this->query[$id][$tag]);
+    } else {
+      unset($this->query[$id]);
+    }
     return true;
   }
 

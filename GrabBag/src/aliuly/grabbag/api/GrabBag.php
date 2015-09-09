@@ -493,5 +493,33 @@ class GrabBag {
   public function getServer($id) {
     return $this->getModule("ServerList")->getServer($id);
   }
-  //
+  /**
+   * @param str $id - Server Id
+   * @param str $tag - tag
+   * @param mixed $attrs - Server attributes
+   * @return bool - true on success, false on error
+   */
+  public function addQueryData($id,$tag,$attrs) {
+    return $this->getModule("ServerList")->addQueryData($id,$tag,$attrs);
+  }
+  /**
+   * Remove Server query data
+   * @param str $id - Server Id
+   * @param null|str $tag - data tag
+   * @return bool - true on success, false on error
+   */
+  public function delQueryData($id,$tag = null) {
+    return $this->getModule("ServerList")->delQueryData($id,$tag);
+  }
+  /**
+   * Get Query data
+   * @param str $id - Server Id
+   * @param null|str $tag
+   * @param mixed $default - default value to return if data is not found
+   * @return array|null
+   */
+  public function getQueryData($id,$tag=null,$default =null) {
+    return $this->getModule("ServerList")->getQueryData($id,$tag,$default);
+  }
+
 }
