@@ -9,9 +9,9 @@
 - Summary: Simplifies the way people authenticate to servers
 - PocketMine-MP version: 1.5 (API:1.12.0)
 - DependencyPlugins: SimpleAuth
-- OptionalPlugins: 
-- Categories: AdminTools 
-- Plugin Access: Commands, Other Plugins, Manages Permissions 
+- OptionalPlugins:
+- Categories: AdminTools
+- Plugin Access: Commands, Other Plugins, Manages Permissions
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
 
 <!-- end-include -->
@@ -181,7 +181,7 @@ installed, you can create an empty **messages.ini** using the command:
 ## Changes
 
 * 2.0.2: Added translation
-  - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #23)
+  - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #27)
   - Added a deu.ini (German) message file. (Contributed by @thebigsmileXD)
   - Documentation and library updates.
 * 2.0.1: language defaults
@@ -236,4 +236,3 @@ installed, you can create an empty **messages.ini** using the command:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
-

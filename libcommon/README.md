@@ -19,8 +19,47 @@
 
 ## Overview
 
+<!-- php: //$v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
+<!-- template: no/prologue.md -->
+<!-- MISSING TEMPLATE: no/prologue.md ->
+
+<!-- end-include -->
+
+This plugin contains a log of functionality that can be used in other
+plugins, in particular, ScriptPlugins. It also provides for commands useful
+for script debugging. (Note that some commands are only enabled if
+**\pocketmine\DEBUG** > 1 is set in **pocketmine.yml**). The main features
+it provides are:
+
+* Functionality to use in other scripts (See
+  [API documentation](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html))
+* Scripting functionality: mainly used for running test scripts, but could
+  be used for creating custom commands by grouping a batch of PocketMine-MP
+  commands together in a single file.
+* Event tracing: you can select what events (or group of events) to trace
+  on the fly. Events will be shown on console or on your chat area.
+  De-duplication is done so as not to spam screens.
+* Query and MOTD polling tasks
+
+API Features:
+
+- Paginated output
+- Command/Sub-command registration
+- Player state management
+- Config shortcuts and multi-module|feature management
+- Translations
+- Multiple economy supports
+- API version checking
+- Plugin shortcuts, etc...
+
+It also bundles useful third party libraries:
+
+- xPaw MinecraftQuery
+
+## Documentation
+
 This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.  Normally I embed the differnt modules
+writing PocketMine-MP plugins.  Normally I embed the different modules
 when creating my plugins in order to avoid dependency issues.  However
 **libcommon** is usable as a stand-alone plugin.
 
@@ -35,21 +74,6 @@ This plugin can be downloaded from its
 [Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
 <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.
-
-Features:
-
-- Paginated output
-- Command/Sub-command registration
-- Player state management
-- Config shortcuts and multi-module|feature management
-- Translations
-- Multiple economy supports
-- API version checking
-- Plugin shortcuts, etc...
-
-It also bundles useful third party libraries:
-
-- xPaw MinecraftQuery
 
 For the full API documentation go to:
 [GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
@@ -71,7 +95,7 @@ The following subcommands are available:
 
 <!-- end-include -->
 
-## Commands
+### Commands
 
 Also, for debugging purposes, the **libcommon** command is provided, which
 has the following sub-commands:
@@ -143,33 +167,9 @@ has the following sub-commands:
 
 <!-- end-include -->
 
-For use in PMScripts, a **echo** command is defined.  Unlike the
+For use in PMScripts, an **echo** command is defined.  Unlike the
 **libcommon echo** command, **echo** does not do any variable
 substitutions.
-
-## Command Selectors
-<!-- snippet: cmdselector  -->
-
-This adds "@" prefixes for commands.
-See
-[Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
-for an explanation on prefixes.
-
-This only implements the following prefixes:
-
-- @a - all players
-- @e - all entities (including players)
-- @r - random player/entity
-
-The following selectors are implemented:
-
-- c: (only for @r),count
-- m: game mode
-- type: entity type, use Player for player.
-- name: player's name
-- w: world
-
-<!-- end-include -->
 
 <!-- snippet: pmscript  -->
 ## PMScript
@@ -222,6 +222,66 @@ available:
 * **$v_xxxxx** - When posible the variables use for command variable
   substitution are made available as **$v_xxxx**.  For example, the
   **{tps}** variable, will be available as **$v_tps**
+
+<!-- end-include -->
+
+### Command Selectors
+
+Command selectors are available in PMScripts.
+
+<!-- snippet: cmdselector  -->
+
+This adds "@" prefixes for commands.
+See
+[Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
+for an explanation on prefixes.
+
+This only implements the following prefixes:
+
+- @a - all players
+- @e - all entities (including players)
+- @r - random player/entity
+
+The following selectors are implemented:
+
+- c: (only for @r),count
+- m: game mode
+- type: entity type, use Player for player.
+- name: player's name
+- w: world
+
+<!-- end-include -->
+
+<!-- php:$h=3; -->
+<!-- template: gd2/permissions.md -->
+
+### Permission Nodes
+
+* libcommon.debug.command (op): Allow access to libcommon debug commands
+* libcommon.echo.command: Basic echo command
+
+<!-- end-include -->
+
+<!-- template: gd2/mctxt.md -->
+
+## Translations
+
+This plugin will honour the server language configuration.  The
+languages currently available are:
+
+* English
+* Spanish
+
+
+You can provide your own message file by creating a file called
+**messages.ini** in the plugin config directory.
+Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/messages/)
+for sample files.
+Alternatively, if you have
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+installed, you can create an empty **messages.ini** using the command:
+
+     pm dumpmsgs libcommon [lang]
 
 <!-- end-include -->
 
