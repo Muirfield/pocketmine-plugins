@@ -153,19 +153,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="http://forums.pocketmine.net/plugins/chatscribe.1217/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ChatScribe-icon.png" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      ChatScribe
-    </a>
-  </th>
-  <td>
-    Logs chat and commands
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="http://forums.pocketmine.net/plugins/zippluginloader.1216/">
       <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ZipPlugin-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
