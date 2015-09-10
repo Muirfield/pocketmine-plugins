@@ -54,7 +54,7 @@ class Main extends BasicPlugin {
 			"spectator"=> [ "CmdSpectator", false ],
 			"followers"=> [ "CmdFollowMgr", true ],
 			"rcon-client" => [ ["ServerList","CmdRcon"], true ],
-			"join-mgr" => [ "JoinMgr", true ],
+			"join-mgr" => [ "JoinMgr", false ],
 			"repeater" => [ "RepeatMgr", true ],
 			"broadcast-tp" => [ "BcTpMgr", true ],
 			"crash" => ["CmdCrash", true],
@@ -68,6 +68,8 @@ class Main extends BasicPlugin {
 			"cmd-selector" => ["CmdSelMgr", true],
 			"cmd-alias" => ["CmdAlias", true],
 			"reop" => ["CmdReOp" , true],
+			"motd-task" => [ ["ServerList","MotdDaemon"], false],
+			"query-task" => [ ["ServerList","QueryDaemon"], false],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
@@ -92,5 +94,10 @@ class Main extends BasicPlugin {
 	public function rconDone($res,$data) {
 		if (!isset($this->modules["rcon-client"])) return;
 		$this->modules["rcon-client"]->taskDone($res,$data);
+	}
+	public function asyncResults($res, $module, $cbname, ...$args) {
+		if (!isset($this->modules[$module])) return;
+		$cb = [ $this->modules[$module], $cbname ];
+		$cb($res, ...$args);
 	}
 }

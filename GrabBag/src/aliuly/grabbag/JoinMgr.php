@@ -1,6 +1,6 @@
 <?php
 //= module:join-mgr
-//: Announce joining ops, and show server motd
+//: Announce joining ops, and show server motd **(DEPRECATED)**
 //:
 //: This listener module will broadcast a message for ops joining
 //: a server.
@@ -37,6 +37,7 @@ class JoinMgr implements Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 		$this->admjoin = $cfg["adminjoin"];
 		$this->srvmotd = $cfg["servermotd"];
+		$this->owner->getLogger(mc::_("%1% is deprecated!", "join-mgr"));
 	}
 	public function onPlayerJoin(PlayerJoinEvent $e) {
 		$pl = $e->getPlayer();

@@ -494,6 +494,16 @@ class GrabBag {
     return $this->getModule("ServerList")->getServer($id);
   }
   /**
+   * Get Server attribute
+   * @param str $id - Server Id
+   * @param str $attr - attribute to get
+   * @param mixed $default - value to return if tag is not found
+   * @return mixed
+   */
+  public function getServerAttr($id,$attr,$default=null) {
+    return $this->getModule("ServerList")->getServer($id);
+  }
+  /**
    * @param str $id - Server Id
    * @param str $tag - tag
    * @param mixed $attrs - Server attributes

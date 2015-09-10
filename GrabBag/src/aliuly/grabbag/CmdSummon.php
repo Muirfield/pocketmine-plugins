@@ -12,12 +12,12 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\level\Position;
-use pocketmine\math\Vector3;
 
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\PermUtils;
+use aliuly\common\TPUtils;
 
 class CmdSummon extends BasicCli implements CommandExecutor {
 
@@ -57,7 +57,6 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		} else {
 			$pl->sendMessage(mc::_("You have been summoned by %1%",$c->getName()));
 		}
-
 		// Do we need to save current location?
 		$state = $this->getState($c,[]);
 		$pn = strtolower($pl->getName());
@@ -66,11 +65,9 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 												$pl->getLevel());
 		}
 		$this->setState($c,$state);
-		$mv = new Vector3($c->getX()+mt_rand(-3,3),$c->getY(),
-								$c->getZ()+mt_rand(-3,3));
-		$c->sendMessage(mc::_("Summoning %1%....",$pn));
 
-		$pl->teleport($c->getLevel()->getSafeSpawn($mv));
+		$c->sendMessage(mc::_("Summoning %1%....",$pn));
+		TPUtils::tpNearBy($pl,$c);
 		return true;
 	}
 	public function cmdDismiss(CommandSender $c,$args) {

@@ -76,6 +76,7 @@ class ServerList extends BasicCli implements CommandExecutor {
     );
     if ($ev->isCancelled()) return false;
     $id = $ev->getId();
+    if (!$this->delQueryData($id)) return false;
     if (!isset($this->servers[$id])) return true;
     unset($this->servers[$id]);
     $this->owner->cfgSave(self::CfgTag,$this->servers);
@@ -85,7 +86,13 @@ class ServerList extends BasicCli implements CommandExecutor {
     if (isset($this->servers[$id])) return $this->servers[$id];
     return null;
   }
+  public function getServerAttr($id,$attr,$default = null) {
+    if (!isset($this->servers[$id])) return $default;
+    if (!isset($this->servers[$id][$attr])) return $default;
+    return $this->servers[$id][$attr];
+  }
   public function addQueryData($id,$tag,$attrs) {
+    if (!isset($this->servers[$id])) return false;
     $this->owner->getServer()->getPluginManager()->callEvent(
 	     $ev = new GbUpdateQueryEvent($this->owner, $id, $tag, $attrs)
     );
@@ -147,7 +154,7 @@ class ServerList extends BasicCli implements CommandExecutor {
   }
   private function cmdAdd(CommandSender $c,$args) {
     if (count($args) < 2) {
-      $c->sendMessage(mc::_("Usage: add <id> <host> [port] [--rcon-port=port] [--rconpw=secret] [# comments]"));
+      $c->sendMessage(mc::_("Usage: add <id> <host> [port] [--rcon-port=port] [--rconpw=secret] [--no-motd-task] [--no-query-task] [# comments]"));
       return false;
     }
     $id = array_shift($args);
@@ -176,6 +183,12 @@ class ServerList extends BasicCli implements CommandExecutor {
         array_shift($args);
       } elseif (($i = MPMU::startsWith($args[0],"--rconpw=")) !== null) {
         $dat["rcon-pw"] = $i;
+        array_shift($args);
+      } elseif (substr($args[0],0,1) == "--no-motd-task") {
+        $dat["motd-task"] = false;
+        array_shift($args);
+      } elseif (substr($args[0],0,1) == "--no-query-task") {
+        $dat["query-task"] = false;
         array_shift($args);
       } elseif (substr($args[0],0,1) == "#") {
         $dat["#"] = substr(implode(" ",$args),1);

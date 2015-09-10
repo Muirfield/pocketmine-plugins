@@ -46,6 +46,7 @@ class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 								"permission" => "gb.cmd.spectator"]);
 		$this->watchers = [];
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
+		$this->owner->getLogger(mc::_("%1% is deprecated!", "spectator"));
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) {
