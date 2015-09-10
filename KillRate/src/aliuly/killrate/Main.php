@@ -189,6 +189,26 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 					case "ranking":
 						if (!MPMU::access($sender,"killrate.cmd.rank")) return true;
 						return $this->cmdTops($sender,$args);
+					case "give":
+						if (!MPMU::access($sender,"killrate.cmd.give")) return true;
+						if (count($args) == 1 || count($args) > 3) return false;
+						if (count($args) == 2) {
+							list($player,$points) = $args;
+							$type = "points";
+						} else {
+							list($player,$points,$type) = $args;
+						}
+						if (!is_numeric($points)) return true;
+						$player = $this->getServer()->getPlayer($player);
+						if ($player == null) {
+							$sender->sendMessage(TextFormat::RED.$args[0]." does not exist");
+							return true;
+						}
+						$points = intval($points);
+						$this->updateDb($player->getname(),$type,$points);
+						$sender->sendMessage(TextFormat::GREEN.mc::_("Awarding %1% %2% to %3%", $points, $type,$player->getDisplayName() ));
+						$player->sendMessage(TextFormat::YELLOW.mc::_("You have been awarded %1% %2% by %3%" $points, $type,$sender->getName() ));
+						return true;
 					case "help":
 						return $this->cmdHelp($sender,$args);
 					default:

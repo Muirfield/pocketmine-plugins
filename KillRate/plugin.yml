@@ -30,6 +30,9 @@ permissions:
   killrate.cmd.rank:
     default: true
     description: "View top players"
+  killrate.cmd.give:
+    default: op
+    description: "Give points to players"
   killrate.signs.place:
     default: op
     description: "Allow to place KillRate signs"
