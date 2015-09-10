@@ -25,11 +25,16 @@
  *
  * @name KillRateEx
  * @main script\KillRateEx
- * @version 1.0.0
+ * @version 1.0.1
  * @api 1.12.0
  * @author aliuly
  * @description Simple command implementations
  * @depend KillRate, PurePerms
+ *
+ * Changes:
+ * - 1.0.1: Minor change
+ *   - Changed 3 constant for strlen("lvl")
+ * - 1.0.0: First public release
  */
 
 
@@ -97,7 +102,7 @@ namespace script{
 			 * $clevel is always a number (integer)
 			 *
 			 */
-			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),3));
+			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),strlen("lvl")));
 			/*
 			 * The example only defines 5 levels.  Feel free to change this
 			 */
