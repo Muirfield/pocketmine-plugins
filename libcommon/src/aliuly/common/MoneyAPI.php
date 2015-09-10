@@ -1,4 +1,7 @@
 <?php
+//= api-features
+//: - Multiple money support
+
 namespace aliuly\common;
 use pocketmine\Server;
 use pocketmine\plugin\PluginBase;

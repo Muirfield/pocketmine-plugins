@@ -1,4 +1,7 @@
 <?php
+//= api-features
+//: - Translations
+
 namespace aliuly\common;
 
 /**

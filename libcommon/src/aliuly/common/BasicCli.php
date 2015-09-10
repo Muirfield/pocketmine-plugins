@@ -1,4 +1,8 @@
 <?php
+//= api-features
+//: - Paginated output
+//: - Command and sub command dispatchers
+
 namespace aliuly\common;
 
 use pocketmine\command\ConsoleCommandSender;

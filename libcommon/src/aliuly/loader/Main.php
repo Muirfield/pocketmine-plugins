@@ -63,8 +63,12 @@ class Main extends BasicPlugin implements CommandExecutor{
 		}
 		Cmd::addCommand($this,$this,"echo", [
 			"description" => mc::_("Basic echo command"),
-			"usage" => mc::_("/libcommon <subcommand> [options]"),
+			"usage" => mc::_("/echo [text]"),
 			"permission" => "libcommon.echo.command",
+		]);
+		Cmd::addCommand($this,$this,"rem", [
+			"description" => mc::_("Does nothing"),
+			"usage" => mc::_("/rem"),
 		]);
 
 		if (\pocketmine\DEBUG > 1) {
@@ -79,11 +83,11 @@ class Main extends BasicPlugin implements CommandExecutor{
 			}
 			//echo __METhOD__.",".__LINE__."\n";//##DEBUG
 			foreach ([
-				"DumpMsgs",
 				"EchoCmd",
 				"MotdMgr",
 				"QueryMgr",
 				"TraceCmd",
+				"OnEventCmd",
 			] as $mod) {
 				//echo __METhOD__.",".__LINE__." - $mod\n";//##DEBUG
 
@@ -113,6 +117,7 @@ class Main extends BasicPlugin implements CommandExecutor{
 	//
 	//////////////////////////////////////////////////////////////////////
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+		if ($cmd->getName() == "rem") return true;
 		if ($cmd->getName() == "echo") {
 			$sender->sendMessage(implode(" ",$args));
 			return true;

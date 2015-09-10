@@ -24,8 +24,17 @@
 //: Also, before executing a command variable expansion (e.g. {vars}) and
 //: command selector expansion (e.g. @a, @r, etc) takes place.
 //:
-//: Note that available variables depend on installed plugins, pocketmine.yml
+//: Available variables depend on installed plugins, pocketmine.yml
 //: settings, execution context, etc.
+//:
+//: It is possible to use PHP functions and variables in command lines by
+//: surrounding PHP expressions with:
+//:
+//:      '.(php expression).'
+//:
+//: For example:
+//:
+//:      echo MaxPlayers: '.$interp->getServer()->getMaxPlayers().'
 //:
 //: ### Adding logic flow to PMScripts
 //:
@@ -50,6 +59,36 @@
 //:   substitution are made available as **$v_xxxx**.  For example, the
 //:   **{tps}** variable, will be available as **$v_tps**
 //:
+//: Example:
+//:
+//:     # Sample PMScript
+//:     #
+//:     ; You can use ";" or "#" as comments
+//:     #
+//:     # Just place your commands as you would enter them on the console
+//:     # on your .pms file.
+//:     echo You have the following plugins:
+//:     plugins
+//:     echo {GOLD}Variable {RED}Expansions {BLUE}are {GREEN}possible
+//:     echo libcommon: {libcommon} MOTD: {MOTD}
+//:     #
+//:     # You can include in there PHP expressions...
+//:     say '.$context->getName().' is AWESOME!
+//:     # CommandSelectors are possible...
+//:     echo Greeting everybody
+//:     say Hello @a
+//:     ;
+//:     # Adding PHP control code is possible:
+//:     @if ($v_tps > 10):
+//:       echo Your TPS {tps} is greater than 10
+//:     @else:
+//:       echo Your TPS {tps} is less or equal to 10
+//:     @endif
+//:     ;
+//:     ; 
+//:     echo The following variables are available in this context:
+//:     echo '.print_r($vars,true).'
+//:     echo You passed {#} arguments to this script.
 
 
 namespace aliuly\common;

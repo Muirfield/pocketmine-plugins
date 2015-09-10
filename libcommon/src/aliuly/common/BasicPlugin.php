@@ -90,6 +90,13 @@ abstract class BasicPlugin extends PluginBase {
 		return null;
 	}
 	/**
+	 * Get Modules array
+	 * @return array
+	 */
+	public function getModules() {
+		return $this->modules;
+	}
+	/**
 	 * Save a config section to the plugins' config.yml
 	 *
 	 * @param str $key - section to save
@@ -180,10 +187,4 @@ abstract class BasicPlugin extends PluginBase {
 		fclose($fp);
 		return $contents;
 	}
-	/**
-	 * Lets you dump the messages.ini file
-	 */
-	 public function getMessagesIni(){
-		 return $this->getResourceContents("messages/messages.ini");
-	 }
 }

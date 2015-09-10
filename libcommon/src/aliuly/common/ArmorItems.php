@@ -1,6 +1,8 @@
 <?php
 namespace aliuly\common;
 use pocketmine\item\Item;
+//= api-features
+//: - Armor constants
 
 /**
  * Armor related values
