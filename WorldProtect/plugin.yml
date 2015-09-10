@@ -55,6 +55,9 @@ permissions:
   wp.cmd.banitem:
     default: op
     description: "Ban/unban items"
+  wp.banitem.exempt:
+    default: false
+    description: "it is able to use banned items"
   wp.cmd.info:
     default: true
     description: "Show WP config info"
