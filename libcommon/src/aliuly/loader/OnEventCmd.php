@@ -58,7 +58,7 @@ class OnEventCmd extends BasicCli {
   private function listCmd(CommandSender $c) {
     // Display registered events...
     $tab = [];
-    foreach ($this->listeners[] as $i=>$j) {
+    foreach ($this->listeners as $i=>$j) {
       if ($j["command"] === null) continue;
       $tab[] = $j["event"];
     }
@@ -74,7 +74,7 @@ class OnEventCmd extends BasicCli {
     $c->sendMessage(mc::_("%1%(%2%): %3%", $this->listeners[$n]["event"],$this->listeners[$n]["count"], $this->listeners[$n]["command"]));
     return true;
   }
-  private function showCmd(CommandSender $c, $n) {
+  private function rmCmd(CommandSender $c, $n) {
     // Removing defined command...
     if ($this->listeners[$n]["command"] === null) {
       $c->sendMessage(mc::_("No command defined for %1%", $this->listeners[$n]["event"]));
