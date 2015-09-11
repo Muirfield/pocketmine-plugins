@@ -13,8 +13,12 @@ class MySqlMgr implements DatabaseManager {
 		$this->database->close();
 		unset($this->database);
 	}
-	public function __construct(PluginBase $owner){
-		$cf = $owner->getCfg("MySql");
+	public function __construct(PluginBase $owner,$cfg){
+		if (!isset($cfg["MySql"])) {
+			throw new \RuntimeException("Missing MySql settings");
+			return;
+		}
+		$cf = $cfg["MySql"];
 		$this->database = new \mysqli($cf["host"],$cf["user"],$cf["password"],
 												$cf["database"], $cf["port"]);
 		if ($this->database->connect_error) {

@@ -14,7 +14,7 @@ class SQLiteMgr implements DatabaseManager {
 		unset($this->database);
 	}
 
-	public function __construct(PluginBase $owner){
+	public function __construct(PluginBase $owner,$ignored){
 		$path = $owner->getDataFolder()."stats.sqlite3";
 		$this->database = new \SQLite3($path);
 		$sql = "CREATE TABLE IF NOT EXISTS Scores (

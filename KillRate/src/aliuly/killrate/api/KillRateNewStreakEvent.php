@@ -13,18 +13,15 @@ class KillRateNewStreakEvent extends KillRateEvent {
   public static $handlerList = null;
   /** @var Player */
   private $player;
-  private $victim;
   private $streak;
   /**
    * @param KillRatePlugin $plugin - plugin owner
    * @param Player $player - player making the score
-   * @param Player $victim - last victim
    * @param int $newstreak - streak
    */
-  public function __construct(KillRatePlugin $plugin, Player $player, Player $victim, $streak) {
+  public function __construct(KillRatePlugin $plugin, Player $player, $streak) {
     parent::__construct($plugin);
     $this->player = $player;
-    $this->victim = $victim;
     $this->streak = $streak;
   }
   /**
@@ -32,9 +29,6 @@ class KillRateNewStreakEvent extends KillRateEvent {
    */
   public function getPlayer() {
     return $this->player;
-  }
-  public function getVictim() {
-    return $this->victim;
   }
   public function getStreak() {
     return $this->streak;

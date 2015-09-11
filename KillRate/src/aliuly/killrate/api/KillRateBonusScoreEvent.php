@@ -13,7 +13,6 @@ class KillRateBonusScoreEvent extends KillRateEvent implements Cancellable {
   public static $handlerList = null;
   /** @var Player */
   private $player;
-  private $victim;
   private $money;
   /**
    * @param KillRatePlugin $plugin - plugin owner
@@ -22,10 +21,9 @@ class KillRateBonusScoreEvent extends KillRateEvent implements Cancellable {
    * @param int $money - money being awarded
    */
    KillRateBonusScoreEvent($this,$pp,$pv,$money)
-  public function __construct(KillRatePlugin $plugin, Player $player, Player $victim, $money = 0) {
+  public function __construct(KillRatePlugin $plugin, Player $player, $money = 0) {
     parent::__construct($plugin);
     $this->player = $player;
-    $this->victim = $victim;
     $this->money = $money;
   }
   /**
@@ -33,9 +31,6 @@ class KillRateBonusScoreEvent extends KillRateEvent implements Cancellable {
    */
   public function getPlayer() {
     return $this->player;
-  }
-  public function getVictim() {
-    return $this->victim;
   }
   public function getMoney() {
     return $this->money;

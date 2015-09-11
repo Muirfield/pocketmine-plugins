@@ -13,19 +13,17 @@ class KillRateEndStreakEvent extends KillRateEvent implements Cancellable {
   public static $handlerList = null;
   /** @var Player */
   private $player;
-  private $newstreak;
-  private $oldstreak;
+  private $kills;
   /**
    * @param KillRatePlugin $plugin - plugin owner
    * @param Player $Player - player making the score
    * @param int $newstreak
    * @param int $oldstreak
    */
-  public function __construct(KillRatePlugin $plugin, Player $player, $newstreak, $oldstreak = null) {
+  public function __construct(KillRatePlugin $plugin, Player $player, $streak) {
     parent::__construct($plugin);
     $this->player = $player;
-    $this->newstreak = $newstreak;
-    $this->oldstreak  = $oldstreak;
+    $this->kills = $streak;
   }
   /**
    * @return Player
@@ -33,10 +31,7 @@ class KillRateEndStreakEvent extends KillRateEvent implements Cancellable {
   public function getPlayer() {
     return $this->player;
   }
-  public function getNewStreak() {
-    return $this->newstreak;
-  }
-  public function getOldStreak() {
-    return $this->oldstreak;
+  public function getKills() {
+    return $this->kills;
   }
 }
