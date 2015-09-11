@@ -207,7 +207,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						$points = intval($points);
 						$this->updateDb($player->getname(),$type,$points);
 						$sender->sendMessage(TextFormat::GREEN.mc::_("Awarding %1% %2% to %3%", $points, $type,$player->getDisplayName() ));
-						$player->sendMessage(TextFormat::YELLOW.mc::_("You have been awarded %1% %2% by %3%" $points, $type,$sender->getName() ));
+						$player->sendMessage(TextFormat::YELLOW.mc::_("You have been awarded %1% %2% by %3%", $points, $type,$sender->getName() ));
 						return true;
 					case "help":
 						return $this->cmdHelp($sender,$args);
