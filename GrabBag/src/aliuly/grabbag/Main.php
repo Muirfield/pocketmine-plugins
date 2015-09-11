@@ -68,6 +68,8 @@ class Main extends BasicPlugin {
 			"cmd-selector" => ["CmdSelMgr", true],
 			"cmd-alias" => ["CmdAlias", true],
 			"reop" => ["CmdReOp" , true],
+			"tprequest" => [ "CmdTpRequest", false],
+			"homes" => [ "CmdHomes", false],
 			"motd-task" => [ ["ServerList","MotdDaemon"], false],
 			"query-task" => [ ["ServerList","QueryDaemon"], false],
 		];
