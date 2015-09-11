@@ -1,4 +1,6 @@
 <?php
+//= api-features
+//: - Player session and state management
 
 namespace aliuly\common;
 use pocketmine\event\Listener;

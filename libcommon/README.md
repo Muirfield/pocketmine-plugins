@@ -20,7 +20,7 @@
 ## Overview
 
 <!-- php: //$v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
-<!-- template: no/prologue.md -->
+<!-- template: nn/prologue.md -->
 <!-- MISSING TEMPLATE: no/prologue.md ->
 
 <!-- end-include -->
@@ -44,15 +44,17 @@ it provides are:
 API Features:
 
 <!-- snippet:api-features -->
-<!-- end-include -->
-- Paginated output
-- Command/Sub-command registration
-- Player state management
-- Config shortcuts and multi-module|feature management
-- Translations
-- Multiple economy supports
 - API version checking
-- Plugin shortcuts, etc...
+- Misc shorcuts and pre-canned routines
+- Paginated output
+- Command and sub command dispatchers
+- Config shortcuts and multi-module|feature management
+- Armor constants
+- Multiple money support
+- Translations
+- Player session and state management
+- Teleport wrappers
+<!-- end-include -->
 
 It also bundles useful third party libraries:
 
@@ -84,10 +86,10 @@ The following subcommands are available:
 <!-- php:$h = 0; -->
 <!-- template: gd2/cmdoverview.md -->
 
-* dumpmsg: Dump a plugin's messages.ini
 * echo: shows the given text (variable substitutions are performed)
 * motd-add: Add a server for MOTD querying
 * motd-stat: Return the servers MOTD values
+* onevent: Run command on event
 * query-add: Add a server for Query gathering
 * query-list: Return the available Query data
 * rc: Runs the given script
@@ -103,10 +105,6 @@ Also, for debugging purposes, the **libcommon** command is provided, which
 has the following sub-commands:
 
 <!-- template: gd2/subcmds.md -->
-* dumpmsg: Dump a plugin's messages.ini<br/>
-  usage: /libcommon **dumpmsg** _&lt;plugin&gt;_
-
-  This command is available when **DEBUG** is enabled.
 * echo: shows the given text (variable substitutions are performed)<br/>
    usage: /libcommon **echo** _[text]_
 
@@ -120,6 +118,22 @@ has the following sub-commands:
   usage: /libcommon **motd-stat**
 
   This command is available when **DEBUG** is enabled.
+* onevent: Run command on event<br/>
+  usage: usage: /libcommon **onevent** _&lt;event&gt;_ _[cmd]_
+
+  This command is available when **DEBUG** is enabled.
+
+  This command will make it so a command will be executed whenever an
+  event is fired.  Options:
+  * /libcommon **onevent**
+    - show registered events
+  * /libcommon **onevent** _&lt;event&gt;_
+    - Show what command will be executed.
+  * /libcommon **onevent** _<event>_ _<command>_
+    - Will schedule for _command_ to be executed.
+  * /libcommon **onevent** _<event>_ **--none**
+    - Will remove the given event handler
+
 * query-add: Add a server for Query gathering<br/>
   usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
 
@@ -209,9 +223,11 @@ settings, execution context, etc.
 It is possible to use PHP functions and variables in command lines by
 surrounding PHP expressions with:
 
+     '.(php expression).'
 
+For example:
 
-
+     echo MaxPlayers: '.$interp->getServer()->getMaxPlayers().'
 
 ### Adding logic flow to PMScripts
 
@@ -236,6 +252,36 @@ available:
   substitution are made available as **$v_xxxx**.  For example, the
   **{tps}** variable, will be available as **$v_tps**
 
+Example:
+
+    # Sample PMScript
+    #
+    ; You can use ";" or "#" as comments
+    #
+    # Just place your commands as you would enter them on the console
+    # on your .pms file.
+    echo You have the following plugins:
+    plugins
+    echo {GOLD}Variable {RED}Expansions {BLUE}are {GREEN}possible
+    echo libcommon: {libcommon} MOTD: {MOTD}
+    #
+    # You can include in there PHP expressions...
+    say '.$context->getName().' is AWESOME!
+    # CommandSelectors are possible...
+    echo Greeting everybody
+    say Hello @a
+    ;
+    # Adding PHP control code is possible:
+    @if ($v_tps > 10):
+      echo Your TPS {tps} is greater than 10
+    @else:
+      echo Your TPS {tps} is less or equal to 10
+    @endif
+    ;
+    ;
+    echo The following variables are available in this context:
+    echo '.print_r($vars,true).'
+    echo You passed {#} arguments to this script.
 <!-- end-include -->
 
 ### Command Selectors
@@ -291,7 +337,7 @@ You can provide your own message file by creating a file called
 Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/messages/)
 for sample files.
 Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
 installed, you can create an empty **messages.ini** using the command:
 
      pm dumpmsgs libcommon [lang]

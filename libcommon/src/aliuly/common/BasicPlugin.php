@@ -1,5 +1,7 @@
 <?php
 namespace aliuly\common;
+//= api-features
+//: - Config shortcuts and multi-module|feature management
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandSender;

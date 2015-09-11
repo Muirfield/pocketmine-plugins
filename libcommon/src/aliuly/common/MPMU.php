@@ -1,4 +1,8 @@
 <?php
+//= api-features
+//: - API version checking
+//: - Misc shorcuts and pre-canned routines
+
 namespace aliuly\common;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
