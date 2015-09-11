@@ -89,6 +89,8 @@ class Main extends BasicPlugin {
 			"broadcast-tp" => BcTpMgr::defaults(),
 			"freeze-thaw" => CmdFreezeMgr::defaults(),
 			"cmd-selector" => CmdSelMgr::defaults(),
+			"query-task" => QueryDaemon::defaults(),
+			"motd-task" => MotdDaemon::defaults(),
 		]);
 	}
 	public function rconDone($res,$data) {

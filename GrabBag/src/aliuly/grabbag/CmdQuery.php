@@ -84,12 +84,12 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			return false;
 		}
 		$id = array_shift($args);
-		if (($dat = $this->owner->getModule("ServerList")->getServer($id)) === null) {
+		if ($this->owner->getModule("ServerList")->getServer($id) === null) {
 			$c->sendMessage(TextFormat::RED.mc::_("%1% does not exist",$id));
 			return false;
 		}
-		$host = $dat["host"];
-		$port = $dat["port"];
+		$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
+		$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
 		$Query = new MinecraftQuery( );
 		try {
@@ -160,9 +160,8 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			$all[$p->getName()] = mc::_("*current-server*");
 		}
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
+			$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
+			$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
 			$Query = new MinecraftQuery( );
 			try {
@@ -210,9 +209,8 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		];
 		$all[mc::_("**this-server**")] = $dat;
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
+			$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
+			$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
 			$Query = new MinecraftQuery( );
 			try {
@@ -258,9 +256,8 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			"MaxPlayers" => $this->owner->getServer()->getMaxPlayers(),
 		];
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
+			$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
+			$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
 			$all["servers"]++;
 

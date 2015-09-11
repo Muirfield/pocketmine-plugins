@@ -17,7 +17,7 @@ use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\PermUtils;
-use aliuly\common\TPUtils;
+use aliuly\grabbag\common\TPUtils;
 
 class CmdSummon extends BasicCli implements CommandExecutor {
 

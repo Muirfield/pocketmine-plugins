@@ -1,5 +1,5 @@
 <?php
-//= module:motd-task
+//= module:query-task
 //: Background task to query configured remote servers
 //:
 //: This module will query servers in the server list to retrieve
@@ -8,8 +8,8 @@
 namespace aliuly\grabbag;
 
 use aliuly\grabbag\common\BasicCli;
-use aliuly\common\QueryAsyncTask;
-use aliuly\common\PluginCallbackTask;
+use aliuly\grabbag\common\QueryAsyncTask;
+use aliuly\grabbag\common\PluginCallbackTask;
 use aliuly\grabbag\api\GbAddServerEvent;
 //use aliuly\grabbag\api\GbRemoveServerEvent;
 
@@ -17,7 +17,7 @@ class QueryDaemon extends BasicCli implements Listener {
   protected $ticks;
   protected $task;
 	static public function defaults() {
-		//= cfg:cmd-selector
+		//= cfg:query-task
 		return [
       "# ticks" => "how often tasks are fired...",
       "ticks" => 20*10,
@@ -36,11 +36,11 @@ class QueryDaemon extends BasicCli implements Listener {
   private function pickNext() {
     $oldest = null;
     $pid = null;
-    $srvlst = $this->owner->getModule("ServerList")->getIds();
-    foreach ($srvlst as $i) {
-      if (!$this->owner->getModule("ServerList")->getServerAttr($id,"query-task",true)) continue;
+    $srvlst = $this->owner->getModule("ServerList");
+    foreach ($srvlst->getIds() as $i) {
+      if ($srvlst->getServerAttr($id,"no-query-task",false)) continue;
       foreach (["info","players"] as $dd) {
-        $cc = $this->owner->getModule("ServerList")->getQueryData($i,"query.".$dd);
+        $cc = $srvlst->getQueryData($i,"query.".$dd);
         if ($cc === null) return $i;
         if ($oldest !== null && $cc["age"] > $oldest) continue;
         $oldest = $cc["age"];
@@ -56,8 +56,9 @@ class QueryDaemon extends BasicCli implements Listener {
       return; // Nothing to ping, so we wait for an add event
     }
     $ticks = null;
+    $srvlst = $this->owner->getModule("ServerList");
     foreach (["info","players"] as $dd) {
-      $cc = $this->owner->getModule("ServerList")->getQueryData($id,"query.".$dd);
+      $cc = $srvlst->getQueryData($id,"query.".$dd);
       if ($cc !== null) {
         $when = $this->ticks  - (microtime(true) - $cc["age"]) * 20;
         if ($ticks === null || $when < $ticks) $ticks = $when;
@@ -71,9 +72,11 @@ class QueryDaemon extends BasicCli implements Listener {
       );
       return;
     }
-    $dat = $this->owner->getModule("ServerList")->getServer($id);
+    $host = $srvlst->getServerAttr($id,"query-host");
+    $port = $srvlst->getServerAttr($id,"port");
+
     $this->owner->getServer()->getScheduler()->scheduleAsyncTask(
-      $t = new QueryAsyncTask($this->owner,"asyncResults",$dat["host"],$dat["port"],["query-task","gotResults",$id])
+      $t = new QueryAsyncTask($this->owner,"asyncResults",$host,$port,["query-task","gotResults",$id])
     );
     $this->task = $t;
   }

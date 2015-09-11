@@ -501,7 +501,7 @@ class GrabBag {
    * @return mixed
    */
   public function getServerAttr($id,$attr,$default=null) {
-    return $this->getModule("ServerList")->getServer($id);
+    return $this->getModule("ServerList")->getServerAttr($id,$attr,$default);
   }
   /**
    * @param str $id - Server Id

@@ -46,15 +46,22 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 
 		if (count($args) < 2) return false;
 		$id = array_shift($args);
+		$lst = $this->owner->getModule("ServerList");
+		$grp = [];
 		if ($id == "--all") {
-			$grp = $this->owner->getModule("ServerList")->getIds();
+			foreach ($lst->getIds() as $i) {
+				if ($lst->getServerAttr($i,"rcon-pw") !== null) $grp[$i] = $i;
+			}
 		} else {
-			$grp = [];
 			foreach (explode(",",$id) as $i) {
-				if ($this->owner->getModule("ServerList")->getServer($i) === null) {
-			  	$c->sendMessage(mc::_("%1% does not exist",$id));
+				if ($lst->getServer($i) === null) {
+			  	$c->sendMessage(mc::_("%1% does not exist",$i));
 			  	continue;
 		  	}
+				if ($lst->getServerAttr($i,"rcon-pw") === null) {
+					$c->sendMessage(mc::_("No rcon-pw specified for %1%",$i));
+					continue;
+				}
 				$grp[$i] = $i;
 			}
 			if (count($grp) == 0) return false;
@@ -63,14 +70,9 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 		if ($c instanceof RemoteConsoleCommandSender) {
 			// This is an Rcon connection itself... we run in the foreground
 			foreach ($grp as $id) {
-				$dat = $this->owner->getModule("ServerList")->getServer($id);
-				if (!isset($dat["rcon-pw"])) {
-					$c->sendMessage(mc::_("Peer %1% does not have an rcon password defined", $id));
-					continue;
-				}
-				$host = $dat["host"];
-				$port = isset($dat["rcon-port"]) ? $dat["rcon-port"] : $dat["port"];
-				$auth = $dat["rcon-pw"];
+				$host = $lst->getServerAttr($id,"rcon-host");
+				$port = $lst->getServerAttr($id,"rcon-port");
+				$auth = $lst->getServerAttr($id,"rcon-pw");
 
 				$ret = Rcon::connect($host,$port,$auth);
 				if (!is_array($ret)) {
@@ -89,14 +91,9 @@ class CmdRcon extends BasicCli implements CommandExecutor {
 			return true;
 		}
 		foreach ($grp as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			if (!isset($dat["rcon-pw"])) {
-				$c->sendMessage(mc::_("Peer %1% does not have an rcon password defined", $id));
-				continue;
-			}
-			$host = $dat["host"];
-			$port = isset($dat["rcon-port"]) ? $dat["rcon-port"] : $dat["port"];
-			$auth = $dat["rcon-pw"];
+			$host = $lst->getServerAttr($id,"rcon-host");
+			$port = $lst->getServerAttr($id,"rcon-port");
+			$auth = $lst->getServerAttr($id,"rcon-pw");
 
 			$this->owner->getServer()->getScheduler()->scheduleAsyncTask(
 				new RconTask($this->owner,"rconDone",

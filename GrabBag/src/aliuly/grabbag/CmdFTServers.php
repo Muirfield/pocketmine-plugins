@@ -40,8 +40,10 @@ class CmdFtServers extends BasicCli implements CommandExecutor {
 			return false;
 		}
     if (!MPMU::inGame($sender)) return true;
-    $host = $dat["host"];
-		$port = $dat["port"];
+
+		$host = $this->owner->getModule("ServerList")->getServerAttr($id,"ft-host");
+		$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
+
     if (MPMU::callPlugin($this->owner->getServer(),"FastTransfer","transferPlayer",[$sender,$host,$port]) === null) {
       $this->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER ERROR"));
       return true;
