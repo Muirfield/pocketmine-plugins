@@ -252,8 +252,11 @@ In order to use the script extension you need to do the following:
 # Changes
 
 * 2.1.0: ??
+  * Config file layout changed
   * Added more achievements
   * Added more events
+  * Added support for RankUp (Suggested by @rock2rap)
+  * Code clean-ups
 * 2.0.1: Bug fixes
   * Removed KillRateEx inclusion
   * dump messages.ini if no language defined.
