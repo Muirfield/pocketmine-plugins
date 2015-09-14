@@ -1,22 +1,20 @@
 <?php
-//= cmd:onevent
+//= cmd:onevent,Developer_Tools
 //: Run command on event
-//> usage: usage: /libcommon **onevent** _<event>_ _[cmd]_
-//:
-//: This command is available when **DEBUG** is enabled.
+//> usage: usage: **onevent** _<event>_ _[cmd]_
 //:
 //: This command will make it so a command will be executed whenever an
 //: event is fired.  Options:
-//> * /libcommon **onevent**
+//> * **onevent**
 //:   - show registered events
-//> * /libcommon **onevent** _<event>_
+//> * **onevent** _<event>_
 //:   - Show what command will be executed.
-//: * /libcommon **onevent** _<event>_ _<command>_
+//: * **onevent** _<event>_ _<command>_
 //:   - Will schedule for _command_ to be executed.
-//: * /libcommon **onevent** _<event>_ **--none**
+//: * **onevent** _<event>_ **--none**
 //:   - Will remove the given event handler
 //:
-namespace aliuly\loader;
+namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
@@ -29,13 +27,19 @@ use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\Cmd;
 
-class OnEventCmd extends BasicCli {
+class CmdOnEvent extends BasicCli {
   protected $listeners;
 	public function __construct($owner) {
 		parent::__construct($owner);
     $this->listeners = [];
-		$this->enableSCmd("onevent",["usage" => mc::_("<event> [command]"),
-										"help" => mc::_("Execute command on event")]);
+
+    PermUtils::add($this->owner, "gb.cmd.onevent", "access onevent command", "op");
+
+    $this->enableCmd("onevent",
+                ["description" => mc::_("Run a command when an event is trigered"),
+                "usage" => mc::_("/onevent <event> [command]"),
+                "permission" => "gb.cmd.onevent"]);
+
     $evtab = $this->owner->getResourceContents("events.txt");
     foreach (explode("\n",$evtab) as $ln) {
       $ln = trim($ln);
@@ -118,7 +122,7 @@ class OnEventCmd extends BasicCli {
     $c->sendMessage(mc::_("Command configured for %1%", $this->listeners[$n]["event"]));
     return true;
   }
-	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
+  public function onCommand(CommandSender $c,Command $cc,$label, array $args) {
     if (count($args) == 0) return $this->listCmd($c);
     if (!isset($this->listeners[$n = strtolower($args[0])])) {
       $c->sendMessage(mc::_("Unknown event %1%",$args[0]));

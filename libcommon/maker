@@ -2,40 +2,45 @@
 <?php
 echo "RUNNING MAKER SCRIPT...\n";
 define('SRCDIR',dirname(realpath(__FILE__))."/");
+
 require_once(SRCDIR."../lib/include.php");
 require_once(LIBDIR."maker/gendoc2.php");
 require_once(LIBDIR."maker/mcgen.php");
-require_once(LIBDIR."maker/fix-common.php");
 require_once(LIBDIR."maker/updcode.php");
+
 update_code(LIBDIR."xPaw",SRCDIR."src/xPaw");
+update_code(SRCDIR."../GrabBag/src/aliuly/common",SRCDIR."src/aliuly/common");
 
 //
 // Fix the version number
 //
 $inp = file_get_contents(LIBDIR."common/MPMU.php");
-$new = preg_replace('/const\s+VERSION\s*=\s*".*";/',
-						  "const VERSION = \"".$plugin["version"]."\";",
-						  $inp);
-if ($inp != $new) {
-	echo "Updating common/MPMU.php\n";
-	file_put_contents(LIBDIR."common/MPMU.php",$new);
+if (preg_match('/const\s+VERSION\s*=\s*"(.*)";/',$inp,$mv)) {
+	$version = $mv[1];
+	$yaml = file_get_contents(SRCDIR."plugin.yml");
+	$new = [];
+	foreach (explode("\n",$yaml) as $ln) {
+		if (preg_match('/^(\s*plugin:\s*).*$/',$ln,$mv)) {
+			$ln = $mv[1].$version;
+		}
+		$new[] = $ln;
+	}
+	if (count($new) > 1) {
+		if ($new[count($new)-1] != "") $new[] = "";
+	}
+	$new = implode("\n",$new);
+	if ($new != $yaml) {
+		file_put_contents(SRCDIR."plugin.yml");
+		$plugin["version"] = $version;
+	}
+
 }
+
 
 gendoc2(SRCDIR."src",["README.md"],$plugin);
 //gendoc(SRCDIR."README.md",$plugin);
 //fix_common(SRCDIR,LIBDIR,$plugin);
 mcgen(SRCDIR."resources/messages",SRCDIR."src");
-
-//
-// Create a manifest for creating examples...
-//
-$mft = SRCDIR."resources/manifest.txt";
-$txt = "";
-foreach (glob(SRCDIR."resources/examples/*.php") as $php) {
-	$txt .= basename($php)."\n";
-}
-$old  = file_exists($mft) ? file_get_contents($mft) : "";
-if ($old != $txt) file_put_contents($mft,$txt);
 
 //
 // Create download page
@@ -67,98 +72,6 @@ if ($ntxt != $otxt) {
 	file_put_contents($dl,$ntxt);
 }
 
-/*
- * Create trace listener class
- */
-function mkListener($phpfile,$lstfile) {
-	$events = file($lstfile,FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
-	$itxt = file($phpfile,FILE_IGNORE_NEW_LINES);
-	$state = "";
-	$otxt = [];
-	foreach ($itxt as $ln) {
-		if ($state == "includes") {
-			if (strtolower(trim($ln)) == "//<!-- end-includes -->") {
-				$state = "";
-				$otxt[] = $ln;
-			}
-			continue;
-		}
-		if ($state == "methods") {
-			if (strtolower(trim($ln)) == "//<!-- end-methods -->") {
-				$state = "";
-				$otxt[] = $ln;
-			}
-			continue;
-		}
-		$otxt[] = $ln;
-		if (strtolower(trim($ln)) == "//<!-- start-includes -->") {
-			$state = "includes";
-			// Generate includes...
-			foreach ($events as $row) {
-				$row = preg_split('/\s+/', $row,4);
-				$otxt[] = "use pocketmine\\event\\".$row[0]."\\".$row[1].";";
-			}
-			continue;
-		}
-		if (strtolower(trim($ln)) == "//<!-- start-methods -->") {
-			$state = "methods";
-			// Generate trace methods...
-			foreach ($events as $row) {
-				$row = preg_split('/\s+/', $row,4);
-				if ($row[3] == "no") continue;
-				$otxt[] = "\tpublic function on".$row[1]."(".$row[1]." \$ev){";
-				$otxt[] = "\t\t\$this->trace(\$ev);";
-				$otxt[] = "\t}";
-			}
-			// Generate checkEvent method
-			$otxt[] = "";
-			$otxt[] = "\tpublic function checkEvent(\$evname){";
-		  $otxt[] = "\t\tswitch(strtolower(\$evname)){";
-			$types = [];
-			$classes = [];
-			foreach ($events as $row) {
-				$row = preg_split('/\s+/', $row,4);
-				$otxt[] = "\t\tcase \"".strtolower($row[1])."\":";
-				$otxt[] = "\t\t\treturn [\"".$row[1]."\"];";
-				if (!isset($types[$row[0]])) $types[$row[0]] = [];
-				if (!isset($classes[$row[2]])) $classes[$row[2]] = [];
-				$types[$row[0]][] = $row[1];
-				$classes[$row[2]][] = $row[1];
-			}
-			foreach ([$types,$classes] as $tab) {
-				foreach ($tab as $i=>$j) {
-					$otxt[] = "\t\tcase \"".strtolower($i)."\":";
-					$otxt[] = "\t\t\treturn [\"".implode("\", \"", $j)."\"];";
-				}
-			}
-			$otxt[] = "\t\tdefault:";
-			$otxt[] = "\t\t\treturn null;";
-			$otxt[] = "\t\t}";
-			$otxt[] = "\t}";
-
-			// Generate event lists
-			$otxt[] = "";
-			$otxt[] = "\tpublic function getList(){";
-			$otxt[] = "\t\treturn [";
-			$otxt[] = "\t\t\t\"types\" => [\"".implode("\", \"",array_keys($types))."\"],";
-			$otxt[] = "\t\t\t\"classes\" => [\"".implode("\", \"",array_keys($classes))."\"],";
-			$otxt[] = "\t\t];";
-			$otxt[] = "\t}";
-
-			continue;
-		}
-	}
-	if ($otxt[count($otxt)-1] != "") $otxt[] = "";
-	if ($itxt[count($itxt)-1] != "") $itxt[] = "";
-	$itxt = implode("\n",$itxt);
-	$otxt = implode("\n",$otxt);
-	if ($itxt != $otxt) {
-		echo "Updating ".basename($phpfile)."\n";
-		file_put_contents($phpfile,$otxt);
-	}
-}
-
-mkListener(SRCDIR."src/aliuly/loader/TraceListener.php",SRCDIR."resources/events.txt");
 
 
 exit("OK\n");

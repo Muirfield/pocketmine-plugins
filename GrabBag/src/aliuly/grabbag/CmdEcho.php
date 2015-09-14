@@ -3,7 +3,7 @@
 //: shows the given text
 //>  usage: **echo** _[text]_
 //:
-namespace aliuly\loader;
+namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
@@ -12,7 +12,7 @@ use aliuly\common\mc;
 use aliuly\common\BasicCli;
 use aliuly\common\PermUtils;
 
-class EchoCmd extends BasicCli implements CommandExecutor {
+class CmdEcho extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
 		parent::__construct($owner);
     PermUtils::add($this->owner, "gb.cmd.echo", "echo command", "true");

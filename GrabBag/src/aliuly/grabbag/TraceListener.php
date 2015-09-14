@@ -1,6 +1,6 @@
 <?php
 
-namespace aliuly\loader;
+namespace aliuly\grabbag;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 

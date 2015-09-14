@@ -1,16 +1,16 @@
 <?php
-//= cmd:rc
+//= cmd:rc,Developer_Tools
 //: Runs the given script
-//> usage: usage: /libcommon **rc** _<script>_ _[args]_
+//> usage: **rc** _<script>_ _[args]_
 //:
-//: This command will execute PMScripts present in the **libcommon**
+//: This command will execute PMScripts present in the **GrabBag**
 //: folder.  By convention, the ".pms" suffix must be used for the file
 //: name, but the ".pms" is ommitted when issuing this command.
 //:
 //: The special script **autostart.pms** is executed automatically
-//: when the **libcommon** plugin gets enabled.
+//: when the **GrabBag** plugin gets enabled.
 //:
-namespace aliuly\loader;
+namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
@@ -22,30 +22,33 @@ use aliuly\common\mc;
 use aliuly\common\PMScript;
 use aliuly\common\ExpandVars;
 
-class RcCmd extends BasicCli {
+class CmdRc extends BasicCli {
 	protected $limitPath;
-	protected $interp;
 	public function __construct($owner) {
 		parent::__construct($owner);
-		$this->interp = $owner->getInterp();
 		$this->limitPath = true;
-		$this->enableSCmd("rc",["usage" => mc::_("<script> [args]"),
-										"help" => mc::_("Runs the given PMScript")]);
+		PermUtils::add($this->owner, "gb.cmd.pmscript", "access rc (pmscript) command", "op");
+
+		$this->enableCmd("rc",
+								["description" => mc::_("Runs the given PMScript"),
+								"usage" => mc::_("/rc <script> [args]"),
+								"permission" => "gb.cmd.pmscript"]);
+
+
 	}
 	public function getInterp() {
-		return $this->interp;
+		return $this->owner->api->getInterp();
 	}
 	public function autostart() {
 		$script = $this->owner->getDataFolder()."autostart.pms";
 		if (!file_exists($script)) return;
-		$env = [];
+		$env = [ "script" => "autostart" ];
 		$args = [];
-		$this->interp->define("{script}",array_shift($args));
-		if ($this->interp->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
+		if ($this->getInterp()->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
 		}
 	}
-	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
+	public function onCommand(CommandSender $c,Command $cc,$label, array $args) {
     if (count($args) == 0) return false;
 		if (count($args) == 1) {
 			if (strtolower($args[0]) == "--limit-path") {
@@ -73,9 +76,8 @@ class RcCmd extends BasicCli {
       	return true;
     	}
 		}
-		$env = [];
-		$this->interp->define("{script}",array_shift($args));
-		if ($this->interp->runScriptFile($c,$script,$args,$env) === false) {
+		$env = [ "script" => array_shift($args)];
+		if ($this->getInterp()->runScriptFile($c,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
 		}
     return true;

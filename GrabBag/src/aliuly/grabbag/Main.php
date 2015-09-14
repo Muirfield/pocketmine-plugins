@@ -72,6 +72,10 @@ class Main extends BasicPlugin {
 			"homes" => [ "CmdHomes", false],
 			"motd-task" => [ ["ServerList","MotdDaemon"], false],
 			"query-task" => [ ["ServerList","QueryDaemon"], false],
+			"echo" => ["CmdEcho", true],
+			"onevent-cmd" => ["CmdOnEvent", false],
+			"pmscripts" => ["CmdRc", true],
+			"event-tracer" => ["CmdTrace", false],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];

@@ -1,32 +1,31 @@
 <?php
-//= cmd:trace
+//= cmd:trace,Developer_Tools
 //: controls event tracing
-//>  usage: /libcommon **trace** _[options]_
+//>  usage: **trace** _[options]_
 //:
-//: This command is available when **DEBUG** is enabled.
 //: Trace will show to the user the different events that are being
 //: triggered on the server.  To reduce spam, events are de-duplicated.
 //:
 //: Sub commands:
-//> * /libcommon **trace**
+//> * **trace**
 //:   - Shows the current trace status
-//> * /libcommon **trace** **on**
+//> * **trace** **on**
 //:   - Turns on tracing
-//> * /libcommon **trace** **off**
+//> * **trace** **off**
 //:   - Turns off tracing
-//> * /libcommon **trace** **events** _[type|class]_
+//> * **trace** **events** _[type|class]_
 //:   - Show the list of the different event types and classes.  If a _type_
 //:     or _class_ was specified, it will show the events defined for them.
-//> * /libcommon **trace** _<event|type|class>_ _[additional options]_
+//> * **trace** _<event|type|class>_ _[additional options]_
 //:   - Will add the specified _event|type|class_ to the current user's
 //:     trace session.
-//> * /libcommon **trace** _<-event|type|class>_ _[additional options]_
+//> * **trace** _<-event|type|class>_ _[additional options]_
 //:   - If you start the _event|type|class_ specification name with a
 //:     **dash**, the _event|type|class_ will be removed from the current
 //:     trace session.
 //:
 
-namespace aliuly\loader;
+namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
@@ -42,7 +41,7 @@ use pocketmine\event\Event;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\utils\TextFormat;
 
-class TraceCmd extends BasicCli {
+class CmdTrace extends BasicCli {
   protected $listener;
   protected $tracers;
   protected $timer_short;
@@ -51,6 +50,7 @@ class TraceCmd extends BasicCli {
   protected $timerTask;
 
 	public function __construct($owner) {
+    parent::__construct($owner);
     $this->listener = null;
     $this->tracers = null;
     $this->timer_short = 10;
@@ -58,12 +58,16 @@ class TraceCmd extends BasicCli {
     $this->timer_ticks = 600;
     $this->timerTask = null;
 
-		parent::__construct($owner);
-		$this->enableSCmd("trace",["usage" => mc::_("[options]"),
-                    "aliases" => ["tr"],
-										"help" => mc::_("Trace functionality")]);
+    PermUtils::add($this->owner, "gb.cmd.tracer", "access event tracing", "op");
+
+    $this->enableCmd("trace",
+                ["description" => mc::_("Event tracing functionality"),
+                "usage" => mc::_("/trace [options]"),
+                "permission" => "gb.cmd.tracer",
+                "aliases" => ["tr"]]);
+
 	}
-	public function onSCommand(CommandSender $c,Command $cc,$scmd,$data,array $args) {
+  public function onCommand(CommandSender $c,Command $cc,$label, array $args) {
     if (count($args) == 1) {
       switch (strtolower($args[0])) {
         case "on":
