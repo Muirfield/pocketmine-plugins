@@ -80,7 +80,7 @@ class ExpandVars {
     ];
   }
   /**
-   * If libcommon is available, try to get a single shared instance of
+   * If GrabBag is available, try to get a single shared instance of
    * ExpandVars
    */
   static public function getCommonVars(Plugin $owner) {
@@ -89,11 +89,6 @@ class ExpandVars {
       if ($gb->isEnabled() && MPMU::apiCheck($gb->getDescription()->getVersion(),"2.3")) {
         $vars =  $gb->api->getVars();
         if ($vars instanceof ExpandVars) return $vars;
-      }
-    }
-    if (($lc = $pm->getPlugin("libcommon")) !== null) {
-      if (MPMU::apiCheck($lc->getDescription()->getVersion(),"1.2")) {
-        return $lc->getVars();
       }
     }
     return new ExpandVars($owner);
