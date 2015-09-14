@@ -3,9 +3,11 @@
 echo "RUNNING MAKER SCRIPT...\n";
 define('SRCDIR',dirname(realpath(__FILE__))."/");
 require_once(SRCDIR."../lib/include.php");
+//require_once(LIBDIR."maker/fix-common.php");
+
+
 require_once(LIBDIR."maker/gendoc2.php");
 require_once(LIBDIR."maker/mcgen.php");
-require_once(LIBDIR."maker/fix-common.php");
 require_once(LIBDIR."maker/updcode.php");
 
 fix_common(SRCDIR,LIBDIR,$plugin);
