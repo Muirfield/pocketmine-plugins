@@ -18,10 +18,10 @@ use pocketmine\Player;
 use pocketmine\math\Vector3;
 
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 use pocketmine\utils\Config;
 
 class CmdHomes extends BasicCli implements CommandExecutor{

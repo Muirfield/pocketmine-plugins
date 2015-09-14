@@ -21,12 +21,12 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\Player;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\RconTask;
-use aliuly\grabbag\common\Rcon;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\RconTask;
+use aliuly\common\Rcon;
+use aliuly\common\PermUtils;
 
 class CmdRcon extends BasicCli implements CommandExecutor {
 	protected $servers;

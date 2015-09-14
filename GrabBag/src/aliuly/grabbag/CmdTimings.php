@@ -16,9 +16,9 @@ use pocketmine\command\Command;
 
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 class CmdTimings extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

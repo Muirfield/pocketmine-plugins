@@ -6,9 +6,9 @@ use pocketmine\Player;
 use pocketmine\entity\Human;
 use pocketmine\command\CommandSender;
 
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\ExpandVars;
-use aliuly\grabbag\common\PMScript;
+use aliuly\common\mc;
+use aliuly\common\ExpandVars;
+use aliuly\common\PMScript;
 
 /**
  * GrabBag API

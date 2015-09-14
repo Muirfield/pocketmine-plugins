@@ -15,7 +15,7 @@ use shoghicp\FastTransfer\PlayerTransferEvent;
 use pocketmine\math\Vector3;
 use pocketmine\level\particle\DustParticle;
 use pocketmine\level\sound\FizzSound;
-use aliuly\grabbag\common\mc;
+use aliuly\common\mc;
 
 class TransferMgr implements Listener {
 	public $owner;

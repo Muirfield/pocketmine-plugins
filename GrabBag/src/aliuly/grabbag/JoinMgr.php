@@ -13,7 +13,7 @@ use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 
-use aliuly\grabbag\common\mc;
+use aliuly\common\mc;
 
 class JoinMgr implements Listener {
 	public $owner;

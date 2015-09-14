@@ -18,10 +18,10 @@ use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\Timings;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\CmdSelector;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\CmdSelector;
+use aliuly\common\PermUtils;
 
 class PlayerCommandPreprocessEvent_sub extends PlayerCommandPreprocessEvent{
 }

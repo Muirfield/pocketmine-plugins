@@ -37,11 +37,11 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Creature;
 use pocketmine\tile\Sign;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\ItemName;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\ItemName;
+use aliuly\common\PermUtils;
 
 class CmdEntities extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

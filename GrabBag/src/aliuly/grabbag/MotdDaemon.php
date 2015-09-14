@@ -9,9 +9,9 @@ namespace aliuly\grabbag;
 
 use pocketmine\event\Listener;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\GetMotdAsyncTask;
-use aliuly\grabbag\common\PluginCallbackTask;
+use aliuly\common\BasicCli;
+use aliuly\common\GetMotdAsyncTask;
+use aliuly\common\PluginCallbackTask;
 use aliuly\grabbag\api\GbAddServerEvent;
 //use aliuly\grabbag\api\GbRemoveServerEvent;
 

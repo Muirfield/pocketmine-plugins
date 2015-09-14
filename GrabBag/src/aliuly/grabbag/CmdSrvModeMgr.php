@@ -17,10 +17,10 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PluginCallbackTask;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PluginCallbackTask;
+use aliuly\common\PermUtils;
 
 
 class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {

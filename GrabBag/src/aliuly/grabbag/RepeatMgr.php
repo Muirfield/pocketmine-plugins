@@ -43,8 +43,8 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 class RepeatMgr implements Listener {
 	public $owner;

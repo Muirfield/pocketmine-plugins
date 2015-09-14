@@ -17,12 +17,12 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\ItemName;
-use aliuly\grabbag\common\PermUtils;
-use aliuly\grabbag\common\InvUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\ItemName;
+use aliuly\common\PermUtils;
+use aliuly\common\InvUtils;
 
 use pocketmine\item\Item;
 
