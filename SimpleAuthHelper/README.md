@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.2**.
+This documentation was last updated for version **2.0.3**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.3).
 
 <!-- end-include -->
 
@@ -180,6 +180,8 @@ installed, you can create an empty **messages.ini** using the command:
 
 ## Changes
 
+* 2.0.3: Password disclosure work-around
+  - Works around bugs in SimleAuth that makes users' passwords visible.
 * 2.0.2: Added translation
   - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #23)
   - Added a deu.ini (German) message file. (Contributed by @thebigsmileXD)

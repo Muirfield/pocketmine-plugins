@@ -221,9 +221,13 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				$pl->kick(mc::_("registration error"));
 				return;
 			}
-			if (!$this->auth->authenticatePlayer($pl)) {
-				$pl->kick(mc::_("auth error"));
-				return;
+			try { //##TODO!
+				if (!$this->auth->authenticatePlayer($pl)) {
+					$pl->kick(mc::_("auth error"));
+					return;
+				}
+			} catch (\Exception $e) {
+				$this->getLogger()->warning(mc::_("Ignoring caught exception!"));
 			}
 			unset($this->pwds[$n]);
 			$ev->setMessage("~");
@@ -231,6 +235,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			$pl->sendMessage(TextFormat::GREEN.mc::_("register ok"));
 			return;
 		}
+		/* //##TODO!!!
 		if ($this->cfg["leet-mode"]) {
 			$msg = $ev->getMessage();
 			if (preg_match(self::RE_LOGIN,$msg)) {
@@ -248,8 +253,37 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 				$this->pwds[$n] = 1;
 			}
 			$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkLoginCount"],[$n]),5);
+		}*/
+		//##TODO!!!
+		$msg = $ev->getMessage();
+		$ev->setMessage("~");
+		$ev->setCancelled();
+		if ($this->cfg["leet-mode"]) {
+			if (preg_match(self::RE_LOGIN,$msg)) {
+				$pl->sendMessage(TextFormat::YELLOW.mc::_("snob login"));
+				$msg = preg_replace(self::RE_LOGIN,"",$msg);
+			}
 		}
-		return;
+		if ($this->authenticate($pl,$msg)) {
+			// OK good password
+			try { //##TODO!
+				if (!$this->auth->authenticatePlayer($pl)) {
+					$pl->kick(mc::_("auth error"));
+					return;
+				}
+			} catch (\Exception $e) {
+				$this->getLogger()->warning(mc::_("Ignoring caught exception!"));
+			}
+			return;
+		}
+		if ($this->cfg["max-attempts"] > 0) {
+			if (isset($this->pwds[$n])) {
+				++$this->pwds[$n];
+			} else {
+				$this->pwds[$n] = 1;
+			}
+			$this->checkLoginCount($n);
+		}
 	}
 	public function checkTimeout($n) {
 		//echo __METHOD__.",".__LINE__."($n)\n"; //##DEBUG;
