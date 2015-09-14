@@ -3,6 +3,8 @@ namespace aliuly\grabbag\api;
 
 use aliuly\grabbag\Main as GrabBagPlugin;
 use pocketmine\Player;
+use pocketmine\IPlayer;
+use pocketmine\level\Level;
 use pocketmine\entity\Human;
 use pocketmine\command\CommandSender;
 
@@ -63,7 +65,7 @@ class GrabBag {
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
-       "throw", "pushtp-poptp",
+       "throw", "pushtp-poptp", "homes", "tprequest",
        "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
@@ -448,16 +450,59 @@ class GrabBag {
    * Save position to stack
    * @param Player $player
    */
-   public function pushTp(Player $player) {
-     $this->getModule("pushtp-poptp")->cmdPushTp($player,[]);
-   }
-   /**
-    * Restore position from stack
-    * @param Player $player
-    */
-   public function popTp(Player $player) {
-      $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
-   }
+  public function pushTp(Player $player) {
+    $this->getModule("pushtp-poptp")->cmdPushTp($player,[]);
+  }
+  /**
+   * Restore position from stack
+   * @param Player $player
+   */
+  public function popTp(Player $player) {
+    $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
+  }
+  //////////////////////////////////////////////////////////////
+  // Teleport Request API
+  //////////////////////////////////////////////////////////////
+  public function TpAsk(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdTpAsk($a,$b);
+  }
+  public function TpHere(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdTpHere($a,$b);
+  }
+  public function TpDecline(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdDecline($a,$b);
+  }
+  public function TpAccept(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdAccept($a,$b);
+  }
+
+  //////////////////////////////////////////////////////////////
+  // Homes API
+  //////////////////////////////////////////////////////////////
+  /**
+   * Get the player's home on the provided level.
+   * @param Player $player
+   * @param Level $level
+   */
+  public function getHome(IPlayer $player, Level $level) {
+    return $this->getModule("homes")->getHome($player,$level);
+  }
+  /**
+   * Set the player's home in the level provided in $pos
+   * @param Player $player
+   * @param Position $pos
+   */
+  public function setHome(IPlayer $player, Position $pos) {
+    $this->getModule("homes")->setHome($player,$pos);
+  }
+  /**
+   * Delete the player's home on the provided level.
+   * @param Player $player
+   * @param Level $level
+   */
+  public function delHome(IPlayer $player, Level $level) {
+    $this->getModule("homes")->getHome($player,$level);
+  }
 
   //////////////////////////////////////////////////////////////
   // ServerList

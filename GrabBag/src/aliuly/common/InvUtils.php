@@ -53,5 +53,19 @@ abstract class InvUtils {
 		$target->getInventory()->sendContents($target);
 		return $k;
 	}
+	/**
+	 * Count amount of items
+	 * @param Player $target
+	 * @param Item $item
+	 * @return int
+	 */
+	static public function countInvItem(Player $target,Item $item) {
+		$k = 0;
+		foreach ($target->getInventory()->getContents() as $slot => &$inv) {
+			if ($inv->getId() == $item->getId()) continue;
+			$k += $inv->getCount();
+		}
+		return $k;
+	}
 
 }
