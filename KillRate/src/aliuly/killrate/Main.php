@@ -157,7 +157,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->ranks = new RankMgr($this,$cfg["features"]["ranks"],$cfg["settings"]);
 		$this->settings = $cfg["settings"];
 		$this->prizes = $cfg["values"];
-		$this->kstreak = new KillStreak($this,$cfg["features"]["kill-streak"],$cfg["settings"],$this->money)
+		$this->kstreak = new KillStreak($this,$cfg["features"]["kill-streak"],$cfg["settings"],$this->money);
 	}
 	public function onDisable() {
 		if ($this->dbm !== null) $this->dbm->close();

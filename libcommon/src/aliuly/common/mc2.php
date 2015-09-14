@@ -17,7 +17,7 @@ abstract class mc2 {
 	 */
 	public static function plugin_init_alt($plugin,$path) {
 		$lang = $plugin->getServer()->getProperty("settings.language");
-		if (mc::plugin_init($plugin,$path) === false) {
+		if (mc::plugin_init($plugin,$path) === false && $lang != "eng") {
 			list($fp,$fill) = [$plugin->getResource("messages/eng.ini"),"English"];
 			if ($fp === null) list($fp,$fill) = [ $plugin->getResource("messages/messages.ini"),"EMPTY"];
 			if ($fp === null) return false;

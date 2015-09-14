@@ -27,7 +27,7 @@ use aliuly\grabbag\common\mc;
 use aliuly\grabbag\common\MPMU;
 use aliuly\grabbag\common\PermUtils;
 
-class CmdTpStack extends BasicCli implements CommandExecutor, Listener {
+class CmdTpRequest extends BasicCli implements CommandExecutor, Listener {
   protected $requests;
 
 	public function __construct($owner) {
@@ -69,7 +69,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor, Listener {
     if (count($args) != 1) return false;
     $b = $this->owner->getServer()->getPlayer($args[0]);
     if ($b === null) {
-      $sender->sendMessage(mc::_("%1% not found",, $args[0]));
+      $sender->sendMessage(mc::_("%1% not found", $args[0]));
       return true;
     }
 		switch($cmd->getName()) {
@@ -116,7 +116,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor, Listener {
     $a->sendMessage(mc::_("No teleport request from %1%",$b->getDisplayName()));
     return true;
   }
-  public function cmdDecline(Player $a, Player $b) {
+  public function cmdAccept(Player $a, Player $b) {
     $k = implode(":",[strtolower($b->getName()),strtolower($a->getName())]);
     if (!isset($this->requests[$k])) {
       $a->sendMessage(mc::_("No teleport request from %1%",$b->getDisplayName()));

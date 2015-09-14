@@ -7,6 +7,8 @@
 //
 namespace aliuly\grabbag;
 
+use pocketmine\event\Listener;
+
 use aliuly\grabbag\common\BasicCli;
 use aliuly\grabbag\common\QueryAsyncTask;
 use aliuly\grabbag\common\PluginCallbackTask;

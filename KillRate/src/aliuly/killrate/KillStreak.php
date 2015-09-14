@@ -16,12 +16,11 @@ class KillStreak {
   protected $enabled;
   protected $money;
   protected $minkills;
-  protected $rewards;
+
   public function __construct(KillRatePlugin $owner,$mode,$settings,$money) {
     $this->owner = $owner;
     $this->enabled = $mode;
     $this->minkills = $settings["min-kills"];
-    $this->rewards = $settings["rewards"];
     $this->money = $money;
   }
   public function endStreak(Player $player) {
@@ -53,7 +52,7 @@ class KillStreak {
           new KillRateNewStreakEvent($this,$player,$streak)
     );
     $this->owner->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2%-kill streak",$player->getDisplayName(),$streak));
-    if (!$this->rewards || $this->money === null) return true;
+    if ($this->money === null) return true;
 
     list($points,$money) = $this->owner->getPrizes("streak");
     $this->owner->getServer()->getPluginManager()->callEvent(

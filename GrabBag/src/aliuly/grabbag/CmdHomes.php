@@ -32,7 +32,7 @@ class CmdHomes extends BasicCli implements CommandExecutor{
 
     $this->homes = (new Config($this->owner->getDataFolder()."homes.yml",
 										 Config::YAML,[
-                       "version" => $this->getDescription()->getVersion()
+                       "version" => $this->owner->getDescription()->getVersion()
                      ]))->getAll();
 
 		PermUtils::add($this->owner, "gb.cmd.home", "teleport to home location", "true");
@@ -57,7 +57,7 @@ class CmdHomes extends BasicCli implements CommandExecutor{
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
     if (!MPMU::inGame($sender)) return true;
     if (count($args) != 0) return false;
-    n = strtolower($sender->getName());
+    $n = strtolower($sender->getName());
     $l = "l-".strtolower($sender->getLevel()->getName());
 
 		switch($cmd->getName()) {

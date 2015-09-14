@@ -8,10 +8,10 @@
 
 - Summary: Keep track of the number of kills
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd
-- Categories: Informational
-- Plugin Access: Commands, Databases, Entities
+- DependencyPlugins: 
+- OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd, RankUp
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.1**.
+This documentation was last updated for version **2.1.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev1).
 
 <!-- end-include -->
 
@@ -108,6 +108,7 @@ substitutions:
 * killrate.cmd.stats: Access to stats command
 * killrate.cmd.stats.other (op): View other's stats
 * killrate.cmd.rank: View top players
+* killrate.cmd.give (op): Give points to players
 * killrate.signs.place (op): Allow to place KillRate signs
 * killrate.signs.use: Allow to use KillRate signs
 
@@ -125,6 +126,14 @@ are defined.
 *  backend: Use SQLiteMgr or MySqlMgr
 *  MySql: MySQL settings. Only used if backend is MySqlMgr to configure MySql settings
 
+#### features
+
+*  signs: enable/disable signs
+*  ranks: Enable support for RankUp plugin
+*  achievements: Enable PocketMine achievements
+*  kill-streak: Enable kill-streak tracking. tracks the number of kills without dying
+*  rewards: award money. if true, money is awarded.  Requires an economy plugin
+
 #### formats
 
 Sign formats used to show sign data.
@@ -132,12 +141,11 @@ Sign formats used to show sign data.
 #### settings
 
 *  points: award points. if true points are awarded and tracked.
-*  rewards: award money. if true, money is awarded.  Requires an economy plugin
+*  min-kills: Minimum number of kills before declaring a kill-streak
+*  reset-on-death: Reset counters on death. Set to false to disable, otherwise the number of deaths till reset. When the player dies X number of times, scores will reset.  (GAME OVER MAN!)
 *  creative: track creative kills. if true, kills done by players in creative are scored
 *  dynamic-updates: Update signs. Set to 0 or false to disable, otherwise sign update frequence in ticks
-*  reset-on-death: Reset counters on death. set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
-*  kill-streak: Enable kill-streak tracking. "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
-*  achievements: Enable PocketMine achievements
+*  default-rank: Default rank (when resetting ranks) set to **false** to disable this feature
 
 #### signs
 
@@ -325,3 +333,4 @@ In order to use the script extension you need to do the following:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
