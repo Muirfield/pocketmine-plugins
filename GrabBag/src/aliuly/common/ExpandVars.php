@@ -298,6 +298,10 @@ class ExpandVars {
       $this->registerApi("PurePerms",$pp);
       $this->playerExtensions[] = [ $this , "purePermsPlayerVars" ];
     }
+    if (($ru = $pm->getPlugin("RankUp")) !== null) {
+      $this->registerApi("RankUp",$ru);
+      $this->playerExtensions[] = [ $this , "rankUpPlayerVars" ];
+    }
     if (($mm = $pm->getPlugin("GoldStd")) !== null) {
       $this->registerApi("money", $mm);
       $this->playerExtensions[] = [ $this ,"moneyPlayerVarsGoldStd" ];
@@ -420,6 +424,14 @@ class ExpandVars {
    */
   public function purePermsPlayerVars(Player $player,array &$vars) {
     $vars["{group}"] = $this->api("PurePerms")->getUser($player)->getGroup()->getName();
+  }
+
+  /** RankUp compatibility
+   * @param Player $player - reference to pocketmine Player
+   * @param array &$vars - receives variable defintions
+   */
+  public function rankUpPlayerVars(Player $player,array &$vars) {
+    $vars["{rank}"] = $this->api("RankUp")->getPermManager()->getGroup();
   }
   ///////////////////////////////////////////////////////////////////////////
   // Misc Support functions

@@ -29,11 +29,13 @@ namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\command\CommandExecutor;
 
 use aliuly\common\mc;
 use aliuly\common\BasicCli;
 use aliuly\common\PluginCallbackTask;
 use aliuly\loader\TraceListener;
+use aliuly\common\PermUtils;
 
 use pocketmine\Player;
 use pocketmine\event\HandlerList;
@@ -41,7 +43,7 @@ use pocketmine\event\Event;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\utils\TextFormat;
 
-class CmdTrace extends BasicCli {
+class CmdTrace extends BasicCli implements CommandExecutor{
   protected $listener;
   protected $tracers;
   protected $timer_short;

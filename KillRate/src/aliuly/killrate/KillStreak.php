@@ -42,21 +42,21 @@ class KillStreak {
     }
     $this->owner->delScore($n,"streak");
   }
-  public function scoreStreak(Player $Player,AchievementsGiver $achievements) {
+  public function scoreStreak(Player $player) {
     if (!$this->enabled) return false;
     $n = strtolower($player->getName());
     $streak = $this->owner->updateDb($n,"streak");
     if ($streak < $this->minkills) return false;
 
     $this->owner->getServer()->getPluginManager()->callEvent(
-          new KillRateNewStreakEvent($this,$player,$streak)
+          new KillRateNewStreakEvent($this->owner,$player,$streak)
     );
     $this->owner->getServer()->broadcastMessage(TextFormat::YELLOW.mc::_("%1% has a %2%-kill streak",$player->getDisplayName(),$streak));
     if ($this->money === null) return true;
 
     list($points,$money) = $this->owner->getPrizes("streak");
     $this->owner->getServer()->getPluginManager()->callEvent(
-            $ev = new KillRateBonusScoreEvent($this,$player,$money)
+            $ev = new KillRateBonusScoreEvent($this->owner,$player,$money)
     );
     if ($ev->isCancelled()) return true;
     $player->sendMessage(TextFormat::GREEN.

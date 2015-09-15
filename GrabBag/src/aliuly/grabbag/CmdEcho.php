@@ -7,6 +7,7 @@ namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\command\CommandExecutor;
 
 use aliuly\common\mc;
 use aliuly\common\BasicCli;

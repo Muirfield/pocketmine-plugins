@@ -20,7 +20,7 @@ if (preg_match('/const\s+VERSION\s*=\s*"(.*)";/',$inp,$mv)) {
 	$yaml = file_get_contents(SRCDIR."plugin.yml");
 	$new = [];
 	foreach (explode("\n",$yaml) as $ln) {
-		if (preg_match('/^(\s*plugin:\s*).*$/',$ln,$mv)) {
+		if (preg_match('/^(\s*version:\s*).*$/',$ln,$mv)) {
 			$ln = $mv[1].$version;
 		}
 		$new[] = $ln;
@@ -30,7 +30,8 @@ if (preg_match('/const\s+VERSION\s*=\s*"(.*)";/',$inp,$mv)) {
 	}
 	$new = implode("\n",$new);
 	if ($new != $yaml) {
-		file_put_contents(SRCDIR."plugin.yml");
+		echo "Updating plugin.yml\n";
+		file_put_contents(SRCDIR."plugin.yml",$new);
 		$plugin["version"] = $version;
 	}
 

@@ -9,10 +9,10 @@
 
 - Summary: aliuly's common library
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: DevTools
-- Plugin Access: N/A
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: DevTools 
+- Plugin Access: N/A 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -21,7 +21,7 @@
 
 <!-- php: //$v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
 <!-- template: nn/prologue.md -->
-<!-- MISSING TEMPLATE: no/prologue.md ->
+<!-- MISSING TEMPLATE: nn/prologue.md ->
 
 <!-- end-include -->
 
@@ -44,16 +44,16 @@ it provides are:
 API Features:
 
 <!-- snippet:api-features -->
-- API version checking
-- Misc shorcuts and pre-canned routines
+- Armor constants
 - Paginated output
 - Command and sub command dispatchers
 - Config shortcuts and multi-module|feature management
-- Armor constants
+- API version checking
+- Misc shorcuts and pre-canned routines
 - Multiple money support
-- Translations
 - Player session and state management
 - Teleport wrappers
+- Translations
 <!-- end-include -->
 
 It also bundles useful third party libraries:
@@ -86,16 +86,6 @@ The following subcommands are available:
 <!-- php:$h = 0; -->
 <!-- template: gd2/cmdoverview.md -->
 
-* echo: shows the given text (variable substitutions are performed)
-* motd-add: Add a server for MOTD querying
-* motd-stat: Return the servers MOTD values
-* onevent: Run command on event
-* query-add: Add a server for Query gathering
-* query-list: Return the available Query data
-* rc: Runs the given script
-* trace: controls event tracing
-* version: shows the libcommon version
-
 
 <!-- end-include -->
 
@@ -105,81 +95,6 @@ Also, for debugging purposes, the **libcommon** command is provided, which
 has the following sub-commands:
 
 <!-- template: gd2/subcmds.md -->
-* echo: shows the given text (variable substitutions are performed)<br/>
-   usage: /libcommon **echo** _[text]_
-
-  This command is available when **DEBUG** is enabled.
-* motd-add: Add a server for MOTD querying<br/>
-  usage: /libcommon **motd-add** _&lt;server&gt;_ _[port]_
-
-  This command is available when **DEBUG** is enabled.
-
-* motd-stat: Return the servers MOTD values<br/>
-  usage: /libcommon **motd-stat**
-
-  This command is available when **DEBUG** is enabled.
-* onevent: Run command on event<br/>
-  usage: usage: /libcommon **onevent** _&lt;event&gt;_ _[cmd]_
-
-  This command is available when **DEBUG** is enabled.
-
-  This command will make it so a command will be executed whenever an
-  event is fired.  Options:
-  * /libcommon **onevent**
-    - show registered events
-  * /libcommon **onevent** _&lt;event&gt;_
-    - Show what command will be executed.
-  * /libcommon **onevent** _<event>_ _<command>_
-    - Will schedule for _command_ to be executed.
-  * /libcommon **onevent** _<event>_ **--none**
-    - Will remove the given event handler
-
-* query-add: Add a server for Query gathering<br/>
-  usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
-
-  This command is available when **DEBUG** is enabled.
-
-* query-list: Return the available Query data<br/>
-  usage: /libcommon **query-list**
-
-  This command is available when **DEBUG** is enabled.
-* rc: Runs the given script<br/>
-  usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
-
-  This command will execute PMScripts present in the **libcommon**
-  folder.  By convention, the ".pms" suffix must be used for the file
-  name, but the ".pms" is ommitted when issuing this command.
-
-  The special script **autostart.pms** is executed automatically
-  when the **libcommon** plugin gets enabled.
-
-* trace: controls event tracing<br/>
-   usage: /libcommon **trace** _[options]_
-
-  This command is available when **DEBUG** is enabled.
-  Trace will show to the user the different events that are being
-  triggered on the server.  To reduce spam, events are de-duplicated.
-
-  Sub commands:
-  * /libcommon **trace**
-    - Shows the current trace status
-  * /libcommon **trace** **on**
-    - Turns on tracing
-  * /libcommon **trace** **off**
-    - Turns off tracing
-  * /libcommon **trace** **events** _[type|class]_
-    - Show the list of the different event types and classes.  If a _type_
-      or _class_ was specified, it will show the events defined for them.
-  * /libcommon **trace** _&lt;event|type|class&gt;_ _[additional options]_
-    - Will add the specified _event|type|class_ to the current user's
-      trace session.
-  * /libcommon **trace** _&lt;-event|type|class&gt;_ _[additional options]_
-    - If you start the _event|type|class_ specification name with a
-      **dash**, the _event|type|class_ will be removed from the current
-      trace session.
-
-* version: shows the libcommon version<br/>
-   usage: /libcommon **version**
 
 <!-- end-include -->
 
@@ -316,8 +231,7 @@ The following selectors are implemented:
 
 ### Permission Nodes
 
-* libcommon.debug.command (op): Allow access to libcommon debug commands
-* libcommon.echo.command: Basic echo command
+* libcommon.command: libcommon command
 
 <!-- end-include -->
 
@@ -400,3 +314,4 @@ installed, you can create an empty **messages.ini** using the command:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+

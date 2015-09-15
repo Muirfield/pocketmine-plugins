@@ -10,19 +10,31 @@
 //: The special script **autostart.pms** is executed automatically
 //: when the **GrabBag** plugin gets enabled.
 //:
+//: By default only scripts in the Plugin directory are executed.
+//: You can disable this feature with the command:
+//:
+//:      rc --no-limit-path
+//:
+//: To resume limiting:
+//:
+//:      rc --limit-path
+//:
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
+use pocketmine\command\CommandExecutor;
 
 use aliuly\common\BasicCli;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\PMScript;
 use aliuly\common\ExpandVars;
+use aliuly\common\PermUtils;
+use aliuly\common\PluginCallbackTask;
 
-class CmdRc extends BasicCli {
+class CmdRc extends BasicCli implements CommandExecutor {
 	protected $limitPath;
 	public function __construct($owner) {
 		parent::__construct($owner);
@@ -33,8 +45,9 @@ class CmdRc extends BasicCli {
 								["description" => mc::_("Runs the given PMScript"),
 								"usage" => mc::_("/rc <script> [args]"),
 								"permission" => "gb.cmd.pmscript"]);
-
-
+		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
+					new PluginCallbackTask($this->owner,[$this,"autostart"],[]), 5
+		);
 	}
 	public function getInterp() {
 		return $this->owner->api->getInterp();

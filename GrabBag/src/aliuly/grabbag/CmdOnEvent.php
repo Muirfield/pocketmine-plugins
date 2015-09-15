@@ -21,13 +21,15 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\HandlerList;
 use pocketmine\Player;
+use pocketmine\command\CommandExecutor;
 
 use aliuly\common\BasicCli;
 use aliuly\common\MPMU;
 use aliuly\common\mc;
 use aliuly\common\Cmd;
+use aliuly\common\PermUtils;
 
-class CmdOnEvent extends BasicCli {
+class CmdOnEvent extends BasicCli implements CommandExecutor{
   protected $listeners;
 	public function __construct($owner) {
 		parent::__construct($owner);
