@@ -45,7 +45,8 @@ function update_code($srcdir,$dstdir) {
     $f = substr($it,$srcdirlen);
     if (isset($dstmanifest[$f])) unset($dstmanifest[$f]);
     if (($ctxt = file_get_contents($srcdir.$f)) === false) continue;
-    $otxt = is_file($dstdir.$f) ? file_get_contents($srcdir.$f) : false;
+    $otxt = is_file($dstdir.$f) ? file_get_contents($dstdir.$f) : false;
+    //echo "$f - ctxt=".strlen($ctxt)." dtxt=".strlen($otxt)."\n";
     if ($ctxt != $otxt) {
       // Text has changed...
       echo "Updating $f\n";
