@@ -31,13 +31,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.3.0dev1**.
+This documentation was last updated for version **2.4.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.3.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.4.0dev1).
 
 <!-- end-include -->
 
@@ -157,7 +157,7 @@ administration.
 * broadcast-ft: Broadcast player's using FastTransfer
 * broadcast-tp: Broadcast player teleports
 * cmd-selector: Implements "@" command prefixes
-* join-mgr: Announce joining ops, and show server motd **(DEPRECATED)**
+* join-mgr: Announce joining ops, and show server motd
 * motd-task: Background task to ping configured remote servers
 * query-task: Background task to query configured remote servers
 * repeater: Uses **!!** to repeat command with changes
@@ -662,7 +662,7 @@ Please refer to the CommandSelector section
 
 #### join-mgr
 
-Announce joining ops, and show server motd **(DEPRECATED)**
+Announce joining ops, and show server motd
 
 This listener module will broadcast a message for ops joining
 a server.
@@ -812,49 +812,6 @@ This section configures peer servers.  This can be used with
 ### Permission Nodes
 
 <!-- snippet: rtperms -->
-* gb.cmd.after (op): access command scheduler
-* gb.cmd.sudo (op): Run command as another user
-* gb.cmd.blowup (op): Explode other players
-* gb.cmd.burn (op): Burn other players
-* gb.cmd.togglechat: lets players opt out from chat
-* gb.cmd.togglechat.others (op): lets you toggle chat for others
-* gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
-* gb.cmd.togglechat.global (op): Can toggle chat for the server as a whole
-* gb.cmd.clearchat: Clear your chat window
-* gb.cmd.nick: Change display name
-* gb.cmd.clearinv: clear player's inventory
-* gb.cmd.clearinv.others (op): clear other's inventory
-* gb.cmd.rminv: remove item from inventory
-* gb.cmd.rminv.others (op): remove item from other's inventory
-* gb.cmd.clearhotbar: clear player's hotbar
-* gb.cmd.clearhotbar.others (op): clear other's hotbar
-* gb.cmd.fixit (op): Fix player's held item
-* gb.cmd.fixit.others (op): Fix other players held item
-* gb.cmd.echo: echo command
-* gb.cmd.rem: remark command
-* gb.cmd.entities (op): entity management
-* gb.cmd.ftserver (op): Allow user to use Fast Transfer
-* gb.cmd.fly (op): flight control
-* gb.cmd.follow (op): lets you follow others
-* gb.cmd.followme (op): let others follow you
-* gb.cmd.gma (op): Switch gamemode to Adventure
-* gb.cmd.gms (op): Switch gamemode to Survival
-* gb.cmd.gmc (op): Switch gamemode to Creative
-* gb.cmd.gmspc (op): Switch gamemode to Spectator
-* gb.cmd.invisible (op): invisibility power
-* gb.cmd.invisible.inmune (disabled): can see invisible players
-* gb.cmd.iteminfo: get info on item held
-* gb.cmd.iteminfo.other (op): item info of others
-* gb.cmd.mute (op): mute/unmute players
-* gb.cmd.near: near by players
-* gb.cmd.ops: Display ops
-* gb.cmd.permmgr (op): Manipulate Permissions
-* gb.cmd.query: Query command
-* gb.cmd.query.details: View details (info, plugins)
-* gb.cmd.query.players: View players
-* gb.cmd.query.players.showip: View players server IP
-* gb.cmd.query.list: Query List sub command
-* gb.cmd.summon (op): summon|dismmiss command
 * gb.cmd.timings (op): view timings report
 * gb.cmd.tpask (op): Submit a tp request
 * gb.cmd.tpahere: Submit a tp-here request
@@ -862,22 +819,36 @@ This section configures peer servers.  This can be used with
 * gb.cmd.tpaccept.tpask: Accept tpask
 * gb.cmd.tpaccept.tpahere (op): Accept tpask
 * gb.cmd.tpdecline: Decline tpask|tpahere
+* gb.cmd.sudo (op): Run command as another user
+* gb.cmd.entities (op): entity management
 * gb.cmd.home: teleport to home location
 * gb.cmd.sethome: set home command
 * gb.cmd.sethome.new (op): set a new home
 * gb.cmd.sethome.move: move existing home
 * gb.cmd.delhome: Remove home
+* gb.cmd.invisible (op): invisibility power
+* gb.cmd.invisible.inmune (disabled): can see invisible players
 * gb.cmd.players: connected players
-* gb.cmd.pmscript (op): access rc (pmscript) command
+* gb.cmd.query: Query command
+* gb.cmd.query.details: View details (info, plugins)
+* gb.cmd.query.players: View players
+* gb.cmd.query.players.showip: View players server IP
+* gb.cmd.query.list: Query List sub command
 * gb.cmd.rcon (op): Rcon client
-* gb.cmd.alias (op): allow creating aliases
+* gb.module.repeater: use !! to repeat commands
+* gb.cmd.blowup (op): Explode other players
 * gb.cmd.crash (op): crash dump management
+* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.freeze (op): freeze/thaw players
 * gb.cmd.get (op): get blocks
-* gb.cmd.onevent (op): access onevent command
+* gb.cmd.gma (op): Switch gamemode to Adventure
+* gb.cmd.gms (op): Switch gamemode to Survival
+* gb.cmd.gmc (op): Switch gamemode to Creative
+* gb.cmd.gmspc (op): Switch gamemode to Spectator
+* gb.cmd.iteminfo: get info on item held
+* gb.cmd.iteminfo.other (op): item info of others
 * gb.cmd.pluginmgr (op): Run-time management of plugins
-* gb.cmd.reop: Reop command
-* gb.cmd.reop.others (op): ReOp others
+* gb.cmd.pmscript (op): access rc (pmscript) command
 * gb.module.cmdsel: use command selectors
 * gb.cmd.shield (op): Allow players to become invulnverable
 * gb.cmd.skin (op): Manage skins
@@ -886,19 +857,29 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servicemode (op): service mode command
 * gb.servicemode.allow (op): login when in service mode
 * gb.cmd.pushpoptp (op): position stack
-* gb.cmd.tracer (op): access event tracing
-* gb.cmd.whois (op): view players details
-* gb.cmd.whois.showip (op): view players IP address
-* gb.module.repeater: use !! to repeat commands
 * gb.cmd.servers (op): servers command
 * gb.cmd.servers.read (op): view server configuration
 * gb.cmd.servers.read.viewip (op): view server IP address
 * gb.cmd.servers.read.viewrcon (op): view rcon secrets
 * gb.cmd.servers.write (op): change server configuration
+* gb.cmd.burn (op): Burn other players
+* gb.cmd.fly (op): flight control
+* gb.cmd.onevent (op): access onevent command
+* gb.cmd.tracer (op): access event tracing
+* gb.cmd.mute (op): mute/unmute players
+* gb.cmd.reop: Reop command
+* gb.cmd.reop.others (op): ReOp others
+* gb.cmd.alias (op): allow creating aliases
+* gb.cmd.togglechat: lets players opt out from chat
+* gb.cmd.togglechat.others (op): lets you toggle chat for others
+* gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
+* gb.cmd.togglechat.global (op): Can toggle chat for the server as a whole
+* gb.cmd.clearchat: Clear your chat window
+* gb.cmd.nick: Change display name
+* gb.cmd.follow (op): lets you follow others
+* gb.cmd.followme (op): let others follow you
 * gb.cmd.heal (op): heal players
-* gb.cmd.opms: Send op only messages
-* gb.cmd.rpt: Report issues
-* gb.cmd.rpt.read (op): Read reported issues
+* gb.cmd.ops: Display ops
 * gb.cmd.prefix: Prefix command
 * gb.cmd.regs (op): Manage player registrations
 * gb.cmd.setarmor (op): Configure armor
@@ -908,6 +889,25 @@ This section configures peer servers.  This can be used with
 * gb.cmd.slay (op): Allow slaying players
 * gb.cmd.spectator (op): Turn players into spectators
 * gb.cmd.throw (op): Troll players
+* gb.cmd.whois (op): view players details
+* gb.cmd.whois.showip (op): view players IP address
+* gb.cmd.after (op): access command scheduler
+* gb.cmd.clearinv: clear player's inventory
+* gb.cmd.clearinv.others (op): clear other's inventory
+* gb.cmd.rminv: remove item from inventory
+* gb.cmd.rminv.others (op): remove item from other's inventory
+* gb.cmd.clearhotbar: clear player's hotbar
+* gb.cmd.clearhotbar.others (op): clear other's hotbar
+* gb.cmd.fixit (op): Fix player's held item
+* gb.cmd.fixit.others (op): Fix other players held item
+* gb.cmd.near: near by players
+* gb.cmd.permmgr (op): Manipulate Permissions
+* gb.cmd.echo: echo command
+* gb.cmd.rem: remark command
+* gb.cmd.opms: Send op only messages
+* gb.cmd.rpt: Report issues
+* gb.cmd.rpt.read (op): Read reported issues
+* gb.cmd.summon (op): summon|dismmiss command
 <!-- end-include -->
 
 <!-- template: gd2/mctxt.md -->
@@ -946,17 +946,20 @@ The following third party libraries are included:
   * Queries to the same server do not work.
   * Queries not using QueryDaemon
 * Deprecated modules:
-  - JoinMgr
   - CmdSpectator
 * TODO
   - Add a QueryRegen event handler
 
 # Changes
 
-* ???
+* 2.4.0: libcommon bundle
   * Query/Ping Daemon functionality
+  * Server configuration can have alternative IPs
   * CmdTpRequest and Homes (Requested by @rvachvg)
-  * CmdSpectator and JoinMgr are now deprecated
+  * New commands: near, fixit, iteminfo,
+  * CmdSpectator is now deprecated
+  * New Developer Tools: echo. onevent cmd, pmscript (rc), trace
+  * libcommon is embedded and usable.  Replaces a separate libcommon library.
 * 2.3.0: Update, new functionality and API
   * Plugin loader will check server paths (include plugin folder)
   * New plugin mgr sub command to dump messages.ini and to un-install.

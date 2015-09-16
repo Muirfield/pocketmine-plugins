@@ -1,6 +1,6 @@
 <?php
 //= module:join-mgr
-//: Announce joining ops, and show server motd **(DEPRECATED)**
+//: Announce joining ops, and show server motd
 //:
 //: This listener module will broadcast a message for ops joining
 //: a server.
