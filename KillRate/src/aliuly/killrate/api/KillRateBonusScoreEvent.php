@@ -20,7 +20,6 @@ class KillRateBonusScoreEvent extends KillRateEvent implements Cancellable {
    * @param Player $victim - victim of last score
    * @param int $money - money being awarded
    */
-   KillRateBonusScoreEvent($this,$pp,$pv,$money)
   public function __construct(KillRatePlugin $plugin, Player $player, $money = 0) {
     parent::__construct($plugin);
     $this->player = $player;

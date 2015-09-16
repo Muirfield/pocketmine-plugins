@@ -380,7 +380,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 			$deaths = $this->updateDb($pv->getName(),"deaths");
 			if ($this->settings["reset-on-death"]
-				 && $settings["reset-on-death"] > 0) {
+				 && $this->settings["reset-on-death"] > 0) {
 				if ($deaths >= $this->settings["reset-on-death"]) {
 					// We died too many times... reset scores...
 					$this->getServer()->getPluginManager()->callEvent(

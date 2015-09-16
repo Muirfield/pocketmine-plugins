@@ -43,6 +43,7 @@ class RankMgr {
     if ($this->rankup === null) return;
   	// OK, do we need to rank up?
 		$nextrank = $this->rankup->getRankStore()->getNextRank($player);
+    if ($nextrank === false) return;
 		if ($newscore < $nextrank->getPrice()) return;
 		// Yeah!  Levelling up!
 		if ($this->rankup->getPermManager()->addToGroup($player,$nextrank->getName())) {

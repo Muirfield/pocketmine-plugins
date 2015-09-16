@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.0dev2**.
+This documentation was last updated for version **2.1.0dev3**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev3).
 
 <!-- end-include -->
 
@@ -265,6 +265,7 @@ In order to use the script extension you need to do the following:
   * Added more events
   * Added support for RankUp (Suggested by @rock2rap)
   * Code clean-ups
+  * Thanks to @rock2rap for helping test it
 * 2.0.1: Bug fixes
   * Removed KillRateEx inclusion
   * dump messages.ini if no language defined.
