@@ -9,7 +9,7 @@ require_once(LIBDIR."maker/mcgen.php");
 require_once(LIBDIR."maker/updcode.php");
 
 update_code(LIBDIR."xPaw",SRCDIR."src/xPaw");
-update_code(SRCDIR."../GrabBag/src/aliuly/common",SRCDIR."src/aliuly/common");
+update_code(LIBDIR."common",SRCDIR."src/aliuly/common");
 
 //
 // Fix the version number

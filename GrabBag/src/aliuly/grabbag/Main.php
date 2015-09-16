@@ -25,6 +25,7 @@ class Main extends BasicPlugin {
 		$this->api = new GrabBagAPI($this);
 		if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
+		$this->getLogger()->info(mc::_("LibCommon v%1%", MPMU::version()));
 		$features = [
 			"players" => [ "CmdPlayers", true ],
 			"ops" => [ "CmdOps", true ],
