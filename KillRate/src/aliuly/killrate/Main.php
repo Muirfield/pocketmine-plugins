@@ -387,8 +387,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 						$ev = new KillRateResetEvent($this,$pv)
 					);
 					if (!$ev->isCancelled()) {
-						$this->delScore($pv);
-						$this->ranks($pv);
+						$this->delScore($pv->getName());
+						$this->ranks->resetRank($pv);
+						$pv->sendMessage(mc::_("GAME OVER!!!"));
+						$this->getServer()->broadcastMessage(mc::n(
+										mc::_("%1% died. RIP!", $pv->getDisplayName()),
+										mc::_("%1% died %2% times. RIP!",  $pv->getDisplayName(), $deaths),
+										$deaths));
 					}
 				}
 			}
@@ -490,7 +495,8 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		$this->dbm->insertScore($pn,$type,$val);
 	}
 	public function delScore($pn, $type = null) {
-		$this->dbm->delScore($pl->getName(), $type);
+		//echo __METHOD__.",".__LINE__." pn=$pn\n";//##DEBUG
+		$this->dbm->delScore($pn, $type);
 	}
 	public function getScores($pn) {
 		return $this->dbm->getScores($pn);
