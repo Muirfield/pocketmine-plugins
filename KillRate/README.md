@@ -8,10 +8,10 @@
 
 - Summary: Keep track of the number of kills
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
+- DependencyPlugins: 
 - OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd, RankUp
-- Categories: Informational
-- Plugin Access: Commands, Databases, Entities
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.0dev1**.
+This documentation was last updated for version **2.1.0dev2**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev2).
 
 <!-- end-include -->
 
@@ -333,3 +333,4 @@ In order to use the script extension you need to do the following:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
