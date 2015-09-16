@@ -25,21 +25,8 @@
 
 <!-- end-include -->
 
-This plugin contains a log of functionality that can be used in other
-plugins, in particular, ScriptPlugins. It also provides for commands useful
-for script debugging. (Note that some commands are only enabled if
-**\pocketmine\DEBUG** > 1 is set in **pocketmine.yml**). The main features
-it provides are:
-
-* Functionality to use in other scripts (See
-  [API documentation](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html))
-* Scripting functionality: mainly used for running test scripts, but could
-  be used for creating custom commands by grouping a batch of PocketMine-MP
-  commands together in a single file.
-* Event tracing: you can select what events (or group of events) to trace
-  on the fly. Events will be shown on console or on your chat area.
-  De-duplication is done so as not to spam screens.
-* Query and MOTD polling tasks
+This plugin contains a lot of functionality that can be used in other
+plugins, in particular, ScriptPlugins.
 
 API Features:
 
@@ -60,51 +47,20 @@ It also bundles useful third party libraries:
 
 - xPaw MinecraftQuery
 
-## Documentation
+See [API documentation](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html))
+for full details.
 
-This plugin contains my standard library that I personally use when
+The **libcommon** library is my standard library that I personally use when
 writing PocketMine-MP plugins.  Normally I embed the different modules
-when creating my plugins in order to avoid dependency issues.  However
-**libcommon** is usable as a stand-alone plugin.
+when creating my plugins in order to avoid dependency issues.
 
-When used as stand-alone, it provides useful functionality that
-can be called directly by script plugins.  Also, if **\pocketmine\DEBUG** > 1,
-it defines some useful debugging and example commands.
-
-For the most up to date documentation visit
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon).
+For use on your own plugins, you can either use the stand-alone **libcommon**
+phar, or use the one bundled in **GrabBag**.
 
 This plugin can be downloaded from its
 [Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
 <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.
-
-For the full API documentation go to:
-[GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
-
-The following subcommands are available:
-<!-- php:$h = 0; -->
-<!-- template: gd2/cmdoverview.md -->
-
-
-<!-- end-include -->
-
-### Commands
-
-Also, for debugging purposes, the **libcommon** command is provided, which
-has the following sub-commands:
-
-<!-- template: gd2/subcmds.md -->
-
-<!-- end-include -->
-
-For use in PMScripts, an **echo** and **rem** commands are defined.
-
-The **rem** command does nothing, so can be used as a comment.
-
-The **echo** command, unlike the **libcommon echo** command, does not do
-any variable substitutions.  It is expected that the PMScript interpreter
-would handle these.
 
 <!-- snippet: pmscript  -->
 ## PMScript
@@ -235,34 +191,12 @@ The following selectors are implemented:
 
 <!-- end-include -->
 
-<!-- template: gd2/mctxt.md -->
-
-## Translations
-
-This plugin will honour the server language configuration.  The
-languages currently available are:
-
-* English
-* Spanish
-
-
-You can provide your own message file by creating a file called
-**messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/messages/)
-for sample files.
-Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
-installed, you can create an empty **messages.ini** using the command:
-
-     pm dumpmsgs libcommon [lang]
-
-<!-- end-include -->
-
 ## Changes
 
-- 1.91.0: ?
+- 1.91.0: De-bundle
   * New module: TPUtils
-  * Added onevent sub command
+  * De-bundled, now it is just a library again.  All sub-commands were moved
+    to GrabBag.
 - 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
