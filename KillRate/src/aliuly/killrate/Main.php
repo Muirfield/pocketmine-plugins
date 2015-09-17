@@ -87,7 +87,7 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 			//:
 			//: Configure awards for the different type of kills.  Format:
 			//:
-			//:     "entity" => [ money, points ],
+			//:     "entity": [ money, points ]
 			//:
 			//: The entity ( * ) is the default.
 			"values" => [
