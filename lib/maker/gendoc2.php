@@ -40,6 +40,7 @@ function analyze_php($src, &$snippets) {
 			if (($lno = preg_replace('/^\s*PermUtils::add/',"",$lni)) != $lni) {
 				$lno = preg_replace('/^[^,]+,\s*/',"",$lno);
 				$lno = preg_replace('/\s*[^"]+$/',"",$lno);
+				if (trim($lno) == "") continue;
 				$lno = eval("return  [ $lno ];");
 				if ($lno === false) continue;
 				list($name,$desc,$def) = $lno;
