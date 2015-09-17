@@ -117,6 +117,8 @@ administration.
 
 ### Teleporting
 
+* delhome: Removes your home
+* delwarp: Removes warp
 * dismiss: Dismiss a previously summoned player
 * follow: Follow a player
 * follow-off: stop following a player
@@ -128,12 +130,14 @@ administration.
 * poptp: Returns to the previous location
 * pushtp: Saves current location and teleport
 * sethome: Sets your home location
+* setwarp: Sets warp location
 * spawn: Teleport player to spawn point
 * summon: Summons a player to your location
 * tpaccept: Accept a Teleport request
 * tpahere: Ask a player to teleport to you
 * tpask: Ask a player to teleport to them
 * tpdecline: Decline a teleport request
+* warp: Teleport to warp.
 
 ### Trolling
 
@@ -242,6 +246,10 @@ The following commands are available:
     - Delete crash files
   - **show** _[pattern]_
     - Shows the crash file ##
+* delhome: Removes your home<br/>
+  usage: **delhome**
+* delwarp: Removes warp<br/>
+  usage: **delhome** _&lt;warpname&gt;_
 * dismiss: Dismiss a previously summoned player<br/>
   usage: **dismiss** _&lt;player&gt;_ _[message]_
 * echo: shows the given text<br/>
@@ -321,8 +329,6 @@ The following commands are available:
   the player will be hurt.  The units are in 1/2 hearts.
 * home: Teleport to home<br/>
   usage: **home**
-  Removes your home
-  usage: **delhome**
 * invis: makes player invisible<br/>
   usage: **invis**
   This will toggle your invisibility status.
@@ -545,6 +551,8 @@ The following commands are available:
   **gold** or **diamond**.
 * sethome: Sets your home location<br/>
   usage: **sethome**
+* setwarp: Sets warp location<br/>
+  usage: **setwarp** _&lt;warpname&gt;_ _[x,y,z[:world]]_
 * shield: player is protected from taking damage<br/>
   usage: **shield**
   
@@ -617,6 +625,12 @@ The following commands are available:
       **dash**, the _event|type|class_ will be removed from the current
       trace session.
   
+* warp: Teleport to warp.<br/>
+  usage: **warp**  _[player]_ _[warpname]_
+  Teleports to _warpname_.  If no _warpname_ is given, it will list the
+  warps available.
+  
+  Permissions are created with the form: **gb.warp.** _warpname_.
 * whois: Gives detailed information on players<br/>
   usage: **whois** _&lt;player&gt;_
 
@@ -819,6 +833,12 @@ This section configures peer servers.  This can be used with
 * gb.cmd.tpaccept.tpask: Accept tpask
 * gb.cmd.tpaccept.tpahere (op): Accept tpask
 * gb.cmd.tpdecline: Decline tpask|tpahere
+* gb.cmd.warp: teleport to warp location
+* gb.cmd.warp.other (disabled): warp others
+* gb.cmd.setwarp (op): set home command
+* gb.cmd.setwarp.new (op): set a new warp
+* gb.cmd.setwarp.move: move existing warp
+* gb.cmd.delwarp (op): Remove warp
 * gb.cmd.sudo (op): Run command as another user
 * gb.cmd.entities (op): entity management
 * gb.cmd.home: teleport to home location
@@ -903,6 +923,7 @@ This section configures peer servers.  This can be used with
 * gb.cmd.near: near by players
 * gb.cmd.permmgr (op): Manipulate Permissions
 * gb.cmd.echo: echo command
+* gb.cmd.expand (op): expand command
 * gb.cmd.rem: remark command
 * gb.cmd.opms: Send op only messages
 * gb.cmd.rpt: Report issues
@@ -955,7 +976,8 @@ The following third party libraries are included:
 * 2.4.0: libcommon bundle
   * Query/Ping Daemon functionality
   * Server configuration can have alternative IPs
-  * CmdTpRequest and Homes (Requested by @rvachvg)
+  * Tp Request and Homes (Requested by @rvachvg)
+  * Added Warps
   * New commands: near, fixit, iteminfo,
   * CmdSpectator is now deprecated
   * New Developer Tools: echo. onevent cmd, pmscript (rc), trace

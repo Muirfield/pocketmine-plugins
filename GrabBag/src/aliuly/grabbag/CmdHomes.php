@@ -5,7 +5,7 @@
 //= cmd:sethome,Teleporting
 //: Sets your home location
 //> usage: **sethome**
-//= cmd:home,Teleporting
+//= cmd:delhome,Teleporting
 //: Removes your home
 //> usage: **delhome**
 
@@ -107,9 +107,9 @@ class CmdHomes extends BasicCli implements CommandExecutor{
   private function cmdSet($sender) {
     $home = $this->getHome($sender,$sender->getLevel());
     if ($home === null) {
-      if (!MPMU::access("gb.cmd.sethome.new")) return true;
+      if (!MPMU::access($sender,"gb.cmd.sethome.new")) return true;
     } else {
-      if (!MPMU::access("gb.cmd.sethome.move")) return true;
+      if (!MPMU::access($sender,"gb.cmd.sethome.move")) return true;
     }
     $this->setHome($sender,$sender);
     $sender->sendMessage(mc::_("Home is where the heart is!"));

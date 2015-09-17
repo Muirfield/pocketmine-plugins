@@ -5,6 +5,7 @@ use aliuly\grabbag\Main as GrabBagPlugin;
 use pocketmine\Player;
 use pocketmine\IPlayer;
 use pocketmine\level\Level;
+use pocketmine\level\Position;
 use pocketmine\entity\Human;
 use pocketmine\command\CommandSender;
 
@@ -65,7 +66,7 @@ class GrabBag {
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
-       "throw", "pushtp-poptp", "homes", "tprequest",
+       "throw", "pushtp-poptp", "homes", "tprequest", "warps",
        "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
@@ -502,6 +503,41 @@ class GrabBag {
    */
   public function delHome(IPlayer $player, Level $level) {
     $this->getModule("homes")->getHome($player,$level);
+  }
+  //////////////////////////////////////////////////////////////
+  // Warps
+  //////////////////////////////////////////////////////////////
+  /**
+   * Return a list of warps
+   * @return str[]
+   */
+  public function getWarps() {
+    return $this->getModule("warps")->getWarps();
+  }
+  /**
+   * Return a warp definiton or null
+   * @param str $name
+   * @return Position
+   */
+  public function getWarp($name) {
+    return $this->getModule("warps")->getWarp($name);
+  }
+  /**
+   * Save a warp
+   * @param str $name
+   * @param Position $pos
+   * @return bool - true on succes, false on failure
+   */
+  public function setWarp($name, Position $pos) {
+    return $this->getModule("warps")->setWarp($name,$pos);
+  }
+  /**
+   * Delete a warp
+   * @param str $name
+   * @return bool - true on succes, false on failure
+   */
+  public function delWarp($name) {
+    return $this->getModule("warps")->delWarp($name);
   }
 
   //////////////////////////////////////////////////////////////

@@ -71,6 +71,7 @@ class Main extends BasicPlugin {
 			"reop" => ["CmdReOp" , true],
 			"tprequest" => [ "CmdTpRequest", false],
 			"homes" => [ "CmdHomes", false],
+			"warps" => [ "CmdWarp", false],
 			"motd-task" => [ ["ServerList","MotdDaemon"], false],
 			"query-task" => [ ["ServerList","QueryDaemon"], false],
 			"echo" => ["CmdEcho", true],
