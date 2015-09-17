@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.0dev3**.
+This documentation was last updated for version **2.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0dev3).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0).
 
 <!-- end-include -->
 
@@ -98,6 +98,30 @@ substitutions:
 * {n} - rank number
 * {count} - score
 * {sname} - only the first 8 characters of the player's name
+
+### RankUp Support
+
+To enable the **ranks** feature, the
+[RankUp](http://forums.pocketmine.net/plugins/rankup.830/)
+plugin is required.  This provides a leveling up functionality.  The following
+settings are recommended to be configured in RankUp's **config.yml.**
+
+* preferred-economy: null
+  - This disables the economy support.  **KillRate** will be ranking up, so
+    you don't need to buy ranks.
+* ranks: Define your ranks as needed.  Also the price for each rank are
+  interpreted by **KillRate** as the amount of points needed to rank up.
+
+Also, you should remove the permission **rankup.rankup**.  This is used for
+the command to buy ranks.  This is not needed as ranks are awarded by
+**KillRate** automatically.
+
+### kill-streak
+
+The kill streak feature is used to track kill-streaks.  If you enable you
+also need to define the **min-kills** in **settings**.  If a player reaches
+this many victories in a row without dying he will be in a kill-streak and
+an additional bonus money gets awarded.
 
 <!-- php:$h=3; -->
 <!-- template: gd2/permissions.md -->
@@ -233,11 +257,11 @@ shown earlier.
 In order to use the script extension you need to do the following:
 
 1. Download the script plugin:
-   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
 2. Copy the script plugin to your plugin folder.
 3. Install [PurePerms](http://forums.pocketmine.net/plugins/pureperms.862/)
 4. Read KillRateEx.php on how to configure PurePerms or alternatively download
-   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
    and place it in the PurePerms folder as "groups.yml".
 5. Read and modify KillRateEx.php according to taste.  The script has plenty
    of comments on how things work.

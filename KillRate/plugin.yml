@@ -1,5 +1,5 @@
 name: KillRate
-version: 2.1.0dev3
+version: 2.1.0
 main: aliuly\killrate\Main
 api: 1.12.0
 load: POSTWORLD
