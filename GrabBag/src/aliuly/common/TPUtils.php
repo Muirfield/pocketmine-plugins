@@ -4,6 +4,8 @@
 
 use pocketmine\Player;
 use pocketmine\level\Position;
+use pocketmine\Server;
+
 use pocketmine\math\Vector3;
 
 /**
@@ -30,4 +32,17 @@ abstract class TPUtils {
     $player->teleport($pos);
 		return true;
   }
+	/**
+	 * Get a world name and return a level object.  Loads levels as needed
+	 *
+	 * @param Server $server
+	 * @param str $world
+	 * @return Level|null
+	 */
+	static public function getLevelByName(Server $server, $world) {
+		if (!$server->isLevelGenerated($world)) return null;
+		if (!$server->isLevelLoaded($world)) $server->loadLevel($world);
+		return $server->getLevelByName($world);
+	}
+
 }

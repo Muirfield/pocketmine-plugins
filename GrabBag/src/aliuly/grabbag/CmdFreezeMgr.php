@@ -50,6 +50,10 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 			if (isset($this->frosties[$n])) unset($this->frosties[$n]);
 		}
   }
+	public function isFrozen($player) {
+		$n = strtolower($player->getName());
+		return isset($this->frosties[$n]);
+	}
   public function getFrosties() {
     return array_keys($this->frosties);
   }

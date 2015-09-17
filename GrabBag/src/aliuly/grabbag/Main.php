@@ -55,7 +55,8 @@ class Main extends BasicPlugin {
 			"spectator"=> [ "CmdSpectator", false ],
 			"followers"=> [ "CmdFollowMgr", true ],
 			"rcon-client" => [ ["ServerList","CmdRcon"], true ],
-			"join-mgr" => [ "JoinMgr", false ],
+			"join-mgr" => [ "JoinMgr", true ],
+			"custom-death" => [ "CustomDeath", true ],
 			"repeater" => [ "RepeatMgr", true ],
 			"broadcast-tp" => [ "BcTpMgr", true ],
 			"crash" => ["CmdCrash", true],
@@ -80,6 +81,11 @@ class Main extends BasicPlugin {
 			"event-tracer" => ["CmdTrace", false],
 			"iteminfo" => ["CmdItemInfo", true],
 			"plenty" => ["CmdPlenty", true],
+			"wall" => [["ServerList","CmdWall"], true],
+			"afk" => ["CmdAFK", true],
+			"xyz" => ["CmdXyz", true],
+			"tptop" => ["CmdTpTop", true],
+			"tpback"=> ["CmdTpBack", true],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
@@ -97,6 +103,7 @@ class Main extends BasicPlugin {
 			"serverlist" => [],
 			"join-mgr" => JoinMgr::defaults(),
 			"broadcast-tp" => BcTpMgr::defaults(),
+			"custom-death" => CustomDeath::defaults(),
 			"freeze-thaw" => CmdFreezeMgr::defaults(),
 			"cmd-selector" => CmdSelMgr::defaults(),
 			"query-task" => QueryDaemon::defaults(),

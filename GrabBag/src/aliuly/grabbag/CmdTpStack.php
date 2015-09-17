@@ -18,6 +18,7 @@ use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\MPMU;
 use aliuly\common\PermUtils;
+use aliuly\common\TPUtils;
 
 class CmdTpStack extends BasicCli implements CommandExecutor {
 
@@ -56,7 +57,7 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 				$target = $pl;
 			} else {
 				// Assume it is a level...
-				$level = array_shift($args);
+				$world = array_shift($args);
 				if (count($args) == 3) {
 					if (!(is_numeric($args[0]) && is_numeric($args[1]) && is_numeric($args[2]))) {
 						$c->sendMessage(mc::_("Invalid coordinate set"));
@@ -66,16 +67,10 @@ class CmdTpStack extends BasicCli implements CommandExecutor {
 				} else {
 					$cc = null;
 				}
-				if (!$this->owner->getServer()->isLevelLoaded($level)) {
-					if (!$this->owner->getServer()->loadLevel($level)) {
-						$c->sendMessage(mc::_("Level not found %1%",$level));
-						return true;
-					}
-				}
-				$level = $this->owner->getServer()->getLevelByName($level);
+				$level = TPUtils::getLevelByName($this->owner->getServer(),$world);
 				if (!$level) {
 					$c->sendMesage(mc::_("%1% not found.",$level));
-					return treu;
+					return true;
 				}
 				$target = $level->getSafeSpawn($cc);
 			}

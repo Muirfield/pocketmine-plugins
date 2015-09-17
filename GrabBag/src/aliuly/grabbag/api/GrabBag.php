@@ -66,7 +66,7 @@ class GrabBag {
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
-       "throw", "pushtp-poptp", "homes", "tprequest", "warps",
+       "throw", "pushtp-poptp", "homes", "tprequest", "warps", "plenty",
        "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
@@ -107,6 +107,14 @@ class GrabBag {
    */
   public function setHardFreeze($hard = true) {
     $this->getModule("freeze-thaw")->setHardFreeze($hard);
+  }
+  /**
+   * Checks if player is frozen
+   * @param Player $player - player to check
+   * @return bool
+   */
+  public function isFrozen(Player $player) {
+    return $this->getModule("freeze-thaw")->isFrozen($player);
   }
   /**
    * Freeze given player
@@ -330,6 +338,25 @@ class GrabBag {
    */
   public function setShield(Player $target, $mode) {
     $this->getModule("shield")->setShield($target, $mode);
+  }
+  //////////////////////////////////////////////////////////////
+  // CmdPlenty
+  //////////////////////////////////////////////////////////////
+  /**
+   * Return player's plenty status
+   * @param Player $target
+   * @return bool
+   */
+  public function hasPlenty(Player $target) {
+		return $this->getModule("plenty")->hasPlenty($target);
+  }
+  /**
+   * Turn on/off plenty
+   * @param Player $target
+   * @param bool $mode - true is shielded, false is not
+   */
+  public function setPlenty(Player $target, $mode) {
+    $this->getModule("plenty")->setPlenty($target, $mode);
   }
   //////////////////////////////////////////////////////////////
   // CmdSkinner

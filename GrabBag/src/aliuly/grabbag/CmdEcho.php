@@ -2,7 +2,12 @@
 //= cmd:echo,Developer_Tools
 //: shows the given text
 //>  usage: **echo** _[text]_
-//:
+//= cmd:expand,Developer_Tools
+//: Shows the given text after handling variable expansions
+//> usage: **expand** _[text]_
+//= cmd:rem,Developer_Tools
+//: Do nothing
+//> usage: **rem** _[text]_
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;

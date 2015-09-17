@@ -34,8 +34,8 @@ use pocketmine\command\CommandExecutor;
 use aliuly\common\mc;
 use aliuly\common\BasicCli;
 use aliuly\common\PluginCallbackTask;
-use aliuly\loader\TraceListener;
 use aliuly\common\PermUtils;
+use aliuly\grabbag\TraceListener;
 
 use pocketmine\Player;
 use pocketmine\event\HandlerList;

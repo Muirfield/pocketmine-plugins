@@ -30,6 +30,7 @@ use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\MPMU;
 use aliuly\common\PermUtils;
+use aliuly\common\TPUtils;
 
 class CmdWarp extends BasicCli implements CommandExecutor{
   protected $warps;
@@ -93,11 +94,8 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     if (!isset($this->warps[$n])) return null;
 
     list($x,$y,$z,$world) = $this->warps[$n];
-    if (!$this->owner->getServer()->isLevelGenerated($world)) return null;
-    if (!$this->owner->getServer()->isLevelLoaded($world)) {
-      $this->owner->getServer()->loadLevel($world);
-    }
-    $level = $this->owner->getServer()->getLevelByName($world);
+    $level = TPUtils::getLevelByName($this->ower->getServer(),$world);
+    if ($level === null) return null;
     return new Position($x,$y,$z,$level);
   }
   public function setWarp($name, Position $pos) {
@@ -176,14 +174,11 @@ class CmdWarp extends BasicCli implements CommandExecutor{
         $pos = explode(":",implode(" ",$args),2);
         if (count($pos) == 2) {
           $world = $pos[1];
-          if (!$this->owner->getServer()->isLevelGenerated($world)) {
+          $level = TPUtils::getLevelByName($this->owner->getServer(),$world);
+          if ($level === null) {
             $sender->sendMessage(mc::_("World %1% does not exist", $world));
             return true;
           }
-          if (!$this->owner->getServer()->isLevelLoaded($world)) {
-            $this->owner->getServer()->loadLevel($world);
-          }
-          $level = $this->owner->getServer()->getLevelByName($world);
         } else {
           if (MPMU::inGame($sender,false)) {
             $level = $sender->getLevel();
