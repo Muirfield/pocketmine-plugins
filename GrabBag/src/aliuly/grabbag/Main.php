@@ -79,6 +79,7 @@ class Main extends BasicPlugin {
 			"pmscripts" => ["CmdRc", true],
 			"event-tracer" => ["CmdTrace", false],
 			"iteminfo" => ["CmdItemInfo", true],
+			"plenty" => ["CmdPlenty", true],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
