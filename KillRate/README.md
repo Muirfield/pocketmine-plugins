@@ -8,10 +8,10 @@
 
 - Summary: Keep track of the number of kills
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
+- DependencyPlugins: 
 - OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd, RankUp
-- Categories: Informational
-- Plugin Access: Commands, Databases, Entities
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities, Tiles 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
@@ -183,7 +183,7 @@ created
 
 Configure awards for the different type of kills.  Format:
 
-    "entity" => [ money, points ],
+    "entity": [ money, points ]
 
 The entity ( * ) is the default.
 
@@ -358,3 +358,4 @@ In order to use the script extension you need to do the following:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
