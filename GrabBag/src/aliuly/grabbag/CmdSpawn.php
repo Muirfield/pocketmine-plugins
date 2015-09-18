@@ -30,7 +30,7 @@ class CmdSpawn extends BasicCli implements CommandExecutor {
 		if ($cmd->getName() != "spawn") return false;
 		if (count($args) != 0) return false;
 		if (!MPMU::inGame($sender)) return true;
-		$sender->sendMessage("Teleporting to spawn...");
+		$sender->sendMessage(mc::_("Teleporting to spawn..."));
 		$this->tpSpawn($sender);
 		return true;
 	}

@@ -2,6 +2,10 @@
 //= cmd:plenty,Inventory_Management
 //: When in survival, make sure that a player never runs out of items
 //> usage: **plenty**
+//:
+//: When **plenty** is on, the player will not run out of items.  Whenever
+//: the current block being placed is about to run out, you are given
+//: new blocks of the same type automatically.
 
 namespace aliuly\grabbag;
 

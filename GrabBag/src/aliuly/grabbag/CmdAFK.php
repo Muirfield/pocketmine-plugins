@@ -3,6 +3,9 @@
 //: Toggles AFK status
 //>  usage: **afk** _[message]_
 //:
+//: Implements basic Away From Key functionality.  This is actually
+//: implemented on the basis of the **freeze-thaw**, **mute-unmute** and
+//: **shield** modules.  These have to be active for this command to work.
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;

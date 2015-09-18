@@ -2,6 +2,23 @@
 //= module:custom-death
 //: Customize what happens when a player dies
 //:
+//: Currently this module only supports the _KeepInv_ feature.
+//: This feature lets you select what happens with a player's inventory
+//: when they get killed.
+//:
+//: - default : This is the PocketMine-MP default, which the player
+//:   loses their inventory and it is drop as pickable items.
+//: - keep : The player gets to keep their inventory and nothing gets
+//:   dropped.
+//: - nodrops : The player loses their inventory but no items are dropped.
+//:   This is useful to reduce the amount of Item Entities which in heavy
+//:   used servers may cause lag.
+//: - perms: Player permissions are checked on what to do.  Players must
+//:   have one permission between these:
+//:   - gb.cdeath.default
+//:   - gb.cdeath.keep
+//:   - gb.cdeath.nodrops
+//: 
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;

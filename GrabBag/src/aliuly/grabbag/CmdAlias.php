@@ -6,6 +6,10 @@
 //: Create an alias to a command.
 //: Use the **-f** to override existing commands
 //:
+//: Examples:
+//: - alias -f list query list
+//: - alias -f help echo You are beyond help!
+//: - alias fancycmd rc fancycmd
 
 namespace aliuly\grabbag;
 

@@ -12,6 +12,8 @@ use pocketmine\command\CommandSender;
 use aliuly\common\mc;
 use aliuly\common\ExpandVars;
 use aliuly\common\PMScript;
+use aliuly\common\MPMU;
+
 
 /**
  * GrabBag API
@@ -78,6 +80,8 @@ class GrabBag {
    public function getVars() {
      if ($this->vars === null) {
        $this->vars = new ExpandVars($this->plugin);
+       $this->vars->define("{GrabBag}", $this->plugin->getDescription()->getVersion());
+       $this->vars->define("{libcommon}", MPMU::version());
      }
      return $this->vars;
    }

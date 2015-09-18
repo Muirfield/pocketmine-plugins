@@ -15,10 +15,9 @@
 
 A miscellaneous collection of commands and listener modules.  **All**
 features can be configured to be _disabled|enabled_ so as to co-exist
-with other plugins.
-
-This plugin is focused more towards commands to help system
-administration.
+with other plugins.  Furthermore, permissions are added on the fly when
+features are enabled, so if you only enable a few features, your permission
+list will not be very long.
 
 <!-- php:$h=3; -->
 <!-- template: gd2/cmdoverview.md -->
@@ -65,6 +64,10 @@ The following commands are available:
 Since version 2.3 of GrabBag, an API is available.  For more information
 see the
 [API documentation.](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+
+Most of GrabBag features are available through the GrabBag API or through
+libcommon (which is included with GrabBag).  If there is a feature missing
+from the API, please file a bug report.
 
 ### Configuration
 

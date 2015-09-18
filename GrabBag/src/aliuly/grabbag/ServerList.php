@@ -4,9 +4,9 @@
 //> usage: **servers** **<add|rm|ls>** _[options]_
 //:
 //: This is used to manage the peer server definitions used by the
-//: **RCON** and **QUERY** modules.
+//: **RCON** and **QUERY** modules, among others.
 //:
-//: Options:
+//: Sub-commands:
 //> - **servers add** _<id>_ _<host>_ _[port]_ _[options]_ _[# comments]_
 //:   - adds a new connection with **id**
 //> - **servers rm** _<id>_
@@ -41,7 +41,7 @@ class ServerList extends BasicCli implements CommandExecutor {
   protected $servers;
   protected $query;
   //= cmd:servers,Server_Management
-  //: Defined options:
+  //: Avalable options (when adding servers):
   public static $opts = [
     //: * rcon-port=port : Alternative port for RCON
     "rcon-port" => "port",
