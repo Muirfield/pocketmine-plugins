@@ -33,6 +33,7 @@ use aliuly\common\PermUtils;
 use aliuly\common\TPUtils;
 
 class CmdWarp extends BasicCli implements CommandExecutor{
+  const defaultWarpPerm = "true";
   protected $warps;
 
 	public function __construct($owner) {
@@ -45,7 +46,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     foreach (array_keys($this->warps) as $warp) {
       if ($warp === "version") continue;
       PermUtils::add($this->owner, // Break in two lines so GD2 won't pick it up
-                    "gb.warp.".$warp, "warp to ".$warp, "op");
+                    "gb.warp.".$warp, "warp to ".$warp, self::defaultWarpPerm);
     }
 
 		PermUtils::add($this->owner, "gb.cmd.warp", "teleport to warp location", "true");
@@ -197,7 +198,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     if ($warp == null) {
       if (!MPMU::access($sender,"gb.cmd.setwarp.new")) return true;
       PermUtils::add($this->owner, // Split in two lines to hide it from gd2
-                  "gb.warp.".$n, "warp to ".$n, "op");
+                  "gb.warp.".$n, "warp to ".$n, self::defaultWarpPerm);
     } else {
       if (!MPMU::access($sender,"gb.cmd.setwarp.move")) return true;
     }

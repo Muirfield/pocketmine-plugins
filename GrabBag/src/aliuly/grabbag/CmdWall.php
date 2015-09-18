@@ -3,6 +3,11 @@
 //: shows the given text to all servers
 //>  usage: **wall** _[text]_
 //:
+//: This will broadcast the given message to all the servers lited in
+//: _"serverlist"_ that have **rcon-pw** defined.  You must have **rcon**
+//: enabled and all servers should be running **GrabBag** with **wall**
+//: support.
+//:
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandSender;
