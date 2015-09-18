@@ -84,12 +84,18 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			return false;
 		}
 		$id = array_shift($args);
-		if ($this->owner->getModule("ServerList")->getServer($id) === null) {
+		$lst = $this->owner->getModule("ServerList");
+		if ($lst->getServer($id) === null) {
 			$c->sendMessage(TextFormat::RED.mc::_("%1% does not exist",$id));
 			return false;
 		}
-		$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
-		$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
+		if ($this->owner->getModule("query-task") && !$lst->getServerAttr($i,"no-query-task",false)) {
+			// Using query daemon cached data...
+			$cc = $lst->getQueryData($i,"info");
+			print_r($cc);
+		}
+		$host = $lst->getServerAttr($id,"query-host");
+		$port = $lst->getServerAttr($id,"port");
 
 		$Query = new MinecraftQuery( );
 		try {

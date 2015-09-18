@@ -75,6 +75,7 @@ class Main extends BasicPlugin {
 			"warps" => [ "CmdWarp", false],
 			"motd-task" => [ ["ServerList","MotdDaemon"], false],
 			"query-task" => [ ["ServerList","QueryDaemon"], false],
+			"merge-slots" => [ ["ServerList","MegaSlots"], false],
 			"echo" => ["CmdEcho", true],
 			"onevent-cmd" => ["CmdOnEvent", false],
 			"pmscripts" => ["CmdRc", true],

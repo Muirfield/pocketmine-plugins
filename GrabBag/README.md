@@ -97,10 +97,6 @@ The following third party libraries are included:
   * Queries not using QueryDaemon
 * Deprecated modules:
   - CmdSpectator
-* TODO
-  - Add a QueryRegen event handler
-  - merge SpawnMgr:
-    - nest egg for SimpleAuth
 
 # Changes
 
@@ -116,7 +112,7 @@ The following third party libraries are included:
     * Developer tools: echo, rem, expand, onevent, pmscript/rc, trace
     * Server management: wall
   * JoinMgr: reserved slots, initial armor and items, always spawn
-  * New module: keep inventory
+  * New modules: custom-death and merge-slots
   * CmdSpectator is now deprecated
   * libcommon is embedded and usable.  Replaces a separate libcommon library.
 * 2.3.0: Update, new functionality and API
