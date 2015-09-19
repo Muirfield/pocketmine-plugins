@@ -9,10 +9,10 @@
 
 - Summary: aliuly's common library
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: DevTools
-- Plugin Access: N/A
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: DevTools 
+- Plugin Access: N/A 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -31,6 +31,7 @@ plugins, in particular, ScriptPlugins.
 API Features:
 
 <!-- snippet:api-features -->
+- Teleport wrappers
 - Armor constants
 - Paginated output
 - Command and sub command dispatchers
@@ -39,7 +40,6 @@ API Features:
 - Misc shorcuts and pre-canned routines
 - Multiple money support
 - Player session and state management
-- Teleport wrappers
 - Translations
 <!-- end-include -->
 
@@ -252,3 +252,4 @@ The following selectors are implemented:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+

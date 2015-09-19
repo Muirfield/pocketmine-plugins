@@ -91,7 +91,7 @@ class JoinMgr implements Listener {
 			$pn = $pl->getDisplayName();
 			$this->owner->getServer()->broadcastMessage(mc::_("Server op $pn joined."));
 		}
-		if (!pl->isCreative()) {
+		if (!$pl->isCreative()) {
 			if (count($this->items) && $pl->hasPermission("gb.join.giveitems")) $this->giveItems($pl);
 			if (count($this->armor) && $pl->hasPermission("gb.join.givearmor")) $this->giveArmor($pl);
 		}
