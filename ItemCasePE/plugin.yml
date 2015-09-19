@@ -1,10 +1,10 @@
 main: aliuly\itemcasepe\Main
-api: 1.10.0
+api: [1.10.0, 1.13.0]
 load: POSTWORLD
 
 name: ItemCasePE
 description: An implementation of Bukkit's ItemCase
-version: 1.0.5
+version: 1.0.6
 author: aliuly
 
 commands:

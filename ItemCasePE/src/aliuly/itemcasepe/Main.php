@@ -313,8 +313,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		unset($this->touches[$pl->getName()]);
 		$ev->setCancelled();
-		if ($ev->getItem()->isPlaceable())
-			$this->places[$pl->getName()] = $pl->getName();
+		if (version_compare(\pocketmine\API_VERSION,"1.13.0")>=0) {
+			if ($ev->getItem()->canBePlaced())
+				$this->places[$pl->getName()] = $pl->getName();
+		} else {
+			if ($ev->getItem()->isPlaceable())
+				$this->places[$pl->getName()] = $pl->getName();
+		}
 	}
 	public function onBlockPlace(BlockPlaceEvent $ev){
 		$pl = $ev->getPlayer();

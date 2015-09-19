@@ -5,7 +5,7 @@ ItemCasePE
 
 * Summary: An implementation of Bukkit's ItemCase
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 - API 1.10.0, 1.6 - API 1.13.0
 * OptionalPlugins:
 * Categories: General
 * Plugin Access: Tile Entities, Items/Blocks
@@ -62,6 +62,8 @@ wave** mode is experimental and has not been fully tested.
 Changes
 -------
 
+* 1.0.6 : Update for PM1.6dev
+  - changed isPlaceable for canBePlaced
 * 1.0.5 : BugFix
   - Fixed a small bug related to new wave mode.
 * 1.0.4 : new wave vs classic
@@ -92,4 +94,3 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
