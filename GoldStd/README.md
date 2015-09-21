@@ -80,11 +80,13 @@ for regular gameplay:
 
 ### Signs
 
-GoldStd supports three types of signs.
+GoldStd supports these types of signs.
 
-1. Shop signs
-2. Gambling signs
-3. Trading signs
+1. Shops: Buy goods
+2. Gambling: Bet money
+3. Trading: Trade goods
+4. Effects: Buy potions
+5. Command: Pay to have commands executed
 
 #### Shop Signs
 
@@ -187,6 +189,58 @@ Examples:
   * 2p
   * Jump
 
+### Commands Shop
+
+Tap a sign and the command will be executed.
+Place a sign with the following text:
+
+    [CODE]
+    [CMD]
+    <command-id>
+    <price>
+    [/CODE]
+
+For this to work you need to have a file in your GoldStd plugin folder with
+the name **commands.txt**.  In there you need to put all the possible
+commands like this:
+
+    command-id: command to execute
+
+Only one command is possible.  If you need multiple commands and more
+features you could use
+[GrabBag](https://forums.pocketmine.net/plugins/grabbag.1060/) and write
+a _PMScript_.
+
+Examples:
+
+    [CODE]
+    # This is the content of the "commands.txt file.
+    # cmd-id: command to execute
+    clearchat: clearchat
+    fly: +op:fly
+    heal me: +op:heal
+    to spawn: spawn
+    script: rc dostuff
+    [/CODE]
+
+Signs:
+
+* [CMD]
+  * clearchat
+  * 1p
+* [CMD]
+  * fly
+  * 20p
+  * You can fly!
+* [CMD]
+  * heal me
+  * 5p
+  * The Doctor
+  * is IN!
+* [CMD]
+  * to spawn
+  * 1p
+
 ### API
 
 * API
@@ -282,6 +336,8 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* 1.3.0: Command shops
+  * Add command shops (Requested by @Kyoyuki)
 * 1.2.2: Bug fixes
   * Fixing Effects permissions (reported by @may)
 * 1.2.1: Bug fixes

@@ -10,10 +10,12 @@ use pocketmine\block\Block;
 use pocketmine\item\Item;
 use pocketmine\tile\Sign;
 use pocketmine\entity\Effect;
+use pocketmine\utils\Config;
 
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
 use aliuly\goldstd\common\ItemName;
+use aliuly\common\Cmd;
 
 class SignMgr implements Listener {
 	protected $owner;
@@ -25,6 +27,7 @@ class SignMgr implements Listener {
 			"casino" => ["[CASINO]"],
 			"trade" => ["[TRADE]"],
 			"effects" => ["[POTIONS]"],
+			"command" => ["[CMD]"],
 		];
 	}
 	public function __construct(Plugin $plugin,$cfg) {
@@ -89,6 +92,20 @@ class SignMgr implements Listener {
 		if ($payout === null) return [null,null];
 		return [$this->parsePriceLine($odds),$payout];
 	}
+	private function parseCmdLine($txt) {
+		// Read command line from file...
+		$data = file($this->getDataFolder()."commands.txt",FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
+		if ($data === false) return null;
+		$txt = strtolower(trim($txt));
+		foreach ($data as $ln) {
+			$ln = trim($ln);
+			if ($ln{0} == "#" || $ln{1} == ";") continue; // Handle comments
+			$ln = preg_split('/\s*:\s*/',$ln,2);
+			if (count($ln) != 2) continue;
+			if (strtolower($ln[0]) == $txt) return $ln[1];
+		}
+		return null;
+	}
 	private function activateSign($pl,$tile) {
 		$sign = $tile->getText();
 		if (!MPMU::access($pl,"goldstd.signs.use")) return;
@@ -134,7 +151,6 @@ class SignMgr implements Listener {
 					$pl->addEffect($effect);
 					$pl->sendMessage(mc::_("[GoldStd] Potion %1% purchased",$effect->getName()));
 				}
-
 				break;
 			case "trade":
 				// This is what you get...
@@ -229,6 +245,26 @@ class SignMgr implements Listener {
 					}
 				}
 				break;
+			case "command":
+				$cmd = $this->parseCmdLine($sign[1]);
+				if ($cmd === null) {
+					$pl->sendMessage(mc::_("Invalid command line"));
+					return false;
+				}
+				$price = $this->parsePriceLine($sign[2]);
+				if ($price === null) {
+					$pl->sendMessage(mc::_("Invalid price line"));
+					return false;
+				}
+				$money = $this->owner->getMoney($pl);
+				if ($money < $price) {
+					$pl->sendMessage(mc::_("[GoldStd] You do not have enough money"));
+				} else {
+					$this->owner->grantMoney($pl,-$price);
+					$pl->sendMessage(mc::_("[GoldStd] Command %1% purchased",$sing[1]));
+					Cmd::opexec($pl,$cmd);
+				}
+				break;
 		}
 	}
 
@@ -275,6 +311,18 @@ class SignMgr implements Listener {
 				list($odds,$payout) = $this->parseCasinoLine($sign[1]);
 				if ($odds === null) {
 					$pl->sendMessage(mc::_("Invalid odds line"));
+					return false;
+				}
+				$price = $this->parsePriceLine($sign[2]);
+				if ($price === null) {
+					$pl->sendMessage(mc::_("Invalid price line"));
+					return false;
+				}
+				break;
+			case "command":
+				$cmd = $this->parseCmdLine($sign[1]);
+				if ($cmd === null) {
+					$pl->sendMessage(mc::_("Invalid command line"));
 					return false;
 				}
 				$price = $this->parsePriceLine($sign[2]);

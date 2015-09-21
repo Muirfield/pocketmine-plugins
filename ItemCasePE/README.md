@@ -62,6 +62,9 @@ wave** mode is experimental and has not been fully tested.
 Changes
 -------
 
+* 1.0.7 : Update for PM1.6dev
+  - Checks which function to call (isPlaceable/canBePlaced) without having
+    to check version.
 * 1.0.6 : Update for PM1.6dev
   - changed isPlaceable for canBePlaced
 * 1.0.5 : BugFix
