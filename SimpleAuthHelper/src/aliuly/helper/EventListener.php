@@ -53,6 +53,7 @@ class EventListener implements Listener{
 	 * @priority LOWEST
 	 */
 	public function onCrafting(CraftItemEvent $event){
+		/*
 		echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		foreach ($event->getTransaction()->getInventories() as $inv) {
 			echo __METHOD__.",".__LINE__."\n";//##DEBUG
@@ -65,6 +66,7 @@ class EventListener implements Listener{
 				return;
 			}
 		}
+		*/
 	}
 
 	/**
