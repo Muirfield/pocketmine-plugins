@@ -180,6 +180,8 @@ installed, you can create an empty **messages.ini** using the command:
 
 ## Changes
 
+* ???: Added translation
+  - Added jpn.ini (Contributed by @Rintan)
 * 2.0.2: Added translation
   - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #27)
   - Added a deu.ini (German) message file. (Contributed by @thebigsmileXD)
