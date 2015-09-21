@@ -40,7 +40,7 @@ class MotdDaemon extends BasicCli implements Listener {
     $pid = null;
     $srvlst = $this->owner->getModule("ServerList");
     foreach ($srvlst->getIds() as $i) {
-      if ($srvlst->getServerAttr($id,"no-motd-task",false)) continue;
+      if ($srvlst->getServerAttr($i,"no-motd-task",false)) continue;
       $cc = $srvlst->getQueryData($i,"motd");
       if ($cc === null) return $i;
       if ($oldest !== null && $cc["age"] > $oldest) continue;

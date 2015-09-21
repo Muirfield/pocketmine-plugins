@@ -98,7 +98,7 @@ class ServerList extends BasicCli implements CommandExecutor {
   public function rmServer($id) {
     if (!isset($this->servers[$id])) return true;
     $this->owner->getServer()->getPluginManager()->callEvent(
-	     $ev = new GbAddServerEvent($this->owner, $key, $val)
+	     $ev = new GbRemoveServerEvent($this->owner, $id)
     );
     if ($ev->isCancelled()) return false;
     $id = $ev->getId();
@@ -161,8 +161,8 @@ class ServerList extends BasicCli implements CommandExecutor {
     return $this->query[$id][$tag];
   }
   public function delQueryData($id,$tag = null) {
-    if (!isset($this->query[$id])) return;
-    if ($tag !== null && !isset($this->query[$id][$tag])) return;
+    if (!isset($this->query[$id])) return true;
+    if ($tag !== null && !isset($this->query[$id][$tag])) return true;
     $this->owner->getServer()->getPluginManager()->callEvent(
 	     $ev = new GbRmQueryEvent($this->owner, $id, $tag)
     );
@@ -234,6 +234,7 @@ class ServerList extends BasicCli implements CommandExecutor {
         if (isset(self::$opts[$attr])) {
           if (is_bool(self::$opts[$attr])) {
             $dat[$attr] = self::$opts[$attr];
+            continue;
           } else {
             $c->sendMessage(mc::_("No value specified %1%", $attr));
             return true;

@@ -40,7 +40,7 @@ class QueryDaemon extends BasicCli implements Listener {
     $pid = null;
     $srvlst = $this->owner->getModule("ServerList");
     foreach ($srvlst->getIds() as $i) {
-      if ($srvlst->getServerAttr($id,"no-query-task",false)) continue;
+      if ($srvlst->getServerAttr($i,"no-query-task",false)) continue;
       foreach (["info","players"] as $dd) {
         $cc = $srvlst->getQueryData($i,"query.".$dd);
         if ($cc === null) return $i;

@@ -17,7 +17,7 @@ use pocketmine\event\server\QueryRegenerateEvent;
 
 class MegaSlots implements Listener {
 	public function __construct($owner) {
-    $this->owner = $plugin;
+    $this->owner = $owner;
     if ($this->owner->getModule("motd-task") == null && $this->owner->getModule("query-task") == null) {
       $this->owner->getLogger()->warning(mc::_("Please enable either"));
       $this->owner->getLogger()->warning(mc::_("motd-task or query-task"));
@@ -35,13 +35,15 @@ class MegaSlots implements Listener {
       if (!$lst->getServerAttr($i,"no-motd-task",false)) {
         $cc = $lst->getQueryData($i,"motd");
         if ($cc !== null) {
-          print_r($cc);//##DEBUG
+					$players += $cc["players"];
+					$maxplayers += $cc["max-players"];
         }
       }
       if (!$lst->getServerAttr($i,"no-query-task",false)) {
-        $cc = $lst->getQueryData($i,"info");
+        $cc = $lst->getQueryData($i,"query.info");
         if ($cc !== null) {
-          print_r($cc);//##DEBUG
+					$players += $cc["Players"];
+					$maxplayers += $cc["MaxPlayers"];
         }
       }
     }
@@ -65,8 +67,4 @@ class MegaSlots implements Listener {
   public function delayedQueryRegen() {
     $this->onServerQuery($q = $this->owner->getServer()->getQueryInformation());
   }
-
-
-  }
-
 }

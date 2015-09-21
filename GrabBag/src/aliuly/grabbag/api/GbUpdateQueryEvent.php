@@ -8,9 +8,7 @@ use pocketmine\event\Cancellable;
 /**
  * Triggered when a new server is being added to the server list
  */
-
- //GbUpdateQueryEvent($this->owner, $id, $tag, $attrs)
-class GbAddServerEvent extends GrabBagEvent implements Cancellable {
+class GbUpdateQueryEvent extends GrabBagEvent implements Cancellable {
   public static $handlerList = null;
   private $serverId;
   private $tag;
@@ -66,7 +64,7 @@ class GbAddServerEvent extends GrabBagEvent implements Cancellable {
    * Sets the server attributes
    * @param array $attrs
    */
-  public function setAttrs($tag) {
+  public function setTag($tag) {
     $this->tag = $tag;
   }
 }
