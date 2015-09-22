@@ -1,7 +1,4 @@
 <?php
-/**
- ** CONFIG:main
- **/
 namespace aliuly\goldstd;
 
 use pocketmine\plugin\PluginBase;
@@ -32,13 +29,14 @@ class Main extends PluginBase implements CommandExecutor {
 
 		$defaults = [
 			"version" => $this->getDescription()->getVersion(),
-			"# settings" => "features",
+			//= cfg:settings
 			"settings" => [
 				"# currency" => "Item to use for currency",// false or zero disables currency exchange.
 				"currency" => "GOLD_INGOT",
 				"# signs" => "set to true to enable shops|casino signs",
 				"signs" => true,
 			],
+			//= cfg:other-sections
 			"# trade-goods" => "List of tradeable goods",
 			"trade-goods" => [],
 			"defaults" => TradingMgr::defaults(),

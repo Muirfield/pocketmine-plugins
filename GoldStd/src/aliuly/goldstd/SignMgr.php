@@ -15,7 +15,7 @@ use pocketmine\utils\Config;
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
 use aliuly\goldstd\common\ItemName;
-use aliuly\common\Cmd;
+use aliuly\goldstd\common\Cmd;
 
 class SignMgr implements Listener {
 	protected $owner;
@@ -94,7 +94,7 @@ class SignMgr implements Listener {
 	}
 	private function parseCmdLine($txt) {
 		// Read command line from file...
-		$data = file($this->getDataFolder()."commands.txt",FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
+		$data = file($this->owner->getDataFolder()."commands.txt",FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
 		if ($data === false) return null;
 		$txt = strtolower(trim($txt));
 		foreach ($data as $ln) {
@@ -261,7 +261,7 @@ class SignMgr implements Listener {
 					$pl->sendMessage(mc::_("[GoldStd] You do not have enough money"));
 				} else {
 					$this->owner->grantMoney($pl,-$price);
-					$pl->sendMessage(mc::_("[GoldStd] Command %1% purchased",$sing[1]));
+					$pl->sendMessage(mc::_("[GoldStd] Command %1% purchased",$sign[1]));
 					Cmd::opexec($pl,$cmd);
 				}
 				break;
