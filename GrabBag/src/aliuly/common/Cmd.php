@@ -93,15 +93,15 @@ abstract class Cmd {
 		if (($cm = MPMU::startsWith($cmdline,"+op:")) !== null) {
 			if (!$ctx->isOp()) {
 				$ctx->setOp(true);
-				$ctx->getServer()->distpatchCommand($ctx,$cm);
+				$ctx->getServer()->dispatchCommand($ctx,$cm);
 				$ctx->setOp(false);
 				return;
 			}
-			$ctx->getServer()->distpatchCommand($ctx,$cm);
+			$ctx->getServer()->dispatchCommand($ctx,$cm);
 			return;
 		}
 		if (($cm = MPMU::startsWith($cmdline,"+console:")) !== null) {
-			$ctx->getServer()->distpatchCommand(new ConsoleCommandSender,$cm);
+			$ctx->getServer()->dispatchCommand(new ConsoleCommandSender,$cm);
 			return;
 		}
 		if (($cm = MPMU::startsWith($cmdline,"+rcon:")) !== null) {
@@ -110,7 +110,7 @@ abstract class Cmd {
 				$ctx->getServer()->distpatchCommand($rcon,$cm);
 				if (trim($rcon->getMessage()) != "") $ctx->sendMessage($rcon->getMessage());
 			} else {
-				$ctx->getServer()->distpatchCommand($ctx,$cm);
+				$ctx->getServer()->dispatchCommand($ctx,$cm);
 			}
 			return;
 		}
