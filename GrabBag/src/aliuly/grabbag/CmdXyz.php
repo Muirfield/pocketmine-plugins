@@ -26,7 +26,7 @@ class CmdXyz extends BasicCli implements CommandExecutor {
   public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
     if (strtolower($cmd->getName()) != "xyz") return false;
     if (!MPMU::inGame($sender)) return false;
-    $this->sendMessage(mc::_("You are at %1%,%2%,%3% in world %4%, heading %5%", (int)$sender->getX(),(int)$sender->getY(),(int)$sender->getZ(),$sender->getLevel()->getName(), ExpandVars::bearing($sender->getYaw())));
+    $sender->sendMessage(mc::_("You are at %1%,%2%,%3% in world %4%, heading %5%", (int)$sender->getX(),(int)$sender->getY(),(int)$sender->getZ(),$sender->getLevel()->getName(), ExpandVars::bearing($sender->getYaw())));
     return true;
 	}
 }

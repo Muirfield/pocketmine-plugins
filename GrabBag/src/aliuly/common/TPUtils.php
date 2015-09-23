@@ -2,6 +2,8 @@
 //= api-features
 //: - Teleport wrappers
 
+namespace aliuly\common;
+
 use pocketmine\Player;
 use pocketmine\level\Position;
 use pocketmine\Server;

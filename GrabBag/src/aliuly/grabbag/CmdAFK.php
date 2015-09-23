@@ -36,25 +36,25 @@ class CmdAFK extends BasicCli implements CommandExecutor,Listener {
 							  ["description" => mc::_("away from keyboard"),
 								"usage" => mc::_("/afk [message]"),
 								"permission" => "gb.cmd.afk"]);
+		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
   public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
     if (strtolower($cmd->getName()) != "afk") return false;
     if (!MPMU::inGame($sender)) return true;
     $api = $this->owner->api;
-    if ($api->isShielded($sender) && $this->isFrozen($sender) && $this->getMute($sender)) {
+    if ($api->isShielded($sender) && $api->isFrozen($sender) && $api->getMute($sender)) {
       // Current AFK'ed
       $msg = count($args) == 0 ? mc::_("%1% is back at keyboard", $sender->getName()) : implode(" ", $args);
       $api->freeze($sender, false);
       $api->setMute($sender, false);
       $api->setShield($sender, false);
-      $this->owner->getServer()->broadcastMesage($msg);
     } else {
       $msg = count($args) == 0 ? mc::_("%1% is away from keyboard", $sender->getName()) : implode(" ", $args);
       $api->freeze($sender, true);
       $api->setMute($sender, true);
       $api->setShield($sender, true);
     }
-    $this->owner->getServer()->broadcastMesage($msg);
+    $this->owner->getServer()->broadcastMessage($msg);
     return true;
 	}
 	/**
@@ -68,7 +68,7 @@ class CmdAFK extends BasicCli implements CommandExecutor,Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 		$sender = $ev->getPlayer();
 		$api = $this->owner->api;
-		if ($api->isShielded($sender) && $this->isFrozen($sender) && $this->getMute($sender)) {
+		if ($api->isShielded($sender) && $api->isFrozen($sender) && $api->getMute($sender)) {
 			$api->freeze($sender, false);
 			$api->setMute($sender, false);
 			$api->setShield($sender, false);

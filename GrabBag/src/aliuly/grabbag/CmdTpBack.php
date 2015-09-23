@@ -11,6 +11,7 @@ use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\level\Position;
+use pocketmine\Player;
 
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
@@ -54,7 +55,8 @@ class CmdTpBack extends BasicCli implements Listener,CommandExecutor {
 		return true;
 	}
   public function onDeath(PlayerDeathEvent $ev) {
-    $p = $ev->getPlayer();
+		$p = $ev->getEntity();
+		if (!($p instanceof Player)) return;
     $this->setState($p,[$p->getX(),$p->getY(),$p->getZ(),$p->getLevel()->getName()]);
   }
 }

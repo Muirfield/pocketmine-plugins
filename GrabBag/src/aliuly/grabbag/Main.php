@@ -87,6 +87,7 @@ class Main extends BasicPlugin {
 			"xyz" => ["CmdXyz", true],
 			"tptop" => ["CmdTpTop", true],
 			"tpback"=> ["CmdTpBack", true],
+			"near" => ["CmdNear", true],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];

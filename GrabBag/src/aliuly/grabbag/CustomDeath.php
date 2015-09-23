@@ -18,12 +18,13 @@
 //:   - gb.cdeath.default
 //:   - gb.cdeath.keep
 //:   - gb.cdeath.nodrops
-//: 
+//:
 namespace aliuly\grabbag;
 
 use pocketmine\plugin\PluginBase as Plugin;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\Player;
 
 use aliuly\common\PermUtils;
 use aliuly\common\mc;
@@ -54,7 +55,8 @@ class CustomDeath implements Listener {
 		}
 	}
 	public function onPlayerDeath(PlayerDeathEvent $e) {
-		$pl = $e->getPlayer();
+		$pl = $e->getEntity();
+		if (!($pl instanceof Player)) return;
     if (!$pl->hasPermission("gb.cdeath")) return;
     $keepinv = $this->keepinv;
     if($keepinv == "perms") {

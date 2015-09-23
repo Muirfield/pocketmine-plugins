@@ -17,7 +17,7 @@ use aliuly\common\MPMU;
 use aliuly\common\PermUtils;
 
 
-class CmdPlayers extends BasicCli implements CommandExecutor {
+class CmdNear extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
@@ -44,7 +44,8 @@ class CmdPlayers extends BasicCli implements CommandExecutor {
 		$players = [];
 
 		foreach ($sender->getLevel()->getPlayers() as $pl) {
-			$dist = $pl->distanceSquared($players);
+			if ($pl->getName() === $sender->getName()) continue;
+			$dist = $pl->distanceSquared($pl);
 			if ($dist < $radius) $players[] = $pl->getDisplayName();
 		}
 		if (count($players) == 0) {
