@@ -69,6 +69,7 @@ class GrabBag {
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
        "throw", "pushtp-poptp", "homes", "tprequest", "warps", "plenty",
+       "chat-scribe",
        "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
@@ -569,6 +570,16 @@ class GrabBag {
    */
   public function delWarp($name) {
     return $this->getModule("warps")->delWarp($name);
+  }
+  //////////////////////////////////////////////////////////////
+  // Spy Session
+  //////////////////////////////////////////////////////////////
+  /**
+   * Get SpySession object
+   * @return SpySession
+   */
+  public function getSpySession() {
+    return $this->getModule("chat-scribe")->getSpySession();
   }
 
   //////////////////////////////////////////////////////////////

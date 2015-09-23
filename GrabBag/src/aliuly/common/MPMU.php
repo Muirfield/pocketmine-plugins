@@ -9,7 +9,6 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\MainLogger;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-
 use aliuly\common\mc;
 
 /**
@@ -275,6 +274,15 @@ abstract class MPMU {
 		if (strtolower(substr($txt,0,$ln)) != $tok) return null;
 		return trim(substr($txt,$ln));
 	}
-
+	/**
+	 * Look-up player
+	 * @param CommandSender $req
+	 * @param str $n
+	 */
+	static public function getPlayer(CommandSender $c,$n) {
+		$pl = $c->getServer()->getPlayer($n);
+		if ($pl === null) $c->sendMessage(mc::_("%1% not found", $n));
+		return $pl;
+	}
 
 }

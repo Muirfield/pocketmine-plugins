@@ -32,6 +32,7 @@ class MegaSlots implements Listener {
 
     $lst = $this->owner->getModule("ServerList");
     foreach ($lst->getIds() as $i) {
+			if ($lst->getServerAttr($i,"no-merge-slots",false)) continue;
       if (!$lst->getServerAttr($i,"no-motd-task",false)) {
         $cc = $lst->getQueryData($i,"motd");
         if ($cc !== null) {

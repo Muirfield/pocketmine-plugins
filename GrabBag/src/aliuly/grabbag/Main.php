@@ -88,6 +88,7 @@ class Main extends BasicPlugin {
 			"tptop" => ["CmdTpTop", true],
 			"tpback"=> ["CmdTpBack", true],
 			"near" => ["CmdNear", true],
+			"chat-scribe" => [ "CmdSpy", true ],
 		];
 		if (MPMU::apiVersion("1.12.0")) {
 			$features["fly"] = [ "CmdFly", true ];
@@ -110,6 +111,7 @@ class Main extends BasicPlugin {
 			"cmd-selector" => CmdSelMgr::defaults(),
 			"query-task" => QueryDaemon::defaults(),
 			"motd-task" => MotdDaemon::defaults(),
+			"chat-scribe" => CmdSpy::defaults(),
 		]);
 	}
 	public function rconDone($res,$data) {

@@ -54,6 +54,8 @@ class ServerList extends BasicCli implements CommandExecutor {
     //: * no-query-task : This server will not be polled by the Query Daemon
     "no-query-task" => true,
     //: * query-use-ipv4 : Resolve host name when doing queries
+    "no-merge-slots" => true,
+    //: * query-use-ipv4 : Resolve host name when doing queries
     "query-use-ipv4" => true,
     //: * query-host=host : Alternative host to be used in queries
     "query-host" => "host",

@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 
 //use aliuly\common\MPMU;
@@ -19,15 +20,17 @@ class SpySession extends Session {
   protected $conlog;
   protected $privacy;
   protected $exPerms;
+  protected $notice;
 
   /**
    * @param PluginBase $owner - plugin that owns this session
    */
-  public function __construct(PluginBase $owner, $privacy= null, $exPerms = null) {
+  public function __construct(PluginBase $owner, $privacy= null, $exPerms = null, $notice = null) {
     parent::__construct($owner);	// We do it here so to prevent the registration of listeners
     $this->conlog = null;
     $this->privacy = $privacy;
     $this->exPerms = $exPerms;
+    $this->notice = is_null($notice) || is_array($notice) ? $notice :  [ $notice ];
   }
   /**
    * Enable/disable console logging
@@ -133,7 +136,7 @@ class SpySession extends Session {
     foreach ($this->state as $ls=>&$tt) {
       if (isset($tt["taps"]) && !isset($tt["taps"][$n])) continue;
       $log = $tt["callback"];
-      $log($n,$msg);
+      $log($ls,$n,$msg);
     }
   }
 	/**
@@ -154,7 +157,12 @@ class SpySession extends Session {
 	 * @priority MONITOR
 	 */
 	public function onConsoleCmd(ServerCommandEvent $ev) {
-		$this->owner->logMsg(self::CONSOLE,$ev->getCommand());
+		$this->logEvent(self::CONSOLE,$ev->getCommand());
 	}
-
+  public function onJoin(PlayerJoinEvent $ev) {
+    if ($this->notice === null) return;
+    foreach ($this->notice as $ln) {
+      $ev->getPlayer()->sendMessage($ln);
+    }
+  }
 }
