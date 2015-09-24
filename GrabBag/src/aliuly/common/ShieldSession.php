@@ -37,7 +37,7 @@ class ShieldSession extends Session {
    */
   public function isShielded(Player $target) {
     if ($this->api !== null) return $this->api->isShielded($target);
-    return $this->getState("shield",$target,false)
+    return $this->getState("shield",$target,false);
   }
   /**
    * Turn on/off shields

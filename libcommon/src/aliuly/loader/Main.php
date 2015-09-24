@@ -22,7 +22,7 @@ class Main extends PluginBase implements CommandExecutor{
 	public function onEnable() {
 		$pm = $owner->getServer()->getPluginManager();
 		if (($gb = $pm->getPlugin("GrabBag")) !== null) {
-			$this->getLogger()->info("Running with GrabBag...")
+			$this->getLogger()->info("Running with GrabBag...");
 		}
 	}
 	//////////////////////////////////////////////////////////////////////

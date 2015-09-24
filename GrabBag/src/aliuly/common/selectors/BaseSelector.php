@@ -11,7 +11,7 @@ abstract class BaseSelector {
   /**
    * Main entry point for command selectors
    */
-  static public function select(Server $srv, CommandSender $sender, array $args);
+  abstract static public function select(Server $srv, CommandSender $sender, array $args);
   /**
    * Implement selectors like m, name, etc...
    */
