@@ -60,7 +60,7 @@ class MwLvDat extends BasicCli {
 		}
 		$world = array_shift($args);
 		if(!$this->owner->autoLoad($c,$world)) {
-			$c->sendMessage(TextFormat::RED.mc::_("[MW] %1% is not loaded!",$worl));
+			$c->sendMessage(TextFormat::RED.mc::_("[MW] %1% is not loaded!",$world));
 			return true;
 		}
 		$level = $this->owner->getServer()->getLevelByName($world);

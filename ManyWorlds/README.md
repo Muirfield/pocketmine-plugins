@@ -171,6 +171,7 @@ for sample files.
   can define which worlds to load on start-up.  Examples:
 
       [CODE]
+
       # pocketmine.yml
       worlds:
          world1: []
@@ -181,6 +182,8 @@ for sample files.
 
 # Changes
 
+* 2.0.3: Bugfix update
+  * Fixes bug reported by @thebigsmileXD
 * 2.0.2: Bug fix
   * Updated libcommon to 1.2.0dev1
     * This fixes a bug reported by @SoyPro. (#23)
@@ -256,3 +259,4 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
