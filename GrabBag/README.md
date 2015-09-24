@@ -1073,7 +1073,6 @@ The following third party libraries are included:
   * Queries are done in the main thread.  Should be moved as an AsyncTask.
   * Queries to the same server do not work.
   * Queries not using QueryDaemon
-* Add ChatScribe functionality
 * Deprecated modules:
   - CmdSpectator
 
