@@ -8,6 +8,7 @@ use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
+use aliuly\common\MPMU;
 
 //use aliuly\common\MPMU;
 
@@ -52,7 +53,7 @@ class SpySession extends Session {
    * @param callable $cb - Player being spied upon, either a string or Player instance
    */
   public function configTap(Player $pl, $cb) {
-    $n = strtolower($pl->getName());
+    $n = MPMU::iName($pl);
     if (is_callable($cb)) {
       if (!isset($this->state[$n])) {
         $this->state[$n] = [];
@@ -68,7 +69,7 @@ class SpySession extends Session {
    * @return bool
    */
   public function isTapping(Player $pl) {
-    $n = strtolower($pl->getName());
+    $n = MPMU::iName($pl);
     return isset($this->state[$n]);
   }
   /**
@@ -77,7 +78,7 @@ class SpySession extends Session {
    * @return str[]
    */
   public function getTaps(Player $pl) {
-    $n = strtolower($pl->getName());
+    $n = MPMU::iName($pl);
     if (!isset($this->state[$n])) return null;
     if (!isset($this->state[$n]["taps"])) return null;
     return array_keys($this->state[$n]["taps"]);
@@ -89,8 +90,8 @@ class SpySession extends Session {
    * @param Player|str|null $n - Start tapping a player, console, everything, etc...
    */
   public function setTap(Player $pl,$v,$ena = true) {
-    if ($v instanceof Player) $v = strtolower($v->getName());
-    $n = strtolower($pl->getName());
+    $v = MPMU::iName($v);
+    $n = MPMU::iName($pl);
     if ($v === null) {
       // Global tap!
       if ($ena) {
@@ -145,7 +146,7 @@ class SpySession extends Session {
 	public function onPlayerCmd(PlayerCommandPreprocessEvent $ev) {
 		if ($ev->isCancelled()) return;
     if ($this->exPerms !== null && $ev->getPlayer()->hasPermission($this->exPerms)) return;
-    $this->logEvent(strtolower($ev->getPlayer()->getName()),$ev->getMessage());
+    $this->logEvent(MPMU::iName($ev->getPlayer()),$ev->getMessage());
 	}
 	/**
 	 * @priority MONITOR
