@@ -36,6 +36,8 @@ use aliuly\common\PluginCallbackTask;
 
 class CmdRc extends BasicCli implements CommandExecutor {
 	protected $limitPath;
+	protected $env;
+
 	public function __construct($owner) {
 		parent::__construct($owner);
 		$this->limitPath = true;
@@ -48,6 +50,17 @@ class CmdRc extends BasicCli implements CommandExecutor {
 		$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
 					new PluginCallbackTask($this->owner,[$this,"autostart"],[]), 5
 		);
+		$this->env = [];
+	}
+	public function setEnv($key,$val) {
+		$this->env[$key] = $val;
+	}
+	public function getEnv($key, $def = null) {
+		if (!isset($this->env[$key])) return $def;
+		return $this->env[$key];
+	}
+	public function unsetEnv($key) {
+		if (isset($this->env[$key])) unset($this->env[$key]);
 	}
 	public function getInterp() {
 		return $this->owner->api->getInterp();
@@ -55,7 +68,8 @@ class CmdRc extends BasicCli implements CommandExecutor {
 	public function autostart() {
 		$script = $this->owner->getDataFolder()."autostart.pms";
 		if (!file_exists($script)) return;
-		$env = [ "script" => "autostart" ];
+		$env = $this->env;
+		$env["script"] = "autosart";
 		$args = [];
 		if ($this->getInterp()->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
@@ -89,7 +103,8 @@ class CmdRc extends BasicCli implements CommandExecutor {
       	return true;
     	}
 		}
-		$env = [ "script" => array_shift($args)];
+		$env = $this->env;
+		$env["script"] = array_shift($args);
 		if ($this->getInterp()->runScriptFile($c,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
 		}

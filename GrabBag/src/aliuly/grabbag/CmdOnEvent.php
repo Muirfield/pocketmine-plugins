@@ -144,6 +144,12 @@ class CmdOnEvent extends BasicCli implements CommandExecutor{
     } else {
       $ctx = new ConsoleCommandSender;
     }
-    Cmd::opexec($ctx,$cmdline);
+    if (($rc = $this->owner->getModule("pmscripts")) !== null) {
+      $rc->setEnv("event", $ev);
+      Cmd::opexec($ctx,$cmdline);
+      $rc->unsetEnv("event");
+    } else {
+      Cmd::opexec($ctx,$cmdline);
+    }
   }
 }
