@@ -21,9 +21,9 @@ class CmdNear extends BasicCli implements CommandExecutor {
 
 	public function __construct($owner) {
 		parent::__construct($owner);
-		PermUtils::add($this->owner, "gb.cmd.near", "near by players", "true");
+		PermUtils::add($this->owner, "gb.cmd.near", "nearby players", "true");
 		$this->enableCmd("near",
-							  ["description" => mc::_("show near by players"),
+							  ["description" => mc::_("show nearby players"),
 								"usage" => mc::_("/near [radius]"),
 								"permission" => "gb.cmd.near"]);
 	}
@@ -49,7 +49,7 @@ class CmdNear extends BasicCli implements CommandExecutor {
 			if ($dist < $radius) $players[] = $pl->getDisplayName();
 		}
 		if (count($players) == 0) {
-			$sender->sendMessage(mc::_("No near by players found!"));
+			$sender->sendMessage(mc::_("No nearby players found!"));
 		} else {
 			$sender->sendMessage(mc::_("Neighbors(%1%): %2%", count($players), implode(", ",$players)));
 		}
