@@ -23,6 +23,7 @@ class KillStreak {
     $this->minkills = $settings["min-kills"];
     $this->money = $money;
   }
+
   public function endStreak(Player $player) {
     if (!$this->enabled) return;
     $n = strtolower($player->getName());
@@ -35,10 +36,10 @@ class KillStreak {
     $oldstreak = $this->owner->getScoreV2($n,"best-streak");
     if ($oldstreak == 0) {
       $this->owner->setScore($n,$newstreak,"best-streak");
-      $this->getServer()->broadcastMessage(mc::_("%1% ended his first kill-streak at %2% kills", $player->getDisplayName(), $newstreak));
+      $this->owner->getServer()->broadcastMessage(mc::_("%1% ended his first kill-streak at %2% kills", $player->getDisplayName(), $newstreak));
     } elseif ($newstreak > $oldstreak) {
       $this->owner->setScore($n,$newstreak,"best-streak");
-      $this->getServer()->broadcastMessage(mc::_("%1% beat previous streak record of %2% at %3% kills", $player->getDisplayName(), $oldstreak, $newstreak));
+      $this->owner->getServer()->broadcastMessage(mc::_("%1% beat previous streak record of %2% at %3% kills", $player->getDisplayName(), $oldstreak, $newstreak));
     }
     $this->owner->delScore($n,"streak");
   }
