@@ -137,7 +137,7 @@ abstract class MPMU {
 	 * @return str
 	 */
 	static public function iName($player) {
-		if ($player instanceof Player) {
+		if ($player instanceof CommandSender) {
 			$player = strtolower($player->getName());
 		}
 		return $player;

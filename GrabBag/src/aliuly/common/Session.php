@@ -6,7 +6,6 @@ namespace aliuly\common;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\PluginBase;
-use pocketmine\command\CommandSender;
 
 use aliuly\common\MPMU;
 

@@ -39,6 +39,7 @@ class CmdAFK extends BasicCli implements CommandExecutor,Listener {
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
 	}
   public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
+		echo __METHOD__.",".__LINE__."\n";//##DEBUG
     if (strtolower($cmd->getName()) != "afk") return false;
     if (!MPMU::inGame($sender)) return true;
     $api = $this->owner->api;
