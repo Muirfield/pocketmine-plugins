@@ -21,7 +21,7 @@ abstract class SignUtils {
 		$tile->close();
 	}
   static public function breakSignLater(Plugin $plugin,Sign $tile, $ticks=5) {
-    $this->getServer()->getScheduler()->scheduleDelayedTask(
+    $plugin->getServer()->getScheduler()->scheduleDelayedTask(
       new PluginCallbackTask($this,[self::class,"breakSign"],[$tile]),$ticks
     );
   }

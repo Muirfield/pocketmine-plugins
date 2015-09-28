@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.1.0**.
+This documentation was last updated for version **2.1.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.1).
 
 <!-- end-include -->
 
@@ -283,6 +283,8 @@ In order to use the script extension you need to do the following:
 
 # Changes
 
+* 2.1.1: Bug fixes
+  * Fixed bug reported by @PolarKing
 * 2.1.0: Ranks
   * Config file layout changed
   * Added more achievements
