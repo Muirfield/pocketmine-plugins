@@ -59,9 +59,11 @@ wave** mode is experimental and has not been fully tested.
 * itemcase.cmd: allow players access to the itemcase command
 * itemcase.destroy: allow players destroy cases
 
-Changes
--------
+## Changes
 
+* 1.0.8 : No AIR cases
+  - Do not allow to place cases with AIR only.  Reported by @Pub4Game.
+    Closes #30.
 * 1.0.7 : Update for PM1.6dev
   - Checks which function to call (isPlaceable/canBePlaced) without having
     to check version.
