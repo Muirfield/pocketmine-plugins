@@ -31,17 +31,17 @@ plugins, in particular, ScriptPlugins.
 API Features:
 
 <!-- snippet:api-features -->
-- Armor constants
+- Teleport wrappers
+- Skin tools
+- Translations
+- Multiple money support
+- Config shortcuts and multi-module|feature management
 - Paginated output
 - Command and sub command dispatchers
-- Config shortcuts and multi-module|feature management
-- Multiple money support
-- Translations
-- Teleport wrappers
+- Armor constants
 - API version checking
 - Misc shorcuts and pre-canned routines
 - Player session and state management
-- Skin tools
 <!-- end-include -->
 
 It also bundles useful third party libraries:
