@@ -199,11 +199,10 @@ The following selectors are implemented:
 ## Changes
 
 - 1.91.0: De-bundle
-  * New module: TPUtils
+  * New modules: TPUtils, ShoppingCart, SignUtils, SkinUtils, SpySession
   * De-bundled, now it is just a library again.  All sub-commands were moved
     to GrabBag.
-  * Bug-Fixes:
-    - MPMU::callPlugin : Fixed
+  * Bug-Fixes: Cmd, InvUtils, Session, ShieldSession, BaseSelector
 - 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
