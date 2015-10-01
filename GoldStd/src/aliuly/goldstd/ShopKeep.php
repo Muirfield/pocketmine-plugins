@@ -59,6 +59,9 @@ class ShopKeep implements Listener {
 			"freq" => 60,
 		];
 	}
+	static public function cfEnabled($cfg) {
+		return $cfg["enable"];
+	}
 	public function __construct(Plugin $plugin,$xfg) {
 		$this->owner = $plugin;
 		if (!$xfg["enable"]) {
