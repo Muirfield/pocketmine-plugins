@@ -127,19 +127,6 @@ Repository for my *official* PocketMine plugins.
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="http://forums.pocketmine.net/plugins/spawnmgr.1141/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/spawnicon.png" style="width:64px;height:64px" width="64" height="64"/>
-      <br/>
-      SpawnMgr
-    </a>
-  </th>
-  <td>
-    control how players spawn
-  </td>
-</tr>
-<!---------------------------------------------------------------------->
-<tr>
-  <th>
     <a href="http://forums.pocketmine.net/plugins/goldstd.1118/">
       <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GoldStd1-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
