@@ -9,8 +9,15 @@
 //:     - List all available skins on the server.  Default command.
 //> - **skin** _[player]_ **save** _<name>_
 //:     - Saves _player_'s skin to _name_.
-//> - **skin** _[player]_ **load** _<name>_
+//> - **skin** _[player]_ **load** _[--slim]_ _<name>_
 //:     - Loads _player_'s skin from _name_.
+//> - **skin** _[player]_ **slim**
+//:     - Make player's skin slim
+//> - **skin** _[player]_ **thick**
+//:     - Make player's skin non-slim
+//> - **skin** **formats**
+//:     - Show supported formats
+
 
 namespace aliuly\grabbag;
 
@@ -22,6 +29,7 @@ use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\MPMU;
 use aliuly\common\PermUtils;
+use aliuly\common\SkinUtils;
 
 class CmdSkinner extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -31,25 +39,8 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 
 		$this->enableCmd("skin",
 							  ["description" => mc::_("Manage skins on the server"),
-								"usage" => mc::_("/skin [player] [save|load|ls] [name]"),
+								"usage" => mc::_("/skin [player] [save|load|ls|slim|thick|formats] [name]"),
 								"permission" => "gb.cmd.skin"]);
-	}
-	public function getSkins($folder = null) {
-		if ($folder === null) $folder = $this->owner->getDataFolder();
-		return glob($folder."*.skin");
-	}
-	public function saveSkin($human,$fn, $folder = null) {
-		if ($folder === null) $folder = $this->owner->getDataFolder();
-		$bin = zlib_encode($human->getSkinData(),ZLIB_ENCODING_DEFLATE,9);
-		file_put_contents($folder.$fn,$bin);
-		return strlen($bin);
-	}
-	public function loadSkin($human,$fn, $folder = null) {
-		if ($folder === null) $folder = $this->owner->getDataFolder();
-		$bin = file_get_contents($folder.$fn);
-		if ($bin === false) return false;
-		$human->setSkin(zlib_decode($bin),$slim);
-		return true;
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "skin") return false;
@@ -65,7 +56,10 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 		if (count($args) == 0) $args = [ "ls" ];
 		switch (strtolower(array_shift($args))) {
 			case "ls":
-				$skins = $this->getSkins();
+			  $skins = [];
+				foreach (glob($this->owner->getDataFolder()."*.*") as $f) {
+					if (SkinUtils::isSkinFile($f)) $skins[] = $f;
+				}
 
 				if (count($skins) == 0) {
 					$sender->sendMessage(mc::_("No skins found"));
@@ -85,12 +79,26 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 					}
 				}
 				return $this->paginateText($sender,$pageNumber,$txt);
+			case "formats":
+			case "fmt":
+			  if (count($args) != 0) return false;
+				$sender->sendMessage(mc::_("Supported formats: %1%", implode(", ", SkinUtils::formats())));
+				return true;
 			case "save":
 				if (count($args) != 1) return false;
 				if (!MPMU::inGame($human)) return true;
 				if ($human !== $sender && !MPMU::access($sender,"gb.cmd.skin.other")) return true;
-				$fn = preg_replace('/\.skin$/','',basename($args[0])).".skin";
-				$cnt = $this->saveSkin($human,$fn);
+				if (SkinUtils::isPngExt($args[0])) {
+					$fmts = SkinUtils::formats();
+					if (!isset($fmts[SkinUtils::PNG_FMT])) {
+						$sender->sendMessage(mc::_("PNG format is not supported"));
+						return true;
+					}
+					$fn =  $this->owner->getDataFolder().preg_replace('/\.[pP][nN][gG]$/','',basename($args[0])).".png";
+				} else {
+					$fn =  $this->owner->getDataFolder().preg_replace('/\.skin$/','',basename($args[0])).".skin";
+				}
+				$cnt = SkinUtils::saveSkin($human,$fn);
 				$sender->sendMessage(mc::_("Wrote %1% bytes to %2%",$cnt,$fn));
 				return true;
 			case "load":
@@ -102,13 +110,36 @@ class CmdSkinner extends BasicCli implements CommandExecutor {
 				if ($human !== $sender && !MPMU::access($sender,"gb.cmd.skin.other")) return true;
 				if (count($args) != 1) return false;
 				if (!MPMU::inGame($human)) return true;
-				$fn = preg_replace('/\.skin$/','',basename($args[0])).".skin";
+				if (SkinUtils::isPngExt($args[0])) {
+					$fmts = SkinUtils::formats();
+					if (!isset($fmts[SkinUtils::PNG_FMT])) {
+						$sender->sendMessage(mc::_("PNG format is not supported"));
+						return true;
+					}
+					$fn =  $this->owner->getDataFolder().preg_replace('/\.[pP][nN][gG]$/','',basename($args[0])).".png";
+				} else {
+					$fn =  $this->owner->getDataFolder().preg_replace('/\.skin$/','',basename($args[0])).".skin";
+				}
 
-				if ($this->loadSkin($human,$fn)) {
+				if (SkinUtils::loadSkin($human,$slim,$fn)) {
 					$sender->sendMessage(mc::_("Updated skin for %1%",$human->getName()));
 				} else {
 					$sender->sendMessage(mc::_("Unable to read %1%",$fn));
 				}
+				return true;
+			case "slim":
+				if ($human !== $sender && !MPMU::access($sender,"gb.cmd.skin.other")) return true;
+				if (count($args) != 0) return false;
+				if (!MPMU::inGame($human)) return true;
+				SkinUtils::setSlim($human, true);
+				$sender->sendMessage(mc::_("%1% is now slim", $human->getName()));
+				return true;
+			case "thick":
+				if ($human !== $sender && !MPMU::access($sender,"gb.cmd.skin.other")) return true;
+				if (count($args) != 0) return false;
+				if (!MPMU::inGame($human)) return true;
+				SkinUtils::setSlim($human, false);
+				$sender->sendMessage(mc::_("%1% is now thick", $human->getName()));
 				return true;
 		}
 		return false;

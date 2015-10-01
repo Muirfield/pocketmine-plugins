@@ -1,5 +1,5 @@
 name: libcommon
-version: 1.91.0dev1
+version: 1.91.0dev3
 main: aliuly\loader\Main
 api: 1.12.0
 load: STARTUP
