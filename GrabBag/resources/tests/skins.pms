@@ -1,0 +1,12 @@
+;
+; Skinner tests
+;
+skin
+skin fmt
+s s steve
+skin steve load default
+skin steve slim
+skin steve thick
+skin steve save steve.png
+skin steve load agirl.png
+kick steve

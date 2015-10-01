@@ -1,0 +1,11 @@
+;
+; OnEvent test
+;
+onevent PlayerQuitEvent say Good, I hated them!
+onevent
+s s steve
+kick steve
+onevent PlayerQuitEvent
+onevent PlayerQuitEvent --none
+s s steve
+kick steve
