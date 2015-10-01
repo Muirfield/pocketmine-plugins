@@ -334,8 +334,15 @@ installed, you can create an empty **messages.ini** using the command:
 * A: Set the currency to false in config.yml.  Then GoldStd will search for an
   alternate money plugin.
 
+## TODO
+
+* Implement shopping by command
+* Shopping by ChestShop or Sign?
+
 # Changes
 
+* 1.4.0: Split ShopKeep
+  * ShopKeeper code split into ShoppingCart and ShopKeep NPC only (Requested by @iVertx)
 * 1.3.0: Command shops
   * Add command shops (Requested by @Kyoyuki)
 * 1.2.2: Bug fixes

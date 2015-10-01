@@ -24,6 +24,7 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\String;
 use pocketmine\nbt\tag\Int;
 
+use aliuly\common\MPMU;
 
 /**
  * Implements ShoppingCart iterations
@@ -63,7 +64,7 @@ class ShoppingCart extends Session {
 
   public function onPlayerQuit(PlayerQuitEvent $ev) {
     echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$n = strtolower($ev->getPlayer()->getName());
+    $n = MPMU::iName($ev->getPlayer());
     $xx = $this->getState(self::tag,$ev->getPlayer(),null);
     if ($xx !== null) $this->restoreInv($ev->getPlayer());
     parent::onPlayerQuit($ev);

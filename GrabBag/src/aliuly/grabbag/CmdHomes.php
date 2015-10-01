@@ -91,7 +91,7 @@ class CmdHomes extends BasicCli implements CommandExecutor{
     $this->saveHomes();
   }
   protected function saveHomes() {
-    $yaml = new Config($this->owner->getDataFolder()."home",Config::YAML,[]);
+    $yaml = new Config($this->owner->getDataFolder()."homes.yml",Config::YAML,[]);
     $yaml->setAll($this->homes);
     $yaml->save();
   }

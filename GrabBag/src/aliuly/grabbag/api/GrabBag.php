@@ -67,7 +67,7 @@ class GrabBag {
      if (!in_array($feature,[
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
-       "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
+       "shield", "slay", "spawn", "srvmode", "summon-dismiss",
        "throw", "pushtp-poptp", "homes", "tprequest", "warps", "plenty",
        "chat-scribe",
        "ServerList",
@@ -363,39 +363,6 @@ class GrabBag {
   public function setPlenty(Player $target, $mode) {
     $this->getModule("plenty")->setPlenty($target, $mode);
   }
-  //////////////////////////////////////////////////////////////
-  // CmdSkinner
-  //////////////////////////////////////////////////////////////
-  /**
-   * Returns a list of skins
-   * @param str $folder - folder to search
-   * @return str[]
-   */
-  public function getSkins($folder = null) {
-		return $this->getModule("skinner")->getSkins($folder);
-	}
-  /**
-   * Save a player's skin
-   * @param Human $human - character to save
-   * @param str $fn - file name
-   * @param str $folder - folder to search
-   * @return int - bytes written
-   *
-   */
-	public function saveSkin(Human $human,$fn,$folder = null) {
-    return $this->getModule("skinner")->saveSkin($human,$fn,$folder);
-	}
-  /**
-   * Load a player's skin
-   * @param Human $human - character to load
-   * @param str $fn - file name
-   * @param str $folder - folder to search
-   * @return bool - true on succes, false on failure
-   *
-   */
-	public function loadSkin(Human $human,$fn,$folder = null) {
-    return $this->getModule("skinner")->loadSkin($human,$fn,$folder);
-	}
   //////////////////////////////////////////////////////////////
   // CmdSlay
   //////////////////////////////////////////////////////////////

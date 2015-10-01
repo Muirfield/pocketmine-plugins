@@ -18,7 +18,7 @@ abstract class MPMU {
 	/** @var str[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
-	const VERSION = "1.91.0dev2";
+	const VERSION = "1.91.0";
 
 	/**
 	 * libcommon library version.  If a version is provided it will check
@@ -137,7 +137,7 @@ abstract class MPMU {
 	 * @return str
 	 */
 	static public function iName($player) {
-		if ($player instanceof Player) {
+		if ($player instanceof CommandSender) {
 			$player = strtolower($player->getName());
 		}
 		return $player;
@@ -182,7 +182,7 @@ abstract class MPMU {
 		$v = null;
 		if (is_array($plug)) list($plug,$v) = $plug;
 		if (($plugin = $server->getPluginManager()->getPlugin($plug)) === null
-			 || $plugin->isEnabled()) return $default;
+			 || !$plugin->isEnabled()) return $default;
 
 		if ($v !== null && !self::apiCheck($plugin->getDescription()->getVersion(),$v)) return $default;
 		if (property_exists($plugin,"api")) {

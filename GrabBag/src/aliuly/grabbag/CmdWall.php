@@ -19,6 +19,7 @@ use aliuly\common\mc;
 use aliuly\common\BasicCli;
 use aliuly\common\PermUtils;
 use aliuly\common\MPMU;
+use aliuly\common\RconTask;
 
 class CmdWall extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -41,7 +42,7 @@ class CmdWall extends BasicCli implements CommandExecutor {
     $msg = implode(" ",$args);
     $who = $sender->getName();
 
-    $this->owner->getServer()->broadcastMesage(mc::_("WALL:%1% %2%", $who, $msg));
+    $this->owner->getServer()->broadcastMessage(mc::_("WALL:%1% %2%", $who, $msg));
     $lst = $this->owner->getModule("ServerList");
     foreach ($lst->getIds() as $id) {
       if ($lst->getServerAttr($id,"rcon-pw") === null) continue;

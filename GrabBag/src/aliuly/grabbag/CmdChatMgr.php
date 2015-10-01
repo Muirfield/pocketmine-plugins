@@ -142,11 +142,7 @@ class CmdChatMgr extends BasicCli implements Listener,CommandExecutor {
 						default:
 							if (count($args)) return false;
 							if (!MPMU::access($sender,"gb.cmd.togglechat.others")) return true;
-							$player = $this->owner->getServer()->getPlayer($n);
-							if ($player === null) {
-								$sender->sendMessage(mc::_("Unable to find %1%",$n));
-								return true;
-							}
+							if (($player = MPMU::getPlayer($sender,$n)) === null) return true;
 							if ($cmd->getName() == "chat-off") {
 								$this->setState($player, true);
 								$player->sendMessage(mc::_("Chat disabled from %1%",$sender->getName()));

@@ -67,11 +67,7 @@ class CmdTpRequest extends BasicCli implements CommandExecutor, Listener {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
     if (!MPMU::inGame($sender)) return true;
     if (count($args) != 1) return false;
-    $b = $this->owner->getServer()->getPlayer($args[0]);
-    if ($b === null) {
-      $sender->sendMessage(mc::_("%1% not found", $args[0]));
-      return true;
-    }
+    if (($b = MPMU::getPlayer($sender,$args[0])) === null) return true;
 		switch($cmd->getName()) {
 			case "tpask":
 				return $this->cmdTpAsk($sender,$b);
@@ -93,7 +89,7 @@ class CmdTpRequest extends BasicCli implements CommandExecutor, Listener {
   }
   public function cmdTpAsk(Player $a, Player $b) {
     $a->sendMessage(mc::_("Sent a TPA teleport request to %1%", $b->getDisplayName()));
-    $b->sendMessage(mc::_("%1% wants to teleport to your location"), $a->getDisplayName());
+    $b->sendMessage(mc::_("%1% wants to teleport to your location", $a->getDisplayName()));
     $b->sendMessage(mc::_("Use /tpaccept or /tpdecline"));
     $this->requests[implode(":",[strtolower($a->getName()),strtolower($b->getName())])] = "tpa";
     return true;

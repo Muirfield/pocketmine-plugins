@@ -16,6 +16,7 @@ use pocketmine\utils\TextFormat;
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
+use aliuly\common\MPMU;
 
 class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 
@@ -44,11 +45,7 @@ class CmdSlay extends BasicCli implements CommandExecutor,Listener {
 			$sender->sendMessage(mc::_("Must specify a player to slay"));
 			return false;
 		}
-		$victim = $this->owner->getServer()->getPlayer($n = array_shift($args));
-		if ($victim == null) {
-			$sender->sendMessage(mc::_("Player %1% not found",$n));
-			return true;
-		}
+		if (($victim = MPMU::getPlayer($sender,array_shift($args))) === null) return true;
 		$this->slay($victim,implode(" ",$args));
 		$sender->sendMessage(TextFormat::RED.mc::_("%1% has been slain.",$victim->getName()));
 		return true;

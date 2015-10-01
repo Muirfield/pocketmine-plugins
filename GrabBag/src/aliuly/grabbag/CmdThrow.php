@@ -40,11 +40,7 @@ class CmdThrow extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "throw") return false;
 		if (count($args) > 2 || count($args) == 0) return false;
-		$pl = $this->owner->getServer()->getPlayer($args[0]);
-		if (!$pl) {
-			$sender->sendMessage(mc::_("%1% not found",$args[0]));
-			return true;
-		}
+		if (($pl = MPMU::getPlayer($sender,$args[0])) === null) return true;
 		$this->throwPlayer($pl);
 		return true;
 	}

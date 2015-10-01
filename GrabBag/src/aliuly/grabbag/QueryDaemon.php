@@ -84,8 +84,10 @@ class QueryDaemon extends BasicCli implements Listener {
   }
   public function gotResults($res,$id) {
     foreach (["info","players"] as $dd) {
-      if (!is_array($res[$dd])) continue;
-      $this->owner->getModule("ServerList")->addQueryData($id,"query.".$dd,$res[$dd]);
+      if (isset($res[$dd]) && is_array($res[$dd]))
+        $this->owner->getModule("ServerList")->addQueryData($id,"query.".$dd,$res[$dd]);
+      else
+        $this->owner->getModule("ServerList")->delQueryData($id,"query.".$dd);
     }
     $this->queryNext();
   }

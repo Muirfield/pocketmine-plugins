@@ -1,5 +1,5 @@
 main: aliuly\grabbag\Main
-api: [1.10.0,1.11.0,1.12.0]
+api: [1.10.0,1.11.0,1.12.0,2.0.0]
 load: POSTWORLD
 
 name: GrabBag

@@ -77,8 +77,11 @@ class MotdDaemon extends BasicCli implements Listener {
     $this->task = $t;
   }
   public function gotResults($res,$id) {
-    if (is_array($res["results"]))
+    if (isset($res["results"]) && is_array($res["results"]))
       $this->owner->getModule("ServerList")->addQueryData($id,"motd",$res["results"]);
+    else {
+      $this->owner->getModule("ServerList")->delQueryData($id,"motd");
+    }
     $this->pingNext();
   }
   public function onAddServerEvent(GbAddServerEvent $ev) {

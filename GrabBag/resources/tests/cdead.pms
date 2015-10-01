@@ -1,0 +1,11 @@
+;
+; Custom death testing
+;
+et nuke all
+s s steve
+gift steve sand
+gift steve dirt
+seeinv steve
+after 1 slay steve
+after 2 et ls
+after 3 kick steve

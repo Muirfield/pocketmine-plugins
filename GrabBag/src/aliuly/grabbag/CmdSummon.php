@@ -46,11 +46,7 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 	public function cmdSummon(CommandSender $c,$args) {
 		if (count($args) == 0) return false;
 		if (!MPMU::inGame($c)) return true;
-		$pl = $this->owner->getServer()->getPlayer($args[0]);
-		if (!$pl) {
-			$c->sendMessage(mc::_("%1% can not be found.",$args[0]));
-			return true;
-		}
+		if (($pl = MPMU::getPlayer($c,$args[0])) === null) return true;
 		array_shift($args);
 		if (count($args)) {
 			$pl->sendMessage(implode(" ",$args));
@@ -84,9 +80,8 @@ class CmdSummon extends BasicCli implements CommandExecutor {
 		if ($args[0] == "--all") $args = array_keys($state);
 
 		foreach ($args as $i) {
-			$pl = $this->owner->getServer()->getPlayer($i);
+			$pl = MPMU::getPlayer($c, $i);
 			if (!$pl) {
-				$c->sendMessage(mc::_("%1% can not be found.",$i));
 				$i = strtolower($i);
 				if (isset($state[$i])) unset($state[$i]);
 				continue;

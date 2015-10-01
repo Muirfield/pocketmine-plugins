@@ -32,15 +32,16 @@ API Features:
 
 <!-- snippet:api-features -->
 - Teleport wrappers
-- Armor constants
+- Skin tools
+- Translations
+- Multiple money support
+- Config shortcuts and multi-module|feature management
 - Paginated output
 - Command and sub command dispatchers
-- Config shortcuts and multi-module|feature management
+- Armor constants
 - API version checking
 - Misc shorcuts and pre-canned routines
-- Multiple money support
 - Player session and state management
-- Translations
 <!-- end-include -->
 
 It also bundles useful third party libraries:
@@ -201,6 +202,8 @@ The following selectors are implemented:
   * New module: TPUtils
   * De-bundled, now it is just a library again.  All sub-commands were moved
     to GrabBag.
+  * Bug-Fixes:
+    - MPMU::callPlugin : Fixed
 - 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug
