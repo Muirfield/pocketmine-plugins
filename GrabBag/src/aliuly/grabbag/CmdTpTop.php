@@ -35,11 +35,7 @@ class CmdTpTop extends BasicCli implements CommandExecutor {
         break;
       case 1:
         if (!MPMU::access($sender,"gb.cmd.top.others")) return true;
-        $pl = $this->owner->getServer()->getPlayer($args[0]);
-        if (!$pl) {
-  		    $sender->sendMessage(mc::_("%1% not found",$args[0]));
-  			  return true;
-  		  }
+				if (($pl = MPMU::getPlayer($sender,$args[0])) === null) return true;
         break;
       default:
         return false;

@@ -35,11 +35,7 @@ class CmdHeal extends BasicCli implements CommandExecutor {
 			$sender->sendMessage(mc::_("You have been healed"));
 			return true;
 		}
-		$patient = $this->owner->getServer()->getPlayer($args[0]);
-		if ($patient == null) {
-			$sender->sendMessage(mc::_("%1% not found.",$args[0]));
-			return true;
-		}
+		if (($patient = MPMU::getPlayer($sender,$args[0])) === null) return true;
 		if (isset($args[1]) && is_numeric($args[1])) {
 			$health = $patient->getHealth() + intval($args[1]);
 			if ($health > $patient->getMaxHealth()) $health = $patient->getMaxHealth();

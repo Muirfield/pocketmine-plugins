@@ -62,11 +62,7 @@ class CmdReOp extends BasicCli implements Listener,CommandExecutor {
 			$other = false;
 		} else {
 			if (!MPMU::access($sender,"gb.cmd.".$cmd->getName().".others")) return true;
-			$target = $this->owner->getServer()->getPlayer($args[0]);
-			if ($target === null) {
-				$sender->sendMessage(mc::_("%1% can not be found.",$args[0]));
-				return true;
-			}
+			if (($target = MPMU::getPlayer($sender, $args[0])) == null) return true;
 			$other = true;
 		}
     $n = strtolower($target->getName());

@@ -17,7 +17,7 @@ use pocketmine\event\player\PlayerChatEvent;
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
-
+use aliuly\common\MPMU;
 
 class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $mutes;
@@ -48,15 +48,11 @@ class CmdMuteMgr extends BasicCli implements Listener,CommandExecutor {
 		switch ($cmd->getName()) {
 			case "mute":
 				foreach ($args as $n) {
-					$player = $this->owner->getServer()->getPlayer($n);
-					if ($player) {
-						$this->mutes[strtolower($player->getName())] = $player->getName();
-						$player->sendMessage(mc::_("You have been muted by %1%",
+					if (($player = MPMU::getPlayer($sender,$n)) === null) continue;
+					$this->mutes[strtolower($player->getName())] = $player->getName();
+					$player->sendMessage(mc::_("You have been muted by %1%",
 															$sender->getName()));
-						$sender->sendMessage(mc::_("%1% is muted.",$n));
-					} else {
-						$sender->sendMessage(mc::_("%1% not found.",$n));
-					}
+					$sender->sendMessage(mc::_("%1% is muted.",$n));
 				}
 				return true;
 			case "unmute":

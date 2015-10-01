@@ -16,6 +16,7 @@ use pocketmine\command\Command;
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
+use aliuly\common\MPMU;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;
@@ -41,11 +42,7 @@ class CmdBlowUp extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "blowup") return false;
 		if (count($args) == 0) return false;
-		$pl = $this->owner->getServer()->getPlayer($args[0]);
-		if (!$pl) {
-			$sender->sendMessage(mc::_("%1% not found.",$args[0]));
-			return true;
-		}
+		if (($pl = MPMU::getPlayer($sender,$args[0])) === null) return true;
 		array_shift($args);
 		$yield = 5;
 		$magic = false;

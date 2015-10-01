@@ -8,8 +8,8 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
+use pocketmine\item\Item;
 
-//use pocketmine\item\Item;
 use aliuly\common\BasicCli;
 use aliuly\common\ItemName;
 use aliuly\common\MPMU;
@@ -31,17 +31,24 @@ class CmdItemInfo extends BasicCli implements CommandExecutor {
 			case 0:
 				if (!MPMU::inGame($sender)) return true;
 				$target = $sender;
+				$other = false;
 				break;
 			case 1:
-				if (($target = $this->owner->getServer()->getPlayer($args[0])) == null) {
-					$sender->sendMessage(mc::_("%1% not found", $args[0]));
-					return true;
-				}
+				if (($target = MPMU::getPlayer($sender,$args[0])) === null) return true;
+				$other = true;
 				break;
 			default:
 				return false;
 		}
 		$item = clone $target->getInventory()->getItemInHand();
+		if ($item->getId() == Item::AIR) {
+			if ($other) {
+				$sender->sendMessage(mc::_("%1% is holding nothing!",$target->getDisplayName()));
+			} else {
+				$sender->sendMessage(mc::_("You are holding nothing!"));
+			}
+			return true;
+		}
 
 		$sender->sendMessage(TextFormat::BLUE.mc::_("Item: ").TextFormat::WHITE.ItemName::str($item));
 		$sender->sendMessage(TextFormat::BLUE.mc::_("ItemId: ").TextFormat::WHITE.$item->getId());

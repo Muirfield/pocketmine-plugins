@@ -33,11 +33,8 @@ class CmdAs extends BasicCli implements CommandExecutor {
 			$sender->sendMessage(mc::_("Must specified a player and a command"));
 			return false;
 		}
-		$player = $this->owner->getServer()->getPlayer($n = array_shift($args));
-		if (!$player) {
-			$sender->sendMessage(mc::_("Player %1% not found",$n));
-			return true;
-		}
+		if (($player = MPMU::getPlayer($sender,$n = array_shift($args))) === null) return true;
+
 		if ($args[0] == 'chat' || $args[0] == 'say') {
 			array_shift($args);
 			$chat = implode(" ",$args);

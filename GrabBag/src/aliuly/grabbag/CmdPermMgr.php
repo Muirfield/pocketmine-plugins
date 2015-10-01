@@ -24,6 +24,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
+use aliuly\common\MPMU;
 
 class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 	protected $perms;
@@ -57,11 +58,7 @@ class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 		$pageNumber = $this->getPageNumber($args);
 		if (count($args) < 2) return false;
 
-		$target = $this->owner->getServer()->getPlayer($args[0]);
-		if ($target == null) {
-			$sender->sendMessage(TextFormat::RED.mc::_("%1%: Not found",$args[0]));
-			return true;
-		}
+		if (($target = MPMU::getPlayer($sender,$args[0])) === null) return true;
 		array_shift($args);
 		if (strtolower($args[0]) == "dump") {
 			if (count($args) != 1) return false;

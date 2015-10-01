@@ -94,15 +94,11 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 				}
 
 				foreach ($args as $n) {
-					$player = $this->owner->getServer()->getPlayer($n);
-					if ($player) {
-						$this->frosties[strtolower($player->getName())] = $player->getName();
-						$player->sendMessage(mc::_("You have been frozen by %1%",
+					if (($player = MPMU::getPlayer($sender,$n)) === null) continue;
+					$this->frosties[strtolower($player->getName())] = $player->getName();
+					$player->sendMessage(mc::_("You have been frozen by %1%",
 															$sender->getName()));
-						$sender->sendMessage(mc::_("%1% is frozen.",$n));
-					} else {
-						$sender->sendMessage(mc::_("%1% not found.",$n));
-					}
+					$sender->sendMessage(mc::_("%1% is frozen.",$n));
 				}
 				return true;
 			case "thaw":

@@ -70,11 +70,11 @@ class CmdWarp extends BasicCli implements CommandExecutor{
 								"permission" => "gb.cmd.delhome"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-    if (count($args) != 0) return false;
 		switch($cmd->getName()) {
 			case "warp":
 				return $this->cmdWarp($sender,$args);
 			case "setwarp":
+        echo __METHOD__.",".__LINE__."\n";//##DEBUG
 				return $this->cmdSet($sender, $args);
       case "delwarp":
         return $this->cmdDel($sender,$args);
@@ -95,7 +95,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     if (!isset($this->warps[$n])) return null;
 
     list($x,$y,$z,$world) = $this->warps[$n];
-    $level = TPUtils::getLevelByName($this->ower->getServer(),$world);
+    $level = TPUtils::getLevelByName($this->owner->getServer(),$world);
     if ($level === null) return null;
     return new Position($x,$y,$z,$level);
   }
@@ -113,7 +113,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     return $this->saveWarps();
   }
   protected function saveWarps() {
-    $yaml = new Config($this->owner->getDataFolder()."warps",Config::YAML,[]);
+    $yaml = new Config($this->owner->getDataFolder()."warps.yml",Config::YAML,[]);
     $yaml->setAll($this->warps);
     $yaml->save();
     return true;
@@ -124,7 +124,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
       case 0:
         $warps = $this->getWarps();
         if (count($warps)) {
-          $sender->sendMessage(mc::_("Warps(%1%): %2%"), count($warps), implode(", ", $warps));
+          $sender->sendMessage(mc::_("Warps(%1%): %2%", count($warps), implode(", ", $warps)));
         } else {
           $sender->sendMessage(mc::_("No warps defined"));
         }
@@ -143,11 +143,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
         return true;
       case 2:
         if (!MPMU::access($sender,"gb.cmd.warp.other")) return true;
-        $player = $this->owner->getServer()->getPlayer($args[0]);
-        if ($player === null) {
-          $sender->sendMessage(mc::_("Player %1% not found", $args[0]));
-          return true;
-        }
+        if (($player = MPMU::getPlayer($sender,$args[0])) === null) return true;
         $n = strtolower($args[1]);
         $pos = $this->getWarp($n);
         if ($pos === null) {
@@ -209,7 +205,7 @@ class CmdWarp extends BasicCli implements CommandExecutor{
     }
     return true;
   }
-  private function cmdDel($sender) {
+  private function cmdDel($sender,$args) {
     if (count($args) != 1) return false;
     $n = strtolower($args[0]);
     $pos = $this->getWarp($n);

@@ -81,11 +81,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				if (!MPMU::inGame($sender)) return true;
 				if (count($args) != 1) return false;
 				$n = array_shift($args);
-				$player = $this->owner->getServer()->getPlayer($n);
-				if (!$player) {
-					$sender->sendMessage(mc::_("%1% not found.",$n));
-					return true;
-				}
+				if (($player = MPMU::getPlayer($sender,$n)) === null) return true;
 				if (isset($this->followers[$s])) {
 					$sender->sendMessage(mc::_("You are no longer following %1%",
 														$this->followers[$s]));
@@ -109,11 +105,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 				if (!MPMU::inGame($sender)) return true;
 				if (count($args) == 0) return false;
 				foreach ($args as $n) {
-					$player = $this->owner->getServer()->getPlayer($n);
-					if (!$player) {
-						$sender->sendMessage(mc::_("%1% not found.",$n));
-						continue;
-					}
+					if (($player = MPMU::getPlayer($sender,$n)) === null) return true;
 					$this->stopFollowing($player);
 					$this->follow($player,$s);
 					$sender->sendMessage(mc::_("%1% is now following you",$n));
@@ -207,6 +199,4 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 		}
 		unset($this->leaders[$leader]);
 	}
-
-	//
 }

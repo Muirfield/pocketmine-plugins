@@ -150,7 +150,7 @@ class CmdSpy extends BasicCli implements CommandExecutor {
         return true;
       case "off":
         $this->spy->setLogging(null);
-        $this->owner->getServer()->broadcastMessage(mc::_("Console logging des-activated!"));
+        $this->owner->getServer()->broadcastMessage(mc::_("Console logging de-activated!"));
         return true;
     }
     return false;

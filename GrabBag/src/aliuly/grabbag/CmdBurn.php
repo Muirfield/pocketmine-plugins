@@ -14,9 +14,10 @@ use pocketmine\command\Command;
 use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
-
+use aliuly\common\MPMU;
 
 class CmdBurn extends BasicCli implements CommandExecutor {
+	const DEFAULTSECS = 5;
 	public function __construct($owner) {
 		parent::__construct($owner);
 		PermUtils::add($this->owner, "gb.cmd.burn", "Burn other players", "op");
@@ -28,14 +29,10 @@ class CmdBurn extends BasicCli implements CommandExecutor {
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() != "burn") return false;
 		if (count($args) > 2 || count($args) == 0) return false;
-		$pl = $this->owner->getServer()->getPlayer($args[0]);
-		if (!$pl) {
-			$sender->sendMessage(mc::_("%1% not found",$args[0]));
-			return true;
-		}
-		$secs = 15;
+		if (($pl = MPMU::getPlayer($sender,$args[0])) === null) return true;
+		$secs = self::DEFAULTSECS;
 		if (isset($args[1])) $secs = intval($args[1]);
-		if ($secs <= 1) $secs = 15;
+		if ($secs <= 1) $secs = self::DEFAULTSECS;
 		$pl->setOnFire($secs);
 		return true;
 	}
