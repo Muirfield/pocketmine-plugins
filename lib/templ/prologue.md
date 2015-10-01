@@ -7,7 +7,7 @@ if (!isset($v_tag_url)) $v_tag_url="https://github.com/alejandroliu/pocketmine-p
 ?>
 
 <?php if (isset($v_forum_thread)) { ?>
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the

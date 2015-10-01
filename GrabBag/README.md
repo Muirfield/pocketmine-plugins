@@ -8,11 +8,11 @@
 # GrabBag
 
 - Summary: Collection of miscellaneous commands and listener modules
-- PocketMine-MP version: 1.4 (API:1.10.0), 1.4.1 (API:1.11.0), 1.5 (API:1.12.0), 2.0.0
-- DependencyPlugins:
+- PocketMine-MP version: 1.4 (API:1.10.0), 1.4.1 (API:1.11.0), 1.5 (API:1.12.0), 1.6+php7 (API:2.0.0)
+- DependencyPlugins: 
 - OptionalPlugins: FastTransfer
-- Categories: General
-- Plugin Access: Internet Services, Other Plugins, Manages Permissions, Commands, Data Saving, Entities, Tile Entities, Manages Plugins
+- Categories: General 
+- Plugin Access: Internet Services, Other Plugins, Manages Permissions, Commands, Data Saving, Entities, Tile Entities, Manages Plugins 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
 
 <!-- end-include -->
@@ -22,7 +22,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/grabbag.7524/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -31,13 +31,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.4.0dev2**.
+This documentation was last updated for version **2.4.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.4.0dev2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.4.0).
 
 <!-- end-include -->
 
@@ -194,23 +194,23 @@ The following commands are available:
 <!-- template: gd2/subcmds.md -->
 * afk: Toggles AFK status<br/>
    usage: **afk** _[message]_
-
+  
   Implements basic Away From Key functionality.  This is actually
   implemented on the basis of the **freeze-thaw**, **mute-unmute** and
   **shield** modules.  These have to be active for this command to work.
 * after: schedule command after a number of seconds<br/>
   usage: **after** _&lt;seconds&gt;_ _&lt;command&gt;|list|cancel_ _&lt;id&gt;_
-
+  
   Will schedule to run *command* after *seconds*.
   The **list** sub command will show all the queued commands.
   The **cancel** sub command allows you to cancel queued commands.
-
+  
 * alias: Create a new command alias<br/>
   usage: **alias** **[-f]** _&lt;alias&gt;_ _&lt;command&gt;_ _[options]_
-
+  
   Create an alias to a command.
   Use the **-f** to override existing commands
-
+  
   Examples:
   - alias -f list query list
   - alias -f help echo You are beyond help!
@@ -219,44 +219,44 @@ The following commands are available:
   usage: **as** _&lt;player&gt;_ _&lt;command&gt;_
 * at: schedule command at an appointed date/time<br/>
   usage: **at** _&lt;time&gt;_ _[:]_ _&lt;command&gt;|list|cancel _&lt;id&gt;_
-
+  
   Will schedule to run *command* at the given date/time.  This uses
   php's [strtotime](http://php.net/manual/en/function.strtotime.php)
   function so _times_ must follow the format described in
   [Date and Time Formats](http://php.net/manual/en/datetime.formats.php).
   The **list** sub command will show all the queued commands.
   The **cancel** sub command allows you to cancel queued commands.
-
+  
 * blowup: explode a player<br/>
   usage: **blowup** _&lt;player&gt;_ _[yield]_ **[magic]** **[normal]**
-
+  
   Explodes _player_ with an explosion with the given _yield_ (a number).
   If **magic** is specified no damage will be taken by blocks.  The
   default is **normal**, where blocks do get damaged.
 * burn: Burns the specified player<br/>
   usage: **burn** _&lt;player&gt;_ _[secs]_
-
+  
   Sets _player_ on fire for the specified number of seconds.
   Default is 15 seconds.
-
+  
 * chat-on|chat-off: Allow players to opt-out from chat<br/>
   usage: **chat-on|chat-off** _[player|--list|--server]_
-
+  
   Prevents players from sending/receiving chat messages.
   The following options are recognized:
   - --list : Lists the players that have chat on/off status
   - --server : Globally toggles on/off chat.
-
+  
 * clearchat: Clears your chat window<br/>
   usage: **clearchat**
-
+  
 * clearhotbar: Clear player's hotbar<br/>
   usage: **clearhotbar** _[player]_
 * clearinv: Clear player's inventory<br/>
   usage: **clearinv** _[player]_
 * crash: manage crash dumps<br/>
   usage: **crash** _[ls|clean|show]_
-
+  
   Will show the number of **crash** files in the server.
   The following optional sub-commands are available:
   - **crash** **count**
@@ -277,7 +277,7 @@ The following commands are available:
    usage: **echo** _[text]_
 * entities: entity management<br/>
   usage: **entities** _[subcommand]_ _[options]_
-
+  
   By default it will show the current entities.  The following
   sub-commands are available:
   - **entities** **ls** _[world]_
@@ -294,9 +294,9 @@ The following commands are available:
      - Show a count of the number of entities on the server.
   - **entities** **nuke** _[all|mobs|others]_
      - Clear entities from the server.
-
+  
   Additionally, tiles can be specified by providing the following:
-
+  
   - t(x),(y),(z)[,world]
 * expand: Shows the given text after handling variable expansions<br/>
   usage: **expand** _[text]_
@@ -316,25 +316,25 @@ The following commands are available:
   usage: **followme-off** _&lt;player&gt;_
 * freeze|thaw: freeze/unfreeze a player so they cannot move.<br/>
   usage: **freeze|thaw** [ _player_ | **--hard|--soft** ]
-
+  
   Stops players from moving.  If no player specified it will show
   the list of frozen players.
-
+  
   If **--hard** or **--soft** is specified instead of a player name, it
   will change the freeze mode.
 * ftserver: Travel to remove servers<br/>
   usage: **ftserver** _&lt;serverid&gt;_
-
+  
   Teleport to servers defined with the **/servers** command.
 * get: obtain an item<br/>
   usage: **get** _&lt;item&gt;_ _[count]_
-
+  
   This is a shortcut to **give** that lets player get items for
   themselves.  You can replace **item** with **more** and the
   current held item will be duplicated.
 * gift: give an item to a player<br/>
   usage: **gift** _[player]_ _&lt;item&gt;_ _[count]_
-
+  
   This is a re-implementation of **give** command.
 * gma: Change your gamemode to _Adventure_.<br/>
   usage: **gma**
@@ -346,7 +346,7 @@ The following commands are available:
   usage: **gmspc**
 * heal: Restore health to a player<br/>
   usage: **heal** _[player]_ _[ammount]_
-
+  
   Heals a player.  If the amount is positive it will heal, if negative
   the player will be hurt.  The units are in 1/2 hearts.
 * home: Teleport to home<br/>
@@ -358,12 +358,12 @@ The following commands are available:
   usage: **iteminfo**
 * log: toggle server logging (chat-scribe)<br/>
   usage: **log** **[on|off]**
-
+  
   without arguments will return the logging mode.  Otherwise **on** will
   enable logging, **off** will disable logging.
 * mute|unmute: mutes/unmutes a player so they can not use chat<br/>
   usage: **mute|unmute** _[player]_
-
+  
   Stops players from chatting.  If no player specified it will show
   the list of muted players.
 * near: Shows what players are near by<br/>
@@ -372,7 +372,7 @@ The following commands are available:
   usage: **nick** _&lt;name&gt;_
 * onevent: Run command on event<br/>
   usage: usage: **onevent** _&lt;event&gt;_ _[cmd]_
-
+  
   This command will make it so a command will be executed whenever an
   event is fired.  Options:
   * **onevent**
@@ -383,10 +383,10 @@ The following commands are available:
     - Will schedule for _command_ to be executed.
   * **onevent** _<event>_ **--none**
     - Will remove the given event handler
-
+  
 * opms: sends a message to ops only<br/>
   usage: **opms** _[msg]_
-
+  
   Sends chat messages that are only see by ops.  Only works with ops
   that are on-line at the moment.  If you no ops are on-line you
   should use the **rpt** command.
@@ -394,7 +394,7 @@ The following commands are available:
   usage: **ops**
 * perm: temporarily change player's permissions<br/>
   usage: **perm** _&lt;player&gt;_ _&lt;dump|permission&gt;_ _[true|false]_
-
+  
   This can be used to temporarily change player's permissions.
   Changes are only done in-memory, so these will revert if the
   disconnects or the server reloads.
@@ -406,13 +406,13 @@ The following commands are available:
   usage: **players**
 * plenty: When in survival, make sure that a player never runs out of items<br/>
   usage: **plenty**
-
+  
   When **plenty** is on, the player will not run out of items.  Whenever
   the current block being placed is about to run out, you are given
   new blocks of the same type automatically.
 * pluginmgr: manage plugins<br/>
   usage: **pluginmgr** _&lt;subcmd&gt;_ _&lt;plugin&gt;_
-
+  
   Manage plugins.
    The following sub-commands are available:
   - **pluginmgr** **enable** _&lt;plugin&gt;_
@@ -440,27 +440,27 @@ The following commands are available:
   usage: **poptp**
 * prefix: prepend prefix to chat lines<br/>
   usage: **prefix** _[-n]_ _&lt;prefix text&gt;_
-
+  
   This allows you to prepend a prefix to chat lines.
   To stop enter **/prefix** by itself (or **prefix** at the console).
   Usage examples:
-
+  
   - Send multiple **/as player** commands in a row.
   - Start a private chat **/tell player** with another player.
   - You prefer commands over chat: **/prefix -n /**
-
+  
   When prefix is enabled and you one to send just _one_ command without
   prefix, prepend your text with **<**.
 * pushtp: Saves current location and teleport<br/>
   usage: **pushtp** _&lt;player&gt;_ _[target]_
 * query: query remote servers<br/>
   usage: **query** **[list|info|plugins|players|summary]** _[opts]_
-
+  
   This is a query client that you can use to query other
   remote servers.
-
+  
   Servers are defined with the **servers** command.
-
+  
   Options:
   - **query list**
       - List players on all configured `query` connections.
@@ -474,37 +474,37 @@ The following commands are available:
       - Summary of server data
 * rc: Runs the given script<br/>
   usage: **rc** _&lt;script&gt;_ _[args]_
-
+  
   This command will execute PMScripts present in the **GrabBag**
   folder.  By convention, the ".pms" suffix must be used for the file
   name, but the ".pms" is ommitted when issuing this command.
-
+  
   The special script **autostart.pms** is executed automatically
   when the **GrabBag** plugin gets enabled.
-
+  
   By default only scripts in the Plugin directory are executed.
   You can disable this feature with the command:
-
+  
        rc --no-limit-path
-
+  
   To resume limiting:
-
+  
        rc --limit-path
-
+  
 * rcon: rcon client<br/>
   usage: **rcon** _&lt;id&gt;_ _&lt;command&gt;_
-
+  
   This is an rcon client that you can used to send commands to other
   remote servers identified by **id**.
-
+  
   You can specify multiple targets by separating with commas (,).
   Otherwise, you can use **--all** keyword for the _id_ if you want to
   send the commands to all configured servers.
-
+  
   Use the **servers** command to define the rcon servers.
 * reg: Manage player registrations<br/>
   usage: **reg** _[subcommand]_ _[options]_
-
+  
   By default it will show the number of registered players.  The following
   sub-commands are available:
   - **count**
@@ -520,19 +520,19 @@ The following commands are available:
   usage: **rem** _[text]_
 * reop: Let ops drop priviledges temporarily<br/>
   usage: **reop** [_player_]
-
+  
   Will drop **op** priviledges from player.  Player can get **op**
   back at any time by enter **reop** again or by disconnecting.
 * rminv: Remove item from player's Inventory<br/>
   usage: **rminv** _[player]_ _&lt;item&gt;_ _[quantity]_
 * rpt: report an issue to ops<br/>
   usage: **rpt** [_message_|**read|clear** _&lt;all|##&gt;_]
-
+  
   Logs/reports an issue to server ops.  These issues are stored in a
   a file which can be later read by the server operators.  Use this
   when there are **no** ops on-line.  If there are ops on-line you
   should use the **opms** command.
-
+  
   The following ops only commands are available:
   - **rpt** **read** _[##]_
     - reads reports.  You can specify the page by specifying a number.
@@ -544,10 +544,10 @@ The following commands are available:
   usage: **seeinv** _&lt;player&gt;_
 * servers: Manage peer server connections<br/>
   usage: **servers** **&lt;add|rm|ls&gt;** _[options]_
-
+  
   This is used to manage the peer server definitions used by the
   **RCON** and **QUERY** modules, among others.
-
+  
   Sub-commands:
   - **servers add** _&lt;id&gt;_ _&lt;host&gt;_ _[port]_ _[options]_ _[# comments]_
     - adds a new connection with **id**
@@ -571,44 +571,44 @@ The following commands are available:
   * ft-host=host : Alternative host to be used in fast transfer
 * servicemode: controls servicemode<br/>
   usage: **servicemode** **[on|off** _[message]_ **]**
-
+  
   If **on** it will activate service mode.  In service mode new
   players can not join (unless they are ops).  Existing players
   can remain but may be kicked manually by any ops.
 * setarmor: Sets armor (even in creative)<br/>
   usage: **setarmor** _[player]_ _&lt;quality|item&gt;_
-
+  
   This command lets you armor up.  It can armor up creative players too.
   If no **player** is given, the player giving the command will be armored.
-
+  
   Quality can be one of **none**, **leather**, **chainmail**, **iron**,
   **gold** or **diamond**.  This will make all armor components of that
   quality.
-
+  
   Otherwise you can specify an armor item, and this will be placed in
   your armor slot.
-
+  
 * sethome: Sets your home location<br/>
   usage: **sethome**
 * setwarp: Sets warp location<br/>
   usage: **setwarp** _&lt;warpname&gt;_ _[x,y,z[:world]]_
 * shield: player is protected from taking damage<br/>
   usage: **shield**
-
+  
   This will toggle your shield status.
 * shield: player is teleported to the place of last death<br/>
   usage: **back**
 * showtimings: Shows timing repots as reported by **timings**<br/>
   usage: **timings** _[t#]_
-
+  
   If nothing specified it will list available reports.  These are
   of the form of **timings.txt** or `timings1.txt`.
-
+  
   To specify a report enter **t** for **timings.txt** or **t1** for
   **timings1.txt**.
 * skin: manage player's skins<br/>
   usage: **skin** _[player]_ _[save|load|ls]_ _[name]_
-
+  
   Manipulate player's skins on the server.
   Sub-commands:
   - **skin** **ls**
@@ -630,15 +630,15 @@ The following commands are available:
   usage: **spawn**
 * spectator|unspectator: toggle a player's spectator mode **(DEPRECATED)**<br/>
   usage: **spectator|unspectator** _[player]_
-
+  
   This command will turn a player into an spectator.  In this mode
   players can move but not interact (i.e. can't take/give damage,
   can't place/break blocks, etc).
-
+  
   If no player was specified, it will list spectators.
 * spy: spy on a player in-game (chat-scribe)<br/>
   usage: **spy** **[start|stop|status]** _[player]_
-
+  
   This command is useful for a help-desk type function.  Let's you locale_lookup
   over the shoulder of a player and see what commands they are entering.
 * summon: Summons a player to your location<br/>
@@ -657,10 +657,10 @@ The following commands are available:
   usage: **tpdecline** _&lt;player&gt;_
 * trace: controls event tracing<br/>
    usage: **trace** _[options]_
-
+  
   Trace will show to the user the different events that are being
   triggered on the server.  To reduce spam, events are de-duplicated.
-
+  
   Sub commands:
   * **trace**
     - Shows the current trace status
@@ -678,20 +678,20 @@ The following commands are available:
     - If you start the _event|type|class_ specification name with a
       **dash**, the _event|type|class_ will be removed from the current
       trace session.
-
+  
 * wall: shows the given text to all servers<br/>
    usage: **wall** _[text]_
-
+  
   This will broadcast the given message to all the servers lited in
   _"serverlist"_ that have **rcon-pw** defined.  You must have **rcon**
   enabled and all servers should be running **GrabBag** with **wall**
   support.
-
+  
 * warp: Teleport to warp.<br/>
   usage: **warp**  _[player]_ _[warpname]_
   Teleports to _warpname_.  If no _warpname_ is given, it will list the
   warps available.
-
+  
   Permissions are created with the form: **gb.warp.** _warpname_.
 * whois: Gives detailed information on players<br/>
   usage: **whois** _&lt;player&gt;_
@@ -941,12 +941,6 @@ This section configures peer servers.  This can be used with
 <!-- snippet: rtperms -->
 * gb.cmd.back: Allow players to return to place of death
 * gb.cmd.pushpoptp (op): position stack
-* gb.cmd.warp: teleport to warp location
-* gb.cmd.warp.other (disabled): warp others
-* gb.cmd.setwarp (op): set home command
-* gb.cmd.setwarp.new (op): set a new warp
-* gb.cmd.setwarp.move: move existing warp
-* gb.cmd.delwarp (op): Remove warp
 * gb.cmd.whois (op): view players details
 * gb.cmd.whois.showip (op): view players IP address
 * gb.join.reserved (op): players with this permission can use reserved slots
@@ -961,76 +955,74 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servers.read.viewip (op): view server IP address
 * gb.cmd.servers.read.viewrcon (op): view rcon secrets
 * gb.cmd.servers.write (op): change server configuration
-* gb.cmd.afk (op): afk command
-* gb.cmd.after (op): access command scheduler
-* gb.cmd.alias (op): allow creating aliases
-* gb.cmd.sudo (op): Run command as another user
-* gb.cmd.blowup (op): Explode other players
-* gb.cmd.burn (op): Burn other players
-* gb.cmd.togglechat: lets players opt out from chat
-* gb.cmd.togglechat.others (op): lets you toggle chat for others
-* gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
-* gb.cmd.togglechat.global (op): Can toggle chat for the server as a whole
-* gb.cmd.clearchat: Clear your chat window
-* gb.cmd.nick: Change display name
-* gb.cmd.clearinv: clear player's inventory
-* gb.cmd.clearinv.others (op): clear other's inventory
-* gb.cmd.rminv: remove item from inventory
-* gb.cmd.rminv.others (op): remove item from other's inventory
-* gb.cmd.clearhotbar: clear player's hotbar
-* gb.cmd.clearhotbar.others (op): clear other's hotbar
-* gb.cmd.fixit (op): Fix player's held item
-* gb.cmd.fixit.others (op): Fix other players held item
-* gb.cmd.crash (op): crash dump management
-* gb.cmd.entities (op): entity management
+* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.follow (op): lets you follow others
 * gb.cmd.followme (op): let others follow you
+* gb.cmd.skin (op): Manage skins
+* gb.cmd.skin.other (op): Manage other's skins
+* gb.cmd.log (op): Allow players to enable logging
+* gb.cmd.spy (op): Allow players to enable spying
+* gb.spy.privacy (disabled): Players with this permission do not have logging/spying
+* gb.cmd.after (op): access command scheduler
+* gb.cmd.alias (op): allow creating aliases
+* gb.cmd.summon (op): summon|dismmiss command
+* gb.cmd.crash (op): crash dump management
+* gb.cmd.entities (op): entity management
 * gb.cmd.get (op): get blocks
 * gb.cmd.gma (op): Switch gamemode to Adventure
 * gb.cmd.gms (op): Switch gamemode to Survival
 * gb.cmd.gmc (op): Switch gamemode to Creative
 * gb.cmd.gmspc (op): Switch gamemode to Spectator
-* gb.cmd.home: teleport to home location
-* gb.cmd.sethome: set home command
-* gb.cmd.sethome.new (op): set a new home
-* gb.cmd.sethome.move: move existing home
-* gb.cmd.delhome: Remove home
 * gb.cmd.plenty (op): Give players plenty of stuff
 * gb.cmd.servicemode (op): service mode command
 * gb.servicemode.allow (op): login when in service mode
-* gb.cmd.summon (op): summon|dismmiss command
-* gb.cmd.throw (op): Troll players
 * gb.cdeath: players with this permission benefit from keepiinv
 * gb.cdeath.default (disabled): Player dies according to PocketMine defaults
 * gb.cdeath.keep (disabled): Player keeps inventory on death
 * gb.cdeath.nodrops (disabled): Player does not drop items on death
-* gb.cmd.ftserver (op): Allow user to use Fast Transfer
-* gb.cmd.echo: echo command
-* gb.cmd.expand (op): expand command
-* gb.cmd.rem: remark command
-* gb.cmd.fly (op): flight control
-* gb.cmd.freeze (op): freeze/thaw players
-* gb.cmd.heal (op): heal players
-* gb.cmd.tracer (op): access event tracing
-* gb.cmd.iteminfo: get info on item held
-* gb.cmd.iteminfo.other (op): item info of others
-* gb.cmd.skin (op): Manage skins
-* gb.cmd.skin.other (op): Manage other's skins
+* gb.cmd.mute (op): mute/unmute players
+* gb.cmd.onevent (op): access onevent command
+* gb.cmd.reop: Reop command
+* gb.cmd.reop.others (op): ReOp others
 * gb.cmd.tpask (op): Submit a tp request
 * gb.cmd.tpahere: Submit a tp-here request
 * gb.cmd.tpaccept: Accept tpask|tpahere
 * gb.cmd.tpaccept.tpask: Accept tpask
 * gb.cmd.tpaccept.tpahere (op): Accept tpask
 * gb.cmd.tpdecline: Decline tpask|tpahere
+* gb.cmd.echo: echo command
+* gb.cmd.expand (op): expand command
+* gb.cmd.rem: remark command
+* gb.cmd.fly (op): flight control
+* gb.cmd.tracer (op): access event tracing
+* gb.cmd.afk (op): afk command
+* gb.cmd.togglechat: lets players opt out from chat
+* gb.cmd.togglechat.others (op): lets you toggle chat for others
+* gb.cmd.togglechat.excempt (op): chat-off players will always receive chats from these players
+* gb.cmd.togglechat.global (op): Can toggle chat for the server as a whole
+* gb.cmd.clearchat: Clear your chat window
+* gb.cmd.nick: Change display name
+* gb.cmd.slay (op): Allow slaying players
+* gb.cmd.throw (op): Troll players
+* gb.cmd.sudo (op): Run command as another user
+* gb.cmd.blowup (op): Explode other players
+* gb.cmd.burn (op): Burn other players
+* gb.cmd.permmgr (op): Manipulate Permissions
+* gb.cmd.seearmor (op): View armor
+* gb.cmd.seeinv (op): View inventory
+* gb.cmd.warp: teleport to warp location
+* gb.cmd.warp.other (disabled): warp others
+* gb.cmd.setwarp (op): set home command
+* gb.cmd.setwarp.new (op): set a new warp
+* gb.cmd.setwarp.move: move existing warp
+* gb.cmd.delwarp (op): Remove warp
 * gb.cmd.invisible (op): invisibility power
 * gb.cmd.invisible.inmune (disabled): can see invisible players
-* gb.cmd.mute (op): mute/unmute players
 * gb.cmd.near: near by players
 * gb.cmd.opms: Send op only messages
 * gb.cmd.rpt: Report issues
 * gb.cmd.rpt.read (op): Read reported issues
 * gb.cmd.ops: Display ops
-* gb.cmd.permmgr (op): Manipulate Permissions
 * gb.cmd.players: connected players
 * gb.cmd.pluginmgr (op): Run-time management of plugins
 * gb.cmd.prefix: Prefix command
@@ -1040,30 +1032,38 @@ This section configures peer servers.  This can be used with
 * gb.cmd.query.players.showip: View players server IP
 * gb.cmd.query.list: Query List sub command
 * gb.cmd.rcon (op): Rcon client
-* gb.cmd.reop: Reop command
-* gb.cmd.reop.others (op): ReOp others
 * gb.cmd.regs (op): Manage player registrations
 * gb.module.cmdsel: use command selectors
 * gb.cmd.pmscript (op): access rc (pmscript) command
-* gb.cmd.onevent (op): access onevent command
+* gb.cmd.top (op): top commnad
+* gb.cmd.top.others (op): top others commnad
+* gb.cmd.wall (op): broadcast command
+* gb.cmd.xyz: xyz command
+* gb.cmd.xyz.others (op): xyz command on others
 * gb.cmd.setarmor (op): Configure armor
 * gb.cmd.setarmor.others (op): Configure other's armor
 * gb.cmd.shield (op): Allow players to become invulnverable
-* gb.cmd.seearmor (op): View armor
-* gb.cmd.seeinv (op): View inventory
-* gb.cmd.slay (op): Allow slaying players
 * gb.cmd.spawn: Teleport to spawn
 * gb.cmd.spectator (op): Turn players into spectators
-* gb.cmd.log (op): Allow players to enable logging
-* gb.cmd.spy (op): Allow players to enable spying
-* gb.spy.privacy (disabled): Players with this permission do not have logging/spying
 * gb.cmd.timings (op): view timings report
-* gb.cmd.top (op): top commnad
-* gb.cmd.top.others (op): top others commnad
-* gb.cmd.xyz: xyz command
-* gb.cmd.xyz.others (op): xyz command on others
 * gb.module.repeater: use !! to repeat commands
-* gb.cmd.wall (op): broadcast command
+* gb.cmd.clearinv: clear player's inventory
+* gb.cmd.clearinv.others (op): clear other's inventory
+* gb.cmd.rminv: remove item from inventory
+* gb.cmd.rminv.others (op): remove item from other's inventory
+* gb.cmd.clearhotbar: clear player's hotbar
+* gb.cmd.clearhotbar.others (op): clear other's hotbar
+* gb.cmd.fixit (op): Fix player's held item
+* gb.cmd.fixit.others (op): Fix other players held item
+* gb.cmd.freeze (op): freeze/thaw players
+* gb.cmd.heal (op): heal players
+* gb.cmd.home: teleport to home location
+* gb.cmd.sethome: set home command
+* gb.cmd.sethome.new (op): set a new home
+* gb.cmd.sethome.move: move existing home
+* gb.cmd.delhome: Remove home
+* gb.cmd.iteminfo: get info on item held
+* gb.cmd.iteminfo.other (op): item info of others
 <!-- end-include -->
 
 <!-- template: gd2/mctxt.md -->
@@ -1098,18 +1098,23 @@ The following third party libraries are included:
 ## WIP and issues
 
 * Query:
-  * Queries are done in the main thread.  Should be moved as an AsyncTask.
+  * Queries are done in the main thread.
   * Queries to the same server do not work.
-  * Queries not using QueryDaemon
 * Deprecated modules:
   - CmdSpectator
+* MCPE-0.12 has the following issues:
+  - teleports are a bit glitchy
+  - Heal command does not work properly
+  - FastTransfer sessions do not free connections
+  - Inventory gets out of sync
+  - skins do not get loaded on the fly
 
 # Changes
 
 * 2.4.0: libcommon bundle
   * Query/Ping Daemon functionality
   * Server configuration can have alternative IPs
-  * Tp Request and Homes (Requested by @rvachvg, @rock2rap)
+  * Warps, Tp Request and Homes (Requested by @rvachvg, @rock2rap)
   * Added support for PNG skin formats
   * New Commands:
     * teleport: warps, top, back
@@ -1117,12 +1122,17 @@ The following third party libraries are included:
     * inventory: fixit, plenty
     * player mgmt: afk
     * Developer tools: echo, rem, expand, onevent, pmscript/rc, trace
-    * Server management: wall
+    * Server management: wall, command logging and spying
   * JoinMgr: reserved slots, initial armor and items, always spawn
   * New modules: custom-death and merge-slots
   * CmdSpectator is now deprecated
   * libcommon is embedded and usable.  Replaces a separate libcommon library.
-  * Misc bugfixes...
+  * Bug Fixes and updates
+    - Query works with query daemon (when available)
+    - SetArmor was revamped, syntax changed.
+    - Skinner implementation is part of libcommon.  It now has experimental
+      support for PNG skins.  (Requires PHP with GD enabled)
+    - etc...
 * 2.3.0: Update, new functionality and API
   * Plugin loader will check server paths (include plugin folder)
   * New plugin mgr sub command to dump messages.ini and to un-install.
@@ -1276,3 +1286,4 @@ The following third party libraries are included:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
