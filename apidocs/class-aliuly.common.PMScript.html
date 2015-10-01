@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -170,7 +167,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.PMScript.html#65-284" title="Go to source code">common/PMScript.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.PMScript.html#104-318" title="Go to source code">PMScript.php</a>
 		<br>
 	</div>
 
@@ -190,7 +187,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#75-102" title="Go to source code">__construct</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span>, <span>boolean|<code><a href="class-aliuly.common.ExpandVars.html">aliuly\common\ExpandVars</a></code> <var>$vars</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$perms</var> = <span class="php-keyword1">true</span></span>, <span>integer <var>$selector</var> = <span class="php-num">100</span></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#114-141" title="Go to source code">__construct</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span>, <span>boolean|<code><a href="class-aliuly.common.ExpandVars.html">aliuly\common\ExpandVars</a></code> <var>$vars</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$perms</var> = <span class="php-keyword1">true</span></span>, <span>integer <var>$selector</var> = <span class="php-num">100</span></span> )</code>
 
 		<div class="description short">
 			
@@ -239,7 +236,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_exec">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#103-123" title="Go to source code">exec</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>str <var>$cmdline</var></span>, <span>array <var>$vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#142-162" title="Go to source code">exec</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>str <var>$cmdline</var></span>, <span>array <var>$vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Execute a command</p>
@@ -284,15 +281,15 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getCommonInterp">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#124-142" title="Go to source code">getCommonInterp</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#163-176" title="Go to source code">getCommonInterp</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
 
 		<div class="description short">
-			<p>If libcommon is available, try to get a single shared instance of
+			<p>If GrabBag is available, try to get a single shared instance of
 PMScript</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>If libcommon is available, try to get a single shared instance of
+			<p>If GrabBag is available, try to get a single shared instance of
 PMScript</p>
 
 
@@ -316,7 +313,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_define">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#143-150" title="Go to source code">define</a>( <span>str <var>$str</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#177-184" title="Go to source code">define</a>( <span>str <var>$str</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Define additional constants on the fly...</p>
@@ -353,7 +350,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getOwner">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#151-154" title="Go to source code">getOwner</a>( )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#185-188" title="Go to source code">getOwner</a>( )</code>
 
 		<div class="description short">
 			<p>Return plugin owner</p>
@@ -383,7 +380,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getServer">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#155-158" title="Go to source code">getServer</a>( )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#189-192" title="Go to source code">getServer</a>( )</code>
 
 		<div class="description short">
 			<p>Return server</p>
@@ -413,7 +410,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getGlob">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#160-168" title="Go to source code">getGlob</a>( <span>str <var>$label</var></span>, <span>mixed <var>$default</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#194-202" title="Go to source code">getGlob</a>( <span>str <var>$label</var></span>, <span>mixed <var>$default</var></span> )</code>
 
 		<div class="description short">
 			
@@ -458,7 +455,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setGlob">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#169-179" title="Go to source code">setGlob</a>( <span>str <var>$label</var></span>, <span>mixed <var>$val</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#203-213" title="Go to source code">setGlob</a>( <span>str <var>$label</var></span>, <span>mixed <var>$val</var></span> )</code>
 
 		<div class="description short">
 			<p>Set global variable</p>
@@ -503,7 +500,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unsetGlob">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#180-188" title="Go to source code">unsetGlob</a>( <span>str <var>$label</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#214-222" title="Go to source code">unsetGlob</a>( <span>str <var>$label</var></span> )</code>
 
 		<div class="description short">
 			<p>Clears a global variable</p>
@@ -540,7 +537,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_runScriptFile">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#193-205" title="Go to source code">runScriptFile</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$path</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#227-239" title="Go to source code">runScriptFile</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$path</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
 
 		<div class="description short">
 			<p>Run a script file</p>
@@ -587,7 +584,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_loadScriptFile">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#207-214" title="Go to source code">loadScriptFile</a>( <span>str <var>$path</var></span>, <span>boolean <var>$cache</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#241-248" title="Go to source code">loadScriptFile</a>( <span>str <var>$path</var></span>, <span>boolean <var>$cache</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			<p>load a script from file (May implement a cache in the future...)</p>
@@ -628,7 +625,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_runScriptCode">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#215-228" title="Go to source code">runScriptCode</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$pmscode</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#249-262" title="Go to source code">runScriptCode</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$pmscode</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
 
 		<div class="description short">
 			<p>Execute a PMScript</p>
@@ -675,7 +672,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_executeScript">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#229-256" title="Go to source code">executeScript</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$php</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#263-290" title="Go to source code">executeScript</a>( <span>pocketmine\command\CommandSender <var>$ctx</var></span>, <span>callable <var>$php</var></span>, <span>array <var>&amp; $args</var></span>, <span>array <var>&amp; $opts</var></span> )</code>
 
 		<div class="description short">
 			<p>Execute preloaded PHP code</p>
@@ -722,7 +719,7 @@ PMScript</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_loadScriptCode">#</a>
-		<code><a href="source-class-aliuly.common.PMScript.html#257-283" title="Go to source code">loadScriptCode</a>( <span>str <var>$pmscript</var></span> )</code>
+		<code><a href="source-class-aliuly.common.PMScript.html#291-317" title="Go to source code">loadScriptCode</a>( <span>str <var>$pmscript</var></span> )</code>
 
 		<div class="description short">
 			<p>Prepare PMScript and convert into a PHP callable</p>
@@ -769,7 +766,7 @@ PMScript</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.PMScript.html#69" title="Go to source code"><var>$owner</var></a>
+				<a href="source-class-aliuly.common.PMScript.html#108" title="Go to source code"><var>$owner</var></a>
 
 			<div class="description short">
 				
@@ -794,7 +791,7 @@ PMScript</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.PMScript.html#70" title="Go to source code"><var>$selector</var></a>
+				<a href="source-class-aliuly.common.PMScript.html#109" title="Go to source code"><var>$selector</var></a>
 
 			<div class="description short">
 				
@@ -819,7 +816,7 @@ PMScript</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.PMScript.html#71" title="Go to source code"><var>$perms</var></a>
+				<a href="source-class-aliuly.common.PMScript.html#110" title="Go to source code"><var>$perms</var></a>
 
 			<div class="description short">
 				
@@ -844,7 +841,7 @@ PMScript</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.PMScript.html#72" title="Go to source code"><var>$vars</var></a>
+				<a href="source-class-aliuly.common.PMScript.html#111" title="Go to source code"><var>$vars</var></a>
 
 			<div class="description short">
 				
@@ -869,7 +866,7 @@ PMScript</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.PMScript.html#73" title="Go to source code"><var>$globs</var></a>
+				<a href="source-class-aliuly.common.PMScript.html#112" title="Go to source code"><var>$globs</var></a>
 
 			<div class="description short">
 				

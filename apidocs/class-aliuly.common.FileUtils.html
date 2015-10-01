@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -170,7 +167,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.FileUtils.html#4-48" title="Go to source code">common/FileUtils.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.FileUtils.html#4-64" title="Go to source code">FileUtils.php</a>
 		<br>
 	</div>
 
@@ -190,7 +187,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_cp_r">#</a>
-		<code><a href="source-class-aliuly.common.FileUtils.html#8-30" title="Go to source code">cp_r</a>( <span>str <var>$src</var></span>, <span>str <var>$dst</var></span> )</code>
+		<code><a href="source-class-aliuly.common.FileUtils.html#8-31" title="Go to source code">cp_r</a>( <span>str <var>$src</var></span>, <span>str <var>$dst</var></span> )</code>
 
 		<div class="description short">
 			<p>Recursive copy function</p>
@@ -231,7 +228,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_rm_r">#</a>
-		<code><a href="source-class-aliuly.common.FileUtils.html#31-47" title="Go to source code">rm_r</a>( <span>str <var>$path</var></span> )</code>
+		<code><a href="source-class-aliuly.common.FileUtils.html#32-48" title="Go to source code">rm_r</a>( <span>str <var>$path</var></span> )</code>
 
 		<div class="description short">
 			<p>Recursive delete function</p>
@@ -250,6 +247,49 @@
 				<h4>Returns</h4>
 				<div class="list">
 					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="tempdir" id="_tempdir">
+
+		<td class="attributes"><code>
+			 public static
+
+			str
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_tempdir">#</a>
+		<code><a href="source-class-aliuly.common.FileUtils.html#49-62" title="Go to source code">tempdir</a>( <span>str <var>$dir</var></span>, <span>str <var>$prefix</var> = <span class="php-quote">''</span></span>, <span>integer <var>$mode</var> = <span class="php-num">0700</span></span> )</code>
+
+		<div class="description short">
+			<p>Creates a temporary directory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Creates a temporary directory</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dir</var></dt>
+					<dd></dd>
+					<dt><var>$prefix</var></dt>
+					<dd></dd>
+					<dt><var>$mode</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					str
 				</div>
 
 

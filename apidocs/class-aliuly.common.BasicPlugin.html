@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -171,10 +168,6 @@ pocketmine\plugin\PluginBase
 	</dl>
 
 
-	<div>
-		<h4>Direct known subclasses</h4>
-			<a href="class-aliuly.loader.Main.html">aliuly\loader\Main</a>
-	</div>
 
 
 
@@ -187,7 +180,7 @@ pocketmine\plugin\PluginBase
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.BasicPlugin.html#16-189" title="Go to source code">common/BasicPlugin.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.BasicPlugin.html#18-192" title="Go to source code">BasicPlugin.php</a>
 		<br>
 	</div>
 
@@ -207,7 +200,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_modConfig">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#24-82" title="Go to source code">modConfig</a>( <span>str <var>$ns</var></span>, <span>array <var>$mods</var></span>, <span>array <var>$defaults</var></span>, <span>str <var>$xhlp</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#26-84" title="Go to source code">modConfig</a>( <span>str <var>$ns</var></span>, <span>array <var>$mods</var></span>, <span>array <var>$defaults</var></span>, <span>str <var>$xhlp</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
 
 		<div class="description short">
 			<p>Given some defaults, this will load optional features</p>
@@ -260,7 +253,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getModule">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#83-91" title="Go to source code">getModule</a>( <span>str <var>$str</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#85-93" title="Go to source code">getModule</a>( <span>str <var>$str</var></span> )</code>
 
 		<div class="description short">
 			<p>Get module</p>
@@ -287,6 +280,40 @@ pocketmine\plugin\PluginBase
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="getModules" id="_getModules">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getModules">#</a>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#94-100" title="Go to source code">getModules</a>( )</code>
+
+		<div class="description short">
+			<p>Get Modules array</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get Modules array</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="cfgSave" id="_cfgSave">
 
 		<td class="attributes"><code>
@@ -299,7 +326,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_cfgSave">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#92-104" title="Go to source code">cfgSave</a>( <span>str <var>$key</var></span>, <span>mixed <var>$settings</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#101-113" title="Go to source code">cfgSave</a>( <span>str <var>$key</var></span>, <span>mixed <var>$settings</var></span> )</code>
 
 		<div class="description short">
 			<p>Save a config section to the plugins' config.yml</p>
@@ -340,7 +367,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_dispatchSCmd">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#105-114" title="Go to source code">dispatchSCmd</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>pocketmine\command\Command <var>$cmd</var></span>, <span>array <var>$args</var></span>, <span> <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#114-123" title="Go to source code">dispatchSCmd</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>pocketmine\command\Command <var>$cmd</var></span>, <span>array <var>$args</var></span>, <span> <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Dispatch commands using sub command table</p>
@@ -370,7 +397,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getSCmdMap">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#115-120" title="Go to source code">getSCmdMap</a>( )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#124-129" title="Go to source code">getSCmdMap</a>( )</code>
 
 		<div class="description short">
 			<p>Look-up sub command map</p>
@@ -404,7 +431,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerSCmd">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#121-132" title="Go to source code">registerSCmd</a>( <span>str <var>$cmd</var></span>, <span>callable <var>$callable</var></span>, <span>array <var>$opts</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#130-141" title="Go to source code">registerSCmd</a>( <span>str <var>$cmd</var></span>, <span>callable <var>$callable</var></span>, <span>array <var>$opts</var></span> )</code>
 
 		<div class="description short">
 			<p>Register a sub command</p>
@@ -449,7 +476,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getState">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#133-144" title="Go to source code">getState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#142-153" title="Go to source code">getState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
 
 		<div class="description short">
 			<p>Get a player state for the desired module/$label.</p>
@@ -498,7 +525,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setState">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#145-156" title="Go to source code">setState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#154-165" title="Go to source code">setState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
 
 		<div class="description short">
 			<p>Set a player related state</p>
@@ -547,7 +574,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unsetState">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#157-166" title="Go to source code">unsetState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#166-175" title="Go to source code">unsetState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span> )</code>
 
 		<div class="description short">
 			<p>Clears a player related state</p>
@@ -588,7 +615,7 @@ pocketmine\plugin\PluginBase
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getResourceContents">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#168-182" title="Go to source code">getResourceContents</a>( <span>string <var>$filename</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicPlugin.html#177-191" title="Go to source code">getResourceContents</a>( <span>string <var>$filename</var></span> )</code>
 
 		<div class="description short">
 			<p>Gets the contents of an embedded resource on the plugin file.</p>
@@ -608,36 +635,6 @@ pocketmine\plugin\PluginBase
 				<div class="list">
 					string|null
 				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="getMessagesIni" id="_getMessagesIni">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_getMessagesIni">#</a>
-		<code><a href="source-class-aliuly.common.BasicPlugin.html#183-188" title="Go to source code">getMessagesIni</a>( )</code>
-
-		<div class="description short">
-			<p>Lets you dump the messages.ini file</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Lets you dump the messages.ini file</p>
-
-
-
 
 
 
@@ -667,7 +664,7 @@ pocketmine\plugin\PluginBase
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.BasicPlugin.html#20" title="Go to source code"><var>$modules</var></a>
+				<a href="source-class-aliuly.common.BasicPlugin.html#22" title="Go to source code"><var>$modules</var></a>
 
 			<div class="description short">
 				
@@ -692,7 +689,7 @@ pocketmine\plugin\PluginBase
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.BasicPlugin.html#21" title="Go to source code"><var>$scmdMap</var></a>
+				<a href="source-class-aliuly.common.BasicPlugin.html#23" title="Go to source code"><var>$scmdMap</var></a>
 
 			<div class="description short">
 				
@@ -717,7 +714,7 @@ pocketmine\plugin\PluginBase
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.BasicPlugin.html#22" title="Go to source code"><var>$session</var></a>
+				<a href="source-class-aliuly.common.BasicPlugin.html#24" title="Go to source code"><var>$session</var></a>
 
 			<div class="description short">
 				

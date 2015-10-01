@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -170,7 +167,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.ArmorItems.html#5-128" title="Go to source code">common/ArmorItems.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.ArmorItems.html#7-130" title="Go to source code">ArmorItems.php</a>
 		<br>
 	</div>
 
@@ -190,7 +187,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_str2part">#</a>
-		<code><a href="source-class-aliuly.common.ArmorItems.html#23-55" title="Go to source code">str2part</a>( <span>str <var>$str</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ArmorItems.html#25-57" title="Go to source code">str2part</a>( <span>str <var>$str</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns the armor part of a string</p>
@@ -231,7 +228,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_str2quality">#</a>
-		<code><a href="source-class-aliuly.common.ArmorItems.html#56-77" title="Go to source code">str2quality</a>( <span>str <var>$str</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ArmorItems.html#58-79" title="Go to source code">str2quality</a>( <span>str <var>$str</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns the armor quality of a string</p>
@@ -272,7 +269,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getItemId">#</a>
-		<code><a href="source-class-aliuly.common.ArmorItems.html#78-97" title="Go to source code">getItemId</a>( <span>integer <var>$q</var></span>, <span>integer <var>$p</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ArmorItems.html#80-99" title="Go to source code">getItemId</a>( <span>integer <var>$q</var></span>, <span>integer <var>$p</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns the item ID from an armor class / armor type constants</p>
@@ -317,7 +314,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getArmorPart">#</a>
-		<code><a href="source-class-aliuly.common.ArmorItems.html#98-127" title="Go to source code">getArmorPart</a>( <span>integer <var>$item</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ArmorItems.html#100-129" title="Go to source code">getArmorPart</a>( <span>integer <var>$item</var></span> )</code>
 
 		<div class="description short">
 			<p>Given an item ID, return the armor type constant that applies...</p>
@@ -362,7 +359,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#9" title="Go to source code"><b>ERROR</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#11" title="Go to source code"><b>ERROR</b></a>
 			</code>
 
 			<div class="description short">
@@ -386,7 +383,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#11" title="Go to source code"><b>HEAD</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#13" title="Go to source code"><b>HEAD</b></a>
 			</code>
 
 			<div class="description short">
@@ -410,7 +407,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#12" title="Go to source code"><b>BODY</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#14" title="Go to source code"><b>BODY</b></a>
 			</code>
 
 			<div class="description short">
@@ -434,7 +431,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#13" title="Go to source code"><b>LEGS</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#15" title="Go to source code"><b>LEGS</b></a>
 			</code>
 
 			<div class="description short">
@@ -458,7 +455,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#14" title="Go to source code"><b>BOOTS</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#16" title="Go to source code"><b>BOOTS</b></a>
 			</code>
 
 			<div class="description short">
@@ -482,7 +479,7 @@
 		<td class="attributes"><code>integer</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#16" title="Go to source code"><b>NONE</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#18" title="Go to source code"><b>NONE</b></a>
 			</code>
 
 			<div class="description short">
@@ -506,7 +503,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#17" title="Go to source code"><b>LEATHER</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#19" title="Go to source code"><b>LEATHER</b></a>
 			</code>
 
 			<div class="description short">
@@ -530,7 +527,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#18" title="Go to source code"><b>CHAINMAIL</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#20" title="Go to source code"><b>CHAINMAIL</b></a>
 			</code>
 
 			<div class="description short">
@@ -554,7 +551,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#19" title="Go to source code"><b>IRON</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#21" title="Go to source code"><b>IRON</b></a>
 			</code>
 
 			<div class="description short">
@@ -578,7 +575,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#20" title="Go to source code"><b>DIAMOND</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#22" title="Go to source code"><b>DIAMOND</b></a>
 			</code>
 
 			<div class="description short">
@@ -602,7 +599,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-aliuly.common.ArmorItems.html#21" title="Go to source code"><b>GOLD</b></a>
+				<a href="source-class-aliuly.common.ArmorItems.html#23" title="Go to source code"><b>GOLD</b></a>
 			</code>
 
 			<div class="description short">

@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li class="active"><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -172,7 +169,9 @@
 			<a href="class-aliuly.common.ChatSession.html">aliuly\common\ChatSession</a>, 
 			<a href="class-aliuly.common.FreezeSession.html">aliuly\common\FreezeSession</a>, 
 			<a href="class-aliuly.common.InvisibleSession.html">aliuly\common\InvisibleSession</a>, 
-			<a href="class-aliuly.common.ShieldSession.html">aliuly\common\ShieldSession</a>
+			<a href="class-aliuly.common.ShieldSession.html">aliuly\common\ShieldSession</a>, 
+			<a href="class-aliuly.common.ShoppingCart.html">aliuly\common\ShoppingCart</a>, 
+			<a href="class-aliuly.common.SpySession.html">aliuly\common\SpySession</a>
 	</div>
 
 
@@ -186,7 +185,7 @@
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.Session.html#9-79" title="Go to source code">common/Session.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.Session.html#11-81" title="Go to source code">Session.php</a>
 		<br>
 	</div>
 
@@ -206,7 +205,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-aliuly.common.Session.html#15-22" title="Go to source code">__construct</a>( <span>pocketmine\plugin\PluginBase <var>$owner</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Session.html#17-24" title="Go to source code">__construct</a>( <span>pocketmine\plugin\PluginBase <var>$owner</var></span> )</code>
 
 		<div class="description short">
 			
@@ -243,7 +242,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onPlayerQuit">#</a>
-		<code><a href="source-class-aliuly.common.Session.html#23-34" title="Go to source code">onPlayerQuit</a>( <span>pocketmine\event\player\PlayerQuitEvent <var>$ev</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Session.html#25-36" title="Go to source code">onPlayerQuit</a>( <span>pocketmine\event\player\PlayerQuitEvent <var>$ev</var></span> )</code>
 
 		<div class="description short">
 			<p>Handle player quit events.  Free's data used by the state tracking
@@ -282,7 +281,7 @@ code.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getState">#</a>
-		<code><a href="source-class-aliuly.common.Session.html#35-49" title="Go to source code">getState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Session.html#37-51" title="Go to source code">getState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
 
 		<div class="description short">
 			<p>Get a player state for the desired module/$label.</p>
@@ -331,7 +330,7 @@ code.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setState">#</a>
-		<code><a href="source-class-aliuly.common.Session.html#50-64" title="Go to source code">setState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Session.html#52-66" title="Go to source code">setState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
 
 		<div class="description short">
 			<p>Set a player related state</p>
@@ -380,7 +379,7 @@ code.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unsetState">#</a>
-		<code><a href="source-class-aliuly.common.Session.html#65-77" title="Go to source code">unsetState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span> )</code>
+		<code><a href="source-class-aliuly.common.Session.html#67-79" title="Go to source code">unsetState</a>( <span>str <var>$label</var></span>, <span>Player|str <var>$player</var></span> )</code>
 
 		<div class="description short">
 			<p>Clears a player related state</p>
@@ -431,7 +430,7 @@ code.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.Session.html#13" title="Go to source code"><var>$plugin</var></a>
+				<a href="source-class-aliuly.common.Session.html#15" title="Go to source code"><var>$plugin</var></a>
 
 			<div class="description short">
 				
@@ -456,7 +455,7 @@ code.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.Session.html#14" title="Go to source code"><var>$state</var></a>
+				<a href="source-class-aliuly.common.Session.html#16" title="Go to source code"><var>$state</var></a>
 
 			<div class="description short">
 				

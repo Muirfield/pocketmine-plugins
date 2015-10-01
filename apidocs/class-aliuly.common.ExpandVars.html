@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -179,7 +176,7 @@ custom commands.</p>
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.ExpandVars.html#13-459" title="Go to source code">common/ExpandVars.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.ExpandVars.html#13-466" title="Go to source code">ExpandVars.php</a>
 		<br>
 	</div>
 
@@ -234,15 +231,15 @@ custom commands.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getCommonVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#82-100" title="Go to source code">getCommonVars</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#82-95" title="Go to source code">getCommonVars</a>( <span>pocketmine\plugin\Plugin <var>$owner</var></span> )</code>
 
 		<div class="description short">
-			<p>If libcommon is available, try to get a single shared instance of
+			<p>If GrabBag is available, try to get a single shared instance of
 ExpandVars</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>If libcommon is available, try to get a single shared instance of
+			<p>If GrabBag is available, try to get a single shared instance of
 ExpandVars</p>
 
 
@@ -266,7 +263,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_define">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#103-110" title="Go to source code">define</a>( <span>str <var>$str</var></span>, <span>str <var>$value</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#98-105" title="Go to source code">define</a>( <span>str <var>$str</var></span>, <span>str <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Define additional constants on the fly...</p>
@@ -303,7 +300,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getServer">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#111-113" title="Go to source code">getServer</a>( )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#106-108" title="Go to source code">getServer</a>( )</code>
 
 		<div class="description short">
 			
@@ -333,7 +330,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getConsts">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#114-116" title="Go to source code">getConsts</a>( )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#109-111" title="Go to source code">getConsts</a>( )</code>
 
 		<div class="description short">
 			
@@ -363,7 +360,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerApi">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#117-124" title="Go to source code">registerApi</a>( <span>str <var>$apiname</var></span>, <span>mixed <var>$ptr</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#112-119" title="Go to source code">registerApi</a>( <span>str <var>$apiname</var></span>, <span>mixed <var>$ptr</var></span> )</code>
 
 		<div class="description short">
 			<p>Register API</p>
@@ -404,7 +401,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_api">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#125-134" title="Go to source code">api</a>( <span>str <var>$apiname</var></span>, <span>boolean <var>$exception</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#120-129" title="Go to source code">api</a>( <span>str <var>$apiname</var></span>, <span>boolean <var>$exception</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Return API entry, if not found it will throw a RuntimeException</p>
@@ -449,7 +446,7 @@ ExpandVars</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_autoloadExtensions">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#135-147" title="Go to source code">autoloadExtensions</a>( <span> <var>$mode</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#130-142" title="Go to source code">autoloadExtensions</a>( <span> <var>$mode</var></span> )</code>
 
 		<div class="description short">
 			<p>Scan loaded plugins and identifies which plugins have an entry
@@ -481,7 +478,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_initSysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#153-168" title="Go to source code">initSysVars</a>( )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#148-163" title="Go to source code">initSysVars</a>( )</code>
 
 		<div class="description short">
 			<p>Used to initialize the system wide variables table</p>
@@ -511,7 +508,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerSysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#170-178" title="Go to source code">registerSysVars</a>( <span>callable <var>$fn</var></span>, <span>callable <var>$fn</var>,…</span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#165-173" title="Go to source code">registerSysVars</a>( <span>callable <var>$fn</var></span>, <span>callable <var>$fn</var>,…</span> )</code>
 
 		<div class="description short">
 			<p>Register a callback function that define system wide variable expansions</p>
@@ -550,7 +547,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#180-189" title="Go to source code">sysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#175-184" title="Go to source code">sysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Main entry point for system wide variable defintions</p>
@@ -585,7 +582,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sysVarsShort">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#190-198" title="Go to source code">sysVarsShort</a>( <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#185-193" title="Go to source code">sysVarsShort</a>( <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Shorter entry point for system wide variable defintions</p>
@@ -620,7 +617,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_stdSysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#204-216" title="Go to source code">stdSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#199-211" title="Go to source code">stdSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Basic system wide variable definitions</p>
@@ -655,7 +652,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_debugSysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#217-256" title="Go to source code">debugSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#212-251" title="Go to source code">debugSysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			
@@ -690,7 +687,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_kr1SysVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#257-281" title="Go to source code">kr1SysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#252-276" title="Go to source code">kr1SysVars</a>( <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>KillRate v1.1 sysvars compatibility</p>
@@ -725,7 +722,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_initPlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#287-319" title="Go to source code">initPlayerVars</a>( )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#282-318" title="Go to source code">initPlayerVars</a>( )</code>
 
 		<div class="description short">
 			<p>Used to initialize the player specific variables table</p>
@@ -755,7 +752,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerPlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#320-327" title="Go to source code">registerPlayerVars</a>( <span>callable <var>$fn</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#319-326" title="Go to source code">registerPlayerVars</a>( <span>callable <var>$fn</var></span> )</code>
 
 		<div class="description short">
 			<p>Register a callback function that define player specific variable expansions</p>
@@ -792,7 +789,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_playerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#328-338" title="Go to source code">playerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#327-337" title="Go to source code">playerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Main entry point for player specifc variable defintions</p>
@@ -831,7 +828,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_playerVarsShort">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#339-348" title="Go to source code">playerVarsShort</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#338-347" title="Go to source code">playerVarsShort</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Shorter entry point for player specifc variable defintions</p>
@@ -870,7 +867,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_stdPlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#352-371" title="Go to source code">stdPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#351-370" title="Go to source code">stdPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Basic player specific variable definitions</p>
@@ -909,7 +906,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_invPlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#372-385" title="Go to source code">invPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#371-384" title="Go to source code">invPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>Inventory related variables</p>
@@ -948,7 +945,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_kr1PlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#387-393" title="Go to source code">kr1PlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#386-392" title="Go to source code">kr1PlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>KillRate-1.1 compatible player variables</p>
@@ -987,7 +984,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moneyPlayerVarsPocketMoney">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#394-400" title="Go to source code">moneyPlayerVarsPocketMoney</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#393-399" title="Go to source code">moneyPlayerVarsPocketMoney</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>PocketMoney Support</p>
@@ -1026,7 +1023,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moneyPlayerVarsMassiveEconomy">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#401-407" title="Go to source code">moneyPlayerVarsMassiveEconomy</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#400-406" title="Go to source code">moneyPlayerVarsMassiveEconomy</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>MassiveEconomy Support</p>
@@ -1065,7 +1062,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moneyPlayerVarsEconomysApi">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#408-414" title="Go to source code">moneyPlayerVarsEconomysApi</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#407-413" title="Go to source code">moneyPlayerVarsEconomysApi</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>EconomysAPI Support</p>
@@ -1104,7 +1101,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moneyPlayerVarsGoldStd">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#415-421" title="Go to source code">moneyPlayerVarsGoldStd</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#414-420" title="Go to source code">moneyPlayerVarsGoldStd</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>GoldStd Support</p>
@@ -1143,7 +1140,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_purePermsPlayerVars">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#422-428" title="Go to source code">purePermsPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#421-427" title="Go to source code">purePermsPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
 
 		<div class="description short">
 			<p>PurePerms compatibility</p>
@@ -1151,6 +1148,45 @@ point to variable expansions...</p>
 
 		<div class="description detailed hidden">
 			<p>PurePerms compatibility</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$player</var></dt>
+					<dd><ul>
+<li>reference to pocketmine Player</li>
+</ul></dd>
+					<dt><var>$vars</var></dt>
+					<dd>$vars - receives variable defintions</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rankUpPlayerVars" id="_rankUpPlayerVars">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rankUpPlayerVars">#</a>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#429-435" title="Go to source code">rankUpPlayerVars</a>( <span>pocketmine\Player <var>$player</var></span>, <span>array <var>&amp; $vars</var></span> )</code>
+
+		<div class="description short">
+			<p>RankUp compatibility</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>RankUp compatibility</p>
 
 
 				<h4>Parameters</h4>
@@ -1182,7 +1218,7 @@ point to variable expansions...</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_bearing">#</a>
-		<code><a href="source-class-aliuly.common.ExpandVars.html#432-457" title="Go to source code">bearing</a>( <span>float <var>$deg</var></span> )</code>
+		<code><a href="source-class-aliuly.common.ExpandVars.html#439-464" title="Go to source code">bearing</a>( <span>float <var>$deg</var></span> )</code>
 
 		<div class="description short">
 			<p>Convert bearings in degrees into points in compass</p>

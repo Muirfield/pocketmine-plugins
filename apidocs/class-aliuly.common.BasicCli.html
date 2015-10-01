@@ -59,13 +59,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -109,8 +103,11 @@
 				<li><a href="class-aliuly.common.RconTask.html">RconTask</a></li>
 				<li><a href="class-aliuly.common.Session.html">Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">TPUtils</a></li>
 			</ul>
 
 
@@ -161,14 +158,7 @@ that implement multiple commands or sub-commands</p>
 
 	<div>
 		<h4>Direct known subclasses</h4>
-			<a href="class-aliuly.common.BasicHelp.html">aliuly\common\BasicHelp</a>, 
-			<a href="class-aliuly.loader.DumpMsgs.html">aliuly\loader\DumpMsgs</a>, 
-			<a href="class-aliuly.loader.EchoCmd.html">aliuly\loader\EchoCmd</a>, 
-			<a href="class-aliuly.loader.MotdMgr.html">aliuly\loader\MotdMgr</a>, 
-			<a href="class-aliuly.loader.QueryMgr.html">aliuly\loader\QueryMgr</a>, 
-			<a href="class-aliuly.loader.RcCmd.html">aliuly\loader\RcCmd</a>, 
-			<a href="class-aliuly.loader.TraceCmd.html">aliuly\loader\TraceCmd</a>, 
-			<a href="class-aliuly.loader.Version.html">aliuly\loader\Version</a>
+			<a href="class-aliuly.common.BasicHelp.html">aliuly\common\BasicHelp</a>
 	</div>
 
 
@@ -182,7 +172,7 @@ that implement multiple commands or sub-commands</p>
 		<b>Namespace:</b> <a href="namespace-aliuly.html">aliuly</a>\<a href="namespace-aliuly.common.html">common</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-aliuly.common.BasicCli.html#12-177" title="Go to source code">common/BasicCli.php</a>
+			<b>Located at</b> <a href="source-class-aliuly.common.BasicCli.html#16-181" title="Go to source code">BasicCli.php</a>
 		<br>
 	</div>
 
@@ -202,7 +192,7 @@ that implement multiple commands or sub-commands</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#18-23" title="Go to source code">__construct</a>( <span><code><a href="class-aliuly.common.BasicPlugin.html">aliuly\common\BasicPlugin</a></code> <var>$owner</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#22-27" title="Go to source code">__construct</a>( <span><code><a href="class-aliuly.common.BasicPlugin.html">aliuly\common\BasicPlugin</a></code> <var>$owner</var></span> )</code>
 
 		<div class="description short">
 			
@@ -239,7 +229,7 @@ that implement multiple commands or sub-commands</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enableSCmd">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#24-32" title="Go to source code">enableSCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$opts</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#28-36" title="Go to source code">enableSCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$opts</var></span> )</code>
 
 		<div class="description short">
 			<p>Register this class as a sub-command.  See BasicPlugin for details.</p>
@@ -280,7 +270,7 @@ that implement multiple commands or sub-commands</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enableCmd">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#33-63" title="Go to source code">enableCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$yaml</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#37-67" title="Go to source code">enableCmd</a>( <span>str <var>$cmd</var></span>, <span>mixed[] <var>$yaml</var></span> )</code>
 
 		<div class="description short">
 			<p>Register this class as a command.</p>
@@ -321,7 +311,7 @@ that implement multiple commands or sub-commands</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getPageNumber">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#64-78" title="Go to source code">getPageNumber</a>( <span>array <var>&amp; $args</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#68-82" title="Go to source code">getPageNumber</a>( <span>array <var>&amp; $args</var></span> )</code>
 
 		<div class="description short">
 			<p>Use for paginaged output implementation.
@@ -364,7 +354,7 @@ This gets the player specified page number that we want to Display</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_paginateText">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#79-110" title="Go to source code">paginateText</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$txt</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#83-114" title="Go to source code">paginateText</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$txt</var></span> )</code>
 
 		<div class="description short">
 			<p>Use for paginaged output implementation.
@@ -415,7 +405,7 @@ Shows a bunch of line in paginated output.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_paginateTable">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#111-138" title="Go to source code">paginateTable</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$tab</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#115-142" title="Go to source code">paginateTable</a>( <span>pocketmine\command\CommandSender <var>$sender</var></span>, <span>integer <var>$pageNumber</var></span>, <span>array <var>$tab</var></span> )</code>
 
 		<div class="description short">
 			<p>Use for paginaged output implementation.
@@ -464,7 +454,7 @@ Formats and paginates a table</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getState">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#141-153" title="Go to source code">getState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#145-157" title="Go to source code">getState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$default</var></span> )</code>
 
 		<div class="description short">
 			<p>Entry point for BasicPlugin state functionality.  This makes it module
@@ -513,7 +503,7 @@ Retrieves the state.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setState">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#154-165" title="Go to source code">setState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#158-169" title="Go to source code">setState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span>, <span>mixed <var>$val</var></span> )</code>
 
 		<div class="description short">
 			<p>Entry point for BasicPlugin state functionality.  This makes it module
@@ -558,7 +548,7 @@ Sets the state.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unsetState">#</a>
-		<code><a href="source-class-aliuly.common.BasicCli.html#166-176" title="Go to source code">unsetState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span> )</code>
+		<code><a href="source-class-aliuly.common.BasicCli.html#170-180" title="Go to source code">unsetState</a>( <span>pocketmine\command\CommandSender <var>$player</var></span> )</code>
 
 		<div class="description short">
 			<p>Entry point for BasicPlugin state functionality.  This makes it module
@@ -609,7 +599,7 @@ UnSets the state.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-aliuly.common.BasicCli.html#17" title="Go to source code"><var>$owner</var></a>
+				<a href="source-class-aliuly.common.BasicCli.html#21" title="Go to source code"><var>$owner</var></a>
 
 			<div class="description short">
 				

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="robots" content="noindex">
 
-	<title>File common/ExpandVars.php</title>
+	<title>File ExpandVars.php</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -60,13 +60,7 @@
 						api					</a>
 
 						</li>
-							</ul></li>
-				<li>
-					<a href="namespace-aliuly.loader.html">
-						loader					</a>
-
-						</li>
-							</ul></li>
+							</ul></li></ul></li>
 				<li>
 					<a href="namespace-xPaw.html">
 						xPaw					</a>
@@ -114,25 +108,24 @@
 				<li><a href="class-aliuly.common.selectors.Random.html">aliuly\common\selectors\Random</a></li>
 				<li><a href="class-aliuly.common.Session.html">aliuly\common\Session</a></li>
 				<li><a href="class-aliuly.common.ShieldSession.html">aliuly\common\ShieldSession</a></li>
+				<li><a href="class-aliuly.common.ShoppingCart.html">aliuly\common\ShoppingCart</a></li>
 				<li><a href="class-aliuly.common.SignUtils.html">aliuly\common\SignUtils</a></li>
+				<li><a href="class-aliuly.common.SpySession.html">aliuly\common\SpySession</a></li>
 				<li><a href="class-aliuly.common.SubCommandMap.html">aliuly\common\SubCommandMap</a></li>
+				<li><a href="class-aliuly.common.TPUtils.html">aliuly\common\TPUtils</a></li>
 				<li><a href="class-aliuly.grabbag.api.GbAddServerEvent.html">aliuly\grabbag\api\GbAddServerEvent</a></li>
 				<li><a href="class-aliuly.grabbag.api.GbRemoveServerEvent.html">aliuly\grabbag\api\GbRemoveServerEvent</a></li>
+				<li><a href="class-aliuly.grabbag.api.GbRmQueryEvent.html">aliuly\grabbag\api\GbRmQueryEvent</a></li>
+				<li><a href="class-aliuly.grabbag.api.GbUpdateQueryEvent.html">aliuly\grabbag\api\GbUpdateQueryEvent</a></li>
 				<li><a href="class-aliuly.grabbag.api.GrabBag.html">aliuly\grabbag\api\GrabBag</a></li>
 				<li><a href="class-aliuly.grabbag.api.GrabBagEvent.html">aliuly\grabbag\api\GrabBagEvent</a></li>
 				<li><a href="class-aliuly.killrate.api.KillRate.html">aliuly\killrate\api\KillRate</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateBonusScoreEvent.html">aliuly\killrate\api\KillRateBonusScoreEvent</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateEndStreakEvent.html">aliuly\killrate\api\KillRateEndStreakEvent</a></li>
 				<li><a href="class-aliuly.killrate.api.KillRateEvent.html">aliuly\killrate\api\KillRateEvent</a></li>
+				<li><a href="class-aliuly.killrate.api.KillRateNewStreakEvent.html">aliuly\killrate\api\KillRateNewStreakEvent</a></li>
 				<li><a href="class-aliuly.killrate.api.KillRateResetEvent.html">aliuly\killrate\api\KillRateResetEvent</a></li>
 				<li><a href="class-aliuly.killrate.api.KillRateScoreEvent.html">aliuly\killrate\api\KillRateScoreEvent</a></li>
-				<li><a href="class-aliuly.loader.DumpMsgs.html">aliuly\loader\DumpMsgs</a></li>
-				<li><a href="class-aliuly.loader.EchoCmd.html">aliuly\loader\EchoCmd</a></li>
-				<li><a href="class-aliuly.loader.Main.html">aliuly\loader\Main</a></li>
-				<li><a href="class-aliuly.loader.MotdMgr.html">aliuly\loader\MotdMgr</a></li>
-				<li><a href="class-aliuly.loader.QueryMgr.html">aliuly\loader\QueryMgr</a></li>
-				<li><a href="class-aliuly.loader.RcCmd.html">aliuly\loader\RcCmd</a></li>
-				<li><a href="class-aliuly.loader.TraceCmd.html">aliuly\loader\TraceCmd</a></li>
-				<li><a href="class-aliuly.loader.TraceListener.html">aliuly\loader\TraceListener</a></li>
-				<li><a href="class-aliuly.loader.Version.html">aliuly\loader\Version</a></li>
 				<li><a href="class-xPaw.MinecraftQuery.html">xPaw\MinecraftQuery</a></li>
 			</ul>
 
@@ -256,7 +249,7 @@
 </span><span id="80" class="l"><a href="#80"> 80: </a>    ];
 </span><span id="81" class="l"><a href="#81"> 81: </a>  }
 </span><span id="82" class="l"><a href="#82"> 82: </a>  <span class="php-comment">/**
-</span></span><span id="83" class="l"><a href="#83"> 83: </a><span class="php-comment">   * If libcommon is available, try to get a single shared instance of
+</span></span><span id="83" class="l"><a href="#83"> 83: </a><span class="php-comment">   * If GrabBag is available, try to get a single shared instance of
 </span></span><span id="84" class="l"><a href="#84"> 84: </a><span class="php-comment">   * ExpandVars
 </span></span><span id="85" class="l"><a href="#85"> 85: </a><span class="php-comment">   */</span>
 </span><span id="86" class="l"><a href="#86"> 86: </a>  <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getCommonVars(Plugin <span class="php-var">$owner</span>) {
@@ -267,380 +260,387 @@
 </span><span id="91" class="l"><a href="#91"> 91: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$vars</span> <span class="php-keyword1">instanceof</span> ExpandVars) <span class="php-keyword1">return</span> <span class="php-var">$vars</span>;
 </span><span id="92" class="l"><a href="#92"> 92: </a>      }
 </span><span id="93" class="l"><a href="#93"> 93: </a>    }
-</span><span id="94" class="l"><a href="#94"> 94: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$lc</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;libcommon&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="95" class="l"><a href="#95"> 95: </a>      <span class="php-keyword1">if</span> (MPMU::apiCheck(<span class="php-var">$lc</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;1.2&quot;</span>)) {
-</span><span id="96" class="l"><a href="#96"> 96: </a>        <span class="php-keyword1">return</span> <span class="php-var">$lc</span>-&gt;getVars();
-</span><span id="97" class="l"><a href="#97"> 97: </a>      }
-</span><span id="98" class="l"><a href="#98"> 98: </a>    }
-</span><span id="99" class="l"><a href="#99"> 99: </a>    <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> ExpandVars(<span class="php-var">$owner</span>);
-</span><span id="100" class="l"><a href="#100">100: </a>  }
-</span><span id="101" class="l"><a href="#101">101: </a>
-</span><span id="102" class="l"><a href="#102">102: </a>
-</span><span id="103" class="l"><a href="#103">103: </a>  <span class="php-comment">/**
-</span></span><span id="104" class="l"><a href="#104">104: </a><span class="php-comment">   * Define additional constants on the fly...
-</span></span><span id="105" class="l"><a href="#105">105: </a><span class="php-comment">   * @param str $name
-</span></span><span id="106" class="l"><a href="#106">106: </a><span class="php-comment">   * @param str $value
-</span></span><span id="107" class="l"><a href="#107">107: </a><span class="php-comment">   */</span>
-</span><span id="108" class="l"><a href="#108">108: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">define</span>(<span class="php-var">$str</span>,<span class="php-var">$value</span>) {
-</span><span id="109" class="l"><a href="#109">109: </a>    <span class="php-var">$this</span>-&gt;consts[<span class="php-var">$str</span>] = <span class="php-var">$value</span>;
-</span><span id="110" class="l"><a href="#110">110: </a>  }
-</span><span id="111" class="l"><a href="#111">111: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServer() {
-</span><span id="112" class="l"><a href="#112">112: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;owner-&gt;getServer();
-</span><span id="113" class="l"><a href="#113">113: </a>  }
-</span><span id="114" class="l"><a href="#114">114: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getConsts() {
-</span><span id="115" class="l"><a href="#115">115: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;consts;
-</span><span id="116" class="l"><a href="#116">116: </a>  }
-</span><span id="117" class="l"><a href="#117">117: </a>  <span class="php-comment">/**
-</span></span><span id="118" class="l"><a href="#118">118: </a><span class="php-comment">   * Register API
-</span></span><span id="119" class="l"><a href="#119">119: </a><span class="php-comment">   * @param str $apiname - API id
-</span></span><span id="120" class="l"><a href="#120">120: </a><span class="php-comment">   * @param mixed $ptr - API object
-</span></span><span id="121" class="l"><a href="#121">121: </a><span class="php-comment">   */</span>
-</span><span id="122" class="l"><a href="#122">122: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerApi(<span class="php-var">$apiname</span>,<span class="php-var">$ptr</span>) {
-</span><span id="123" class="l"><a href="#123">123: </a>    <span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>] = <span class="php-var">$ptr</span>;
-</span><span id="124" class="l"><a href="#124">124: </a>  }
-</span><span id="125" class="l"><a href="#125">125: </a>  <span class="php-comment">/**
-</span></span><span id="126" class="l"><a href="#126">126: </a><span class="php-comment">   * Return API entry, if not found it will throw a RuntimeException
-</span></span><span id="127" class="l"><a href="#127">127: </a><span class="php-comment">   * @param str $apiname - API id
-</span></span><span id="128" class="l"><a href="#128">128: </a><span class="php-comment">   * @param bool $exception - if true raise exemption on error
-</span></span><span id="129" class="l"><a href="#129">129: </a><span class="php-comment">   * @return mixed
-</span></span><span id="130" class="l"><a href="#130">130: </a><span class="php-comment">   */</span>
-</span><span id="131" class="l"><a href="#131">131: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> api(<span class="php-var">$apiname</span>,<span class="php-var">$exception</span> = <span class="php-keyword1">true</span>) {
-</span><span id="132" class="l"><a href="#132">132: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>])) <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>];
-</span><span id="133" class="l"><a href="#133">133: </a>    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \RuntimeException(<span class="php-quote">&quot;Missing API &quot;</span>.<span class="php-var">$apiname</span>);
-</span><span id="134" class="l"><a href="#134">134: </a>  }
-</span><span id="135" class="l"><a href="#135">135: </a>  <span class="php-comment">/**
-</span></span><span id="136" class="l"><a href="#136">136: </a><span class="php-comment">   * Scan loaded plugins and identifies which plugins have an entry
-</span></span><span id="137" class="l"><a href="#137">137: </a><span class="php-comment">   * point to variable expansions...
-</span></span><span id="138" class="l"><a href="#138">138: </a><span class="php-comment">   */</span>
-</span><span id="139" class="l"><a href="#139">139: </a>   <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> autoloadExtensions(<span class="php-var">$mode</span>) {
-</span><span id="140" class="l"><a href="#140">140: </a>    <span class="php-var">$tab</span> = [];
-</span><span id="141" class="l"><a href="#141">141: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager()-&gt;getPlugins() <span class="php-keyword1">as</span> <span class="php-var">$plug</span>) {
-</span><span id="142" class="l"><a href="#142">142: </a>      <span class="php-keyword1">if</span> (!<span class="php-var">$plug</span>-&gt;isEnabled()) <span class="php-keyword1">continue</span>;
-</span><span id="143" class="l"><a href="#143">143: </a>      <span class="php-var">$cb</span> = [ <span class="php-var">$plug</span>, <span class="php-var">$mode</span> ];
-</span><span id="144" class="l"><a href="#144">144: </a>      <span class="php-keyword1">if</span> (<span class="php-keyword2">is_callable</span>(<span class="php-var">$cb</span>)) <span class="php-var">$tab</span>[] = <span class="php-var">$cb</span>;
-</span><span id="145" class="l"><a href="#145">145: </a>    }
-</span><span id="146" class="l"><a href="#146">146: </a>    <span class="php-keyword1">return</span> <span class="php-var">$tab</span>;
-</span><span id="147" class="l"><a href="#147">147: </a>  }
-</span><span id="148" class="l"><a href="#148">148: </a>
-</span><span id="149" class="l"><a href="#149">149: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="150" class="l"><a href="#150">150: </a>  <span class="php-comment">// System variables</span>
-</span><span id="151" class="l"><a href="#151">151: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="152" class="l"><a href="#152">152: </a>
-</span><span id="153" class="l"><a href="#153">153: </a>  <span class="php-comment">/**
-</span></span><span id="154" class="l"><a href="#154">154: </a><span class="php-comment">   * Used to initialize the system wide variables table
-</span></span><span id="155" class="l"><a href="#155">155: </a><span class="php-comment">   */</span>
-</span><span id="156" class="l"><a href="#156">156: </a>   <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> initSysVars() {
-</span><span id="157" class="l"><a href="#157">157: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;sysExtensions !== <span class="php-keyword1">null</span>) <span class="php-keyword1">return</span>;
-</span><span id="158" class="l"><a href="#158">158: </a>    <span class="php-var">$this</span>-&gt;sysExtensions = <span class="php-var">$this</span>-&gt;autoloadExtensions(self::getSysVarsFn);
-</span><span id="159" class="l"><a href="#159">159: </a>    <span class="php-var">$this</span>-&gt;sysExtensions[] =  [ <span class="php-var">$this</span>, <span class="php-quote">&quot;stdSysVars&quot;</span> ];
-</span><span id="160" class="l"><a href="#160">160: </a>    <span class="php-keyword1">if</span> (\pocketmine\DEBUG &gt; <span class="php-num">1</span>)  <span class="php-var">$this</span>-&gt;sysExtensions[] = [ <span class="php-var">$this</span>, <span class="php-quote">&quot;debugSysVars&quot;</span>];
-</span><span id="161" class="l"><a href="#161">161: </a>    <span class="php-var">$pm</span> = <span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager();
-</span><span id="162" class="l"><a href="#162">162: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$kr</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;KillRate&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="163" class="l"><a href="#163">163: </a>      <span class="php-keyword1">if</span> (MPMU::apiCheck(<span class="php-var">$kr</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;1.1&quot;</span>)) {
-</span><span id="164" class="l"><a href="#164">164: </a>        <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;KillRate-1.1&quot;</span>,<span class="php-var">$kr</span>);
-</span><span id="165" class="l"><a href="#165">165: </a>        <span class="php-var">$this</span>-&gt;sysExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;kr1SysVars&quot;</span> ];
-</span><span id="166" class="l"><a href="#166">166: </a>      }
-</span><span id="167" class="l"><a href="#167">167: </a>    }
-</span><span id="168" class="l"><a href="#168">168: </a>  }
-</span><span id="169" class="l"><a href="#169">169: </a>
-</span><span id="170" class="l"><a href="#170">170: </a>  <span class="php-comment">/**
-</span></span><span id="171" class="l"><a href="#171">171: </a><span class="php-comment">   * Register a callback function that define system wide variable expansions
-</span></span><span id="172" class="l"><a href="#172">172: </a><span class="php-comment">   * @param Server $server - reference to pocketmine server
-</span></span><span id="173" class="l"><a href="#173">173: </a><span class="php-comment">   * @param callable $fn - callable should have as argumens (Server $server, array &amp;$vars)
-</span></span><span id="174" class="l"><a href="#174">174: </a><span class="php-comment">   */</span>
-</span><span id="175" class="l"><a href="#175">175: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerSysVars(<span class="php-keyword1">callable</span> <span class="php-var">$fn</span>) {
-</span><span id="176" class="l"><a href="#176">176: </a>    <span class="php-var">$this</span>-&gt;initSysVars();
-</span><span id="177" class="l"><a href="#177">177: </a>    <span class="php-var">$this</span>-&gt;sysExtensions[] = <span class="php-var">$fn</span>;
-</span><span id="178" class="l"><a href="#178">178: </a>  }
-</span><span id="179" class="l"><a href="#179">179: </a>
-</span><span id="180" class="l"><a href="#180">180: </a>  <span class="php-comment">/**
-</span></span><span id="181" class="l"><a href="#181">181: </a><span class="php-comment">   * Main entry point for system wide variable defintions
-</span></span><span id="182" class="l"><a href="#182">182: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="183" class="l"><a href="#183">183: </a><span class="php-comment">   */</span>
-</span><span id="184" class="l"><a href="#184">184: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> sysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="185" class="l"><a href="#185">185: </a>    <span class="php-var">$this</span>-&gt;initSysVars();
-</span><span id="186" class="l"><a href="#186">186: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;sysExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
-</span><span id="187" class="l"><a href="#187">187: </a>      <span class="php-var">$cb</span>(<span class="php-var">$vars</span>);
-</span><span id="188" class="l"><a href="#188">188: </a>    }
-</span><span id="189" class="l"><a href="#189">189: </a>  }
-</span><span id="190" class="l"><a href="#190">190: </a>  <span class="php-comment">/**
-</span></span><span id="191" class="l"><a href="#191">191: </a><span class="php-comment">   * Shorter entry point for system wide variable defintions
-</span></span><span id="192" class="l"><a href="#192">192: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="193" class="l"><a href="#193">193: </a><span class="php-comment">   */</span>
-</span><span id="194" class="l"><a href="#194">194: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> sysVarsShort(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="195" class="l"><a href="#195">195: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;sysExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
-</span><span id="196" class="l"><a href="#196">196: </a>      <span class="php-var">$cb</span>(<span class="php-var">$vars</span>);
-</span><span id="197" class="l"><a href="#197">197: </a>    }
-</span><span id="198" class="l"><a href="#198">198: </a>  }
-</span><span id="199" class="l"><a href="#199">199: </a>
-</span><span id="200" class="l"><a href="#200">200: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="201" class="l"><a href="#201">201: </a>  <span class="php-comment">// System variable definitions</span>
-</span><span id="202" class="l"><a href="#202">202: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="203" class="l"><a href="#203">203: </a>
-</span><span id="204" class="l"><a href="#204">204: </a>  <span class="php-comment">/**
-</span></span><span id="205" class="l"><a href="#205">205: </a><span class="php-comment">   * Basic system wide variable definitions
-</span></span><span id="206" class="l"><a href="#206">206: </a><span class="php-comment">   * @param array &amp;$vars - variables
-</span></span><span id="207" class="l"><a href="#207">207: </a><span class="php-comment">   */</span>
-</span><span id="208" class="l"><a href="#208">208: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> stdSysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="209" class="l"><a href="#209">209: </a>    <span class="php-keyword1">foreach</span> ([
-</span><span id="210" class="l"><a href="#210">210: </a>              <span class="php-quote">&quot;{tps}&quot;</span> =&gt; <span class="php-var">$this</span>-&gt;getServer()-&gt;getTicksPerSecond(),
-</span><span id="211" class="l"><a href="#211">211: </a>              <span class="php-quote">&quot;{tickUsage}&quot;</span> =&gt; <span class="php-var">$this</span>-&gt;getServer()-&gt;getTickUsage(),
-</span><span id="212" class="l"><a href="#212">212: </a>              <span class="php-quote">&quot;{numPlayers}&quot;</span> =&gt; <span class="php-keyword2">count</span>(<span class="php-var">$this</span>-&gt;getServer()-&gt;getOnlinePlayers()),
-</span><span id="213" class="l"><a href="#213">213: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$a</span> =&gt; <span class="php-var">$b</span>) {
-</span><span id="214" class="l"><a href="#214">214: </a>      <span class="php-var">$vars</span>[<span class="php-var">$a</span>] = <span class="php-var">$b</span>;
-</span><span id="215" class="l"><a href="#215">215: </a>    }
-</span><span id="216" class="l"><a href="#216">216: </a>  }
-</span><span id="217" class="l"><a href="#217">217: </a>  <span class="php-comment">/**
-</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">   * @param array &amp;$vars - variables
-</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">   */</span>
-</span><span id="220" class="l"><a href="#220">220: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> debugSysVars(&amp;<span class="php-var">$vars</span>) {
-</span><span id="221" class="l"><a href="#221">221: </a>    <span class="php-var">$server</span> = <span class="php-var">$this</span>-&gt;getServer();
-</span><span id="222" class="l"><a href="#222">222: </a>    <span class="php-comment">// Enable debugging variables...</span>
-</span><span id="223" class="l"><a href="#223">223: </a>    <span class="php-var">$time</span> = <span class="php-keyword2">floor</span>(<span class="php-keyword2">microtime</span>(<span class="php-keyword1">true</span>) - \pocketmine\START_TIME);
-</span><span id="224" class="l"><a href="#224">224: </a>    <span class="php-var">$uptime</span> = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="225" class="l"><a href="#225">225: </a>    <span class="php-var">$q</span> = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="226" class="l"><a href="#226">226: </a>    <span class="php-keyword1">foreach</span> ([
-</span><span id="227" class="l"><a href="#227">227: </a>      [ <span class="php-quote">&quot;sec&quot;</span>, <span class="php-num">60</span>, <span class="php-quote">&quot;secs&quot;</span>],
-</span><span id="228" class="l"><a href="#228">228: </a>      [ <span class="php-quote">&quot;min&quot;</span>, <span class="php-num">60</span>,  <span class="php-quote">&quot;mins&quot;</span>],
-</span><span id="229" class="l"><a href="#229">229: </a>      [ <span class="php-quote">&quot;hour&quot;</span>, <span class="php-num">24</span>, <span class="php-quote">&quot;hours&quot;</span>],
-</span><span id="230" class="l"><a href="#230">230: </a>      [ <span class="php-quote">&quot;day&quot;</span>, <span class="php-num">0</span>, <span class="php-quote">&quot;days&quot;</span>],
-</span><span id="231" class="l"><a href="#231">231: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$f</span>) {
-</span><span id="232" class="l"><a href="#232">232: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$f</span>[<span class="php-num">1</span>]) {
-</span><span id="233" class="l"><a href="#233">233: </a>          <span class="php-var">$e</span> = <span class="php-keyword2">floor</span>(<span class="php-var">$time</span> % <span class="php-var">$f</span>[<span class="php-num">1</span>]);
-</span><span id="234" class="l"><a href="#234">234: </a>          <span class="php-var">$time</span> = <span class="php-keyword2">floor</span>(<span class="php-var">$time</span> / <span class="php-var">$f</span>[<span class="php-num">1</span>]);
-</span><span id="235" class="l"><a href="#235">235: </a>        } <span class="php-keyword1">else</span> {
-</span><span id="236" class="l"><a href="#236">236: </a>          <span class="php-var">$e</span> = <span class="php-var">$time</span>;
-</span><span id="237" class="l"><a href="#237">237: </a>          <span class="php-var">$time</span> = <span class="php-num">0</span>;
+</span><span id="94" class="l"><a href="#94"> 94: </a>    <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> ExpandVars(<span class="php-var">$owner</span>);
+</span><span id="95" class="l"><a href="#95"> 95: </a>  }
+</span><span id="96" class="l"><a href="#96"> 96: </a>
+</span><span id="97" class="l"><a href="#97"> 97: </a>
+</span><span id="98" class="l"><a href="#98"> 98: </a>  <span class="php-comment">/**
+</span></span><span id="99" class="l"><a href="#99"> 99: </a><span class="php-comment">   * Define additional constants on the fly...
+</span></span><span id="100" class="l"><a href="#100">100: </a><span class="php-comment">   * @param str $name
+</span></span><span id="101" class="l"><a href="#101">101: </a><span class="php-comment">   * @param str $value
+</span></span><span id="102" class="l"><a href="#102">102: </a><span class="php-comment">   */</span>
+</span><span id="103" class="l"><a href="#103">103: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">define</span>(<span class="php-var">$str</span>,<span class="php-var">$value</span>) {
+</span><span id="104" class="l"><a href="#104">104: </a>    <span class="php-var">$this</span>-&gt;consts[<span class="php-var">$str</span>] = <span class="php-var">$value</span>;
+</span><span id="105" class="l"><a href="#105">105: </a>  }
+</span><span id="106" class="l"><a href="#106">106: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getServer() {
+</span><span id="107" class="l"><a href="#107">107: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;owner-&gt;getServer();
+</span><span id="108" class="l"><a href="#108">108: </a>  }
+</span><span id="109" class="l"><a href="#109">109: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getConsts() {
+</span><span id="110" class="l"><a href="#110">110: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;consts;
+</span><span id="111" class="l"><a href="#111">111: </a>  }
+</span><span id="112" class="l"><a href="#112">112: </a>  <span class="php-comment">/**
+</span></span><span id="113" class="l"><a href="#113">113: </a><span class="php-comment">   * Register API
+</span></span><span id="114" class="l"><a href="#114">114: </a><span class="php-comment">   * @param str $apiname - API id
+</span></span><span id="115" class="l"><a href="#115">115: </a><span class="php-comment">   * @param mixed $ptr - API object
+</span></span><span id="116" class="l"><a href="#116">116: </a><span class="php-comment">   */</span>
+</span><span id="117" class="l"><a href="#117">117: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerApi(<span class="php-var">$apiname</span>,<span class="php-var">$ptr</span>) {
+</span><span id="118" class="l"><a href="#118">118: </a>    <span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>] = <span class="php-var">$ptr</span>;
+</span><span id="119" class="l"><a href="#119">119: </a>  }
+</span><span id="120" class="l"><a href="#120">120: </a>  <span class="php-comment">/**
+</span></span><span id="121" class="l"><a href="#121">121: </a><span class="php-comment">   * Return API entry, if not found it will throw a RuntimeException
+</span></span><span id="122" class="l"><a href="#122">122: </a><span class="php-comment">   * @param str $apiname - API id
+</span></span><span id="123" class="l"><a href="#123">123: </a><span class="php-comment">   * @param bool $exception - if true raise exemption on error
+</span></span><span id="124" class="l"><a href="#124">124: </a><span class="php-comment">   * @return mixed
+</span></span><span id="125" class="l"><a href="#125">125: </a><span class="php-comment">   */</span>
+</span><span id="126" class="l"><a href="#126">126: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> api(<span class="php-var">$apiname</span>,<span class="php-var">$exception</span> = <span class="php-keyword1">true</span>) {
+</span><span id="127" class="l"><a href="#127">127: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>])) <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;apitable[<span class="php-var">$apiname</span>];
+</span><span id="128" class="l"><a href="#128">128: </a>    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \RuntimeException(<span class="php-quote">&quot;Missing API &quot;</span>.<span class="php-var">$apiname</span>);
+</span><span id="129" class="l"><a href="#129">129: </a>  }
+</span><span id="130" class="l"><a href="#130">130: </a>  <span class="php-comment">/**
+</span></span><span id="131" class="l"><a href="#131">131: </a><span class="php-comment">   * Scan loaded plugins and identifies which plugins have an entry
+</span></span><span id="132" class="l"><a href="#132">132: </a><span class="php-comment">   * point to variable expansions...
+</span></span><span id="133" class="l"><a href="#133">133: </a><span class="php-comment">   */</span>
+</span><span id="134" class="l"><a href="#134">134: </a>   <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> autoloadExtensions(<span class="php-var">$mode</span>) {
+</span><span id="135" class="l"><a href="#135">135: </a>    <span class="php-var">$tab</span> = [];
+</span><span id="136" class="l"><a href="#136">136: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager()-&gt;getPlugins() <span class="php-keyword1">as</span> <span class="php-var">$plug</span>) {
+</span><span id="137" class="l"><a href="#137">137: </a>      <span class="php-keyword1">if</span> (!<span class="php-var">$plug</span>-&gt;isEnabled()) <span class="php-keyword1">continue</span>;
+</span><span id="138" class="l"><a href="#138">138: </a>      <span class="php-var">$cb</span> = [ <span class="php-var">$plug</span>, <span class="php-var">$mode</span> ];
+</span><span id="139" class="l"><a href="#139">139: </a>      <span class="php-keyword1">if</span> (<span class="php-keyword2">is_callable</span>(<span class="php-var">$cb</span>)) <span class="php-var">$tab</span>[] = <span class="php-var">$cb</span>;
+</span><span id="140" class="l"><a href="#140">140: </a>    }
+</span><span id="141" class="l"><a href="#141">141: </a>    <span class="php-keyword1">return</span> <span class="php-var">$tab</span>;
+</span><span id="142" class="l"><a href="#142">142: </a>  }
+</span><span id="143" class="l"><a href="#143">143: </a>
+</span><span id="144" class="l"><a href="#144">144: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="145" class="l"><a href="#145">145: </a>  <span class="php-comment">// System variables</span>
+</span><span id="146" class="l"><a href="#146">146: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="147" class="l"><a href="#147">147: </a>
+</span><span id="148" class="l"><a href="#148">148: </a>  <span class="php-comment">/**
+</span></span><span id="149" class="l"><a href="#149">149: </a><span class="php-comment">   * Used to initialize the system wide variables table
+</span></span><span id="150" class="l"><a href="#150">150: </a><span class="php-comment">   */</span>
+</span><span id="151" class="l"><a href="#151">151: </a>   <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> initSysVars() {
+</span><span id="152" class="l"><a href="#152">152: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;sysExtensions !== <span class="php-keyword1">null</span>) <span class="php-keyword1">return</span>;
+</span><span id="153" class="l"><a href="#153">153: </a>    <span class="php-var">$this</span>-&gt;sysExtensions = <span class="php-var">$this</span>-&gt;autoloadExtensions(self::getSysVarsFn);
+</span><span id="154" class="l"><a href="#154">154: </a>    <span class="php-var">$this</span>-&gt;sysExtensions[] =  [ <span class="php-var">$this</span>, <span class="php-quote">&quot;stdSysVars&quot;</span> ];
+</span><span id="155" class="l"><a href="#155">155: </a>    <span class="php-keyword1">if</span> (\pocketmine\DEBUG &gt; <span class="php-num">1</span>)  <span class="php-var">$this</span>-&gt;sysExtensions[] = [ <span class="php-var">$this</span>, <span class="php-quote">&quot;debugSysVars&quot;</span>];
+</span><span id="156" class="l"><a href="#156">156: </a>    <span class="php-var">$pm</span> = <span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager();
+</span><span id="157" class="l"><a href="#157">157: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$kr</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;KillRate&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="158" class="l"><a href="#158">158: </a>      <span class="php-keyword1">if</span> (MPMU::apiCheck(<span class="php-var">$kr</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;1.1&quot;</span>)) {
+</span><span id="159" class="l"><a href="#159">159: </a>        <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;KillRate-1.1&quot;</span>,<span class="php-var">$kr</span>);
+</span><span id="160" class="l"><a href="#160">160: </a>        <span class="php-var">$this</span>-&gt;sysExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;kr1SysVars&quot;</span> ];
+</span><span id="161" class="l"><a href="#161">161: </a>      }
+</span><span id="162" class="l"><a href="#162">162: </a>    }
+</span><span id="163" class="l"><a href="#163">163: </a>  }
+</span><span id="164" class="l"><a href="#164">164: </a>
+</span><span id="165" class="l"><a href="#165">165: </a>  <span class="php-comment">/**
+</span></span><span id="166" class="l"><a href="#166">166: </a><span class="php-comment">   * Register a callback function that define system wide variable expansions
+</span></span><span id="167" class="l"><a href="#167">167: </a><span class="php-comment">   * @param Server $server - reference to pocketmine server
+</span></span><span id="168" class="l"><a href="#168">168: </a><span class="php-comment">   * @param callable $fn - callable should have as argumens (Server $server, array &amp;$vars)
+</span></span><span id="169" class="l"><a href="#169">169: </a><span class="php-comment">   */</span>
+</span><span id="170" class="l"><a href="#170">170: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerSysVars(<span class="php-keyword1">callable</span> <span class="php-var">$fn</span>) {
+</span><span id="171" class="l"><a href="#171">171: </a>    <span class="php-var">$this</span>-&gt;initSysVars();
+</span><span id="172" class="l"><a href="#172">172: </a>    <span class="php-var">$this</span>-&gt;sysExtensions[] = <span class="php-var">$fn</span>;
+</span><span id="173" class="l"><a href="#173">173: </a>  }
+</span><span id="174" class="l"><a href="#174">174: </a>
+</span><span id="175" class="l"><a href="#175">175: </a>  <span class="php-comment">/**
+</span></span><span id="176" class="l"><a href="#176">176: </a><span class="php-comment">   * Main entry point for system wide variable defintions
+</span></span><span id="177" class="l"><a href="#177">177: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="178" class="l"><a href="#178">178: </a><span class="php-comment">   */</span>
+</span><span id="179" class="l"><a href="#179">179: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> sysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="180" class="l"><a href="#180">180: </a>    <span class="php-var">$this</span>-&gt;initSysVars();
+</span><span id="181" class="l"><a href="#181">181: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;sysExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
+</span><span id="182" class="l"><a href="#182">182: </a>      <span class="php-var">$cb</span>(<span class="php-var">$vars</span>);
+</span><span id="183" class="l"><a href="#183">183: </a>    }
+</span><span id="184" class="l"><a href="#184">184: </a>  }
+</span><span id="185" class="l"><a href="#185">185: </a>  <span class="php-comment">/**
+</span></span><span id="186" class="l"><a href="#186">186: </a><span class="php-comment">   * Shorter entry point for system wide variable defintions
+</span></span><span id="187" class="l"><a href="#187">187: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="188" class="l"><a href="#188">188: </a><span class="php-comment">   */</span>
+</span><span id="189" class="l"><a href="#189">189: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> sysVarsShort(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="190" class="l"><a href="#190">190: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;sysExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
+</span><span id="191" class="l"><a href="#191">191: </a>      <span class="php-var">$cb</span>(<span class="php-var">$vars</span>);
+</span><span id="192" class="l"><a href="#192">192: </a>    }
+</span><span id="193" class="l"><a href="#193">193: </a>  }
+</span><span id="194" class="l"><a href="#194">194: </a>
+</span><span id="195" class="l"><a href="#195">195: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="196" class="l"><a href="#196">196: </a>  <span class="php-comment">// System variable definitions</span>
+</span><span id="197" class="l"><a href="#197">197: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="198" class="l"><a href="#198">198: </a>
+</span><span id="199" class="l"><a href="#199">199: </a>  <span class="php-comment">/**
+</span></span><span id="200" class="l"><a href="#200">200: </a><span class="php-comment">   * Basic system wide variable definitions
+</span></span><span id="201" class="l"><a href="#201">201: </a><span class="php-comment">   * @param array &amp;$vars - variables
+</span></span><span id="202" class="l"><a href="#202">202: </a><span class="php-comment">   */</span>
+</span><span id="203" class="l"><a href="#203">203: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> stdSysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="204" class="l"><a href="#204">204: </a>    <span class="php-keyword1">foreach</span> ([
+</span><span id="205" class="l"><a href="#205">205: </a>              <span class="php-quote">&quot;{tps}&quot;</span> =&gt; <span class="php-var">$this</span>-&gt;getServer()-&gt;getTicksPerSecond(),
+</span><span id="206" class="l"><a href="#206">206: </a>              <span class="php-quote">&quot;{tickUsage}&quot;</span> =&gt; <span class="php-var">$this</span>-&gt;getServer()-&gt;getTickUsage(),
+</span><span id="207" class="l"><a href="#207">207: </a>              <span class="php-quote">&quot;{numPlayers}&quot;</span> =&gt; <span class="php-keyword2">count</span>(<span class="php-var">$this</span>-&gt;getServer()-&gt;getOnlinePlayers()),
+</span><span id="208" class="l"><a href="#208">208: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$a</span> =&gt; <span class="php-var">$b</span>) {
+</span><span id="209" class="l"><a href="#209">209: </a>      <span class="php-var">$vars</span>[<span class="php-var">$a</span>] = <span class="php-var">$b</span>;
+</span><span id="210" class="l"><a href="#210">210: </a>    }
+</span><span id="211" class="l"><a href="#211">211: </a>  }
+</span><span id="212" class="l"><a href="#212">212: </a>  <span class="php-comment">/**
+</span></span><span id="213" class="l"><a href="#213">213: </a><span class="php-comment">   * @param array &amp;$vars - variables
+</span></span><span id="214" class="l"><a href="#214">214: </a><span class="php-comment">   */</span>
+</span><span id="215" class="l"><a href="#215">215: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> debugSysVars(&amp;<span class="php-var">$vars</span>) {
+</span><span id="216" class="l"><a href="#216">216: </a>    <span class="php-var">$server</span> = <span class="php-var">$this</span>-&gt;getServer();
+</span><span id="217" class="l"><a href="#217">217: </a>    <span class="php-comment">// Enable debugging variables...</span>
+</span><span id="218" class="l"><a href="#218">218: </a>    <span class="php-var">$time</span> = <span class="php-keyword2">floor</span>(<span class="php-keyword2">microtime</span>(<span class="php-keyword1">true</span>) - \pocketmine\START_TIME);
+</span><span id="219" class="l"><a href="#219">219: </a>    <span class="php-var">$uptime</span> = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="220" class="l"><a href="#220">220: </a>    <span class="php-var">$q</span> = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="221" class="l"><a href="#221">221: </a>    <span class="php-keyword1">foreach</span> ([
+</span><span id="222" class="l"><a href="#222">222: </a>      [ <span class="php-quote">&quot;sec&quot;</span>, <span class="php-num">60</span>, <span class="php-quote">&quot;secs&quot;</span>],
+</span><span id="223" class="l"><a href="#223">223: </a>      [ <span class="php-quote">&quot;min&quot;</span>, <span class="php-num">60</span>,  <span class="php-quote">&quot;mins&quot;</span>],
+</span><span id="224" class="l"><a href="#224">224: </a>      [ <span class="php-quote">&quot;hour&quot;</span>, <span class="php-num">24</span>, <span class="php-quote">&quot;hours&quot;</span>],
+</span><span id="225" class="l"><a href="#225">225: </a>      [ <span class="php-quote">&quot;day&quot;</span>, <span class="php-num">0</span>, <span class="php-quote">&quot;days&quot;</span>],
+</span><span id="226" class="l"><a href="#226">226: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$f</span>) {
+</span><span id="227" class="l"><a href="#227">227: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$f</span>[<span class="php-num">1</span>]) {
+</span><span id="228" class="l"><a href="#228">228: </a>          <span class="php-var">$e</span> = <span class="php-keyword2">floor</span>(<span class="php-var">$time</span> % <span class="php-var">$f</span>[<span class="php-num">1</span>]);
+</span><span id="229" class="l"><a href="#229">229: </a>          <span class="php-var">$time</span> = <span class="php-keyword2">floor</span>(<span class="php-var">$time</span> / <span class="php-var">$f</span>[<span class="php-num">1</span>]);
+</span><span id="230" class="l"><a href="#230">230: </a>        } <span class="php-keyword1">else</span> {
+</span><span id="231" class="l"><a href="#231">231: </a>          <span class="php-var">$e</span> = <span class="php-var">$time</span>;
+</span><span id="232" class="l"><a href="#232">232: </a>          <span class="php-var">$time</span> = <span class="php-num">0</span>;
+</span><span id="233" class="l"><a href="#233">233: </a>        }
+</span><span id="234" class="l"><a href="#234">234: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$e</span>) {
+</span><span id="235" class="l"><a href="#235">235: </a>          <span class="php-var">$r</span> = <span class="php-var">$e</span> == <span class="php-num">1</span> ? <span class="php-var">$f</span>[<span class="php-num">0</span>] : <span class="php-var">$f</span>[<span class="php-num">2</span>];
+</span><span id="236" class="l"><a href="#236">236: </a>          <span class="php-var">$uptime</span> = <span class="php-var">$e</span>.<span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span> . <span class="php-var">$q</span> . <span class="php-var">$uptime</span>;
+</span><span id="237" class="l"><a href="#237">237: </a>          <span class="php-var">$q</span> = <span class="php-quote">&quot;, &quot;</span>;
 </span><span id="238" class="l"><a href="#238">238: </a>        }
-</span><span id="239" class="l"><a href="#239">239: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$e</span>) {
-</span><span id="240" class="l"><a href="#240">240: </a>          <span class="php-var">$r</span> = <span class="php-var">$e</span> == <span class="php-num">1</span> ? <span class="php-var">$f</span>[<span class="php-num">0</span>] : <span class="php-var">$f</span>[<span class="php-num">2</span>];
-</span><span id="241" class="l"><a href="#241">241: </a>          <span class="php-var">$uptime</span> = <span class="php-var">$e</span>.<span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span> . <span class="php-var">$q</span> . <span class="php-var">$uptime</span>;
-</span><span id="242" class="l"><a href="#242">242: </a>          <span class="php-var">$q</span> = <span class="php-quote">&quot;, &quot;</span>;
-</span><span id="243" class="l"><a href="#243">243: </a>        }
-</span><span id="244" class="l"><a href="#244">244: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$time</span> == <span class="php-num">0</span>) <span class="php-keyword1">break</span>;
-</span><span id="245" class="l"><a href="#245">245: </a>    }
-</span><span id="246" class="l"><a href="#246">246: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{uptime}&quot;</span>] = <span class="php-var">$uptime</span>;
-</span><span id="247" class="l"><a href="#247">247: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{netup}&quot;</span>] = <span class="php-keyword2">round</span>(<span class="php-var">$server</span>-&gt;getNetwork()-&gt;getUpload()/<span class="php-num">1024</span>,<span class="php-num">2</span>);
-</span><span id="248" class="l"><a href="#248">248: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{netdown}&quot;</span>] = <span class="php-keyword2">round</span>(<span class="php-var">$server</span>-&gt;getNetwork()-&gt;getUpload()/<span class="php-num">1024</span>,<span class="php-num">2</span>);
-</span><span id="249" class="l"><a href="#249">249: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{threads}&quot;</span>] = Utils::getThreadCount();
-</span><span id="250" class="l"><a href="#250">250: </a>    <span class="php-var">$mUsage</span> = Utils::getMemoryUsage(<span class="php-keyword1">true</span>);
-</span><span id="251" class="l"><a href="#251">251: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{mainmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">0</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
-</span><span id="252" class="l"><a href="#252">252: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{memuse}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">1</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
-</span><span id="253" class="l"><a href="#253">253: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{maxmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">2</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
-</span><span id="254" class="l"><a href="#254">254: </a>    <span class="php-var">$rUsage</span> = Utils::getRealMemoryUsage();
-</span><span id="255" class="l"><a href="#255">255: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{heapmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$rUsage</span>[<span class="php-num">0</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
-</span><span id="256" class="l"><a href="#256">256: </a>  }
-</span><span id="257" class="l"><a href="#257">257: </a>  <span class="php-comment">/**
-</span></span><span id="258" class="l"><a href="#258">258: </a><span class="php-comment">   * KillRate v1.1 sysvars compatibility
-</span></span><span id="259" class="l"><a href="#259">259: </a><span class="php-comment">   * @param array &amp;$vars - variables
-</span></span><span id="260" class="l"><a href="#260">260: </a><span class="php-comment">   */</span>
-</span><span id="261" class="l"><a href="#261">261: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> kr1SysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="262" class="l"><a href="#262">262: </a>    <span class="php-var">$ranks</span> = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;killrate-1.1&quot;</span>)-&gt;getRankings(<span class="php-num">10</span>);
-</span><span id="263" class="l"><a href="#263">263: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$ranks</span> == <span class="php-keyword1">null</span>) {
-</span><span id="264" class="l"><a href="#264">264: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] = <span class="php-quote">&quot;N/A&quot;</span>;
-</span><span id="265" class="l"><a href="#265">265: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] = <span class="php-quote">&quot;N/A&quot;</span>;
-</span><span id="266" class="l"><a href="#266">266: </a>    } <span class="php-keyword1">else</span> {
-</span><span id="267" class="l"><a href="#267">267: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="268" class="l"><a href="#268">268: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="269" class="l"><a href="#269">269: </a>      <span class="php-var">$i</span> = <span class="php-num">1</span>; <span class="php-var">$q</span> = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="270" class="l"><a href="#270">270: </a>      <span class="php-keyword1">foreach</span> (<span class="php-var">$ranks</span> <span class="php-keyword1">as</span> <span class="php-var">$r</span>) {
-</span><span id="271" class="l"><a href="#271">271: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$i</span> &lt;= <span class="php-num">3</span>) {
-</span><span id="272" class="l"><a href="#272">272: </a>          <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] .= <span class="php-var">$q</span>.<span class="php-var">$i</span>.<span class="php-quote">&quot;. &quot;</span>.<span class="php-keyword2">substr</span>(<span class="php-var">$r</span>[<span class="php-quote">&quot;player&quot;</span>],<span class="php-num">0</span>,<span class="php-num">8</span>).
-</span><span id="273" class="l"><a href="#273">273: </a>                   <span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;count&quot;</span>];
-</span><span id="274" class="l"><a href="#274">274: </a>          <span class="php-var">$q</span> = <span class="php-quote">&quot;   &quot;</span>;
-</span><span id="275" class="l"><a href="#275">275: </a>        }
-</span><span id="276" class="l"><a href="#276">276: </a>        <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] .= <span class="php-var">$i</span>.<span class="php-quote">&quot;. &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;player&quot;</span>].<span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;count&quot;</span>].<span class="php-quote">&quot;\n&quot;</span>;
-</span><span id="277" class="l"><a href="#277">277: </a>        ++<span class="php-var">$i</span>;
-</span><span id="278" class="l"><a href="#278">278: </a>      }
-</span><span id="279" class="l"><a href="#279">279: </a>    }
-</span><span id="280" class="l"><a href="#280">280: </a>
-</span><span id="281" class="l"><a href="#281">281: </a>  }
-</span><span id="282" class="l"><a href="#282">282: </a>
-</span><span id="283" class="l"><a href="#283">283: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="284" class="l"><a href="#284">284: </a>  <span class="php-comment">// Player variables</span>
-</span><span id="285" class="l"><a href="#285">285: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="286" class="l"><a href="#286">286: </a>
-</span><span id="287" class="l"><a href="#287">287: </a>  <span class="php-comment">/**
-</span></span><span id="288" class="l"><a href="#288">288: </a><span class="php-comment">   * Used to initialize the player specific variables table
-</span></span><span id="289" class="l"><a href="#289">289: </a><span class="php-comment">   */</span>
-</span><span id="290" class="l"><a href="#290">290: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> initPlayerVars() {
-</span><span id="291" class="l"><a href="#291">291: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;<span class="php-var">$playerExtensions</span> !== <span class="php-keyword1">null</span>) <span class="php-keyword1">return</span>;
-</span><span id="292" class="l"><a href="#292">292: </a>    <span class="php-var">$this</span>-&gt;playerExtensions = <span class="php-var">$this</span>-&gt;autoloadExtensions(self::getPlayerVarsFn);
-</span><span id="293" class="l"><a href="#293">293: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;stdPlayerVars&quot;</span> ];
-</span><span id="294" class="l"><a href="#294">294: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;invPlayerVars&quot;</span> ];
-</span><span id="295" class="l"><a href="#295">295: </a>    <span class="php-var">$pm</span> = <span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager();
-</span><span id="296" class="l"><a href="#296">296: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$kr</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;KillRate&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="297" class="l"><a href="#297">297: </a>      <span class="php-keyword1">if</span> (MPMU::apiCheck(<span class="php-var">$kr</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;1.1&quot;</span>)) {
-</span><span id="298" class="l"><a href="#298">298: </a>        <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;KillRate-1.1&quot;</span>,<span class="php-var">$kr</span>);
-</span><span id="299" class="l"><a href="#299">299: </a>        <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;kr1PlayerVars&quot;</span> ];
-</span><span id="300" class="l"><a href="#300">300: </a>      }
-</span><span id="301" class="l"><a href="#301">301: </a>    }
-</span><span id="302" class="l"><a href="#302">302: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$pp</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;PurePerms&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="303" class="l"><a href="#303">303: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;PurePerms&quot;</span>,<span class="php-var">$pp</span>);
-</span><span id="304" class="l"><a href="#304">304: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;purePermsPlayerVars&quot;</span> ];
-</span><span id="305" class="l"><a href="#305">305: </a>    }
-</span><span id="306" class="l"><a href="#306">306: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;GoldStd&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="307" class="l"><a href="#307">307: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
-</span><span id="308" class="l"><a href="#308">308: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> ,<span class="php-quote">&quot;moneyPlayerVarsGoldStd&quot;</span> ];
-</span><span id="309" class="l"><a href="#309">309: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;PocketMoney&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="310" class="l"><a href="#310">310: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
-</span><span id="311" class="l"><a href="#311">311: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;moneyPlayerVarsPocketMoney&quot;</span> ];
-</span><span id="312" class="l"><a href="#312">312: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;MassiveEconomy&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="313" class="l"><a href="#313">313: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
-</span><span id="314" class="l"><a href="#314">314: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;moneyPlayerVarsMassiveEconomy&quot;</span> ];
-</span><span id="315" class="l"><a href="#315">315: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;EconomyAPI&quot;</span>)) !== <span class="php-keyword1">null</span>) {
-</span><span id="316" class="l"><a href="#316">316: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
-</span><span id="317" class="l"><a href="#317">317: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span>, <span class="php-quote">&quot;moneyPlayerVarsEconomysApi&quot;</span> ];
-</span><span id="318" class="l"><a href="#318">318: </a>    }
-</span><span id="319" class="l"><a href="#319">319: </a>  }
-</span><span id="320" class="l"><a href="#320">320: </a>  <span class="php-comment">/**
-</span></span><span id="321" class="l"><a href="#321">321: </a><span class="php-comment">   * Register a callback function that define player specific variable expansions
-</span></span><span id="322" class="l"><a href="#322">322: </a><span class="php-comment">   * @param callable $fn - callable should have as argumens (Player $player, array &amp;$vars)
-</span></span><span id="323" class="l"><a href="#323">323: </a><span class="php-comment">   */</span>
-</span><span id="324" class="l"><a href="#324">324: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerPlayerVars(<span class="php-keyword1">callable</span> <span class="php-var">$fn</span>) {
-</span><span id="325" class="l"><a href="#325">325: </a>    <span class="php-var">$this</span>-&gt;initPlayerVars();
-</span><span id="326" class="l"><a href="#326">326: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = <span class="php-var">$fn</span>;
-</span><span id="327" class="l"><a href="#327">327: </a>  }
-</span><span id="328" class="l"><a href="#328">328: </a>  <span class="php-comment">/**
-</span></span><span id="329" class="l"><a href="#329">329: </a><span class="php-comment">   * Main entry point for player specifc variable defintions
-</span></span><span id="330" class="l"><a href="#330">330: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="331" class="l"><a href="#331">331: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="332" class="l"><a href="#332">332: </a><span class="php-comment">   */</span>
-</span><span id="333" class="l"><a href="#333">333: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> playerVars(Player <span class="php-var">$player</span>, <span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="334" class="l"><a href="#334">334: </a>    <span class="php-var">$this</span>-&gt;initPlayerVars();
-</span><span id="335" class="l"><a href="#335">335: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;playerExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
-</span><span id="336" class="l"><a href="#336">336: </a>      <span class="php-var">$cb</span>(<span class="php-var">$this</span>,<span class="php-var">$player</span>,<span class="php-var">$vars</span>);
-</span><span id="337" class="l"><a href="#337">337: </a>    }
-</span><span id="338" class="l"><a href="#338">338: </a>  }
-</span><span id="339" class="l"><a href="#339">339: </a>  <span class="php-comment">/**
-</span></span><span id="340" class="l"><a href="#340">340: </a><span class="php-comment">   * Shorter entry point for player specifc variable defintions
-</span></span><span id="341" class="l"><a href="#341">341: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="342" class="l"><a href="#342">342: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="343" class="l"><a href="#343">343: </a><span class="php-comment">   */</span>
-</span><span id="344" class="l"><a href="#344">344: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> playerVarsShort(Player <span class="php-var">$player</span>, <span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="345" class="l"><a href="#345">345: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;playerExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
-</span><span id="346" class="l"><a href="#346">346: </a>      <span class="php-var">$cb</span>(<span class="php-var">$this</span>,<span class="php-var">$player</span>,<span class="php-var">$vars</span>);
-</span><span id="347" class="l"><a href="#347">347: </a>    }
-</span><span id="348" class="l"><a href="#348">348: </a>  }
-</span><span id="349" class="l"><a href="#349">349: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="350" class="l"><a href="#350">350: </a>  <span class="php-comment">// Player variable definitions</span>
-</span><span id="351" class="l"><a href="#351">351: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="352" class="l"><a href="#352">352: </a>  <span class="php-comment">/**
-</span></span><span id="353" class="l"><a href="#353">353: </a><span class="php-comment">   * Basic player specific variable definitions
-</span></span><span id="354" class="l"><a href="#354">354: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="355" class="l"><a href="#355">355: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="356" class="l"><a href="#356">356: </a><span class="php-comment">   */</span>
-</span><span id="357" class="l"><a href="#357">357: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> stdPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="358" class="l"><a href="#358">358: </a>    <span class="php-keyword1">foreach</span> ([
-</span><span id="359" class="l"><a href="#359">359: </a>              <span class="php-quote">&quot;{player}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getName(),
-</span><span id="360" class="l"><a href="#360">360: </a>              <span class="php-quote">&quot;{displayName}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getDisplayName(),
-</span><span id="361" class="l"><a href="#361">361: </a>              <span class="php-quote">&quot;{world}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getLevel()-&gt;getName(),
-</span><span id="362" class="l"><a href="#362">362: </a>              <span class="php-quote">&quot;{x}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getX(),
-</span><span id="363" class="l"><a href="#363">363: </a>              <span class="php-quote">&quot;{y}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getY(),
-</span><span id="364" class="l"><a href="#364">364: </a>              <span class="php-quote">&quot;{z}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getZ(),
-</span><span id="365" class="l"><a href="#365">365: </a>              <span class="php-quote">&quot;{yaw}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getYaw(),
-</span><span id="366" class="l"><a href="#366">366: </a>              <span class="php-quote">&quot;{pitch}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getPitch(),
-</span><span id="367" class="l"><a href="#367">367: </a>              <span class="php-quote">&quot;{bearing}&quot;</span> =&gt; self::bearing(<span class="php-var">$player</span>-&gt;getYaw()),
-</span><span id="368" class="l"><a href="#368">368: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$a</span> =&gt; <span class="php-var">$b</span>) {
-</span><span id="369" class="l"><a href="#369">369: </a>      <span class="php-var">$vars</span>[<span class="php-var">$a</span>] = <span class="php-var">$b</span>;
-</span><span id="370" class="l"><a href="#370">370: </a>    }
-</span><span id="371" class="l"><a href="#371">371: </a>  }
-</span><span id="372" class="l"><a href="#372">372: </a>  <span class="php-comment">/** Inventory related variables
-</span></span><span id="373" class="l"><a href="#373">373: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="374" class="l"><a href="#374">374: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="375" class="l"><a href="#375">375: </a><span class="php-comment">   */</span>
-</span><span id="376" class="l"><a href="#376">376: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> invPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="377" class="l"><a href="#377">377: </a>    <span class="php-var">$item</span> = <span class="php-keyword1">clone</span> <span class="php-var">$player</span>-&gt;getInventory()-&gt;getItemInHand();
-</span><span id="378" class="l"><a href="#378">378: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$item</span>-&gt;getId() == Item::AIR) {
-</span><span id="379" class="l"><a href="#379">379: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{item}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="380" class="l"><a href="#380">380: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{itemid}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
-</span><span id="381" class="l"><a href="#381">381: </a>    } <span class="php-keyword1">else</span> {
-</span><span id="382" class="l"><a href="#382">382: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{item}&quot;</span>] = ItemName::str(<span class="php-var">$item</span>);
-</span><span id="383" class="l"><a href="#383">383: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{itemid}&quot;</span>] = <span class="php-var">$item</span>-&gt;getId();
-</span><span id="384" class="l"><a href="#384">384: </a>    }
-</span><span id="385" class="l"><a href="#385">385: </a>  }
-</span><span id="386" class="l"><a href="#386">386: </a>
-</span><span id="387" class="l"><a href="#387">387: </a>  <span class="php-comment">/** KillRate-1.1 compatible player variables
-</span></span><span id="388" class="l"><a href="#388">388: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="389" class="l"><a href="#389">389: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="390" class="l"><a href="#390">390: </a><span class="php-comment">   */</span>
-</span><span id="391" class="l"><a href="#391">391: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> kr1PlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="392" class="l"><a href="#392">392: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{score}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;killrate-1.1&quot;</span>)-&gt;getScore(<span class="php-var">$player</span>);
-</span><span id="393" class="l"><a href="#393">393: </a>  }
-</span><span id="394" class="l"><a href="#394">394: </a>  <span class="php-comment">/** PocketMoney Support
-</span></span><span id="395" class="l"><a href="#395">395: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="396" class="l"><a href="#396">396: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="397" class="l"><a href="#397">397: </a><span class="php-comment">   */</span>
-</span><span id="398" class="l"><a href="#398">398: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsPocketMoney(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="399" class="l"><a href="#399">399: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>-&gt;getName());
-</span><span id="400" class="l"><a href="#400">400: </a>  }
-</span><span id="401" class="l"><a href="#401">401: </a>  <span class="php-comment">/** MassiveEconomy Support
-</span></span><span id="402" class="l"><a href="#402">402: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="403" class="l"><a href="#403">403: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="404" class="l"><a href="#404">404: </a><span class="php-comment">   */</span>
-</span><span id="405" class="l"><a href="#405">405: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsMassiveEconomy(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="406" class="l"><a href="#406">406: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>-&gt;getName());
-</span><span id="407" class="l"><a href="#407">407: </a>  }
-</span><span id="408" class="l"><a href="#408">408: </a>  <span class="php-comment">/** EconomysAPI Support
-</span></span><span id="409" class="l"><a href="#409">409: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="410" class="l"><a href="#410">410: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="411" class="l"><a href="#411">411: </a><span class="php-comment">   */</span>
-</span><span id="412" class="l"><a href="#412">412: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsEconomysApi(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="413" class="l"><a href="#413">413: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;mymoney(<span class="php-var">$player</span>-&gt;getName());
-</span><span id="414" class="l"><a href="#414">414: </a>  }
-</span><span id="415" class="l"><a href="#415">415: </a>  <span class="php-comment">/** GoldStd Support
-</span></span><span id="416" class="l"><a href="#416">416: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="417" class="l"><a href="#417">417: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="418" class="l"><a href="#418">418: </a><span class="php-comment">   */</span>
-</span><span id="419" class="l"><a href="#419">419: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsGoldStd(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="420" class="l"><a href="#420">420: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>);
-</span><span id="421" class="l"><a href="#421">421: </a>  }
-</span><span id="422" class="l"><a href="#422">422: </a>  <span class="php-comment">/** PurePerms compatibility
-</span></span><span id="423" class="l"><a href="#423">423: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
-</span></span><span id="424" class="l"><a href="#424">424: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
-</span></span><span id="425" class="l"><a href="#425">425: </a><span class="php-comment">   */</span>
-</span><span id="426" class="l"><a href="#426">426: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> purePermsPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
-</span><span id="427" class="l"><a href="#427">427: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{group}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;PurePerms&quot;</span>)-&gt;getUser(<span class="php-var">$player</span>)-&gt;getGroup()-&gt;getName();
-</span><span id="428" class="l"><a href="#428">428: </a>  }
-</span><span id="429" class="l"><a href="#429">429: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="430" class="l"><a href="#430">430: </a>  <span class="php-comment">// Misc Support functions</span>
-</span><span id="431" class="l"><a href="#431">431: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
-</span><span id="432" class="l"><a href="#432">432: </a>  <span class="php-comment">/**
-</span></span><span id="433" class="l"><a href="#433">433: </a><span class="php-comment">   * Convert bearings in degrees into points in compass
-</span></span><span id="434" class="l"><a href="#434">434: </a><span class="php-comment">   * @param float $deg - yaw
-</span></span><span id="435" class="l"><a href="#435">435: </a><span class="php-comment">   * @return str
-</span></span><span id="436" class="l"><a href="#436">436: </a><span class="php-comment">   */</span>
-</span><span id="437" class="l"><a href="#437">437: </a>  <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> bearing(<span class="php-var">$deg</span>) {
-</span><span id="438" class="l"><a href="#438">438: </a>    <span class="php-comment">// Determine bearing</span>
-</span><span id="439" class="l"><a href="#439">439: </a>    <span class="php-keyword1">if</span> (<span class="php-num">22.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">67.5</span>) {
-</span><span id="440" class="l"><a href="#440">440: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;NW&quot;</span>;
-</span><span id="441" class="l"><a href="#441">441: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">67.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">112.5</span>) {
-</span><span id="442" class="l"><a href="#442">442: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;N&quot;</span>;
-</span><span id="443" class="l"><a href="#443">443: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">112.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">157.5</span>) {
-</span><span id="444" class="l"><a href="#444">444: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;NE&quot;</span>;
-</span><span id="445" class="l"><a href="#445">445: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">157.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">202.5</span>) {
-</span><span id="446" class="l"><a href="#446">446: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;E&quot;</span>;
-</span><span id="447" class="l"><a href="#447">447: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">202.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">247.5</span>) {
-</span><span id="448" class="l"><a href="#448">448: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;SE&quot;</span>;
-</span><span id="449" class="l"><a href="#449">449: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">247.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">292.5</span>) {
-</span><span id="450" class="l"><a href="#450">450: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;S&quot;</span>;
-</span><span id="451" class="l"><a href="#451">451: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">292.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">337.5</span>) {
-</span><span id="452" class="l"><a href="#452">452: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;SW&quot;</span>;
-</span><span id="453" class="l"><a href="#453">453: </a>    } <span class="php-keyword1">else</span> {
-</span><span id="454" class="l"><a href="#454">454: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;W&quot;</span>;
-</span><span id="455" class="l"><a href="#455">455: </a>    }
-</span><span id="456" class="l"><a href="#456">456: </a>    <span class="php-keyword1">return</span> (int)<span class="php-var">$deg</span>;
-</span><span id="457" class="l"><a href="#457">457: </a>  }
-</span><span id="458" class="l"><a href="#458">458: </a>
-</span><span id="459" class="l"><a href="#459">459: </a>}
-</span><span id="460" class="l"><a href="#460">460: </a></span></code></pre>
+</span><span id="239" class="l"><a href="#239">239: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$time</span> == <span class="php-num">0</span>) <span class="php-keyword1">break</span>;
+</span><span id="240" class="l"><a href="#240">240: </a>    }
+</span><span id="241" class="l"><a href="#241">241: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{uptime}&quot;</span>] = <span class="php-var">$uptime</span>;
+</span><span id="242" class="l"><a href="#242">242: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{netup}&quot;</span>] = <span class="php-keyword2">round</span>(<span class="php-var">$server</span>-&gt;getNetwork()-&gt;getUpload()/<span class="php-num">1024</span>,<span class="php-num">2</span>);
+</span><span id="243" class="l"><a href="#243">243: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{netdown}&quot;</span>] = <span class="php-keyword2">round</span>(<span class="php-var">$server</span>-&gt;getNetwork()-&gt;getUpload()/<span class="php-num">1024</span>,<span class="php-num">2</span>);
+</span><span id="244" class="l"><a href="#244">244: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{threads}&quot;</span>] = Utils::getThreadCount();
+</span><span id="245" class="l"><a href="#245">245: </a>    <span class="php-var">$mUsage</span> = Utils::getMemoryUsage(<span class="php-keyword1">true</span>);
+</span><span id="246" class="l"><a href="#246">246: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{mainmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">0</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
+</span><span id="247" class="l"><a href="#247">247: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{memuse}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">1</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
+</span><span id="248" class="l"><a href="#248">248: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{maxmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$mUsage</span>[<span class="php-num">2</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
+</span><span id="249" class="l"><a href="#249">249: </a>    <span class="php-var">$rUsage</span> = Utils::getRealMemoryUsage();
+</span><span id="250" class="l"><a href="#250">250: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{heapmem}&quot;</span>] = <span class="php-keyword2">number_format</span>(<span class="php-keyword2">round</span>(<span class="php-var">$rUsage</span>[<span class="php-num">0</span>]/<span class="php-num">1024</span>)/<span class="php-num">1024</span>,<span class="php-num">2</span> );
+</span><span id="251" class="l"><a href="#251">251: </a>  }
+</span><span id="252" class="l"><a href="#252">252: </a>  <span class="php-comment">/**
+</span></span><span id="253" class="l"><a href="#253">253: </a><span class="php-comment">   * KillRate v1.1 sysvars compatibility
+</span></span><span id="254" class="l"><a href="#254">254: </a><span class="php-comment">   * @param array &amp;$vars - variables
+</span></span><span id="255" class="l"><a href="#255">255: </a><span class="php-comment">   */</span>
+</span><span id="256" class="l"><a href="#256">256: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> kr1SysVars(<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="257" class="l"><a href="#257">257: </a>    <span class="php-var">$ranks</span> = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;killrate-1.1&quot;</span>)-&gt;getRankings(<span class="php-num">10</span>);
+</span><span id="258" class="l"><a href="#258">258: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$ranks</span> == <span class="php-keyword1">null</span>) {
+</span><span id="259" class="l"><a href="#259">259: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] = <span class="php-quote">&quot;N/A&quot;</span>;
+</span><span id="260" class="l"><a href="#260">260: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] = <span class="php-quote">&quot;N/A&quot;</span>;
+</span><span id="261" class="l"><a href="#261">261: </a>    } <span class="php-keyword1">else</span> {
+</span><span id="262" class="l"><a href="#262">262: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="263" class="l"><a href="#263">263: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="264" class="l"><a href="#264">264: </a>      <span class="php-var">$i</span> = <span class="php-num">1</span>; <span class="php-var">$q</span> = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="265" class="l"><a href="#265">265: </a>      <span class="php-keyword1">foreach</span> (<span class="php-var">$ranks</span> <span class="php-keyword1">as</span> <span class="php-var">$r</span>) {
+</span><span id="266" class="l"><a href="#266">266: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$i</span> &lt;= <span class="php-num">3</span>) {
+</span><span id="267" class="l"><a href="#267">267: </a>          <span class="php-var">$vars</span>[<span class="php-quote">&quot;{tops}&quot;</span>] .= <span class="php-var">$q</span>.<span class="php-var">$i</span>.<span class="php-quote">&quot;. &quot;</span>.<span class="php-keyword2">substr</span>(<span class="php-var">$r</span>[<span class="php-quote">&quot;player&quot;</span>],<span class="php-num">0</span>,<span class="php-num">8</span>).
+</span><span id="268" class="l"><a href="#268">268: </a>                   <span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;count&quot;</span>];
+</span><span id="269" class="l"><a href="#269">269: </a>          <span class="php-var">$q</span> = <span class="php-quote">&quot;   &quot;</span>;
+</span><span id="270" class="l"><a href="#270">270: </a>        }
+</span><span id="271" class="l"><a href="#271">271: </a>        <span class="php-var">$vars</span>[<span class="php-quote">&quot;{top10}&quot;</span>] .= <span class="php-var">$i</span>.<span class="php-quote">&quot;. &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;player&quot;</span>].<span class="php-quote">&quot; &quot;</span>.<span class="php-var">$r</span>[<span class="php-quote">&quot;count&quot;</span>].<span class="php-quote">&quot;\n&quot;</span>;
+</span><span id="272" class="l"><a href="#272">272: </a>        ++<span class="php-var">$i</span>;
+</span><span id="273" class="l"><a href="#273">273: </a>      }
+</span><span id="274" class="l"><a href="#274">274: </a>    }
+</span><span id="275" class="l"><a href="#275">275: </a>
+</span><span id="276" class="l"><a href="#276">276: </a>  }
+</span><span id="277" class="l"><a href="#277">277: </a>
+</span><span id="278" class="l"><a href="#278">278: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="279" class="l"><a href="#279">279: </a>  <span class="php-comment">// Player variables</span>
+</span><span id="280" class="l"><a href="#280">280: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="281" class="l"><a href="#281">281: </a>
+</span><span id="282" class="l"><a href="#282">282: </a>  <span class="php-comment">/**
+</span></span><span id="283" class="l"><a href="#283">283: </a><span class="php-comment">   * Used to initialize the player specific variables table
+</span></span><span id="284" class="l"><a href="#284">284: </a><span class="php-comment">   */</span>
+</span><span id="285" class="l"><a href="#285">285: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> initPlayerVars() {
+</span><span id="286" class="l"><a href="#286">286: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;<span class="php-var">$playerExtensions</span> !== <span class="php-keyword1">null</span>) <span class="php-keyword1">return</span>;
+</span><span id="287" class="l"><a href="#287">287: </a>    <span class="php-var">$this</span>-&gt;playerExtensions = <span class="php-var">$this</span>-&gt;autoloadExtensions(self::getPlayerVarsFn);
+</span><span id="288" class="l"><a href="#288">288: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;stdPlayerVars&quot;</span> ];
+</span><span id="289" class="l"><a href="#289">289: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;invPlayerVars&quot;</span> ];
+</span><span id="290" class="l"><a href="#290">290: </a>    <span class="php-var">$pm</span> = <span class="php-var">$this</span>-&gt;getServer()-&gt;getPluginManager();
+</span><span id="291" class="l"><a href="#291">291: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$kr</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;KillRate&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="292" class="l"><a href="#292">292: </a>      <span class="php-keyword1">if</span> (MPMU::apiCheck(<span class="php-var">$kr</span>-&gt;getDescription()-&gt;getVersion(),<span class="php-quote">&quot;1.1&quot;</span>)) {
+</span><span id="293" class="l"><a href="#293">293: </a>        <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;KillRate-1.1&quot;</span>,<span class="php-var">$kr</span>);
+</span><span id="294" class="l"><a href="#294">294: </a>        <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;kr1PlayerVars&quot;</span> ];
+</span><span id="295" class="l"><a href="#295">295: </a>      }
+</span><span id="296" class="l"><a href="#296">296: </a>    }
+</span><span id="297" class="l"><a href="#297">297: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$pp</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;PurePerms&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="298" class="l"><a href="#298">298: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;PurePerms&quot;</span>,<span class="php-var">$pp</span>);
+</span><span id="299" class="l"><a href="#299">299: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;purePermsPlayerVars&quot;</span> ];
+</span><span id="300" class="l"><a href="#300">300: </a>    }
+</span><span id="301" class="l"><a href="#301">301: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$ru</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;RankUp&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="302" class="l"><a href="#302">302: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;RankUp&quot;</span>,<span class="php-var">$ru</span>);
+</span><span id="303" class="l"><a href="#303">303: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;rankUpPlayerVars&quot;</span> ];
+</span><span id="304" class="l"><a href="#304">304: </a>    }
+</span><span id="305" class="l"><a href="#305">305: </a>    <span class="php-keyword1">if</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;GoldStd&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="306" class="l"><a href="#306">306: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
+</span><span id="307" class="l"><a href="#307">307: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> ,<span class="php-quote">&quot;moneyPlayerVarsGoldStd&quot;</span> ];
+</span><span id="308" class="l"><a href="#308">308: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;PocketMoney&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="309" class="l"><a href="#309">309: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
+</span><span id="310" class="l"><a href="#310">310: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;moneyPlayerVarsPocketMoney&quot;</span> ];
+</span><span id="311" class="l"><a href="#311">311: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;MassiveEconomy&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="312" class="l"><a href="#312">312: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
+</span><span id="313" class="l"><a href="#313">313: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span> , <span class="php-quote">&quot;moneyPlayerVarsMassiveEconomy&quot;</span> ];
+</span><span id="314" class="l"><a href="#314">314: </a>    } <span class="php-keyword1">elseif</span> ((<span class="php-var">$mm</span> = <span class="php-var">$pm</span>-&gt;getPlugin(<span class="php-quote">&quot;EconomyAPI&quot;</span>)) !== <span class="php-keyword1">null</span>) {
+</span><span id="315" class="l"><a href="#315">315: </a>      <span class="php-var">$this</span>-&gt;registerApi(<span class="php-quote">&quot;money&quot;</span>, <span class="php-var">$mm</span>);
+</span><span id="316" class="l"><a href="#316">316: </a>      <span class="php-var">$this</span>-&gt;playerExtensions[] = [ <span class="php-var">$this</span>, <span class="php-quote">&quot;moneyPlayerVarsEconomysApi&quot;</span> ];
+</span><span id="317" class="l"><a href="#317">317: </a>    }
+</span><span id="318" class="l"><a href="#318">318: </a>  }
+</span><span id="319" class="l"><a href="#319">319: </a>  <span class="php-comment">/**
+</span></span><span id="320" class="l"><a href="#320">320: </a><span class="php-comment">   * Register a callback function that define player specific variable expansions
+</span></span><span id="321" class="l"><a href="#321">321: </a><span class="php-comment">   * @param callable $fn - callable should have as argumens (Player $player, array &amp;$vars)
+</span></span><span id="322" class="l"><a href="#322">322: </a><span class="php-comment">   */</span>
+</span><span id="323" class="l"><a href="#323">323: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerPlayerVars(<span class="php-keyword1">callable</span> <span class="php-var">$fn</span>) {
+</span><span id="324" class="l"><a href="#324">324: </a>    <span class="php-var">$this</span>-&gt;initPlayerVars();
+</span><span id="325" class="l"><a href="#325">325: </a>    <span class="php-var">$this</span>-&gt;playerExtensions[] = <span class="php-var">$fn</span>;
+</span><span id="326" class="l"><a href="#326">326: </a>  }
+</span><span id="327" class="l"><a href="#327">327: </a>  <span class="php-comment">/**
+</span></span><span id="328" class="l"><a href="#328">328: </a><span class="php-comment">   * Main entry point for player specifc variable defintions
+</span></span><span id="329" class="l"><a href="#329">329: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="330" class="l"><a href="#330">330: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="331" class="l"><a href="#331">331: </a><span class="php-comment">   */</span>
+</span><span id="332" class="l"><a href="#332">332: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> playerVars(Player <span class="php-var">$player</span>, <span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="333" class="l"><a href="#333">333: </a>    <span class="php-var">$this</span>-&gt;initPlayerVars();
+</span><span id="334" class="l"><a href="#334">334: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;playerExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
+</span><span id="335" class="l"><a href="#335">335: </a>      <span class="php-var">$cb</span>(<span class="php-var">$this</span>,<span class="php-var">$player</span>,<span class="php-var">$vars</span>);
+</span><span id="336" class="l"><a href="#336">336: </a>    }
+</span><span id="337" class="l"><a href="#337">337: </a>  }
+</span><span id="338" class="l"><a href="#338">338: </a>  <span class="php-comment">/**
+</span></span><span id="339" class="l"><a href="#339">339: </a><span class="php-comment">   * Shorter entry point for player specifc variable defintions
+</span></span><span id="340" class="l"><a href="#340">340: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="341" class="l"><a href="#341">341: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="342" class="l"><a href="#342">342: </a><span class="php-comment">   */</span>
+</span><span id="343" class="l"><a href="#343">343: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> playerVarsShort(Player <span class="php-var">$player</span>, <span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="344" class="l"><a href="#344">344: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;playerExtensions <span class="php-keyword1">as</span> <span class="php-var">$cb</span>) {
+</span><span id="345" class="l"><a href="#345">345: </a>      <span class="php-var">$cb</span>(<span class="php-var">$this</span>,<span class="php-var">$player</span>,<span class="php-var">$vars</span>);
+</span><span id="346" class="l"><a href="#346">346: </a>    }
+</span><span id="347" class="l"><a href="#347">347: </a>  }
+</span><span id="348" class="l"><a href="#348">348: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="349" class="l"><a href="#349">349: </a>  <span class="php-comment">// Player variable definitions</span>
+</span><span id="350" class="l"><a href="#350">350: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="351" class="l"><a href="#351">351: </a>  <span class="php-comment">/**
+</span></span><span id="352" class="l"><a href="#352">352: </a><span class="php-comment">   * Basic player specific variable definitions
+</span></span><span id="353" class="l"><a href="#353">353: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="354" class="l"><a href="#354">354: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="355" class="l"><a href="#355">355: </a><span class="php-comment">   */</span>
+</span><span id="356" class="l"><a href="#356">356: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> stdPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="357" class="l"><a href="#357">357: </a>    <span class="php-keyword1">foreach</span> ([
+</span><span id="358" class="l"><a href="#358">358: </a>              <span class="php-quote">&quot;{player}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getName(),
+</span><span id="359" class="l"><a href="#359">359: </a>              <span class="php-quote">&quot;{displayName}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getDisplayName(),
+</span><span id="360" class="l"><a href="#360">360: </a>              <span class="php-quote">&quot;{world}&quot;</span> =&gt; <span class="php-var">$player</span>-&gt;getLevel()-&gt;getName(),
+</span><span id="361" class="l"><a href="#361">361: </a>              <span class="php-quote">&quot;{x}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getX(),
+</span><span id="362" class="l"><a href="#362">362: </a>              <span class="php-quote">&quot;{y}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getY(),
+</span><span id="363" class="l"><a href="#363">363: </a>              <span class="php-quote">&quot;{z}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getZ(),
+</span><span id="364" class="l"><a href="#364">364: </a>              <span class="php-quote">&quot;{yaw}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getYaw(),
+</span><span id="365" class="l"><a href="#365">365: </a>              <span class="php-quote">&quot;{pitch}&quot;</span> =&gt; (int)<span class="php-var">$player</span>-&gt;getPitch(),
+</span><span id="366" class="l"><a href="#366">366: </a>              <span class="php-quote">&quot;{bearing}&quot;</span> =&gt; self::bearing(<span class="php-var">$player</span>-&gt;getYaw()),
+</span><span id="367" class="l"><a href="#367">367: </a>    ] <span class="php-keyword1">as</span> <span class="php-var">$a</span> =&gt; <span class="php-var">$b</span>) {
+</span><span id="368" class="l"><a href="#368">368: </a>      <span class="php-var">$vars</span>[<span class="php-var">$a</span>] = <span class="php-var">$b</span>;
+</span><span id="369" class="l"><a href="#369">369: </a>    }
+</span><span id="370" class="l"><a href="#370">370: </a>  }
+</span><span id="371" class="l"><a href="#371">371: </a>  <span class="php-comment">/** Inventory related variables
+</span></span><span id="372" class="l"><a href="#372">372: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="373" class="l"><a href="#373">373: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="374" class="l"><a href="#374">374: </a><span class="php-comment">   */</span>
+</span><span id="375" class="l"><a href="#375">375: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> invPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="376" class="l"><a href="#376">376: </a>    <span class="php-var">$item</span> = <span class="php-keyword1">clone</span> <span class="php-var">$player</span>-&gt;getInventory()-&gt;getItemInHand();
+</span><span id="377" class="l"><a href="#377">377: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$item</span>-&gt;getId() == Item::AIR) {
+</span><span id="378" class="l"><a href="#378">378: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{item}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="379" class="l"><a href="#379">379: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{itemid}&quot;</span>] = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="380" class="l"><a href="#380">380: </a>    } <span class="php-keyword1">else</span> {
+</span><span id="381" class="l"><a href="#381">381: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{item}&quot;</span>] = ItemName::str(<span class="php-var">$item</span>);
+</span><span id="382" class="l"><a href="#382">382: </a>      <span class="php-var">$vars</span>[<span class="php-quote">&quot;{itemid}&quot;</span>] = <span class="php-var">$item</span>-&gt;getId();
+</span><span id="383" class="l"><a href="#383">383: </a>    }
+</span><span id="384" class="l"><a href="#384">384: </a>  }
+</span><span id="385" class="l"><a href="#385">385: </a>
+</span><span id="386" class="l"><a href="#386">386: </a>  <span class="php-comment">/** KillRate-1.1 compatible player variables
+</span></span><span id="387" class="l"><a href="#387">387: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="388" class="l"><a href="#388">388: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="389" class="l"><a href="#389">389: </a><span class="php-comment">   */</span>
+</span><span id="390" class="l"><a href="#390">390: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> kr1PlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="391" class="l"><a href="#391">391: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{score}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;killrate-1.1&quot;</span>)-&gt;getScore(<span class="php-var">$player</span>);
+</span><span id="392" class="l"><a href="#392">392: </a>  }
+</span><span id="393" class="l"><a href="#393">393: </a>  <span class="php-comment">/** PocketMoney Support
+</span></span><span id="394" class="l"><a href="#394">394: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="395" class="l"><a href="#395">395: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="396" class="l"><a href="#396">396: </a><span class="php-comment">   */</span>
+</span><span id="397" class="l"><a href="#397">397: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsPocketMoney(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="398" class="l"><a href="#398">398: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>-&gt;getName());
+</span><span id="399" class="l"><a href="#399">399: </a>  }
+</span><span id="400" class="l"><a href="#400">400: </a>  <span class="php-comment">/** MassiveEconomy Support
+</span></span><span id="401" class="l"><a href="#401">401: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="402" class="l"><a href="#402">402: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="403" class="l"><a href="#403">403: </a><span class="php-comment">   */</span>
+</span><span id="404" class="l"><a href="#404">404: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsMassiveEconomy(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="405" class="l"><a href="#405">405: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>-&gt;getName());
+</span><span id="406" class="l"><a href="#406">406: </a>  }
+</span><span id="407" class="l"><a href="#407">407: </a>  <span class="php-comment">/** EconomysAPI Support
+</span></span><span id="408" class="l"><a href="#408">408: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="409" class="l"><a href="#409">409: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="410" class="l"><a href="#410">410: </a><span class="php-comment">   */</span>
+</span><span id="411" class="l"><a href="#411">411: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsEconomysApi(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="412" class="l"><a href="#412">412: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;mymoney(<span class="php-var">$player</span>-&gt;getName());
+</span><span id="413" class="l"><a href="#413">413: </a>  }
+</span><span id="414" class="l"><a href="#414">414: </a>  <span class="php-comment">/** GoldStd Support
+</span></span><span id="415" class="l"><a href="#415">415: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="416" class="l"><a href="#416">416: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="417" class="l"><a href="#417">417: </a><span class="php-comment">   */</span>
+</span><span id="418" class="l"><a href="#418">418: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> moneyPlayerVarsGoldStd(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="419" class="l"><a href="#419">419: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{money}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;money&quot;</span>)-&gt;getMoney(<span class="php-var">$player</span>);
+</span><span id="420" class="l"><a href="#420">420: </a>  }
+</span><span id="421" class="l"><a href="#421">421: </a>  <span class="php-comment">/** PurePerms compatibility
+</span></span><span id="422" class="l"><a href="#422">422: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="423" class="l"><a href="#423">423: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="424" class="l"><a href="#424">424: </a><span class="php-comment">   */</span>
+</span><span id="425" class="l"><a href="#425">425: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> purePermsPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="426" class="l"><a href="#426">426: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{group}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;PurePerms&quot;</span>)-&gt;getUser(<span class="php-var">$player</span>)-&gt;getGroup()-&gt;getName();
+</span><span id="427" class="l"><a href="#427">427: </a>  }
+</span><span id="428" class="l"><a href="#428">428: </a>
+</span><span id="429" class="l"><a href="#429">429: </a>  <span class="php-comment">/** RankUp compatibility
+</span></span><span id="430" class="l"><a href="#430">430: </a><span class="php-comment">   * @param Player $player - reference to pocketmine Player
+</span></span><span id="431" class="l"><a href="#431">431: </a><span class="php-comment">   * @param array &amp;$vars - receives variable defintions
+</span></span><span id="432" class="l"><a href="#432">432: </a><span class="php-comment">   */</span>
+</span><span id="433" class="l"><a href="#433">433: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> rankUpPlayerVars(Player <span class="php-var">$player</span>,<span class="php-keyword1">array</span> &amp;<span class="php-var">$vars</span>) {
+</span><span id="434" class="l"><a href="#434">434: </a>    <span class="php-var">$vars</span>[<span class="php-quote">&quot;{rank}&quot;</span>] = <span class="php-var">$this</span>-&gt;api(<span class="php-quote">&quot;RankUp&quot;</span>)-&gt;getPermManager()-&gt;getGroup();
+</span><span id="435" class="l"><a href="#435">435: </a>  }
+</span><span id="436" class="l"><a href="#436">436: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="437" class="l"><a href="#437">437: </a>  <span class="php-comment">// Misc Support functions</span>
+</span><span id="438" class="l"><a href="#438">438: </a>  <span class="php-comment">///////////////////////////////////////////////////////////////////////////</span>
+</span><span id="439" class="l"><a href="#439">439: </a>  <span class="php-comment">/**
+</span></span><span id="440" class="l"><a href="#440">440: </a><span class="php-comment">   * Convert bearings in degrees into points in compass
+</span></span><span id="441" class="l"><a href="#441">441: </a><span class="php-comment">   * @param float $deg - yaw
+</span></span><span id="442" class="l"><a href="#442">442: </a><span class="php-comment">   * @return str
+</span></span><span id="443" class="l"><a href="#443">443: </a><span class="php-comment">   */</span>
+</span><span id="444" class="l"><a href="#444">444: </a>  <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> bearing(<span class="php-var">$deg</span>) {
+</span><span id="445" class="l"><a href="#445">445: </a>    <span class="php-comment">// Determine bearing</span>
+</span><span id="446" class="l"><a href="#446">446: </a>    <span class="php-keyword1">if</span> (<span class="php-num">22.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">67.5</span>) {
+</span><span id="447" class="l"><a href="#447">447: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;NW&quot;</span>;
+</span><span id="448" class="l"><a href="#448">448: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">67.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">112.5</span>) {
+</span><span id="449" class="l"><a href="#449">449: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;N&quot;</span>;
+</span><span id="450" class="l"><a href="#450">450: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">112.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">157.5</span>) {
+</span><span id="451" class="l"><a href="#451">451: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;NE&quot;</span>;
+</span><span id="452" class="l"><a href="#452">452: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">157.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">202.5</span>) {
+</span><span id="453" class="l"><a href="#453">453: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;E&quot;</span>;
+</span><span id="454" class="l"><a href="#454">454: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">202.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">247.5</span>) {
+</span><span id="455" class="l"><a href="#455">455: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;SE&quot;</span>;
+</span><span id="456" class="l"><a href="#456">456: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">247.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">292.5</span>) {
+</span><span id="457" class="l"><a href="#457">457: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;S&quot;</span>;
+</span><span id="458" class="l"><a href="#458">458: </a>    } <span class="php-keyword1">elseif</span> (<span class="php-num">292.5</span> &lt;= <span class="php-var">$deg</span> &amp;&amp; <span class="php-var">$deg</span> &lt; <span class="php-num">337.5</span>) {
+</span><span id="459" class="l"><a href="#459">459: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;SW&quot;</span>;
+</span><span id="460" class="l"><a href="#460">460: </a>    } <span class="php-keyword1">else</span> {
+</span><span id="461" class="l"><a href="#461">461: </a>      <span class="php-keyword1">return</span> <span class="php-quote">&quot;W&quot;</span>;
+</span><span id="462" class="l"><a href="#462">462: </a>    }
+</span><span id="463" class="l"><a href="#463">463: </a>    <span class="php-keyword1">return</span> (int)<span class="php-var">$deg</span>;
+</span><span id="464" class="l"><a href="#464">464: </a>  }
+</span><span id="465" class="l"><a href="#465">465: </a>
+</span><span id="466" class="l"><a href="#466">466: </a>}
+</span><span id="467" class="l"><a href="#467">467: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
 </div>
-<script src="resources/combined.js?7544ec9a6b85813f759a6dde7dd36c77fbabb1cc"></script>
-<script src="elementlist.js?9b69e37808fc9f3458a1d928461df63d4d9936d5"></script>
+<script src="resources/combined.js?0955dc85acb09c7d4b9484bd7467f9ba4293856e"></script>
+<script src="elementlist.js?dba17f3691286966a6373a4476a094fcc10160f1"></script>
 </body>
 </html>
