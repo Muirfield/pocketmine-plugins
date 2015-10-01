@@ -1,6 +1,6 @@
 <?php
 //= cmd:showtimings,Informational
-//: Shows timing repots as reported by **timings**
+//: Shows timing reports as reported by **timings**
 //> usage: **timings** _[t#]_
 //:
 //: If nothing specified it will list available reports.  These are
