@@ -1,0 +1,19 @@
+;
+; Test warps
+;
+s s steve
+warp
+as steve spawn
+as steve setwarp w1
+as steve xyz
+setwarp w2 500,70,500
+xyz steve
+as steve warp w2
+xyz steve
+as steve warp w1
+xyz steve
+delwarp w1
+delwarp w2
+warp
+
+kick steve
