@@ -45,7 +45,7 @@ class CmdFtServers extends BasicCli implements CommandExecutor {
 		$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
     if (MPMU::callPlugin($this->owner->getServer(),"FastTransfer","transferPlayer",[$sender,$host,$port]) === null) {
-      $this->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER ERROR"));
+      $this->owner->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER ERROR"));
       return true;
     }
     return true;

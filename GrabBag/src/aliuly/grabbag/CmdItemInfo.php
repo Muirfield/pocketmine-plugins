@@ -43,10 +43,10 @@ class CmdItemInfo extends BasicCli implements CommandExecutor {
 		}
 		$item = clone $target->getInventory()->getItemInHand();
 
-		$sender->sendMesage(TextFormat::BLUE.mc::_("Item: ").TextFormat::WHITE.ItemName::str($item));
-		$sender->sendMesage(TextFormat::BLUE.mc::_("ItemId: ").TextFormat::WHITE.$item->getId());
-		$sender->sendMesage(TextFormat::BLUE.mc::_("Count: ").TextFormat::WHITE.$item->getCount());
-		$sender->sendMesage(TextFormat::BLUE.mc::_("Damage: ").TextFormat::WHITE.$item->getDamage());
+		$sender->sendMessage(TextFormat::BLUE.mc::_("Item: ").TextFormat::WHITE.ItemName::str($item));
+		$sender->sendMessage(TextFormat::BLUE.mc::_("ItemId: ").TextFormat::WHITE.$item->getId());
+		$sender->sendMessage(TextFormat::BLUE.mc::_("Count: ").TextFormat::WHITE.$item->getCount());
+		$sender->sendMessage(TextFormat::BLUE.mc::_("Damage: ").TextFormat::WHITE.$item->getDamage());
 		return true;
 	}
 }

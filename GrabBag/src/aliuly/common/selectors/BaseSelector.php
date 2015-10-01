@@ -11,7 +11,9 @@ abstract class BaseSelector {
   /**
    * Main entry point for command selectors
    */
-  abstract static public function select(Server $srv, CommandSender $sender, array $args);
+  static public function select(Server $srv, CommandSender $sender, array $args) {
+    throw \RuntimeException("Unimplemented select");
+  }
   /**
    * Implement selectors like m, name, etc...
    */

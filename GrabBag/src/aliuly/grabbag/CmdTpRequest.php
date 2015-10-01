@@ -93,7 +93,7 @@ class CmdTpRequest extends BasicCli implements CommandExecutor, Listener {
   }
   public function cmdTpAsk(Player $a, Player $b) {
     $a->sendMessage(mc::_("Sent a TPA teleport request to %1%", $b->getDisplayName()));
-    $b->sendMessage(mc::_("%1% wants to teleport to your location"), $a->getDisplayName());
+    $b->sendMessage(mc::_("%1% wants to teleport to your location", $a->getDisplayName()));
     $b->sendMessage(mc::_("Use /tpaccept or /tpdecline"));
     $this->requests[implode(":",[strtolower($a->getName()),strtolower($b->getName())])] = "tpa";
     return true;

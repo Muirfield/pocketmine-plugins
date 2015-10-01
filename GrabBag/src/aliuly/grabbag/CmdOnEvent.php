@@ -97,7 +97,7 @@ class CmdOnEvent extends BasicCli implements CommandExecutor{
       // Create listener object...
       $this->listeners[$n]["listener_class"] = "Listener4".$this->listeners[$n]["event"];
       $classtxt = $this->owner->getResourceContents("EventListener.php");
-      $classtxt = preg_replace('/<?php/',"",$classtxt);
+      $classtxt = preg_replace('/<\?php/',"",$classtxt);
       $classtxt = strtr($classtxt,[
         "{ClassName}" => $this->listeners[$n]["listener_class"],
         "{EventClass}" => $this->listeners[$n]["event"],
@@ -137,6 +137,7 @@ class CmdOnEvent extends BasicCli implements CommandExecutor{
 	}
   public function dispatchEvent($n, $ev) {
     if ($this->listeners[$n]["command"] === null) return;
+    $cmdline = $this->listeners[$n]["command"];
     if (is_callable([$ev,"getPlayer"])) {
       $ctx = $ev->getPlayer();
     } elseif (is_callable([$ev,"getEntity"]) && ($ev->getEntity() instanceof Player)) {
