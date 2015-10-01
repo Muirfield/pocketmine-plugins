@@ -25,29 +25,29 @@
  *
  * @name KillRateEx
  * @main script\KillRateEx
- * @version 1.0.0
+ * @version 1.0.1
  * @api 1.12.0
  * @author aliuly
  * @description Simple command implementations
- * @depend KillRate, PurePerms
+ * #depend KillRate, PurePerms
+ *
+ * Changes:
+ * - 1.0.1: Minor change
+ *   - Changed 3 constant for strlen("lvl")
+ * - 1.0.0: First public release
  */
 
 
 namespace script{
 	use pocketmine\plugin\PluginBase;
-	use pocketmine\command\ConsoleCommandSender;
-	use pocketmine\command\CommandExecutor;
-	use pocketmine\command\CommandSender;
-	use pocketmine\command\Command;
 	use pocketmine\event\Listener;
 	use pocketmine\utils\TextFormat;
 
 	use aliuly\killrate\api\KillRateScoreEvent;
 	use aliuly\killrate\api\KillRateResetEvent;
-	use aliuly\killrate\common\MPMU;
 
-
-	class KillRateEx extends PluginBase implements CommandExecutor,Listener{
+	class KillRateEx extends PluginBase implements Listener{
+		const LvlPrefix = "lvl";
 		public $kr;
 		public $pp;
 		public function onEnable(){
@@ -63,14 +63,6 @@ namespace script{
 				throw new \RuntimeException("Missinge Dependancy");
 				return;
 			}
-			/*
-			 * The /krgive command is used to give points to players.
-			 * technically is not part of the level mechanism
-			 */
-			MPMU::addCommand($this,$this,"krgive",[
-					"description" => "Add points to KillRate score",
-					"usage" => "/krgive <player> <points>",
-				]);
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		}
 		public function onScoreReset(KillRateResetEvent $ev) {
@@ -91,13 +83,11 @@ namespace script{
 			 */
 			if (!$ev->getPoints() || $ev->getPoints() < 0)  return; // Actually deducting points!
 			/*
-			 * Get what is the current player levels as a number.  The "3" is because
-			 * in this example levels are called "lvl" followed by the number.
-			 * If you change the group names make sure you change this line so that
-			 * $clevel is always a number (integer)
-			 *
+			 * Get what is the current player levels as a number.
+			 * In this example levels are called "lvl" which is defined in the
+			 * constant LvlPrefix.
 			 */
-			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),3));
+			$clevel = intval(substr($this->pp->getUser($ev->getPlayer())->getGroup()->getName(),strlen(self::LvlPrefix)));
 			/*
 			 * The example only defines 5 levels.  Feel free to change this
 			 */
@@ -108,20 +98,21 @@ namespace script{
 			 */
 			$cscore = $this->kr->api->getScore($ev->getPlayer());
 			/*
-			 * This formula figures out the number of points needed to level UP!
-			 *
-			 * The default uses a non-linear formula:
-			 *
-			 *   Lvl0 - 0 points
-			 *   Lvl1 - 1000 points
-			 *   Lvl2 - 4000 points
-			 *   Lvl3 - 8000 points
-			 *   Lvl4 - 16000 points
-			 *   Lvl5 - 32000 points
-			 *
+			 * These are the different number of points needed for that level.
 			 * Feel free to change this
 			 */
-			$threshold = ($clevel + 1) * ($clevel + 1) * 1000;
+			switch($clevel+1){
+				case 0: $threshold = 0; break; // Obviously this is not needed...
+				case 1: $threshold = 1000; break;
+				case 2: $threshold = 4000; break;
+				case 3: $threshold = 8000; break;
+				case 4: $threshold = 16000; break;
+				case 5: $threshold = 32000; break;
+				default: $threshold = 64000; break;
+			}
+			// If you are like me and prefer to use a formula, the next line
+			// is an example on how to do a similar progression:
+			// $threshold = ($clevel + 1) * ($clevel + 1) * 1000;
 
 			if ($cscore + $ev->getPoints() < $threshold) return; // Did not manage to raise level yet!
 
@@ -129,7 +120,7 @@ namespace script{
 			 * This determines the next group that corresponds to the new level.
 			 * Make sure you change this if you change the group names.
 			 */
-			$nlevel ="lvl" . intval( $clevel + 1 );
+			$nlevel =self::LvlPrefix . intval( $clevel + 1 );
 			/*
 			 * Tell everybody the good news (so they can get jellous)
 			 * and then change the player's PurePerms group
@@ -139,25 +130,6 @@ namespace script{
 														$ev->getPlayer()->getDisplayName().
 														" is now ".$nlevel);
 			$this->pp->getUser($ev->getPlayer())->setGroup($this->pp->getGroup($nlevel),null);
-		}
-		public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
-			switch($cmd->getName()) {
-				case "krgive":
-				  if (count($args) != 2) return false;
-					list($player,$points) = $args;
-					if (!is_numeric($points)) return !false;
-					$player = $this->getServer()->getPlayer($player);
-					if ($player == null) {
-						$sender->sendMessage(TextFormat::RED.$args[0]." does not exist");
-						return true;
-					}
-					$points = intval($points);
-					$this->kr->api->updateScore($player,"points",$points);
-					$sender->sendMessage(TextFormat::GREEN."Awarding ".$points." points to ".$player->getDisplayName());
-					$player->sendMessage(TextFormat::YELLOW."You have been awarded ".$points." by ".$sender->getName());
-					return true;
-			}
-			return false;
 		}
 	}
 }

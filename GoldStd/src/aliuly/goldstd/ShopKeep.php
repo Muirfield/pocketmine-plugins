@@ -5,62 +5,50 @@
 namespace aliuly\goldstd;
 
 use pocketmine\plugin\PluginBase as Plugin;
-use pocketmine\item\Item;
-use pocketmine\entity\Entity;
-use pocketmine\Player;
-use pocketmine\level\Location;
-
-use pocketmine\tile\Chest;
-use pocketmine\block\Block;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-//use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Int;
-
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\utils\Config;
+use pocketmine\entity\Entity;
+use pocketmine\level\Location;
+use pocketmine\item\Item;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\Player;
 
-use pocketmine\inventory\PlayerInventory;
-use pocketmine\inventory\ChestInventory;
-use pocketmine\inventory\CustomInventory;
-use pocketmine\inventory\InventoryType;
-use pocketmine\event\inventory\InventoryTransactionEvent;
-use pocketmine\event\inventory\InventoryCloseEvent;
-use pocketmine\inventory\BaseTransaction;
+//use pocketmine\tile\Chest;
+//use pocketmine\block\Block;
+//use pocketmine\nbt\tag\Compound;
+//use pocketmine\nbt\tag\Byte;
+//use pocketmine\nbt\tag\Enum;
+//use pocketmine\nbt\tag\String;
+//use pocketmine\nbt\tag\Float;
+//use pocketmine\nbt\tag\Int;
+//use pocketmine\event\player\PlayerQuitEvent;
+//use pocketmine\inventory\PlayerInventory;
+//use pocketmine\inventory\ChestInventory;
+//use pocketmine\inventory\CustomInventory;
+//use pocketmine\inventory\InventoryType;
+//use pocketmine\event\inventory\InventoryTransactionEvent;
+//use pocketmine\event\inventory\InventoryCloseEvent;
+//use pocketmine\inventory\BaseTransaction;
 
 use aliuly\goldstd\common\Npc;
 use aliuly\goldstd\common\mc;
 use aliuly\goldstd\common\MPMU;
 use aliuly\goldstd\common\PluginCallbackTask;
-
-use pocketmine\utils\Config;
-
+use aliuly\common\ShoppingCart;
 
 class TraderNpc extends Npc {
 }
-
-class TraderInventory extends CustomInventory {
-	protected $client;
-	public function __construct($holder,$client) {
-		$this->client = $client;
-		parent::__construct($holder,InventoryType::get(InventoryType::CHEST),
-								  [],null,"Trader Inventory");
-	}
-	public function getClient() { return $this->client; }
-}
-
 
 class ShopKeep implements Listener {
 	protected $owner;
 	protected $keepers;
 	protected $state;
+	protected $cart;
 
 	static public function defaults() {
 		return [
+			//= cfg:shop-keepers
 			"# enable" => "enable/disable shopkeep functionality",
 			"enable" => true,
 			"# range" => "How far away to engage players in chat",
@@ -71,11 +59,12 @@ class ShopKeep implements Listener {
 			"freq" => 60,
 		];
 	}
-	static public function cfEnabled($cf){
-		return $cf["enable"];
-	}
 	public function __construct(Plugin $plugin,$xfg) {
 		$this->owner = $plugin;
+		if (!$xfg["enable"]) {
+			$this->keepers = null;
+			return;
+		}
 		$this->keepers = [];
 		$cfg = (new Config($plugin->getDataFolder()."shops.yml",
 								Config::YAML))->getAll();
@@ -146,7 +135,7 @@ class ShopKeep implements Listener {
 		$this->owner->getServer()->getScheduler()->scheduleRepeatingTask(
 			new PluginCallbackTask($this->owner,[$this,"spamPlayers"],[$xfg["range"],$xfg["freq"]]),$xfg["ticks"]
 		);
-
+		$this->cart = new ShoppingCart($this->owner);
 	}
 
 	public function isEnabled() {
@@ -211,48 +200,9 @@ class ShopKeep implements Listener {
 													"shop" => ["String",$name],
 												]);
 		$trader->spawnToAll();
-		$pos->y = $trader->getFloorY()-2;
-		if ($pos->getY() <= 0) $pos->y = 1;
-		$nbt = new Compound("", [
-			"id" => new String("id","Chest"),
-			"x" => new Int("x",$pos->getX()),
-			"y" => new Int("y",$pos->getY()),
-			"z" => new Int("z",$pos->getZ()),
-			"CustomName" => new String("CustomName",$name),
-			"Items" => new Enum("Items",[]),
-		]);
-		$pos->getLevel()->setBlock($pos,Block::get(Block::CHEST));
-		$chest = new Chest($pos->getLevel()->getChunk($pos->getX()>>4,$pos->getZ()>>4), $nbt);
 		return "";
 	}
 	//////////////////////////////////////////////////////////////////////
-	public function getState($label,$player,$default) {
-		$n = MPMU::iName($player);
-		if (!isset($this->state[$n])) return $default;
-		if (!isset($this->state[$n][$label])) return $default;
-		return $this->state[$n][$label];
-	}
-	public function setState($label,$player,$val) {
-		$n = MPMU::iName($player);
-		if (!isset($this->state[$n])) $this->state[$n] = [];
-		$this->state[$n][$label] = $val;
-	}
-	public function unsetState($label,$player) {
-		$n = MPMU::iName($player);
-		if (!isset($this->state[$n])) return;
-		if (!isset($this->state[$n][$label])) return;
-		unset($this->state[$n][$label]);
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	public function onQuit(PlayerQuitEvent $ev) {
-		$n = MPMU::iName($ev->getPlayer());
-		if (isset($this->state[$n])) {
-			if (isset($this->state[$n]["trade-inv"]))
-				$this->restoreInv($ev->getPlayer());
-			unset($this->state[$n]);
-		}
-	}
 	/**
 	 * @priority LOW
 	 */
@@ -304,244 +254,7 @@ class ShopKeep implements Listener {
 	/* Buy stuf...*/
 	public function startTrade($buyer,$seller,$shop) {
 		if (!MPMU::access($buyer,"goldstd.shopkeep.shop")) return;
-		if ($this->getState("trade-inv",$buyer,null) !== null) {
-			echo "Already trading\n";//##DEBUG
-			return;
-		}
-
-		echo  __METHOD__.",".__LINE__."\n";//##DEBUG
-		$l = $seller->getLevel();
-		$tile = null;
-		for($i=-2;$i<=0 && $tile == null;$i--) {
-			$pos = $seller->add(0,$i,0);
-			$tile = $l->getTile($pos);
-			if ($tile instanceof Chest) {
-				break;
-			} else {
-				$tile = null;
-			}
-		}
-		if ($tile == null) {
-			$this->owner->getLogger()->error(
-				mc::_("Error trading with NPC at %1%,%2%,%3% (%4%)",
-						$seller->floorX(),$seller->floorY(),$seller->floorZ(),
-						$seller->getLevel()->getName()));
-			$buyer->sendMessage(mc::_("Sorry, nothing happens..."));
-			return;
-		}
-		$inv = [ "player" => [], "chest" => null ];
-		$inv["money"] = $this->owner->getMoney($buyer);
-		var_dump($inv["money"]);//##DEBUG
-		$inv["shop"] = $shop;
-
-		foreach ($buyer->getInventory()->getContents() as $slot=>&$item) {
-			$inv["player"][$slot] = implode(":",[ $item->getId(),
-															  $item->getDamage(),
-															  $item->getCount() ]);
-		}
-		$inv["chest"] = new TraderInventory($tile,$buyer);
-		$contents = [];
-		foreach ($this->keepers[$shop]["items"] as $idmeta=>$it) {
-			$item = clone $it[0];
-			$item->setCount(1);
-			$contents[] = $item;
-		}
-		$inv["chest"]->setContents($contents);
-		$this->setState("trade-inv",$buyer,$inv);
-		$buyer->getInventory()->clearAll();
-		$buyer->addWindow($inv["chest"]);
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-	}
-	public function onTransaction(InventoryTransactionEvent $ev) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$tg = $ev->getTransaction();
-		$pl = null;
-		$ti = null;
-		foreach($tg->getInventories() as $i) {
-			echo "INV ".get_class($i)."\n";//##DEBUG
-			if ($i instanceof PlayerInventory) {
-				$pl = $i->getHolder();
-			}
-			if ($i instanceof TraderInventory) {
-				$ti = $i;
-			}
-		}
-		if ($ti == null) return; // This does not involve us!
-		if ($pl == null) {
-			$this->owner->getLogger()->error(
-				mc::_("Unable to identify player in inventory transaction")
-			);
-			return;
-		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		echo "PLAYER ".$pl->getName()." is buying\n";//##DEBUG
-
-		// Calculate total $$
-		$xx = $this->getState("trade-inv",$pl,null);
-		if ($xx == null) return; // This is a normal Chest transaction...
-		echo "FROM SHOP ".$xx["shop"]."\n";//##DEBUG
-		$added = [];
-		foreach ($tg->getTransactions() as $t) {
-			if ($t->getInventory() instanceof PlayerInventory) {
-				// Handling PlayerInventory changes...
-				foreach ($this->playerInvTransaction($t) as $nt) {
-					$added[] = $nt;
-				}
-				continue;
-			}
-			foreach ($this->traderInvTransaction($t) as $nt) {
-				$added[] = $nt;
-			}
-		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-
-		// Test if the transaction is valid...
-		// Make a copy of current inventory
-		$tsinv = [];
-		foreach ($pl->getInventory()->getContents() as $slot=>$item) {
-			if ($item->getId() == Item::AIR) continue;
-			$tsinv[$slot] = [implode(":",[$item->getId(),$item->getDamage()]),
-								  $item->getCount()];
-		}
-		//var_dump($tsinv);//##DEBUG
-
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		//print_r($tsinv);//##DEBUG
-		// Apply transactions to copy
-		foreach ([$tg->getTransactions(),$added] as &$tset) {
-			foreach ($tset as &$nt) {
-				if ($nt->getInventory() instanceof PlayerInventory) {
-					$item = clone $nt->getTargetItem();
-					$slot = $nt->getSlot();
-					if ($item->getId() == Item::AIR) {
-						if(isset($tsinv[$slot])) unset($tsinv[$slot]);
-					} else {
-						$tsinv[$slot] = [ implode(":",
-														  [ $item->getId(),
-															 $item->getDamage()]),
-												$item->getCount() ];
-					}
-				}
-			}
-		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		//		print_r($tsinv);//##DEBUG
-		echo $pl->getName()." has ".$xx["money"]."G\n";//##DEBUG
-		$total = 0;
-		var_dump($xx["money"]);//##DEBUG
-		var_dump($tsinv);//##DEBUG
-
-		foreach ($tsinv as $slot=>$item) {
-			list($idmeta,$cnt) = $item;
-			echo "slot=$slot idmeta=$idmeta cnt=$cnt\n";//##DEBUG
-			if (!isset($this->keepers[$xx["shop"]]["items"][$idmeta])) {
-				$this->shopMsg($pl,$xx["shop"],"inventory-error");
-				$ev->setCancelled();
-				return;
-			}
-			list($i,$price) = $this->keepers[$xx["shop"]]["items"][$idmeta];
-			echo "-$idmeta - $cnt/".$i->getCount()." *  $price ...".(round($cnt/$i->getCount())*$price)."\n";//##DEBUG
-			$total += round($cnt/$i->getCount())*$price;
-		}
-		echo "TOTAL=$total\n";//##DEBUG
-		if ($total > $xx["money"]) {
-			$this->shopMsg($pl,$xx["shop"],"not-enough-g",$total, $xx["money"]);
-			$ev->setCancelled();
-			return;
-		}
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		foreach ($added as $nt) {
-			$tg->addTransaction($nt);
-		}
-		// Make sure inventory is properly synced
-		foreach($tg->getInventories() as $i) {
-			$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
-				new PluginCallbackTask($this->owner,[$i,"sendContents"],[$pl]),5);
-			$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
-				new PluginCallbackTask($this->owner,[$i,"sendContents"],[$pl]),10);
-			$this->owner->getServer()->getScheduler()->scheduleDelayedTask(
-				new PluginCallbackTask($this->owner,[$i,"sendContents"],[$pl]),15);
-		}
-	}
-	public function onClose(InventoryCloseEvent $ev) {
-		$pl = $ev->getPlayer();
-		$xx = $this->getState("trade-inv",$pl,null);
-		if ($xx == null) return;
-
-		// Compute shopping basket
-		$basket = [];
-		$total = 0;
-		foreach ($pl->getInventory()->getContents() as $slot=>$item) {
-			if ($item->getId() == Item::AIR) continue;
-			$idmeta = implode(":",[$item->getId(),$item->getDamage()]);
-			if (!isset($this->keepers[$xx["shop"]]["items"][$idmeta])) continue;
-			list($i,$price) = $this->keepers[$xx["shop"]]["items"][$idmeta];
-			$total += round($item->getCount()/$i->getCount())*$price;
-			$basket[] = [ $item->getId(),$item->getDamage(), $item->getCount() ];
-		}
-		// Restore original inventory...
-		$this->restoreInv($pl);
-		// Check-out
-		if (count($basket) == 0) {
-			$this->shopMsg($pl,$xx["shop"],"next-time");
-			return;
-		}
-		if ($total < $this->owner->getMoney($pl)) {
-			$this->owner->grantMoney($pl,-$total);
-			if (count($basket) == 1)
-				$this->shopMsg($pl,$xx["shop"],"bought-items1",$total,count($basket));
-			else
-				$this->shopMsg($pl,$xx["shop"],"bought-itemsX",$total,count($basket));
-			foreach ($basket as $ck) {
-				list($id,$meta,$cnt) = $ck;
-				$pl->getInventory()->addItem(Item::get($id,$meta,$cnt));
-			}
-			$this->shopMsg($pl,$xx["shop"],"thank-you",$total,count($basket));
-		} else {
-			$this->shopMsg($pl,$xx["shop"],"no-money",$total,count($basket));
-		}
-	}
-	public function playerInvTransaction($t) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$src = clone $t->getSourceItem();
-		$dst = clone $t->getTargetItem();
-		// This becomes nothing... not much to do...
-		if ($dst->getCount() == 0 || $dst->getId() == Item::AIR) return [];
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$srccnt = $src->getId() == Item::AIR ? 0 : $src->getCount();
-		$dstcnt = $dst->getId() == Item::AIR ? 0 : $dst->getCount();
-		// This is a weird transaction...
-		if ($srccnt == $dstcnt && $src->getId() == $dst->getId()) return [];
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$idmeta = implode(":",[$dst->getId(),$dst->getDamage()]);
-		$pl = $t->getInventory()->getHolder();
-		echo $pl->getName()."\n";//##DEBUG
-		$xx = $this->getState("trade-inv",$pl,null);
-		if ($xx == null) return []; // Oops...
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		list($i,$price) = $this->keepers[$xx["shop"]]["items"][$idmeta];
-		echo "i=".$i->getCount()." at ".$price."\n";//##DEBUG
-		echo "dstcnt=$dstcnt srccnt=$srccnt\n";//##DEBUG
-		if ($dstcnt > $srccnt) {
-			// Increase
-			$newcnt = $srccnt+$i->getCount();
-			if ($newcnt > $i->getMaxStackSize()) $newcnt -= $i->getCount();
-		} elseif ($dstcnt < $srccnt) {
-			// Decrease
-			$newcnt = floor($dstcnt/$i->getCount())*$i->getCount();
-		}
-		if ($newcnt == $dstcnt) return [];
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		echo "NEWCNT: $newcnt\n";//##DEBUG
-		if ($newcnt == 0) {
-			$dst = Item::get(Item::AIR,0,0);
-		} else {
-			$dst->setCount($newcnt);
-		}
-		return [ new BaseTransaction($t->getInventory(),
-											  $t->getSlot(),
-											  clone $t->getTargetItem(),
-											  clone $dst) ];
+		$this->cart->start($buyer,$this->keepers[$shop]["items"]);
 	}
 	protected function getShopMsg($pl,$shop,$msg,$args) {
 		if (!isset($this->keepers[$shop]["messages"][$msg])) return $msg;
@@ -564,49 +277,7 @@ class ShopKeep implements Listener {
 		$msg = array_shift($args);
 		$pl->sendMessage($this->getShopMsg($pl,$shop,$msg,$args));
 	}
-	public function traderInvTransaction($t) {
-		// Moving stock to buyer
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$src = clone $t->getSourceItem();
-		$dst = clone $t->getTargetItem();
-		if ($dst->getId() == Item::AIR) {
-			// Inventory never runs out!
-			return [ new BaseTransaction($t->getInventory(),
-												  $t->getSlot(),
-												  clone $t->getTargetItem(),
-												  clone $src) ];
-		}
-		if ($src->getId() == Item::AIR) {
-			// Do not accept new Inventory!
-			return [ new BaseTransaction($t->getInventory(),
-												  $t->getSlot(),
-												  clone $dst,
-												  clone $src) ];
-		}
-		if ($dst->getCount() > 1) {
-			// Inventory never increases!
-			$dst->setCount(1);
-			return [ new BaseTransaction($t->getInventory(),
-												  $t->getSlot(),
-												  clone $t->getTargetItem(),
-												  clone $dst) ];
-		}
-		return [];
-	}
 
-
-	public function restoreInv($pl) {
-		echo __METHOD__.",".__LINE__."\n";//##DEBUG
-		$inv = $this->getState("trade-inv",$pl,null);
-		if ($inv === null) return;
-		$pl->getInventory()->clearAll();
-		foreach ($inv["player"] as $slot=>$itdat) {
-			list($id,$meta,$cnt) = explode(":",$itdat);
-			$item = Item::get($id,$meta,$cnt);
-			$pl->getInventory()->setItem($slot,$item);
-		}
-		$this->unsetState("trade-inv",$pl);
-	}
 
 	public function spamPlayers($range,$freq) {
 		$now = time();
@@ -621,22 +292,22 @@ class ShopKeep implements Listener {
 				foreach ($lv->getPlayers() as $pl) {
 					if ($pl->isCreative() || $pl->isSpectator()) continue;
 					if ($et->distanceSquared($pl) > $range*$range) {
-						if ($this->getState("spam-$shopid",$pl,null) === null) continue;
-						$this->unsetState("spam-$shopid",$pl);
+						if ($this->cart->getState("spam-$shopid",$pl,null) === null) continue;
+						$this->cart->unsetState("spam-$shopid",$pl);
 						$this->shopMsg($pl,$shop,"leaving");
 						continue;
 					}
 					// In range check state
-					if ($this->getState("trade-inv",$pl,null) !== null) continue;
-					$spam = $this->getState("spam-$shopid",$pl,null);
+					if ($this->cart->getState(ShoppingCart::tag,$pl,null) !== null) continue;
+					$spam = $this->cart->getState("spam-$shopid",$pl,null);
 					if ($spam === null) {
 						$this->shopMsg($pl,$shop,"welcome");
-						$this->setState("spam-$shopid",$pl,$now);
+						$this->cart->setState("spam-$shopid",$pl,$now);
 						continue;
 					}
 					if ($now < $spam+$freq) continue;
 					$this->shopMsg($pl,$shop,"buystuff");
-					$this->setState("spam-$shopid",$pl,$now);
+					$this->cart->setState("spam-$shopid",$pl,$now);
 				}
 
 			}

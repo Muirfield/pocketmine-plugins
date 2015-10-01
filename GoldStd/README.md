@@ -1,15 +1,21 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GoldStd2-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = Economy -->
+<!-- meta:PluginAccess =  Commands, Entities, Items -->
+
+<!-- template: gd2/header.md -->
+
 # GoldStd
 
-* Summary: Gold based economy plugin
-* Dependency Plugins: N/A
-* PocketMine-MP version: 1.5 (API:1.12.0)
-* DependencyPlugins: -
-* OptionalPlugins: N/A
-* Categories: Economy
-* Plugin Access: Commands, Entities, Items
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd
+- Summary: Gold based economy plugin
+- PocketMine-MP version: 1.5 (API:1.12.0)
+- DependencyPlugins:
+- OptionalPlugins:
+- Categories: Economy
+- Plugin Access: Commands, Entities, Items
+- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd
+
+<!-- end-include -->
 
 ## Overview
 
@@ -25,15 +31,15 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.2.2**.
+This documentation was last updated for version **1.3.0dev1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.2.2).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.3.0dev1).
 
-<!-- template-end -->
+<!-- end-include -->
 
 Implements an economy plugin based on Gold Ingots (by default) as the
 currency.
@@ -80,11 +86,13 @@ for regular gameplay:
 
 ### Signs
 
-GoldStd supports three types of signs.
+GoldStd supports these types of signs.
 
-1. Shop signs
-2. Gambling signs
-3. Trading signs
+1. Shops: Buy goods
+2. Gambling: Bet money
+3. Trading: Trade goods
+4. Effects: Buy potions
+5. Command: Pay to have commands executed
 
 #### Shop Signs
 
@@ -187,6 +195,58 @@ Examples:
   * 2p
   * Jump
 
+### Commands Shop
+
+Tap a sign and the command will be executed.
+Place a sign with the following text:
+
+    [CODE]
+    [CMD]
+    <command-id>
+    <price>
+    [/CODE]
+
+For this to work you need to have a file in your GoldStd plugin folder with
+the name **commands.txt**.  In there you need to put all the possible
+commands like this:
+
+    command-id: command to execute
+
+Only one command is possible.  If you need multiple commands and more
+features you could use
+[GrabBag](https://forums.pocketmine.net/plugins/grabbag.1060/) and write
+a _PMScript_.
+
+Examples:
+
+    [CODE]
+    # This is the content of the "commands.txt file.
+    # cmd-id: command to execute
+    clearchat: clearchat
+    fly: +op:fly
+    heal me: +op:heal
+    to spawn: spawn
+    script: rc dostuff
+    [/CODE]
+
+Signs:
+
+* [CMD]
+  * clearchat
+  * 1p
+* [CMD]
+  * fly
+  * 20p
+  * You can fly!
+* [CMD]
+  * heal me
+  * 5p
+  * The Doctor
+  * is IN!
+* [CMD]
+  * to spawn
+  * 1p
+
 ### API
 
 * API
@@ -197,54 +257,44 @@ Examples:
 ### Configuration
 
 Configuration is through the `config.yml` file.
-The following sections are defined:
 
-#### defaults
+<!-- php:$h=4; -->
+<!-- template: gd2/cfg.md -->
+#### other-sections
 
-
-Default values for paying players by tapping
-*  payment: default payment when tapping on a player
-*  timeout: how long a transaction may last
-
-#### main
-
-*  settings: features
-	*  currency: Item to use for currency false or zero disables currency exchange.
-	*  signs: set to true to enable shops|casino signs
 *  trade-goods: List of tradeable goods
 *  signs: Text used to identify GoldStd signs
 
-#### shop-keepers
+#### settings
 
-*  enable: enable/disable shopkeep functionality
-*  range: How far away to engage players in chat
-*  ticks: How often to check player positions
-*  freq: How often to  spam players (in seconds)
+*  currency: Item to use for currency false or zero disables currency exchange.
+*  signs: set to true to enable shops|casino signs
 
+
+<!-- end-include -->
+
+<!-- template: gd2/permissions.md -->
 
 ### Permission Nodes
 
-* goldstd.cmd.pay : Access to pay command
-* goldstd.cmd.balance : Show your current balance
-* goldstd.cmd.shopkeep : ShopKeepr management
-  (Defaults to Op)
-* goldstd.shopkeep.shop : Allow buying from shop keeper
-* goldstd.signs.use : Allow access to signs
-* goldstd.signs.use.casino : Allow access to casino signs
-* goldstd.signs.use.shop : Allow access to shopping signs
-* goldstd.signs.use.trade : Allow access to trading signs
-* goldstd.signs.use.effects : Allow access to Effects signs
-* goldstd.signs.place : Allow placing signs
-  (Defaults to Op)
-* goldstd.signs.place.casino : Allow placing casino signs
-  (Defaults to Op)
-* goldstd.signs.place.shop : Allow placing shopping signs
-  (Defaults to Op)
-* goldstd.signs.place.trade : Allow placing trading signs
-  (Defaults to Op)
-* goldstd.signs.place.effects : Allow placing Effects signs
-  (Defaults to Op)
+* goldstd.cmd.pay: Access to pay command
+* goldstd.cmd.balance: Show your current balance
+* goldstd.cmd.shopkeep (op): ShopKeepr management
+* goldstd.shopkeep.shop: Allow buying from shop keeper
+* goldstd.signs.use: Allow access to signs
+* goldstd.signs.use.casino: Allow access to casino signs
+* goldstd.signs.use.shop: Allow access to shopping signs
+* goldstd.signs.use.trade: Allow access to trading signs
+* goldstd.signs.use.effects: Allow access to Effects signs
+* goldstd.signs.place (op): Allow placing signs
+* goldstd.signs.place.casino (op): Allow placing casino signs
+* goldstd.signs.place.shop (op): Allow placing shopping signs
+* goldstd.signs.place.trade (op): Allow placing trading signs
+* goldstd.signs.place.effects (op): Allow placing Effects signs
 
+<!-- end-include -->
+
+<!-- template: gd2/mctxt.md -->
 
 ## Translations
 
@@ -254,14 +304,18 @@ languages currently available are:
 * English
 * Spanish
 
+
 You can provide your own message file by creating a file called
-`messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
+**messages.ini** in the plugin config directory.
+Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd/resources/messages/)
 for sample files.
+Alternatively, if you have
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
+installed, you can create an empty **messages.ini** using the command:
 
-The contents of these "ini" files are key-value pairs:
+     pm dumpmsgs GoldStd [lang]
 
-	"Base text"="Translated Text"
+<!-- end-include -->
 
 ## FAQ
 
@@ -282,6 +336,8 @@ The contents of these "ini" files are key-value pairs:
 
 # Changes
 
+* 1.3.0: Command shops
+  * Add command shops (Requested by @Kyoyuki)
 * 1.2.2: Bug fixes
   * Fixing Effects permissions (reported by @may)
 * 1.2.1: Bug fixes
@@ -303,21 +359,6 @@ The contents of these "ini" files are key-value pairs:
   * ShopKeep functionality
 * 1.0.0 : First submission
 
-# Copyright
-
-    GoldStd
-    Copyright (C) 2015 Alejandro Liu
-    All Rights Reserved.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+<!-- php:$copyright="2015"; -->
+<!-- template: gd2/gpl2.md -->
+<!-- end-include -->

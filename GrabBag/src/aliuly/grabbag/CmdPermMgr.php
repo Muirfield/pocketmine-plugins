@@ -1,7 +1,7 @@
 <?php
 //= cmd:perm,Player_Management
 //: temporarily change player's permissions
-//> usage: **perm** _<player>_ _<dump|permission> _[true|false]_
+//> usage: **perm** _<player>_ _<dump|permission>_ _[true|false]_
 //:
 //: This can be used to temporarily change player's permissions.
 //: Changes are only done in-memory, so these will revert if the
@@ -21,9 +21,9 @@ use pocketmine\utils\TextFormat;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 class CmdPermMgr extends BasicCli implements CommandExecutor,Listener {
 	protected $perms;

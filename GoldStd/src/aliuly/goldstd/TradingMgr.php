@@ -1,10 +1,4 @@
 <?php
-/**
- ** CONFIG:defaults
- **
- ** Default values for paying players by tapping
- **
- **/
 namespace aliuly\goldstd;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase as Plugin;
@@ -26,6 +20,7 @@ class TradingMgr implements Listener {
 	protected $goods;
 	static public function defaults() {
 		return [
+			//= cfg:defaults
 			"# payment" => "default payment when tapping on a player",
 			"payment" => 1,
 			"# timeout" => "how long a transaction may last",

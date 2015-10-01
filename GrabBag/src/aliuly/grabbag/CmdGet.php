@@ -3,7 +3,7 @@
 //: obtain an item
 //> usage: **get** _<item>_ _[count]_
 //:
-//: This is a shortcut to `/give` that lets player get items for
+//: This is a shortcut to **give** that lets player get items for
 //: themselves.  You can replace **item** with **more** and the
 //: current held item will be duplicated.
 
@@ -11,7 +11,7 @@
 //: give an item to a player
 //> usage: **gift** _[player]_ _<item>_ _[count]_
 //:
-//: This is a re-implementation of `/give`.
+//: This is a re-implementation of **give** command.
 
 namespace aliuly\grabbag;
 
@@ -21,11 +21,11 @@ use pocketmine\command\Command;
 
 use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\ItemName;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\ItemName;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 class CmdGet extends BasicCli implements CommandExecutor {
 	// Override the MaxStacks counter...

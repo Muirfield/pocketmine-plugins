@@ -10,10 +10,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\math\Vector3;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 class CmdThrow extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

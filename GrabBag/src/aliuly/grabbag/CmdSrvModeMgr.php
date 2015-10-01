@@ -3,7 +3,7 @@
 //: controls servicemode
 //> usage: **servicemode** **[on|off** _[message]_ **]**
 //:
-//: If `on` it will activate service mode.  In service mode new
+//: If **on** it will activate service mode.  In service mode new
 //: players can not join (unless they are ops).  Existing players
 //: can remain but may be kicked manually by any ops.
 namespace aliuly\grabbag;
@@ -17,10 +17,10 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PluginCallbackTask;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PluginCallbackTask;
+use aliuly\common\PermUtils;
 
 
 class CmdSrvModeMgr extends BasicCli implements CommandExecutor,Listener {

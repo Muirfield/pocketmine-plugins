@@ -28,10 +28,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 use xPaw\MinecraftQuery;
 use xPaw\MinecraftQueryException;
@@ -77,6 +77,39 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		}
 		return false;
 	}
+	private function queryServer($id) {
+		$lst = $this->owner->getModule("ServerList");
+		$cc = [];
+		if ($this->owner->getModule("query-task") && !$lst->getServerAttr($id,"no-query-task",false)) {
+			// Using query daemon cached data...
+			foreach (["info","players"] as $dd) {
+				$cc[$dd] = $lst->getQueryData($id,"query.".$dd);
+				if ($cc[$dd] === null)
+				  unset($cc[$dd]);
+				else {
+					if (isset($cc[$dd]["age"])) unset($cc[$dd]["age"]);
+				}
+			}
+		}
+		if (count($cc) == 0) {
+			$host = $lst->getServerAttr($id,"query-host");
+			$port = $lst->getServerAttr($id,"port");
+
+			$Query = new MinecraftQuery( );
+			try {
+				$Query->Connect( $host, $port, 1 );
+			} catch (MinecraftQueryException $e) {
+				return null;
+			}
+			$cc["info"] = $Query->GetInfo();
+			$cc["players"] = $Query->GetPlayers();
+			foreach (["info","players"] as $dd) {
+				if ($cc[$dd] === false) unset($cc[$dd]);
+			}
+		}
+		return $cc;
+	}
+
 	private function cmdQuery(CommandSender $c,$q,$args,$pageNumber = -1) {
 		if ($pageNumber == -1) $pageNumber = $this->getPageNumber($args);
 		if (count($args) != 1) {
@@ -84,45 +117,42 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			return false;
 		}
 		$id = array_shift($args);
-		if (($dat = $this->owner->getModule("ServerList")->getServer($id)) === null) {
+		$lst = $this->owner->getModule("ServerList");
+		if ($lst->getServer($id) === null) {
 			$c->sendMessage(TextFormat::RED.mc::_("%1% does not exist",$id));
 			return false;
 		}
-		$host = $dat["host"];
-		$port = $dat["port"];
-
-		$Query = new MinecraftQuery( );
-		try {
-			$Query->Connect( $host, $port, 1 );
-		} catch (MinecraftQueryException $e) {
-			$c->sendMessage(TextFormat::RED.mc::_("Query %1% failed: %2%",$host,$e->getMessage()));
+		$cc = $this->queryServer($id);
+		if ($cc == null) {
+			$c->sendMessage(TextFormat::RED.mc::_("Query %1% failed",$id));
 			return true;
 		}
-		$txt = [ mc::_("[%3%] query for %1%:%2%", $host,$port,$q) ];
+
+		$txt = [ mc::_("[%2%] query for %1%", $id, $q) ];
 		switch ($q) {
 			case "info":
-			  if (($info = $Query->GetInfo()) === false) {
-					$c->sendMessage(TextFormat::RED.mc::_("Query of %1%:%2% returned no data", $host,$port));
+			  if (!isset($cc["info"])) {
+					$c->sendMessage(TextFormat::RED.mc::_("Query of %1% returned no data", $id));
 					return true;
 				}
-				foreach ($info as $i=>$j) {
+				foreach ($cc["info"] as $i=>$j) {
 					if ($i == "RawPlugins") continue;
 					if (is_array($j)) continue;
 					$txt[] =  TextFormat::GREEN. $i.": ".TextFormat::WHITE.$j;
 				}
 				break;
 			case "plugins":
-				if (($info = $Query->GetInfo()) === false) {
-					$c->sendMessage(TextFormat::RED.mc::_("Query of %1%:%2% returned no data", $host,$port));
+				if (!isset($cc["info"])) {
+					$c->sendMessage(TextFormat::RED.mc::_("Query of %1% returned no data", $id));
 					return true;
 				}
-				if (!isset($info["Plugins"])) {
-					$c->sendMessage(TextFormat::RED.mc::_("%1%:%2%: No plugins", $host,$port));
+				if (!isset($cc["info"]["Plugins"]) || !is_array($cc["info"]["Plugins"])) {
+					$c->sendMessage(TextFormat::RED.mc::_("%1%: No plugins", $id));
 					return true;
 				}
 				$cols = 8;
 				$i = 0;
-				foreach ($info["Plugins"] as $n) {
+				foreach ($cc["info"]["Plugins"] as $n) {
 					if (($i++ % $cols) == 0) {
 						$txt[] = $n;
 					} else {
@@ -131,17 +161,17 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 				}
 				break;
 			case "players":
-				if (($players = $Query->GetPlayers()) === false) {
-					$c->sendMessage(TextFormat::RED.mc::_("Query of %1%:%2% returned no data", $host,$port));
+				if (!isset($cc["players"])) {
+					$c->sendMessage(TextFormat::RED.mc::_("Query of %1% returned no data", $id));
 					return true;
 				}
-				if (count($players) == 0) {
-					$c->sendMessage(TextFormat::RED.mc::_("%1%:%2%: No players", $host,$port));
+				if (count($cc["players"]) == 0) {
+					$c->sendMessage(TextFormat::RED.mc::_("%1%: No players", $id));
 					return true;
 				}
 				$cols = 8;
 				$i = 0;
-				foreach ($players as $n) {
+				foreach ($cc["players"] as $n) {
 					if (($i++ % $cols) == 0) {
 						$txt[] = $n;
 					} else {
@@ -160,25 +190,21 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			$all[$p->getName()] = mc::_("*current-server*");
 		}
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
+			$cc = $this->queryServer($id);
+			if ($cc === null) continue;
+			if (!isset($cc["players"])) continue;
+			if (count($cc["players"]) == 0) continue;
 
-			$Query = new MinecraftQuery( );
-			try {
-				$Query->Connect( $host, $port, 1 );
-			} catch (MinecraftQueryException $e) {
-				$this->owner->getLogger()->warning(mc::_("Query %1% failed: %2%",$host,$e->getMessage()));
-				continue;
+			if ($c->hasPermission("gb.cmd.query.players.showip")) {
+				$host = $this->owner->getModule("ServerList")->getServerAttr($id,"query-host");
+				$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
+
+				$inf = "$id ($host:$port)";
+			} else {
+				$inf = $id;
 			}
-			if (($players = $Query->GetPlayers()) === false) continue;
-			if (count($players) == 0) continue;
-			foreach ($players as $p) {
-				if ($c->hasPermission("gb.cmd.query.players.showip")) {
-					$all[$p] = "$id ($host:$port)";
-				} else {
-					$all[$p] = "$id";
-				}
+			foreach ($cc["players"] as $p) {
+				$all[$p] = $inf;
 			}
 		}
 		if (count($all) == 0) {
@@ -210,25 +236,17 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 		];
 		$all[mc::_("**this-server**")] = $dat;
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
+			$cc = $this->queryServer($id);
+			if ($cc === null) continue;
+			if (!isset($cc["info"])) continue;
 
-			$Query = new MinecraftQuery( );
-			try {
-				$Query->Connect( $host, $port, 1 );
-			} catch (MinecraftQueryException $e) {
-				$this->owner->getLogger()->warning(mc::_("Query %1% failed: %2%",$host,$e->getMessage()));
-				continue;
-			}
-			if (($info = $Query->GetInfo()) === false) continue;
 			foreach (["Players","MaxPlayers"] as $i) {
-				if (isset($info[$i])) $totals[$i] += $info[$i];
+				if (isset($cc["info"][$i])) $totals[$i] += $cc["info"][$i];
 			}
 			$all[$id] = [
-				"Players" => $info["Players"],
-				"MaxPlayers" => $info["MaxPlayers"],
-				"List" => $Query->getPlayers(),
+				"Players" => $cc["info"]["Players"],
+				"MaxPlayers" => $cc["info"]["MaxPlayers"],
+				"List" => isset($cc["players"]) ? $cc["players"] : null,
 			];
 		}
 		$txt = [ mc::_("Totals: %1%/%2%", $totals["Players"], $totals["MaxPlayers"]) ];
@@ -258,20 +276,11 @@ class CmdQuery extends BasicCli implements CommandExecutor {
 			"MaxPlayers" => $this->owner->getServer()->getMaxPlayers(),
 		];
 		foreach ($this->owner->getModule("ServerList")->getIds() as $id) {
-			$dat = $this->owner->getModule("ServerList")->getServer($id);
-			$host = $dat["host"];
-			$port = $dat["port"];
-
 			$all["servers"]++;
-
-			$Query = new MinecraftQuery( );
-			try {
-				$Query->Connect( $host, $port, 1 );
-			} catch (MinecraftQueryException $e) {
-				$this->owner->getLogger()->warning(mc::_("Query %1% failed: %2%",$host,$e->getMessage()));
-				continue;
-			}
-			if (($info = $Query->GetInfo()) === false) continue;
+			$cc = $this->queryServer($id);
+			if ($cc === null) continue;
+			if (!isset($cc["info"])) continue;
+			$info = $cc["info"];
 			$all["on-line"]++;
 			foreach (["Players","MaxPlayers"] as $i) {
 				if (isset($info[$i])) $all[$i] += $info[$i];

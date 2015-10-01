@@ -4,7 +4,7 @@ load: STARTUP
 
 name: WorldProtect
 description: protect worlds from griefers, pvp, limits and borders
-version: 2.2.0dev1
+version: 2.2.0
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect
 
@@ -55,6 +55,9 @@ permissions:
   wp.cmd.banitem:
     default: op
     description: "Ban/unban items"
+  wp.banitem.exempt:
+    default: false
+    description: "it is able to use banned items"
   wp.cmd.info:
     default: true
     description: "Show WP config info"

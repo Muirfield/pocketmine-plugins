@@ -6,6 +6,10 @@
 //: Create an alias to a command.
 //: Use the **-f** to override existing commands
 //:
+//: Examples:
+//: - alias -f list query list
+//: - alias -f help echo You are beyond help!
+//: - alias fancycmd rc fancycmd
 
 namespace aliuly\grabbag;
 
@@ -15,11 +19,11 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\Cmd;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\Cmd;
+use aliuly\common\PermUtils;
 
 class AliasCmd implements CommandExecutor {
   protected $cmd;
@@ -84,7 +88,7 @@ class CmdAlias extends BasicCli implements CommandExecutor {
     // Create an alias
     $alias = array_shift($args);
     $cmdline = implode(" ",$args);
-    if ($this->cmdAlias($alias,$cmdline,$force)) {
+    if ($this->addAlias($alias,$cmdline,$force)) {
       $sender->sendMessage(TextFormat::GREEN.mc::_("Created alias \"%1%\" as \"%2%\"",$alias,$cmdline));
     } else {
       $sender->sendMessage(TextFormat::RED.mc::_("%1% already exists use -f option", $alias));

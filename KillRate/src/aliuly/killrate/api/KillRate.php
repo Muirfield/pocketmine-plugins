@@ -69,6 +69,16 @@ class KillRate {
     return $this->plugin->updateDb($player, $col, $incr);
   }
   /**
+   * Update Database values.
+   * @param IPlayer|str $player - Player that is scoring
+   * @param int $val - Value to set to
+   * @param str $col - Type of data to update
+   */
+	public function setScore($player,$val, $col = "points") {
+    if ($player instanceof IPlayer) $player = $player->getName();
+    return $this->plugin->setScore($player, $val, $col);
+  }
+  /**
    * Returns a player's specific score.
    * @param IPlayer|str $player - Player that is scoring
    * @param str $col - Type of data to update
@@ -90,19 +100,6 @@ class KillRate {
     $k = (float)$this->plugin->getScoreV2($player,"player");
     if ($d == 0) return null;
     return round($k/$d,2);
-  }
-
-  /**
-   * Set the score value
-   * @param IPlayer|str $player - Player that is scoring
-   * @param int $score - new score
-   * @param str $col - Type of data to update
-   * @return int
-   */
-	public function setScore($player,$score, $col = "points") {
-    if ($player instanceof IPlayer) $player = $player->getName();
-    $old_score = $this->plugin->getScoreV2($player,$col);
-    return $this->plugin->updateDb($player, $col, $score - $old_score);
   }
   /**
    * Returns a player's specific score.

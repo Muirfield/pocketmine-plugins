@@ -3,12 +3,17 @@ namespace aliuly\grabbag\api;
 
 use aliuly\grabbag\Main as GrabBagPlugin;
 use pocketmine\Player;
+use pocketmine\IPlayer;
+use pocketmine\level\Level;
+use pocketmine\level\Position;
 use pocketmine\entity\Human;
 use pocketmine\command\CommandSender;
 
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\ExpandVars;
-use aliuly\grabbag\common\PMScript;
+use aliuly\common\mc;
+use aliuly\common\ExpandVars;
+use aliuly\common\PMScript;
+use aliuly\common\MPMU;
+
 
 /**
  * GrabBag API
@@ -63,7 +68,8 @@ class GrabBag {
        "freeze-thaw", "invisible", "after-at", "cmd-alias", "blowup",
        "chat-utils", "followers", "mute-unmute", "opms-rpt", "reop",
        "shield", "skinner", "slay", "spawn", "srvmode", "summon-dismiss",
-       "throw", "pushtp-poptp",
+       "throw", "pushtp-poptp", "homes", "tprequest", "warps", "plenty",
+       "chat-scribe",
        "ServerList",
      ])) return false;
      if ($this->plugin->getModule($feature) === null) return false;
@@ -75,6 +81,8 @@ class GrabBag {
    public function getVars() {
      if ($this->vars === null) {
        $this->vars = new ExpandVars($this->plugin);
+       $this->vars->define("{GrabBag}", $this->plugin->getDescription()->getVersion());
+       $this->vars->define("{libcommon}", MPMU::version());
      }
      return $this->vars;
    }
@@ -104,6 +112,14 @@ class GrabBag {
    */
   public function setHardFreeze($hard = true) {
     $this->getModule("freeze-thaw")->setHardFreeze($hard);
+  }
+  /**
+   * Checks if player is frozen
+   * @param Player $player - player to check
+   * @return bool
+   */
+  public function isFrozen(Player $player) {
+    return $this->getModule("freeze-thaw")->isFrozen($player);
   }
   /**
    * Freeze given player
@@ -329,6 +345,25 @@ class GrabBag {
     $this->getModule("shield")->setShield($target, $mode);
   }
   //////////////////////////////////////////////////////////////
+  // CmdPlenty
+  //////////////////////////////////////////////////////////////
+  /**
+   * Return player's plenty status
+   * @param Player $target
+   * @return bool
+   */
+  public function hasPlenty(Player $target) {
+		return $this->getModule("plenty")->hasPlenty($target);
+  }
+  /**
+   * Turn on/off plenty
+   * @param Player $target
+   * @param bool $mode - true is shielded, false is not
+   */
+  public function setPlenty(Player $target, $mode) {
+    $this->getModule("plenty")->setPlenty($target, $mode);
+  }
+  //////////////////////////////////////////////////////////////
   // CmdSkinner
   //////////////////////////////////////////////////////////////
   /**
@@ -448,16 +483,104 @@ class GrabBag {
    * Save position to stack
    * @param Player $player
    */
-   public function pushTp(Player $player) {
-     $this->getModule("pushtp-poptp")->cmdPushTp($player,[]);
-   }
-   /**
-    * Restore position from stack
-    * @param Player $player
-    */
-   public function popTp(Player $player) {
-      $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
-   }
+  public function pushTp(Player $player) {
+    $this->getModule("pushtp-poptp")->cmdPushTp($player,[]);
+  }
+  /**
+   * Restore position from stack
+   * @param Player $player
+   */
+  public function popTp(Player $player) {
+    $this->getModule("pushtp-poptp")->cmdPopTp($player,[]);
+  }
+  //////////////////////////////////////////////////////////////
+  // Teleport Request API
+  //////////////////////////////////////////////////////////////
+  public function TpAsk(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdTpAsk($a,$b);
+  }
+  public function TpHere(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdTpHere($a,$b);
+  }
+  public function TpDecline(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdDecline($a,$b);
+  }
+  public function TpAccept(Player $a, Player $b) {
+    $this->getModule("tprequest")->cmdAccept($a,$b);
+  }
+
+  //////////////////////////////////////////////////////////////
+  // Homes API
+  //////////////////////////////////////////////////////////////
+  /**
+   * Get the player's home on the provided level.
+   * @param Player $player
+   * @param Level $level
+   */
+  public function getHome(IPlayer $player, Level $level) {
+    return $this->getModule("homes")->getHome($player,$level);
+  }
+  /**
+   * Set the player's home in the level provided in $pos
+   * @param Player $player
+   * @param Position $pos
+   */
+  public function setHome(IPlayer $player, Position $pos) {
+    $this->getModule("homes")->setHome($player,$pos);
+  }
+  /**
+   * Delete the player's home on the provided level.
+   * @param Player $player
+   * @param Level $level
+   */
+  public function delHome(IPlayer $player, Level $level) {
+    $this->getModule("homes")->getHome($player,$level);
+  }
+  //////////////////////////////////////////////////////////////
+  // Warps
+  //////////////////////////////////////////////////////////////
+  /**
+   * Return a list of warps
+   * @return str[]
+   */
+  public function getWarps() {
+    return $this->getModule("warps")->getWarps();
+  }
+  /**
+   * Return a warp definiton or null
+   * @param str $name
+   * @return Position
+   */
+  public function getWarp($name) {
+    return $this->getModule("warps")->getWarp($name);
+  }
+  /**
+   * Save a warp
+   * @param str $name
+   * @param Position $pos
+   * @return bool - true on succes, false on failure
+   */
+  public function setWarp($name, Position $pos) {
+    return $this->getModule("warps")->setWarp($name,$pos);
+  }
+  /**
+   * Delete a warp
+   * @param str $name
+   * @return bool - true on succes, false on failure
+   */
+  public function delWarp($name) {
+    return $this->getModule("warps")->delWarp($name);
+  }
+  //////////////////////////////////////////////////////////////
+  // Spy Session
+  //////////////////////////////////////////////////////////////
+  /**
+   * Get SpySession object
+   * @return SpySession
+   */
+  public function getSpySession() {
+    return $this->getModule("chat-scribe")->getSpySession();
+  }
 
   //////////////////////////////////////////////////////////////
   // ServerList
@@ -493,5 +616,43 @@ class GrabBag {
   public function getServer($id) {
     return $this->getModule("ServerList")->getServer($id);
   }
-  //
+  /**
+   * Get Server attribute
+   * @param str $id - Server Id
+   * @param str $attr - attribute to get
+   * @param mixed $default - value to return if tag is not found
+   * @return mixed
+   */
+  public function getServerAttr($id,$attr,$default=null) {
+    return $this->getModule("ServerList")->getServerAttr($id,$attr,$default);
+  }
+  /**
+   * @param str $id - Server Id
+   * @param str $tag - tag
+   * @param mixed $attrs - Server attributes
+   * @return bool - true on success, false on error
+   */
+  public function addQueryData($id,$tag,$attrs) {
+    return $this->getModule("ServerList")->addQueryData($id,$tag,$attrs);
+  }
+  /**
+   * Remove Server query data
+   * @param str $id - Server Id
+   * @param null|str $tag - data tag
+   * @return bool - true on success, false on error
+   */
+  public function delQueryData($id,$tag = null) {
+    return $this->getModule("ServerList")->delQueryData($id,$tag);
+  }
+  /**
+   * Get Query data
+   * @param str $id - Server Id
+   * @param null|str $tag
+   * @param mixed $default - default value to return if data is not found
+   * @return array|null
+   */
+  public function getQueryData($id,$tag=null,$default =null) {
+    return $this->getModule("ServerList")->getQueryData($id,$tag,$default);
+  }
+
 }

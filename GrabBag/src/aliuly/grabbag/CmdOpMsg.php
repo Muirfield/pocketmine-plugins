@@ -20,7 +20,7 @@
 //> - **rpt** **read** _[##]_
 //:   - reads reports.  You can specify the page by specifying a number.
 //> - **rpt** **clear** _<all|##>_
-//:   - will delete the specified report or if `all`, all the reports.
+//:   - will delete the specified report or if **all**, all the reports.
 
 namespace aliuly\grabbag;
 
@@ -34,10 +34,10 @@ use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 class CmdOpMsg extends BasicCli implements CommandExecutor,Listener {
 	protected $rpt;

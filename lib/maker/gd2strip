@@ -24,7 +24,7 @@ foreach ($argv as $f) {
   if (($txt = file_get_contents($f)) === false) {
     die("$f: error reading file\n");
   }
-  $txt = analyze_doc(explode("\n",$txt));
+  $txt = analyze_doc(explode("\n",$txt),true);
   while (count($txt)>1 && $txt[count($txt)-1] == "") array_pop($txt);
   $txt[] = "";
   switch($mode) {

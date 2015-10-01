@@ -1,5 +1,7 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = Informational -->
+<!-- meta:PluginAccess = Commands, Databases, Entities, Tiles -->
 <!-- template: gd2/header.md -->
 
 # KillRate
@@ -7,9 +9,9 @@
 - Summary: Keep track of the number of kills
 - PocketMine-MP version: 1.5 (API:1.12.0)
 - DependencyPlugins: 
-- OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd
-- Categories: N/A
-- Plugin Access: N/A
+- OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd, RankUp
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities, Tiles 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
@@ -28,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.1**.
+This documentation was last updated for version **2.1.1**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.0.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.1).
 
 <!-- end-include -->
 
@@ -97,6 +99,30 @@ substitutions:
 * {count} - score
 * {sname} - only the first 8 characters of the player's name
 
+### RankUp Support
+
+To enable the **ranks** feature, the
+[RankUp](http://forums.pocketmine.net/plugins/rankup.830/)
+plugin is required.  This provides a leveling up functionality.  The following
+settings are recommended to be configured in RankUp's **config.yml.**
+
+* preferred-economy: null
+  - This disables the economy support.  **KillRate** will be ranking up, so
+    you don't need to buy ranks.
+* ranks: Define your ranks as needed.  Also the price for each rank are
+  interpreted by **KillRate** as the amount of points needed to rank up.
+
+Also, you should remove the permission **rankup.rankup**.  This is used for
+the command to buy ranks.  This is not needed as ranks are awarded by
+**KillRate** automatically.
+
+### kill-streak
+
+The kill streak feature is used to track kill-streaks.  If you enable you
+also need to define the **min-kills** in **settings**.  If a player reaches
+this many victories in a row without dying he will be in a kill-streak and
+an additional bonus money gets awarded.
+
 <!-- php:$h=3; -->
 <!-- template: gd2/permissions.md -->
 
@@ -106,6 +132,7 @@ substitutions:
 * killrate.cmd.stats: Access to stats command
 * killrate.cmd.stats.other (op): View other's stats
 * killrate.cmd.rank: View top players
+* killrate.cmd.give (op): Give points to players
 * killrate.signs.place (op): Allow to place KillRate signs
 * killrate.signs.use: Allow to use KillRate signs
 
@@ -123,6 +150,14 @@ are defined.
 *  backend: Use SQLiteMgr or MySqlMgr
 *  MySql: MySQL settings. Only used if backend is MySqlMgr to configure MySql settings
 
+#### features
+
+*  signs: enable/disable signs
+*  ranks: Enable support for RankUp plugin
+*  achievements: Enable PocketMine achievements
+*  kill-streak: Enable kill-streak tracking. tracks the number of kills without dying
+*  rewards: award money. if true, money is awarded.  Requires an economy plugin
+
 #### formats
 
 Sign formats used to show sign data.
@@ -130,12 +165,11 @@ Sign formats used to show sign data.
 #### settings
 
 *  points: award points. if true points are awarded and tracked.
-*  rewards: award money. if true, money is awarded.  Requires an economy plugin
+*  min-kills: Minimum number of kills before declaring a kill-streak
+*  reset-on-death: Reset counters on death. Set to false to disable, otherwise the number of deaths till reset. When the player dies X number of times, scores will reset.  (GAME OVER MAN!)
 *  creative: track creative kills. if true, kills done by players in creative are scored
 *  dynamic-updates: Update signs. Set to 0 or false to disable, otherwise sign update frequence in ticks
-*  reset-on-death: Reset counters on death. set to **false** or to a number.  When the player dies that number of times, scores will reset.  (GAME OVER MAN!)
-*  kill-streak: Enable kill-streak tracking. "set to **false** or to a number.  Will show the kill streak of a player once the number of kills before dying reaches number
-*  achievements: Enable PocketMine achievements
+*  default-rank: Default rank (when resetting ranks) set to **false** to disable this feature
 
 #### signs
 
@@ -149,12 +183,14 @@ created
 
 Configure awards for the different type of kills.  Format:
 
-    "entity" => [ money, points ],
+    "entity": [ money, points ]
 
 The entity ( * ) is the default.
 
 
 <!-- end-include -->
+
+<!-- template: gd2/mctxt.md -->
 
 ## Translations
 
@@ -164,14 +200,18 @@ languages currently available are:
 * English
 * Spanish
 
+
 You can provide your own message file by creating a file called
-**messages.ini** in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+**messages.ini** in the plugin config directory.
+Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
 for sample files.
+Alternatively, if you have
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
+installed, you can create an empty **messages.ini** using the command:
 
-The contents of these "ini" files are key-value pairs:
+     pm dumpmsgs KillRate [lang]
 
-	"Base text"="Translated Text"
+<!-- end-include -->
 
 ## API
 
@@ -217,11 +257,11 @@ shown earlier.
 In order to use the script extension you need to do the following:
 
 1. Download the script plugin:
-   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
 2. Copy the script plugin to your plugin folder.
 3. Install [PurePerms](http://forums.pocketmine.net/plugins/pureperms.862/)
 4. Read KillRateEx.php on how to configure PurePerms or alternatively download
-   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/examples)
+   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
    and place it in the PurePerms folder as "groups.yml".
 5. Read and modify KillRateEx.php according to taste.  The script has plenty
    of comments on how things work.
@@ -243,6 +283,15 @@ In order to use the script extension you need to do the following:
 
 # Changes
 
+* 2.1.1: Bug fixes
+  * Fixed bug reported by @PolarKing
+* 2.1.0: Ranks
+  * Config file layout changed
+  * Added more achievements
+  * Added more events
+  * Added support for RankUp (Suggested by @rock2rap)
+  * Code clean-ups
+  * Thanks to @rock2rap for helping test it
 * 2.0.1: Bug fixes
   * Removed KillRateEx inclusion
   * dump messages.ini if no language defined.
@@ -289,6 +338,8 @@ In order to use the script extension you need to do the following:
   * Added support for GoldStd
 * 1.0.0 : First submission
 
+<!-- php:$copyright="2015"; -->
+<!-- template: gd2/gpl2.md -->
 # Copyright
 
     KillRate
@@ -307,4 +358,6 @@ In order to use the script extension you need to do the following:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+<!-- end-include -->
 

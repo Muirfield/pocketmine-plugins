@@ -1,5 +1,5 @@
 name: libcommon
-version: 1.90.0dev0
+version: 1.91.0dev1
 main: aliuly\loader\Main
 api: 1.12.0
 load: STARTUP
@@ -8,10 +8,14 @@ description: aliuly's common library
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
+commands:
+  libcommon:
+    description: Show libcommon version
+    usage: "/libcommon"
+    aliases: [lc]
+    permission: libcommon.command
+
 permissions:
-  libcommon.debug.command:
-    default: op
-    description: "Allow access to libcommon debug commands"
-  libcommon.echo.command:
+  libcommon.command:
     default: true
-    description: "Basic echo command"
+    description: "libcommon command"

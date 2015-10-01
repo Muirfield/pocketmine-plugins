@@ -1,9 +1,9 @@
 <?php
 //= cmd:spectator|unspectator,Trolling
-//: toggle a player's spectator mode
+//: toggle a player's spectator mode **(DEPRECATED)**
 //> usage: **spectator|unspectator** _[player]_
 //:
-//: `/spectator` will turn a player into an spectator.  In this mode
+//: This command will turn a player into an spectator.  In this mode
 //: players can move but not interact (i.e. can't take/give damage,
 //: can't place/break blocks, etc).
 //:
@@ -24,9 +24,9 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 	protected $watchers;
@@ -46,6 +46,7 @@ class CmdSpectator extends BasicCli implements CommandExecutor,Listener {
 								"permission" => "gb.cmd.spectator"]);
 		$this->watchers = [];
 		$this->owner->getServer()->getPluginManager()->registerEvents($this, $this->owner);
+		$this->owner->getLogger(mc::_("%1% is deprecated!", "spectator"));
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if (count($args) == 0) {

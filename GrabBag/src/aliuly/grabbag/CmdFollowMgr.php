@@ -26,14 +26,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\Player;
-use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
+use aliuly\common\TPUtils;
 
 class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $leaders;
@@ -146,12 +146,7 @@ class CmdFollowMgr extends BasicCli implements Listener,CommandExecutor {
 			// $f->getName()." - ".$l->getName()." DIST:$dist\n";//##DEBUG
 			if ($dist < $this->maxdist) return; // Close enough
 		}
-		$pos = $l->getLevel()->getSafeSpawn(new Vector3($l->getX()+mt_rand(-$this->maxdist,$this->maxdist),
-								 $l->getY(),
-								 $l->getZ()+mt_rand(-$this->maxdist,$this->maxdist)));
-		$newdist = $pos->distance($l);
-		if ($newdist > $this->maxdist) return;// Will not get close enough!
-		$f->teleport($pos);
+		TPUtils::tpNearBy($f,$l,$this->maxdist,$this->maxdist);
 	}
 	//
 	// Event handlers

@@ -5,7 +5,7 @@ ItemCasePE
 
 * Summary: An implementation of Bukkit's ItemCase
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 - API 1.10.0
+* PocketMine-MP version: 1.4 - API 1.10.0, 1.6 - API 1.13.0
 * OptionalPlugins:
 * Categories: General
 * Plugin Access: Tile Entities, Items/Blocks
@@ -59,9 +59,16 @@ wave** mode is experimental and has not been fully tested.
 * itemcase.cmd: allow players access to the itemcase command
 * itemcase.destroy: allow players destroy cases
 
-Changes
--------
+## Changes
 
+* 1.0.8 : No AIR cases
+  - Do not allow to place cases with AIR only.  Reported by @Pub4Game.
+    Closes #30.
+* 1.0.7 : Update for PM1.6dev
+  - Checks which function to call (isPlaceable/canBePlaced) without having
+    to check version.
+* 1.0.6 : Update for PM1.6dev
+  - changed isPlaceable for canBePlaced
 * 1.0.5 : BugFix
   - Fixed a small bug related to new wave mode.
 * 1.0.4 : new wave vs classic
@@ -92,4 +99,3 @@ Copyright
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

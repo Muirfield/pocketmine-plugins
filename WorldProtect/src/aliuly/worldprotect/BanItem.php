@@ -108,6 +108,7 @@ class BanItem extends BaseWp implements Listener {
 	public function onConsume(PlayerItemConsumeEvent $ev) {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
+		if ($pl->hasPermission("wp.banitem.exempt")) return;
 		$world = $pl->getLevel()->getName();
 		if (!isset($this->wcfg[$world])) return;
 		$item = $ev->getItem();

@@ -29,7 +29,7 @@ if (isset($yaml["website"])) {
 }
 ?>
 Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
 installed, you can create an empty **messages.ini** using the command:
 
      pm dumpmsgs <?= $yaml["name"] ?> [lang]

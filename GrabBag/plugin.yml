@@ -4,6 +4,7 @@ load: POSTWORLD
 
 name: GrabBag
 description: Collection of miscellaneous commands and listener modules
-version: 2.3.0dev0
+version: 2.4.0dev2
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
+softdepend: FastTransfer

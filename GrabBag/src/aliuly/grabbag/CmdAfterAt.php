@@ -20,9 +20,11 @@
 //:
 //= cmdnotes
 //:
-//: Commands scheduled by `at` and `after` will only run as
+//: Commands scheduled by **at** and **after** will only run as
 //: long as the server is running.  These scheduled commands will *not*
-//: survive server reloads or reboots.
+//: survive server reloads or reboots.  If you want persistent commands,
+//: it is recommended that you use a plugin like
+//: [TimeCommander](http://forums.pocketmine.net/plugins/timecommander.768/).
 //:
 
 
@@ -33,10 +35,10 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PluginCallbackTask;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PluginCallbackTask;
+use aliuly\common\PermUtils;
 
 class CmdAfterAt extends BasicCli implements CommandExecutor {
 	protected $tasks;

@@ -8,10 +8,10 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 class CmdSpawn extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {
@@ -30,7 +30,7 @@ class CmdSpawn extends BasicCli implements CommandExecutor {
 		if ($cmd->getName() != "spawn") return false;
 		if (count($args) != 0) return false;
 		if (!MPMU::inGame($sender)) return true;
-		$sender->sendMessage("Teleporting to spawn...");
+		$sender->sendMessage(mc::_("Teleporting to spawn..."));
 		$this->tpSpawn($sender);
 		return true;
 	}

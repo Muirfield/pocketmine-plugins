@@ -27,36 +27,18 @@
 * Manages worlds: Load/unload/create worlds
 * Manages plugins: Load/unload/enable/disable plugins
 
-# GitHub pages
+# Specter quick reference
 
-* Checkout gh-pages
+* specter spawn|s <player> [address]
+  - spawn a new specter player.
+* specter kick|q <player>
+  - kill a specter session.
+* specter move|m <player> <x> <y> <z>
+  - Move player
+* specter attack|a <player> <victim>|<eid:victim eid>
+  - attack
+* specter command|c <player> <cmd>
+  - execute command
+* specter respawn|r <player>
+  - respawn
 
-# Pending Approval
-
-- BasicHUD
-- NetherChests
-
-# INDEV
-
-- LiveSigns - testing
-
-- GoldStd
-  - finish shopkeep
-  - ignore creative
-  - shopkeep settings in config.yml, shopkeep defintions in shops.yml
-  - testing
-- libcommon
-  - documentation
-
-# Pending
-
-# Move
-
-- ToyBox (and pending dev)
-- FireBlade (and pendinv dev)
-
-# Discontinue
-
-- AutoHeal
-- LocalChat (to bad) and delete posting
-- LIAB

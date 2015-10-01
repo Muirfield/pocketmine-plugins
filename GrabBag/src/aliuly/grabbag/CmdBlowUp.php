@@ -3,9 +3,9 @@
 //: explode a player
 //> usage: **blowup** _<player>_ _[yield]_ **[magic]** **[normal]**
 //:
-//: Explodes `player` with an explosion with the given `yield` (a number).
-//: If `magic` is specified no damage will be taken by blocks.  The
-//: default is `normal`, where blocks do get damaged.
+//: Explodes _player_ with an explosion with the given _yield_ (a number).
+//: If **magic** is specified no damage will be taken by blocks.  The
+//: default is **normal**, where blocks do get damaged.
 
 namespace aliuly\grabbag;
 
@@ -13,9 +13,9 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;

@@ -1,16 +1,4 @@
 <?php
-/**
- **
- ** CONFIG:main
- **
- ** Configure the different features used by this plugin.
- **
- **    feature: true|false
- **
- ** If `true` the feature is enabled.  if `false` the feature is disabled.
- **
- **
- **/
 namespace aliuly\helper;
 
 use pocketmine\plugin\PluginBase;
@@ -92,6 +80,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 
 		$defaults = [
+			//= cfg:main
 			"version" => $this->getDescription()->getVersion(),
 			"# max-attemps" => "kick player after this many login attempts. ",// NOTE: This conflicts with SimpleAuth's blockAfterFail setting
 			"max-attempts" => 5,

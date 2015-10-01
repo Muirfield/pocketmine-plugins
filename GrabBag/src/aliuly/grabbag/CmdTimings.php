@@ -1,13 +1,13 @@
 <?php
 //= cmd:showtimings,Informational
-//: Shows timing repots as reported by `/timings`
+//: Shows timing repots as reported by **timings**
 //> usage: **timings** _[t#]_
 //:
 //: If nothing specified it will list available reports.  These are
-//: of the form of `timings.txt` or `timings1.txt`.
+//: of the form of **timings.txt** or `timings1.txt`.
 //:
-//: To specify a report enter `t` for `timings.txt` or `t1` for
-//: `timings1.txt`.
+//: To specify a report enter **t** for **timings.txt** or **t1** for
+//: **timings1.txt**.
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
@@ -16,9 +16,9 @@ use pocketmine\command\Command;
 
 use pocketmine\utils\TextFormat;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 class CmdTimings extends BasicCli implements CommandExecutor {
 	public function __construct($owner) {

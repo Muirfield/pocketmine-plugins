@@ -3,7 +3,7 @@
 //: Burns the specified player
 //> usage: **burn** _<player>_ _[secs]_
 //:
-//: Sets `player` on fire for the specified number of seconds.
+//: Sets _player_ on fire for the specified number of seconds.
 //: Default is 15 seconds.
 //:
 namespace aliuly\grabbag;
@@ -11,9 +11,9 @@ namespace aliuly\grabbag;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\PermUtils;
 
 
 class CmdBurn extends BasicCli implements CommandExecutor {

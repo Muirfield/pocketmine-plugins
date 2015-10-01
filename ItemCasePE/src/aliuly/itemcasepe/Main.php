@@ -303,6 +303,11 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		$cid = implode(":",[$bl->getX(),$bl->getY(),$bl->getZ()]);
 		$item = $pl->getInventory()->getItemInHand();
+		if ($item->getId() === Item::AIR) {
+			$pl->sendMessage("You must be holding an item!");
+			$ev->setCancelled();
+			return;
+		}
 
 		if (!$this->addItemCase($bl->getLevel(),$cid,
 										implode(":",[$item->getId(),$item->getDamage()]),
@@ -313,8 +318,13 @@ class Main extends PluginBase implements CommandExecutor,Listener {
 		}
 		unset($this->touches[$pl->getName()]);
 		$ev->setCancelled();
-		if ($ev->getItem()->isPlaceable())
-			$this->places[$pl->getName()] = $pl->getName();
+		if (is_callable([$ev->getItem(),"canBePlaced"])) {
+			if ($ev->getItem()->canBePlaced())
+				$this->places[$pl->getName()] = $pl->getName();
+		} elseif (is_callable([$ev->getItem(),"isPlaceable"])) {
+			if ($ev->getItem()->isPlaceable())
+				$this->places[$pl->getName()] = $pl->getName();
+		}
 	}
 	public function onBlockPlace(BlockPlaceEvent $ev){
 		$pl = $ev->getPlayer();

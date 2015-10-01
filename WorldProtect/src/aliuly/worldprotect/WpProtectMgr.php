@@ -15,6 +15,7 @@ namespace aliuly\worldprotect;
 //= cmd:protect,Sub_Commands
 //: Protects world, only certain players can build.
 //> usage: /wp _[world]_ **protect**
+//:
 //: When in this mode, only players in the _authorized_ list can build.
 //: If there is no authorized list, it will use **wp.cmd.protect.auth**
 //: permission instead.
@@ -24,10 +25,10 @@ namespace aliuly\worldprotect;
 //
 //= docs
 //: This plugin protects worlds from griefers by restricing placing and breaking
-//: blocks.  Worlds has three protection levels:
+//: blocks.  Worlds have three protection levels:
 //:
 //: * unlock - anybody can place/break blocks
-//: * protect - players in the _authorized_ list (or if the list is empty)
+//: * protect - players in the _authorized_ list or, if the list is empty,
 //:   players with **wp.cmd.protect.auth** permission can place/break
 //:   blocks.
 //: * lock - nobody (even *ops*) is allowed to place/break blocks.

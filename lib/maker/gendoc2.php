@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(realpath(__FILE__))."/apitable.php");
 
-function analyze_doc($otxt) {
+function analyze_doc($otxt,$donttag = false) {
 	$txt = [""];
 	$stateq = [ "body" ];
 
@@ -10,13 +10,13 @@ function analyze_doc($otxt) {
     if (preg_match('/<!--\s*snippet:\s*(\S+)\s*-->/',$x,$mv)) {
 			array_unshift($stateq,"find-eot");
 			$txt[] = $ln;
-			$txt[] = "\n<SNIPPET>\n".$mv[1];
+			if (!$donttag) $txt[] = "\n<SNIPPET>\n".$mv[1];
 			continue;
 		}
 		if (preg_match('/<!--\s*template:\s*(\S+)\s*-->/',$x,$mv)) {
 			array_unshift($stateq,"find-eot");
 			$txt[] = $ln;
-			$txt[] = "\n<TEMPLATE>\n".$mv[1];
+			if (!$donttag) $txt[] = "\n<TEMPLATE>\n".$mv[1];
 			continue;
 		}
 		if ($stateq[0] == "find-eot") {
@@ -40,6 +40,7 @@ function analyze_php($src, &$snippets) {
 			if (($lno = preg_replace('/^\s*PermUtils::add/',"",$lni)) != $lni) {
 				$lno = preg_replace('/^[^,]+,\s*/',"",$lno);
 				$lno = preg_replace('/\s*[^"]+$/',"",$lno);
+				if (trim($lno) == "") continue;
 				$lno = eval("return  [ $lno ];");
 				if ($lno === false) continue;
 				list($name,$desc,$def) = $lno;

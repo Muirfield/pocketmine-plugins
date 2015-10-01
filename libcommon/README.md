@@ -19,157 +19,52 @@
 
 ## Overview
 
-This plugin contains my standard library that I personally use when
-writing PocketMine-MP plugins.  Normally I embed the differnt modules
-when creating my plugins in order to avoid dependency issues.  However
-**libcommon** is usable as a stand-alone plugin.
+<!-- php: //$v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
+<!-- template: nn/prologue.md -->
+<!-- MISSING TEMPLATE: nn/prologue.md ->
 
-When used as stand-alone, it provides useful functionality that
-can be called directly by script plugins.  Also, if **\pocketmine\DEBUG** > 1,
-it defines some useful debugging and example commands.
+<!-- end-include -->
 
-For the most up to date documentation visit
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon).
+This plugin contains a lot of functionality that can be used in other
+plugins, in particular, ScriptPlugins.
+
+API Features:
+
+<!-- snippet:api-features -->
+- Teleport wrappers
+- Armor constants
+- Paginated output
+- Command and sub command dispatchers
+- Config shortcuts and multi-module|feature management
+- API version checking
+- Misc shorcuts and pre-canned routines
+- Multiple money support
+- Player session and state management
+- Translations
+<!-- end-include -->
+
+It also bundles useful third party libraries:
+
+- xPaw MinecraftQuery
+
+See [API documentation](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+for full details.
+
+The **libcommon** library is my standard library that I personally use when
+writing PocketMine-MP plugins.  Normally I embed the different modules
+when creating my plugins in order to avoid dependency issues.
+
+For use on your own plugins, you can either use the stand-alone **libcommon**
+phar, or use the one bundled in **GrabBag**.
 
 This plugin can be downloaded from its
 [Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
 <img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.
 
-Features:
+Example scripts can be found here:
 
-- Paginated output
-- Command/Sub-command registration
-- Player state management
-- Config shortcuts and multi-module|feature management
-- Translations
-- Multiple economy supports
-- API version checking
-- Plugin shortcuts, etc...
-
-It also bundles useful third party libraries:
-
-- xPaw MinecraftQuery
-
-For the full API documentation go to:
-[GitHub pages](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
-
-The following subcommands are available:
-<!-- php:$h = 0; -->
-<!-- template: gd2/cmdoverview.md -->
-
-* dumpmsg: Dump a plugin's messages.ini
-* echo: shows the given text (variable substitutions are performed)
-* motd-add: Add a server for MOTD querying
-* motd-stat: Return the servers MOTD values
-* query-add: Add a server for Query gathering
-* query-list: Return the available Query data
-* rc: Runs the given script
-* trace: controls event tracing
-* version: shows the libcommon version
-
-
-<!-- end-include -->
-
-## Commands
-
-Also, for debugging purposes, the **libcommon** command is provided, which
-has the following sub-commands:
-
-<!-- template: gd2/subcmds.md -->
-* dumpmsg: Dump a plugin's messages.ini<br/>
-  usage: /libcommon **dumpmsg** _&lt;plugin&gt;_
-  
-  This command is available when **DEBUG** is enabled.
-* echo: shows the given text (variable substitutions are performed)<br/>
-   usage: /libcommon **echo** _[text]_
-  
-  This command is available when **DEBUG** is enabled.
-* motd-add: Add a server for MOTD querying<br/>
-  usage: /libcommon **motd-add** _&lt;server&gt;_ _[port]_
-  
-  This command is available when **DEBUG** is enabled.
-  
-* motd-stat: Return the servers MOTD values<br/>
-  usage: /libcommon **motd-stat**
-  
-  This command is available when **DEBUG** is enabled.
-* query-add: Add a server for Query gathering<br/>
-  usage: /libcommon **query-add** _&lt;server&gt;_ _[port]_
-  
-  This command is available when **DEBUG** is enabled.
-  
-* query-list: Return the available Query data<br/>
-  usage: /libcommon **query-list**
-  
-  This command is available when **DEBUG** is enabled.
-* rc: Runs the given script<br/>
-  usage: usage: /libcommon **rc** _&lt;script&gt;_ _[args]_
-  
-  This command will execute PMScripts present in the **libcommon**
-  folder.  By convention, the ".pms" suffix must be used for the file
-  name, but the ".pms" is ommitted when issuing this command.
-  
-  The special script **autostart.pms** is executed automatically
-  when the **libcommon** plugin gets enabled.
-  
-* trace: controls event tracing<br/>
-   usage: /libcommon **trace** _[options]_
-  
-  This command is available when **DEBUG** is enabled.
-  Trace will show to the user the different events that are being
-  triggered on the server.  To reduce spam, events are de-duplicated.
-  
-  Sub commands:
-  * /libcommon **trace**
-    - Shows the current trace status
-  * /libcommon **trace** **on**
-    - Turns on tracing
-  * /libcommon **trace** **off**
-    - Turns off tracing
-  * /libcommon **trace** **events** _[type|class]_
-    - Show the list of the different event types and classes.  If a _type_
-      or _class_ was specified, it will show the events defined for them.
-  * /libcommon **trace** _&lt;event|type|class&gt;_ _[additional options]_
-    - Will add the specified _event|type|class_ to the current user's
-      trace session.
-  * /libcommon **trace** _&lt;-event|type|class&gt;_ _[additional options]_
-    - If you start the _event|type|class_ specification name with a
-      **dash**, the _event|type|class_ will be removed from the current
-      trace session.
-  
-* version: shows the libcommon version<br/>
-   usage: /libcommon **version**
-
-<!-- end-include -->
-
-For use in PMScripts, a **echo** command is defined.  Unlike the
-**libcommon echo** command, **echo** does not do any variable
-substitutions.
-
-## Command Selectors
-<!-- snippet: cmdselector  -->
-
-This adds "@" prefixes for commands.
-See
-[Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
-for an explanation on prefixes.
-
-This only implements the following prefixes:
-
-- @a - all players
-- @e - all entities (including players)
-- @r - random player/entity
-
-The following selectors are implemented:
-
-- c: (only for @r),count
-- m: game mode
-- type: entity type, use Player for player.
-- name: player's name
-- w: world
-
-<!-- end-include -->
+* [GitHub Examples](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples/)
 
 <!-- snippet: pmscript  -->
 ## PMScript
@@ -197,8 +92,17 @@ entering commands:
 Also, before executing a command variable expansion (e.g. {vars}) and
 command selector expansion (e.g. @a, @r, etc) takes place.
 
-Note that available variables depend on installed plugins, pocketmine.yml
+Available variables depend on installed plugins, pocketmine.yml
 settings, execution context, etc.
+
+It is possible to use PHP functions and variables in command lines by
+surrounding PHP expressions with:
+
+     '.(php expression).'
+
+For example:
+
+     echo MaxPlayers: '.$interp->getServer()->getMaxPlayers().'
 
 ### Adding logic flow to PMScripts
 
@@ -223,10 +127,80 @@ available:
   substitution are made available as **$v_xxxx**.  For example, the
   **{tps}** variable, will be available as **$v_tps**
 
+Example:
+
+    # Sample PMScript
+    #
+    ; You can use ";" or "#" as comments
+    #
+    # Just place your commands as you would enter them on the console
+    # on your .pms file.
+    echo You have the following plugins:
+    plugins
+    echo {GOLD}Variable {RED}Expansions {BLUE}are {GREEN}possible
+    echo libcommon: {libcommon} MOTD: {MOTD}
+    #
+    # You can include in there PHP expressions...
+    say '.$context->getName().' is AWESOME!
+    # CommandSelectors are possible...
+    echo Greeting everybody
+    say Hello @a
+    ;
+    # Adding PHP control code is possible:
+    @if ($v_tps > 10):
+      echo Your TPS {tps} is greater than 10
+    @else:
+      echo Your TPS {tps} is less or equal to 10
+    @endif
+    ;
+    ;
+    echo The following variables are available in this context:
+    echo '.print_r($vars,true).'
+    echo You passed {#} arguments to this script.
+<!-- end-include -->
+
+### Command Selectors
+
+Command selectors are available in PMScripts.
+
+<!-- snippet: cmdselector  -->
+
+This adds "@" prefixes for commands.
+See
+[Command Prefixes](http://minecraft.gamepedia.com/Commands#Target_selector_arguments)
+for an explanation on prefixes.
+
+This only implements the following prefixes:
+
+- @a - all players
+- @e - all entities (including players)
+- @r - random player/entity
+
+The following selectors are implemented:
+
+- c: (only for @r),count
+- m: game mode
+- type: entity type, use Player for player.
+- name: player's name
+- w: world
+
+<!-- end-include -->
+
+<!-- php:$h=3; -->
+<!-- template: gd2/permissions.md -->
+
+### Permission Nodes
+
+* libcommon.command: libcommon command
+
 <!-- end-include -->
 
 ## Changes
 
+- 1.91.0: De-bundle
+  * New module: TPUtils
+  * De-bundled, now it is just a library again.  All sub-commands were moved
+    to GrabBag.
 - 1.90.0: Major Update 2
   * MoneyAPI bug fix
   * Fixed BasicPlugin bug

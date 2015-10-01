@@ -1,15 +1,20 @@
 <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
+<!-- meta:Categories = AdminTools -->
+<!-- meta:PluginAccess = Commands, Other Plugins, Manages Permissions -->
+<!-- template: gd2/header.md -->
+
 # SimpleAuthHelper
 
-* Summary: Simplifies the way people authenticate to servers
-* Dependency Plugins: SimpleAuth
-* PocketMine-MP version: 1.5 (API:1.12.0)
-* DependencyPlugins: SimpleAuth
-* OptionalPlugins: -
-* Categories: General
-* Plugin Access: Commands
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
+- Summary: Simplifies the way people authenticate to servers
+- PocketMine-MP version: 1.5 (API:1.12.0)
+- DependencyPlugins: SimpleAuth
+- OptionalPlugins:
+- Categories: AdminTools
+- Plugin Access: Commands, Other Plugins, Manages Permissions
+- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
+
+<!-- end-include -->
 
 ## Overview
 
@@ -25,15 +30,18 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.0.1**.
+This documentation was last updated for version **2.0.2**.
 
+Please go to
+[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
+for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.2).
 
-<!-- template-end -->
+<!-- end-include -->
 
-A plugin that simplifies the login process... Instead of
-asking for commands, users simply chat away...
+A plugin that simplifies the login process. Instead of
+asking for commands, users simply chat away.
 
 I also provides for a number of tweaks that can improve the usability of
 [SimpleAuth](https://forums.pocketmine.net/plugins/simpleauth.4/).
@@ -41,17 +49,17 @@ I also provides for a number of tweaks that can improve the usability of
 #### Register process
 
 Player connects for the first time.  They are prompted to enter a
-*NEW* password.  They enter their password directly, without having to
-enter */register*.
+_NEW_ password.  They enter their password directly, without having to
+enter **/register**.
 
 They are asked for the password again to confirm.  They re-enter their
-password (again without */register*).
+password (again without **/register**).
 
 #### Login process
 
 Player connects again.  They are prompted to enter their login
 password.  They type their login password directly (without
-*/login*).  And they are in.
+**/login**).  And they are in.
 
 ## Documentation
 
@@ -67,60 +75,7 @@ password.  They type their login password directly (without
 * *logout*
   * De-authenticates a player.
 
-### Permission Nodes
-
-* simpleauthhelper.command.chpwd : Allow users to change passwords
-* simpleauthhelper.command.logout : Allow users to logout
-* simpleauthhelper.command.resetpwd : Allow ops to reset other's passwords
-  (Defaults to Op)
-* simpleauthhelper.command.prereg : Allow ops to pre-register users
-  (Defaults to Op)
-
-
-### Configuration
-
-Configuration is through the `config.yml` file.
-The following sections are defined:
-
-#### main
-
-
-Configure the different features used by this plugin.
-
-   feature: true|false
-
-If `true` the feature is enabled.  if `false` the feature is disabled.
-*  max-attemps: kick player after this many login attempts.  NOTE: This conflicts with SimpleAuth's blockAfterFail setting
-*  login-timeout: must authenticate within this number of seconds
-*  leet-mode: lets players use also /login and /register
-*  chat-protect: prevent player to display their password in chat
-*  hide-unauth: EXPERIMENTAL, hide unauthenticated players
-*  event-fixer: EXPERIMENTAL, cancels additional events for unauthenticated players
-*  hack-login-perms: EXPERIMENTAL, overrides login permisions to make sure players can login
-*  hack-register-perms: EXPERIMENTAL, overrides register permisions to make sure players can register
-*  db-monitor: EXPERIMENTAL, enable database server monitoring
-*  monitor-settings: Configure database monitor settings
-
-#### monitor-settings
-
-*  canary-account: account to query this account is tested to check database proper operations
-*  check-interval: how to often to check database (seconds)
-
-
-## Translations
-
-This plugin will honour the server language configuration.  The
-languages currently available are:
-
-* English
-* Spanish
-
-You can provide your own message file by creating a file called
-`messages.ini` in the plugin config directory.  Check
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages)
-for sample files.
-
-## Player pre-registration
+### Player pre-registration
 
 It is possible to implement a web based pre-registration system with this
 plugin.
@@ -140,7 +95,7 @@ plugin.
    - resetpwd _player_
    - preregister _player_ _passwd_
 
-## Database Monitor
+### Database Monitor
 
 This module is responsible for monitoring the SimpleAuth data provider
 to make sure that it is up and running and disable logins if it is not
@@ -156,15 +111,81 @@ On a regular interval, the SimpleAuth
 data provider is checked.  If it is not running, all unauthenticated players
 are kicked and any new joins are not allowed.
 
-## Issues
+<!-- php:$h=3; -->
+<!-- template: gd2/permissions.md -->
+
+### Permission Nodes
+
+* simpleauthhelper.command.chpwd: Allow users to change passwords
+* simpleauthhelper.command.logout: Allow users to logout
+* simpleauthhelper.command.resetpwd (op): Allow ops to reset other's passwords
+* simpleauthhelper.command.prereg (op): Allow ops to pre-register users
+
+<!-- end-include -->
+
+### Configuration
+
+Configuration is through the **config.yml** file.
+<!-- php:$h=4; -->
+<!-- template: gd2/cfg.md -->
+#### main
+
+*  max-attemps: kick player after this many login attempts.  NOTE: This conflicts with SimpleAuth's blockAfterFail setting
+*  login-timeout: must authenticate within this number of seconds
+*  leet-mode: lets players use also /login and /register
+*  chat-protect: prevent player to display their password in chat
+*  hide-unauth: EXPERIMENTAL, hide unauthenticated players
+*  event-fixer: EXPERIMENTAL, cancels additional events for unauthenticated players
+*  hack-login-perms: EXPERIMENTAL, overrides login permisions to make sure players can login
+*  hack-register-perms: EXPERIMENTAL, overrides register permisions to make sure players can register
+*  db-monitor: EXPERIMENTAL, enable database server monitoring
+*  monitor-settings: Configure database monitor settings
+
+#### monitor-settings
+
+*  canary-account: account to query this account is tested to check database proper operations
+*  check-interval: how to often to check database (seconds)
+
+
+<!-- end-include -->
+
+<!-- template: gd2/mctxt.md -->
+
+## Translations
+
+This plugin will honour the server language configuration.  The
+languages currently available are:
+
+* English
+* German
+* Spanish
+* 中文
+
+
+You can provide your own message file by creating a file called
+**messages.ini** in the plugin config directory.
+Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages/)
+for sample files.
+Alternatively, if you have
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+installed, you can create an empty **messages.ini** using the command:
+
+     pm dumpmsgs SimpleAuthHelper [lang]
+
+<!-- end-include -->
+
+### Issues
 
 * Event Fixer: Crafting canceling doesn't work
 
-# Changes
+## Changes
 
-* ????: Added translation
-  - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #23)
+* ???: Added translation
+  - Added jpn.ini (Contributed by @Rintan)
+* 2.0.2: Added translation
+  - Added a zho.ini (中文) message file. (Contributed by @edwinyoo44, closes #27)
   - Added a deu.ini (German) message file. (Contributed by @thebigsmileXD)
+  - Documentation and library updates.
 * 2.0.1: language defaults
   - make sure that languages default to English (reported by @minebuilder0110)
 * 2.0.0: Major upgrade
@@ -195,10 +216,12 @@ are kicked and any new joins are not allowed.
   * Messages can be configured.
 * 1.0.0: First release
 
+<!-- php:$copyright="2015"; -->
+<!-- template: gd2/gpl2.md -->
 # Copyright
 
     SimpleAuthHelper
-    Copyright (C) 2015 Alejandro Liu  
+    Copyright (C) 2015 Alejandro Liu
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -214,3 +237,4 @@ are kicked and any new joins are not allowed.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+<!-- end-include -->

@@ -11,18 +11,22 @@
 //: Remove item from player's Inventory
 //> usage: **rminv** _[player]_ _<item>_ _[quantity]_
 
+//= cmd:fixit,Inventory_Management
+//: Fix item being held
+//> usage: **fixit** _[player]_
+
 namespace aliuly\grabbag;
 
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\ItemName;
-use aliuly\grabbag\common\PermUtils;
-use aliuly\grabbag\common\InvUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\ItemName;
+use aliuly\common\PermUtils;
+use aliuly\common\InvUtils;
 
 use pocketmine\item\Item;
 
@@ -36,6 +40,8 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 		PermUtils::add($this->owner, "gb.cmd.rminv.others", "remove item from other's inventory", "op");
 		PermUtils::add($this->owner, "gb.cmd.clearhotbar", "clear player's hotbar", "true");
 		PermUtils::add($this->owner, "gb.cmd.clearhotbar.others", "clear other's hotbar", "op");
+		PermUtils::add($this->owner, "gb.cmd.fixit", "Fix player's held item", "op");
+		PermUtils::add($this->owner, "gb.cmd.fixit.others", "Fix other players held item", "op");
 
 		$this->enableCmd("clearinv",
 							  ["description" => mc::_("Clear player's inventory"),
@@ -47,9 +53,14 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 								"aliases" => ["chb"],
 								"permission" => "gb.cmd.clearhotbar"]);
 		$this->enableCmd("rminv",
-										  ["description" => mc::_("Remove item from player's inventory"),
-											"usage" => mc::_("/rminv [player] <item> [quantity]"),
-											"permission" => "gb.cmd.rminv"]);
+							  ["description" => mc::_("Remove item from player's inventory"),
+								"usage" => mc::_("/rminv [player] <item> [quantity]"),
+								"permission" => "gb.cmd.rminv"]);
+		$this->enableCmd("fixit",
+							  ["description" => mc::_("Fix item held"),
+								"usage" => mc::_("/fixit [player]"),
+								"aliases" => ["fix"],
+								"permission" => "gb.cmd.fixit"]);
 	}
 	public function onCommand(CommandSender $sender,Command $cmd,$label, array $args) {
 		if ($cmd->getName() == "rminv") return $this->rmInvItem($sender,$args);
@@ -68,6 +79,18 @@ class CmdClearInv extends BasicCli implements CommandExecutor {
 			$other = true;
 		}
 		switch ($cmd->getName()) {
+			case "fixit":
+				$item = clone $target->getInventory()->getItemInHand();
+				if ($item->getDamage() == 0) {
+					$sender->sendMessage(mc::_("That item is brand NEW!"));
+					return true;
+				}
+				$item->setDamage(0);
+				$target->getInventory()->setItemInHand($item);
+				$target->getInventory()->sendContents($target);
+				if ($other) $target->sendMessage(mc::_("Your currently held item has been fixed by %1%", $sender->getName()));
+				$sender->sendMessage(mc::_("%1%'s held item has been fixed", $target->getName()));
+				return true;
 			case "clearinv":
 				InvUtils::clearInventory($target);
 				if ($other) $target->sendMessage(mc::_("Your inventory has been cleared by %1%", $sender->getName()));

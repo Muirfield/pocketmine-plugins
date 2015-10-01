@@ -6,7 +6,7 @@
 //: Stops players from moving.  If no player specified it will show
 //: the list of frozen players.
 //:
-//: If `--hard` or `--soft` is specified instead of a player name, it
+//: If **--hard** or **--soft** is specified instead of a player name, it
 //: will change the freeze mode.
 
 
@@ -18,10 +18,10 @@ use pocketmine\command\Command;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 
-use aliuly\grabbag\common\BasicCli;
-use aliuly\grabbag\common\mc;
-use aliuly\grabbag\common\MPMU;
-use aliuly\grabbag\common\PermUtils;
+use aliuly\common\BasicCli;
+use aliuly\common\mc;
+use aliuly\common\MPMU;
+use aliuly\common\PermUtils;
 
 class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	protected $frosties;
@@ -30,7 +30,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 	//= cfg:freeze-thaw
 	static public function defaults() {
 		return [
-			"# hard-freeze" => "how hard to freeze players.", // If `true` no movement is allowed.  If `false`, turning is allowed but not walking/running/flying, etc.
+			"# hard-freeze" => "how hard to freeze players.", // If **true** no movement is allowed.  If **false**, turning is allowed but not walking/running/flying, etc.
 			"hard-freeze"=>false,
 		];
 	}
@@ -50,6 +50,10 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 			if (isset($this->frosties[$n])) unset($this->frosties[$n]);
 		}
   }
+	public function isFrozen($player) {
+		$n = strtolower($player->getName());
+		return isset($this->frosties[$n]);
+	}
   public function getFrosties() {
     return array_keys($this->frosties);
   }
