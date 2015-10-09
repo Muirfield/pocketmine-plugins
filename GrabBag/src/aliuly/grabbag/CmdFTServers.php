@@ -18,6 +18,7 @@ use aliuly\common\BasicCli;
 use aliuly\common\mc;
 use aliuly\common\PermUtils;
 use aliuly\common\MPMU;
+use aliuly\common\FastTransfer;
 
 class CmdFtServers extends BasicCli implements CommandExecutor {
 
@@ -44,10 +45,8 @@ class CmdFtServers extends BasicCli implements CommandExecutor {
 		$host = $this->owner->getModule("ServerList")->getServerAttr($id,"ft-host");
 		$port = $this->owner->getModule("ServerList")->getServerAttr($id,"port");
 
-    if (MPMU::callPlugin($this->owner->getServer(),"FastTransfer","transferPlayer",[$sender,$host,$port]) === null) {
+		if (!FastTransfer::transferPlayer($sender,$host,$port))
       $this->owner->getLogger()->error(TextFormat::RED.mc::_("FAST TRANSFER ERROR"));
-      return true;
-    }
     return true;
 	}
 

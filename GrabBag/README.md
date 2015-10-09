@@ -1111,6 +1111,8 @@ The following third party libraries are included:
 
 # Changes
 
+* 2.4.1: ?
+  * Added FastTransfer workaround (libcommon)
 * 2.4.0: libcommon bundle
   * Query/Ping Daemon functionality
   * Server configuration can have alternative IPs
