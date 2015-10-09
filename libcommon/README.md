@@ -9,10 +9,10 @@
 
 - Summary: aliuly's common library
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins: 
-- OptionalPlugins: 
-- Categories: DevTools 
-- Plugin Access: N/A 
+- DependencyPlugins:
+- OptionalPlugins:
+- Categories: DevTools
+- Plugin Access: N/A
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -198,6 +198,8 @@ The following selectors are implemented:
 
 ## Changes
 
+- 1.92.0: ??
+  * Added a FastTransfer class, with temporary work-around
 - 1.91.0: De-bundle
   * New modules: TPUtils, ShoppingCart, SignUtils, SkinUtils, SpySession
   * De-bundled, now it is just a library again.  All sub-commands were moved
@@ -254,4 +256,3 @@ The following selectors are implemented:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
-

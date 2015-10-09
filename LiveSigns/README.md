@@ -351,6 +351,10 @@ The following sections are defined:
 * Query and Motd can not query the local server.
 * Document and expand API
 
+## Feature Requests
+
+* @CaptainKenji17: colored text that changes color
+
 # Changes
 
 * 1.2.1:
@@ -389,4 +393,3 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-

@@ -325,6 +325,10 @@ If **true** the feature is enabled.  if **false** the feature is disabled.
 * When going from survival to creative then back to survival inventory
   contents get lost.
 
+### Features Requested
+
+* Tim // robske Büba: BanItem can ban items per {item-id}:{meta-data}
+
 <!-- template: gd2/mctxt.md -->
 
 ## Translations
