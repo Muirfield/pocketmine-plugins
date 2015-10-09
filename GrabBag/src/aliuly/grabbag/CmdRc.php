@@ -69,8 +69,9 @@ class CmdRc extends BasicCli implements CommandExecutor {
 		$script = $this->owner->getDataFolder()."autostart.pms";
 		if (!file_exists($script)) return;
 		$env = $this->env;
-		$env["script"] = "autosart";
 		$args = [];
+		$args[] = $env["script"] = "autostart"
+
 		if ($this->getInterp()->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
 		}
@@ -104,7 +105,7 @@ class CmdRc extends BasicCli implements CommandExecutor {
     	}
 		}
 		$env = $this->env;
-		$env["script"] = array_shift($args);
+		$env["script"] = $args[0];
 		if ($this->getInterp()->runScriptFile($c,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));
 		}
