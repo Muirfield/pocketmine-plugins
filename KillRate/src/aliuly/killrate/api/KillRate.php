@@ -21,7 +21,7 @@ class KillRate {
    * Returns an array with each element having a ["player"] and ["count"].
    *
    * @param int $limit - Max number of players to rank
-   * @param bool $online - if true limit rankings to on-line players
+   * @param bool $online - if true limit rankings to online players
    * @param str $col - Type of data to return
    * @return array
    */
@@ -35,7 +35,7 @@ class KillRate {
    * all the values from `getScores`.
    *
    * @param int $limit - Max number of players to rank
-   * @param bool $online - if true limit rankings to on-line players
+   * @param bool $online - if true limit rankings to online players
    * @param str $col - Type of data to sort
    * @return array
    */
