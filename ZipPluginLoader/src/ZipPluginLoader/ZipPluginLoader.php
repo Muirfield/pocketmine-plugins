@@ -350,7 +350,7 @@ class ZipPluginLoader implements PluginLoader{
 
 		$this->server->getLoader()->addPath($path . "src");
 		if(!class_exists($className, true)){
-			throw new PluginException("[ZipPluginLoader] Couldn't load zip plugin " . $descr->getName() . ": main class not found");
+			throw new PluginException("[ZipPluginLoader] Couldn't load zip plugin " . $desc->getName() . ": main class not found");
 			return null;
 		}
 		$plugin = new $className();

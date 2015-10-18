@@ -64,6 +64,8 @@ loaded.
 
 ## Changes
 
+* 1.1.3: Bug-fix
+  - Fixed bug reported by (@Taha_The_Hacker)
 * 1.1.2: Minor update
   * Displays a warning whenever a PHAR file is found.
 * 1.1.1: Bug-fix
@@ -91,4 +93,3 @@ loaded.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
