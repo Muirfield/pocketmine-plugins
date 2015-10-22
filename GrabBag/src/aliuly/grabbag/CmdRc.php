@@ -70,7 +70,7 @@ class CmdRc extends BasicCli implements CommandExecutor {
 		if (!file_exists($script)) return;
 		$env = $this->env;
 		$args = [];
-		$args[] = $env["script"] = "autostart"
+		$args[] = $env["script"] = "autostart";
 
 		if ($this->getInterp()->runScriptFile(new ConsoleCommandSender,$script,$args,$env) === false) {
 			$c->sendMessage(mc::_("Compilation error"));

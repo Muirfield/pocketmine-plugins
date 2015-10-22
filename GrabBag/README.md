@@ -955,7 +955,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.expand (op): expand command
 * gb.cmd.rem: remark command
 * gb.cmd.entities (op): entity management
-* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.freeze (op): freeze/thaw players
 * gb.cmd.gma (op): Switch gamemode to Adventure
 * gb.cmd.gms (op): Switch gamemode to Survival
@@ -966,13 +965,13 @@ This section configures peer servers.  This can be used with
 * gb.cmd.invisible.inmune (disabled): can see invisible players
 * gb.cmd.iteminfo: get info on item held
 * gb.cmd.iteminfo.other (op): item info of others
-* gb.cmd.near: nearby players
 * gb.cmd.opms: Send op only messages
 * gb.cmd.rpt: Report issues
 * gb.cmd.rpt.read (op): Read reported issues
 * gb.cmd.ops: Display ops
 * gb.cmd.plenty (op): Give players plenty of stuff
 * gb.cmd.rcon (op): Rcon client
+* gb.cmd.pmscript (op): access rc (pmscript) command
 * gb.cmd.prefix: Prefix command
 * gb.cmd.reop: Reop command
 * gb.cmd.reop.others (op): ReOp others
@@ -982,6 +981,7 @@ This section configures peer servers.  This can be used with
 * gb.cmd.seeinv (op): View inventory
 * gb.cmd.slay (op): Allow slaying players
 * gb.cmd.spectator (op): Turn players into spectators
+* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.crash (op): crash dump management
 * gb.cmd.fly (op): flight control
 * gb.cmd.follow (op): lets you follow others
@@ -1002,7 +1002,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.query.players.showip: View players server IP
 * gb.cmd.query.list: Query List sub command
 * gb.cmd.throw (op): Troll players
-* gb.cmd.timings (op): view timings report
 * gb.cmd.back: Allow players to return to place of death
 * gb.cmd.tpask (op): Submit a tp request
 * gb.cmd.tpahere: Submit a tp-here request
@@ -1027,6 +1026,7 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servers.read.viewip (op): view server IP address
 * gb.cmd.servers.read.viewrcon (op): view rcon secrets
 * gb.cmd.servers.write (op): change server configuration
+* gb.cmd.near: nearby players
 * gb.cmd.after (op): access command scheduler
 * gb.cmd.blowup (op): Explode other players
 * gb.cmd.togglechat: lets players opt out from chat
@@ -1057,7 +1057,7 @@ This section configures peer servers.  This can be used with
 * gb.join.spawn.world (disabled): Players with this permission will spawn in the last world on join
 * gb.join.spawn.home (disabled): Players with this permission will join in their Home location
 * gb.module.repeater: use !! to repeat commands
-* gb.cmd.pmscript (op): access rc (pmscript) command
+* gb.cmd.timings (op): view timings report
 * gb.cmd.setarmor (op): Configure armor
 * gb.cmd.setarmor.others (op): Configure other's armor
 * gb.cmd.shield (op): Allow players to become invulnverable
