@@ -40,7 +40,7 @@ instead of folders like _DevTools_.**  You still need _DevTools_ if
 you actually want to do Plugin Development and to create _phar_ file
 plugins.
 
-This plugin Let's you load plugins from zip files.  This is
+This plugin lets you load plugins from zip files.  This is
 particularly handy when trying out source plugins from
 [GitHub](http://github.com) as you can click the **Download ZIP**
 button, as you can then place the zip file in the plugins folder.
