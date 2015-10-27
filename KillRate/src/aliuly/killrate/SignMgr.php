@@ -124,7 +124,7 @@ class SignMgr implements Listener {
 				foreach (["Player"=>mc::_("Kills: "),
 							 "points"=>mc::_("Points: ")] as $i=>$j) {
 					$score = $this->owner->getScoreV2($name,$i);
-					if ($score) {
+					if ($score && isset($score["count"])) {
 						$score = $score["count"];
 					} else {
 						$score = "N/A";
