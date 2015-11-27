@@ -16,7 +16,7 @@ use pocketmine\tile\Sign;
 use pocketmine\event\Listener;
 
 
-use pocketmine\network\protocol\TileEntityDataPacket;
+use pocketmine\network\protocol\BlockEventPacket;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\String;
@@ -96,7 +96,7 @@ class SignMgr implements Listener {
 		//echo __METHOD__.",".__LINE__."\n";//##DEBUG
 	}
 	private function updateSign($pl,$tile,$text) {
-		$pk = new TileEntityDataPacket();
+		$pk = new BlockEventPacket();
 		$data = $tile->getSpawnCompound();
 		$data->Text1 = new String("Text1",$text[0]);
 		$data->Text2 = new String("Text2",$text[1]);
