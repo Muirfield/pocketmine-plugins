@@ -32,7 +32,7 @@ class CmdGet extends BasicCli implements CommandExecutor {
 	static $stacks = [
 		Item::MINECART => 1, Item::BOOK => 1, Item::COMPASS => 1,
 		Item::CLOCK => 1, Item::SPAWN_EGG => 1, Item::FURNACE => 1,
-		Item::CHEST => 16, Item::TORCH => 16, Item::NETHER_REACTOR => 16,
+		Item::CHEST => 16, Item::TORCH => 16,
 	];
 
 	public function __construct($owner) {
