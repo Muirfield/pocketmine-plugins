@@ -27,6 +27,7 @@ use pocketmine\command\Command;
 
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
 use aliuly\worldprotect\common\mc;
@@ -106,6 +107,17 @@ class BanItem extends BaseWp implements Listener {
 		$ev->setCancelled();
 	}
 	public function onConsume(PlayerItemConsumeEvent $ev) {
+		if ($ev->isCancelled()) return;
+		$pl = $ev->getPlayer();
+		if ($pl->hasPermission("wp.banitem.exempt")) return;
+		$world = $pl->getLevel()->getName();
+		if (!isset($this->wcfg[$world])) return;
+		$item = $ev->getItem();
+		if (!isset($this->wcfg[$world][$item->getId()])) return;
+		$pl->sendMessage(mc::_("You can not use that item here!"));
+		$ev->setCancelled();
+	}
+	public function onBlockPlace(BlockPlaceEvent $ev) {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($pl->hasPermission("wp.banitem.exempt")) return;

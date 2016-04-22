@@ -378,6 +378,7 @@ Returns an integer or null.
 
 * 2.3.0: Updated to API 2.0.0
   - Added banitem exempted permissions (@BobbyTowers)
+  - Closes #47 (@SleepSpace9)
 * 2.2.0: minor Update
   - Implemented banned commands (@Tolo)
   - Documentation update
