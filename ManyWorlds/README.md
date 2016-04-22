@@ -182,6 +182,8 @@ for sample files.
 
 # Changes
 
+* 2.1.1:
+  - Removing compatibility for v1.x.x
 * 2.1.0: Updating to new API
 * 2.0.3: Bugfix update
   * Fixes bug reported by @thebigsmileXD

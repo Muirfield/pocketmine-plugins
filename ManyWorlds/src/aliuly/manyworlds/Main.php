@@ -22,21 +22,17 @@ use aliuly\manyworlds\common\BasicPlugin;
 use aliuly\manyworlds\common\BasicHelp;
 
 class Main extends BasicPlugin implements CommandExecutor {
-	public $canUnload = false;
-	private $tpMgr = null;
+   //public $canUnload = false;
+   //private $tpMgr = null;
 
 	public function onEnable() {
 		// We don't really need this...
 		//if (!is_dir($this->getDataFolder())) mkdir($this->getDataFolder());
 		mc::plugin_init($this,$this->getFile());
 
-		if (MPMU::apiVersion("1.12.0")) {
-			$this->canUnload = true;
-			$this->tpMgr = null;
-		} else {
-			$this->canUnload = false;
-			$this->tpMgr = new TeleportManager($this);
-		}
+		//$this->canUnload = true;
+		//$this->tpMgr = null;
+
 		$this->modules = [];
 		foreach ([
 			"MwTp",
@@ -80,20 +76,20 @@ class Main extends BasicPlugin implements CommandExecutor {
 	// Deprecated Public API
 	//
 	public function mwtp($pl,$pos) {
-		if ($this->tpMgr && ($pos instanceof Position)) {
-			// Using ManyWorlds for teleporting...
-			return $this->teleport($pl,$pos->getLevel()->getName(),
-										  new Vector3($pos->getX(),
-														  $pos->getY(),
-														  $pos->getZ()));
-		}
-		$pl->teleport($pos);
-		return true;
+	   //if ($this->tpMgr && ($pos instanceof Position)) {
+	   // Using ManyWorlds for teleporting...
+	   //return $this->teleport($pl,$pos->getLevel()->getName(),
+	   //new Vector3($pos->getX(),
+	   //$pos->getY(),
+	   //$pos->getZ()));
+	   //}
+	   $pl->teleport($pos);
+	   return true;
 	}
 	public function teleport($player,$world,$spawn=null) {
-		if ($this->tpMgr) {
-			return $this->tpMgr->teleport($player,$world,$spawn);
-		}
+	   //if ($this->tpMgr) {
+	   //return $this->tpMgr->teleport($player,$world,$spawn);
+	   //}
 		if (!$this->getServer()->isLevelLoaded($world)) return false;
 		$level = $this->owner->getServer()->getLevelByName($world);
 		if (!$level) return false;

@@ -94,10 +94,11 @@ class MwLoader extends BasicCli {
 		return true;
 	}
 	private function mwWorldUnloadCmd(CommandSender $sender,$wname,$force) {
+	   /*
 		if (MPMU::apiVersion("<1.12.0")) {
 			// For old stuff...
 			if ($wname == "--enable") {
-				$this->owner->canUnload = true;
+			   //$this->owner->canUnload = true;
 				$sender->sendMessage(TextFormat::YELLOW.
 											mc::_("[MW] Unload sub-command enabled"));
 				$sender->sendMessage(TextFormat::YELLOW.
@@ -121,7 +122,8 @@ class MwLoader extends BasicCli {
 				return true;
 			}
 		}
-		// Actual implementation
+	   */
+	// Actual implementation
 		if (!$this->owner->getServer()->isLevelLoaded($wname)) {
 			$sender->sendMessage(TextFormat::RED.mc::_("[MW] %1% is not loaded.",$wname));
 			return true;
