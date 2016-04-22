@@ -84,7 +84,7 @@ class WorldGen extends Generator {
 
 			for($Z = 0; $Z < 16; ++$Z){
 				for($X = 0; $X < 16; ++$X){
-					$chunk->setBiomeId($X, $Z, $biome);
+					$chunk->setBiomeId($X, $Z, $this->biome);
 					$chunk->setBiomeColor($X, $Z, $R, $G, $B);
 					$chunk->setBlock($X, 0, $Z, $this->baseFloor, 0);
 					for($y = 1; $y < 128; ++$y){
