@@ -199,7 +199,7 @@ The following selectors are implemented:
 
 ## Changes
 
-- 1.92.0: ??
+- 1.92.0: Update to new API
   * Added a FastTransfer class, with temporary work-around
 - 1.91.0: De-bundle
   * New modules: TPUtils, ShoppingCart, SignUtils, SkinUtils, SpySession
