@@ -126,7 +126,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 		if (isset($this->frosties[strtolower($p->getName())])) {
 			if ($this->hard) {
 				$ev->setCancelled();
-				if (MPMU::apiVersion("1.12.0"))
+				if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0"))
 					$p->sendTip(mc::_("You are frozen"));
 			} else {
 				// Lock position but still allow to turn around
@@ -134,7 +134,7 @@ class CmdFreezeMgr extends BasicCli implements Listener,CommandExecutor {
 				$to->yaw = $ev->getTo()->yaw;
 				$to->pitch = $ev->getTo()->pitch;
 				$ev->setTo($to);
-				if (MPMU::apiVersion("1.12.0"))
+				if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0"))
 					$p->sendTip(mc::_("You are frozen in place"));
 			}
 		}

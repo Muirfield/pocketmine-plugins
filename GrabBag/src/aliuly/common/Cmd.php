@@ -49,7 +49,7 @@ abstract class Cmd {
 		foreach ($msgs as $msg) {
 			$sender->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($sender,$msg));
 			if ($ev->isCancelled()) continue;
-			if (MPMU::apiVersion("1.12.0")) {
+			if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0")) {
 				$s = $sender->getServer();
 				$s->broadcastMessage($s->getLanguage()->translateString(
 					$ev->getFormat(),

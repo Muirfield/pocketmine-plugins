@@ -65,7 +65,7 @@ class CmdWhois extends BasicCli implements CommandExecutor {
 			$txt[] = TextFormat::GREEN.mc::_("Flying: ").TextFormat::WHITE
 					 . ($target->isOnGround() ? mc::_("NO") : mc::_("YES"));
 			//1.5
-			if (MPMU::apiVersion("1.12.0")) {
+			if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0")) {
 				$txt[] = TextFormat::GREEN.mc::_("UUID: ").TextFormat::WHITE
 						 . $target->getUniqueId();
 				$txt[] = TextFormat::GREEN.mc::_("ClientID: ").TextFormat::WHITE

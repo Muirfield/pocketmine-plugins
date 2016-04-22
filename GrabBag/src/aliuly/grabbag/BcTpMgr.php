@@ -52,7 +52,7 @@ class BcTpMgr implements Listener {
 		//echo __METHOD__.",".__LINE__."\n"; //##DEBUG
 	}
 	private function addFx($xpos) {
-		if (!MPMU::apiVersion("1.12.0")) return;
+		if (!MPMU::apiVersion("1.12.0")&&!MPMU::apiVersion("2.0.0")) return;
 		foreach ($xpos as $pos) {
 			for ($i=0;$i<20;$i++) {
 				$pos->getLevel()->addParticle(new DustParticle(self::randVector($pos),(mt_rand()/mt_getrandmax())*2,255,255,255));

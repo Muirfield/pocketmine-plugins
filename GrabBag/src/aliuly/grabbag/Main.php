@@ -90,7 +90,7 @@ class Main extends BasicPlugin {
 			"near" => ["CmdNear", true],
 			"chat-scribe" => [ "CmdSpy", true ],
 		];
-		if (MPMU::apiVersion("1.12.0")) {
+		if (MPMU::apiVersion("1.12.0") || MPMU::apiVersion("2.0.0")) {
 			$features["fly"] = [ "CmdFly", true ];
 			$features["skinner"] = [ "CmdSkinner", true ];
 			$features["blood-particles"] = [ "BloodMgr", true ];

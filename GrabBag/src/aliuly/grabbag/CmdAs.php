@@ -40,7 +40,7 @@ class CmdAs extends BasicCli implements CommandExecutor {
 			$chat = implode(" ",$args);
 			$this->owner->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($player,$chat));
 			if (!$ev->isCancelled()) {
-				if (MPMU::apiVersion("1.12.0")) {
+				if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0")) {
 					$s = $this->owner->getServer();
 					$s->broadcastMessage($s->getLanguage()->translateString(
 						$ev->getFormat(),

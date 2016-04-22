@@ -26,7 +26,7 @@ class CmdThrow extends BasicCli implements CommandExecutor {
 								"permission" => "gb.cmd.throw"]);
 	}
 	public function throwPlayer($pl) {
-		if (MPMU::apiVersion("1.12.0")) {
+	   if (MPMU::apiVersion("1.12.0"||MPMU::apiVersion("2.0.0"))) {
 			$pl->teleport(new Vector3($pl->getX(),128,$pl->getZ()));
 		} else {
 			$force = 64;
