@@ -95,7 +95,7 @@ class MwLoader extends BasicCli {
 	}
 	private function mwWorldUnloadCmd(CommandSender $sender,$wname,$force) {
 	   /*
-		if (MPMU::apiVersion("<1.12.0")) {
+		if (MPMU::a//piVersion("<1.12.0")) {
 			// For old stuff...
 			if ($wname == "--enable") {
 			   //$this->owner->canUnload = true;
