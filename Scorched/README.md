@@ -76,8 +76,8 @@ cause physical damage to the world.
 
 ### Mines
 
-To place a mine you need to stack a TNT block on top of a Nether
-Reactor Block.  The Nether Reactor acts as a detonator/sensor.  You
+To place a mine you need to stack a TNT block on top of a Redstone
+Wire Block.  The RedStone Wire acts as a detonator/sensor.  You
 can place an additional block on top of this contraption and it would
 still work.  This is to hide the mine.
 
@@ -138,7 +138,7 @@ Will generate an explosion out of nothing.  Do not use this lightly.
 * `rpg-noexplode`, probability that the RPG will fail to explode.
 * `mines`, enables the mines functionality
   * `block1` : The mine block (TNT)
-  * `block2` : The detonator block (Nether Reactor)
+  * `block2` : The detonator block (RedStone Wire)
   * `yield` : Force of the explosion
   * `magic` : Magical mine
 
@@ -156,6 +156,7 @@ Todo
 Changes
 -------
 
+* 1.5.0 : Updated for API 2.0
 * 1.4.1 : CallbackTask
   Removed CallbackTask deprecation message.
 * 1.4.0 :

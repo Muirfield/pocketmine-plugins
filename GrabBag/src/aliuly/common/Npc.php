@@ -4,14 +4,14 @@ namespace aliuly\common;
 use pocketmine\entity\Human;
 use pocketmine\level\Location;
 
-use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\Tag;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 
 /**
  * This class implements an NPC player
@@ -34,35 +34,35 @@ class Npc extends Human {
 		}
 		if (!isset($opts["slim"])) $opts["slim"] = false;
 		$ndat = [];
-		$ndat["Pos"] = new Enum("Pos", [
-			new Double("", $pos->x),
-			new Double("", $pos->y),
-			new Double("", $pos->z)]);
+		$ndat["Pos"] = new EnumTag("Pos", [
+			new DoubleTag("", $pos->x),
+			new DoubleTag("", $pos->y),
+			new DoubleTag("", $pos->z)]);
 		if (isset($opts["motion"])) {
-			$ndat["Motion"] = new Enum("Motion", [
-				new Double("",$opts["motion"][0]),
-				new Double("",$opts["motion"][1]),
-				new Double("",$opts["motion"][2])]);
+			$ndat["Motion"] = new EnumTag("Motion", [
+				new DoubleTag("",$opts["motion"][0]),
+				new DoubleTag("",$opts["motion"][1]),
+				new DoubleTag("",$opts["motion"][2])]);
 			unset($opts["motion"]);
 		} else {
-			$ndat["Motion"] = new Enum("Motion", [
-				new Double("",0),
-				new Double("",0),
-				new Double("",0)]);
+			$ndat["Motion"] = new EnumTag("Motion", [
+				new DoubleTag("",0),
+				new DoubleTag("",0),
+				new DoubleTag("",0)]);
 		}
 		if (isset($opts["rotation"])) {
-			$ndat["Rotation"] = new Enum("Rotation", [
-				new Float("",$opts["rotation"][0]),
-				new Float("",$opts["rotation"][1])]);
+			$ndat["Rotation"] = new EnumTag("Rotation", [
+				new FloatTag("",$opts["rotation"][0]),
+				new FloatTag("",$opts["rotation"][1])]);
 			unset($opts["rotation"]);
 		} else {
-			$ndat["Rotation"] = new Enum("Rotation", [
-				new Float("",$pos->yaw),
-				new Float("",$pos->pitch)]);
+			$ndat["Rotation"] = new EnumTag("Rotation", [
+				new FloatTag("",$pos->yaw),
+				new FloatTag("",$pos->pitch)]);
 		}
-		$ndat["Skin"] = new Compound("Skin", [
-			"Data" => new String("Data", $opts["skin"]),
-			"Slim" => new Byte("Slim", $opts["slim"] ? 1 : 0)]);
+		$ndat["Skin"] = new CompoundTag("Skin", [
+			"Data" => new StringTag("Data", $opts["skin"]),
+			"Slim" => new ByteTag("Slim", $opts["slim"] ? 1 : 0)]);
 		unset($opts["skin"]);
 		unset($opts["slim"]);
 
@@ -79,21 +79,21 @@ class Npc extends Human {
 			}
 			switch (gettype($v)) {
 				case "boolean":
-					$ndat[$k] = new Byte($k,$v ? 1 : 0);
+					$ndat[$k] = new ByteTag($k,$v ? 1 : 0);
 					break;
 				case "integer":
-					$ndat[$k] = new Int($k, $v);
+					$ndat[$k] = new IntTag($k, $v);
 					break;
 				case "double":
-					$ndat[$k] = new Double($k,$v);
+					$ndat[$k] = new DoubleTag($k,$v);
 					break;
 				case "string":
-					$ndat[$k] = new String($k,$v);
+					$ndat[$k] = new StringTag($k,$v);
 			}
 		}
 		$npc = new $classname($pos->getLevel()->getChunk($pos->getX()>>4,
 																		 $pos->getZ()>>4),
-									 new Compound("",$ndat));
+									 new CompoundTag("",$ndat));
 		$npc->setNameTag($name);
 		return $npc;
 	}

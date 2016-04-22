@@ -19,10 +19,10 @@ use pocketmine\inventory\BaseTransaction;
 
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 
 use aliuly\common\MPMU;
 
@@ -43,12 +43,12 @@ class ShoppingCart extends Session {
   private function getFakeChestTile() {
     if ($this->fakeChest === null) {
       $this->fakeChest = new Chest($this->plugin->getServer()->getDefaultLevel()->getChunk(0,0),
-                                    new Compound("FakeChest", [
-                                      new Enum("Items",[]),
-                                      new String("id", Tile::CHEST),
-                                      new Int("x",0),
-                                      new Int("y",0),
-                                      new Int("z",0),
+                                    new CompoundTag("FakeChest", [
+                                      new EnumTag("Items",[]),
+                                      new StringTag("id", Tile::CHEST),
+                                      new IntTag("x",0),
+                                      new IntTag("y",0),
+                                      new IntTag("z",0),
                                     ]));
     }
     return $this->fakeChest;
