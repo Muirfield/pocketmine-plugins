@@ -4,7 +4,7 @@
 
 * Summary: Warp between places using signs
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
+* PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0), 1.6+php7 (API:2.0.0)
 * OptionalPlugins: FastTransfer
 * Categories: Teleportation
 * Plugin Access: Other Plugins, Commands, Tile Entities, Manages worlds
@@ -15,7 +15,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/signwarp.7276/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -24,13 +24,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.5.1**.
+This documentation was last updated for version **1.6.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.5.1).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.6.0).
 
 <!-- template-end -->
 
@@ -143,6 +143,7 @@ The following sections are defined:
 
 # Changes
 
+* 1.6.0: Updated to API 2.0.0
 * 1.5.1: bug-fix
   * Removed a nasty crash in BreakSign
 * 1.5.0:
