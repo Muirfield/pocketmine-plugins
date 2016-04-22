@@ -61,6 +61,8 @@ wave** mode is experimental and has not been fully tested.
 
 ## Changes
 
+* 1.1.0 : Updated for API 2.0.0
+  - Fixes #63.
 * 1.0.8 : No AIR cases
   - Do not allow to place cases with AIR only.  Reported by @Pub4Game.
     Closes #30.
