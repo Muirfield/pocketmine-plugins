@@ -147,7 +147,7 @@ class TradingMgr implements Listener {
 		}
 		$this->setAttr($giver,"counter",[$when,$amt,$ptaker]);
 
-		if (MPMU::apiVersion("1.12.0")) {
+		if (MPMU::apiVersion("1.12.0")||MPMU::apiVersion("2.0.0")) {
 			$giver->sendTip(mc::_("Paid %2%G, you now have %1%G",
 											  $this->owner->getMoney($giver->getName()),$amt));
 			$taker->sendTip(mc::_("Received %2%G, you now have %1%G",
