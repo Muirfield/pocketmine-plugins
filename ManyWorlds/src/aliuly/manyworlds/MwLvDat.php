@@ -33,10 +33,10 @@ use aliuly\manyworlds\common\BasicCli;
 
 use pocketmine\level\generator\Generator;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Long;
-use pocketmine\nbt\tag\Compound;
+//use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
+//use pocketmine\nbt\tag\LongTag;
+//use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\math\Vector3;
 
 class MwLvDat extends BasicCli {
@@ -110,7 +110,7 @@ class MwLvDat extends BasicCli {
 						continue;
 					}
 					$changed = true; $unload = true;
-					$provider->getLevelData()->LevelName = new String("LevelName",$v);
+					$provider->getLevelData()->LevelName = new StringTag("LevelName",$v);
 					break;
 				case "generator":	// generatorName(String)
 					if ($provider->getLevelData()->generatorName == $v) {
@@ -118,15 +118,15 @@ class MwLvDat extends BasicCli {
 						continue;
 					}
 					$changed=true; $unload=true;
-					$provider->getLevelData()->generatorName=new String("generatorName",$v);
+					$provider->getLevelData()->generatorName=new StringTag("generatorName",$v);
 					break;
-				case "preset":	// String("generatorOptions");
+				case "preset":	// StringTag("generatorOptions");
 					if ($provider->getLevelData()->generatorOptions == $v) {
 						$c->sendMessage(mc::_("Preset unchanged"));
 						continue;
 					}
 					$changed=true; $unload=true;
-					$provider->getLevelData()->generatorOptions =new String("generatorOptions",$v);
+					$provider->getLevelData()->generatorOptions =new StringTag("generatorOptions",$v);
 					break;
 				default:
 					$c->sendMessage(mc::_("Unknown key %1%, ignored",$k));

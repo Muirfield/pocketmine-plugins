@@ -4,7 +4,7 @@
 
 * Summary: Manage Multiple Worlds
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.6+php7 (API:2.0.0)
 * OptionalPlugins: n/a
 * Categories: Admin Tools, Teleportation
 * Plugin Access: Commands, Manages Worlds
@@ -182,6 +182,7 @@ for sample files.
 
 # Changes
 
+* 2.1.0: Updating to new API
 * 2.0.3: Bugfix update
   * Fixes bug reported by @thebigsmileXD
 * 2.0.2: Bug fix
