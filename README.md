@@ -2,6 +2,27 @@
 
 Repository for my *official* PocketMine plugins.
 
+Queue:
+
+2. WorldProtect
+3. SimpleAuthHelper
+4. ItemCasePE
+5. SignWarp
+
+- BasicHUD
+- GoldStd
+- GrabBag
+- KillRate
+- LiveSigns
+- MagicTelePortal
+- NetherChests
+
+Deprecate?:
+
+- FireBlade
+- Scorched
+- ToyBox
+
 ## Available Plugins
 
 <table>
@@ -233,16 +254,6 @@ Repository for my *official* PocketMine plugins.
 
 </table>
 
-Queue:
-
-1. ManyWorlds
-2. WorldProtect
-3. SimpleAuthHelper
-4. ItemCasePE
-5. SignWarp
-6. EmptyWorld
-
-
 Other stuff:
 
 * [API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
@@ -266,3 +277,4 @@ Other stuff:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
