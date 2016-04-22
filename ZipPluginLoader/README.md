@@ -4,7 +4,7 @@
 
 * Summary: Load Zip packed plugins
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.4 (API:1.10.0)
+* PocketMine-MP version: 1.6+php7 (API:2.0.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: Developer Tools
@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.1.3**.
+This documentation was last updated for version **1.2.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ZipPluginLoader-1.1.3).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ZipPluginLoader-1.2.0).
 
 <!-- template-end -->
 
@@ -64,6 +64,7 @@ loaded.
 
 ## Changes
 
+* 1.2.0: Updated for 2.0 API
 * 1.1.3: Bug-fix
   - Fixed bug reported by (@Taha_The_Hacker)
 * 1.1.2: Minor update
