@@ -4,7 +4,7 @@
 
 * Summary: An empty world generator
 * Dependency Plugins: n/a
-* PocketMine-MP version: 1.5 (API:1.12.0)
+* PocketMine-MP version: 1.6+php7 (API:2.0.0)
 * DependencyPlugins: -
 * OptionalPlugins: -
 * Categories: World Generator
@@ -16,7 +16,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/emptyworld.1248/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -25,13 +25,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **1.0.0**.
+This documentation was last updated for version **1.1.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/EmptyWorld-1.0.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/EmptyWorld-1.1.0).
 
 <!-- template-end -->
 
@@ -75,6 +75,7 @@ The following preset strings are recognized:
 
 ## Changes
 
+* 1.1.0: Updated for API 2.0
 * 1.0.0: First release
 
 ## Copyright
