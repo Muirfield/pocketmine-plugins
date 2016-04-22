@@ -7,11 +7,11 @@
 # WorldProtect
 
 - Summary: protect worlds from griefers, pvp, limits and borders
-- PocketMine-MP version: 1.4 (API:1.10.0), 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: Anti-Griefing
-- Plugin Access: Commands, Data Saving, World Editing
+- PocketMine-MP version: 1.6+php7 (API:2.0.0)
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: Anti-Griefing 
+- Plugin Access: Commands, Data Saving, World Editing 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect
 
 <!-- end-include -->
@@ -21,7 +21,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/worldprotect.7517/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -30,13 +30,13 @@ that.  You are more likely to get a response and help that way.
 
 _NOTE:_
 
-This documentation was last updated for version **2.2.0**.
+This documentation was last updated for version **2.3.0**.
 
 Please go to
 [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/WorldProtect)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.2.0).
+You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/WorldProtect-2.3.0).
 
 <!-- end-include -->
 
@@ -137,7 +137,7 @@ The following commands are available:
 <!-- template: gd2/subcmds.md -->
 * /motd: Shows the world's *motd* text<br/>
   usage: /motd  _[world]_
-
+  
   Shows the *motd* text of a _world_.  This can be used to show
     rules around a world.
 * /worldprotect: Main WorldProtect command<br/>
@@ -146,22 +146,22 @@ The following commands are available:
   usage: /wp _[world]_ **add** _&lt;player&gt;_
 * bancmd|unbancmd: Prevents commands to be used in worlds<br/>
   usage: /wp _[world]_ **bancmd|unbancmd** _[command]_
-
+  
   If no commands are given it will show a list of banned
   commands.   Otherwise the _command_ will be added/removed
   from the ban list
-
+  
 * banitem|unbanitem: Control itmes that can/cannot be used<br/>
   usage: /wp  _[world]_ **banitem|unbanitem** _[Item-ids]_
-
+  
   Manages which Items can or can not be used in a given world.
    You can get a list of items currently banned
    if you do not specify any _[item-ids]_.  Otherwise these are
    added or removed from the list.
-
+  
 * border: defines a border for a world<br/>
   usage: /wp  _[world]_ **border** _[range|none|x1 z1 x2 z2]_
-
+  
   Defines a border for an otherwise infinite world.  Usage:
     - /wp _[world]_ **border**
       - will show the current borders for _[world]_.
@@ -172,10 +172,10 @@ The following commands are available:
         from the spawn point.
     - /wp _[world]_ **border** **none**
       - Remove borders
-
+  
 * gm: Configures per world game modes<br/>
   usage: /wp _[world]_ gm _[value]_
-
+  
   Options:
   - /wp _[world]_ **gm**
     - show current gamemode
@@ -183,7 +183,7 @@ The following commands are available:
     - Sets the world gamemode to _mode_
   - /wp _[world]_ **gm** **none**
     - Removes per world game mode
-
+  
 * lock: Locks world, not even Op can use.<br/>
   usage: /wp _[world]_ **lock**
 * ls: List info on world protection.<br/>
@@ -200,10 +200,10 @@ The following commands are available:
       - Sets limit value to _value_.
     - /wp _[world]_ **max** **0**
       - Removes world limits
-
+  
 * motd: Modifies the world's *motd* text.<br/>
   usage: /wp _[world]_ **motd** _&lt;text&gt;_
-
+  
   Let's you modify the world's *motd* text.  The command only
   supports a single line, however you can modify the *motd* text
   by editing the **wpcfg.yml** file that is stored in the **world**
@@ -223,14 +223,14 @@ The following commands are available:
       - no explosions allowed in the whole _world_.
     - /wp _[world]_ **noexplode** **spawn**
       - no explosions allowed in the world's spawn area.
-
+  
 * protect: Protects world, only certain players can build.<br/>
   usage: /wp _[world]_ **protect**
-
+  
   When in this mode, only players in the _authorized_ list can build.
   If there is no authorized list, it will use **wp.cmd.protect.auth**
   permission instead.
-
+  
 * pvp: Controls PvP in a world<br/>
   usage: /wp  _[world]_ **pvp** _[on|off|spawn-off]_
     - /wp _[world]_ **pvp** **off**
@@ -239,17 +239,17 @@ The following commands are available:
       - PvP is allowed
     - /wp _[world]_ **pvp** **spawn-off**
       - PvP is allowed except if inside the spawn area.
-
+  
 * rm: Removes player from the authorized list<br/>
   usage: /wp _[world]_ **rm** _&lt;player&gt;_
 * unbreakable|breakable: Control blocks that can/cannot be broken<br/>
   usage: /wp  _[world]_ **breakable|unbreakable** _[block-ids]_
-
+  
   Manages which blocks can or can not be broken in a given world.
   You can get a list of blocks currently set to **unbreakable**
   if you do not specify any _[block-ids]_.  Otherwise these are
   added or removed from the list.
-
+  
 * unlock: Removes protection<br/>
   usage: /wp _[world]_ **unlock**
 
@@ -313,6 +313,7 @@ If **true** the feature is enabled.  if **false** the feature is disabled.
 * wp.cmd.unbreakable (op): Modify unbreakable block list
 * wp.cmd.bancmd (op): Ban/unban commands
 * wp.cmd.banitem (op): Ban/unban items
+* wp.banitem.exempt (disabled): it is able to use banned items
 * wp.cmd.info: Show WP config info
 * wp.cmd.gm (op): Allow setting a per-world gamemode
 * wp.cmd.gm.exempt (disabled): Users with this permissions will ignore per world gm
@@ -375,7 +376,7 @@ Returns an integer or null.
 
 # Changes
 
-* ???:
+* 2.3.0: Updated to API 2.0.0
   - Added banitem exempted permissions (@BobbyTowers)
 * 2.2.0: minor Update
   - Implemented banned commands (@Tolo)
@@ -447,3 +448,4 @@ Returns an integer or null.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
