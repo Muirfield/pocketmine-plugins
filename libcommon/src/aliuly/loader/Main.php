@@ -20,7 +20,7 @@ class Main extends PluginBase implements CommandExecutor{
 		return MPMU::version();
 	}
 	public function onEnable() {
-		$pm = $owner->getServer()->getPluginManager();
+		$pm = $this->getServer()->getPluginManager();
 		if (($gb = $pm->getPlugin("GrabBag")) !== null) {
 			$this->getLogger()->info("Running with GrabBag...");
 		}

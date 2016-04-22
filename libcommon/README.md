@@ -8,11 +8,11 @@
 # libcommon
 
 - Summary: aliuly's common library
-- PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: DevTools
-- Plugin Access: N/A
+- PocketMine-MP version: 1.6+php7 (API:2.0.0)
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: DevTools 
+- Plugin Access: N/A 
 - WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
@@ -31,17 +31,18 @@ plugins, in particular, ScriptPlugins.
 API Features:
 
 <!-- snippet:api-features -->
-- Teleport wrappers
-- Skin tools
-- Translations
-- Multiple money support
-- Config shortcuts and multi-module|feature management
+- Armor constants
 - Paginated output
 - Command and sub command dispatchers
-- Armor constants
+- Config shortcuts and multi-module|feature management
+- Multiple money support
+- Player session and state management
+- Skin tools
+- Teleport wrappers
+- Translations
+- FastTransfer work-around wrapper
 - API version checking
 - Misc shorcuts and pre-canned routines
-- Player session and state management
 <!-- end-include -->
 
 It also bundles useful third party libraries:
@@ -256,3 +257,4 @@ The following selectors are implemented:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+
