@@ -233,6 +233,16 @@ Repository for my *official* PocketMine plugins.
 
 </table>
 
+Queue:
+
+1. ManyWorlds
+2. WorldProtect
+3. SimpleAuthHelper
+4. ItemCasePE
+5. SignWarp
+6. EmptyWorld
+
+
 Other stuff:
 
 * [API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)

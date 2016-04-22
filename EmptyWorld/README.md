@@ -76,6 +76,7 @@ The following preset strings are recognized:
 ## Changes
 
 * 1.1.0: Updated for API 2.0
+  - Fixes #64 (Reported by @thebigsmileXD)
 * 1.0.0: First release
 
 ## Copyright
