@@ -18,7 +18,7 @@ use pocketmine\entity\Living;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 
 use pocketmine\event\player\PlayerItemHeldEvent;
@@ -466,15 +466,15 @@ class Main extends PluginBase implements CommandExecutor, Listener {
 	private function scorchit($pos,$dir,$fuse) {
 		$nbt =
 			  new CompoundTag("",
-								["Pos" => new EnumTag("Pos",
+								["Pos" => new ListTag("Pos",
 														 [new DoubleTag("", $pos->x),
 														  new DoubleTag("", $pos->y),
 														  new DoubleTag("", $pos->z)]),
-								 "Motion" => new EnumTag("Motion",
+								 "Motion" => new ListTag("Motion",
 															 [new DoubleTag("",$dir->x),
 															  new DoubleTag("",$dir->y),
 															  new DoubleTag("",$dir->z)]),
-								 "Rotation" => new EnumTag("Rotation",
+								 "Rotation" => new ListTag("Rotation",
 																[new FloatTag("", 0),
 																 new FloatTag("", 0)]),
 								 "Fuse" => new ByteTag("Fuse", $fuse)]);

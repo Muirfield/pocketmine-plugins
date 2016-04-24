@@ -8,7 +8,7 @@ use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\Tag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\IntTag;
@@ -34,29 +34,29 @@ class Npc extends Human {
 		}
 		if (!isset($opts["slim"])) $opts["slim"] = false;
 		$ndat = [];
-		$ndat["Pos"] = new EnumTag("Pos", [
+		$ndat["Pos"] = new ListTag("Pos", [
 			new DoubleTag("", $pos->x),
 			new DoubleTag("", $pos->y),
 			new DoubleTag("", $pos->z)]);
 		if (isset($opts["motion"])) {
-			$ndat["Motion"] = new EnumTag("Motion", [
+			$ndat["Motion"] = new ListTag("Motion", [
 				new DoubleTag("",$opts["motion"][0]),
 				new DoubleTag("",$opts["motion"][1]),
 				new DoubleTag("",$opts["motion"][2])]);
 			unset($opts["motion"]);
 		} else {
-			$ndat["Motion"] = new EnumTag("Motion", [
+			$ndat["Motion"] = new ListTag("Motion", [
 				new DoubleTag("",0),
 				new DoubleTag("",0),
 				new DoubleTag("",0)]);
 		}
 		if (isset($opts["rotation"])) {
-			$ndat["Rotation"] = new EnumTag("Rotation", [
+			$ndat["Rotation"] = new ListTag("Rotation", [
 				new FloatTag("",$opts["rotation"][0]),
 				new FloatTag("",$opts["rotation"][1])]);
 			unset($opts["rotation"]);
 		} else {
-			$ndat["Rotation"] = new EnumTag("Rotation", [
+			$ndat["Rotation"] = new ListTag("Rotation", [
 				new FloatTag("",$pos->yaw),
 				new FloatTag("",$pos->pitch)]);
 		}

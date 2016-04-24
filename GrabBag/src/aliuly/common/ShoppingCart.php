@@ -20,7 +20,7 @@ use pocketmine\inventory\BaseTransaction;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\IntTag;
 
@@ -44,7 +44,7 @@ class ShoppingCart extends Session {
     if ($this->fakeChest === null) {
       $this->fakeChest = new Chest($this->plugin->getServer()->getDefaultLevel()->getChunk(0,0),
                                     new CompoundTag("FakeChest", [
-                                      new EnumTag("Items",[]),
+                                      new ListTag("Items",[]),
                                       new StringTag("id", Tile::CHEST),
                                       new IntTag("x",0),
                                       new IntTag("y",0),

@@ -964,10 +964,12 @@ This section configures peer servers.  This can be used with
 * gb.cmd.expand (op): expand command
 * gb.cmd.rem: remark command
 * gb.cmd.entities (op): entity management
+* gb.cmd.ftserver (op): Allow user to use Fast Transfer
 * gb.cmd.fly (op): flight control
 * gb.cmd.follow (op): lets you follow others
 * gb.cmd.followme (op): let others follow you
 * gb.cmd.freeze (op): freeze/thaw players
+* gb.cmd.get (op): get blocks
 * gb.cmd.gma (op): Switch gamemode to Adventure
 * gb.cmd.gms (op): Switch gamemode to Survival
 * gb.cmd.gmc (op): Switch gamemode to Creative
@@ -983,6 +985,7 @@ This section configures peer servers.  This can be used with
 * gb.cmd.iteminfo: get info on item held
 * gb.cmd.iteminfo.other (op): item info of others
 * gb.cmd.mute (op): mute/unmute players
+* gb.cmd.near: nearby players
 * gb.cmd.onevent (op): access onevent command
 * gb.cmd.opms: Send op only messages
 * gb.cmd.rpt: Report issues
@@ -998,6 +1001,7 @@ This section configures peer servers.  This can be used with
 * gb.cmd.query.players: View players
 * gb.cmd.query.players.showip: View players server IP
 * gb.cmd.query.list: Query List sub command
+* gb.cmd.pmscript (op): access rc (pmscript) command
 * gb.cmd.rcon (op): Rcon client
 * gb.cmd.reop: Reop command
 * gb.cmd.reop.others (op): ReOp others
@@ -1020,6 +1024,7 @@ This section configures peer servers.  This can be used with
 * gb.servicemode.allow (op): login when in service mode
 * gb.cmd.summon (op): summon|dismmiss command
 * gb.cmd.throw (op): Troll players
+* gb.cmd.timings (op): view timings report
 * gb.cmd.back: Allow players to return to place of death
 * gb.cmd.tpask (op): Submit a tp request
 * gb.cmd.tpahere: Submit a tp-here request
@@ -1059,11 +1064,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servers.read.viewip (op): view server IP address
 * gb.cmd.servers.read.viewrcon (op): view rcon secrets
 * gb.cmd.servers.write (op): change server configuration
-* gb.cmd.ftserver (op): Allow user to use Fast Transfer
-* gb.cmd.get (op): get blocks
-* gb.cmd.near: nearby players
-* gb.cmd.pmscript (op): access rc (pmscript) command
-* gb.cmd.timings (op): view timings report
 <!-- end-include -->
 
 <!-- template: gd2/mctxt.md -->
