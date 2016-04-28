@@ -5,4 +5,4 @@ api: [1.10.0,2.0.0]
 load: STARTUP
 author: aliuly
 description: Load Zip packed plugins
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/ZipPluginLoader

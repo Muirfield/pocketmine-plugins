@@ -14,16 +14,7 @@ function req($url) {
 	return json_decode($response);
 }
 
-//$data = file_get_contents();
-//echo $data;
-
-///$url = "https://api.github.com/users/alejandroliu/repos";
-//print_r( req("https://api.github.com/users/alejandroliu/repos"));
-
-//echo req("https://api.github.com/repos/alejandroliu/bad-plugins/releases");
-//print_r( req("https://api.github.com/repos/alejandroliu/bad-plugins/releases"));
-//print_r( req("https://api.github.com/repos/alejandroliu/pocketmine-plugins/releases"));
-foreach (req("https://api.github.com/repos/alejandroliu/pocketmine-plugins/releases")
+foreach (req("https://api.github.com/repos/Muirfield/pocketmine-plugins/releases")
 			as $rel) {
 	if (isset($rel->name) && $rel->name)
 		echo "# ".$rel->name."\n";

@@ -47,7 +47,7 @@ mcgen(SRCDIR."resources/messages",SRCDIR."src");
 // Create download page
 //
 $dl = SRCDIR."downloads.md";
-$icon = "<img src=\"https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png\"/>";
+$icon = "<img src=\"https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/download-icon.png\"/>";
 $otxt = file_exists($dl) ? file_get_contents($dl) : "";
 $ntxt = "";
 $ntxt .= "# Downloads\n";
@@ -66,7 +66,7 @@ fclose($fp);
 function rversion_compare($a,$b) { return version_compare($b,$a);}
 usort($vlst,"rversion_compare");
 foreach ($vlst as $v) {
-	$url = "https://github.com/alejandroliu/pocketmine-plugins/releases/tag/libcommon-$v";
+	$url = "https://github.com/Muirfield/pocketmine-plugins/releases/tag/libcommon-$v";
 	$ntxt .= "* <a href=\"$url\">$icon $v</a>\n";
 }
 if ($ntxt != $otxt) {

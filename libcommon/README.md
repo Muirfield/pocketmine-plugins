@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
 
 <!-- meta:Categories = DevTools -->
 <!-- meta:PluginAccess = N/A -->
@@ -13,7 +13,7 @@
 - OptionalPlugins: 
 - Categories: DevTools 
 - Plugin Access: N/A 
-- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+- WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/libcommon
 
 <!-- end-include -->
 
@@ -49,7 +49,7 @@ It also bundles useful third party libraries:
 
 - xPaw MinecraftQuery
 
-See [API documentation](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+See [API documentation](http://muirfield.github.io/pocketmine-plugins/apidocs/index.html)
 for full details.
 
 The **libcommon** library is my standard library that I personally use when
@@ -60,13 +60,13 @@ For use on your own plugins, you can either use the stand-alone **libcommon**
 phar, or use the one bundled in **GrabBag**.
 
 This plugin can be downloaded from its
-[Downloads](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/downloads.md)
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/download-icon.png" alt="Downloads"/>
+[Downloads](https://github.com/Muirfield/pocketmine-plugins/tree/master/libcommon/downloads.md)
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/download-icon.png" alt="Downloads"/>
 page.
 
 Example scripts can be found here:
 
-* [GitHub Examples](https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon/resources/examples/)
+* [GitHub Examples](https://github.com/Muirfield/pocketmine-plugins/tree/master/libcommon/resources/examples/)
 
 <!-- snippet: pmscript  -->
 ## PMScript

@@ -6,7 +6,7 @@ load: STARTUP
 
 description: aliuly's common library
 author: aliuly
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/libcommon
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/libcommon
 
 commands:
   libcommon:

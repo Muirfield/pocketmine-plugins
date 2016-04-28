@@ -6,7 +6,7 @@ name: ToyBox
 description: A box full of fun toys and tools
 version: 1.2.1
 author: aliuly
-website: https://github.com/alejandroliu/bad-plugins/tree/master/ToyBox
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/ToyBox
 
 permissions:
   toybox.treecapitator:

@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ZipPlugin-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/ZipPlugin-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # ZipPluginLoader
 
@@ -9,7 +9,7 @@
 * OptionalPlugins: -
 * Categories: Developer Tools
 * Plugin Access: Manages plugins
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader
+* WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/ZipPluginLoader
 
 ## Overview
 
@@ -28,10 +28,10 @@ _NOTE:_
 This documentation was last updated for version **1.2.0**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ZipPluginLoader)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/ZipPluginLoader)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/ZipPluginLoader-1.2.0).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/ZipPluginLoader-1.2.0).
 
 <!-- template-end -->
 

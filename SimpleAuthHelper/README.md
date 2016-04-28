@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 <!-- meta:Categories = AdminTools -->
 <!-- meta:PluginAccess = Commands, Other Plugins, Manages Permissions -->
@@ -9,10 +9,10 @@
 - Summary: Simplifies the way people authenticate to servers
 - PocketMine-MP version: 1.5 (API:1.12.0)
 - DependencyPlugins: SimpleAuth
-- OptionalPlugins:
-- Categories: AdminTools
-- Plugin Access: Commands, Other Plugins, Manages Permissions
-- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
+- OptionalPlugins: 
+- Categories: AdminTools 
+- Plugin Access: Commands, Other Plugins, Manages Permissions 
+- WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/SimpleAuthHelper
 
 <!-- end-include -->
 
@@ -21,7 +21,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -33,10 +33,10 @@ _NOTE:_
 This documentation was last updated for version **2.0.2**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/SimpleAuthHelper)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.2).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.2).
 
 <!-- end-include -->
 
@@ -158,16 +158,17 @@ languages currently available are:
 
 * English
 * German
+* jpn
 * Spanish
 * 中文
 
 
 You can provide your own message file by creating a file called
 **messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages/)
+Check [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages/)
 for sample files.
 Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
+[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
 installed, you can create an empty **messages.ini** using the command:
 
      pm dumpmsgs SimpleAuthHelper [lang]
@@ -238,3 +239,4 @@ installed, you can create an empty **messages.ini** using the command:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+

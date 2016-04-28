@@ -7,7 +7,7 @@ name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
 version: 2.0.2
 author: aliuly
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/SimpleAuthHelper
 
 commands:
   chpwd:
