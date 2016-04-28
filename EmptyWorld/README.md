@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/emptyworld-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/emptyworld-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # NAME
 
@@ -9,7 +9,7 @@
 * OptionalPlugins: -
 * Categories: World Generator
 * Plugin Access: World Editing
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld
+* WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/EmptyWorld
 
 ## Overview
 
@@ -28,10 +28,10 @@ _NOTE:_
 This documentation was last updated for version **1.1.0**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/EmptyWorld)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/EmptyWorld)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/EmptyWorld-1.1.0).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/EmptyWorld-1.1.0).
 
 <!-- template-end -->
 
