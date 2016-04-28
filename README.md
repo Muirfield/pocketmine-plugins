@@ -31,7 +31,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/manyworlds.1042/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ManyWorlds-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/ManyWorlds-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       ManyWorlds
     </a>
@@ -44,7 +44,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/signwarp.1043/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/SignWarp-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/SignWarp-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       SignWarp
     </a>
@@ -58,7 +58,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/grabbag.1060/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       GrabBag
     </a>
@@ -71,7 +71,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/scorched.1062/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/Scorched-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/Scorched-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       Scorched
     </a>
@@ -84,7 +84,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/worldprotect.1079/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/WorldProtect-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/WorldProtect-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       WorldProtect
     </a>
@@ -97,7 +97,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/itemcase.1138/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       ItemCasePE
     </a>
@@ -110,7 +110,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/killrate.1137/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       KillRate
     </a>
@@ -123,7 +123,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/magicteleportal.1146/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       MagicTelePortal
     </a>
@@ -136,7 +136,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/simpleauthhelper.1112/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/helper-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/helper-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       SimpleAuthHelper
     </a>
@@ -149,7 +149,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/goldstd.1118/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GoldStd1-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/GoldStd1-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       GoldStd
     </a>
@@ -162,7 +162,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/zippluginloader.1216/">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ZipPlugin-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/ZipPlugin-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       ZipPluginLoader
     </a>
@@ -174,8 +174,8 @@ Deprecate?:
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/FireBlade">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+    <a href="https://github.com/Muirfield/pocketmine-plugins/tree/master/FireBlade">
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       FireBlade
     </a>
@@ -187,8 +187,8 @@ Deprecate?:
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/ToyBox">
-      <img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
+    <a href="https://github.com/Muirfield/pocketmine-plugins/tree/master/ToyBox">
+      <img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/icon-toy-box.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       ToyBox
     </a>
@@ -201,8 +201,8 @@ Deprecate?:
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD">
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
+    <a href="https://github.com/Muirfield/pocketmine-plugins/tree/master/BasicHUD">
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/hud.jpg" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       BasicHUD
     </a>
@@ -214,8 +214,8 @@ Deprecate?:
 <!---------------------------------------------------------------------->
 <tr>
   <th>
-    <a href="https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests">
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
+    <a href="https://github.com/Muirfield/pocketmine-plugins/tree/master/NetherChests">
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       NetherChests
     </a>
@@ -228,7 +228,7 @@ Deprecate?:
 <tr>
   <th>
     <a href="http://forums.pocketmine.net/plugins/emptyworld.1248/">
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/emptyworld-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/emptyworld-icon.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       EmptyWorld
     </a>
@@ -241,7 +241,7 @@ Deprecate?:
 <tr>
   <th>
     <!-- a href="http://forums.pocketmine.net/plugins/emptyworld.1248/" -->
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/common.png" style="width:64px;height:64px" width="64" height="64"/>
       <br/>
       libcommon
     <!-- /a -->
@@ -256,7 +256,7 @@ Deprecate?:
 
 Other stuff:
 
-* [API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+* [API docs](http://Muirfield.github.io/pocketmine-plugins/apidocs/index.html)
   for all the plugins in this repository.
 
 # Copyright
