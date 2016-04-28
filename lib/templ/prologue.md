@@ -3,7 +3,7 @@ if (!isset($v_forum_thread)) {
   echo "<!-- Add the line: -->\n";
   echo "<!-- php: \$v_forum_thread = \"http://forums.pocketmine.net/threads/XXXX\"; -->\n";
 }
-if (!isset($v_tag_url)) $v_tag_url="https://github.com/alejandroliu/pocketmine-plugins/releases/tag/";
+if (!isset($v_tag_url)) $v_tag_url="https://github.com/Muirfield/pocketmine-plugins/releases/tag/";
 ?>
 
 <?php if (isset($v_forum_thread)) { ?>

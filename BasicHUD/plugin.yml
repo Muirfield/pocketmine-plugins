@@ -1,9 +1,9 @@
 name: BasicHUD
 version: 1.0.7
 main: aliuly\hud\Main
-api: 1.12.0
+api: [1.12.0,2.0.0]
 load: POSTWORLD
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/BasicHUD
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/BasicHUD
 
 description: A configurable heads up display
 author: aliuly
