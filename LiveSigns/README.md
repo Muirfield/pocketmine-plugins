@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/RSS-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/RSS-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # LiveSigns
 
@@ -9,14 +9,14 @@
 * OptionalPlugins: N/A
 * Categories: Informational
 * Plugin Access: Tiles, Internet Services, Commands
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns
+* WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/LiveSigns
 
 ## Overview
 
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/plugins/livesigns.1249/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -28,10 +28,10 @@ _NOTE:_
 This documentation was last updated for version **1.2.1**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/LiveSigns)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/LiveSigns-1.2.1).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/LiveSigns-1.2.1).
 
 <!-- template-end -->
 
@@ -311,7 +311,7 @@ are read:
 **signs.yml** can refer to additional files or URLs to provide live
 content.  Please look at the provided examples on how these need to be
 set-up.  If you deleted your examples, you can always refer to them
-back going back to [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns)
+back going back to [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/LiveSigns)
 
 ### Configuration
 
@@ -393,3 +393,4 @@ The following sections are defined:
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

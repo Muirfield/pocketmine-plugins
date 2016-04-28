@@ -5,7 +5,7 @@ name: LiveSigns
 description: "Signs and floating text that change contents (e.g. twitter?)"
 version: 1.2.1
 author: aliuly
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/LiveSigns
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/LiveSigns
 
 commands:
   livesigns:
