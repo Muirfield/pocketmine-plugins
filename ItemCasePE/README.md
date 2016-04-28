@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/ItemCase-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 ItemCasePE
 =========
@@ -9,7 +9,7 @@ ItemCasePE
 * OptionalPlugins:
 * Categories: General
 * Plugin Access: Tile Entities, Items/Blocks
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/ItemCasePE)
+* WebSite: [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/ItemCasePE)
 
 Overview
 --------
