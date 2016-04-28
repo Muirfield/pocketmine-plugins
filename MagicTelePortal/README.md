@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/portal-icon.jpg" style="width:64px;height:64px" width="64" height="64"/>
 
 # MagicTelePortal
 
@@ -9,7 +9,7 @@
 * OptionalPlugins: FastTransfer
 * Categories: Fun
 * Plugin Access: Commands, Data Saving, World Editing
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/MagicTelePortal)
+* WebSite: [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/MagicTelePortal)
 
 ## Overview
 
@@ -21,7 +21,7 @@ question/bug-report/request please use the
 that.  You are more likely to get a response and help that way.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/MagicTelePortal)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/MagicTelePortal)
 for the most up-to-date documentation.
 
 Simple plugin to make creation of portals easy.
