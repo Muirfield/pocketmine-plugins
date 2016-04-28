@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/SignWarp-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/SignWarp-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # SignWarp
 
@@ -8,7 +8,7 @@
 * OptionalPlugins: FastTransfer
 * Categories: Teleportation
 * Plugin Access: Other Plugins, Commands, Tile Entities, Manages worlds
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp
+* WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/SignWarp
 
 ## Overview
 
@@ -27,10 +27,10 @@ _NOTE:_
 This documentation was last updated for version **1.6.0**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/SignWarp)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SignWarp-1.6.0).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/SignWarp-1.6.0).
 
 <!-- template-end -->
 
@@ -144,6 +144,7 @@ The following sections are defined:
 # Changes
 
 * 1.6.0: Updated to API 2.0.0
+  - **THIS IS ONLY A TAG UPDATE.  NO TESTING HAS BEEN DONE!**
 * 1.5.1: bug-fix
   * Removed a nasty crash in BreakSign
 * 1.5.0:

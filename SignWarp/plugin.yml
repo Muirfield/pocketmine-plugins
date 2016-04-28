@@ -5,7 +5,7 @@ load: POSTWORLD
 main: aliuly\signwarp\Main
 author: aliuly
 softdepend: [FastTransfer,WorldProtect]
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SignWarp
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/SignWarp
 
 permissions:
   signwarp.place.sign:
