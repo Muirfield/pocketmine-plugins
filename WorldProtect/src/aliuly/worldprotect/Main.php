@@ -276,7 +276,7 @@ class Main extends BasicPlugin implements CommandExecutor,Listener {
 		}
 	}
 	public function msg($pl,$txt) {
-		if (MPMU::apiVersion("1.12.0")) {
+		if (MPMU::apiVersion("2.0.0")) {
 			$pl->sendTip($txt);
 			return;
 		}
