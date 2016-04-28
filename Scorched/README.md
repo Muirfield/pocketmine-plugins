@@ -8,7 +8,7 @@ Scorched
 * OptionalPlugins: -
 * Categories: Fun
 * Plugin Access: Commands, Entities, Item/Blocks
-* WebSite: [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/Scorched)
+* WebSite: [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/Scorched)
 
 Overview
 --------
