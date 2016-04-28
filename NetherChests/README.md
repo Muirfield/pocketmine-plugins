@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/EnderChest.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # NetherChests
 
@@ -8,14 +8,14 @@
 * OptionalPlugins: -
 * Categories: mechanics
 * Plugin Access: Databases, Tile Entities
-* WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests
+* WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/NetherChests
 
 ## Overview
 
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/netherchests.9269/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -27,10 +27,10 @@ _NOTE:_
 This documentation was last updated for version **1.1.1**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/NetherChests)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/NetherChests)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/NetherChests-1.1.1).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/NetherChests-1.1.1).
 
 <!-- template-end -->
 
