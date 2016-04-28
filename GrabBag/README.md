@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/GrabBag-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 <!-- meta:Categories = General -->
 <!-- meta:PluginAccess = Internet Services, Other Plugins, Manages Permissions, Commands, Data Saving, Entities, Tile Entities, Manages Plugins -->
@@ -13,7 +13,7 @@
 - OptionalPlugins: FastTransfer
 - Categories: General 
 - Plugin Access: Internet Services, Other Plugins, Manages Permissions, Commands, Data Saving, Entities, Tile Entities, Manages Plugins 
-- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag
+- WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/GrabBag
 
 <!-- end-include -->
 
@@ -34,10 +34,10 @@ _NOTE:_
 This documentation was last updated for version **2.5.0**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/GrabBag)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GrabBag-2.5.0).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/GrabBag-2.5.0).
 
 <!-- end-include -->
 
@@ -865,7 +865,7 @@ The following selectors are implemented:
 
 Since version 2.3 of GrabBag, an API is available.  For more information
 see the
-[API documentation.](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+[API documentation.](http://Muirfield.github.io/pocketmine-plugins/apidocs/index.html)
 
 Most of GrabBag features are available through the GrabBag API or through
 libcommon (which is included with GrabBag).  If there is a feature missing
@@ -942,7 +942,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.afk (op): afk command
 * gb.cmd.after (op): access command scheduler
 * gb.cmd.alias (op): allow creating aliases
-* gb.cmd.sudo (op): Run command as another user
 * gb.cmd.blowup (op): Explode other players
 * gb.cmd.burn (op): Burn other players
 * gb.cmd.togglechat: lets players opt out from chat
@@ -967,7 +966,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.fly (op): flight control
 * gb.cmd.follow (op): lets you follow others
 * gb.cmd.followme (op): let others follow you
-* gb.cmd.freeze (op): freeze/thaw players
 * gb.cmd.gma (op): Switch gamemode to Adventure
 * gb.cmd.gms (op): Switch gamemode to Survival
 * gb.cmd.gmc (op): Switch gamemode to Creative
@@ -1019,7 +1017,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.servicemode (op): service mode command
 * gb.servicemode.allow (op): login when in service mode
 * gb.cmd.summon (op): summon|dismmiss command
-* gb.cmd.throw (op): Troll players
 * gb.cmd.back: Allow players to return to place of death
 * gb.cmd.tpask (op): Submit a tp request
 * gb.cmd.tpahere: Submit a tp-here request
@@ -1038,8 +1035,6 @@ This section configures peer servers.  This can be used with
 * gb.cmd.setwarp.new (op): set a new warp
 * gb.cmd.setwarp.move: move existing warp
 * gb.cmd.delwarp (op): Remove warp
-* gb.cmd.whois (op): view players details
-* gb.cmd.whois.showip (op): view players IP address
 * gb.cmd.xyz: xyz command
 * gb.cmd.xyz.others (op): xyz command on others
 * gb.cdeath: players with this permission benefit from keepiinv
@@ -1064,6 +1059,11 @@ This section configures peer servers.  This can be used with
 * gb.cmd.near: nearby players
 * gb.cmd.pmscript (op): access rc (pmscript) command
 * gb.cmd.timings (op): view timings report
+* gb.cmd.sudo (op): Run command as another user
+* gb.cmd.freeze (op): freeze/thaw players
+* gb.cmd.throw (op): Troll players
+* gb.cmd.whois (op): view players details
+* gb.cmd.whois.showip (op): view players IP address
 <!-- end-include -->
 
 <!-- template: gd2/mctxt.md -->
@@ -1079,7 +1079,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 **messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GrabBag/resources/messages/)
+Check [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/GrabBag/resources/messages/)
 for sample files.
 Alternatively, if you have
 [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
@@ -1112,6 +1112,7 @@ The following third party libraries are included:
 # Changes
 
 * 2.5.0: 2.0.0 API update
+  - **THIS IS A TAG ONLY UPDATE, NOT FULLY TESTED**
 * 2.4.1: Minor update
   * Added FastTransfer workaround (libcommon)
   * /rc scripts, the first command line argument is {1} (instead of {0}).
