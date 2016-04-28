@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/bad-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/FireBlade-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 # FireBlade
 
