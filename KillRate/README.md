@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/killrate.png" style="width:64px;height:64px" width="64" height="64"/>
 
 <!-- meta:Categories = Informational -->
 <!-- meta:PluginAccess = Commands, Databases, Entities, Tiles -->
@@ -8,11 +8,11 @@
 
 - Summary: Keep track of the number of kills
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
+- DependencyPlugins: 
 - OptionalPlugins: PocketMoney, MassiveEconomy, EconomyAPI, GoldStd, RankUp
-- Categories: Informational
-- Plugin Access: Commands, Databases, Entities, Tiles
-- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
+- Categories: Informational 
+- Plugin Access: Commands, Databases, Entities, Tiles 
+- WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate
 
 <!-- end-include -->
 
@@ -21,7 +21,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/killrate.8060/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -33,10 +33,10 @@ _NOTE:_
 This documentation was last updated for version **2.1.1**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/KillRate-2.1.1).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/KillRate-2.1.1).
 
 <!-- end-include -->
 
@@ -203,7 +203,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 **messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/resources/messages/)
+Check [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate/resources/messages/)
 for sample files.
 Alternatively, if you have
 [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
@@ -216,7 +216,7 @@ installed, you can create an empty **messages.ini** using the command:
 ## API
 
 This plugins implements an API.  Please go to
-[API docs](http://alejandroliu.github.io/pocketmine-plugins/apidocs/index.html)
+[API docs](http://Muirfield.github.io/pocketmine-plugins/apidocs/index.html)
 to read the API reference documentation.
 
 Example Usage:
@@ -247,7 +247,7 @@ It is not as plug and play as KillRate so it is only available as a script
 plugin.  This is because it requires to be customized before use.
 
 KillRateEx can be downloaded from
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate)
 
 Some versions of KillRate will create a sample KillRateEx.php in the KillRate
 folder.  You then only need to copy that file to your Plugins folder.  That
@@ -257,11 +257,11 @@ shown earlier.
 In order to use the script extension you need to do the following:
 
 1. Download the script plugin:
-   [KillRateEx.php](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
+   [KillRateEx.php](https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate/example)
 2. Copy the script plugin to your plugin folder.
 3. Install [PurePerms](http://forums.pocketmine.net/plugins/pureperms.862/)
 4. Read KillRateEx.php on how to configure PurePerms or alternatively download
-   and use the example [PurePerms-groups.yml](https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate/example)
+   and use the example [PurePerms-groups.yml](https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate/example)
    and place it in the PurePerms folder as "groups.yml".
 5. Read and modify KillRateEx.php according to taste.  The script has plenty
    of comments on how things work.
@@ -362,3 +362,4 @@ In order to use the script extension you need to do the following:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- end-include -->
+

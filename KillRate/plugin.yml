@@ -8,7 +8,7 @@ softdepend: [PocketMoney,MassiveEconomy,EconomyAPI,GoldStd,RankUp]
 
 description: Keep track of the number of kills
 author: aliuly
-website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/KillRate
+website: https://github.com/Muirfield/pocketmine-plugins/tree/master/KillRate
 
 commands:
   killrate:
