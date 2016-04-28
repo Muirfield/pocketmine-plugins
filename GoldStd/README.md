@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/alejandroliu/pocketmine-plugins/master/Media/GoldStd2-icon.png" style="width:64px;height:64px" width="64" height="64"/>
+<img src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/master/Media/GoldStd2-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
 <!-- meta:Categories = Economy -->
 <!-- meta:PluginAccess =  Commands, Entities, Items -->
@@ -9,11 +9,11 @@
 
 - Summary: Gold based economy plugin
 - PocketMine-MP version: 1.5 (API:1.12.0)
-- DependencyPlugins:
-- OptionalPlugins:
-- Categories: Economy
-- Plugin Access: Commands, Entities, Items
-- WebSite: https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd
+- DependencyPlugins: 
+- OptionalPlugins: 
+- Categories: Economy 
+- Plugin Access: Commands, Entities, Items 
+- WebSite: https://github.com/Muirfield/pocketmine-plugins/tree/master/GoldStd
 
 <!-- end-include -->
 
@@ -22,7 +22,7 @@
 <!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/goldstd.8071/"; -->
 <!-- template: prologue.md -->
 
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
+**DO NOT POST QUESTIONS/BUG-REPORTS/REQUESTS IN THE REVIEWS**
 
 It is difficult to carry a conversation in the reviews.  If you
 have a question/bug-report/request please use the
@@ -34,10 +34,10 @@ _NOTE:_
 This documentation was last updated for version **1.3.0dev1**.
 
 Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd)
+[github](https://github.com/Muirfield/pocketmine-plugins/tree/master/GoldStd)
 for the most up-to-date documentation.
 
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/GoldStd-1.3.0dev1).
+You can also download this plugin from this [page](https://github.com/Muirfield/pocketmine-plugins/releases/tag/GoldStd-1.3.0dev1).
 
 <!-- end-include -->
 
@@ -260,6 +260,11 @@ Configuration is through the `config.yml` file.
 
 <!-- php:$h=4; -->
 <!-- template: gd2/cfg.md -->
+#### defaults
+
+*  payment: default payment when tapping on a player
+*  timeout: how long a transaction may last
+
 #### other-sections
 
 *  trade-goods: List of tradeable goods
@@ -269,6 +274,13 @@ Configuration is through the `config.yml` file.
 
 *  currency: Item to use for currency false or zero disables currency exchange.
 *  signs: set to true to enable shops|casino signs
+
+#### shop-keepers
+
+*  enable: enable/disable shopkeep functionality
+*  range: How far away to engage players in chat
+*  ticks: How often to check player positions
+*  freq: How often to  spam players (in seconds)
 
 
 <!-- end-include -->
@@ -307,7 +319,7 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 **messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/GoldStd/resources/messages/)
+Check [github](https://github.com/Muirfield/pocketmine-plugins/tree/master/GoldStd/resources/messages/)
 for sample files.
 Alternatively, if you have
 [GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/) v2.3
@@ -368,4 +380,24 @@ installed, you can create an empty **messages.ini** using the command:
 
 <!-- php:$copyright="2015"; -->
 <!-- template: gd2/gpl2.md -->
+# Copyright
+
+    GoldStd
+    Copyright (C) 2015 Alejandro Liu
+    All Rights Reserved.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 <!-- end-include -->
+
