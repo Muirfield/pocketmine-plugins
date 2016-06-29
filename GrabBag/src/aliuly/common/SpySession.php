@@ -152,7 +152,7 @@ class SpySession extends Session {
 	 * @priority MONITOR
 	 */
 	public function onRconCmd(RemoteServerCommandEvent $ev) {
-    $this->logEvent(self::RCON,$ev->getMessage());
+    $this->logEvent(self::RCON,$ev->getCommand());
 	}
 	/**
 	 * @priority MONITOR
