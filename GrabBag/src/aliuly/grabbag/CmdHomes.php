@@ -99,10 +99,11 @@ class CmdHomes extends BasicCli implements CommandExecutor{
     $home = $this->getHome($player,$player->getLevel());
     if ($home === null) {
       $player->sendMessage(mc::_("Can't teleport.  You are homeless!"));
-      return true;
+      return false;
     }
     $player->sendMessage(mc::_("There is no place like home..."));
     $player->teleport($home);
+    return true;
   }
   private function cmdSet($sender) {
     $home = $this->getHome($sender,$sender->getLevel());
