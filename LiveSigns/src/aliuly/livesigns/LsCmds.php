@@ -136,7 +136,16 @@ class LsCmds extends BasicCli {
 			++$count;
 			$txt[] = TextFormat::AQUA.mc::_("LiveSign: ").TextFormat::WHITE.$id;
 			foreach ($stx[$id]["text"] as $k) {
-				$txt[] = TextFormat::AQUA."-   -".TextFormat::WHITE.$k;
+				if(is_array($k)) {
+					$i = 0;
+					foreach ($k as $k_line) {
+						$txt[] = TextFormat::AQUA."-   -".TextFormat::WHITE.$k[$i];
+						$i++;
+					}
+				unset($i,$k_line);
+				} else {
+					$txt[] = TextFormat::AQUA."-   -".TextFormat::WHITE.$k;
+				}
 			}
 			if (isset($stx[$id]["datetime"])) {
 				$txt[] = TextFormat::AQUA.mc::_("-    tstamp: ").

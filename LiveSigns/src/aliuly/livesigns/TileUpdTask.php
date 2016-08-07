@@ -4,7 +4,8 @@ namespace aliuly\livesigns;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 use pocketmine\tile\Sign;
-use pocketmine\network\protocol\TileEntityDataPacket;
+//use pocketmine\network\protocol\TileEntityDataPacket;
+use pocketmine\network\protocol\BlockEntityDataPacket;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
@@ -20,6 +21,7 @@ class TileUpdTask extends PluginTask{
 		$this->getOwner()->updateVars();
 		foreach ($this->getOwner()->getServer()->getLevels() as $lv) {
 			if (count($lv->getPlayers()) == 0) continue;
+			if ($lv === null) continue; // Skip all if level is not loaded
 			foreach ($lv->getTiles() as $tile) {
 				if (!($tile instanceof Sign)) continue;
 				$sign = $tile->getText();
