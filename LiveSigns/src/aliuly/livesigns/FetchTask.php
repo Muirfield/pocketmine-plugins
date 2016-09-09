@@ -14,6 +14,7 @@ use aliuly\livesigns\fetcher\Motd;
 class FetchTask extends AsyncTask {
 	public $started;
 	public $owner;
+	public $re;
 	protected $pkgs;
 	protected $cf;
 	public function __construct($plugin,$cfg,$pkgs) {
@@ -56,7 +57,8 @@ class FetchTask extends AsyncTask {
 	}
 
 	public function onRun() {
-		$this->setResult(null);
+		//$this->setResult(null);
+		$this->re = json_encode(null);
 		$restab = [];
 		foreach ($this->pkgs as $job) {
 			list($id,$dat) = $job;
@@ -67,7 +69,8 @@ class FetchTask extends AsyncTask {
 				$restab[$id] = [ "error" => $res ];
 			}
 		}
-		$this->setResult($restab);
+		//$this->setResult($restab);
+		$this->re = json_encode($restab);
 	}
 	public function onCompletion(Server $server) {
 		$plugin = $server->getPluginManager()->getPlugin($this->owner);
@@ -77,7 +80,14 @@ class FetchTask extends AsyncTask {
 			return;
 		}
 		if (!$plugin->isEnabled()) return;
-		$res = $this->getResult();
+		//$res = $this->getResult();
+		if(!is_string($this->re)) {
+			$plugin->getLogger()->error("Error retrieving task results - no array in re");
+			return;
+			}
+
+
+		$res = json_decode($this->re, true);
 		if ($res == null) {
 			$plugin->getLogger()->error("Error retrieving task results");
 			return;

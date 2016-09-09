@@ -227,7 +227,11 @@ class Main extends BasicPlugin implements CommandExecutor {
 			  $text = $this->signsTxt[$id]["text"];
 		}
 		if(isset($this->signsCfg[$id]["no-vars"])) return $text;
-		return explode("\n",strtr(implode("\n",$text),$this->vars));
+		//return explode("\n",strtr(implode("\n",$text),$this->vars));
+		if(is_array($text[0]))
+			return explode("\n",strtr(implode("\n",$text[0]),$this->vars));
+		else
+			return explode("\n",strtr(implode("\n",$text),$this->vars));
 	}
 	public function getLiveText($id,$opts) {
 		if (!isset($this->signsTxt[$id])) return null;
