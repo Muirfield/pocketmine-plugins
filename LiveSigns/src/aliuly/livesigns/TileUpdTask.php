@@ -27,7 +27,7 @@ class TileUpdTask extends PluginTask{
 				$sign = $tile->getText();
 				$text = $this->getOwner()->getLiveSign($sign);
 				if ($text == null) continue;
-				$pk = new TileEntityDataPacket();
+				$pk = new BlockEntityDataPacket();
 				$data = $tile->getSpawnCompound();
 				$data->Text1 = new StringTag("Text1",$text[0]);
 				$data->Text2 = new StringTag("Text2",$text[1]);
