@@ -1,9 +1,0 @@
-#
-# Floating Text examples
-#
-world:
-- pos: "128:-2:128"
-  text: fortune
-  opts: width=180,word
-- pos: "100:100:100"
-  text: file
