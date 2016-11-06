@@ -3,7 +3,7 @@
 We are moving...
 
 <img
-  src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/Moving.jpg"
+  src="https://github.com/Muirfield/pocketmine-plugins/raw/master/Moving.jpg"
   style="width:400px;height:266px"
   width="400" height="266"
 />
