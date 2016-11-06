@@ -15,7 +15,7 @@ You can find the moved plugins here:
 
 * [LiveSigns](https://github.com/Muirfield/LiveSigns)
 * [NetherChests](https://github.com/Muirfield/NetherChests)
-* [ToyBoyx](https://github.com/Muirfield/ToyBox)
+* [ToyBoy](https://github.com/Muirfield/ToyBox)
 * [MagicTelePortal](https://github.com/Muirfield/MagicTelePortal)
 * [FireBlade](https://github.com/Muirfield/FireBlade)
 * [Scorched](https://github.com/Muirfield/Scorched)
@@ -26,12 +26,12 @@ You can find the moved plugins here:
 * [ManyWorlds](https://github.com/Muirfield/ManyWorlds)
 * [ItemCasePE](https://github.com/Muirfield/ItemCasePE)
 * [EmptyWorld](https://github.com/Muirfield/EmptyWorld)
+* [SimpleAuthHelper](https://github.com/Muirfield/SimpleAuthHelper)
 
 <hr/>
 
 WIP:
 
-* SimpleAuthHelper
 * GoldStd
 * GrabBag
 * KillRate
