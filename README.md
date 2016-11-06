@@ -1,27 +1,44 @@
 # pocketmine-plugins
 
-Repository for my *official* PocketMine plugins.
+We are moving...
 
-Queue:
+<img
+  src="https://raw.githubusercontent.com/Muirfield/pocketmine-plugins/Moving.jpg"
+  style="width:400px;height:266px"
+  width="400" height="266"
+/>
 
-2. WorldProtect
-3. SimpleAuthHelper
-4. ItemCasePE
-5. SignWarp
+I am moving the plugins that were in this repository to
+individual repos.
 
-- BasicHUD
-- GoldStd
-- GrabBag
-- KillRate
-- LiveSigns
-- MagicTelePortal
-- NetherChests
+You can find the moved plugins here:
 
-Deprecate?:
+* [LiveSigns](https://github.com/Muirfield/LiveSigns)
+* [NetherChests](https://github.com/Muirfield/NetherChests)
+* [ToyBoyx](https://github.com/Muirfield/ToyBox)
+* [MagicTelePortal](https://github.com/Muirfield/MagicTelePortal)
+* [FireBlade](https://github.com/Muirfield/FireBlade)
+* [Scorched](https://github.com/Muirfield/Scorched)
+* [BasicHUD](https://github.com/Muirfield/BasicHUD)
+* [libcommon](https://github.com/Muirfield/libcommon)
+* [ZipPluginLoader](https://github.com/Muirfield/ZipPluginLoader)
+* [SignWarp](https://github.com/Muirfield/SignWarp)
+* [ManyWorlds](https://github.com/Muirfield/ManyWorlds)
+* [ItemCasePE](https://github.com/Muirfield/ItemCasePE)
+* [EmptyWorld](https://github.com/Muirfield/EmptyWorld)
 
-- FireBlade
-- Scorched
-- ToyBox
+<hr/>
+
+WIP:
+
+* SimpleAuthHelper
+* GoldStd
+* GrabBag
+* KillRate
+* WorldProtect
+
+<hr/>
+
 
 ## Available Plugins
 
