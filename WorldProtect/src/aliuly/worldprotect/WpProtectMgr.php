@@ -44,6 +44,7 @@ use pocketmine\Player;
 use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use aliuly\worldprotect\common\mc;
 
 class WpProtectMgr extends BaseWp implements Listener {
@@ -145,6 +146,17 @@ class WpProtectMgr extends BaseWp implements Listener {
 		if ($ev->isCancelled()) return;
 		$pl = $ev->getPlayer();
 		if ($this->checkBlockPlaceBreak($pl)) return;
+		$this->owner->msg($pl,mc::_("You are not allowed to do that here"));
+		$ev->setCancelled();
+	}
+	
+	//Prevent rotating items in Item Frames in protected worlds
+	public function onTouchItemFrame(PlayerInteractEvent $ev){
+		if ($ev->isCancelled()) return;
+		$pl = $ev->getPlayer();
+		if ($this->checkBlockPlaceBreak($pl)) return;
+		//Only cancel touch event if the block is an item frame
+		if ($ev->getBlock()->getID() !== 199) return;
 		$this->owner->msg($pl,mc::_("You are not allowed to do that here"));
 		$ev->setCancelled();
 	}
