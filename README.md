@@ -28,6 +28,7 @@ You can find the moved plugins here:
 * [EmptyWorld](https://github.com/Muirfield/EmptyWorld)
 * [SimpleAuthHelper](https://github.com/Muirfield/SimpleAuthHelper)
 * [GoldStd](https://github.com/Muirfield/GoldStd)
+* [WorldProtect](https://github.com/Muirfield/WorldProtect)
 
 <hr/>
 
@@ -35,7 +36,6 @@ WIP:
 
 * GrabBag
 * KillRate
-* WorldProtect
 
 <hr/>
 
