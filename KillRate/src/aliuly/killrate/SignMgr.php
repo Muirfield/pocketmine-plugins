@@ -19,7 +19,7 @@ use pocketmine\event\Listener;
 use pocketmine\network\protocol\BlockEventPacket;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\StringTag;
+//use pocketmine\nbt\tag\StringTag;
 
 class SignMgr implements Listener {
   protected $owner;
