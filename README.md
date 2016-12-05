@@ -30,13 +30,5 @@ You can find the moved plugins here:
 * [GoldStd](https://github.com/Muirfield/GoldStd)
 * [WorldProtect](https://github.com/Muirfield/WorldProtect)
 * [KillRate](https://github.com/Muirfield/KillRate)
-
-<hr/>
-
-WIP:
-
-* GrabBag
-
-<hr/>
-
+* [GrabBag](https://github.com/Muirfield/GrabBag)
 

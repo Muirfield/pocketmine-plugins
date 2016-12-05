@@ -1,9 +1,0 @@
-#!/usr/bin/env php
-<?php
-define('SRCDIR',dirname(realpath(__FILE__))."/");
-define('LIBDIR',dirname(dirname(realpath(__FILE__)))."/");
-require_once(SRCDIR."mcgen.php");
-
-mcgen(LIBDIR."messages",LIBDIR."common");
-
-exit("OK\n");
