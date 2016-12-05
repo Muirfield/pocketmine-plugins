@@ -29,13 +29,13 @@ You can find the moved plugins here:
 * [SimpleAuthHelper](https://github.com/Muirfield/SimpleAuthHelper)
 * [GoldStd](https://github.com/Muirfield/GoldStd)
 * [WorldProtect](https://github.com/Muirfield/WorldProtect)
+* [KillRate](https://github.com/Muirfield/KillRate)
 
 <hr/>
 
 WIP:
 
 * GrabBag
-* KillRate
 
 <hr/>
 
